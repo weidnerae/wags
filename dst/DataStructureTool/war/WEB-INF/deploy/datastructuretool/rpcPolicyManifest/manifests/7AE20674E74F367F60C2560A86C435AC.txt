@@ -1,2 +1,0 @@
-serviceClass: microlabs.dst.client.ProblemResultFetchService
-path: 21CF82D06BD67190A46ABB099F5EFC7C.gwt.rpc
