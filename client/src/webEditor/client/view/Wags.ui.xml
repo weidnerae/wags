@@ -1,0 +1,69 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:my="urn:import:webEditor.client.view">
+	<ui:style>
+		.dock { margin-top: 25px;}
+		.editor{ width:100%; height: 100%;}
+		.codeAndFile { padding-right: 10px;
+			height: 100%;
+		 }
+		.fileName { padding: 0px; }
+		.hello { padding-top: 4px; padding-right: 5px; display: inline;}
+		.hello-logout { border-bottom: 5px solid #E3E3E3; width: 100%; text-align: right;}
+		.anchor { cursor: pointer; }
+		.anchor:hover { text-decoration: underline; }
+		.std-txt { padding-top: 6px }
+		.title { 
+			font-size: 40px;
+			font-weight: light;
+			font-style: italic;
+			color: #A0A0FF;
+			position: relative;
+			z-index: 9999;
+			display: inline;
+			vertical-align: top;
+			top: -8px;
+			float: left;
+		 }
+	</ui:style>
+	
+	<g:DockLayoutPanel unit="PX" styleName="{style.dock}" ui:field="dock">
+		<g:north size="30" >
+			<g:HTMLPanel styleName="{style.hello-logout}">
+				<g:Label styleName="{style.title}">WE</g:Label>
+				<g:Label styleName="{style.hello}" ui:field="hello"></g:Label> 
+				<g:Anchor styleName="{style.anchor}" ui:field="logout">Logout</g:Anchor>
+			</g:HTMLPanel>
+		</g:north>
+		<g:center size="600">
+	 	<g:HorizontalSplitPanel height="100%">
+		 	<g:HTMLPanel styleName="{style.codeAndFile}">
+	 			<g:HTMLPanel>
+					<g:TextBox styleName="{style.fileName}" ui:field="fileName"></g:TextBox>
+					<g:Anchor ui:field="save" styleName="{style.anchor}">Save</g:Anchor>
+					<g:Anchor ui:field="delete" styleName="{style.anchor}">Delete</g:Anchor>
+					<g:Anchor ui:field="submit" styleName="{style.anchor}">Submit</g:Anchor>
+					<g:ListBox ui:field="exercises"></g:ListBox>
+					<g:Button ui:field="btnGetDesc"> Desc </g:Button>
+				</g:HTMLPanel>
+				<my:CodeEditor styleName="{style.editor}" ui:field="editor"></my:CodeEditor>
+			</g:HTMLPanel>
+			<g:TabLayoutPanel ui:field="tabPanel" width="100%" height="100%" barUnit="PX" barHeight="30">
+				<g:tab>
+					<g:header> FileBrowser </g:header>
+					<my:FileBrowser ui:field="browser">	</my:FileBrowser>
+				</g:tab>
+				<g:tab>
+					<g:header> Review </g:header>
+					<my:OutputReview ui:field="review"></my:OutputReview>
+				</g:tab>
+				<g:tab>
+					<g:header> Admin </g:header>
+					<my:Admin ui:field="admin"></my:Admin>
+				</g:tab>
+			</g:TabLayoutPanel>
+	     </g:HorizontalSplitPanel>
+     </g:center>    
+     </g:DockLayoutPanel>
+ </ui:UiBinder> 

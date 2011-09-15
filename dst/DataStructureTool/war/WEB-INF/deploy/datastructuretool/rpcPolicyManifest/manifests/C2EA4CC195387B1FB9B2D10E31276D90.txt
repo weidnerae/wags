@@ -1,0 +1,2 @@
+serviceClass: microlabs.dst.client.ProblemResultStoreService
+path: 1A80EA4009E396203B67B0DCDB459A08.gwt.rpc

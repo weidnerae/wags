@@ -1,0 +1,22 @@
+<!-- Indices written at Sat, 30 Jul 2011 01:28:12 UTC -->
+
+<datastore-indexes>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="ProblemResultJDO" ancestor="false" source="auto">
+        <property name="emailAddress" direction="asc"/>
+        <property name="problemName" direction="asc"/>
+        <property name="attemptNum" direction="asc"/>
+    </datastore-index>
+
+    <!-- Used 74 times in query history -->
+    <datastore-index kind="NodeJDO" ancestor="true" source="auto">
+        <property name="nodes_INTEGER_IDX" direction="asc"/>
+    </datastore-index>
+
+    <!-- Used 63 times in query history -->
+    <datastore-index kind="EdgeJDO" ancestor="true" source="auto">
+        <property name="edges_INTEGER_IDX" direction="asc"/>
+    </datastore-index>
+
+</datastore-indexes>

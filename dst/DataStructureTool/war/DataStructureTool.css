@@ -1,0 +1,109 @@
+/** Add css rules here for your application. */
+/** Example rules used by the template application (remove for your app) */
+.problem_statement {
+	position: absolute;
+	top: 0px;
+	font-size: 12pt;
+	font-weight: bold;
+}
+
+.main_background {
+	background: #FFFFFF;
+}
+
+.prob_background {
+	background: #FFFFFF;
+}
+
+.banner {
+	font-size: 16pt;
+	font-weight: bold;
+}
+
+.problem {
+	font-size: 10pt;
+	font-weight: bold;
+}
+
+.welcome {
+	font-size: 12pt;
+	font-weight: bold;
+}
+
+.boundary_panel {
+	position: absolute;
+	opacity: 0.5;
+	border-left: solid 1px #150517;
+	border-right: solid 1px #150517;
+	border-bottom: solid 1px #150517;
+}
+
+.canvas {
+	position: absolute;
+	background: #D3D3D3;
+	border-top: solid 1px #150517;
+}
+
+.left_panel {
+	background: #A8A8A8;
+	position: absolute;
+}
+
+.middle_panel {
+	background: #A8A8A8;
+	opacity: 0.5;
+	position: absolute;
+}
+
+.right_panel {
+	background: #A8A8A8;
+	position: absolute;
+}
+
+.edge_addition_panel
+{
+	background: #F8F8F8;
+	position: absolute;
+}
+
+.control_button {
+	font-weight: bold;
+	'
+}
+
+.edge_instructions {
+	font-size: 12pt;
+	font-weight: bold;
+}
+
+.edge_remove {
+	font-size: 12pt;
+	font-weight: bold;
+}
+
+.edge_addition_error {
+	font-size: 12pt;
+	font-weight: bold;
+}
+
+.node {
+	position: absolute;
+	font-size: 20pt;
+	width: 40px;
+	height: 40px;
+	background: #FFA500;
+	text-align: center;
+	cursor: pointer;
+}
+
+.selected_node {
+	position: absolute;
+	font-size: 20pt;
+	width: 40px;
+	height: 40px;
+	background: #FFA500;
+	text-align: center;
+	border-color: #FFFF00;
+	border-style: solid;
+	cursor: pointer;
+}
