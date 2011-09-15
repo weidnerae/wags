@@ -1,0 +1,10 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:my="urn:import:webEditor.client">
+	<ui:style>
+		.editor { height: 100%;}
+
+	</ui:style>
+	<g:RichTextArea ui:field="codeArea" styleName="{style.editor}"> </g:RichTextArea>
+</ui:UiBinder> 

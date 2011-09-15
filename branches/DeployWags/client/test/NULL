@@ -1,0 +1,4 @@
+Cannot add empty directory with git.
+Now the directory isn't empty.
+
+If there is no directory called test/ Eclipse will throw some warnings.

@@ -1,0 +1,22 @@
+.panel {
+	font-weight: bold;
+	text-align: center;
+	padding: 2px;
+	top: 0px;
+	left: 0px;
+}
+
+.error {
+	border: 2px solid red;
+	background: #FF7777;
+}
+
+.warning {
+	border: 2px solid yellow;
+	background: #D2CF0A;
+}
+
+.success {
+	border: 2px solid green;
+	background: #77FF77;
+}
