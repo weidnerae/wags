@@ -1,2 +1,0 @@
-serviceClass: microlabs.dst.client.BasicServices
-path: B1BA9ABBCD7D6C0981B8AC6CEBC37E7B.gwt.rpc
