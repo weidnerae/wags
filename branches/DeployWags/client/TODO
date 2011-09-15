@@ -1,0 +1,10 @@
+3/2/11
+
+- functional file manager
+- support for PHP syntax
+   - coloring
+- do/undo
+- search/replace
+- FileBrowser should talk to server asking for directories and files in /.
+  If a directory is expanded then fetch directories and files inside there, show them.
+  CodeBrowser....don't know yet.

@@ -1,0 +1,55 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:my="urn:import:webEditor.client.view">
+	<ui:style>
+		.important {
+			font-weight: bold;
+			margin-left:auto;
+			margin-right:auto;
+			position: relative;
+		}
+		.title { 
+			font-size: 180px;
+			font-weight: light;
+			font-style: italic;
+			font-family: console;
+			color: #325C74;
+			position: relative;
+			z-index: 9999;
+			display: inline;
+			vertical-align: top;
+			margin-left: auto;
+			margin-right: auto;
+		 }
+		 .center{
+		  	margin-left:auto;
+		 	margin-right:auto;
+		 }
+		 .centerdrop{
+		 	margin-left:auto;
+		 	margin-right:auto;
+		 	padding-top:30px;
+		 }
+		 .register{
+		 	margin-top: 12px;
+		 	padding-left: 12px;
+		 }
+	</ui:style>
+	<g:VerticalPanel verticalAlignment='ALIGN_MIDDLE' width="100%">
+		<g:HorizontalPanel styleName="{style.center}">
+			<g:Label styleName="{style.title}">Wags</g:Label>
+		</g:HorizontalPanel>
+		<g:Label>  </g:Label>
+		<g:HorizontalPanel styleName="{style.centerdrop}">
+			<g:Label>Username: </g:Label><g:TextBox ui:field="username" />
+		</g:HorizontalPanel>
+		<g:HorizontalPanel styleName="{style.center}">
+			<g:Label>Password: </g:Label><g:PasswordTextBox ui:field="password" />
+		</g:HorizontalPanel>
+		<g:HorizontalPanel styleName="{style.center}">	
+			<g:Button styleName="{style.important}" ui:field="loginButton" />
+			<my:WEAnchor styleName="{style.register}" ui:field="registerLink"></my:WEAnchor>
+		</g:HorizontalPanel>
+	</g:VerticalPanel>
+</ui:UiBinder> 

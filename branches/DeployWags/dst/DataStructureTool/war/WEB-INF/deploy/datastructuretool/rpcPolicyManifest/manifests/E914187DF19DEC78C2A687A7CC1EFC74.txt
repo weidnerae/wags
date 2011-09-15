@@ -1,0 +1,2 @@
+serviceClass: microlabs.dst.client.ProblemsFetchService
+path: 9316DBA46E73E7A8DC4C4860A0713CE8.gwt.rpc
