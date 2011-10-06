@@ -30,7 +30,12 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 public class Proxy
 {
-	private static final String baseURL = "http://localhost/public_html/wagsServer/index.php";
+	// for testing on student
+	//private static final String baseURL = "http://student.cs.appstate.edu/dusenberrymw/Wags/Wags_Server/index.php";
+	
+	// for deploying on CS
+	private static final String baseURL = "http://cs.appstate.edu/wags/server.php";
+	
 	private static final String getFileContents = getBaseURL()+"?cmd=GetFileContents";
 	private static final String saveFileContents = getBaseURL()+"?cmd=SaveFileContents";
 	private static final String deleteFile = getBaseURL()+"?cmd=DeleteFile";
