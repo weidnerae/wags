@@ -592,7 +592,7 @@ public class Proxy
 				
 				@Override
 				public void onResponseReceived(Request request, Response response) {
-					Window.alert("Woo");
+
 				}
 				
 				@Override

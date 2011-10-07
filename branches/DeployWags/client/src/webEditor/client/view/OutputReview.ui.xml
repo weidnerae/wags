@@ -8,7 +8,7 @@
 		.reviewer{
 			width: 95%;
 			background-color: #EEEEEE ;
-			height: 1200px;	
+			height: 100%;
 			border-style: none;
 		}
 	</ui:style>
