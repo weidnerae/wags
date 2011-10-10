@@ -75,7 +75,7 @@ if (is_resource($process))
         # now print line by line
         foreach ($outputs as $output)
         {
-            print("$output <br />\n");
+            print("$output<br />");
         }   
 
         # now close the process
