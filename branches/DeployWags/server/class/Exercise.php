@@ -214,7 +214,7 @@ class Exercise extends Model
 
 		//Due to my extremely limited database knowledge, I'm doing this
 		//method in an extremely ugly way.  First, I grab all users in this
-		//section.  Then, I grab all users who have an file for this 
+		//section.  Then, I grab all users who have a file for this 
 		//exercise already.  If the user exists in the first list, but not
 		//the second, they get a skeleton
 		$sth = $db->prepare('SELECT id FROM user WHERE section LIKE :section');
