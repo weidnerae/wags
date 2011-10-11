@@ -65,7 +65,7 @@
 			padding: 0;	
 		}
 	</ui:style>
-	<g:VerticalPanel styleName="{style.administration}" width="100%" height="80%">
+	<g:VerticalPanel styleName="{style.administration}" width="100%" height="100%">
 		<g:FormPanel ui:field="adminForm">
 			<g:VerticalPanel>
 					

@@ -33,8 +33,11 @@ public class Proxy
 	// for testing on student
 	//private static final String baseURL = "http://student.cs.appstate.edu/dusenberrymw/Wags/Wags_Server/index.php";
 	
+	//local testing on Philip's machine
+		private static final String baseURL = "http://localhost/public_html/wagsServer/server.php";
+	
 	// for deploying on CS
-	private static final String baseURL = "http://cs.appstate.edu/wags/server.php";
+	//private static final String baseURL = "http://cs.appstate.edu/wags/server.php";
 	
 	private static final String getFileContents = getBaseURL()+"?cmd=GetFileContents";
 	private static final String saveFileContents = getBaseURL()+"?cmd=SaveFileContents";
