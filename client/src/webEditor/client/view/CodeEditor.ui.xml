@@ -2,9 +2,6 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:my="urn:import:webEditor.client">
-	<ui:style>
-		.editor { height: 100%;}
 
-	</ui:style>
-	<g:RichTextArea ui:field="codeArea" styleName="{style.editor}"> </g:RichTextArea>
+	<g:RichTextArea ui:field="codeArea" > </g:RichTextArea>
 </ui:UiBinder> 
