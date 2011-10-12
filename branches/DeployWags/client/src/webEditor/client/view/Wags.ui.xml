@@ -35,6 +35,9 @@
 			top: -8px;
 			float: left;
 		 }
+		 .administration{
+			background-color: #C2C2FF;	
+		}
 	</ui:style>
 	
 	<g:DockLayoutPanel unit="PX" styleName="{style.dock}" ui:field="dock">
@@ -69,7 +72,9 @@
 				</g:tab>
 				<g:tab>
 					<g:header> Admin </g:header>
-					<my:Admin ui:field="admin"></my:Admin>
+					<g:ScrollPanel styleName="{style.administration}">
+						<my:Admin ui:field="admin"></my:Admin>
+					</g:ScrollPanel>
 				</g:tab>
 			</g:TabLayoutPanel>
 	     </g:HorizontalSplitPanel>
