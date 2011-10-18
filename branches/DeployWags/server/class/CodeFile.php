@@ -91,5 +91,16 @@ class CodeFile extends Model
         return $sth->fetchAll(PDO::FETCH_CLASS, 'CodeFile');
     }
 
+    public static function getPartnerFile($partnerId, $fileName){
+        require_once('Database.php');
+
+        $db = Database::getDb();
+
+        $sth = $db->prepare('SELECT * FROM file WHERE name LIKE :name AND ownerId like :id');
+        $sth->execute(array(':name' => $fileName, ':id' =>  $partnerId));
+
+        return $sth->fetchObject('CodeFile');
+    }
+
 }
 ?>

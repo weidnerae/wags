@@ -167,14 +167,22 @@ class Exercise extends Model
 	{
 		require_once('Database.php');
 		$user = Auth::getCurrentUser();
-
 		$db = Database::getDb();
-		
-		$sth = $db->prepare('SELECT * FROM exercise WHERE visible LIKE 1
-			AND section LIKE :section');
+
+		if(!$user->isAdmin()){
+			$sth = $db->prepare('SELECT * FROM exercise WHERE visible LIKE 1
+				AND section LIKE :section');
+			$sth->execute(array(':section' => $user->getSection()));		
+
+			return $sth->fetchAll(PDO::FETCH_CLASS, 'Exercise');
+		}
+
+		$sth = $db->prepare('SELECT * FROM exercise WHERE section LIKE :section');
 		$sth->execute(array(':section' => $user->getSection()));		
 
 		return $sth->fetchAll(PDO::FETCH_CLASS, 'Exercise');
+
+
 	}
 
 	public static function getSubmissions($exerciseId){
@@ -186,6 +194,7 @@ class Exercise extends Model
 			ON submission.fileId = file.id
 			AND submission.userId = user.id
 			WHERE submission.exerciseId LIKE :exId
+			AND user.admin = 0
 			ORDER BY username');
 		$sth->setFetchMode(PDO::FETCH_ASSOC);
 		$sth->execute(array(':exId' => $exerciseId));
@@ -214,7 +223,7 @@ class Exercise extends Model
 
 		//Due to my extremely limited database knowledge, I'm doing this
 		//method in an extremely ugly way.  First, I grab all users in this
-		//section.  Then, I grab all users who have a file for this 
+		//section.  Then, I grab all users who have an file for this 
 		//exercise already.  If the user exists in the first list, but not
 		//the second, they get a skeleton
 		$sth = $db->prepare('SELECT id FROM user WHERE section LIKE :section');
@@ -248,8 +257,6 @@ class Exercise extends Model
 			     $file->save();
 			}
 		}
-
-		JSON::error("Added Skeletons for section ".$this->getSection());
 
 	}
 
