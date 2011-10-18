@@ -545,7 +545,7 @@ public class Proxy
 		        		  String[] message = status.getMessageArray();
 		        		  
 			        	  for(int i = 0; i < message.length; i++){
-			        		  users.addItem(message[i]);
+			        		  users.addItem(message[i].substring(1, message[i].length()-1));
 			        	  }
 			        	  
 		        	  } else {
