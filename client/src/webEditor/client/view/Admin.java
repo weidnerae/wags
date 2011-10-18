@@ -20,14 +20,13 @@ import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
 
 public class Admin extends Composite{
 
@@ -51,6 +50,11 @@ public class Admin extends Composite{
 	@UiField FormPanel helperForm;
 	@UiField TextBox openDate;
 	@UiField TextBox closeDate;
+	@UiField PasswordTextBox newPassword;
+	@UiField ListBox users;
+	@UiField SubmitButton btnChgPassword;
+	@UiField PasswordTextBox checkPassword;
+	@UiField FormPanel passwordForm;
 	
 	private static AdminUiBinder uiBinder = GWT.create(AdminUiBinder.class);
 
@@ -62,6 +66,7 @@ public class Admin extends Composite{
         
 		//Fill in exercise listbox
 		Proxy.getVisibleExercises(exercises, exerciseMap); 
+		Proxy.getUsernames(users);
 		
 		//Adds handler to date textboxes that disable the
 		//is visible box with it unchecked
@@ -100,6 +105,21 @@ public class Admin extends Composite{
 				Notification.notify(status, event.getResults());
 			}
 		});
+		
+		//Handle the Password Form
+		passwordForm.setAction(Proxy.getBaseURL()+"?cmd=ChangePassword");
+		passwordForm.setEncoding(FormPanel.ENCODING_MULTIPART);
+		passwordForm.setMethod(FormPanel.METHOD_POST);
+		
+		passwordForm.addSubmitCompleteHandler(new SubmitCompleteHandler() {
+			
+			@Override
+			public void onSubmitComplete(SubmitCompleteEvent event) {
+				WEStatus status = new WEStatus(event.getResults());
+				
+				Notification.notify(status.getStat(), status.getMessage());
+			}
+		});
 				
 	}
 	
@@ -128,7 +148,6 @@ public class Admin extends Composite{
 		String value = exercises.getValue(exercises.getSelectedIndex());
 		Proxy.alterExercise(Integer.parseInt(exerciseMap.get(value)), "partner");
 	}
-	
 	
 	private class dateHandler implements ChangeHandler{
 		TextBox myBox;
