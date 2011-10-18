@@ -42,6 +42,9 @@ public class Admin extends Composite{
 	@UiField CheckBox visible;
 	@UiField ListBox exercises;
 	@UiField Button btnAdminReview;
+	@UiField Button btnAddSkeletons;
+	@UiField Button btnMakeVisible;
+	@UiField Button btnEnablePartners;
 	@UiField Grid grdAdminReview;
 	@UiField FileUpload testClass;
 	@UiField FileUpload helperClass;
@@ -103,9 +106,29 @@ public class Admin extends Composite{
 	@UiHandler("btnAdminReview")
 	void onReviewClick(ClickEvent event)
 	{
+		grdAdminReview.clear(true);
 		String value = exercises.getValue(exercises.getSelectedIndex());
 		Proxy.getSubmissionInfo(Integer.parseInt(exerciseMap.get(value)), grdAdminReview);		
 	}
+	
+	@UiHandler("btnAddSkeletons")
+	void onSkelClick(ClickEvent event){
+		String value = exercises.getValue(exercises.getSelectedIndex());
+		Proxy.alterExercise(Integer.parseInt(exerciseMap.get(value)), "skel");
+	}
+	
+	@UiHandler("btnMakeVisible")
+	void onVisClick(ClickEvent event){
+		String value = exercises.getValue(exercises.getSelectedIndex());
+		Proxy.alterExercise(Integer.parseInt(exerciseMap.get(value)), "vis");
+	}
+	
+	@UiHandler("btnEnablePartners")
+	void onPartnerClick(ClickEvent event){
+		String value = exercises.getValue(exercises.getSelectedIndex());
+		Proxy.alterExercise(Integer.parseInt(exerciseMap.get(value)), "partner");
+	}
+	
 	
 	private class dateHandler implements ChangeHandler{
 		TextBox myBox;

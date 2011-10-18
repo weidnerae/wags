@@ -34,10 +34,13 @@ public class Proxy
 	//private static final String baseURL = "http://student.cs.appstate.edu/dusenberrymw/Wags/Wags_Server/index.php";
 	
 	//local testing on Philip's machine
-		private static final String baseURL = "http://localhost/public_html/wagsServer/server.php";
+	private static final String baseURL = "http://localhost/public_html/wagsServer/server.php";
 	
 	// for deploying on CS
 	//private static final String baseURL = "http://cs.appstate.edu/wags/server.php";
+	
+	// for deploying on Test_Version CS
+	//private static final String baseURL = "http://cs.appstate.edu/wags/Test_Version/server.php";
 	
 	private static final String getFileContents = getBaseURL()+"?cmd=GetFileContents";
 	private static final String saveFileContents = getBaseURL()+"?cmd=SaveFileContents";
@@ -132,7 +135,7 @@ public class Proxy
 	 * some sort.
 	 * TODO: Read above.text
 	 */
-	public static boolean saveFile(String fileName, String contents, final FileBrowser browser)
+	public static boolean saveFile(String fileName, String contents, final FileBrowser browser, final boolean notify)
 	{
 		holdMessage("Saving...");
 		String completeURL = saveFileContents+"&name="+fileName.trim()+"&contents="+contents;
@@ -144,7 +147,8 @@ public class Proxy
 				public void onResponseReceived(Request request, Response response)
 				{
 					WEStatus status = new WEStatus(response);
-					Notification.notify(WEStatus.STATUS_SUCCESS, status.getMessage());
+					if(notify)
+						Notification.notify(WEStatus.STATUS_SUCCESS, status.getMessage());
 					loadFileListing(browser, "/");
 				}
 				
@@ -609,6 +613,31 @@ public class Proxy
 		}
 	}
 	
+	public static void alterExercise(int exerciseId, String attribute){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=EditExercises" +
+				"&id=" + exerciseId + "&attribute=" + attribute);
+		try{
+			builder.sendRequest(null, new RequestCallback(){
+
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Error in editExercise request");
+				}
+
+				@Override
+				public void onResponseReceived(Request request,
+						Response response) {
+					WEStatus status = new WEStatus(response);  
+					
+					Notification.notify(status.getStat(), status.getMessage());
+				}
+				
+			});
+		} catch (RequestException e) {
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
+	
 	public static void assignPartner(String exercise, String partner){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=SetPartner" +
 				"&ex=" + exercise + "&partner=" + partner);
@@ -659,18 +688,19 @@ public class Proxy
 			        	else if (subInfo[i] == "0") subInfo[i] = "No";
 			        }
 			        
-			        grid.resize(subInfo.length/3+1, 3);
+			        grid.resize(subInfo.length/4+1, 4);
 			  		grid.setBorderWidth(1);
 			  		
 			  		//Sets the headers for the table
 			  		grid.setHTML(0, 0, "<b> Username </b>");
 			  		grid.setHTML(0, 1, "<b> File </b>");
 			  		grid.setHTML(0, 2, "<b> Correct </b>");
+			  		grid.setHTML(0, 3, "<b> Partner </b>");
 			  		
 			  		int k = 0;
 			  		//Fills table with results from AdminReview.php
-			  	    for (int row = 1; row < subInfo.length/3+1; ++row) {
-			  	      for (int col = 0; col < 3; ++col)
+			  	    for (int row = 1; row < subInfo.length/4+1; ++row) {
+			  	      for (int col = 0; col < 4; ++col)
 			  	        grid.setText(row, col, subInfo[k++]);
 			  	    }
 					
