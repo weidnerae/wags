@@ -32,6 +32,18 @@ class SaveFileContents extends Command
 	 */
 	$contents = str_replace("%2B", "+", $contents);
 
+    #A quick fix for partners -- SHOULD NOT BE PERMANENT
+    $exercise = Exercise::getExerciseById($file->getExerciseId());
+    if($exercise->isMultiUser()){
+        $submission = Submission::getSubmissionByExerciseId($exercise->getId());
+        #If the submission exists
+        if($submission->getPartner() != null){
+            $partnerName = $submission->getPartner();
+            $partner = User::getUserByUsername($partnerName);
+            $partnerId = $partner->getId();
+        }
+    }
+
         if(!empty($file) && $file instanceof CodeFile){
             // Update CodeFile.
             $file->setContents($contents);
@@ -49,6 +61,26 @@ class SaveFileContents extends Command
             $file->setUpdated($now);
             $file->setAdded($now);
             $file->save();
+        }
+
+        #More TEMPORARY fix
+        if(isSet($partnerId)){
+            $partnerFile = CodeFile::getPartnerFile($partner->getId(), $file->getName());
+            if(!empty($partnerFile) && $partnerFile instanceof CodeFile){
+                $partnerFile->setContents($contents);
+                $partnerFile->setUpdated(time());
+                $partnerFile->save();
+            } else{
+                $partnerFile = new CodeFile();
+                $partnerFile->setContents($contents);
+                $partnerFile->setName($_REQUEST['name']);
+                $partnerFile->setExerciseId($file->getExerciseId());
+                $partnerFile->setOwnerId($partner->getId());
+                $partnerFile->setSection($user->getSection());
+                $partnerFile->setUpdated(time());
+                $partnerFile->setAdded(time());
+                $partnerFile->save();
+            }
         }
 
         return JSON::success('File '.$_REQUEST['name'].' saved');

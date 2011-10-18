@@ -8,6 +8,11 @@
  * summer '11.  It's function is to return an array
  * of exercise names and id's to be used by the client
  * side, primarily for filling a hashMap and listbox.
+ *
+ *
+ * This class is kind of ironically named now, as we
+ * decided that administrators should be able to view all exercise
+ * and made that change within Exercise::getVisibleExercises()
  */
 
 class GetVisibleExercises extends Command
@@ -19,7 +24,13 @@ class GetVisibleExercises extends Command
 
 		foreach($exercises as $exercise){
 			$exerciseIds[] = $exercise->getId();
-			$exerciseTitles[] = $exercise->getTitle();
+			$title = $exercise->getTitle();
+
+			if(!$exercise->getVisible()){
+				$title = $title."[i]";
+			}
+
+			$exerciseTitles[] = $title; 
 		}
 
 		$exerciseArray = array_merge($exerciseIds, $exerciseTitles);
