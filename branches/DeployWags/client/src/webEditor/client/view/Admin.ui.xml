@@ -145,6 +145,26 @@
 				
 			</g:VerticalPanel>
 		</g:FormPanel>
+		
+		<g:FormPanel ui:field="passwordForm">
+			<g:VerticalPanel>
+				<g:Label styleName="{style.subheading}">Password Reset</g:Label>
+				<g:ListBox ui:field="users" name="users" styleName="{style.lbox}"></g:ListBox>
+				
+				<g:HorizontalPanel>
+					<g:Label styleName="{style.label}">New Password:</g:Label>
+					<g:PasswordTextBox styleName="{style.tbox}" ui:field="newPassword" name="newPassword"></g:PasswordTextBox>
+				</g:HorizontalPanel>
+				
+				<g:HorizontalPanel styleName="{style.lowlabel}">
+					<g:Label styleName="{style.label}">Re-Enter Password:</g:Label>
+					<g:PasswordTextBox styleName="{style.tbox}" ui:field="checkPassword" name="checkPassword"></g:PasswordTextBox>
+				</g:HorizontalPanel>
+				
+				<g:SubmitButton ui:field="btnChgPassword" styleName="{style.button}">Change Password</g:SubmitButton>
+				
+			</g:VerticalPanel>
+		</g:FormPanel>
 	</g:VerticalPanel>
 	
 </ui:UiBinder> 
