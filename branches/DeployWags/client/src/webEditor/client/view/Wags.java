@@ -127,7 +127,7 @@ public class Wags extends View
 		//URL encoding converts all " " to "+".  Thus, when decoded it was incorrectly
 		//converting all "+" to " ", including those actually meant to be +
 		text = text.replaceAll("[+]", "%2B");
-		if(Proxy.saveFile("/" + fileName.getText().toString(), text, browser));
+		if(Proxy.saveFile("/" + fileName.getText().toString(), text, browser, true));
 	}
 	
 	@UiHandler("fileName")
@@ -205,9 +205,21 @@ public class Wags extends View
 		
 		String value = exercises.getValue(exercises.getSelectedIndex());
 		
+		/**
+		 * Save the file before submitting
+		 */
+		String text = editor.codeArea.getText();
+		
+		//URL encoding converts all " " to "+".  Thus, when decoded it was incorrectly
+		//converting all "+" to " ", including those actually meant to be +
+		text = text.replaceAll("[+]", "%2B");
+		if(Proxy.saveFile("/" + fileName.getText().toString(), text, browser, false));
+		/**
+		 * End of save code
+		 */
+		
 		Proxy.review(codeText, review, exerciseMap.get(value), "/"+fileName.getText().toString());
 		tabPanel.selectTab(REVIEWPANEL);
-		
 	}
 	
 	@UiHandler("btnGetDesc")
