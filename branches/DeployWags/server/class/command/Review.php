@@ -58,6 +58,11 @@ class Review extends Command
 		if($sub){
 			$sub->setFileId($file->getId());
 			$sub->setUpdated(time());
+			if($sub->getNumAttempts() == null){
+				$sub->setNumAttempts(1);
+			} else {
+				$sub->setNumAttempts($sub->getNumAttempts() + 1);
+			}
 		} else {
 			$sub = new Submission();
 			$sub->setExerciseId($exerciseId);
@@ -66,6 +71,7 @@ class Review extends Command
 			$sub->setUpdated(time());
 			$sub->setAdded($now);
 			$sub->setSuccess(0);
+			$sub->setNumAttempts(0);
 		}
 
 		//Check for the package statement -> in effect,

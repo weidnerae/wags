@@ -41,6 +41,7 @@ class CheckMultiUser extends Command
           		$submission->setPartner("");
            		$submission->setAdded(time());
             	$submission->setUpdated(time());
+				$submission->setNumAttempts(0);
 				$submission->save();
 			} else {
 				$submission = $sub;
