@@ -6,7 +6,6 @@ class SetPartner extends Command
 	{
 		$exTitle = $_GET['ex'];
 		$partner = $_GET['partner'];
-		$partner = substr($partner, 1, strlen($partner)-2);
 
 		$exercise = Exercise::getExerciseByTitle($exTitle);
 
