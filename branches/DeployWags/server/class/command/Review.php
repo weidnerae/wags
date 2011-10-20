@@ -29,6 +29,14 @@ class Review extends Command
 		$exerciseId = $_POST['id'];
 		$fileName = $_POST['name'];
 		$exercise = Exercise::getExerciseById($exerciseId);
+		$exerciseSkeleton = $exercise->getSkeleton();
+		
+		//Grab the correct skeleton class name
+		preg_match($classRegex, $exerciseSkeleton, $matches);
+		if(empty($matches)){
+			return JSON::error("Please check class name for the Administrative Skeleton");
+		}
+		$skeletonName = $matches[1];
 
 		//If the exercise has expired:
 		$closed = $exercise->getCloseDate();
@@ -140,8 +148,8 @@ class Review extends Command
 		//each time this is run, the student class will be different,
 		//so it's not lumped in with the other classes
 		preg_match($classRegex, $code, $matches);
-		if(empty($matches)){
-			return JSON::error("Please check class name");
+		if(empty($matches) || $matches[1] != $skeletonName){
+			return JSON::error("Please check class name - it needs to match the skeleton class");
 		}
 		$className = $matches[1];
 		$classPath = "$path/$className.java";
