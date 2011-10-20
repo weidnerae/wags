@@ -14,6 +14,7 @@ class Submission extends Model
 	protected $userId;
 	protected $success;
 	protected $partner;
+	protected $numAttempts;
 
 	public function getTable(){
 		return 'submission';
@@ -27,6 +28,9 @@ class Submission extends Model
 	public function getUserId(){
 		return $this->userId;
 	}
+	public function getNumAttempts(){
+		return $this->numAttempts;
+	}
 
 	public function setExerciseId($id){
 		$this->exerciseId = $id;
@@ -36,6 +40,9 @@ class Submission extends Model
 	}
 	public function setUserId($id){
 		$this->userId = $id;
+	}
+	public function setNumAttempts($num){
+		$this->numAttempts = $num;
 	}
 	public function getSuccess(){
 		return $this->success;
