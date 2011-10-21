@@ -65,6 +65,9 @@ public class Wags extends View
 		Proxy.checkTimedExercises();
 		Proxy.checkMultiUser(this);
 		Proxy.getVisibleExercises(exercises, exerciseMap);
+		//Editing out filename changing
+		fileName.setEnabled(false);
+		//until we decide what to do with multiple files
 		commandBarVisible(false);
 
 		// Add selection handler to file browser
@@ -72,6 +75,7 @@ public class Wags extends View
 			@Override
 			public void onSelection(SelectionEvent<TreeItem> event)
 			{
+				saveCurrentCode();
 				// If clicked item is directory then just open it
 				TreeItem i = event.getSelectedItem();
 				if(i.getChildCount() > 0)
@@ -107,6 +111,21 @@ public class Wags extends View
 		Proxy.isAdmin(tabPanel);
 		
 		Proxy.getUsersName(hello);
+	}
+	
+	void saveCurrentCode(){
+		/**
+		 * Save the file before submitting
+		 */
+		String text = editor.codeArea.getText();
+		
+		//URL encoding converts all " " to "+".  Thus, when decoded it was incorrectly
+		//converting all "+" to " ", including those actually meant to be +
+		text = text.replaceAll("[+]", "%2B");
+		if(Proxy.saveFile("/" + fileName.getText().toString(), text, browser, false));
+		/**
+		 * End of save code
+		 */
 	}
 	
 	void commandBarVisible(boolean visible){
@@ -205,18 +224,7 @@ public class Wags extends View
 		
 		String value = exercises.getValue(exercises.getSelectedIndex());
 		
-		/**
-		 * Save the file before submitting
-		 */
-		String text = editor.codeArea.getText();
-		
-		//URL encoding converts all " " to "+".  Thus, when decoded it was incorrectly
-		//converting all "+" to " ", including those actually meant to be +
-		text = text.replaceAll("[+]", "%2B");
-		if(Proxy.saveFile("/" + fileName.getText().toString(), text, browser, false));
-		/**
-		 * End of save code
-		 */
+		saveCurrentCode();
 		
 		Proxy.review(codeText, review, exerciseMap.get(value), "/"+fileName.getText().toString());
 		tabPanel.selectTab(REVIEWPANEL);
