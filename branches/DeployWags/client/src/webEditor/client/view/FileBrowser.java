@@ -45,6 +45,10 @@ public class FileBrowser extends View
 		initWidget(uiBinder.createAndBindUi(this));
 		Proxy.loadFileListing(this, "/");
 		
+		//Editing out the formpanel until we decide how we want to handle multiple files
+		form.setVisible(false);
+		//
+		
 		form.setAction(Proxy.getBaseURL() + "?cmd=UploadFile&dir=" + curDir.getText().toString());
 		form.setEncoding(FormPanel.ENCODING_MULTIPART);
 		form.setMethod(FormPanel.METHOD_POST);

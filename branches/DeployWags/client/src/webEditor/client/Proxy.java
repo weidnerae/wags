@@ -34,10 +34,10 @@ public class Proxy
 	//private static final String baseURL = "http://student.cs.appstate.edu/dusenberrymw/Wags/Wags_Server/index.php";
 	
 	//local testing on Philip's machine
-	private static final String baseURL = "http://localhost/public_html/wagsServer/server.php";
+	//private static final String baseURL = "http://localhost/public_html/wagsServer/server.php";
 	
 	// for deploying on CS
-	//private static final String baseURL = "http://cs.appstate.edu/wags/server.php";
+	private static final String baseURL = "http://cs.appstate.edu/wags/server.php";
 	
 	// for deploying on Test_Version CS
 	//private static final String baseURL = "http://cs.appstate.edu/wags/Test_Version/server.php";
@@ -146,10 +146,12 @@ public class Proxy
 				@Override
 				public void onResponseReceived(Request request, Response response)
 				{
+					clearMessage();
 					WEStatus status = new WEStatus(response);
 					if(notify)
 						Notification.notify(WEStatus.STATUS_SUCCESS, status.getMessage());
 					loadFileListing(browser, "/");
+					
 				}
 				
 				@Override
