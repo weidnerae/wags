@@ -100,10 +100,17 @@ class Review extends Command
 		//Now that we know what the package would be, we check
 		//to see if it already exists.  If so, great! If not, 
 		//we create it, and fill it with the files
-		if(!is_dir($path)){
-			if(!mkdir($path, 0777, true)){ //will need to edit permissions
+		//Also - the admin can overwrite whatever non-student files
+		//are in the package, and will always do so
+		if(!is_dir($path) || $user->isAdmin()){
+
+			if(!mkdir($path, 0777, true) && !$user->isAdmin()){ //will need to edit permissions
 				$error = error_get_last();
 				return JSON::error($error['message']);		
+			}
+
+			if(is_dir($path)){
+				exec("rm -rf $path/*");
 			}
 
 			//Create solution class

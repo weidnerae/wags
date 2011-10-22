@@ -21,10 +21,18 @@ class AddExercise extends Command
 		}
 		
 		$user = Auth::getCurrentUser();
+
+		#Grab all exercise information
 		$name = $_POST['fileName'];
 		$openDate = $_POST['openDate'];
 		$closeDate = $_POST['closeDate'];
+       	$solution = $_FILES['Solution'];
+      	$skeleton = $_FILES['Skeleton'];
+		$testClass = $_FILES['TestClass'];
+		$description = $_POST['desc'];
 
+		#If there are open and close dates, check that they are
+		#parsable
 		if($openDate != ""){
 			$openDate = strtotime($openDate);
 			$closeDate = strtotime($closeDate);
@@ -37,44 +45,60 @@ class AddExercise extends Command
 		$e = Exercise::getExerciseByTitle($name);
 		if($e){
 			$update = true;
-		}else{
-        	$solution = $_FILES['Solution'];
-      		$skeleton = $_FILES['Skeleton'];
-			$testClass = $_FILES['TestClass'];
 
+			#Check each entry to see if it was changed, it so, save the change
+			if($openDate != ""){
+				$e->setOpenDate($openDate);
+				$e->setCloseDate($closeDate);
+			}
 
-        	//check all files for plain text
-        	$finfo = finfo_open(FILEINFO_MIME_TYPE);
-       		$type = finfo_file($finfo, $solution['tmp_name']);
-	        if(strpos($type, 'text') === FALSE){
-           	    return JSON::error('Please only upload plain text or source files (sol)');
-       		}
+       		$finfo = finfo_open(FILEINFO_MIME_TYPE);
+  			$type = finfo_file($finfo, $solution['tmp_name']);
+      		if(strpos($type, 'text') !== FALSE){
+   	    		$solutionContents = file_get_contents($solution['tmp_name']);
+				$e->setSolution($solutionContents);
+			}
+
+       		$finfo = finfo_open(FILEINFO_MIME_TYPE);
+  			$type = finfo_file($finfo, $skeleton['tmp_name']);
+      		if(strpos($type, 'text') !== FALSE){
+				$skeletonContents = file_get_contents($skeleton['tmp_name']);
+				$e->setSkeleton($skeletonContents);
+   	    	}
         
-        	$type = finfo_file($finfo, $skeleton['tmp_name']);
-        	if(strpos($type, 'text') === FALSE){
-        	    return JSON::error('Please only upload plain text or source files (skeleton)');
-       		}	
+			$finfo = finfo_open(FILEINFO_MIME_TYPE);
+  			$type = finfo_file($finfo, $testClass['tmp_name']);
+      		if(strpos($type, 'text') !== FALSE){
+   	    		$testClassContents = file_get_contents($testClass['tmp_name']);
+				$e->setTestClass($testClassContents);
+			}
+		}else{
+       		//check all files for plain text
+       		$finfo = finfo_open(FILEINFO_MIME_TYPE);
+  			$type = finfo_file($finfo, $solution['tmp_name']);
+      		if(strpos($type, 'text') === FALSE){
+	       	    return JSON::error('Please only upload plain text or source files (sol)');
+   	    	}
+        
+  	     	$type = finfo_file($finfo, $skeleton['tmp_name']);
+   	    	if(strpos($type, 'text') === FALSE){
+   	    	    return JSON::error('Please only upload plain text or source files (skeleton)');
+   	    	}	
 
-        	$type = finfo_file($finfo, $testClass['tmp_name']);
-        	if(strpos($type, 'text') === FALSE){
-        	    return JSON::error('Please only upload plain text or source files (skeleton)');
-       		}	
+    	   	$type = finfo_file($finfo, $testClass['tmp_name']);
+       		if(strpos($type, 'text') === FALSE){
+       	    return JSON::error('Please only upload plain text or source files (skeleton)');
+      	 	}	
 
-
-       		$solutionContents = file_get_contents($solution['tmp_name']);
-       	 	$skeletonContents = file_get_contents($skeleton['tmp_name']);
+      	 	$solutionContents = file_get_contents($solution['tmp_name']);
+      	 	$skeletonContents = file_get_contents($skeleton['tmp_name']);
 			$testClassContents = file_get_contents($testClass['tmp_name']);
 
-			$description = $_POST['desc'];
-
-			//So.... I've just been following what was already here, but I 
-			//bet we could actually make constructors for these classes...
-			//I should probably actually learn php
 			$e = new Exercise;
-            $e->setSolution($solutionContents);
-            $e->setSkeleton($skeletonContents);
-            $e->setDescription($description);
-            $e->setTitle($name);
+        	$e->setSolution($solutionContents);
+	        $e->setSkeleton($skeletonContents);
+	        $e->setDescription($description);
+    	    $e->setTitle($name);
        		$e->setAdded(time());
 			$e->setOpenDate($openDate);
 			$e->setCloseDate($closeDate);
@@ -83,7 +107,8 @@ class AddExercise extends Command
 			//of TestClass as client side hasn't been updated yet
 		}
 
-
+		#The following is ALWAYS updated, so they
+		#aren't within the if($e) block
 		$visible = $_POST['visible'];
 		if($visible == "on") $visible = 1;
 		else $visible = 0;
@@ -99,8 +124,9 @@ class AddExercise extends Command
 
         try{
 	    $e->save();
-            if(isset($update) && $update)
+            if(isset($update) && $update){
                 JSON::success('Overwrote exercise '.$e->getTitle());
+			}
             else
                 JSON::success('Uploaded exercise '.$e->getTitle());
         }catch(PDOException $e){
