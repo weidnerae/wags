@@ -197,7 +197,8 @@ class User extends Model
 		$user = Auth::getCurrentUser();
 
 		$db = Database::getDb();
-		$sth = $db->prepare("SELECT username FROM user WHERE section LIKE :section AND admin like 0");
+		$sth = $db->prepare("SELECT username FROM user WHERE section LIKE :section AND admin like 0
+			ORDER BY username");
 		$sth->execute(array(':section' => $user->getSection()));
 
 		$results = $sth->fetchAll(PDO::FETCH_NUM);
