@@ -31,7 +31,8 @@ class GetFileContents extends Command
 			$status = 1;
 			if($file->getOwnerId() == 0) $status = 0;
 
-			echo($status."<pre>".$file->getContents()."</pre>");
+			$contents = htmlspecialchars($file->getContents());
+            echo($status."<pre>".$contents."</pre>");
 
 			
         }else{
