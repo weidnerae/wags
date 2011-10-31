@@ -33,14 +33,27 @@ class AddExercise extends Command
 
 		#If there are open and close dates, check that they are
 		#parsable
-		if($openDate != ""){
-			$openDate = strtotime($openDate);
-			$closeDate = strtotime($closeDate);
+        if($closeDate != ""){
+            $closeDate = strtotime($closeDate);
+            if($openDate == ""){
+                $openDate = time();
+            }else{
+                $openDate = strtotime($openDate);
+            }
 
-			if(!$openDate || !$closeDate){
-				return JSON::error("Dates are not in the correct format");
-			}
-		}
+            if(!$closeDate || !$openDate){
+                return JSON::error("Dates are not in the correct format");
+            }
+        }
+
+//		if($openDate != ""){
+//			$openDate = strtotime($openDate);
+//			$closeDate = strtotime($closeDate);
+
+//			if(!$openDate || !$closeDate){
+//				return JSON::error("Dates are not in the correct format");
+//			}
+//		}
 
 		$e = Exercise::getExerciseByTitle($name);
 		if($e){
@@ -50,7 +63,10 @@ class AddExercise extends Command
 			if($openDate != ""){
 				$e->setOpenDate($openDate);
 				$e->setCloseDate($closeDate);
-			}
+			}else{
+                $e->setOpenDate("");
+                $e->setCloseDate("");
+            }
 
        		$finfo = finfo_open(FILEINFO_MIME_TYPE);
   			$type = finfo_file($finfo, $solution['tmp_name']);
@@ -110,7 +126,7 @@ class AddExercise extends Command
 		#The following is ALWAYS updated, so they
 		#aren't within the if($e) block
 		$visible = $_POST['visible'];
-		if($visible == "on") $visible = 1;
+		if($visible == "on" || $openDate <= time()) $visible = 1;
 		else $visible = 0;
 		$e->setVisible($visible);
 

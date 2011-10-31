@@ -33,8 +33,8 @@ $descriptorspec = array(
 );
 
 # Open the process
-#	-The process will stay open in the background and the php script will continue running.
-#	-The java process will run with a Security Manager and a set of defined permissions
+#   -The process will stay open in the background and the php script will continue running.
+# 	-The java process will run with a Security Manager and a set of defined permissions
 $process = proc_open("exec /usr/bin/java $security_stmt -cp $dir $className 2>&1", $descriptorspec, $pipes);
 
 # Give a normal process a moment (2/10ths of a sec) to run before deciding that it may be hanging

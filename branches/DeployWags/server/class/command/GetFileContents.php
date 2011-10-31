@@ -31,9 +31,8 @@ class GetFileContents extends Command
 			$status = 1;
 			if($file->getOwnerId() == 0) $status = 0;
 
-			$contents = htmlspecialchars($file->getContents());
+            $contents = htmlspecialchars($file->getContents());
             echo($status."<pre>".$contents."</pre>");
-
 			
         }else{
             return JSON::error("No file name given.");
