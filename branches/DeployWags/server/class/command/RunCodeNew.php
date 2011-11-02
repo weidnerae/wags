@@ -21,10 +21,6 @@ define('WAIT_TIME', 3);
 $dir = $argv[1];
 $className = $argv[2];
 
-# define security manager parameters
-$security_stmt = "-Djava.security.manager"
-    ." -Djava.security.policy==/usr/local/apache2/htdocs/cs/wags/class/command/WagsSecurity.policy";
-
 # This contains the pipes that can read and write to the process
 $descriptorspec = array(
    0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
