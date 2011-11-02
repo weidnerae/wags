@@ -37,10 +37,10 @@ public class Proxy
 	//private static final String baseURL = "http://localhost/public_html/wagsServer/server.php";
 	
 	// for deploying on CS
-	private static final String baseURL = "http://cs.appstate.edu/wags/server.php";
+	//private static final String baseURL = "http://cs.appstate.edu/wags/server.php";
 	
 	// for deploying on Test_Version CS
-	//private static final String baseURL = "http://cs.appstate.edu/wags/Test_Version/server.php";
+	private static final String baseURL = "http://cs.appstate.edu/wags/Test_Version/server.php";
 	
 	private static final String getFileContents = getBaseURL()+"?cmd=GetFileContents";
 	private static final String saveFileContents = getBaseURL()+"?cmd=SaveFileContents";
@@ -148,10 +148,12 @@ public class Proxy
 				{
 					clearMessage();
 					WEStatus status = new WEStatus(response);
-					if(notify)
+					if(notify){
 						Notification.notify(WEStatus.STATUS_SUCCESS, status.getMessage());
-					loadFileListing(browser, "/");
-					
+						
+						//loadFileListing(browser, "/"); I believe this is no longer needed as they can't add files
+					}
+
 				}
 				
 				@Override
@@ -450,6 +452,11 @@ public class Proxy
 		          WEStatus status = new WEStatus(response);
 
 		          if(status.getStat() != WEStatus.STATUS_SUCCESS){
+		        	  //Note: Counts reset after each remove, so
+		        	  //remove(2) then remove(3) would not work
+		        	  //We could do remove(2) then remove(2), but 
+		        	  //that's just confusing for no reason
+		        	  tabPanel.remove(3);
 		        	  tabPanel.remove(2);
 		          }
 		        }
@@ -585,6 +592,61 @@ public class Proxy
 						
 						wags.assignPartner(title);
 					}
+				}
+				
+			});
+		} catch (RequestException e) {
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
+	
+	public static void checkPassword(final Wags wags){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=CheckPassword");
+		try{
+			Request req = builder.sendRequest(null, new RequestCallback(){
+
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Error in checkPassword request");
+				}
+
+				@Override
+				public void onResponseReceived(Request request,
+						Response response) {
+					WEStatus status = new WEStatus(response);  
+					
+					if(status.getStat() == WEStatus.STATUS_ERROR){
+						String title = status.getMessage();
+						
+						wags.assignPassword();
+					}
+				}
+				
+			});
+		} catch (RequestException e) {
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
+	
+	public static void assignPassword(String password){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, Proxy.getBaseURL()+"?cmd=AssignPassword");
+		
+		try{
+			builder.setHeader("Content-Type", "application/x-www-form-urlencoded");
+	      @SuppressWarnings("unused")
+	      Request req = builder.sendRequest("pass="+password, new RequestCallback() {
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Error in assignPassword request");
+				}
+
+				@Override
+				public void onResponseReceived(Request request,
+						Response response) {
+					WEStatus status = new WEStatus(response);  
+					
+					Notification.notify(status.getStat(), status.getMessage());
+					
 				}
 				
 			});

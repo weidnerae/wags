@@ -38,7 +38,7 @@ public class Admin extends Composite{
 	@UiField SubmitButton addButton;
 	@UiField FormPanel adminForm;
 	@UiField TextBox fileName;
-	@UiField CheckBox visible;
+//	@UiField CheckBox visible;
 	@UiField ListBox exercises;
 	@UiField Button btnAdminReview;
 	@UiField Button btnAddSkeletons;
@@ -50,11 +50,6 @@ public class Admin extends Composite{
 	@UiField FormPanel helperForm;
 	@UiField TextBox openDate;
 	@UiField TextBox closeDate;
-	@UiField PasswordTextBox newPassword;
-	@UiField ListBox users;
-	@UiField SubmitButton btnChgPassword;
-	@UiField PasswordTextBox checkPassword;
-	@UiField FormPanel passwordForm;
 	
 	private static AdminUiBinder uiBinder = GWT.create(AdminUiBinder.class);
 
@@ -66,12 +61,11 @@ public class Admin extends Composite{
         
 		//Fill in exercise listbox
 		Proxy.getVisibleExercises(exercises, exerciseMap); 
-		Proxy.getUsernames(users);
 		
 		//Adds handler to date textboxes that disable the
 		//is visible box with it unchecked
-		openDate.addChangeHandler(new dateHandler(openDate));
-		closeDate.addChangeHandler(new dateHandler(closeDate));
+//		openDate.addChangeHandler(new dateHandler(openDate));
+//		closeDate.addChangeHandler(new dateHandler(closeDate));
 		
 		//Handle the Add Exercise Form
 		adminForm.setAction(Proxy.getBaseURL() + "?cmd=AddExercise");
@@ -105,22 +99,6 @@ public class Admin extends Composite{
 				Notification.notify(status, event.getResults());
 			}
 		});
-		
-		//Handle the Password Form
-		passwordForm.setAction(Proxy.getBaseURL()+"?cmd=ChangePassword");
-		passwordForm.setEncoding(FormPanel.ENCODING_MULTIPART);
-		passwordForm.setMethod(FormPanel.METHOD_POST);
-		
-		passwordForm.addSubmitCompleteHandler(new SubmitCompleteHandler() {
-			
-			@Override
-			public void onSubmitComplete(SubmitCompleteEvent event) {
-				WEStatus status = new WEStatus(event.getResults());
-				
-				Notification.notify(status.getStat(), status.getMessage());
-			}
-		});
-				
 	}
 	
 	@UiHandler("btnAdminReview")
@@ -141,6 +119,7 @@ public class Admin extends Composite{
 	void onVisClick(ClickEvent event){
 		String value = exercises.getValue(exercises.getSelectedIndex());
 		Proxy.alterExercise(Integer.parseInt(exerciseMap.get(value)), "vis");
+		Proxy.getVisibleExercises(exercises, exerciseMap);
 	}
 	
 	@UiHandler("btnEnablePartners")
@@ -149,27 +128,27 @@ public class Admin extends Composite{
 		Proxy.alterExercise(Integer.parseInt(exerciseMap.get(value)), "partner");
 	}
 	
-	private class dateHandler implements ChangeHandler{
-		TextBox myBox;
-		
-		public dateHandler(TextBox aBox){
-			myBox = aBox;
-		}
-
-		/* (non-Javadoc)
-		 * @see com.google.gwt.event.dom.client.ChangeHandler#onChange(com.google.gwt.event.dom.client.ChangeEvent)
-		 */
-		@Override
-		public void onChange(ChangeEvent event) {
-			if(myBox.getText() != ""){
-				visible.setEnabled(false);
-				visible.setValue(false);}
-			else {
-				visible.setEnabled(true);
-			}
-			
-		}
-		
-	}
+//	private class dateHandler implements ChangeHandler{
+//		TextBox myBox;
+//		
+//		public dateHandler(TextBox aBox){
+//			myBox = aBox;
+//		}
+//
+//		/* (non-Javadoc)
+//		 * @see com.google.gwt.event.dom.client.ChangeHandler#onChange(com.google.gwt.event.dom.client.ChangeEvent)
+//		 */
+//		@Override
+//		public void onChange(ChangeEvent event) {
+//			if(myBox.getText() != ""){
+//				visible.setEnabled(false);
+//				visible.setValue(false);}
+//			else {
+//				visible.setEnabled(true);
+//			}
+//			
+//		}
+//		
+//	}
 
 }

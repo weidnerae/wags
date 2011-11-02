@@ -71,9 +71,15 @@
 					<my:OutputReview ui:field="review"></my:OutputReview>
 				</g:tab>
 				<g:tab>
-					<g:header> Admin </g:header>
+					<g:header> Exercises </g:header>
 					<g:ScrollPanel styleName="{style.administration}">
 						<my:Admin ui:field="admin"></my:Admin>
+					</g:ScrollPanel>
+				</g:tab>
+				<g:tab>
+					<g:header> Students </g:header>
+					<g:ScrollPanel styleName="{style.administration}">
+						<my:Students ui:field="students"></my:Students>
 					</g:ScrollPanel>
 				</g:tab>
 			</g:TabLayoutPanel>

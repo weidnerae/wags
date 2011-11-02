@@ -24,6 +24,7 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -51,6 +52,7 @@ public class Wags extends View
 	@UiField CodeEditor editor;
 	@UiField FileBrowser browser;
 	@UiField Admin admin;
+	@UiField Students students;
 	@UiField OutputReview review;
 	@UiField TabLayoutPanel tabPanel;
 	
@@ -63,6 +65,7 @@ public class Wags extends View
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		Proxy.checkTimedExercises();
+		Proxy.checkPassword(this);
 		Proxy.checkMultiUser(this);
 		Proxy.getVisibleExercises(exercises, exerciseMap);
 		//Editing out filename changing
@@ -299,6 +302,47 @@ public class Wags extends View
 		pickPartner.add(DialogBoxContents);
 		
 		pickPartner.center();
+	}
+	
+	public void assignPassword(){
+		final DialogBox setPassword = new DialogBox(false);
+		final PasswordTextBox password = new PasswordTextBox();
+		final PasswordTextBox passwordCheck = new PasswordTextBox();
+		Label lbl1 = new Label("Enter password: ");
+		Label lbl2 = new Label("Re-enter password: ");
+		
+		Button close = new Button("Close");
+		
+		VerticalPanel base = new VerticalPanel();
+		HorizontalPanel line1 = new HorizontalPanel();
+		HorizontalPanel line2 = new HorizontalPanel();
+		
+		setPassword.setText("Please change your password");
+				
+		close.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				if(!password.getText().equals(passwordCheck.getText())){
+					Notification.notify(WEStatus.STATUS_ERROR, "Passwords don't match");
+					return;
+				}
+				
+				setPassword.hide();
+				Proxy.assignPassword(password.getText());
+			}
+		});
+		
+		line1.add(lbl1);
+		line1.add(password);
+		line2.add(lbl2);
+		line2.add(passwordCheck);
+		base.add(line1);
+		base.add(line2);
+		base.add(close);
+		setPassword.add(base);
+		
+		setPassword.center();
 	}
 	
 }

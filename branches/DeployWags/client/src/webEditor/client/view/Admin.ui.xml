@@ -109,10 +109,10 @@
 				<g:Label styleName="{style.label}"> Description: </g:Label>	
 				<g:TextArea height="100px" width="315px" ui:field="desc" name="desc"></g:TextArea>
 				
-				<g:HorizontalPanel>
+				<!-- <g:HorizontalPanel>
 					<g:CheckBox styleName="{style.chkbox}" ui:field="visible" name="visible">Make Visible</g:CheckBox>
 					<g:CheckBox styleName="{style.chkbox}" ui:field="multiUser" name="multiUser">Enable Partners</g:CheckBox>
-				</g:HorizontalPanel>
+				</g:HorizontalPanel>  -->
 				
 				<g:HorizontalPanel styleName="{style.filePanel}">
 					<g:SubmitButton ui:field="addButton"> Add Exercise </g:SubmitButton>
@@ -142,26 +142,6 @@
 					<g:FileUpload ui:field="helperClass" name="HelperClass"></g:FileUpload>
 					<g:SubmitButton ui:field="sbtHelper"> Upload Class </g:SubmitButton>
 				</g:HorizontalPanel>
-				
-			</g:VerticalPanel>
-		</g:FormPanel>
-		
-		<g:FormPanel ui:field="passwordForm">
-			<g:VerticalPanel>
-				<g:Label styleName="{style.subheading}">Password Reset</g:Label>
-				<g:ListBox ui:field="users" name="users" styleName="{style.lbox}"></g:ListBox>
-				
-				<g:HorizontalPanel>
-					<g:Label styleName="{style.label}">New Password:</g:Label>
-					<g:PasswordTextBox styleName="{style.tbox}" ui:field="newPassword" name="newPassword"></g:PasswordTextBox>
-				</g:HorizontalPanel>
-				
-				<g:HorizontalPanel styleName="{style.lowlabel}">
-					<g:Label styleName="{style.label}">Re-Enter Password:</g:Label>
-					<g:PasswordTextBox styleName="{style.tbox}" ui:field="checkPassword" name="checkPassword"></g:PasswordTextBox>
-				</g:HorizontalPanel>
-				
-				<g:SubmitButton ui:field="btnChgPassword" styleName="{style.button}">Change Password</g:SubmitButton>
 				
 			</g:VerticalPanel>
 		</g:FormPanel>
