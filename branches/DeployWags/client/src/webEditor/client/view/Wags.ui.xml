@@ -6,6 +6,7 @@
 		.dock { margin-top: 25px;}
 		.editor{ width:inherit; 
 			height: 100%; 
+			width: 100%;
 			padding: 0px;
 			border: 0px;
 			}
