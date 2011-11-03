@@ -23,12 +23,16 @@ public class CodeEditor extends View implements HasHandlers
 
 	interface CodeEditorUiBinder extends UiBinder<Widget, CodeEditor>{}
 	 
-	@UiField RichTextArea codeArea;
-	//private CompletionCheck colorCheck = new CompletionCheck();
+	@UiField
+	public RichTextArea codeArea;
+	@UiField public RichTextArea codeTop;
+	@UiField public RichTextArea codeBottom;
+	
+//	private CompletionCheck colorCheck = new CompletionCheck();
 	private TabCheck tabCheck = new TabCheck(codeArea);
-	private int lastKey;
-	private static final int CCURLS = 221;
-	private static final int CPARENS = 48;
+//	private int lastKey;
+//	private static final int CCURLS = 221;
+//	private static final int CPARENS = 48;
 
 	public CodeEditor()
 	{
@@ -38,31 +42,35 @@ public class CodeEditor extends View implements HasHandlers
 		codeArea.setEnabled(true);
 		codeArea.getFormatter().setFontName("monospace");
 		
+		codeTop.setEnabled(false);
+		codeBottom.setEnabled(false);
+		
+		
 		/*
 		 * Commented to remove unsatisfactory coloring logic
 		 * Currently relies on key presses, no functionality for 
 		 * navigation around the text using a mouse
 		 */
-		codeArea.addKeyDownHandler(new KeyDownHandler(){
-			public void onKeyDown(KeyDownEvent event)
-			{
-				//codeArea.getFormatter().setForeColor(colorCheck.pushCheck(event));
-				int ENTER = 13;
-				int key = event.getNativeKeyCode();
-						
-				if (lastKey == ENTER){
-					if (key == CCURLS || (key == CPARENS && event.isShiftKeyDown())){
-						indent(tabCheck.getTabCount()-1);
-					} else if (key != 16){
-						indent(tabCheck.getTabCount());
-					}
-				}
-				
-				tabCheck.pushCheck(event);
-				
-				if(event.getNativeKeyCode() != 16) lastKey = event.getNativeKeyCode();
-			}
-		});
+//		codeArea.addKeyDownHandler(new KeyDownHandler(){
+//			public void onKeyDown(KeyDownEvent event)
+//			{
+//				//codeArea.getFormatter().setForeColor(colorCheck.pushCheck(event));
+//				int ENTER = 13;
+//				int key = event.getNativeKeyCode();
+//						
+//				if (lastKey == ENTER){
+//					if (key == CCURLS || (key == CPARENS && event.isShiftKeyDown())){
+//						indent(tabCheck.getTabCount()-1);
+//					} else if (key != 16){
+//						indent(tabCheck.getTabCount());
+//					}
+//				}
+//				
+//				tabCheck.pushCheck(event);
+//				
+//				if(event.getNativeKeyCode() != 16) lastKey = event.getNativeKeyCode();
+//			}
+//		});
 		
 //		codeArea.addKeyUpHandler(new KeyUpHandler(){
 //			public void onKeyUp(KeyUpEvent event){

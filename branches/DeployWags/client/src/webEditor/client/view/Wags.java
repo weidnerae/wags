@@ -85,6 +85,8 @@ public class Wags extends View
 					return;
 				// If clicked item is a leaf TreeItem then open it in editor
 				Proxy.getFileContents(browser.getItemPath(i), editor.codeArea);
+				Proxy.getFileContents(browser.getItemPath(i)+"Top", editor.codeTop);
+				Proxy.getFileContents(browser.getItemPath(i)+"Bottom", editor.codeBottom);
 				
 				for(int j = 0; j < exercises.getItemCount(); j++){
 					if(exercises.getValue(j).equals(browser.getItemPath(i.getParentItem()).trim().substring(1))){

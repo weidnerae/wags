@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
+import webEditor.client.view.CodeEditor;
 import webEditor.client.view.Exercises;
 import webEditor.client.view.FileBrowser;
 import webEditor.client.view.Login;
@@ -91,7 +92,6 @@ public class Proxy
 					}
 					
 					editor.setHTML(html.substring(1));
-					
 				}
 				
 				@Override
