@@ -3,7 +3,9 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:my="urn:import:webEditor.client.view">
 	<ui:style>
-		.dock { margin-top: 25px;}
+		.dock { 
+			margin-top: 25px;
+			}
 		.editor{ width:inherit; 
 			height: 100%; 
 			width: 100%;

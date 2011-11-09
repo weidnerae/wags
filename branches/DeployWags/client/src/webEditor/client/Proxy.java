@@ -35,13 +35,13 @@ public class Proxy
 	//private static final String baseURL = "http://student.cs.appstate.edu/dusenberrymw/Wags/Wags_Server/index.php";
 	
 	//local testing on Philip's machine
-	//private static final String baseURL = "http://localhost/public_html/wagsServer/server.php";
+	private static final String baseURL = "http://localhost/public_html/wagsServer/server.php";
 	
 	// for deploying on CS
 	//private static final String baseURL = "http://cs.appstate.edu/wags/server.php";
 	
 	// for deploying on Test_Version CS
-	private static final String baseURL = "http://cs.appstate.edu/wags/Test_Version/server.php";
+	//private static final String baseURL = "http://cs.appstate.edu/wags/Test_Version/server.php";
 	
 	private static final String getFileContents = getBaseURL()+"?cmd=GetFileContents";
 	private static final String saveFileContents = getBaseURL()+"?cmd=SaveFileContents";
@@ -69,7 +69,7 @@ public class Proxy
 	 * Get the contents of a file with the given name from server.
 	 * Put those contents in the passed CodeEditor.
 	 */
-	public static void getFileContents(String fileName, final RichTextArea editor){
+	public static void getFileContents(String fileName, final CodeEditor editor){
 		//fileName.trim() leaves leading /, this is causing select errors
 		String urlCompl = getFileContents+"&name="+fileName.trim().substring(1);
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, urlCompl);
@@ -79,19 +79,37 @@ public class Proxy
 				@Override
 				public void onResponseReceived(Request request, Response response)
 				{
-					//Ugly. The current way I have helper classes visible
-					//but not modifiable sends a flag character before
-					//the actual text - using WEStatus requires using
-					//JSON with kills the formatting...
-					String html = response.getText();
+					//Passing it through JSON kills formatting
+					String allText = response.getText();
 					
-					if(html.charAt(0) == '0'){
-						editor.setEnabled(false);
-					} else {
-						editor.setEnabled(true);
+					//Have to take into account comment length when
+					//parsing file
+					String lengthFinder = "..&lt;end!TopSection&gt;";
+					int len = lengthFinder.length();
+					
+					//Hoping those /'s escape correctly
+					int endofTop = allText.indexOf("//&lt;end!TopSection&gt;");
+					int endofMid = allText.indexOf("//&lt;end!MidSection&gt;");
+					String top = "", mid = allText, bot = "";
+					
+					//Logic copied from server side
+					if(endofTop != -1){
+						top = allText.substring(0, endofTop);
+						mid = allText.substring(endofTop);
 					}
 					
-					editor.setHTML(html.substring(1));
+					if(endofMid != -1){
+						bot = allText.substring(endofMid + len);
+						mid = allText.substring(endofTop + len, endofMid);
+					}
+					
+					top = "<pre>" + top + "</pre>";
+					bot = "<pre>" + bot + "</pre>";
+					
+					editor.codeTop.setHTML(top);
+					editor.codeBottom.setHTML(bot);
+					editor.codeArea.setText(mid);
+					
 				}
 				
 				@Override

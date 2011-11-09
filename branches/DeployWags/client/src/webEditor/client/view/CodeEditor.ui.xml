@@ -6,18 +6,31 @@
 	<ui:style>
 		.unenabled {
 			background-color: #C8C8C8;
+			height: 100%;
+			width: 100%;
+		}
+		.fill {
+			display: block;
+			height: 100%;
+			width: 100%;	
 		}
 	</ui:style>
 
-	<g:VerticalPanel height="100%" width="100%">
-		<g:ScrollPanel height="100%" width="100%">
-			<g:RichTextArea styleName="{style.unenabled}" height="98%" width="99%" ui:field="codeTop"></g:RichTextArea>
-		</g:ScrollPanel>
-		<g:ScrollPanel height="100%" width="100%">
-			<g:RichTextArea height="98%" width="99%" ui:field="codeArea" > </g:RichTextArea>
-		</g:ScrollPanel>
-		<g:ScrollPanel height="100%" width="100%">
-			<g:RichTextArea styleName="{style.unenabled}" height="98%" width="99%" ui:field="codeBottom"></g:RichTextArea>
-		</g:ScrollPanel>
-	</g:VerticalPanel>
+	<g:SplitLayoutPanel height="100%" width="100%">
+		<g:north size="200" unit="EM">
+			<g:ScrollPanel height="100%" width="100%">
+				<g:RichTextArea styleName="{style.unenabled}" height="98%" width="99%" ui:field="codeTop"></g:RichTextArea>
+			</g:ScrollPanel>
+		</g:north>
+		<g:center>
+			<g:ScrollPanel height="100%" width="100%">
+				<g:TextArea height="98%" width="99%" ui:field="codeArea" > </g:TextArea>
+			</g:ScrollPanel>
+		</g:center>
+		<g:south size="200" unit="EM">
+			<g:ScrollPanel height="100%" width="100%">
+				<g:RichTextArea styleName="{style.unenabled}" height="100%" width="99%" ui:field="codeBottom"></g:RichTextArea>
+			</g:ScrollPanel>
+		</g:south>
+	</g:SplitLayoutPanel>
 </ui:UiBinder> 
