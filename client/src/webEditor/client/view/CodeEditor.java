@@ -10,6 +10,7 @@ import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.RichTextArea;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -23,13 +24,12 @@ public class CodeEditor extends View implements HasHandlers
 
 	interface CodeEditorUiBinder extends UiBinder<Widget, CodeEditor>{}
 	 
-	@UiField
-	public RichTextArea codeArea;
+	@UiField public TextArea codeArea;
 	@UiField public RichTextArea codeTop;
 	@UiField public RichTextArea codeBottom;
 	
 //	private CompletionCheck colorCheck = new CompletionCheck();
-	private TabCheck tabCheck = new TabCheck(codeArea);
+//	private TabCheck tabCheck = new TabCheck(codeArea);
 //	private int lastKey;
 //	private static final int CCURLS = 221;
 //	private static final int CPARENS = 48;
@@ -38,9 +38,10 @@ public class CodeEditor extends View implements HasHandlers
 	{
 		initWidget(uiBinder.createAndBindUi(this));
 
+		//I. HATE. CSS.  You can't make anything just freakin' fill the parent element!  IT CANNOT BE THAT HARD.
+		codeArea.setHeight("1200px");
 		codeArea.setFocus(true);
 		codeArea.setEnabled(true);
-		codeArea.getFormatter().setFontName("monospace");
 		
 		codeTop.setEnabled(false);
 		codeBottom.setEnabled(false);
@@ -88,25 +89,14 @@ public class CodeEditor extends View implements HasHandlers
 		
 	}
 	
-	private void indent(int tabCount){
-		for(int i = 0; i < tabCount; i++){
-			codeArea.getFormatter().insertHTML("&nbsp;&nbsp;&nbsp;&nbsp;");
-			tabCheck.enterIncrement(4);
-		}
-	}
-	
 	public void setContents(String contents){
-		this.codeArea.setHTML(contents);
+		this.codeArea.setText(contents);
 	}
 	
 	@Override
 	public WEAnchor getLink()
 	{
 		return new WEAnchor("Editor", this, "codeEditor");
-	}
-	
-	public TabCheck getTabCheck(){
-		return this.tabCheck;
 	}
 	
 }
