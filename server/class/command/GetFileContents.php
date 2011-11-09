@@ -24,6 +24,7 @@ class GetFileContents extends Command
             if(substr($name, 0, 1) != '/')
                 $name = '/'.$name;
             $file = CodeFile::getCodeFileByName($name);
+
             if(empty($file)){
                 return JSON::warn("File not found with name ".$name);
             }
@@ -31,8 +32,48 @@ class GetFileContents extends Command
 			$status = 1;
 			if($file->getOwnerId() == 0) $status = 0;
 
-            $contents = htmlspecialchars($file->getContents());
-            echo($status."<pre>".$contents."</pre>");
+			#must parse skeleton files into three text sections delimited
+			#by "//<end!TopSection>" and "//<end!MidSection>"
+
+			$topNeedle = "//<end!TopSection>";
+			$midNeedle = "//<end!MidSection>";
+
+			//Grab the entire program
+			$wholeCode = $file->getContents();
+			$top = "";
+			$mid = $wholeCode;
+			$bot = "";
+
+			//find the location of the delimiting comments
+			$endofTop = strpos($wholeCode, $topNeedle);
+			$endofMid = strpos($wholeCode, $midNeedle);
+
+			if($endofTop){
+				$top = substr($wholeCode, 0, $endofTop)."//<end!TopSection>";
+				$mid = substr($wholeCode, $endofTop + strlen($topNeedle));
+			}
+
+			if($endofMid){
+				$bot = substr($wholeCode, $endofMid);
+				$mid = substr($wholeCode, $endofTop + strlen($topNeedle), strlen($wholeCode) - 
+					strlen($top) - strlen($bot));
+			}
+			
+			$top = htmlspecialchars($top);
+			$mid = $mid;
+			$bot = htmlspecialchars($bot);
+
+
+			$all = $top.$mid.$bot;
+
+			echo $all;
+
+			//$parsedFile = array($top, $mid, $bot);
+
+			//return JSON::success($parsedFile);
+            
+            //$contents = htmlspecialchars($file->getContents());
+            //echo($status."<pre>".$contents."</pre>");
 			
         }else{
             return JSON::error("No file name given.");

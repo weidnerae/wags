@@ -22,7 +22,7 @@ class Review extends Command
 		//success of program
 		$classRegex = "/public\sclass\s+([^\d]\w+)/";
 		$packageRegex = "/package\s+([^\d]\w+)/";
-		$successRegex = "/Success/";
+		$successRegex = "/Success<br />/";
 
 		//Grab posted information
 		$code = $_POST['code'];
@@ -41,8 +41,6 @@ class Review extends Command
 		//If the exercise has expired:
 		$closed = $exercise->getCloseDate();
 		if($closed != '' && $closed < time()){
-            $exercise->setVisible(0);
-            $exercise->save();
 			return JSON::error("This exercise has expired.");
 		}
 
@@ -187,8 +185,7 @@ class Review extends Command
 		if($result == EXEC_ERROR){
 			foreach($output as $line){
 				$error .= $line."<br>";
-                if($sub->getSuccess() != 1)
-    				$sub->setSuccess(0); //failure to compile is failure for lab
+				$sub->setSuccess(0); //failure to compile is failure for lab
 			}
 			JSON::error($error);
 		} else if ($result == EXEC_SUCCESS){
@@ -208,10 +205,8 @@ class Review extends Command
 				$sub->setSuccess(1);
 				JSON::success($output);
 			} else {
-                if($sub->getSuccess() != 1){
-    				$sub->setSuccess(0);
-	    			JSON::warn($output);
-                }
+				$sub->setSuccess(0);
+				JSON::warn($output);
 			}
 
 		}

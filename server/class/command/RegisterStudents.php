@@ -33,6 +33,16 @@ class RegisterStudents extends Command
 		}
 
 		for($i = 0; $i < $numFirst; $i++){
+			if(User::isusername("$last_name[$i].$first_name[$i]")){
+				return JSON::warn("$last_name[$i].$first_name[$i] is already registered");
+			}
+		}
+
+		for($i = 0; $i < $numFirst; $i++){
+			if(User::isusername("$last_name[$i].$first_name[$i]")){
+				return JSON::warn("$last_name[$i].$first_name[$i] is already registered");
+			}
+
 			$user = new User();
 			$user->setUsername("$last_name[$i].$first_name[$i]");
 			$user->setEmail("unset");

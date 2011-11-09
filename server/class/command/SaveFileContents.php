@@ -37,7 +37,7 @@ class SaveFileContents extends Command
     if($exercise->isMultiUser() && !$user->isAdmin()){
         $submission = Submission::getSubmissionByExerciseId($exercise->getId());
         #If the submission exists
-        if($submission){
+        if($submission->getPartner() != null){
             $partnerName = $submission->getPartner();
             $partner = User::getUserByUsername($partnerName);
             $partnerId = $partner->getId();
