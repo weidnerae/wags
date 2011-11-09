@@ -84,17 +84,12 @@ public class Wags extends View
 				if(i.getChildCount() > 0)
 					return;
 				// If clicked item is a leaf TreeItem then open it in editor
-				Proxy.getFileContents(browser.getItemPath(i), editor.codeArea);
-				Proxy.getFileContents(browser.getItemPath(i)+"Top", editor.codeTop);
-				Proxy.getFileContents(browser.getItemPath(i)+"Bottom", editor.codeBottom);
-				
+				Proxy.getFileContents(browser.getItemPath(i), editor);
 				for(int j = 0; j < exercises.getItemCount(); j++){
 					if(exercises.getValue(j).equals(browser.getItemPath(i.getParentItem()).trim().substring(1))){
 						exercises.setItemSelected(j, true);
 					}
 				}
-				editor.getTabCheck().setTabCount(3); //reset tabcount for newly
-													 //opened file
 
 				// Set filename, save, and delete stuff visible
 				commandBarVisible(true);
@@ -122,7 +117,9 @@ public class Wags extends View
 		/**
 		 * Save the file before submitting
 		 */
-		String text = editor.codeArea.getText();
+		String text = editor.codeTop.getText();
+		text += "//<end!TopSection>" + editor.codeArea.getText();
+		text += "//<end!MidSection>" + editor.codeBottom.getText();
 		
 		//URL encoding converts all " " to "+".  Thus, when decoded it was incorrectly
 		//converting all "+" to " ", including those actually meant to be +
@@ -146,12 +143,7 @@ public class Wags extends View
 	@UiHandler("save")
 	void onSaveClick(ClickEvent event)
 	{
-		String text = editor.codeArea.getText();
-		
-		//URL encoding converts all " " to "+".  Thus, when decoded it was incorrectly
-		//converting all "+" to " ", including those actually meant to be +
-		text = text.replaceAll("[+]", "%2B");
-		if(Proxy.saveFile("/" + fileName.getText().toString(), text, browser, true));
+		saveCurrentCode();
 	}
 	
 	@UiHandler("fileName")
@@ -199,27 +191,9 @@ public class Wags extends View
 	@UiHandler("submit")
 	void onSubmitClick(ClickEvent event)
 	{
-		/**
-		 * From here to the next comment is a workaround dealing with
-		 * an anomaly in how RTA's pass spaces as an invalid value.
-		 * To fix this, we insert an &nbsp; which will work properly at the
-		 * start of the code, and then replace all ' ' with &nbsp; which looks
-		 * like we are doing absolutely nothing but replacing ' ' with ' '.
-		 * 
-		 * As silly as this seems, it works with it and doesn't work without it.
-		 * We also then remove the introductory space after using it to cast all
-		 * the spaces.
-		 */
-		String codeHTML, codeText;
-		
-		codeHTML = editor.codeArea.getHTML();
-		editor.codeArea.setHTML("&nbsp;" + codeHTML);
-		
-		codeText = editor.codeArea.getText();
-		codeText = codeText.replace(codeText.charAt(0), ' ');
-		codeText = codeText.substring(1);
-		
-		editor.codeArea.setHTML(codeHTML);
+		String codeText = editor.codeTop.getText();
+		codeText += "//<end!TopSection>" + editor.codeArea.getText();
+		codeText += "//<end!MidSection>" + editor.codeBottom.getText();
 		
 		//End of &nbsp; workaround
 		
