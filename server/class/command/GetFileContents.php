@@ -59,11 +59,6 @@ class GetFileContents extends Command
 					strlen($top) - strlen($bot));
 			}
 			
-			$top = htmlspecialchars($top);
-			$mid = $mid;
-			$bot = htmlspecialchars($bot);
-
-
 			$all = $top.$mid.$bot;
 
 			echo $all;
