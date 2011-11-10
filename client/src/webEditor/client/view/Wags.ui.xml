@@ -60,7 +60,7 @@
 					<g:Anchor ui:field="delete" styleName="{style.anchor}">Delete</g:Anchor>
 					<g:Anchor ui:field="submit" styleName="{style.anchor}">Submit</g:Anchor>
 					<g:ListBox ui:field="exercises"></g:ListBox>
-					<g:Button ui:field="btnGetDesc"> Desc </g:Button>
+					<g:Button ui:field="btnGetDesc"> Code </g:Button>
 				</g:HTMLPanel>
 				<my:CodeEditor styleName="{style.editor}" ui:field="editor"></my:CodeEditor>
 			</g:HTMLPanel>

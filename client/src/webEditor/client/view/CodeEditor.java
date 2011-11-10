@@ -25,8 +25,8 @@ public class CodeEditor extends View implements HasHandlers
 	interface CodeEditorUiBinder extends UiBinder<Widget, CodeEditor>{}
 	 
 	@UiField public TextArea codeArea;
-	@UiField public RichTextArea codeTop;
-	@UiField public RichTextArea codeBottom;
+	public String codeTop;
+	public String codeBottom;
 	
 //	private CompletionCheck colorCheck = new CompletionCheck();
 //	private TabCheck tabCheck = new TabCheck(codeArea);
@@ -42,10 +42,6 @@ public class CodeEditor extends View implements HasHandlers
 		codeArea.setHeight("1200px");
 		codeArea.setFocus(true);
 		codeArea.setEnabled(true);
-		
-		codeTop.setEnabled(false);
-		codeBottom.setEnabled(false);
-		
 		
 		/*
 		 * Commented to remove unsatisfactory coloring logic

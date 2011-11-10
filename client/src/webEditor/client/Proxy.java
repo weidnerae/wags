@@ -84,12 +84,12 @@ public class Proxy
 					
 					//Have to take into account comment length when
 					//parsing file
-					String lengthFinder = "..&lt;end!TopSection&gt;";
+					String lengthFinder = "..<end!TopSection>";
 					int len = lengthFinder.length();
 					
 					//Hoping those /'s escape correctly
-					int endofTop = allText.indexOf("//&lt;end!TopSection&gt;");
-					int endofMid = allText.indexOf("//&lt;end!MidSection&gt;");
+					int endofTop = allText.indexOf("//<end!TopSection>");
+					int endofMid = allText.indexOf("//<end!MidSection>");
 					String top = "", mid = allText, bot = "";
 					
 					//Logic copied from server side
@@ -103,11 +103,8 @@ public class Proxy
 						mid = allText.substring(endofTop + len, endofMid);
 					}
 					
-					top = "<pre>" + top + "</pre>";
-					bot = "<pre>" + bot + "</pre>";
-					
-					editor.codeTop.setHTML(top);
-					editor.codeBottom.setHTML(bot);
+					editor.codeTop = top;
+					editor.codeBottom = bot;
 					editor.codeArea.setText(mid);
 					
 				}
