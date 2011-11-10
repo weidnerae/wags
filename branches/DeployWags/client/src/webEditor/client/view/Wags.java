@@ -117,9 +117,9 @@ public class Wags extends View
 		/**
 		 * Save the file before submitting
 		 */
-		String text = editor.codeTop.getText();
+		String text = editor.codeTop;
 		text += "//<end!TopSection>" + editor.codeArea.getText();
-		text += "//<end!MidSection>" + editor.codeBottom.getText();
+		text += "//<end!MidSection>" + editor.codeBottom;
 		
 		//URL encoding converts all " " to "+".  Thus, when decoded it was incorrectly
 		//converting all "+" to " ", including those actually meant to be +
@@ -191,9 +191,9 @@ public class Wags extends View
 	@UiHandler("submit")
 	void onSubmitClick(ClickEvent event)
 	{
-		String codeText = editor.codeTop.getText();
+		String codeText = editor.codeTop;
 		codeText += "//<end!TopSection>" + editor.codeArea.getText();
-		codeText += "//<end!MidSection>" + editor.codeBottom.getText();
+		codeText += "//<end!MidSection>" + editor.codeBottom;
 		
 		//End of &nbsp; workaround
 		
@@ -211,9 +211,16 @@ public class Wags extends View
 	
 	@UiHandler("btnGetDesc")
 	void onDescClick(ClickEvent event){
+		String wholeText = editor.codeTop;
+		wholeText +=  editor.codeArea.getText() + editor.codeBottom;
+		review.setHTML("<pre>" + wholeText + "</pre>");
+		tabPanel.selectTab(1);
+		
+		/*
 		String value = exercises.getValue(exercises.getSelectedIndex());
 		Proxy.getDesc(exerciseMap.get(value), review);
 		tabPanel.selectTab(REVIEWPANEL);
+		*/
 	}
 	
 
