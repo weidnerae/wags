@@ -71,22 +71,34 @@ class AddExercise extends Command
        		$finfo = finfo_open(FILEINFO_MIME_TYPE);
   			$type = finfo_file($finfo, $solution['tmp_name']);
       		if(strpos($type, 'text') !== FALSE){
-   	    		$solutionContents = file_get_contents($solution['tmp_name']);
-				$e->setSolution($solutionContents);
+				$solutionContents = file_get_contents($solution['tmp_name']);
+
+				$file = CodeFile::getCodeFileById($e->getSolutionId());
+				$file->setContents($solutionContents);
+
+				$file->save();
 			}
 
        		$finfo = finfo_open(FILEINFO_MIME_TYPE);
   			$type = finfo_file($finfo, $skeleton['tmp_name']);
       		if(strpos($type, 'text') !== FALSE){
 				$skeletonContents = file_get_contents($skeleton['tmp_name']);
-				$e->setSkeleton($skeletonContents);
+
+				$file = CodeFile::getCodeFileById($e->getSkeletonId());
+				$file->setContents($skeletonContents);
+
+				$file->save();
    	    	}
         
 			$finfo = finfo_open(FILEINFO_MIME_TYPE);
   			$type = finfo_file($finfo, $testClass['tmp_name']);
       		if(strpos($type, 'text') !== FALSE){
    	    		$testClassContents = file_get_contents($testClass['tmp_name']);
-				$e->setTestClass($testClassContents);
+
+				$file = CodeFile::getCodeFileById($e->getTestClassId());
+				$file->setContents($testClassContents);
+				
+				$file->save();
 			}
 		}else{
        		//check all files for plain text
@@ -107,20 +119,56 @@ class AddExercise extends Command
       	 	}	
 
       	 	$solutionContents = file_get_contents($solution['tmp_name']);
+				$sol = new CodeFile();
+				$sol->setContents($solutionContents);
+				$sol->setName("/".$name."/Solution");
+				$sol->setUpdated(time());
+				$sol->setAdded(time());
+				$sol->setOwnerId($user->getId());
+				$sol->setSection($user->getSection());
+				$sol->setExerciseId(0);
+				$sol->save();
+				$sol = CodeFile::getCodeFileByName("/".$name."/Solution");
+			
       	 	$skeletonContents = file_get_contents($skeleton['tmp_name']);
+				$skel = new CodeFile();
+				$skel->setContents($skeletonContents);
+				$skel->setName("/".$name."/AdminSkeleton");
+				$skel->setUpdated(time());
+				$skel->setAdded(time());
+				$skel->setOwnerId($user->getId());
+				$skel->setSection($user->getSection());
+				$skel->setExerciseId(0);
+				$skel->save();
+				$skel = CodeFile::getCodeFileByName("/".$name."/AdminSkeleton");
+				
 			$testClassContents = file_get_contents($testClass['tmp_name']);
+				$test = new CodeFile();
+				$test->setContents($testClassContents);
+				$test->setName("/".$name."/TestClass");
+				$test->setUpdated(time());
+				$test->setAdded(time());
+				$test->setOwnerId($user->getId());
+				$test->setSection($user->getSection());
+				$test->setExerciseId(0);
+				$test->save();
+				$test = CodeFile::getCodeFileByName("/".$name."/TestClass");
 
 			$e = new Exercise;
-        	$e->setSolution($solutionContents);
-	        $e->setSkeleton($skeletonContents);
-	        $e->setDescription($description);
     	    $e->setTitle($name);
        		$e->setAdded(time());
 			$e->setOpenDate($openDate);
 			$e->setCloseDate($closeDate);
 			$e->setSection($user->getSection());
-			$e->setTestClass($testClassContents);//Temporary server side handling
-			//of TestClass as client side hasn't been updated yet
+			$e->setSolutionId($sol->getId());
+			$e->setTestClassId($test->getId());
+			$e->setSkeletonId($skel->getId());
+			$e->setDescription("please");
+
+			$idSol = $e->getSolutionId();
+			$idSkel = $e->getSkeletonId();
+			$idTest = $e->getTestClassId();
+
 		}
 
 		#The following is ALWAYS updated, so they
@@ -137,16 +185,29 @@ class AddExercise extends Command
 
 		$now = time();
 		$e->setUpdated($now);	
-
         try{
-	    $e->save();
+		    $e->save();
             if(isset($update) && $update){
                 JSON::success('Overwrote exercise '.$e->getTitle());
 			}
-            else
+            else{
                 JSON::success('Uploaded exercise '.$e->getTitle());
-        }catch(PDOException $e){
-            echo $f->getMessage();
+			}
+
+			//Update files with correct exercise ID
+			$Sol = CodeFile::getCodeFileById($e->getSolutionId());
+			$Sol->setExerciseId($e->getId());
+			$Sol->save();
+
+			$Skel = CodeFile::getCodeFileById($e->getSkeletonId());
+			$Skel->setExerciseId($e->getId());
+			$Skel->save();
+
+			$TestClass = CodeFile::getCodeFileById($e->getTestClassId());
+			$TestClass->setExerciseId($e->getId());
+			$TestClass->save();
+        }catch(Exception $e){
+            return JSON::error($f->getMessage());
 	    logError($f);
 	    JSON::error($f);
         }
