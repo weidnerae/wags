@@ -11,17 +11,18 @@ class SaveFileContents extends Command
 {
     public function execute()
     {
+
         if(!Auth::isLoggedIn()){
             return JSON::error('Must be logged in to save a file.');
         }
         
-        if(!isset($_REQUEST['name'])){
+        if(!isset($_POST['name'])){
             return JSON::error('File name needed.');
         }
         
         $user = Auth::getCurrentUser();
-	$file = CodeFile::getCodeFileByName($_REQUEST['name']);
-	$contents = $_REQUEST['contents'];
+	$file = CodeFile::getCodeFileByName($_POST['name']);
+	$contents = $_POST['contents'];
 
 	/**
 	 * For some reason, the URL encoding on the client side does
@@ -31,18 +32,6 @@ class SaveFileContents extends Command
 	 * line manually replaces it with "+" again
 	 */
 	$contents = str_replace("%2B", "+", $contents);
-
-    #A quick fix for partners -- SHOULD NOT BE PERMANENT
-    $exercise = Exercise::getExerciseById($file->getExerciseId());
-    if($exercise->isMultiUser() && !$user->isAdmin()){
-        $submission = Submission::getSubmissionByExerciseId($exercise->getId());
-        #If the submission exists
-        if($submission->getPartner() != null){
-            $partnerName = $submission->getPartner();
-            $partner = User::getUserByUsername($partnerName);
-            $partnerId = $partner->getId();
-        }
-    }
 
         if(!empty($file) && $file instanceof CodeFile){
             // Update CodeFile.
@@ -61,26 +50,6 @@ class SaveFileContents extends Command
             $file->setUpdated($now);
             $file->setAdded($now);
             $file->save();
-        }
-
-        #More TEMPORARY fix
-        if(isSet($partnerId)){
-            $partnerFile = CodeFile::getPartnerFile($partner->getId(), $file->getName());
-            if(!empty($partnerFile) && $partnerFile instanceof CodeFile){
-                $partnerFile->setContents($contents);
-                $partnerFile->setUpdated(time());
-                $partnerFile->save();
-            } else{
-                $partnerFile = new CodeFile();
-                $partnerFile->setContents($contents);
-                $partnerFile->setName($_REQUEST['name']);
-                $partnerFile->setExerciseId($file->getExerciseId());
-                $partnerFile->setOwnerId($partner->getId());
-                $partnerFile->setSection($user->getSection());
-                $partnerFile->setUpdated(time());
-                $partnerFile->setAdded(time());
-                $partnerFile->save();
-            }
         }
 
         return JSON::success('File '.$_REQUEST['name'].' saved');

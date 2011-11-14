@@ -6,9 +6,9 @@ require_once("Model.php");
 class Exercise extends Model
 {
 	protected $description;
-	protected $skeleton;
-	protected $solution;
-	protected $testClass;
+	protected $skeletonId;
+	protected $solutionId;
+	protected $testClassId;
 	protected $title;
 	protected $visible;
 	protected $section;
@@ -28,28 +28,28 @@ class Exercise extends Model
 		return $this->description;
 	}
 
-	public function setSkeleton($skeleton){
-		$this->skeleton = $skeleton;
+	public function setSkeletonId($skeleton){
+		$this->skeletonId = $skeleton;
 	}
 
-	public function getSkeleton(){
-		return $this->skeleton;
+	public function getSkeletonId(){
+		return $this->skeletonId;
 	}
 
-	public function setSolution($solution){
-		$this->solution = $solution;
+	public function setSolutionId($solution){
+		$this->solutionId = $solution;
 	}
 
-	public function getSolution(){
-		return $this->solution;
+	public function getSolutionId(){
+		return $this->solutionId;
 	}
 
-	public function getTestClass(){
-		return $this->testClass;
+	public function getTestClassId(){
+		return $this->testClassId;
 	}
 
-	public function setTestClass($testClass){
-		$this->testClass = $testClass;
+	public function setTestClassId($testClass){
+		$this->testClassId = $testClass;
 	}
 
 	public function setTitle($title){
@@ -101,6 +101,45 @@ class Exercise extends Model
 
 	public function setCloseDate($close){
 		$this->closeDate = $close;
+	}
+
+	public function getSkeleton(){
+		$file = CodeFile::getCodeFileById($this->skeletonId);
+
+		return $file->getContents();
+	}
+
+	public function getSolution(){
+		$file = CodeFile::getCodeFileById($this->solutionId);
+
+		return $file->getContents();
+	}
+
+	public function getTestClass(){
+		$file = CodeFile::getCodeFileById($this->testClassId);
+
+		return $file->getContents();
+	}
+
+	public function setSolution($contents){
+		$file = CodeFile::getCodeFileById($this->solutionId);
+		$file->setContents($contents);
+
+		$file->save();
+	}
+
+	public function setSkeleton($contents){
+		$file = CodeFile::getCodeFileById($this->skeletonId);
+		$file->setContents($contents);
+
+		$file->save();
+	}
+	
+	public function setTestClass($contents){
+		$file = CodeFile::getCodeFileById($this->testClassId);
+		$file->setContents($contents);
+
+		$file->save();
 	}
 
 	public function getHelperClasses(){
@@ -246,7 +285,7 @@ class Exercise extends Model
 		foreach ($allUsers as $curUser){
 			if (!in_array($curUser, $exUsers)){
 			     $file = new CodeFile();
- 			     $file->setContents($this->skeleton);
+ 			     $file->setContents($this->getSkeleton());
 		             $now = time();
 		             $file->setName("/".$this->title."/skeleton");
 		             $file->setExerciseId($this->id);
