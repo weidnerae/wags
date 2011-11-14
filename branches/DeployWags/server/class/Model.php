@@ -24,10 +24,10 @@ abstract class Model
     public function save()
     {
         require_once('Database.php');
-
         $db = Database::getDb();
         $table = $this->getTable();
         $this->setUpdated(time());
+
 
         // Check if anything exists by this ID.
         $sth = $db->prepare("SELECT count(*) FROM $table WHERE id = :id");

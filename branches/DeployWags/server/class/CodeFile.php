@@ -52,6 +52,9 @@ class CodeFile extends Model
 		$this->section = $section;
 	}
    
+	public static function getHelperId(){
+		return 0;
+	}
 
     /**
      * Static helpers
@@ -69,9 +72,9 @@ class CodeFile extends Model
         $db = Database::getDb();
 		$user = Auth::getCurrentUser();
         
-        $sth = $db->prepare('SELECT * FROM file WHERE name LIKE :name AND ownerId = :id OR ownerId = 0
+        $sth = $db->prepare('SELECT * FROM file WHERE name LIKE :name AND ownerId = :id OR ownerId = :helper 
 			AND name LIKE :name');
-        $sth->execute(array(':name' => $name, ':id' => $user->getId()));
+        $sth->execute(array(':name' => $name, ':helper' => CodeFile::getHelperId(), ':id' => $user->getId()));
 
         return $sth->fetchObject('CodeFile');
     }
@@ -85,8 +88,8 @@ class CodeFile extends Model
         $db = Database::getDb();
         
         $sth = $db->prepare('SELECT * FROM file WHERE ownerId = :id 
-			OR ownerId = 0 and section = :section');
-        $sth->execute(array(':id' => $user->getId(), ':section' => $user->getSection()));
+			OR ownerId = :helper and section = :section');
+        $sth->execute(array(':id' => $user->getId(), ':helper' => CodeFile::getHelperId(), ':section' => $user->getSection()));
         
         return $sth->fetchAll(PDO::FETCH_CLASS, 'CodeFile');
     }
@@ -101,6 +104,17 @@ class CodeFile extends Model
 
         return $sth->fetchObject('CodeFile');
     }
+
+	public static function getCodeFileById($id){
+		require_once('Database.php');
+
+		$db = Database::getDb();
+
+		$sth = $db->prepare('SELECT * FROM file WHERE id like :id');
+		$sth->execute(array(':id' => $id));
+
+		return $sth->fetchObject('CodeFile');
+	}
 
 }
 ?>
