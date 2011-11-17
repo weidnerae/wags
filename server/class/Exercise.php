@@ -210,13 +210,13 @@ class Exercise extends Model
 
 		if(!$user->isAdmin()){
 			$sth = $db->prepare('SELECT * FROM exercise WHERE visible = 1
-				AND section = :section');
+				AND section = :section ORDER BY title');
 			$sth->execute(array(':section' => $user->getSection()));		
 
 			return $sth->fetchAll(PDO::FETCH_CLASS, 'Exercise');
 		}
 
-		$sth = $db->prepare('SELECT * FROM exercise WHERE section = :section');
+		$sth = $db->prepare('SELECT * FROM exercise WHERE section = :section ORDER BY title');
 		$sth->execute(array(':section' => $user->getSection()));		
 
 		return $sth->fetchAll(PDO::FETCH_CLASS, 'Exercise');

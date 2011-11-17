@@ -23,26 +23,32 @@ class RegisterStudents extends Command
 		$numFirst = 0;
 		$numLast = 0;
 
+        #make sure the number of first names is the same
+        #as the number of last names
+        #For CSV, that the length % 2 = 0
 		for($i = 0; $i < count($first_name); $i++){
 			if($first_name[$i] != "") $numFirst++;
 			if($last_name[$i] != "") $numLast++;
 		}
-
 		if($numFirst != $numLast){
 			return JSON::error("Must have same number first and last names");	
 		}
 
+        #before processing any users, check to see if any of them are already
+        #registered.  This is done to keep half of the students from being
+        #registered and then creating this same error when the rest of the students
+        #go to be registered
 		for($i = 0; $i < $numFirst; $i++){
 			if(User::isusername("$last_name[$i].$first_name[$i]")){
 				return JSON::warn("$last_name[$i].$first_name[$i] is already registered");
 			}
 		}
 
+        #Create new user profiles for every user.
+        #The users will not have an e-mail, and their password
+        #is currently set to password
+        #TODO: Update first login to request e-mail
 		for($i = 0; $i < $numFirst; $i++){
-			if(User::isusername("$last_name[$i].$first_name[$i]")){
-				return JSON::warn("$last_name[$i].$first_name[$i] is already registered");
-			}
-
 			$user = new User();
 			$user->setUsername("$last_name[$i].$first_name[$i]");
 			$user->setEmail("unset");
