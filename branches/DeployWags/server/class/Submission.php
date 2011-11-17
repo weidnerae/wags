@@ -64,8 +64,8 @@ class Submission extends Model
 		$user = Auth::GetCurrentUser();
 		$db = Database::getDb();
 
-		$sth = $db->prepare('SELECT * FROM submission WHERE exerciseId LIKE :exId
-			and userId LIKE :userId');
+		$sth = $db->prepare('SELECT * FROM submission WHERE exerciseId = :exId
+			and userId = :userId');
 		$sth->execute(array(':exId' => $exerciseId, ':userId' => $user->getId()));
 		return $sth->fetchObject('Submission'); 
 	}

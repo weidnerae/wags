@@ -184,7 +184,7 @@ class User extends Model
         require_once('Database.php');
         
         $db = Database::getDb();
-        $sth = $db->prepare('SELECT count(*) as count FROM user WHERE username LIKE :username AND password LIKE :password');
+        $sth = $db->prepare('SELECT count(*) as count FROM user WHERE username = :username AND password = :password');
         $sth->execute(array(':username' => $username, ':password' => md5($password)));
 
         $result = $sth->fetch(PDO::FETCH_ASSOC);      
@@ -197,7 +197,7 @@ class User extends Model
 		$user = Auth::getCurrentUser();
 
 		$db = Database::getDb();
-		$sth = $db->prepare("SELECT username FROM user WHERE section LIKE :section AND admin like 0
+		$sth = $db->prepare("SELECT username FROM user WHERE section = :section AND admin = 0
 			ORDER BY username");
 		$sth->execute(array(':section' => $user->getSection()));
 

@@ -53,7 +53,7 @@ class CodeFile extends Model
 	}
    
 	public static function getHelperId(){
-		return 0;
+		return 100;
 	}
 
     /**
@@ -72,8 +72,8 @@ class CodeFile extends Model
         $db = Database::getDb();
 		$user = Auth::getCurrentUser();
         
-        $sth = $db->prepare('SELECT * FROM file WHERE name LIKE :name AND ownerId = :id OR ownerId = :helper 
-			AND name LIKE :name');
+        $sth = $db->prepare('SELECT * FROM file WHERE name = :name AND ownerId = :id OR ownerId = :helper 
+			AND name = :name');
         $sth->execute(array(':name' => $name, ':helper' => CodeFile::getHelperId(), ':id' => $user->getId()));
 
         return $sth->fetchObject('CodeFile');
@@ -99,7 +99,7 @@ class CodeFile extends Model
 
         $db = Database::getDb();
 
-        $sth = $db->prepare('SELECT * FROM file WHERE name LIKE :name AND ownerId like :id');
+        $sth = $db->prepare('SELECT * FROM file WHERE name = :name AND ownerId = :id');
         $sth->execute(array(':name' => $fileName, ':id' =>  $partnerId));
 
         return $sth->fetchObject('CodeFile');
@@ -110,7 +110,7 @@ class CodeFile extends Model
 
 		$db = Database::getDb();
 
-		$sth = $db->prepare('SELECT * FROM file WHERE id like :id');
+		$sth = $db->prepare('SELECT * FROM file WHERE id = :id');
 		$sth->execute(array(':id' => $id));
 
 		return $sth->fetchObject('CodeFile');

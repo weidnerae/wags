@@ -126,9 +126,10 @@ class AddExercise extends Command
 				$sol->setAdded(time());
 				$sol->setOwnerId($user->getId());
 				$sol->setSection($user->getSection());
-				$sol->setExerciseId(0);
+				$sol->setExerciseId(1);
 				$sol->save();
 				$sol = CodeFile::getCodeFileByName("/".$name."/Solution");
+
 			
       	 	$skeletonContents = file_get_contents($skeleton['tmp_name']);
 				$skel = new CodeFile();
@@ -138,7 +139,7 @@ class AddExercise extends Command
 				$skel->setAdded(time());
 				$skel->setOwnerId($user->getId());
 				$skel->setSection($user->getSection());
-				$skel->setExerciseId(0);
+				$skel->setExerciseId(1);
 				$skel->save();
 				$skel = CodeFile::getCodeFileByName("/".$name."/AdminSkeleton");
 				
@@ -150,7 +151,7 @@ class AddExercise extends Command
 				$test->setAdded(time());
 				$test->setOwnerId($user->getId());
 				$test->setSection($user->getSection());
-				$test->setExerciseId(0);
+				$test->setExerciseId(1);
 				$test->save();
 				$test = CodeFile::getCodeFileByName("/".$name."/TestClass");
 
