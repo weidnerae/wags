@@ -52,7 +52,7 @@ class Section extends Model
 		require_once('Database.php');
 		$db = Database::getDb();
 
-		$sth = $db->prepare('SELECT id FROM section WHERE name like :name');
+		$sth = $db->prepare('SELECT id FROM section WHERE name = :name');
 		$sth->setFetchMode(PDO::FETCH_NUM);
 		$sth->execute(array(':name' => $name));
 
