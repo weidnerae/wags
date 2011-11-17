@@ -146,8 +146,8 @@ class Exercise extends Model
 		require_once('Database.php');
 		$db = Database::getDb();
 
-		$sth = $db->prepare('SELECT * FROM file WHERE ownerId LIKE 0 AND
-			exerciseId LIKE :exId AND section LIKE :section');
+		$sth = $db->prepare('SELECT * FROM file WHERE ownerId = 0 AND
+			exerciseId = :exId AND section = :section');
 		$sth->execute(array(':exId' => $this->id, ':section' => $this->section));
 
 		return $sth->fetchAll(PDO::FETCH_CLASS, 'CodeFile');
@@ -158,8 +158,8 @@ class Exercise extends Model
 		$db = Database::getDb();
 		$user = Auth::getCurrentUser();
 
-		$sth =$db->prepare('SELECT * FROM exercise WHERE section LIKE
-			:section AND multiUser LIKE 1 AND visible LIKE 1');
+		$sth =$db->prepare('SELECT * FROM exercise WHERE section =
+			:section AND multiUser = 1 AND visible = 1');
 		$sth->execute(array(':section' => $user->getSection()));
 		$sth->setFetchMode(PDO::FETCH_CLASS, 'Exercise');
 		
@@ -185,8 +185,8 @@ class Exercise extends Model
 		$user = Auth::getCurrentUser();
 
 		$db = Database::getDb();
-		$sth = $db->prepare('SELECT * FROM exercise WHERE title LIKE :title
-			AND section like :section');
+		$sth = $db->prepare('SELECT * FROM exercise WHERE title = :title
+			AND section = :section');
 		$sth->execute(array(':title' => $title, ':section' => $user->getSection()));
 
 		return $sth->fetchObject('Exercise');
@@ -209,14 +209,14 @@ class Exercise extends Model
 		$db = Database::getDb();
 
 		if(!$user->isAdmin()){
-			$sth = $db->prepare('SELECT * FROM exercise WHERE visible LIKE 1
-				AND section LIKE :section');
+			$sth = $db->prepare('SELECT * FROM exercise WHERE visible = 1
+				AND section = :section');
 			$sth->execute(array(':section' => $user->getSection()));		
 
 			return $sth->fetchAll(PDO::FETCH_CLASS, 'Exercise');
 		}
 
-		$sth = $db->prepare('SELECT * FROM exercise WHERE section LIKE :section');
+		$sth = $db->prepare('SELECT * FROM exercise WHERE section = :section');
 		$sth->execute(array(':section' => $user->getSection()));		
 
 		return $sth->fetchAll(PDO::FETCH_CLASS, 'Exercise');
@@ -232,7 +232,7 @@ class Exercise extends Model
 			FROM submission JOIN file, user
 			ON submission.fileId = file.id
 			AND submission.userId = user.id
-			WHERE submission.exerciseId LIKE :exId
+			WHERE submission.exerciseId = :exId
 			AND user.admin = 0
 			ORDER BY username');
 		$sth->setFetchMode(PDO::FETCH_ASSOC);
@@ -246,7 +246,7 @@ class Exercise extends Model
 		$db = Database::getDb();
 		$user = Auth::getCurrentUser();
 
-		$sth = $db->prepare("SELECT * FROM exercise WHERE section LIKE :section AND
+		$sth = $db->prepare("SELECT * FROM exercise WHERE section = :section AND
 			openDate != '' ");
 		$sth->execute(array(':section' => $user->getSection()));
 
@@ -265,7 +265,7 @@ class Exercise extends Model
 		//section.  Then, I grab all users who have an file for this 
 		//exercise already.  If the user exists in the first list, but not
 		//the second, they get a skeleton
-		$sth = $db->prepare('SELECT id FROM user WHERE section LIKE :section');
+		$sth = $db->prepare('SELECT id FROM user WHERE section = :section');
 		$sth->setFetchMode(PDO::FETCH_ASSOC);
 		$sth->execute(array('section' => $this->section));
 
@@ -274,7 +274,7 @@ class Exercise extends Model
 		}
 
 		$sth = $db->prepare('SELECT DISTINCT ownerId FROM file WHERE
-			exerciseId LIKE :exerciseId');
+			exerciseId = :exerciseId');
 		$sth->setFetchMode(PDO::FETCH_ASSOC);
 		$sth->execute(array(':exerciseId' => $this->id));
 

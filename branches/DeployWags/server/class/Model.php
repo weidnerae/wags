@@ -40,8 +40,8 @@ abstract class Model
          */
         if($result[0] == 0){
             $sql = "INSERT INTO $table";
-            $sqlKeys = "( ";
-            $sqlVals = " VALUES ( ";
+            $sqlKeys = "( id, ";
+            $sqlVals = " VALUES (\"\" , ";
             $vars = get_object_vars($this);
             $classKeys = array_keys($vars);
             $classVals = array_values($vars);
@@ -64,7 +64,7 @@ abstract class Model
             if(!isset($val)){
                 $val = "NULL";
             }else if(!is_numeric($val)){
-                $val = "'$val'";
+                $val = "\"".addslashes($val)."\"";
             }
             $sqlKeys .= $key;
             $sqlVals .= $val;
@@ -76,7 +76,7 @@ abstract class Model
                     $val = "NULL";
                 }else if(!is_numeric($val)){
                     // Quote val. No naughty strings allowed!
-                    $val = $db->quote($val);
+                    $val = "\"".addslashes($val)."\"";
                 }
 
                 $sqlKeys .= ", ".$key;

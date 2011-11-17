@@ -40,7 +40,7 @@ class Review extends Command
 
 		//If the exercise has expired:
 		$closed = $exercise->getCloseDate();
-		if($closed != '' && $closed < time()){
+		if($closed != '' && $closed < time() && $closed != 0){
 			return JSON::error("This exercise has expired.");
 		}
 

@@ -48,7 +48,7 @@ class AddHelperClass extends Command
 		$file->setContents($helperContents);
 		$file->setName($helperName);
 		$file->setExerciseId($exercise->getId());
-		$file->setOwnerId(0); //0 is used specifically for helper classes
+		$file->setOwnerId(CodeFile::getHelperId()); //0 is used specifically for helper classes
 		$file->setSection($user->getSection());
 		$file->setAdded(time());
 		$file->setUpdated(time());
