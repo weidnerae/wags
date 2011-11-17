@@ -33,6 +33,9 @@ class AddExercise extends Command
 
 		#If there are open and close dates, check that they are
 		#parsable
+        #TODO: Make it so exercises can only have a "closedate"
+        #i.e., the default is exercises open when added, but can still
+        #have a specific expiration date
         if($closeDate != ""){
             $closeDate = strtotime($closeDate);
             if($openDate == ""){
@@ -46,20 +49,14 @@ class AddExercise extends Command
             }
         }
 
-//		if($openDate != ""){
-//			$openDate = strtotime($openDate);
-//			$closeDate = strtotime($closeDate);
-
-//			if(!$openDate || !$closeDate){
-//				return JSON::error("Dates are not in the correct format");
-//			}
-//		}
-
+        #If the exercise is being altered, not added
 		$e = Exercise::getExerciseByTitle($name);
 		if($e){
 			$update = true;
 
 			#Check each entry to see if it was changed, it so, save the change
+            #checking the open date - if it has changed, grab both the new
+            #open and closed date
 			if($openDate != ""){
 				$e->setOpenDate($openDate);
 				$e->setCloseDate($closeDate);
@@ -68,6 +65,7 @@ class AddExercise extends Command
                 $e->setCloseDate("");
             }
 
+            #If there is a new solution class, replace the old contents
        		$finfo = finfo_open(FILEINFO_MIME_TYPE);
   			$type = finfo_file($finfo, $solution['tmp_name']);
       		if(strpos($type, 'text') !== FALSE){
@@ -79,6 +77,7 @@ class AddExercise extends Command
 				$file->save();
 			}
 
+            #If there is a new skeleton class, replace the old contents
        		$finfo = finfo_open(FILEINFO_MIME_TYPE);
   			$type = finfo_file($finfo, $skeleton['tmp_name']);
       		if(strpos($type, 'text') !== FALSE){
@@ -90,6 +89,7 @@ class AddExercise extends Command
 				$file->save();
    	    	}
         
+            #If there is a new test class, replace the old contents
 			$finfo = finfo_open(FILEINFO_MIME_TYPE);
   			$type = finfo_file($finfo, $testClass['tmp_name']);
       		if(strpos($type, 'text') !== FALSE){
@@ -118,6 +118,8 @@ class AddExercise extends Command
        	    return JSON::error('Please only upload plain text or source files (skeleton)');
       	 	}	
 
+            #TODO: Remove this terrible files need exercise needs files loop of death
+            #Create the new solution class file
       	 	$solutionContents = file_get_contents($solution['tmp_name']);
 				$sol = new CodeFile();
 				$sol->setContents($solutionContents);
@@ -130,7 +132,7 @@ class AddExercise extends Command
 				$sol->save();
 				$sol = CodeFile::getCodeFileByName("/".$name."/Solution");
 
-			
+			#Create the new skeleton class file
       	 	$skeletonContents = file_get_contents($skeleton['tmp_name']);
 				$skel = new CodeFile();
 				$skel->setContents($skeletonContents);
@@ -143,6 +145,7 @@ class AddExercise extends Command
 				$skel->save();
 				$skel = CodeFile::getCodeFileByName("/".$name."/AdminSkeleton");
 				
+            #Create the new test class file
 			$testClassContents = file_get_contents($testClass['tmp_name']);
 				$test = new CodeFile();
 				$test->setContents($testClassContents);
@@ -155,6 +158,7 @@ class AddExercise extends Command
 				$test->save();
 				$test = CodeFile::getCodeFileByName("/".$name."/TestClass");
 
+            #Put together the exercise
 			$e = new Exercise;
     	    $e->setTitle($name);
        		$e->setAdded(time());
@@ -164,25 +168,15 @@ class AddExercise extends Command
 			$e->setSolutionId($sol->getId());
 			$e->setTestClassId($test->getId());
 			$e->setSkeletonId($skel->getId());
-			$e->setDescription("please");
-
-			$idSol = $e->getSolutionId();
-			$idSkel = $e->getSkeletonId();
-			$idTest = $e->getTestClassId();
-
+		    $e->setMultiUser(0); //The default is no partners
+			$e->setDescription("please"); //This should die when descriptions become pdfs
 		}
 
 		#The following is ALWAYS updated, so they
-		#aren't within the if($e) block
-		$visible = $_POST['visible'];
-		if($visible == "on" || $openDate <= time()) $visible = 1;
+		#aren't within the if/else block
+		if($openDate <= time()) $visible = 1;
 		else $visible = 0;
 		$e->setVisible($visible);
-
-		$multi = $_POST['multiUser'];
-		if($multi == "on") $multiUser = 1;
-		else $multiUser = 0;
-		$e->setMultiUser($multiUser);
 
 		$now = time();
 		$e->setUpdated($now);	
@@ -196,6 +190,7 @@ class AddExercise extends Command
 			}
 
 			//Update files with correct exercise ID
+            //This is terrible terrible terrible stuff
 			$Sol = CodeFile::getCodeFileById($e->getSolutionId());
 			$Sol->setExerciseId($e->getId());
 			$Sol->save();
@@ -207,19 +202,13 @@ class AddExercise extends Command
 			$TestClass = CodeFile::getCodeFileById($e->getTestClassId());
 			$TestClass->setExerciseId($e->getId());
 			$TestClass->save();
+
+
         }catch(Exception $e){
             return JSON::error($f->getMessage());
 	    logError($f);
 	    JSON::error($f);
         }
-
-		//Seems to only work on second "adding" of exercise...
-		//Problem seems to be within the loop at the end of 
-		//addSkeletons
-        if($visible == 1){
-			$e->addSkeletons();
-        }
-
 
 		finfo_close($finfo);
 
