@@ -22,7 +22,7 @@ class Review extends Command
 		//success of program
 		$classRegex = "/public\sclass\s+([^\d]\w+)/";
 		$packageRegex = "/package\s+([^\d]\w+)/";
-		$successRegex = "/Success<br />/";
+		$successRegex = "/Success<br \/>/";
 
 		//Grab posted information
 		$code = $_POST['code'];
