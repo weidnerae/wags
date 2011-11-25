@@ -12,6 +12,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.logical.shared.BeforeSelectionEvent;
+import com.google.gwt.event.logical.shared.BeforeSelectionHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -21,10 +23,12 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -43,9 +47,11 @@ public class Wags extends View
 	@UiField Anchor logout;
 	@UiField Anchor save;
 	@UiField Anchor delete;
-	@UiField Anchor submit;
+	@UiField Button submit;
 	@UiField ListBox exercises;
-	@UiField Button btnGetDesc;
+	@UiField Anchor getCode;
+	@UiField SubmitButton btnGetPDF;
+	@UiField FormPanel wrapperForm;
 	
 	@UiField TextBox fileName;
 	@UiField Label hello;
@@ -57,6 +63,9 @@ public class Wags extends View
 	@UiField TabLayoutPanel tabPanel;
 	
 	final static int REVIEWPANEL = 1;
+	final static int FILEBROWSER = 0;
+	
+	private String curPath = "";
 	
 	private HashMap<String, String> exerciseMap = new HashMap<String, String>();
 	
@@ -67,12 +76,18 @@ public class Wags extends View
 		Proxy.checkTimedExercises();
 		Proxy.checkPassword(this);
 		Proxy.checkMultiUser(this);
+		exercises.setVisible(false);
 		Proxy.getVisibleExercises(exercises, exerciseMap);
 		//Editing out filename changing
 		fileName.setEnabled(false);
 		//until we decide what to do with multiple files
 		commandBarVisible(false);
 
+		//For getting pdf descriptors
+		wrapperForm.setAction(Proxy.getBaseURL()+"?cmd=ReturnPDF");		
+		wrapperForm.setEncoding(FormPanel.ENCODING_MULTIPART);
+		wrapperForm.setMethod(FormPanel.METHOD_POST);
+		
 		// Add selection handler to file browser
 		browser.getTree().addSelectionHandler(new SelectionHandler<TreeItem>() {
 			@Override
@@ -109,8 +124,26 @@ public class Wags extends View
 		});
 		
 		Proxy.isAdmin(tabPanel);
-		
 		Proxy.getUsersName(hello);
+		
+		tabPanel.addBeforeSelectionHandler(new BeforeSelectionHandler<Integer>() {
+			
+			@Override
+			public void onBeforeSelection(BeforeSelectionEvent<Integer> event) {
+				// TODO Auto-generated method stub
+				if(tabPanel.getSelectedIndex() == 0){
+					curPath = getPath(browser.getTree().getSelectedItem());
+				}
+			}
+		});
+		
+		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
+
+			@Override
+			public void onSelection(SelectionEvent<Integer> event) {
+				Proxy.loadFileListing(browser, curPath);
+			}
+		});
 	}
 	
 	void saveCurrentCode(){
@@ -118,13 +151,15 @@ public class Wags extends View
 		 * Save the file before submitting
 		 */
 		String text = editor.codeTop;
-		text += "//<end!TopSection>" + editor.codeArea.getText();
-		text += "//<end!MidSection>" + editor.codeBottom;
+		if(text != "") text += "//<end!TopSection>";
+		text += editor.codeArea.getText();
+		if(editor.codeBottom != "") text += "//<end!MidSection>";
+		text += editor.codeBottom;
 		
 		//URL encoding converts all " " to "+".  Thus, when decoded it was incorrectly
 		//converting all "+" to " ", including those actually meant to be +
 		text = text.replaceAll("[+]", "%2B");
-		if(Proxy.saveFile("/" + fileName.getText().toString(), text, browser, false));
+		if(Proxy.saveFile("/" + fileName.getText(), text, browser, false));
 		/**
 		 * End of save code
 		 */
@@ -134,8 +169,11 @@ public class Wags extends View
 		save.setVisible(visible);
 		delete.setVisible(visible);
 		submit.setVisible(visible);
-		exercises.setVisible(visible);
-		btnGetDesc.setVisible(visible);
+		//Exercises is being removed, currently just a placeholder
+		//to retain some of its functionality (name id map)
+		//exercises.setVisible(visible);
+		getCode.setVisible(visible);
+		btnGetPDF.setVisible(visible);
 	}
 	/**
 	 * Send contents of text area to server. 
@@ -177,6 +215,7 @@ public class Wags extends View
 
 		editor.setContents("");
 		Proxy.loadFileListing(browser, reloadPath);
+		curPath = reloadPath;
 	}
 	
 	/**
@@ -209,7 +248,7 @@ public class Wags extends View
 		tabPanel.selectTab(REVIEWPANEL);
 	}
 	
-	@UiHandler("btnGetDesc")
+	@UiHandler("getCode")
 	void onDescClick(ClickEvent event){
 		String wholeText = editor.codeTop;
 		wholeText +=  editor.codeArea.getText() + editor.codeBottom;
@@ -222,8 +261,6 @@ public class Wags extends View
 		tabPanel.selectTab(REVIEWPANEL);
 		*/
 	}
-	
-
 	
 	@Override
 	public WEAnchor getLink()

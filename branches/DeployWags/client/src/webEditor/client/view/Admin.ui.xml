@@ -106,9 +106,6 @@
 					<g:TextBox styleName="{style.tbox}" ui:field="closeDate" name="closeDate"> </g:TextBox>
 				</g:HorizontalPanel>
 				
-				<g:Label styleName="{style.label}"> Description: </g:Label>	
-				<g:TextArea height="100px" width="315px" ui:field="desc" name="desc"></g:TextArea>
-				
 				<!-- <g:HorizontalPanel>
 					<g:CheckBox styleName="{style.chkbox}" ui:field="visible" name="visible">Make Visible</g:CheckBox>
 					<g:CheckBox styleName="{style.chkbox}" ui:field="multiUser" name="multiUser">Enable Partners</g:CheckBox>
@@ -139,12 +136,21 @@
 				<g:Grid ui:field="grdAdminReview" styleName="{style.grid}"> </g:Grid>
 				
 				<g:HorizontalPanel styleName="{style.filePanel}">
+					<g:Label styleName="{style.label}"> Helpers:</g:Label>
 					<g:FileUpload ui:field="helperClass" name="HelperClass"></g:FileUpload>
-					<g:SubmitButton ui:field="sbtHelper"> Upload Class </g:SubmitButton>
 				</g:HorizontalPanel>
+				
+				<g:HorizontalPanel styleName="{style.filePanel}">
+					<g:Label styleName="{style.label}"> Description: </g:Label>
+					<g:FileUpload styleName="{style.upload}" ui:field="descriptionPDF" name="descriptionPDF"></g:FileUpload>
+				</g:HorizontalPanel>
+				
+				<g:SubmitButton ui:field="sbtHelper"> Upload Class </g:SubmitButton>
 				
 			</g:VerticalPanel>
 		</g:FormPanel>
+		
+
 	</g:VerticalPanel>
 	
 </ui:UiBinder> 
