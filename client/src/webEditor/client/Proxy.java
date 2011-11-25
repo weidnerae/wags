@@ -91,7 +91,7 @@ public class Proxy
 					int endofTop = allText.indexOf("//<end!TopSection>");
 					int endofMid = allText.indexOf("//<end!MidSection>");
 					String top = "", mid = allText, bot = "";
-					
+							
 					//Logic copied from server side
 					if(endofTop != -1){
 						top = allText.substring(0, endofTop);
@@ -106,7 +106,7 @@ public class Proxy
 					editor.codeTop = top;
 					editor.codeBottom = bot;
 					editor.codeArea.setText(mid);
-					
+				
 				}
 				
 				@Override
@@ -153,12 +153,13 @@ public class Proxy
 	public static boolean saveFile(String fileName, String contents, final FileBrowser browser, final boolean notify)
 	{
 		holdMessage("Saving...");
-		String completeURL = saveFileContents+"&name="+fileName.trim()+"&contents="+contents;
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(completeURL));
-		try{
-			@SuppressWarnings("unused")
-			Request r = builder.sendRequest(null, new RequestCallback() {
-				@Override
+		
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, saveFileContents);
+		try {
+		      builder.setHeader("Content-Type", "application/x-www-form-urlencoded");
+		      @SuppressWarnings("unused")
+			Request req = builder.sendRequest("name="+fileName.trim()+"&contents="+contents, new RequestCallback() {
+		        @Override
 				public void onResponseReceived(Request request, Response response)
 				{
 					clearMessage();
@@ -201,7 +202,7 @@ public class Proxy
 					WEStatus status = new WEStatus(response);
 					if(status.getStat() == WEStatus.STATUS_SUCCESS){
 						fileBrowser.loadTree(status.getMessageArray());
-						fileBrowser.openPath(path);
+						if(path != "") fileBrowser.openPath(path);
 					}else{
 						Notification.notify(WEStatus.STATUS_ERROR, "Error fetching file listing.");
 					}
@@ -432,30 +433,6 @@ public class Proxy
 		    } catch (RequestException e) {
 		      Window.alert("Failed to send the request: " + e.getMessage());	
 		    }
-	}
-	
-	public static void getDesc(String exerciseId, final OutputReview review){
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetDesc&id="+exerciseId);
-		try{
-			Request req = builder.sendRequest(null, new RequestCallback(){
-
-				@Override
-				public void onError(Request request, Throwable exception) {
-					Window.alert("Error in getDesc request");
-				}
-
-				@Override
-				public void onResponseReceived(Request request,
-						Response response) {
-					WEStatus status = new WEStatus(response);  
-					
-					review.setText(status.getMessage());
-				}
-				
-			});
-		} catch (RequestException e) {
-			Window.alert("Failed to send the request: " + e.getMessage());
-		}
 	}
 	
 	public static void isAdmin(final TabLayoutPanel tabPanel){	

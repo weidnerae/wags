@@ -34,7 +34,6 @@ public class Admin extends Composite{
 	
 	@UiField FileUpload solution;
 	@UiField FileUpload skeleton;
-	@UiField TextArea desc;
 	@UiField SubmitButton addButton;
 	@UiField FormPanel adminForm;
 	@UiField TextBox fileName;
