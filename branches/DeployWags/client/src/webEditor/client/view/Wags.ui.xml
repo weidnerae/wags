@@ -54,15 +54,18 @@
 		<g:center>
 	 	<g:HorizontalSplitPanel height="100%">
 	 		<g:HTMLPanel styleName="{style.codeAndFile}">
-				<g:HTMLPanel styleName="{style.file}">
-					<g:TextBox styleName="{style.fileName}" ui:field="fileName"></g:TextBox>
-					<g:Anchor ui:field="save" styleName="{style.anchor}">Save</g:Anchor>
-					<g:Anchor ui:field="delete" styleName="{style.anchor}">Delete</g:Anchor>
-					<g:Anchor ui:field="submit" styleName="{style.anchor}">Submit</g:Anchor>
-					<g:ListBox ui:field="exercises"></g:ListBox>
-					<g:Button ui:field="btnGetDesc"> Code </g:Button>
-				</g:HTMLPanel>
-				<my:CodeEditor styleName="{style.editor}" ui:field="editor"></my:CodeEditor>
+				<g:FormPanel ui:field="wrapperForm">
+					<g:HTMLPanel styleName="{style.file}">
+						<g:TextBox styleName="{style.fileName}" ui:field="fileName"></g:TextBox>
+						<g:Anchor ui:field="save" styleName="{style.anchor}">Save</g:Anchor>
+						<g:Anchor ui:field="delete" styleName="{style.anchor}">Delete</g:Anchor>
+						<g:ListBox ui:field="exercises" name="Exercises"></g:ListBox>
+						<g:Anchor ui:field="getCode" styleName="{style.anchor}"> Code </g:Anchor>
+						<g:Button ui:field="submit" styleName="{style.anchor}">Submit</g:Button>
+						<g:SubmitButton ui:field="btnGetPDF"> PDF </g:SubmitButton>
+					</g:HTMLPanel>
+				</g:FormPanel>
+			<my:CodeEditor styleName="{style.editor}" ui:field="editor"></my:CodeEditor>
 			</g:HTMLPanel>
 			<g:TabLayoutPanel ui:field="tabPanel" width="100%" height="100%" barUnit="PX" barHeight="30">
 				<g:tab>
