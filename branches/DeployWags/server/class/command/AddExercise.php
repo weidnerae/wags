@@ -170,7 +170,7 @@ class AddExercise extends Command
 			$e->setTestClassId($test->getId());
 			$e->setSkeletonId($skel->getId());
 		    $e->setMultiUser(0); //The default is no partners
-			$e->setDescription("please"); //This should die when descriptions become pdfs
+			$e->setDescription(""); //This should die when descriptions become pdfs
 		}
 
 		#The following is ALWAYS updated, so they
