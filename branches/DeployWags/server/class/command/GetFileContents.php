@@ -40,6 +40,8 @@ class GetFileContents extends Command
 
 			//Grab the entire program
 			$wholeCode = $file->getContents();
+            $wholeCode = str_replace("&lt;", "<", $wholeCode);
+            $wholeCode = str_replace("&gt;", ">", $wholeCode);
 			$top = "";
 			$mid = $wholeCode;
 			$bot = "";
