@@ -18,8 +18,8 @@ class AddHelperClass extends Command
 	public function execute()
 	{
 		if(!Auth::isLoggedIn()){
-			return JSON::error('Must be logged in as administrator
-				to add a class');
+			echo 'Must be logged in as administrator to add a class';
+			return;
 		}
 
 		$user = Auth::getCurrentUser();
@@ -27,34 +27,58 @@ class AddHelperClass extends Command
 		$exercise = Exercise::getExerciseByTitle($exerciseTitle);
 		
 		$helper = $_FILES['HelperClass'];
+		$description = $_FILES['descriptionPDF'];
 
 		$finfo = finfo_open(FILEINFO_MIME_TYPE);
 		$type = finfo_file($finfo, $helper['tmp_name']);
 
 		if(strpos($type, 'text' === FALSE)){
-			return 'Please only upload plain text or source files';
+			echo 'Please only upload plain text or source files';
+			return;
 		}
 
 		$helperContents = file_get_contents($helper['tmp_name']);
 
 		if($helperContents == "" || !isset($helperContents)){
-			echo 'Cannot upload empty files';
-			return;
+			if($_FILES['descriptionPDF']['name'] == ""){
+				echo 'Cannot upload empty files';
+				return;
+			}
 		}
 
-		$helperName = "/".$exerciseTitle."/".$_FILES['HelperClass']['name'];
+		$descTmp = $description['tmp_name'];
+		$descName = $description['name'];
+        $moveTo = "/usr/local/apache2/htdocs/cs/wags/Test_Version/descriptions/$descName";
 
-		$file = new CodeFile();
-		$file->setContents($helperContents);
-		$file->setName($helperName);
-		$file->setExerciseId($exercise->getId());
-		$file->setOwnerId(CodeFile::getHelperId()); //0 is used specifically for helper classes
-		$file->setSection($user->getSection());
-		$file->setAdded(time());
-		$file->setUpdated(time());
+		if($descName != ""){
+			if(file_exists($moveTo)){
+				echo "Desc file already exists. Please change filename";
+				return;
+			}
 
-		$file->save();
+			if(!move_uploaded_file($_FILES['descriptionPDF']['tmp_name'], $moveTo)){
+				echo "Error uploading description file";
+				return;
+			}else{
+				$exercise->setDescription($moveTo);
+				$exercise->save();
+			}
+		}
 
+        if($helperContents != ""){
+    		$helperName = "/".$exerciseTitle."/".$_FILES['HelperClass']['name'];
+
+    		$file = new CodeFile();
+    		$file->setContents($helperContents);
+    		$file->setName($helperName);
+    		$file->setExerciseId($exercise->getId());
+    		$file->setOwnerId(CodeFile::getHelperId()); //0 is used specifically for helper classes
+    		$file->setSection($user->getSection());
+	    	$file->setAdded(time());
+    		$file->setUpdated(time());
+
+    		$file->save();
+        }
 		echo "Class Uploaded";
 
 	}

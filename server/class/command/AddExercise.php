@@ -14,7 +14,6 @@ class AddExercise extends Command
 {
     public function execute()
     {
-        
         if(!Auth::isLoggedIn()){
             return JSON::error('Must be logged in as administrator
                 to log an exercise');   
@@ -129,11 +128,13 @@ class AddExercise extends Command
 				$sol->setOwnerId($user->getId());
 				$sol->setSection($user->getSection());
 				$sol->setExerciseId(1);
-				$sol->save();
+		     	$sol->save();
 				$sol = CodeFile::getCodeFileByName("/".$name."/Solution");
 
 			#Create the new skeleton class file
-      	 	$skeletonContents = file_get_contents($skeleton['tmp_name']);
+            $skeletonContents = file_get_contents($skeleton['tmp_name']);
+                $skeletonContents = str_replace("<", "&lt;", $skeletonContents);
+                $skeletonContents = str_replace(">", "&gt;", $skeletonContents);
 				$skel = new CodeFile();
 				$skel->setContents($skeletonContents);
 				$skel->setName("/".$name."/AdminSkeleton");
