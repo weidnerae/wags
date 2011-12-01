@@ -19,9 +19,20 @@ class SaveFileContents extends Command
         if(!isset($_POST['name'])){
             return JSON::error('File name needed.');
         }
+		
+		// VERSIONS
+		// 	- Don't overwrite verions, but instead save to main file
+		//	- To do this, get the main file name, which is found before the "_VERSIONS"
+		//		part of the the name
+		$fileName = $_POST['name'];
+		
+			// only get the first part of the string
+		$subString = strstr($fileName, "_Versions", true);
+		if ($subString != FALSE) // if not found, would be false
+			$fileName = $subString;
         
         $user = Auth::getCurrentUser();
-		$file = CodeFile::getCodeFileByName($_POST['name']);
+		$file = CodeFile::getCodeFileByName($fileName);
 		$contents = $_POST['contents'];
 	
 		/**
@@ -43,7 +54,7 @@ class SaveFileContents extends Command
 				$file = new CodeFile();
 				$file->setContents($contents);
 				$now = time();
-				$file->setName($_REQUEST['name']);
+				$file->setName($fileName);
 				$file->setExerciseId(0);
 				$file->setOwnerId($user->getId());
 				$file->setSection($user->getSection());
@@ -52,7 +63,7 @@ class SaveFileContents extends Command
 				$file->save();
 			}
 	
-			return JSON::success('File '.$_REQUEST['name'].' saved');
+			return JSON::success('File '.$fileName.' saved');
 		}
 }
 ?>

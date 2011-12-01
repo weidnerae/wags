@@ -52,16 +52,19 @@ class Review extends Command
 			$file->setExerciseId($exerciseId);
 			$file->save();
 		}
-
+		
 		//Update or create submission for user/exercise pairing
 		$sub = Submission::getSubmissionByExerciseId($exerciseId);
+		$sub_num = 0;
 		if($sub){
 			$sub->setFileId($file->getId());
 			$sub->setUpdated(time());
 			if($sub->getNumAttempts() == null){
 				$sub->setNumAttempts(1);
+				$sub_num = 1;
 			} else {
-				$sub->setNumAttempts($sub->getNumAttempts() + 1);
+				$sub_num = $sub->getNumAttempts() + 1;
+				$sub->setNumAttempts($sub_num);
 			}
 		} else {
 			$sub = new Submission();
@@ -73,6 +76,61 @@ class Review extends Command
 			$sub->setSuccess(0);
 			$sub->setNumAttempts(0);
 		}
+		
+		
+	// SAVE VERSIONS
+		//	-TODO: As long as this submission is different than the previous version,
+		//	save a copy called $filename_Versions/$filename_Version_$sub_num
+			
+		// Check to see if this file is a version instead of the main file.
+		//	- We don't want to save a version of a version.
+		$prev_sub_num = $sub_num - 1;
+		$subString = strstr($fileName, "_Versions", true);
+		if ($subString === FALSE) // if not found, then main file, so we need to save a new version
+		{
+			//	- Just get the bare name of the file, NOT the /EXERCISE/FILENAME string by
+			//	 searcing for the second occurrence of "/", and then taking the string afterward
+			//		- Probably a better way to do this instead of taking a substring twice
+			$fileName_portion = substr($fileName, strpos($fileName, "/") + 1);
+			$fileName_portion = substr($fileName_portion, strpos($fileName_portion, "/") + 1);
+			
+			$save_version = TRUE;
+			
+			if ($sub_num > 0) // if a version already exists,
+			{
+				// get the previous version and see if the current code has changed from the last version
+				$prev_version = CodeFile::getCodeFileByName("$fileName"."_Versions/"."$fileName_portion"."_Version_"."$prev_sub_num");
+				if (strcmp($prev_version->getContents(), $code) == 0)
+				{
+					$save_version = FALSE; // if same code, then don't save new version
+					$sub->setNumAttempts($prev_sub_num); // Reset submission attempt to previous number
+				}
+			}
+			
+			// Save version if necessary
+			if ($save_version === TRUE)
+			{	
+				$new_version = new CodeFile();
+				$new_version->setContents($code);
+				$now = time();
+				
+				// File needs to be under same exercise, under a FILENAME_VERSIONS/ folder, 
+				//	and have same name as normal file, but with _Version_# attached
+				$new_version->setName("$fileName"."_Versions/"."$fileName_portion"."_Version_"."$sub_num");
+				$new_version->setExerciseId($exerciseId);
+				$new_version->setOwnerId($user->getId());
+				$new_version->setSection($section);
+				$new_version->setUpdated($now);
+				$new_version->setAdded($now);
+				$new_version->save();
+			}
+		} else {
+			// Don't add a new submission if running a version
+			$sub->setNumAttempts($prev_sub_num); // Reset submission attempt to previous number
+		}
+
+	// END SAVE VERSIONS
+
 
 		//Check for the package statement -> in effect,
 		//this tells us whether or not we'll be using an inner
@@ -162,7 +220,8 @@ class Review extends Command
 		//so it's not lumped in with the other classes
 		preg_match($classRegex, $code, $matches);
 		if(empty($matches) || $matches[1] != $skeletonName){
-			return JSON::error("Please check class name - it needs to match the skeleton class");
+			$badName = $matches[1];
+        	return JSON::error("Please check class name - it needs to match the skeleton class: $badName $skeletonName");
 		}
 		$className = $matches[1];
 		$classPath = "$path/$className.java";
