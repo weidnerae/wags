@@ -2,6 +2,7 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:my="urn:import:webEditor.client.view">
+	
 	<ui:style>
 		.dock { 
 			margin-top: 25px;
@@ -87,6 +88,10 @@
 					<g:ScrollPanel styleName="{style.administration}">
 						<my:Students ui:field="students"></my:Students>
 					</g:ScrollPanel>
+				</g:tab>
+				<g:tab>
+					<g:header> Desc </g:header>
+					<g:Image ui:field="description" altText="desc.."> </g:Image>
 				</g:tab>
 			</g:TabLayoutPanel>
 	     </g:HorizontalSplitPanel>
