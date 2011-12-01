@@ -76,6 +76,7 @@ public class Wags extends View
 	{
 		initWidget(uiBinder.createAndBindUi(this));
 		
+		btnGetPDF.setVisible(false);
 		Proxy.checkTimedExercises();
 		Proxy.checkPassword(this);
 		Proxy.checkMultiUser(this);

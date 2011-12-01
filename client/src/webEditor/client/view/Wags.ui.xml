@@ -60,9 +60,9 @@
 						<g:TextBox styleName="{style.fileName}" ui:field="fileName"></g:TextBox>
 						<g:Anchor ui:field="save" styleName="{style.anchor}">Save</g:Anchor>
 						<g:Anchor ui:field="delete" styleName="{style.anchor}">Delete</g:Anchor>
-						<g:ListBox ui:field="exercises" name="Exercises"></g:ListBox>
 						<g:Anchor ui:field="getCode" styleName="{style.anchor}"> Code </g:Anchor>
 						<g:Button ui:field="submit" styleName="{style.anchor}">Submit</g:Button>
+						<g:ListBox ui:field="exercises" name="Exercises"></g:ListBox>
 						<g:SubmitButton ui:field="btnGetPDF"> PDF </g:SubmitButton>
 					</g:HTMLPanel>
 				</g:FormPanel>
