@@ -79,7 +79,7 @@ public class Wags extends View
 		Proxy.checkTimedExercises();
 		Proxy.checkPassword(this);
 		Proxy.checkMultiUser(this);
-		exercises.setVisible(false);
+		exercises.setVisible(true);
 		Proxy.getVisibleExercises(exercises, exerciseMap);
 		//Editing out filename changing
 		fileName.setEnabled(false);
@@ -98,17 +98,21 @@ public class Wags extends View
 			@Override
 			public void onSelection(SelectionEvent<TreeItem> event)
 			{
+				// Don't autosave if clicking on a version
+				TreeItem i = event.getSelectedItem();
+				String itemName = browser.getItemPath(i);
+				if (!itemName.contains("_Versions"))  // as long as not a version, autosave
+					saveCurrentCode();
+				
 				/* Update description */
 				String value = exercises.getValue(exercises.getSelectedIndex());
 				Proxy.getDescription(exerciseMap.get(value), description);
 				
-				saveCurrentCode();
 				// If clicked item is directory then just open it
-				TreeItem i = event.getSelectedItem();
 				if(i.getChildCount() > 0)
 					return;
 				// If clicked item is a leaf TreeItem then open it in editor
-				Proxy.getFileContents(browser.getItemPath(i), editor);
+				Proxy.getFileContents(itemName, editor);
 				for(int j = 0; j < exercises.getItemCount(); j++){
 					if(exercises.getValue(j).equals(browser.getItemPath(i.getParentItem()).trim().substring(1))){
 						exercises.setItemSelected(j, true);
