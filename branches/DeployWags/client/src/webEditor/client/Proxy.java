@@ -22,6 +22,7 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RichTextArea;
@@ -35,13 +36,13 @@ public class Proxy
 	//private static final String baseURL = "http://student.cs.appstate.edu/dusenberrymw/Wags/Wags_Server/index.php";
 	
 	//local testing on Philip's machine
-	private static final String baseURL = "http://localhost/public_html/wagsServer/server.php";
+	//private static final String baseURL = "http://localhost/public_html/wagsServer/server.php";
 	
 	// for deploying on CS
 	//private static final String baseURL = "http://cs.appstate.edu/wags/server.php";
 	
 	// for deploying on Test_Version CS
-	//private static final String baseURL = "http://cs.appstate.edu/wags/Test_Version/server.php";
+	private static final String baseURL = "http://cs.appstate.edu/wags/Test_Version/server.php";
 	
 	private static final String getFileContents = getBaseURL()+"?cmd=GetFileContents";
 	private static final String saveFileContents = getBaseURL()+"?cmd=SaveFileContents";
@@ -185,6 +186,32 @@ public class Proxy
 		
 		
 		return true;
+	}
+	
+	public static void getDescription(String exerciseId, final Image descImage){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, getBaseURL()+"?cmd=GetDesc&id=" + exerciseId);
+		try {
+			@SuppressWarnings("unused")
+			Request r = builder.sendRequest(null, new RequestCallback() {
+				@Override
+				public void onResponseReceived(Request request, Response response)
+				{
+					WEStatus status = new WEStatus(response);
+					if(status.getStat() == WEStatus.STATUS_SUCCESS){
+						descImage.setUrl(status.getMessage());
+					}else{
+						Notification.notify(WEStatus.STATUS_ERROR, "Error fetching description url.");
+					}
+				}
+				@Override
+				public void onError(Request request, Throwable exception)
+				{
+					
+				}
+			});
+		} catch (RequestException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**

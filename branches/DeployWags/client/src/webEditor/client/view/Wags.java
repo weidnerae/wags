@@ -1,6 +1,7 @@
 
 package webEditor.client.view;
 
+import java.awt.Image;
 import java.util.HashMap;
 
 import webEditor.client.Proxy;
@@ -16,6 +17,7 @@ import com.google.gwt.event.logical.shared.BeforeSelectionEvent;
 import com.google.gwt.event.logical.shared.BeforeSelectionHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -52,6 +54,7 @@ public class Wags extends View
 	@UiField Anchor getCode;
 	@UiField SubmitButton btnGetPDF;
 	@UiField FormPanel wrapperForm;
+	@UiField com.google.gwt.user.client.ui.Image description;
 	
 	@UiField TextBox fileName;
 	@UiField Label hello;
@@ -82,6 +85,8 @@ public class Wags extends View
 		fileName.setEnabled(false);
 		//until we decide what to do with multiple files
 		commandBarVisible(false);
+		
+		description.setUrl("");
 
 		//For getting pdf descriptors
 		wrapperForm.setAction(Proxy.getBaseURL()+"?cmd=ReturnPDF");		
@@ -93,6 +98,10 @@ public class Wags extends View
 			@Override
 			public void onSelection(SelectionEvent<TreeItem> event)
 			{
+				/* Update description */
+				String value = exercises.getValue(exercises.getSelectedIndex());
+				Proxy.getDescription(exerciseMap.get(value), description);
+				
 				saveCurrentCode();
 				// If clicked item is directory then just open it
 				TreeItem i = event.getSelectedItem();
