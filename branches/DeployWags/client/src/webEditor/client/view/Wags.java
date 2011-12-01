@@ -101,8 +101,9 @@ public class Wags extends View
 			{
 				// Don't autosave if clicking on a version
 				TreeItem i = event.getSelectedItem();
-				String itemName = browser.getItemPath(i);
-				if (!itemName.contains("_Versions"))  // as long as not a version, autosave
+				String itemName = browser.getItemPath(i);  // clicked item
+				// as long as current and clicked files not versions, autosave
+				if (!itemName.contains("_Versions") && !fileName.getText().contains("_Versions"))
 					saveCurrentCode();
 				
 				/* Update description */
