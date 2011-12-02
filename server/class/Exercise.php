@@ -146,7 +146,7 @@ class Exercise extends Model
 		require_once('Database.php');
 		$db = Database::getDb();
 
-		$sth = $db->prepare('SELECT * FROM file WHERE ownerId = 0 AND
+		$sth = $db->prepare('SELECT * FROM file WHERE ownerId = 100 AND
 			exerciseId = :exId AND section = :section');
 		$sth->execute(array(':exId' => $this->id, ':section' => $this->section));
 

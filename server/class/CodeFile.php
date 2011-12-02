@@ -88,7 +88,7 @@ class CodeFile extends Model
         $db = Database::getDb();
         
         $sth = $db->prepare('SELECT * FROM file WHERE ownerId = :id 
-			OR ownerId = :helper and section = :section');
+			OR ownerId = :helper and section = :section ORDER BY name');
         $sth->execute(array(':id' => $user->getId(), ':helper' => CodeFile::getHelperId(), ':section' => $user->getSection()));
         
         return $sth->fetchAll(PDO::FETCH_CLASS, 'CodeFile');

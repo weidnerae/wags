@@ -33,7 +33,7 @@ class SaveFileContents extends Command
         
         $user = Auth::getCurrentUser();
 		$file = CodeFile::getCodeFileByName($fileName);
-		$contents = $_POST['contents'];
+        $contents = $file->getContents();
 	
 		/**
 		 * For some reason, the URL encoding on the client side does
@@ -43,6 +43,7 @@ class SaveFileContents extends Command
 		 * line manually replaces it with "+" again
 		 */
 		$contents = str_replace("%2B", "+", $contents);
+        $contents = str_replace("&", "%2A", $contents); /* problem occurs with && */
 	
 			if(!empty($file) && $file instanceof CodeFile){
 				// Update CodeFile.
