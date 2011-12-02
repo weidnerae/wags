@@ -77,7 +77,6 @@ class Review extends Command
 			$sub->setNumAttempts(0);
 		}
 		
-		
 	// SAVE VERSIONS
 		//	-TODO: As long as this submission is different than the previous version,
 		//	save a copy called $filename_Versions/$filename_Version_$sub_num
@@ -88,14 +87,13 @@ class Review extends Command
 		$subString = strstr($fileName, "_Versions", true);
 		if ($subString === FALSE) // if not found, then main file, so we need to save a new version
 		{
-			//	- Just get the bare name of the file, NOT the /EXERCISE/FILENAME string by
+		 	//	- Just get the bare name of the file, NOT the /EXERCISE/FILENAME string by
 			//	 searcing for the second occurrence of "/", and then taking the string afterward
 			//		- Probably a better way to do this instead of taking a substring twice
 			$fileName_portion = substr($fileName, strpos($fileName, "/") + 1);
 			$fileName_portion = substr($fileName_portion, strpos($fileName_portion, "/") + 1);
 			
 			$save_version = TRUE;
-			
 			if ($sub_num > 0) // if a version already exists,
 			{
 				// get the previous version and see if the current code has changed from the last version
