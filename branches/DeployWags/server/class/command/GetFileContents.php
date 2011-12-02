@@ -30,7 +30,7 @@ class GetFileContents extends Command
             }
 
 			$status = 1;
-			if($file->getOwnerId() == 0) $status = 0;
+			if($file->getOwnerId() == CodeFile::getHelperId()) $status = 0;
 
 			#must parse skeleton files into three text sections delimited
 			#by "//<end!TopSection>" and "//<end!MidSection>"
@@ -42,6 +42,7 @@ class GetFileContents extends Command
 			$wholeCode = $file->getContents();
             $wholeCode = str_replace("&lt;", "<", $wholeCode);
             $wholeCode = str_replace("&gt;", ">", $wholeCode);
+            $wholeCode = str_replace("%2A", "&", $wholeCode); /* undo encoding in saveFile */
 			$top = "";
 			$mid = $wholeCode;
 			$bot = "";
