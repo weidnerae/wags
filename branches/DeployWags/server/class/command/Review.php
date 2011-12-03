@@ -30,7 +30,7 @@ class Review extends Command
 		$fileName = $_POST['name'];
 		$exercise = Exercise::getExerciseById($exerciseId);
 		$exerciseSkeleton = $exercise->getSkeleton();
-		
+
 		//Grab the correct skeleton class name
 		preg_match($classRegex, $exerciseSkeleton, $matches);
 		if(empty($matches)){
@@ -42,6 +42,13 @@ class Review extends Command
 		$closed = $exercise->getCloseDate();
 		if($closed != '' && $closed < time() && $closed != 0){
 			return JSON::error("This exercise has expired.");
+		}
+
+        //If they uploaded the wrong file
+		preg_match($classRegex, $code, $matches);
+		if(empty($matches) || $matches[1] != $skeletonName){
+			$badName = $matches[1];
+        	return JSON::error("Please check class name - it needs to match the skeleton class: $badName $skeletonName");
 		}
 
 		//If, for some strange reason, this code is
@@ -76,7 +83,6 @@ class Review extends Command
 			$sub->setSuccess(0);
 			$sub->setNumAttempts(0);
 		}
-		
 	// SAVE VERSIONS
 		//	-TODO: As long as this submission is different than the previous version,
 		//	save a copy called $filename_Versions/$filename_Version_$sub_num
