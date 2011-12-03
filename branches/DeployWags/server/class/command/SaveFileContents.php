@@ -25,6 +25,7 @@ class SaveFileContents extends Command
 		//	- To do this, get the main file name, which is found before the "_VERSIONS"
 		//		part of the the name
 		$fileName = $_POST['name'];
+        $contents = $_POST['contents'];
 		
 			// only get the first part of the string
 		$subString = strstr($fileName, "_Versions", true);
@@ -33,7 +34,7 @@ class SaveFileContents extends Command
         
         $user = Auth::getCurrentUser();
 		$file = CodeFile::getCodeFileByName($fileName);
-        $contents = $file->getContents();
+        if($file->getOwnerId() == CodeFile::getHelperId()) return;
 	
 		/**
 		 * For some reason, the URL encoding on the client side does
@@ -43,7 +44,6 @@ class SaveFileContents extends Command
 		 * line manually replaces it with "+" again
 		 */
 		$contents = str_replace("%2B", "+", $contents);
-        $contents = str_replace("&", "%2A", $contents); /* problem occurs with && */
 	
 			if(!empty($file) && $file instanceof CodeFile){
 				// Update CodeFile.
