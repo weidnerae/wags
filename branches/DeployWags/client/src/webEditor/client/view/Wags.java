@@ -50,9 +50,7 @@ public class Wags extends View
 	@UiField Anchor save;
 	@UiField Anchor delete;
 	@UiField Button submit;
-	@UiField ListBox exercises;
 	@UiField Anchor getCode;
-	@UiField SubmitButton btnGetPDF;
 	@UiField FormPanel wrapperForm;
 	@UiField com.google.gwt.user.client.ui.Image description;
 	
@@ -67,6 +65,7 @@ public class Wags extends View
 	
 	final static int REVIEWPANEL = 1;
 	final static int FILEBROWSER = 0;
+	String currentExerciseId;
 	
 	private String curPath = "";
 	
@@ -76,12 +75,12 @@ public class Wags extends View
 	{
 		initWidget(uiBinder.createAndBindUi(this));
 		
-		btnGetPDF.setVisible(false);
+		ListBox filler = new ListBox(); /* not used - except for getVisibleExercises */
+		
 		Proxy.checkTimedExercises();
 		Proxy.checkPassword(this);
 		Proxy.checkMultiUser(this);
-		exercises.setVisible(true);
-		Proxy.getVisibleExercises(exercises, exerciseMap);
+		Proxy.getVisibleExercises(filler, exerciseMap);
 		//Editing out filename changing
 		fileName.setEnabled(false);
 		//until we decide what to do with multiple files
@@ -106,20 +105,16 @@ public class Wags extends View
 				if (!itemName.contains("_Versions") && !fileName.getText().contains("_Versions"))
 					saveCurrentCode();
 				
-				/* Update description */
-				String value = exercises.getValue(exercises.getSelectedIndex());
-				Proxy.getDescription(exerciseMap.get(value), description);
-				
 				// If clicked item is directory then just open it
 				if(i.getChildCount() > 0)
 					return;
+				
 				// If clicked item is a leaf TreeItem then open it in editor
 				Proxy.getFileContents(itemName, editor);
-				for(int j = 0; j < exercises.getItemCount(); j++){
-					if(exercises.getValue(j).equals(browser.getItemPath(i.getParentItem()).trim().substring(1))){
-						exercises.setItemSelected(j, true);
-					}
-				}
+				currentExerciseId = exerciseMap.get(browser.getItemPath(i.getParentItem()).trim().substring(1)); /* Grab the exercise Id */
+				
+				/* Update description */
+				Proxy.getDescription(currentExerciseId, description);
 
 				// Set filename, save, and delete stuff visible
 				commandBarVisible(true);
@@ -188,7 +183,7 @@ public class Wags extends View
 		//to retain some of its functionality (name id map)
 		//exercises.setVisible(visible);
 		getCode.setVisible(visible);
-		btnGetPDF.setVisible(visible);
+		//btnGetPDF.setVisible(visible);
 	}
 	/**
 	 * Send contents of text area to server. 
@@ -205,7 +200,6 @@ public class Wags extends View
 		save.setVisible(true);
 		delete.setVisible(true);
 		submit.setVisible(true);
-		exercises.setVisible(true);
 	}
 	
 	/**
@@ -255,11 +249,9 @@ public class Wags extends View
 		//which is completed on the server side
 		codeText = codeText.replaceAll("[+]", "%2B");
 		
-		String value = exercises.getValue(exercises.getSelectedIndex());
-		
 		saveCurrentCode();
 		
-		Proxy.review(codeText, review, exerciseMap.get(value), "/"+fileName.getText().toString());
+		Proxy.review(codeText, review, currentExerciseId, "/"+fileName.getText().toString());
 		tabPanel.selectTab(REVIEWPANEL);
 	}
 	
