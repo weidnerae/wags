@@ -83,6 +83,11 @@ public class Proxy
 					//Passing it through JSON kills formatting
 					String allText = response.getText();
 					
+					//Grab status for uneditable codeArea for helper classes
+					String status = allText.substring(0, 1); 
+					allText = allText.substring(1);
+					editor.codeArea.setEnabled(true); /* defaults to enabled */
+					
 					//Have to take into account comment length when
 					//parsing file
 					String lengthFinder = "..<end!TopSection>";
@@ -107,6 +112,8 @@ public class Proxy
 					editor.codeTop = top;
 					editor.codeBottom = bot;
 					editor.codeArea.setText(mid);
+					
+					if(status.equals("0")) editor.codeArea.setEnabled(false); /* if status = 0, files is uneditable */
 				
 				}
 				
@@ -542,7 +549,7 @@ public class Proxy
 		        		  
 			        	  for(int i = n; i < message.length; i++){
 			        		  exercises.addItem(message[i]);
-			        		  exerciseMap.put(message[i], message[i-n]);
+			        		  exerciseMap.put(message[i], message[i-n]); /* maps title to id */
 			        	  }
 			        	  
 		        	  } else {
