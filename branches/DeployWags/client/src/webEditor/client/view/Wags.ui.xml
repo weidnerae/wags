@@ -69,11 +69,15 @@
 			<g:TabLayoutPanel ui:field="tabPanel" width="100%" height="100%" barUnit="PX" barHeight="30">
 				<g:tab>
 					<g:header> FileBrowser </g:header>
-					<my:FileBrowser ui:field="browser">	</my:FileBrowser>
+					<g:ScrollPanel>
+						<my:FileBrowser ui:field="browser">	</my:FileBrowser>
+					</g:ScrollPanel>
 				</g:tab>
 				<g:tab>
 					<g:header> Review </g:header>
-					<my:OutputReview ui:field="review"></my:OutputReview>
+					<g:ScrollPanel>
+						<my:OutputReview ui:field="review"></my:OutputReview>
+					</g:ScrollPanel>
 				</g:tab>
 				<g:tab>
 					<g:header> Exercises </g:header>

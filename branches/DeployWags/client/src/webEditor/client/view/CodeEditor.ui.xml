@@ -2,14 +2,7 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:my="urn:import:webEditor.client">
-	
-	<ui:style>
-
-	</ui:style>
-
-
-	<g:ScrollPanel height="100%" width="100%">
-		<g:TextArea height="98%" width="99%" ui:field="codeArea" > </g:TextArea>
-	</g:ScrollPanel>
+		
+	<g:TextArea height="98%" width="99%" ui:field="codeArea" > </g:TextArea>
 
 </ui:UiBinder> 

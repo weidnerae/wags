@@ -2,6 +2,8 @@ package webEditor.client.view;
 
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -39,30 +41,24 @@ public class CodeEditor extends View implements HasHandlers
 		codeArea.setEnabled(true);
 		
 		/*
-		 * Commented to remove unsatisfactory coloring logic
-		 * Currently relies on key presses, no functionality for 
-		 * navigation around the text using a mouse
+		 * Handle TAB
+		 * Not my code, credit goes to:
+		 * alberttattard.blogspot.com
 		 */
-//		codeArea.addKeyDownHandler(new KeyDownHandler(){
-//			public void onKeyDown(KeyDownEvent event)
-//			{
-//				//codeArea.getFormatter().setForeColor(colorCheck.pushCheck(event));
-//				int ENTER = 13;
-//				int key = event.getNativeKeyCode();
-//						
-//				if (lastKey == ENTER){
-//					if (key == CCURLS || (key == CPARENS && event.isShiftKeyDown())){
-//						indent(tabCheck.getTabCount()-1);
-//					} else if (key != 16){
-//						indent(tabCheck.getTabCount());
-//					}
-//				}
-//				
-//				tabCheck.pushCheck(event);
-//				
-//				if(event.getNativeKeyCode() != 16) lastKey = event.getNativeKeyCode();
-//			}
-//		});
+		codeArea.addKeyDownHandler(new KeyDownHandler(){
+			public void onKeyDown(KeyDownEvent event)
+			{
+				if (event.getNativeKeyCode() == 9){
+					event.preventDefault();
+					event.stopPropagation();
+					final int index = codeArea.getCursorPos();
+					final String text = codeArea.getText();
+					codeArea.setText(text.substring(0, index) + "\t"
+							+ text.substring(index));
+					codeArea.setCursorPos(index + 1);
+				}
+			}
+		});
 		
 //		codeArea.addKeyUpHandler(new KeyUpHandler(){
 //			public void onKeyUp(KeyUpEvent event){
