@@ -84,9 +84,6 @@ class Review extends Command
 			$sub->setNumAttempts(0);
 		}
 	// SAVE VERSIONS
-		//	-TODO: As long as this submission is different than the previous version,
-		//	save a copy called $filename_Versions/$filename_Version_$sub_num
-			
 		// Check to see if this file is a version instead of the main file.
 		//	- We don't want to save a version of a version.
 		$prev_sub_num = $sub_num - 1;
@@ -196,10 +193,12 @@ class Review extends Command
 			//create any helper classes
 			$helpers = $exercise->getHelperClasses();
 			$helperResult = TRUE;
+            $helperPaths = "";
 			foreach($helpers as $helper){
 				preg_match($classRegex, $helper->getContents(), $matches);
 				$helperName = $matches[1];
 				$helperPath = "$path/$helperName.java";
+                $helperPaths = $helperPaths." ".$helperPath;
 				$helperFile = fopen($helperPath, "w+");
 				$result = fwrite($helperFile, $helper->getContents());
 
@@ -244,7 +243,8 @@ class Review extends Command
 		if(!$classResult) return JSON::error("Problem writing student file");
 
 		//Compilation
-		exec("/usr/bin/javac $path/*.java 2>&1", $output, $result);
+//		exec("/usr/bin/javac $path/*.java 2>&1", $output, $result);
+        exec("/usr/bin/javac $solutionPath $testPath $helperPaths $classPath 2>&1", $output, $result);
 		if($result == EXEC_ERROR){
 			foreach($output as $line){
 				$error .= $line."<br>";
