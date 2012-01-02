@@ -44,6 +44,7 @@ class SaveFileContents extends Command
 		 * line manually replaces it with "+" again
 		 */
 		$contents = str_replace("%2B", "+", $contents);
+        $contents = str_replace("%!`", "&", $contents);
 	
 			if(!empty($file) && $file instanceof CodeFile){
 				// Update CodeFile.
