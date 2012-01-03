@@ -49,10 +49,16 @@ class AddHelperClass extends Command
 		$descTmp = $description['tmp_name'];
 		$descName = $description['name'];
         /* These will have to change when deployed publicly - should be extracted */
-        $moveTo = "/usr/local/apache2/htdocs/cs/wags/Test_Version/descriptions/$descName";
+
+        $section = $user->getSection();
+        $path = "/usr/local/apache2/htdocs/cs/wags/Test_Version/descriptions".$section;
+
+        if(!is_dir($path)) mkdir($path);
+
+        $moveTo = "$path/$descName";
         $truncName = str_replace(".pdf", ".jpg", $descName); /* convert .pdf -> .jpg */
-        $fileLoc = "/usr/local/apache2/htdocs/cs/wags/descriptions/";
-        $urlLoc = "http://cs.appstate.edu/wags/Test_Version/descriptions/$truncName";
+        $fileLoc = $path;
+        $urlLoc = "http://cs.appstate.edu/wags/Test_Version/descriptions$section/$truncName";
 
 
 		if($descName != ""){
