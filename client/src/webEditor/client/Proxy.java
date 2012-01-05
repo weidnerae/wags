@@ -25,16 +25,12 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 
 public class Proxy
-{
-	// for testing on student
-	//private static final String baseURL = "http://student.cs.appstate.edu/dusenberrymw/Wags/Wags_Server/index.php";
-	
+{	
 	//local testing on Philip's machine
 	//private static final String baseURL = "http://localhost/public_html/wagsServer/server.php";
 	
@@ -195,6 +191,9 @@ public class Proxy
 		return true;
 	}
 	
+	/**
+	 * Get description for excercise
+	 */
 	public static void getDescription(String exerciseId, final Image descImage){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, getBaseURL()+"?cmd=GetDesc&id=" + exerciseId);
 		try {
@@ -449,7 +448,7 @@ public class Proxy
 		          clearMessage();
 		          
 		          WEStatus status = new WEStatus(response);         
-		          review.setHTML(status.getMessage());
+		          review.setText(status.getMessage());
 		          
 		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
 		        	  Notification.notify(WEStatus.STATUS_SUCCESS, "Correct!");
@@ -506,9 +505,9 @@ public class Proxy
 
 	/*
 	 * Makes a request to server.
-	 * The string command will correspond to a commad on the server.
+	 * The string command will correspond to a command on the server.
 	 * The string[] will contain all other request variables.
-	 * The callback will be called when a reponse is received from server.
+	 * The callback will be called when a response is received from server.
 	 */
 	public static void call(String command, HashMap<String, String> request, WagsCallback callback, RequestBuilder.Method method)
 	{
