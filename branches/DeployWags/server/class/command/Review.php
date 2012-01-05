@@ -84,11 +84,12 @@ class Review extends Command
 			$sub->setNumAttempts(0);
 		}
 	// SAVE VERSIONS
-		// Check to see if this file is a version instead of the main file.
-		//	- We don't want to save a version of a version.
+		// Check to see if this file is a version or AdminSkeleton instead of the main file.
+		//	- We don't want to save a version of a version, or a version of the AdminSkeleton.
 		$prev_sub_num = $sub_num - 1;
 		$subString = strstr($fileName, "_Versions", true);
-		if ($subString === FALSE) // if not found, then main file, so we need to save a new version
+		$isAdminSkel = strstr($fileName, "AdminSkeleton", true);
+		if ($subString === FALSE && $isAdminSkel === FALSE) // if not found and NOT an Admin skeleton, then main file, so we need to save a new version
 		{
 		 	//	- Just get the bare name of the file, NOT the /EXERCISE/FILENAME string by
 			//	 searcing for the second occurrence of "/", and then taking the string afterward
@@ -126,7 +127,7 @@ class Review extends Command
 				$new_version->save();
 			}
 		} else {
-			// Don't add a new submission if running a version
+			// Don't add a new submission if running a version or the AdminSkeleton
 			$sub->setNumAttempts($prev_sub_num); // Reset submission attempt to previous number
 		}
 
