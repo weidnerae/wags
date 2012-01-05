@@ -24,12 +24,6 @@ public class CodeEditor extends View implements HasHandlers
 	@UiField public TextArea codeArea;
 	public String codeTop;
 	public String codeBottom;
-	
-//	private CompletionCheck colorCheck = new CompletionCheck();
-//	private TabCheck tabCheck = new TabCheck(codeArea);
-//	private int lastKey;
-//	private static final int CCURLS = 221;
-//	private static final int CPARENS = 48;
 
 	public CodeEditor()
 	{
@@ -59,20 +53,6 @@ public class CodeEditor extends View implements HasHandlers
 				}
 			}
 		});
-		
-//		codeArea.addKeyUpHandler(new KeyUpHandler(){
-//			public void onKeyUp(KeyUpEvent event){
-//				
-//				if(event.getNativeKeyCode() == 13){ //Enter key
-//					for(int i = 0; i < tabCheck.getTabCount(); i++)
-//						codeArea.getFormatter().insertHTML("&nbsp; &nbsp; &nbsp;");
-//					tabCheck.enterIncrement(tabCheck.getTabCount() * 5);
-//				}
-//				
-//				//codeArea.getFormatter().setForeColor(colorCheck.popCheck(event));
-//				//colorCheck.popCheck(event);
-//			}
-//		});
 		
 	}
 	

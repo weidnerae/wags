@@ -1,7 +1,6 @@
 
 package webEditor.client.view;
 
-import java.awt.Image;
 import java.util.HashMap;
 
 import webEditor.client.Proxy;
@@ -17,7 +16,6 @@ import com.google.gwt.event.logical.shared.BeforeSelectionEvent;
 import com.google.gwt.event.logical.shared.BeforeSelectionHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -30,7 +28,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
-import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -101,7 +98,7 @@ public class Wags extends View
 				// Don't autosave if clicking on a version
 				TreeItem i = event.getSelectedItem();
 				String itemName = browser.getItemPath(i);  // clicked item
-				// as long as current and clicked files not versions, autosave
+				// as long as current and clicked files are not versions, autosave
 				if (!itemName.contains("_Versions") && !fileName.getText().contains("_Versions"))
 					saveCurrentCode();
 				
