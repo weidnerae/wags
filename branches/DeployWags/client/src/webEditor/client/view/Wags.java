@@ -2,10 +2,8 @@
 package webEditor.client.view;
 
 import java.util.HashMap;
-
 import webEditor.client.Proxy;
 import webEditor.client.WEStatus;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;

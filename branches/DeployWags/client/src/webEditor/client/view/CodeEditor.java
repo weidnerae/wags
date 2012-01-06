@@ -1,9 +1,14 @@
 package webEditor.client.view;
 
 
+import com.gargoylesoftware.htmlunit.javascript.host.Element;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -54,6 +59,13 @@ public class CodeEditor extends View implements HasHandlers
 			}
 		});
 		
+		codeArea.addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				setSize();
+			}
+		});
+		
 	}
 	
 	public void setContents(String contents){
@@ -64,6 +76,14 @@ public class CodeEditor extends View implements HasHandlers
 	public WEAnchor getLink()
 	{
 		return new WEAnchor("Editor", this, "codeEditor");
+	}
+	
+	public void setSize(){
+		com.google.gwt.user.client.Element element = codeArea.getElement();
+		
+		while(element.getScrollHeight() > element.getClientHeight()){
+			codeArea.setVisibleLines(codeArea.getVisibleLines()+1);
+		}
 	}
 	
 }
