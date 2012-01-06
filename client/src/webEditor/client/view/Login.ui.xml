@@ -6,8 +6,12 @@
 		.important {
 			font-weight: bold;
 			margin-left:auto;
-			margin-right:auto;
+			margin-right:10px;
+			margin-top: 10px;
 			position: relative;
+			height: 40px;
+			width: 115px;
+			padding: 12px;
 		}
 		.title { 
 			font-size: 180px;
@@ -49,7 +53,7 @@
 		</g:HorizontalPanel>
 		<g:HorizontalPanel styleName="{style.center}">	
 			<g:Button styleName="{style.important}" ui:field="loginButton" />
-			<my:WEAnchor styleName="{style.register}" ui:field="registerLink"></my:WEAnchor>
+			<g:Button styleName="{style.important}" ui:field="dstLoginButton" />
 		</g:HorizontalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

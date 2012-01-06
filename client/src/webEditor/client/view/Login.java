@@ -33,13 +33,13 @@ public class Login extends View
 	@UiField TextBox username;
 	@UiField PasswordTextBox password;
 	@UiField Button loginButton;
-	@UiField(provided=true) final WEAnchor registerLink;
+	@UiField Button dstLoginButton;
 
 	public Login()
 	{
-		this.registerLink = new Registration().getLink();
 		initWidget(uiBinder.createAndBindUi(this));
-		loginButton.setText("Login");
+		loginButton.setText("Programming");
+		dstLoginButton.setText("Logical");
 	}
 
 	@UiHandler("loginButton")
