@@ -45,7 +45,14 @@ public class Login extends View
 	@UiHandler("loginButton")
 	void onClick(ClickEvent event)
 	{
-		Proxy.login(username.getText(), password.getText());
+		Proxy.login(username.getText(), password.getText(), "editor");
+	}
+	
+	@UiHandler("dstLoginButton")
+	void onDSTClick(ClickEvent event)
+	{
+		this.setVisible(false);
+		Proxy.login(username.getText(), password.getText(), "dst");
 	}
 
 	@Override

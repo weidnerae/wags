@@ -11,6 +11,7 @@ import webEditor.client.view.Login;
 import webEditor.client.view.Notification;
 import webEditor.client.view.OutputReview;
 import webEditor.client.view.Wags;
+import webEditor.dst.client.DataStructureTool;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.http.client.Request;
@@ -628,7 +629,7 @@ public class Proxy
 	/**
 	 * Tell server we want to login.
 	 */
-	public static void login(String username, String password)
+	public static void login(String username, String password, final String location)
 	{
 		String completeURL = login+"&username="+username.trim()+"&password="+password;
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(completeURL));
@@ -639,9 +640,15 @@ public class Proxy
 				public void onResponseReceived(Request request, Response response) {
 					WEStatus status = new WEStatus(response);
 					if(status.getStat() == WEStatus.STATUS_SUCCESS){
-						// Login successful.
-						Wags e = new Wags();
-						e.go();
+						if(location.equals("editor")){
+							Wags e = new Wags();
+							e.go();
+						}
+						if(location.equals("dst")){
+//							DataStructureTool t = new DataStructureTool();
+//							t.go();
+							RootPanel.get().add(new DataStructureTool());
+						}
 					}else{
 						Notification.notify(WEStatus.STATUS_ERROR, status.getMessage());
 					}
@@ -705,7 +712,7 @@ public class Proxy
 					WEStatus status = new WEStatus(response);
 					if(status.getStat() == WEStatus.STATUS_SUCCESS){
 						// Log the user in automatically.
-						Proxy.login(username, password);
+						Proxy.login(username, password, "editor");
 						Notification.notify(status.getStat(), status.getMessage());
 					}else{
 						Notification.notify(status.getStat(), status.getMessage());

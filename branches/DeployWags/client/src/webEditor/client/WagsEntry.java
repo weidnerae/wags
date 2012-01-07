@@ -3,6 +3,7 @@ package webEditor.client;
 import webEditor.client.view.Login;
 import webEditor.client.view.Registration;
 import webEditor.client.view.Wags;
+import webEditor.dst.client.DataStructureTool;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.http.client.Request;
@@ -59,8 +60,12 @@ public class WagsEntry implements EntryPoint
 						}
 					}
 					else if(status.getStat() == WEStatus.STATUS_SUCCESS){
-						// User is logged in. Show Editor.
-						editor();
+						if(Location.getParameter("loc").equals("editor")){
+							editor();
+						}
+						if(Location.getParameter("loc").equals("DST")){
+							DST();
+						}
 					}
 				}
 				@Override
@@ -90,5 +95,10 @@ public class WagsEntry implements EntryPoint
 		// Is user already logged in?
 		RootPanel root = RootPanel.get("main-content");
 		root.add(new Login());		
+	}
+	
+	private static void DST(){
+		RootPanel root = RootPanel.get();
+		root.add(new DataStructureTool());
 	}
 }
