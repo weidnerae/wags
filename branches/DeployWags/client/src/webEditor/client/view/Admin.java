@@ -41,6 +41,7 @@ public class Admin extends Composite{
 	@UiField FileUpload testClass;
 	@UiField FileUpload helperClass;
 	@UiField FormPanel helperForm;
+	@UiField FormPanel DSTForm;
 	@UiField TextBox openDate;
 	@UiField TextBox closeDate;
 	
@@ -90,6 +91,19 @@ public class Admin extends Composite{
 				int status = WEStatus.STATUS_SUCCESS;
 				if(event.getResults() != "Class Uploaded") status = WEStatus.STATUS_ERROR; 
 				Notification.notify(status, event.getResults());
+			}
+		});
+		
+		DSTForm.setAction(Proxy.getBaseURL()+"?cmd=SetLogicalExercises");
+		DSTForm.setEncoding(FormPanel.ENCODING_MULTIPART);
+		DSTForm.setMethod(FormPanel.METHOD_POST);
+		
+		DSTForm.addSubmitCompleteHandler(new SubmitCompleteHandler() {
+			
+			@Override
+			public void onSubmitComplete(SubmitCompleteEvent event) {
+				WEStatus stat = new WEStatus(event.getResults());
+				Notification.notify(stat.getStat(), stat.getMessage());
 			}
 		});
 	}

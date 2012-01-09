@@ -37,6 +37,7 @@
 		}
 		.subheading{
 			padding-bottom: 8px;
+			padding-top: 8px;
 			font-size: large;
 			font-family: helvetica;	
 		}
@@ -122,7 +123,7 @@
 		<g:FormPanel ui:field="helperForm">
 			<g:VerticalPanel>
 			
-				<g:Label styleName="{style.subheading}">Actions on Exercises</g:Label>
+				<g:Label styleName="{style.subheading}">Exercise Actions</g:Label>
 				
 				<g:ListBox ui:field="exercises" name="Exercises" styleName="{style.lbox}"></g:ListBox>
 					
@@ -147,6 +148,19 @@
 				
 				<g:SubmitButton ui:field="sbtHelper"> Upload Class </g:SubmitButton>
 				
+			</g:VerticalPanel>
+		</g:FormPanel>
+		
+		<g:FormPanel ui:field="DSTForm">
+			<g:VerticalPanel>
+				<g:Label styleName="{style.subheading}">DST Actions</g:Label>
+				<g:Label> Available Exercises </g:Label>
+				<g:CheckBox ui:field="Traversals" name="Traversals">Traversals</g:CheckBox>
+				<g:CheckBox ui:field="InsertNodes" name="InsertNodes">Insert Nodes </g:CheckBox>
+				<g:CheckBox ui:field="BuildBST" name="BuildBST">Build Binary Tree</g:CheckBox>
+				<g:CheckBox ui:field="BuildBT" name="BuildBT">Build Binary Tree</g:CheckBox>
+				
+				<g:SubmitButton ui:field="sbtDST" styleName="{style.button}"> Set Exercises </g:SubmitButton>
 			</g:VerticalPanel>
 		</g:FormPanel>
 		

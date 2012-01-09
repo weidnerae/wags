@@ -89,6 +89,13 @@ public class DataStructureTool  extends View
 	{
 		//This is temporary, as problems reside fully on client at the moment
 		//Will have to add dynamic changing of "problemList"
+		Label grr = new Label();
+		Proxy.getLogicalExercises(grr);
+		String problems = grr.getText();
+		bannerLabel.setText("hi");
+		//problemList = problems.split("|");
+		
+		
 		problemList =  new String[] {"BST Preorder  Traversal (Help on)",
 	 			 "BST Inorder Traversal (Help on)",
 	 			 "BST Postorder Traversal (Help on)",
@@ -98,15 +105,15 @@ public class DataStructureTool  extends View
 				 "Insert Nodes into a BST 1",
 				 "Insert Nodes into a BST 3",
 	 			 "Insert Nodes into a BST 2",
-	 			 "Insert Nodes into a BST 4"};
-//				 "Binary Search Tree from Postorder Traversal 1",
-//				 "Binary Search Tree from Postorder Traversal 2",
-//				 "Binary Search Tree from Postorder Traversal 3",
-//				 "Binary Search Tree from Postorder Traversal 4",
-//				 "Binary Tree from Pre/Inorder Traversals 1",
-//				 "Binary Tree from Pre/Inorder Traversals 2",
-//				 "Binary Tree from Pre/Inorder Traversals 3",
-//				 "Binary Tree from Pre/Inorder Traversals 4",};
+	 			 "Insert Nodes into a BST 4",
+				 "Binary Search Tree from Postorder Traversal 1",
+				 "Binary Search Tree from Postorder Traversal 2",
+				 "Binary Search Tree from Postorder Traversal 3",
+				 "Binary Search Tree from Postorder Traversal 4",
+				 "Binary Tree from Pre/Inorder Traversals 1",
+				 "Binary Tree from Pre/Inorder Traversals 2",
+				 "Binary Tree from Pre/Inorder Traversals 3",
+				 "Binary Tree from Pre/Inorder Traversals 4"};
 		
 		buildUI();
 	}
