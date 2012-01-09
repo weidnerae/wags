@@ -224,14 +224,14 @@ class Exercise extends Model
 
 	}
 
-	public static function getSubmissions($exerciseId){
+    public static function getSubmissions($exerciseId){
 		require_once('Database.php');
 		$db = Database::getDb();
 
 		$sth = $db->prepare('SELECT user.username, file.name, submission.success, submission.partner
-			FROM submission JOIN file, user
+			FROM submission JOIN file
 			ON submission.fileId = file.id
-			AND submission.userId = user.id
+            JOIN user ON submission.userId = user.id
 			WHERE submission.exerciseId = :exId
 			AND user.admin = 0
 			ORDER BY username');

@@ -16,6 +16,7 @@ class Section extends Model
 {
 	protected $name;
 	protected $administrator;
+    protected $logicalExercises;
 
 	public function getTable(){
 		return 'section';
@@ -23,6 +24,12 @@ class Section extends Model
 	public function getName(){
 		return $this->name;
 	}
+    public function getLogicalExercises(){
+        return $this->logicalExercises;
+    }
+    public function setLogicalExercises($ex){
+        $this->logicalExercises = $ex;
+    }
 	public function setName($name){
 		$this->name = $name;
 	}
@@ -61,6 +68,16 @@ class Section extends Model
 
 		return $idValues[0];
 	}
+
+    public static function getSectionById($id){
+        require_once("Database.php");
+        $db = Database::getDb();
+
+        $sth = $db->prepare('SELECT * FROM section WHERE id = :id');
+        $sth->execute(array(':id' => $id));
+
+        return $sth->fetchObject('Section');
+    }
 }
 
 ?>
