@@ -244,8 +244,8 @@ class Review extends Command
 		if(!$classResult) return JSON::error("Problem writing student file");
 
 		//Compilation
-//		exec("/usr/bin/javac $path/*.java 2>&1", $output, $result);
-        exec("/usr/bin/javac $solutionPath $testPath $helperPaths $classPath 2>&1", $output, $result);
+		exec("/usr/bin/javac $path/*.java 2>&1", $output, $result);
+//        exec("/usr/bin/javac $solutionPath $testPath $helperPaths $classPath 2>&1", $output, $result);
 		if($result == EXEC_ERROR){
 			foreach($output as $line){
 				$error .= $line."<br>";
