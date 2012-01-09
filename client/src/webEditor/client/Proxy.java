@@ -393,6 +393,28 @@ public class Proxy
 		}
 	}
 	
+	public static void getLogicalExercises(final Label problemList){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetLogicalExercises");
+		try {
+		      @SuppressWarnings("unused")
+			Request req = builder.sendRequest(null, new RequestCallback() {
+		        public void onResponseReceived(Request request, Response response) {
+		        	
+		          WEStatus status = new WEStatus(response);
+		          //Annoying work around - can't change the array, can change it's contents
+		          //So on the caller side this will have to be grabbed and parsed
+		          problemList.setText(status.getMessage());
+		        }
+		        
+		        public void onError(Request request, Throwable exception) {
+		        	Window.alert("error");
+		        }
+		      });
+		    } catch (RequestException e) {
+		      Window.alert("Failed to send the request: " + e.getMessage());
+		    }
+	}
+	
 	public static void getSections(final ListBox sections) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, getSections);
 		try {
