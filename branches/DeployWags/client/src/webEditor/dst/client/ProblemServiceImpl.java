@@ -1,9 +1,8 @@
 package webEditor.dst.client;
 
-
 public class ProblemServiceImpl 
-{
-	public static Problem getProblem(int id) {
+{	
+	public static Problem getProblem(String problem) {
 		AddEdgeRules_TreeMode rules = new AddEdgeRules_TreeMode();
 		Evaluation_PostOrderBST eval = new Evaluation_PostOrderBST();
 		Evaluation_Preorder preEval = new Evaluation_Preorder();
@@ -15,6 +14,9 @@ public class ProblemServiceImpl
 		
 		int[] noLocs = new int[0]; //used as a placeholder for problems with no preset locations
 		String[] noEdges = new String[0]; //used as a placeholder for problems with no preset edges
+		
+		
+		int id = getProblemId(problem);
  		
 		switch(id)
 		{
@@ -304,4 +306,28 @@ public class ProblemServiceImpl
 					DSTConstants.NODE_DRAGGABLE);
 		}
 	}	
+	
+	private static int getProblemId(String problem){
+		if(problem.equals("BST Preorder Traversal (Help on)")) return 0;
+		if(problem.equals("BST Inorder Traversal (Help on)")) return 1;
+		if(problem.equals("BST Postorder Traversal (Help on)")) return 2;
+		if(problem.equals("BST Preorder Traversal (Help off)")) return 3;
+		if(problem.equals("BST Inorder Traversal (Help off)")) return 4;
+		if(problem.equals("BST Postorder Traversal (Help off)")) return 5;
+		if(problem.equals("Insert Nodes into a BST 1")) return 6;
+		if(problem.equals("Insert Nodes into a BST 2")) return 7;
+		if(problem.equals("Insert Nodes into a BST 3")) return 8;
+		if(problem.equals("Insert Nodes into a BST 4")) return 9;
+		if(problem.equals("Binary Search Tree from Postorder Traversal 1")) return 10;
+		if(problem.equals("Binary Search Tree from Postorder Traversal 2")) return 11;
+		if(problem.equals("Binary Search Tree from Postorder Traversal 3")) return 12;
+		if(problem.equals("Binary Search Tree from Postorder Traversal 4")) return 13;
+		if(problem.equals("Binary Tree from Pre/Inorder Traversals 1")) return 14;
+		if(problem.equals("Binary Tree from Pre/Inorder Traversals 2")) return 15;
+		if(problem.equals("Binary Tree from Pre/Inorder Traversals 3")) return 16;
+		if(problem.equals("Binary Tree from Pre/Inorder Traversals 4")) return 17;
+		
+		return 0;
+	}
+	
 }

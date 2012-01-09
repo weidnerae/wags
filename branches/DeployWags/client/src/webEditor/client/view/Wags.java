@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import webEditor.client.Proxy;
 import webEditor.client.WEStatus;
+import webEditor.dst.client.DataStructureTool;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -28,6 +29,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -48,6 +50,7 @@ public class Wags extends View
 	@UiField Anchor delete;
 	@UiField Button submit;
 	@UiField Anchor getCode;
+	@UiField Anchor DST;
 	@UiField FormPanel wrapperForm;
 	@UiField com.google.gwt.user.client.ui.Image description;
 	
@@ -232,6 +235,12 @@ public class Wags extends View
 	void onLogoutClick(ClickEvent event)
 	{
 		Proxy.logout();
+	}
+	
+	@UiHandler("DST")
+	void onDSTClick(ClickEvent event){
+		this.setVisible(false);
+		RootPanel.get().add(new DataStructureTool());
 	}
 	
 	@UiHandler("submit")
