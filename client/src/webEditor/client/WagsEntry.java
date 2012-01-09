@@ -63,8 +63,11 @@ public class WagsEntry implements EntryPoint
 						if(Location.getParameter("loc").equals("editor")){
 							editor();
 						}
-						if(Location.getParameter("loc").equals("DST")){
+						else if(Location.getParameter("loc").equals("DST")){
 							DST();
+						}
+						else if(true){
+							editor(); //Default to editor
 						}
 					}
 				}
