@@ -48,7 +48,8 @@
 		<g:north size="30" >
 			<g:HTMLPanel styleName="{style.hello-logout}">
 				<g:Label styleName="{style.title}">WE</g:Label>
-				<g:Label styleName="{style.hello}" ui:field="hello"></g:Label> 
+				<g:Label styleName="{style.hello}" ui:field="hello"></g:Label>
+				<g:Anchor styleName="{style.anchor}" ui:field="DST">DST</g:Anchor> 
 				<g:Anchor styleName="{style.anchor}" ui:field="logout">Logout</g:Anchor>
 			</g:HTMLPanel>
 		</g:north>

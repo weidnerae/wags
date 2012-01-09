@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import webEditor.client.view.View;
 import webEditor.client.view.WEAnchor;
+import webEditor.client.view.Wags;
 import webEditor.client.Proxy;
 
 
@@ -34,6 +35,7 @@ public class DataStructureTool  extends View
 	private Label selectLabel;
 	private Label welcomeLabel;
 	private Button logoutButton;
+	private Button editorButton;
 	private ArrayList<Label>  problemLabels;
 	private ArrayList<Button> attemptButtons;
 	private ArrayList<Button> viewResultButtons;
@@ -88,23 +90,23 @@ public class DataStructureTool  extends View
 		//This is temporary, as problems reside fully on client at the moment
 		//Will have to add dynamic changing of "problemList"
 		problemList =  new String[] {"BST Preorder  Traversal (Help on)",
-	 			 "BST Inorder   Traversal (Help on)",
+	 			 "BST Inorder Traversal (Help on)",
 	 			 "BST Postorder Traversal (Help on)",
-	 			 "BST Preorder  Traversal (Help off)",
-	 			 "BST Inorder   Traversal (Help off)",
+	 			 "BST Preorder Traversal (Help off)",
+	 			 "BST Inorder Traversal (Help off)",
 	 			 "BST Postorder Traversal (Help off)",
 				 "Insert Nodes into a BST 1",
+				 "Insert Nodes into a BST 3",
 	 			 "Insert Nodes into a BST 2",
-	 			 "Insert Nodes into a BST 3",
-	 			 "Insert Nodes into a BST 4",
-				 "Binary Search Tree from Postorder Traversal 1",
-				 "Binary Search Tree from Postorder Traversal 2",
-				 "Binary Search Tree from Postorder Traversal 3",
-				 "Binary Search Tree from Postorder Traversal 4",
-				 "Binary Tree from Pre/Inorder Traversals 1",
-				 "Binary Tree from Pre/Inorder Traversals 2",
-				 "Binary Tree from Pre/Inorder Traversals 3",
-				 "Binary Tree from Pre/Inorder Traversals 4",};
+	 			 "Insert Nodes into a BST 4"};
+//				 "Binary Search Tree from Postorder Traversal 1",
+//				 "Binary Search Tree from Postorder Traversal 2",
+//				 "Binary Search Tree from Postorder Traversal 3",
+//				 "Binary Search Tree from Postorder Traversal 4",
+//				 "Binary Tree from Pre/Inorder Traversals 1",
+//				 "Binary Tree from Pre/Inorder Traversals 2",
+//				 "Binary Tree from Pre/Inorder Traversals 3",
+//				 "Binary Tree from Pre/Inorder Traversals 4",};
 		
 		buildUI();
 	}
@@ -115,11 +117,26 @@ public class DataStructureTool  extends View
 	private void buildUI()
 	{	
 		RootPanel.get().clear();
+		
+		editorButton = new Button("Editor");
+		welcomeLabel = new Label();
+		
+		Proxy.getUsersName(welcomeLabel);
+		
 		//add click handler to logout button
 		logoutButton.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event)
 			{
 				Proxy.logout();
+			}
+		});
+		
+		editorButton.addClickHandler(new ClickHandler() {
+		
+			@Override
+			public void onClick(ClickEvent event) {
+				Wags e = new Wags();
+				e.go();
 			}
 		});
 		
@@ -133,7 +150,7 @@ public class DataStructureTool  extends View
 			//create button that allows a problem to be attempted
 			attemptButtons.add(new Button("Attempt"));
 			//create button that allows past attempts to be viewed if present
-			viewResultButtons.add(new Button("View Attempts"));
+			//viewResultButtons.add(new Button("View Attempts"));
 		}
 
 		//lots of magic numbers here, needs to be cleaned up at some point
@@ -141,9 +158,9 @@ public class DataStructureTool  extends View
 		//add static widgets: welcome message, logout button, etc..
 		yCoordinate = 5;
 		addToPanel(bannerLabel, 4, yCoordinate);
-		//addToPanel(welcomeLabel, 40+bannerLabel.getOffsetWidth(), yCoordinate+8); //<- Problem may be here....
-		//addToPanel(logoutButton, 40+bannerLabel.getOffsetWidth()+welcomeLabel.getOffsetWidth()+2, yCoordinate+3);
-		yCoordinate += 60+bannerLabel.getOffsetHeight();
+		addToPanel(logoutButton, 80+bannerLabel.getOffsetWidth()+welcomeLabel.getOffsetWidth()+2, yCoordinate+3);
+		addToPanel(editorButton, 80+bannerLabel.getOffsetWidth()+welcomeLabel.getOffsetWidth()+2+logoutButton.getOffsetWidth()+5, yCoordinate+3);
+		yCoordinate = 65+bannerLabel.getOffsetHeight();
 		addToPanel(selectLabel, 4, yCoordinate);
 		yCoordinate += 25 + selectLabel.getOffsetHeight();
 		
@@ -155,6 +172,7 @@ public class DataStructureTool  extends View
 			xCoordinate += (8+problemLabels.get(i).getOffsetWidth());
 			//add button to attempt problem, Note: handlers are added later
 			addToPanel(attemptButtons.get(i), 300, yCoordinate);
+			addClickHandling(attemptButtons.get(i), problemLabels.get(i).getText());
 			xCoordinate += (12+attemptButtons.get(i).getOffsetWidth());
 			
 			//set original Y coordinate for later use with problem result viewing
@@ -162,29 +180,43 @@ public class DataStructureTool  extends View
 			yCoordinate += 31;
 		}
 		
+		
+		
 		//call method to add click handlers to buttons
-		addClickHandlers();
+		//addClickHandlers();
 	}
 	
-	/**
-	 * Method to add click handlers to the buttons.
-	 */
-	private void addClickHandlers()
-	{
-		for(int i = 0; i < problemList.length; i++)
-		{
-			final int id = i;
-			//add click handler for problem selection
-			attemptButtons.get(i).addClickHandler(new ClickHandler(){
-				public void onClick(ClickEvent event)
-				{
-					removeAllWidgets();
-					emailAddr = "TestUser";
-					getProblem(emailAddr, id);
-				}
-			});
-		}
+	private void addClickHandling(Button button, final String problem){
+		button.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				removeAllWidgets();
+				emailAddr = "TestUser";
+				getProblem(emailAddr, problem);
+			}
+		});
 	}
+	
+//	/**
+//	 * Method to add click handlers to the buttons.
+//	 */
+//	private void addClickHandlers()
+//	{
+//		for(int i = 0; i < problemList.length; i++)
+//		{
+//			final int id = i;
+//			//add click handler for problem selection
+//			attemptButtons.get(i).addClickHandler(new ClickHandler(){
+//				public void onClick(ClickEvent event)
+//				{
+//					removeAllWidgets();
+//					emailAddr = "TestUser";
+//					getProblem(emailAddr, id);
+//				}
+//			});
+//		}
+//	}
 
 
 	/**
@@ -228,14 +260,14 @@ public class DataStructureTool  extends View
 	 * @param userEmail
 	 * @param probId
 	 */
-	private void getProblem(final String userEmail, final int probId)
+	private void getProblem(final String userEmail, String problem)
 	{
-		Problem prob = ProblemServiceImpl.getProblem(probId);
+		Problem prob = ProblemServiceImpl.getProblem(problem);
 
-		initialize(userEmail, prob, probId);
+		initialize(userEmail, prob);
 	}
 
-	private void initialize(String userEmail, Problem p, int probNum)
+	private void initialize(String userEmail, Problem p)
 	{
 		//initialize the necessary components to display the problem
 		AbsolutePanel panel = new AbsolutePanel();
