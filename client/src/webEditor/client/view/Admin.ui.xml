@@ -114,7 +114,7 @@
 				
 				<g:HorizontalPanel styleName="{style.filePanel}">
 					<g:SubmitButton ui:field="addButton"> Add Exercise </g:SubmitButton>
-					<g:Label styleName="{style.lowlabel}">Click twice to add skeletons</g:Label>
+					<!-- <g:Label styleName="{style.lowlabel}">Click twice to add skeletons</g:Label>  -->
 				</g:HorizontalPanel>
 				
 			</g:VerticalPanel>
@@ -129,9 +129,9 @@
 					
 				<g:HorizontalPanel styleName="{style.filePanel}">
 					<g:Button ui:field="btnAdminReview" styleName="{style.button}"> Review </g:Button>
-					<g:Button ui:field="btnAddSkeletons" styleName="{style.button}"> Add Skeletons</g:Button>
-					<g:Button ui:field="btnMakeVisible" styleName="{style.button}"> Toggle Visible</g:Button>
-					<g:Button ui:field="btnEnablePartners" styleName="{style.button}"> Set Partners</g:Button>
+					<g:Button ui:field="btnAddSkeletons" styleName="{style.button}"> Distribute Student Skeletons</g:Button>
+					<g:Button ui:field="btnMakeVisible" styleName="{style.button}"> Toggle Visibility</g:Button>
+					<g:Button ui:field="btnEnablePartners" styleName="{style.button}"> Toggle Partners</g:Button>
 				</g:HorizontalPanel>
 				
 				<g:Grid ui:field="grdAdminReview" styleName="{style.grid}"> </g:Grid>
