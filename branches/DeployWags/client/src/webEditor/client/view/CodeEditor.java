@@ -32,7 +32,7 @@ public class CodeEditor extends View implements HasHandlers
 		initWidget(uiBinder.createAndBindUi(this));
 
 		//I. HATE. CSS.  You can't make anything just freakin' fill the parent element!  IT CANNOT BE THAT HARD.
-		codeArea.setHeight("1200px");
+		//codeArea.setHeight("1200px");
 		codeArea.setFocus(true);
 		codeArea.setEnabled(true);
 		
