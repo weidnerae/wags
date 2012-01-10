@@ -22,16 +22,22 @@ class EditExercises extends Command
 			}
 		}
 
-		#creates skeletons
+		#creates student skeletons
 		if($attribute == "skel"){
 			$exercise->addSkeletons();
 			$text = "Skeletons added";
 		}
 
-		#enables partners
+		#Toggles partners
 		if($attribute == "partner"){
-			$exercise->setMultiUser(1);
-			$text = "Partners enabled";
+			if($exercise->isMultiUser() == False) {
+				$exercise->setMultiUser(1);
+				$text = "Partners enabled";
+			}
+			else {
+				$exercise->setMultiUser(0);
+				$text = "Partners disabled";
+			}
 		}
 
 		$exercise->save();
