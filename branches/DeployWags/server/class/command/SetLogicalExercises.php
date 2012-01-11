@@ -17,7 +17,7 @@ class SetLogicalExercises extends Command
         
         if(isset($_POST['Traversals']) && $_POST['Traversals'] == 'on')
         {
-            $exercises = $exercises."BST Preorder Traversal (Help on)|BST Inorder Traversal (Help on)|BST Postorder Traversal (Help on)|BST Preorder Traversal (Help off)|BST Inorder Traversal (Help off)|BST Postorder Traversal (Help off)|";
+            $exercises = "BST Preorder Traversal (Help on)|BST Inorder Traversal (Help on)|BST Postorder Traversal (Help on)|BST Preorder Traversal (Help off)|BST Inorder Traversal (Help off)|BST Postorder Traversal (Help off)|";
         }
 
         if(isset($_POST['InsertNodes']) && $_POST['InsertNodes'] == 'on')
@@ -39,6 +39,7 @@ class SetLogicalExercises extends Command
         $section = Section::getSectionById($sectionNumber);
 
         $section->setLogicalExercises($exercises);
+        $section->save();
         return JSON::success("Logical Microlabs Updated");
     }   
 }

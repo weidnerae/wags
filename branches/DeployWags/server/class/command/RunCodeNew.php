@@ -72,7 +72,7 @@ if (is_resource($process))
         # close the pipe
         fclose($pipes[1]);
 
-        # Split the string up by newlines
+//        # Split the string up by newlines
         $outputs = explode("\n", $outputs);
 
         # now print line by line
@@ -80,6 +80,9 @@ if (is_resource($process))
         {
             print("$output<br />");
         }   
+
+		# print out results
+//		print($outputs);
 
         # now close the process
         proc_close($process);
