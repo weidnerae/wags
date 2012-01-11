@@ -248,7 +248,7 @@ class Review extends Command
 //        exec("/usr/bin/javac $solutionPath $testPath $helperPaths $classPath 2>&1", $output, $result);
 		if($result == EXEC_ERROR){
 			foreach($output as $line){
-				$error .= $line."<br>";
+				$error .= $line."\n";
 				$sub->setSuccess(0); //failure to compile is failure for lab
 			}
 			JSON::error($error);
@@ -262,8 +262,14 @@ class Review extends Command
 				$output = $this->runCode($path, $testName);
 			}
 			//retain formatting
-			$output[0] = "<pre>".$output[0]."</pre>";
-
+			//	-JSON needs newlins and quotes escaped
+			//$output[0] = "<pre>".$output[0]."</pre>";
+			//$output = addslashes($output);
+			//$output = json_encode($output);
+			//$output = str_replace(array("\n","\r","\t"),array("\\n","\\r","\\t"), $output);
+			
+			
+			
 			//Check for success
 			if(preg_match($successRegex, $output[0])){
 				$sub->setSuccess(1);
@@ -281,17 +287,6 @@ class Review extends Command
 	private function runCode($dir, $className){
 		exec("/usr/bin/php class/command/RunCodeNew.php $dir $className 2>&1", $output);
 		return $output;
-		
-		#exec("/usr/bin/php class/command/runcode.php $dir $className 2>&1", $output);
-		#return $output;
-
-//		  // can't use pcntl_fork() on Apache, just let the process run free
-//        exec("/usr/bin/java -cp $dir $className 2>&1", $output);
-//        $text = "";
-//        foreach($output as $line){
-//            $text = $text.$line."<br>";
-//        }
-//        return $text;
 
 	}
 

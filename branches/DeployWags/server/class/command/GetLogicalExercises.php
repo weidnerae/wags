@@ -7,8 +7,10 @@ class GetLogicalExercises extends Command
         $user = Auth::getCurrentUser();
         $section = Section::getSectionById($user->getSection());
         $exercises = $section->getLogicalExercises();
+        $exercises = str_replace("\n", "", $exercises);
+        $exerciseArray = explode("|", $exercises);
 
-        return JSON::success($exercises);
+        return JSON::success($exerciseArray);
     }
 }
 
