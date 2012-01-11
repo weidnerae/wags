@@ -154,6 +154,16 @@ class User extends Model
         return NULL;
     }
 
+    public static function getUserById($id){
+        require_once('Database.php');
+
+        $db = Database::getDb();
+        $sth = $db->prepare('SELECT * FROM user WHERE id LIKE :id');
+        $sth->execute(array(':id' => $id));
+
+        return $sth->fetchObject('User');
+    }
+
     /**
      * Check if the username exists in the database.
      *
