@@ -1,21 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:style>
-		.important {
-			font-weight: bold;
-		}
-		.reviewer {
-			height: 100%;
-			width: 100%;
-			background-color: #EEEEEE ;
-			border-style: none;
-		}
-	</ui:style>
 	
-	<g:TextArea ui:field="review" enabled="false" styleName="{style.reviewer}"> Reviewer </g:TextArea>
-<!-- <g:HTMLPanel>
-		<g:RichTextArea ui:field="review" enabled="false" styleName="{style.reviewer}"> Reviewer </g:RichTextArea>
-	</g:HTMLPanel>
-	-->
+	<g:TextArea height="100%" width="100%" enabled="false" ui:field="review"> </g:TextArea>
+	
 </ui:UiBinder> 

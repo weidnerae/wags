@@ -2,8 +2,6 @@ package webEditor.client.view;
 
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.shared.HasHandlers;
@@ -13,10 +11,8 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
 
-
 public class CodeEditor extends View implements HasHandlers
 {
-	
 
 	private static CodeEditorUiBinder uiBinder = GWT
 			.create(CodeEditorUiBinder.class);
@@ -31,8 +27,6 @@ public class CodeEditor extends View implements HasHandlers
 	{
 		initWidget(uiBinder.createAndBindUi(this));
 
-		//I. HATE. CSS.  You can't make anything just freakin' fill the parent element!  IT CANNOT BE THAT HARD.
-		//codeArea.setHeight("1200px");
 		codeArea.setFocus(true);
 		codeArea.setEnabled(true);
 		
@@ -56,13 +50,6 @@ public class CodeEditor extends View implements HasHandlers
 			}
 		});
 		
-//		codeArea.addChangeHandler(new ChangeHandler() {
-//			@Override
-//			public void onChange(ChangeEvent event) {
-//				setSize();
-//			}
-//		});
-		
 	}
 	
 	public void setContents(String contents){
@@ -74,13 +61,5 @@ public class CodeEditor extends View implements HasHandlers
 	{
 		return new WEAnchor("Editor", this, "codeEditor");
 	}
-	
-//	public void setSize(){
-//		com.google.gwt.user.client.Element element = codeArea.getElement();
-//		
-//		while(element.getScrollHeight() > element.getClientHeight()){
-//			codeArea.setVisibleLines(codeArea.getVisibleLines()+1);
-//		}
-//	}
 	
 }
