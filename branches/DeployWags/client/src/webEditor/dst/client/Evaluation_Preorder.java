@@ -3,6 +3,9 @@ package webEditor.dst.client;
 import java.util.ArrayList;
 
 import java.util.Stack;
+
+import webEditor.client.Proxy;
+
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class Evaluation_Preorder extends Evaluation  implements IsSerializable
@@ -21,6 +24,7 @@ public class Evaluation_Preorder extends Evaluation  implements IsSerializable
 		}
 		if(testRootNodeForPreOrderTraversal(arguments[0], nodes, edges) == false)
 		{
+			Proxy.submitDST(problemName, 0);
 			return errorMessage;
 		}
 		
@@ -28,15 +32,18 @@ public class Evaluation_Preorder extends Evaluation  implements IsSerializable
 
 		if(testInorderTraversal(arguments[0], arguments[1], rootEvalNode, nodes, edges) == false)
 		{
+			Proxy.submitDST(problemName, 0);
 			return errorMessage;
 		}
 		
 		if(testPreOrderTraversal(arguments[0], rootEvalNode, nodes, edges) == false)
 		{
+			Proxy.submitDST(problemName, 0);
 			return errorMessage;
 		}
 		
 		emailResult(problemName);
+		Proxy.submitDST(problemName, 1);
 		return "Feedback: Congratulations! Your tree is correct.";
 	}
 
