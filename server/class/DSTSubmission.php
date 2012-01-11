@@ -66,14 +66,14 @@ class DSTSubmission extends Model
     }
 
     public static function getAllSubmissionsByTitle($title){
-        require_once('Databse.php');
+        require_once('Database.php');
         $db = Database::getDb();
         $user = Auth::getCurrentUser();
         $section = $user->getSection();
 
         $sth = $db->prepare('SELECT * FROM dstSubmission WHERE sectionId = :section AND title = :title');
         $sth->execute(array(':section' => $section, ':title' => $title));
-        $sth->setFetchMode(PDO::FETCH_CLASS, 'DSTSubmission');
+        $sth->setFetchMode(PDO::FETCH_ASSOC);
 
         return $sth->fetchAll();
      } 
