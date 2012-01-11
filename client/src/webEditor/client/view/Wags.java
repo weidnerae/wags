@@ -266,7 +266,8 @@ public class Wags extends View
 	void onDescClick(ClickEvent event){
 		String wholeText = editor.codeTop;
 		wholeText +=  editor.codeArea.getText() + editor.codeBottom;
-		review.setHTML("<pre>" + wholeText + "</pre>");
+		//review.setHTML("<pre>" + wholeText + "</pre>");
+		review.setText(wholeText);
 		tabPanel.selectTab(1);
 		
 		/*
