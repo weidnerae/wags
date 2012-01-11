@@ -23,7 +23,7 @@ $className = $argv[2];
 
 # define security manager parameters
 $security_stmt = "-Djava.security.manager"
-    ." -Djava.security.policy==/usr/local/apache2/htdocs/cs/wags/Test_Version/test2.policy";
+    ." -Djava.security.policy==/usr/local/apache2/htdocs/cs/wags/class/command/WagsSecurity.policy";
 
 # This contains the pipes that can read and write to the process
 $descriptorspec = array(
@@ -33,8 +33,8 @@ $descriptorspec = array(
 );
 
 # Open the process
-#   -The process will stay open in the background and the php script will continue running.
-#   -The java process will run with a Security Manager and a set of defined permissions
+#	-The process will stay open in the background and the php script will continue running.
+#	-The java process will run with a Security Manager and a set of defined permissions
 $process = proc_open("exec /usr/bin/java $security_stmt -cp $dir $className 2>&1", $descriptorspec, $pipes);
 
 # Give a normal process a moment (2/10ths of a sec) to run before deciding that it may be hanging
@@ -97,4 +97,3 @@ else
     echo "There was a problem opening the process";
 
 ?>
-
