@@ -5,14 +5,17 @@
 		.important {
 			font-weight: bold;
 		}
-		.reviewer{
-			width: 95%;
-			background-color: #EEEEEE ;
+		.reviewer {
 			height: 100%;
+			width: 100%;
+			background-color: #EEEEEE ;
 			border-style: none;
 		}
 	</ui:style>
-	<g:HTMLPanel>
+	
+	<g:TextArea ui:field="review" enabled="false" styleName="{style.reviewer}"> Reviewer </g:TextArea>
+<!-- <g:HTMLPanel>
 		<g:RichTextArea ui:field="review" enabled="false" styleName="{style.reviewer}"> Reviewer </g:RichTextArea>
 	</g:HTMLPanel>
+	-->
 </ui:UiBinder> 

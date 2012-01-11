@@ -796,7 +796,8 @@ public class Proxy
 		          clearMessage();
 		          
 		          WEStatus status = new WEStatus(response);         
-		          review.setHTML(status.getMessage());
+		          //review.setHTML(status.getMessage());
+		          review.setText(status.getMessage());
 		          
 		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
 		        	  Notification.notify(WEStatus.STATUS_SUCCESS, "Correct!");

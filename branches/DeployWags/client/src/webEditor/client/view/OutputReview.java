@@ -3,7 +3,7 @@ package webEditor.client.view;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.RichTextArea;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
 public class OutputReview extends View{
@@ -11,7 +11,8 @@ public class OutputReview extends View{
 	private static OutputReviewUiBinder uiBinder = GWT
 			.create(OutputReviewUiBinder.class);
 	
-	@UiField RichTextArea review;
+//	@UiField RichTextArea review;
+	@UiField TextArea review;
 
 	interface OutputReviewUiBinder extends UiBinder<Widget, OutputReview> {
 	}
@@ -25,7 +26,8 @@ public class OutputReview extends View{
 	}
 	
 	public void setHTML(String html){
-		review.setHTML(html);
+		//review.setHTML(html);
+		review.setText(html);
 	}
 
 	public OutputReview(String firstName) {
