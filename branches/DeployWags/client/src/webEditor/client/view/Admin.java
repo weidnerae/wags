@@ -40,6 +40,7 @@ public class Admin extends Composite{
 	@UiField Button btnMakeVisible;
 	@UiField Button btnEnablePartners;
 	@UiField Grid grdAdminReview;
+	@UiField Grid grdDSTReview;
 	@UiField FileUpload testClass;
 	@UiField FileUpload helperClass;
 	@UiField FormPanel helperForm;
@@ -118,6 +119,12 @@ public class Admin extends Composite{
 		grdAdminReview.clear(true);
 		String value = exercises.getValue(exercises.getSelectedIndex());
 		Proxy.getSubmissionInfo(Integer.parseInt(exerciseMap.get(value)), grdAdminReview);		
+	}
+	
+	@UiHandler("btnDSTReview")
+	void onDSTReviewClick(ClickEvent event)
+	{
+		Proxy.getDSTSubmissions(logicalExercises.getValue(logicalExercises.getSelectedIndex()), grdDSTReview);
 	}
 	
 	@UiHandler("btnAddSkeletons")

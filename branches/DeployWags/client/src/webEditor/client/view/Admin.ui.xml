@@ -158,6 +158,9 @@
 					<g:ListBox ui:field="logicalExercises" name="logicalExercises" styleName="{style.lbox}"></g:ListBox>
 					<g:Button ui:field="btnDSTReview" styleName = "{style.button}"> Review </g:Button>
 				</g:HorizontalPanel>
+				
+				<g:Grid ui:field="grdDSTReview" styleName="{style.grid}"> </g:Grid>
+				
 				<g:Label> Available Exercises </g:Label>
 				<g:CheckBox ui:field="Traversals" name="Traversals">Traversals</g:CheckBox>
 				<g:CheckBox ui:field="InsertNodes" name="InsertNodes">Insert Nodes </g:CheckBox>
