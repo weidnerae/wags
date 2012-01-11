@@ -56,12 +56,12 @@ public class CodeEditor extends View implements HasHandlers
 			}
 		});
 		
-		codeArea.addChangeHandler(new ChangeHandler() {
-			@Override
-			public void onChange(ChangeEvent event) {
-				setSize();
-			}
-		});
+//		codeArea.addChangeHandler(new ChangeHandler() {
+//			@Override
+//			public void onChange(ChangeEvent event) {
+//				setSize();
+//			}
+//		});
 		
 	}
 	
@@ -75,12 +75,12 @@ public class CodeEditor extends View implements HasHandlers
 		return new WEAnchor("Editor", this, "codeEditor");
 	}
 	
-	public void setSize(){
-		com.google.gwt.user.client.Element element = codeArea.getElement();
-		
-		while(element.getScrollHeight() > element.getClientHeight()){
-			codeArea.setVisibleLines(codeArea.getVisibleLines()+1);
-		}
-	}
+//	public void setSize(){
+//		com.google.gwt.user.client.Element element = codeArea.getElement();
+//		
+//		while(element.getScrollHeight() > element.getClientHeight()){
+//			codeArea.setVisibleLines(codeArea.getVisibleLines()+1);
+//		}
+//	}
 	
 }
