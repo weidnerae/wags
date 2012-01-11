@@ -6,27 +6,28 @@
 	<ui:style>
 		.dock { 
 			margin-top: 25px;
-			}
-		.editor{ 
-			height: inherit; 
-			width: inherit;
-			padding: 0px;
-			border: 0px;
-			}
-		.codeAndFile { 
-			height: 95%;
-			width: 99.7%;
-			padding: 0px;
-		 }
-		 .file {
-		 	border-bottom: 2px solid #C3C3C3;
-		 }
-		.fileName { padding: 0px; }
-		.hello { padding-top: 4px; padding-right: 5px; display: inline;}
-		.hello-logout { border-bottom: 5px solid #E3E3E3; width: 100%; text-align: right;}
-		.anchor { cursor: pointer; }
-		.anchor:hover { text-decoration: underline; }
-		.std-txt { padding-top: 6px }
+		}
+			
+		.hello { 
+			padding-top: 4px; 
+			padding-right: 5px; 
+			display: inline;
+		}	
+		
+		.hello-logout { 
+			border-bottom: 5px solid #E3E3E3; 
+			width: 100%; 
+			text-align: right;
+		}
+		
+		.anchor { 
+			cursor: pointer; 
+		}
+		
+		.anchor:hover { 
+			text-decoration: underline; 
+		}
+		
 		.title { 
 			font-size: 40px;
 			font-weight: light;
@@ -39,9 +40,43 @@
 			display: inline;
 			float:left;
 		 }
-		 .administration{
-			background-color: #C2C2FF;	
+		 
+		.codeAndFile { 
+			height: 100%;
+			width: 100%;
+			padding: 0px;
+		 }
+		 
+		 .editor { 
+			height: 100%;
+			width: 100%;
+			padding: 0px;
+			border: 0px;
+		 }
+		 
+		 .reviewer { 
+			height: 100%;
+			width: 100%;
+			padding: 0px;
+			border: 0px;
+		 }
+		 
+		 .administration {
+			background-color: #C2C2FF;
+		 }
+		
+		 .file {
+		 	border-bottom: 2px solid #C3C3C3;
+		 }
+		 
+		.fileName { 
+			padding: 0px; 
 		}
+		
+		.std-txt { 
+			padding-top: 6px 
+		}
+			
 	</ui:style>
 	
 	<g:DockLayoutPanel unit="PX" styleName="{style.dock}" ui:field="dock">
@@ -55,19 +90,23 @@
 		</g:north>
 		<g:center>
 		 	<g:HorizontalSplitPanel height="100%">
-		 		<g:HTMLPanel styleName="{style.codeAndFile}">
-					<g:FormPanel ui:field="wrapperForm">
-						<g:HTMLPanel styleName="{style.file}">
-							<g:TextBox styleName="{style.fileName}" ui:field="fileName"></g:TextBox>
-							<g:Anchor ui:field="save" styleName="{style.anchor}">Save</g:Anchor>
-							<g:Anchor ui:field="delete" styleName="{style.anchor}">Delete</g:Anchor>
-							<g:Anchor ui:field="getCode" styleName="{style.anchor}"> Code </g:Anchor>
-							<g:Button ui:field="submit" styleName="{style.anchor}">Submit</g:Button>
-						</g:HTMLPanel>
-					</g:FormPanel>
-					<my:CodeEditor styleName="{style.editor}" ui:field="editor"></my:CodeEditor>
-				</g:HTMLPanel>
-				<g:TabLayoutPanel ui:field="tabPanel" width="100%" height="100%" barUnit="PX" barHeight="30">
+		 		<g:DockLayoutPanel unit="PX" styleName="{style.codeAndFile}">
+					<g:north size = "25">
+						<g:FormPanel ui:field="wrapperForm">
+							<g:HTMLPanel styleName="{style.file}">
+								<g:TextBox styleName="{style.fileName}" ui:field="fileName"></g:TextBox>
+								<g:Anchor ui:field="save" styleName="{style.anchor}">Save</g:Anchor>
+								<g:Anchor ui:field="delete" styleName="{style.anchor}">Delete</g:Anchor>
+								<g:Anchor ui:field="getCode" styleName="{style.anchor}"> Code </g:Anchor>
+								<g:Button ui:field="submit" styleName="{style.anchor}">Submit</g:Button>
+							</g:HTMLPanel>
+						</g:FormPanel>
+					</g:north>
+					<g:center>
+						<my:CodeEditor styleName="{style.editor}" ui:field="editor"></my:CodeEditor>
+					</g:center>
+				</g:DockLayoutPanel>
+				<g:TabLayoutPanel width="100%" height="100%" barUnit="PX" barHeight="30" ui:field="tabPanel">
 					<g:tab>
 						<g:header> FileBrowser </g:header>
 						<g:ScrollPanel>
@@ -76,9 +115,11 @@
 					</g:tab>
 					<g:tab>
 						<g:header> Review </g:header>
-						<g:ScrollPanel>
-							<my:OutputReview ui:field="review"></my:OutputReview>
-						</g:ScrollPanel>
+						<g:LayoutPanel>
+							<g:layer>
+								<my:OutputReview styleName="{style.reviewer}" ui:field="review"></my:OutputReview>
+							</g:layer>
+						</g:LayoutPanel>
 					</g:tab>
 					<g:tab>
 						<g:header> Exercises </g:header>

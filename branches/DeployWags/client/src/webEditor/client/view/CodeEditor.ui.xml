@@ -3,6 +3,6 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:my="urn:import:webEditor.client">
 		
-	<g:TextArea height="98%" width="99%" ui:field="codeArea" > </g:TextArea>
+	<g:TextArea height="100%" width="100%" ui:field="codeArea" > </g:TextArea>
 
 </ui:UiBinder> 
