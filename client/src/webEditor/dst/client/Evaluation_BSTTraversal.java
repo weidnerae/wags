@@ -2,6 +2,8 @@ package webEditor.dst.client;
 
 import java.util.ArrayList;
 
+import webEditor.client.Proxy;
+
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class Evaluation_BSTTraversal extends Evaluation implements IsSerializable
@@ -15,15 +17,17 @@ public class Evaluation_BSTTraversal extends Evaluation implements IsSerializabl
 		
 		if(theTrav.length() < arguments[0].length())
 		{
+			Proxy.submitDST(problemName, 0);
 			return "Feedback: Your traversal is incomplete.  Every node must be clicked once to complete a traversal";
 		}
 		else if(theTrav.equals(arguments[0]))
 		{
-			emailResult(problemName);
+			Proxy.submitDST(problemName, 1);
 			return "Feedback: Your traversal: " + theTrav + "\nCongratulatons, your traversal is correct.";
 		}
 		else{
 			
+			Proxy.submitDST(problemName, 0);
 			int i = 0;
 			while(theTrav.charAt(i) == arguments[0].charAt(i)){
 				i++;

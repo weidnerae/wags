@@ -20,8 +20,10 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -141,6 +143,30 @@ public class Proxy
 		}
 	}
 
+	public static void buildDST(){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetLogicalExercises");
+		try {
+		      @SuppressWarnings("unused")
+			Request req = builder.sendRequest(null, new RequestCallback() {
+		        public void onResponseReceived(Request request, Response response) {
+		        	
+		          WEStatus status = new WEStatus(response);
+		         
+		          String[] problemList = status.getMessageArray();
+		          DataStructureTool DST = new DataStructureTool(problemList);
+	
+		          RootPanel.get().add(DST);
+		        }
+		        
+		        public void onError(Request request, Throwable exception) {
+		        	Window.alert("error");
+		        }
+		      });
+		    } catch (RequestException e) {
+		      Window.alert("Failed to send the request: " + e.getMessage());
+		    }
+	}
+	
 	public static void call(String command, HashMap<String, String> request, WagsCallback callback){
 		Proxy.call(command, request, callback, RequestBuilder.GET);
 	}
@@ -393,28 +419,33 @@ public class Proxy
 		}
 	}
 	
-	public static void getLogicalExercises(final Label problemList){
+	public static void getLogicalExercises(final ListBox logicalExercises){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetLogicalExercises");
 		try {
-		      @SuppressWarnings("unused")
-			Request req = builder.sendRequest(null, new RequestCallback() {
-		        public void onResponseReceived(Request request, Response response) {
-		        	
-		          WEStatus status = new WEStatus(response);
-		          //Annoying work around - can't change the array, can change it's contents
-		          //So on the caller side this will have to be grabbed and parsed
-		          problemList.setText(status.getMessage());
-		        }
-		        
-		        public void onError(Request request, Throwable exception) {
-		        	Window.alert("error");
-		        }
-		      });
-		    } catch (RequestException e) {
-		      Window.alert("Failed to send the request: " + e.getMessage());
-		    }
+			Request req	 = builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus status = new WEStatus(response);
+					
+					String[] problemList = status.getMessageArray();
+					logicalExercises.clear(); //To avoid repeat listings
+					for(int i = 0; i < problemList.length - 1; i++){
+		        		  logicalExercises.addItem(problemList[i]);
+		        	  }
+					
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Logical Exercise Error");
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
 	}
-	
+
 	public static void getSections(final ListBox sections) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, getSections);
 		try {
@@ -669,7 +700,7 @@ public class Proxy
 						if(location.equals("dst")){
 //							DataStructureTool t = new DataStructureTool();
 //							t.go();
-							RootPanel.get().add(new DataStructureTool());
+							Proxy.buildDST();
 						}
 					}else{
 						Notification.notify(WEStatus.STATUS_ERROR, status.getMessage());
@@ -859,6 +890,24 @@ public class Proxy
 		
 		
 		return true;
+	}
+	
+	public static void submitDST(String title, int success){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=SubmitDST&title="+title+"&success="+success);
+		try {
+		      @SuppressWarnings("unused")
+			Request req = builder.sendRequest(null, new RequestCallback() {
+		        public void onResponseReceived(Request request, Response response) {
+		          WEStatus status = new WEStatus(response);         
+		        }
+		        
+		        public void onError(Request request, Throwable exception) {
+		        	Window.alert("error");
+		        }
+		      });
+		    } catch (RequestException e) {
+		      Window.alert("Failed to send the request: " + e.getMessage());	
+		    }
 	}
 	
 }

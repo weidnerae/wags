@@ -240,7 +240,7 @@ public class Wags extends View
 	@UiHandler("DST")
 	void onDSTClick(ClickEvent event){
 		this.setVisible(false);
-		RootPanel.get().add(new DataStructureTool());
+		Proxy.buildDST();
 	}
 	
 	@UiHandler("submit")

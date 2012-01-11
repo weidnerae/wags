@@ -22,9 +22,6 @@ public abstract class Evaluation implements IsSerializable
 	{
 		System.out.println("Email about to be sent");
 		
-		
-		// Initialize the email service proxy.
-		EmailServiceAsync emailService = (EmailServiceAsync) GWT.create(EmailService.class);
 
 	    // Set up the callback object.
 	    AsyncCallback<String> callback = new AsyncCallback<String>() {
@@ -37,9 +34,6 @@ public abstract class Evaluation implements IsSerializable
 	        System.out.println("Email was successful");
 	      }
 	    };
-
-	    // Make the call to the email service.
-	    emailService.email(problemName, callback);
 		
 	}
 	
