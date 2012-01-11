@@ -33,6 +33,8 @@ public class Admin extends Composite{
 	@UiField TextBox fileName;
 //	@UiField CheckBox visible;
 	@UiField ListBox exercises;
+	@UiField ListBox logicalExercises;
+	@UiField Button btnDSTReview;
 	@UiField Button btnAdminReview;
 	@UiField Button btnAddSkeletons;
 	@UiField Button btnMakeVisible;
@@ -55,6 +57,7 @@ public class Admin extends Composite{
         
 		//Fill in exercise listbox
 		Proxy.getVisibleExercises(exercises, exerciseMap); 
+		Proxy.getLogicalExercises(logicalExercises);
 		
 		//Adds handler to date textboxes that disable the
 		//is visible box with it unchecked
@@ -104,6 +107,7 @@ public class Admin extends Composite{
 			public void onSubmitComplete(SubmitCompleteEvent event) {
 				WEStatus stat = new WEStatus(event.getResults());
 				Notification.notify(stat.getStat(), stat.getMessage());
+				Proxy.getLogicalExercises(logicalExercises);
 			}
 		});
 	}

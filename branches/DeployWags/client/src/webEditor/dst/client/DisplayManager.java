@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.vaadin.gwtgraphics.client.DrawingArea;
 import org.vaadin.gwtgraphics.client.Line;
 
+import webEditor.client.Proxy;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -263,7 +265,7 @@ public class DisplayManager implements IsSerializable
 		{
 			public void onClick(ClickEvent event)
 			{
-				Window.Location.reload();
+				Proxy.buildDST();
 			}
 		});
 		backButton.setStyleName("control_button");

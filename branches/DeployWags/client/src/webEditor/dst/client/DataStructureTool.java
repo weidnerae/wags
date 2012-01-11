@@ -6,6 +6,9 @@ import org.vaadin.gwtgraphics.client.DrawingArea;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.UrlBuilder;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
@@ -23,7 +26,7 @@ public class DataStructureTool  extends View
 	private ArrayList<Widget> widgets; //arraylist to hold widgets added to root panel
 	private ArrayList<Widget> attempts; //arraylist to hold widgets added for viewing past problem attempts
 
-	private String[] problemList;	//array of problem names
+	private static String[] problemList;	//array of problem names
 
 	private int xCoordinate; 	//field to keep track of current x offset
 	private int yCoordinate; 	//field to keep track of current y offset
@@ -43,12 +46,13 @@ public class DataStructureTool  extends View
 	/**
 	 * This is the entry point method.
 	 */
-	public DataStructureTool() 
+	public DataStructureTool(String[] problems) 
 	{	
 		//intialize fields that will be used
 		widgets = new ArrayList<Widget>();
 		attempts = new ArrayList<Widget>();
 		originalYCoordinates = new ArrayList<Integer>();
+		problemList = problems;
 
 		//initialize widgets
 		bannerLabel = new Label("Data Structure Tool");
@@ -77,44 +81,7 @@ public class DataStructureTool  extends View
 	{
 		Proxy.getUsersName(welcomeLabel);
 		
-		getProblems();
-	}
-	
-	/**
-	 * Method used to perform asynchronous call to get the list of available problems.
-	 * Note: String array contains names of problem, where the index of the problem name
-	 *		 is the same index used to fetch the problem from the probFetchService.
-	 */
-	private void getProblems()
-	{
-		//This is temporary, as problems reside fully on client at the moment
-		//Will have to add dynamic changing of "problemList"
-		Label grr = new Label();
-		Proxy.getLogicalExercises(grr);
-		String problems = grr.getText();
-		bannerLabel.setText("hi");
-		//problemList = problems.split("|");
-		
-		
-		problemList =  new String[] {"BST Preorder  Traversal (Help on)",
-	 			 "BST Inorder Traversal (Help on)",
-	 			 "BST Postorder Traversal (Help on)",
-	 			 "BST Preorder Traversal (Help off)",
-	 			 "BST Inorder Traversal (Help off)",
-	 			 "BST Postorder Traversal (Help off)",
-				 "Insert Nodes into a BST 1",
-				 "Insert Nodes into a BST 3",
-	 			 "Insert Nodes into a BST 2",
-	 			 "Insert Nodes into a BST 4",
-				 "Binary Search Tree from Postorder Traversal 1",
-				 "Binary Search Tree from Postorder Traversal 2",
-				 "Binary Search Tree from Postorder Traversal 3",
-				 "Binary Search Tree from Postorder Traversal 4",
-				 "Binary Tree from Pre/Inorder Traversals 1",
-				 "Binary Tree from Pre/Inorder Traversals 2",
-				 "Binary Tree from Pre/Inorder Traversals 3",
-				 "Binary Tree from Pre/Inorder Traversals 4"};
-		
+		//Redirects to getProblems
 		buildUI();
 	}
 
@@ -148,7 +115,7 @@ public class DataStructureTool  extends View
 		});
 		
 		//create a label and attempt button for each problem
-		for(int i = 0; i < problemList.length; i++)
+		for(int i = 0; i < problemList.length - 1; i++)  //The explode php function results in one extra, empty index
 		{
 			//add the label with the problem's name
 			problemLabels.add(new Label(problemList[i]));

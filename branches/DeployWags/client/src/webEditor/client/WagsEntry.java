@@ -101,7 +101,6 @@ public class WagsEntry implements EntryPoint
 	}
 	
 	private static void DST(){
-		RootPanel root = RootPanel.get();
-		root.add(new DataStructureTool());
+		Proxy.buildDST();
 	}
 }
