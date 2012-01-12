@@ -373,6 +373,8 @@ public class Proxy
 					String allText = response.getText();
 					
 					//Grab status for uneditable codeArea for helper classes
+					allText = allText.substring(5);
+					allText.trim();
 					String status = allText.substring(0, 1); 
 					allText = allText.substring(1);
 					editor.codeArea.setEnabled(true); /* defaults to enabled */
