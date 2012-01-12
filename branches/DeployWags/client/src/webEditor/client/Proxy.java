@@ -875,9 +875,12 @@ public class Proxy
 		        public void onResponseReceived(Request request, Response response) {
 		          clearMessage();
 		          
-		          WEStatus status = new WEStatus(response);         
-		          //review.setHTML(status.getMessage());
+		          WEStatus status = new WEStatus(response);
 		          //review.setText(status.getMessage());
+		          
+		          // Need to correctly format line breaks
+		          // - Messy, need to refactor by uncoupling server code
+		          // from JSON encoding
 		          String msg = status.getMessage();
 		          msg = msg.replace("<br />", "\n");
 		          review.setText(msg);
