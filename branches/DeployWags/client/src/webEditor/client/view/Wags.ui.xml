@@ -103,7 +103,9 @@
 						</g:FormPanel>
 					</g:north>
 					<g:center>
-						<my:CodeEditor styleName="{style.editor}" ui:field="editor"></my:CodeEditor>
+						<!-- <g:ScrollPanel>  -->
+							<my:CodeEditor styleName="{style.editor}" ui:field="editor"></my:CodeEditor>
+						<!-- </g:ScrollPanel>  -->
 					</g:center>
 				</g:DockLayoutPanel>
 				<g:TabLayoutPanel width="100%" height="100%" barUnit="PX" barHeight="30" ui:field="tabPanel">
@@ -117,7 +119,9 @@
 						<g:header> Review </g:header>
 						<g:LayoutPanel>
 							<g:layer>
-								<my:OutputReview styleName="{style.reviewer}" ui:field="review"></my:OutputReview>
+								<!-- <g:ScrollPanel> -->
+									<my:OutputReview styleName="{style.reviewer}" ui:field="review"></my:OutputReview>
+								<!-- </g:ScrollPanel>  -->
 							</g:layer>
 						</g:LayoutPanel>
 					</g:tab>

@@ -20,10 +20,8 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
-import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -877,7 +875,10 @@ public class Proxy
 		          
 		          WEStatus status = new WEStatus(response);         
 		          //review.setHTML(status.getMessage());
-		          review.setText(status.getMessage());
+		          //review.setText(status.getMessage());
+		          String msg = status.getMessage();
+		          msg = msg.replace("<br />", "\n");
+		          review.setText(msg);
 		          
 		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
 		        	  Notification.notify(WEStatus.STATUS_SUCCESS, "Correct!");
