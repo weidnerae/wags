@@ -96,7 +96,8 @@ public class WagsEntry implements EntryPoint
 	
 	private static void login(){
 		// Is user already logged in?
-		RootPanel root = RootPanel.get("main-content");
+		//RootPanel root = RootPanel.get("main-content");
+		RootLayoutPanel root = RootLayoutPanel.get();
 		root.add(new Login());		
 	}
 	
