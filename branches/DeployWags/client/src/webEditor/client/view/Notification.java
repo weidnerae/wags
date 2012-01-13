@@ -64,10 +64,11 @@ public class Notification extends View {
 	
 	public static void notify(int status, String msg)
 	{
-		Notification.clear();
-		Notification n = new Notification(status, msg);
 		Element na = DOM.getElementById("notification-area");
 		Notification.clear();
+		Notification n = new Notification(status, msg);
+		//Element na = DOM.getElementById("notification-area");
+		//Notification.clear();
 		na.appendChild(n.getElement());
 		
 		// Automatically clear notification in 5 seconds.
