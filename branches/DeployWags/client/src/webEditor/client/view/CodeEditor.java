@@ -28,7 +28,7 @@ public class CodeEditor extends View implements HasHandlers
 		initWidget(uiBinder.createAndBindUi(this));
 
 		codeArea.setFocus(true);
-		codeArea.setEnabled(true);
+		codeArea.setEnabled(false); // shouldn't be editable when first logging in
 		
 		/*
 		 * Handle TAB

@@ -11,7 +11,6 @@ public class OutputReview extends View{
 	private static OutputReviewUiBinder uiBinder = GWT
 			.create(OutputReviewUiBinder.class);
 	
-//	@UiField RichTextArea review;
 	@UiField TextArea review;
 
 	interface OutputReviewUiBinder extends UiBinder<Widget, OutputReview> {
@@ -25,8 +24,8 @@ public class OutputReview extends View{
 		review.setText(text);
 	}
 	
+	// This will be removed at some point
 	public void setHTML(String html){
-		//review.setHTML(html);
 		review.setText(html);
 	}
 

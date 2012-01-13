@@ -41,33 +41,39 @@
 			float:left;
 		 }
 		 
-		.codeAndFile { 
-			height: 100%;
-			width: 100%;
-			border: 0px;
-			padding: 0px;
+		.editorAndFilebar { 
+			border-top: 0px;
+			border-bottom: 0px;
+			border-left: 0px;
+			border-right: 3px solid #C3C3C3;
+			padding: 0.5em;
 		 }
 		 
 		 .editor { 
 			height: 100%;
 			width: 100%;
-			border: 0px;
+			border-top: 3px solid #92c1f0;
+			border-bottom: 0px;
+			border-left: 0px;
+			border-right: 0px;
 			padding: 0px;
+			overflow: auto;
 		 }
 		 
-		 .reviewer { 
+		 .reviewer {
 			height: 100%;
 			width: 100%;
 			border: 0px;
 			padding: 0px;
+			overflow: auto;
 		 }
 		 
 		 .administration {
 			background-color: #C2C2FF;
 		 }
 		
-		 .file {
-		 	border-bottom: 2px solid #C3C3C3;
+		 .filebar {
+		 	vertical-align: middle;
 		 }
 		 
 		.fileName { 
@@ -92,22 +98,20 @@
 		<g:center>
 			<g:LayoutPanel>
 		 		<g:layer left='0%' right='50%'>
-			 		<g:DockLayoutPanel unit="EM" styleName="{style.codeAndFile}">
-						<g:north size="2.1">
-							<g:FormPanel styleName="{style.file}" ui:field="wrapperForm">
+			 		<g:DockLayoutPanel unit="EM" addStyleNames="{style.editorAndFilebar}">
+						<g:north size="2">
+							<g:FormPanel ui:field="wrapperForm">
 								<g:HTMLPanel>
-									<g:TextBox styleName="{style.fileName}" ui:field="fileName"></g:TextBox>
-									<g:Anchor ui:field="save" styleName="{style.anchor}">Save</g:Anchor>
-									<g:Anchor ui:field="delete" styleName="{style.anchor}">Delete</g:Anchor>
-									<g:Anchor ui:field="getCode" styleName="{style.anchor}"> Code </g:Anchor>
-									<g:Button ui:field="submit" styleName="{style.anchor}">Submit</g:Button>
+									<g:TextBox addStyleNames="{style.fileName} {style.filebar}" ui:field="fileName"></g:TextBox>
+									<g:Anchor ui:field="save" addStyleNames="{style.anchor} {style.filebar}">Save</g:Anchor>
+									<g:Anchor ui:field="delete" addStyleNames="{style.anchor} {style.filebar}">Delete</g:Anchor>
+									<g:Anchor ui:field="getCode" addStyleNames="{style.anchor} {style.filebar}"> Code </g:Anchor>
+									<g:Button ui:field="submit" addStyleNames="{style.anchor} {style.filebar}">Submit</g:Button>
 								</g:HTMLPanel>
 							</g:FormPanel>
 						</g:north>
 						<g:center>
-							<!-- <g:ScrollPanel>  -->
-								<my:CodeEditor styleName="{style.editor}" ui:field="editor"></my:CodeEditor>
-							<!-- </g:ScrollPanel>  -->
+							<my:CodeEditor styleName="{style.editor}" ui:field="editor"></my:CodeEditor>
 						</g:center>
 					</g:DockLayoutPanel>
 				</g:layer>
@@ -123,9 +127,7 @@
 							<g:header> Review </g:header>
 							<g:LayoutPanel>
 								<g:layer>
-									<!-- <g:ScrollPanel> -->
-										<my:OutputReview styleName="{style.reviewer}" ui:field="review"></my:OutputReview>
-									<!-- </g:ScrollPanel>  -->
+									<my:OutputReview styleName="{style.reviewer}" ui:field="review"></my:OutputReview>
 								</g:layer>
 							</g:LayoutPanel>
 						</g:tab>
