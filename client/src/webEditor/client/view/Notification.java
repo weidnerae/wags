@@ -28,6 +28,16 @@ public class Notification extends View {
 		String success();
 		String warning();
 	}
+	
+	// Timer is static so only one instance
+	// 	- Allows it to be cancelled if needed
+	private static Timer t = new Timer() {
+		@Override
+		public void run()
+		{
+			Notification.clear();
+		}
+	};
 
 	@UiField Label notificationArea;
 	@UiField PopupPanel panel;
@@ -39,7 +49,7 @@ public class Notification extends View {
 		
 		// Panel should gain a little attention.
 		panel.setAnimationEnabled(true);
-		panel.setAutoHideEnabled(true);
+		//panel.setAutoHideEnabled(true);
 		Element pEl = panel.getElement();
 
 		// Add class to panel so styling comes out right.
@@ -64,21 +74,13 @@ public class Notification extends View {
 	
 	public static void notify(int status, String msg)
 	{
+		Notification.cancel();
 		Element na = DOM.getElementById("notification-area");
 		Notification.clear();
 		Notification n = new Notification(status, msg);
-		//Element na = DOM.getElementById("notification-area");
-		//Notification.clear();
 		na.appendChild(n.getElement());
 		
 		// Automatically clear notification in 5 seconds.
-		Timer t = new Timer() {
-			@Override
-			public void run()
-			{
-				Notification.clear();
-			}
-		};
 		t.schedule(5000);
 	}
 	
@@ -90,8 +92,14 @@ public class Notification extends View {
 		}
 	}
 	
+	// Cancel timer's current schedule
+	public static void cancel()
+	{
+		t.cancel();
+	}
+	
 	@UiHandler("notificationArea")
 	void onPanelClick(ClickEvent event){
-		Notification.clear();
+		//Notification.clear();
 	}
 }

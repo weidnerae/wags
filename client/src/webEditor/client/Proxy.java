@@ -53,6 +53,7 @@ public class Proxy
 	private static final String getExercises = getBaseURL()+"?cmd=GetExerciseList";
 		
 	private static void holdMessage(String message){
+		Notification.cancel(); // Cancel previous clearing schedule if present
 		Element parent = DOM.getElementById("notification-area");
 		Notification.clear();
 		final Label l = new Label(message);
@@ -873,7 +874,6 @@ public class Proxy
 		      @SuppressWarnings("unused")
 			Request req = builder.sendRequest("code="+code+"&id="+exerciseId+"&name="+fileName, new RequestCallback() {
 		        public void onResponseReceived(Request request, Response response) {
-		          clearMessage();
 		          
 		          WEStatus status = new WEStatus(response);
 		          //review.setText(status.getMessage());
@@ -883,6 +883,7 @@ public class Proxy
 		          // from JSON encoding
 		          String msg = status.getMessage();
 		          msg = msg.replace("<br />", "\n");
+		          clearMessage(); // clear out compilation notification message
 		          review.setText(msg);
 		          
 		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
