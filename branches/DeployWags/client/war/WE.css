@@ -8,6 +8,10 @@ h1 {
 	text-align: center;
 }
 
+textarea {
+	resize: none;
+}
+
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
 	width: 400px;
@@ -16,6 +20,7 @@ h1 {
 body {
 	background: #EAEAFF;
 	}
+
 .dialogVPanel {	
 	margin: 5px;
 }
