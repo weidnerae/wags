@@ -864,7 +864,7 @@ public class Proxy
 	}
 
 	//weird stuff with that timer, look at later
-	public static void review(String code, final OutputReview review, String exerciseId, String fileName){
+	public static void review(String code, final OutputReview review, String exerciseId, String fileName){		
 		holdMessage("Compiling...");
 		review.setText("");
 		
@@ -872,36 +872,40 @@ public class Proxy
 		try {
 		      builder.setHeader("Content-Type", "application/x-www-form-urlencoded");
 		      @SuppressWarnings("unused")
-			Request req = builder.sendRequest("code="+code+"&id="+exerciseId+"&name="+fileName, new RequestCallback() {
-		        public void onResponseReceived(Request request, Response response) {
-		          
-		          WEStatus status = new WEStatus(response);
-		          //review.setText(status.getMessage());
-		          
-		          // Need to correctly format line breaks
-		          // - Messy, need to refactor by uncoupling server code
-		          // from JSON encoding
-		          String msg = status.getMessage();
-		          msg = msg.replace("<br />", "\n");
-		          clearMessage(); // clear out compilation notification message
-		          review.setText(msg);
-		          
-		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
-		        	  Notification.notify(WEStatus.STATUS_SUCCESS, "Correct!");
-		          } else if (status.getStat() == WEStatus.STATUS_WARNING){
-		        	  Notification.notify(WEStatus.STATUS_WARNING, "Incorrect, Try Again");
-		          } else {
-		        	  Notification.notify(WEStatus.STATUS_ERROR, "Failed to Compile");
-		          }
-		        }
-		        
-		        public void onError(Request request, Throwable exception) {
-		        	Window.alert("error");
-		        }
-		      });
-		    } catch (RequestException e) {
-		      Window.alert("Failed to send the request: " + e.getMessage());	
-		    }
+		      Request req = builder.sendRequest("code="+code+"&id="+exerciseId+"&name="+fileName, new RequestCallback() {
+		    	  public void onResponseReceived(Request request, Response response) {
+			      
+			      WEStatus status = new WEStatus(response);
+			      
+			      // Need to correctly format line breaks
+			      // - Messy, need to refactor by uncoupling server code
+			      // from JSON encoding
+			      String msg = status.getMessage();
+			      msg = msg.replace("<br />", "\n");
+			      clearMessage(); // clear out compilation notification message
+			      review.setText(msg);
+			      
+			      if(status.getStat() == WEStatus.STATUS_SUCCESS){
+			    	  Notification.notify(WEStatus.STATUS_SUCCESS, "Correct!");
+			      } else if (status.getStat() == WEStatus.STATUS_WARNING){
+			    	  Notification.notify(WEStatus.STATUS_WARNING, "Incorrect, Try Again");
+			      } else {
+			    	  Notification.notify(WEStatus.STATUS_ERROR, "Failed to Compile");
+			      }
+			      Wags.doneCompiling();
+			    }
+			    
+			    public void onError(Request request, Throwable exception) {
+			    	Window.alert("error");
+			    	Wags.doneCompiling();
+			    }
+			  });
+			} catch (RequestException e) {
+			  Window.alert("Failed to send the request: " + e.getMessage());
+			  Wags.doneCompiling();
+			}
+		
+		//submitButton.setEnabled(true);
 	}
 
 	/**

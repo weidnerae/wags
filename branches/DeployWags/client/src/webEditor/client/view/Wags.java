@@ -63,6 +63,9 @@ public class Wags extends View
 	
 	final static int REVIEWPANEL = 1;
 	final static int FILEBROWSER = 0;
+	
+	public static boolean compiling = false;
+	
 	String currentExerciseId;
 	
 	private String curPath = "";
@@ -96,11 +99,12 @@ public class Wags extends View
 			@Override
 			public void onSelection(SelectionEvent<TreeItem> event)
 			{
-				// Don't autosave if clicking on a version
 				TreeItem i = event.getSelectedItem();
 				String itemName = browser.getItemPath(i);  // clicked item
-				// as long as current and clicked files are not versions, autosave
-				if (!itemName.contains("_Versions") && !fileName.getText().contains("_Versions"))
+				
+				// Don't autosave if clicking on the first file of the session, or on a version
+				if (currentExerciseId != null && currentExerciseId.compareTo("") != 0 && 
+						!itemName.contains("_Versions") && !fileName.getText().contains("_Versions"))
 					saveCurrentCode();
 				
 				// If clicked item is directory then just open it
@@ -169,9 +173,6 @@ public class Wags extends View
 		text = text.replaceAll("[+]", "%2B");
 		text = text.replaceAll("[&&]", "%!`");
 		if(Proxy.saveFile("/" + fileName.getText(), text, browser, false));
-		/**
-		 * End of save code
-		 */
 	}
 	
 	void commandBarVisible(boolean visible){
@@ -184,6 +185,7 @@ public class Wags extends View
 		getCode.setVisible(visible);
 		//btnGetPDF.setVisible(visible);
 	}
+	
 	/**
 	 * Send contents of text area to server. 
 	 */
@@ -244,20 +246,26 @@ public class Wags extends View
 	@UiHandler("submit")
 	void onSubmitClick(ClickEvent event)
 	{
-		String codeText = editor.codeTop;
-		codeText += "//<end!TopSection>" + editor.codeArea.getText();
-		codeText += "//<end!MidSection>" + editor.codeBottom;
-		
-		//End of &nbsp; workaround
-		
-		//URL encode fails to encode "+", this is part of the workaround
-		//which is completed on the server side
-		codeText = codeText.replaceAll("[+]", "%2B");
-		
-		saveCurrentCode();
-		
-		Proxy.review(codeText, review, currentExerciseId, "/"+fileName.getText().toString());
-		tabPanel.selectTab(REVIEWPANEL);
+		// if code is currently compiling, don't allow a repeat submission
+		//	- this should fix issues with notification timer
+		if (!compiling)
+		{
+			compiling = true;
+			
+			saveCurrentCode();
+			
+			String codeText = editor.codeTop;
+			codeText += "//<end!TopSection>" + editor.codeArea.getText();
+			codeText += "//<end!MidSection>" + editor.codeBottom;
+			
+			//URL encode fails to encode "+", this is part of the workaround
+			//which is completed on the server side
+			codeText = codeText.replaceAll("[+]", "%2B");
+			
+			Proxy.review(codeText, review, currentExerciseId, "/"+fileName.getText().toString());
+			
+			tabPanel.selectTab(REVIEWPANEL);
+		}
 	}
 	
 	@UiHandler("getCode")
@@ -273,6 +281,14 @@ public class Wags extends View
 		Proxy.getDesc(exerciseMap.get(value), review);
 		tabPanel.selectTab(REVIEWPANEL);
 		*/
+	}
+	
+	/**
+	 *  Allows the event handlers in Proxy.review() to "notify" when the code is done compiling
+	 */
+	public static void doneCompiling()
+	{
+		compiling = false;
 	}
 	
 	@Override
