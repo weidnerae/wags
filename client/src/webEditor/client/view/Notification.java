@@ -31,7 +31,7 @@ public class Notification extends View {
 	
 	// Timer is static so only one instance
 	// 	- Allows it to be cancelled if needed
-	private static Timer t = new Timer() {
+	private final static Timer t = new Timer() {
 		@Override
 		public void run()
 		{

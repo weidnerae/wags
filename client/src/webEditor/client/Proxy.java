@@ -22,6 +22,7 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -864,7 +865,11 @@ public class Proxy
 	}
 
 	//weird stuff with that timer, look at later
-	public static void review(String code, final OutputReview review, String exerciseId, String fileName){		
+	public static void review(String code, final OutputReview review, String exerciseId, String fileName, final Button submit){		
+		// Disable (gray-out) the submit button until code is done compiling/running
+		//	- This will prevent multiple submissions before the current submission is completed
+		submit.setEnabled(false);
+		
 		holdMessage("Compiling...");
 		review.setText("");
 		
@@ -892,20 +897,22 @@ public class Proxy
 			      } else {
 			    	  Notification.notify(WEStatus.STATUS_ERROR, "Failed to Compile");
 			      }
-			      Wags.doneCompiling();
+			      
+			      // enable the submit button again
+			      submit.setEnabled(true);
 			    }
 			    
 			    public void onError(Request request, Throwable exception) {
 			    	Window.alert("error");
-			    	Wags.doneCompiling();
+			    	// enable the submit button again
+			    	submit.setEnabled(true);
 			    }
 			  });
 			} catch (RequestException e) {
 			  Window.alert("Failed to send the request: " + e.getMessage());
-			  Wags.doneCompiling();
+		      // enable the submit button again
+		      submit.setEnabled(true);
 			}
-		
-		//submitButton.setEnabled(true);
 	}
 
 	/**
