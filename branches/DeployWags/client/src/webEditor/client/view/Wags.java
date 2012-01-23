@@ -7,6 +7,8 @@ import webEditor.client.Proxy;
 import webEditor.client.WEStatus;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -19,6 +21,7 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -64,17 +67,21 @@ public class Wags extends View
 	final static int REVIEWPANEL = 1;
 	final static int FILEBROWSER = 0;
 	
-	public static boolean compiling = false;
-	
 	String currentExerciseId;
 	
 	private String curPath = "";
 	
 	private HashMap<String, String> exerciseMap = new HashMap<String, String>();
 	
+	private Timer autosaveTimer;
+	private final int AUTOSAVETIME = 10000; // autosave time interval in milliseconds
+	
 	public Wags()
 	{
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		// Initialize timer used in code autosaving
+		initializeAutosaving();
 		
 		ListBox filler = new ListBox(); /* not used - except for getVisibleExercises */
 		
@@ -158,6 +165,47 @@ public class Wags extends View
 		});
 	}
 	
+	/**
+	 * This sets up timer and event handlers for textarea code editor
+	 * autosaving feature
+	 */
+	private void initializeAutosaving()
+	{
+		autosaveTimer = new Timer()
+		{
+			public void run() 
+			{
+				saveCurrentCode();
+			}
+		};
+		
+		// focus and blur handlers to control autosaving
+		//	-Focus handler for when user first clicks on textarea editor
+		//		-want to begin autosaving now
+		editor.codeArea.addFocusHandler(new FocusHandler() 
+		{
+			public void onFocus(FocusEvent event)
+			{
+				// save every AUTOSAVETIME seconds
+				autosaveTimer.scheduleRepeating(AUTOSAVETIME);
+			}
+		});
+		// 	-Blur handler for when user clicks elsewhere
+		//		-want to stop autosaving now
+		editor.codeArea.addBlurHandler(new BlurHandler() 
+		{
+			public void onBlur(BlurEvent event)
+			{
+				autosaveTimer.cancel();
+				saveCurrentCode();
+			}
+		});	
+	}
+	
+	/**
+	 * This saves the current code from the textarea editor, as well as
+	 * the hidden parts above and below user code
+	 */
 	void saveCurrentCode(){
 		/**
 		 * Save the file before submitting
@@ -246,26 +294,19 @@ public class Wags extends View
 	@UiHandler("submit")
 	void onSubmitClick(ClickEvent event)
 	{
-		// if code is currently compiling, don't allow a repeat submission
-		//	- this should fix issues with notification timer
-		if (!compiling)
-		{
-			compiling = true;
-			
-			saveCurrentCode();
-			
-			String codeText = editor.codeTop;
-			codeText += "//<end!TopSection>" + editor.codeArea.getText();
-			codeText += "//<end!MidSection>" + editor.codeBottom;
-			
-			//URL encode fails to encode "+", this is part of the workaround
-			//which is completed on the server side
-			codeText = codeText.replaceAll("[+]", "%2B");
-			
-			Proxy.review(codeText, review, currentExerciseId, "/"+fileName.getText().toString());
-			
-			tabPanel.selectTab(REVIEWPANEL);
-		}
+		saveCurrentCode();
+		
+		String codeText = editor.codeTop;
+		codeText += "//<end!TopSection>" + editor.codeArea.getText();
+		codeText += "//<end!MidSection>" + editor.codeBottom;
+		
+		//URL encode fails to encode "+", this is part of the workaround
+		//which is completed on the server side
+		codeText = codeText.replaceAll("[+]", "%2B");
+		
+		Proxy.review(codeText, review, currentExerciseId, "/"+fileName.getText().toString(), submit);
+		
+		tabPanel.selectTab(REVIEWPANEL);
 	}
 	
 	@UiHandler("getCode")
@@ -281,14 +322,6 @@ public class Wags extends View
 		Proxy.getDesc(exerciseMap.get(value), review);
 		tabPanel.selectTab(REVIEWPANEL);
 		*/
-	}
-	
-	/**
-	 *  Allows the event handlers in Proxy.review() to "notify" when the code is done compiling
-	 */
-	public static void doneCompiling()
-	{
-		compiling = false;
 	}
 	
 	@Override
