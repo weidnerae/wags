@@ -67,15 +67,22 @@ public class Wags extends View
 	final static int REVIEWPANEL = 1;
 	final static int FILEBROWSER = 0;
 	
+	private Timer autosaveTimer;
+	private final int AUTOSAVETIME = 10000; // autosave time interval in milliseconds
+	
+	private String currentEditorCode = "";
+	
 	String currentExerciseId;
 	
 	private String curPath = "";
 	
 	private HashMap<String, String> exerciseMap = new HashMap<String, String>();
 	
-	private Timer autosaveTimer;
-	private final int AUTOSAVETIME = 10000; // autosave time interval in milliseconds
-	
+	/**
+	 * Constructor
+	 * 
+	 * -Builds Wags interface once logged in
+	 */
 	public Wags()
 	{
 		initWidget(uiBinder.createAndBindUi(this));
@@ -131,16 +138,17 @@ public class Wags extends View
 			}
 		});
 
+// Don't need this right now since filename editing has been disabled for now
 		// Show text to rename the file.
-		fileName.addFocusHandler(new FocusHandler() {
-			@Override
-			public void onFocus(FocusEvent event)
-			{
-				// Add an attribute to the filename textbox that stores the old file name. 
-				// Do this onFocus because the user is probably about to edit the file name.
-				fileName.getElement().setAttribute("oldName", fileName.getText());
-			}
-		});
+//		fileName.addFocusHandler(new FocusHandler() {
+//			@Override
+//			public void onFocus(FocusEvent event)
+//			{
+//				// Add an attribute to the filename textbox that stores the old file name. 
+//				// Do this onFocus because the user is probably about to edit the file name.
+//				fileName.getElement().setAttribute("oldName", fileName.getText());
+//			}
+//		});
 		
 		Proxy.isAdmin(tabPanel);
 		Proxy.getUsersName(hello);
@@ -163,6 +171,145 @@ public class Wags extends View
 				Proxy.loadFileListing(browser, curPath);
 			}
 		});
+	} // end constructor
+	
+// Don't need this right now since filename editing has been disabled for now
+//
+//	@UiHandler("fileName")
+//	void onChange(ChangeEvent event)
+//	{
+//		save.setVisible(true);
+//		delete.setVisible(true);
+//		submit.setVisible(true);
+//	}
+
+	/**
+	 * Delete file from server.
+	 */
+	@UiHandler("delete")
+	void onDeleteClick(ClickEvent event)
+	{
+		TreeItem i = browser.getTree().getSelectedItem();
+		TreeItem parent = i.getParentItem();
+		
+		deleteChildren(i);
+		Notification.notify(WEStatus.STATUS_SUCCESS, i.getText()+" deleted");
+		i.remove();
+		
+		String reloadPath;
+		if(parent.getChildCount() > 0){
+			reloadPath = getPath(parent.getChild(0));
+		} else {
+			reloadPath = getPath(parent);
+		}
+	
+		editor.setContents("");
+		Proxy.loadFileListing(browser, reloadPath);
+		curPath = reloadPath;
+	}
+
+	@UiHandler("getCode")
+	void onDescClick(ClickEvent event){
+		String wholeText = editor.codeTop;
+		wholeText +=  editor.codeArea.getText() + editor.codeBottom;
+		//review.setHTML("<pre>" + wholeText + "</pre>");
+		review.setText(wholeText);
+		tabPanel.selectTab(1);
+		
+		/*
+		String value = exercises.getValue(exercises.getSelectedIndex());
+		Proxy.getDesc(exerciseMap.get(value), review);
+		tabPanel.selectTab(REVIEWPANEL);
+		*/
+	}
+
+	@UiHandler("DST")
+	void onDSTClick(ClickEvent event){
+		this.setVisible(false);
+		Proxy.buildDST();
+	}
+
+	/**
+	 * Logout!	
+	 */
+	@UiHandler("logout")
+	void onLogoutClick(ClickEvent event)
+	{
+		Proxy.logout();
+	}
+	
+	/**
+	 * Send contents of text area to server. 
+	 */
+	@UiHandler("save")
+	void onSaveClick(ClickEvent event)
+	{
+		saveCurrentCode();
+	}
+
+	@UiHandler("submit")
+	void onSubmitClick(ClickEvent event)
+	{
+		saveCurrentCode();
+		
+		String codeText = editor.codeTop;
+		codeText += "//<end!TopSection>" + editor.codeArea.getText();
+		codeText += "//<end!MidSection>" + editor.codeBottom;
+		
+		//URL encode fails to encode "+", this is part of the workaround
+		//which is completed on the server side
+		codeText = codeText.replaceAll("[+]", "%2B");
+		
+		Proxy.review(codeText, review, currentExerciseId, "/"+fileName.getText().toString(), submit);
+		
+		tabPanel.selectTab(REVIEWPANEL);
+	}
+	
+	/**
+	 * Sets the visibility of the command bar with save, delete, submit, etc.
+	 * 
+	 * @param visible
+	 */
+	private void commandBarVisible(boolean visible){
+		save.setVisible(visible);
+		delete.setVisible(visible);
+		submit.setVisible(visible);
+		//Exercises is being removed, currently just a placeholder
+		//to retain some of its functionality (name id map)
+		//exercises.setVisible(visible);
+		getCode.setVisible(visible);
+		//btnGetPDF.setVisible(visible);
+	}
+
+	/**
+	 * deleteChildren
+	 * Description: recursively remove all children of a deleted directory
+	 * @param i The directory
+	 * @return none
+	 */
+	private void deleteChildren(TreeItem i){
+		for(int childIndex = 0; childIndex < i.getChildCount(); childIndex++){
+			TreeItem child = i.getChild(childIndex);
+			
+			if(child.getChildCount() > 0)
+				deleteChildren(child); //recurses down to leaf
+			
+			Proxy.deleteFile(getPath(child)); //deletes leaf using path
+			child.remove(); //remove from browser
+		}
+		
+		Proxy.deleteFile(getPath(i));
+		i.remove();
+	}
+	
+	private String getPath(TreeItem i){
+		String path = "";
+		while(i != null && i.getParentItem() != null){
+			path = "/"+i.getText()+path;
+			i = i.getParentItem();
+		}
+		
+		return path;
 	}
 	
 	/**
@@ -201,166 +348,39 @@ public class Wags extends View
 			}
 		});	
 	}
-	
+
 	/**
+	 * Save the file before submitting
+	 * 
 	 * This saves the current code from the textarea editor, as well as
 	 * the hidden parts above and below user code
 	 */
-	void saveCurrentCode(){
-		/**
-		 * Save the file before submitting
-		 */
-		String text = editor.codeTop;
-		if(text != "") text += "//<end!TopSection>";
-		text += editor.codeArea.getText();
-		if(editor.codeBottom != "") text += "//<end!MidSection>";
-		text += editor.codeBottom;
-		
-		//URL encoding converts all " " to "+".  Thus, when decoded it was incorrectly
-		//converting all "+" to " ", including those actually meant to be +
-		text = text.replaceAll("[+]", "%2B");
-		text = text.replaceAll("[&&]", "%!`");
-		if(Proxy.saveFile("/" + fileName.getText(), text, browser, false));
-	}
-	
-	void commandBarVisible(boolean visible){
-		save.setVisible(visible);
-		delete.setVisible(visible);
-		submit.setVisible(visible);
-		//Exercises is being removed, currently just a placeholder
-		//to retain some of its functionality (name id map)
-		//exercises.setVisible(visible);
-		getCode.setVisible(visible);
-		//btnGetPDF.setVisible(visible);
-	}
-	
-	/**
-	 * Send contents of text area to server. 
-	 */
-	@UiHandler("save")
-	void onSaveClick(ClickEvent event)
-	{
-		saveCurrentCode();
-	}
-	
-	@UiHandler("fileName")
-	void onChange(ChangeEvent event)
-	{
-		save.setVisible(true);
-		delete.setVisible(true);
-		submit.setVisible(true);
-	}
-	
-	/**
-	 * Delete file from server.
-	 */
-	@UiHandler("delete")
-	void onDeleteClick(ClickEvent event)
-	{
-		TreeItem i = browser.getTree().getSelectedItem();
-		TreeItem parent = i.getParentItem();
-		
-		deleteChildren(i);
-		Notification.notify(WEStatus.STATUS_SUCCESS, i.getText()+" deleted");
-		i.remove();
-		
-		String reloadPath;
-		if(parent.getChildCount() > 0){
-			reloadPath = getPath(parent.getChild(0));
-		} else {
-			reloadPath = getPath(parent);
+	private void saveCurrentCode(){
+		// First make sure the user has actually changed the code
+		//  before sending a request to the server.
+		String editorText = editor.codeArea.getText();
+		if (!editorText.equals(currentEditorCode))
+		{
+			// Code is different, so save
+			
+			// Update the current editor code text
+			currentEditorCode = editorText;
+			
+			String text = editor.codeTop;
+			if(text != "") text += "//<end!TopSection>";
+			text += editorText;
+			if(editor.codeBottom != "") text += "//<end!MidSection>";
+			text += editor.codeBottom;
+			
+			//URL encoding converts all " " to "+".  Thus, when decoded it was incorrectly
+			//converting all "+" to " ", including those actually meant to be +
+			text = text.replaceAll("[+]", "%2B");
+			text = text.replaceAll("[&&]", "%!`");
+			
+			if(Proxy.saveFile("/" + fileName.getText(), text, browser, false));
 		}
+	}
 
-		editor.setContents("");
-		Proxy.loadFileListing(browser, reloadPath);
-		curPath = reloadPath;
-	}
-	
-	/**
-	 * Logout!	
-	 */
-	@UiHandler("logout")
-	void onLogoutClick(ClickEvent event)
-	{
-		Proxy.logout();
-	}
-	
-	@UiHandler("DST")
-	void onDSTClick(ClickEvent event){
-		this.setVisible(false);
-		Proxy.buildDST();
-	}
-	
-	@UiHandler("submit")
-	void onSubmitClick(ClickEvent event)
-	{
-		saveCurrentCode();
-		
-		String codeText = editor.codeTop;
-		codeText += "//<end!TopSection>" + editor.codeArea.getText();
-		codeText += "//<end!MidSection>" + editor.codeBottom;
-		
-		//URL encode fails to encode "+", this is part of the workaround
-		//which is completed on the server side
-		codeText = codeText.replaceAll("[+]", "%2B");
-		
-		Proxy.review(codeText, review, currentExerciseId, "/"+fileName.getText().toString(), submit);
-		
-		tabPanel.selectTab(REVIEWPANEL);
-	}
-	
-	@UiHandler("getCode")
-	void onDescClick(ClickEvent event){
-		String wholeText = editor.codeTop;
-		wholeText +=  editor.codeArea.getText() + editor.codeBottom;
-		//review.setHTML("<pre>" + wholeText + "</pre>");
-		review.setText(wholeText);
-		tabPanel.selectTab(1);
-		
-		/*
-		String value = exercises.getValue(exercises.getSelectedIndex());
-		Proxy.getDesc(exerciseMap.get(value), review);
-		tabPanel.selectTab(REVIEWPANEL);
-		*/
-	}
-	
-	@Override
-	public WEAnchor getLink()
-	{
-		return new WEAnchor("Wags", this, "editor");
-	}
-	
-	/**
-	 * deleteChildren
-	 * Description: recursively remove all children of a deleted directory
-	 * @param i The directory
-	 * @return none
-	 */
-	private void deleteChildren(TreeItem i){
-		for(int childIndex = 0; childIndex < i.getChildCount(); childIndex++){
-			TreeItem child = i.getChild(childIndex);
-			
-			if(child.getChildCount() > 0)
-				deleteChildren(child); //recurses down to leaf
-			
-			Proxy.deleteFile(getPath(child)); //deletes leaf using path
-			child.remove(); //remove from browser
-		}
-		
-		Proxy.deleteFile(getPath(i));
-		i.remove();
-	}
-	
-	private String getPath(TreeItem i){
-		String path = "";
-		while(i != null && i.getParentItem() != null){
-			path = "/"+i.getText()+path;
-			i = i.getParentItem();
-		}
-		
-		return path;
-	}
-	
 	public void assignPartner(final String exercise){
 		final DialogBox pickPartner = new DialogBox(false);
 		final ListBox partners = new ListBox();
@@ -385,7 +405,7 @@ public class Wags extends View
 		
 		pickPartner.center();
 	}
-	
+
 	public void assignPassword(){
 		final DialogBox setPassword = new DialogBox(false);
 		final PasswordTextBox password = new PasswordTextBox();
@@ -425,6 +445,12 @@ public class Wags extends View
 		setPassword.add(base);
 		
 		setPassword.center();
+	}
+
+	@Override
+	public WEAnchor getLink()
+	{
+		return new WEAnchor("Wags", this, "editor");
 	}
 	
 }
