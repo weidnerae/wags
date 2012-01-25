@@ -865,7 +865,9 @@ public class Proxy
 	}
 
 	//weird stuff with that timer, look at later
-	public static void review(String code, final OutputReview review, String exerciseId, String fileName, final Button submit){		
+	public static void review(String code, final OutputReview review, String exerciseId, String fileName, 
+								final Button submit)
+	{		
 		// Disable (gray-out) the submit button until code is done compiling/running
 		//	- This will prevent multiple submissions before the current submission is completed
 		submit.setEnabled(false);
@@ -881,14 +883,15 @@ public class Proxy
 		    	  public void onResponseReceived(Request request, Response response) {
 			      
 			      WEStatus status = new WEStatus(response);
+			      clearMessage(); // clear out compilation notification message
 			      
 			      // Need to correctly format line breaks
 			      // - Messy, need to refactor by uncoupling server code
 			      // from JSON encoding
 			      String msg = status.getMessage();
 			      msg = msg.replace("<br />", "\n");
-			      clearMessage(); // clear out compilation notification message
 			      review.setText(msg);
+			      
 			      
 			      if(status.getStat() == WEStatus.STATUS_SUCCESS){
 			    	  Notification.notify(WEStatus.STATUS_SUCCESS, "Correct!");
