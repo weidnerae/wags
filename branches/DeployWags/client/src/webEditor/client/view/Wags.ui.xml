@@ -104,7 +104,8 @@
 								<g:HTMLPanel>
 									<g:TextBox addStyleNames="{style.fileName} {style.filebar}" ui:field="fileName"></g:TextBox>
 									<g:Anchor ui:field="save" addStyleNames="{style.anchor} {style.filebar}">Save</g:Anchor>
-									<g:Anchor ui:field="delete" addStyleNames="{style.anchor} {style.filebar}">Delete</g:Anchor>
+									<!-- Editing out the delete button for now
+										<g:Anchor ui:field="delete" addStyleNames="{style.anchor} {style.filebar}">Delete</g:Anchor> -->
 									<g:Anchor ui:field="getCode" addStyleNames="{style.anchor} {style.filebar}"> Code </g:Anchor>
 									<g:Button ui:field="submit" addStyleNames="{style.anchor} {style.filebar}">Submit</g:Button>
 								</g:HTMLPanel>
