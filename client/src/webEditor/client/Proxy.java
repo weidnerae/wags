@@ -864,7 +864,17 @@ public class Proxy
 		}
 	}
 
-	//weird stuff with that timer, look at later
+	/**
+	 * This will be called when the user presses submit, and will send a request to the server to compile,
+	 * run, and return the results.  This method then updates the review panel, and notifies the user
+	 * of the result.
+	 * 
+	 * @param code
+	 * @param review
+	 * @param exerciseId
+	 * @param fileName
+	 * @param submit
+	 */
 	public static void review(String code, final OutputReview review, String exerciseId, String fileName, 
 								final Button submit)
 	{		
