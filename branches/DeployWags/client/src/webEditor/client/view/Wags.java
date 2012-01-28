@@ -45,30 +45,28 @@ public class Wags extends View
 
 	interface EditorUiBinder extends UiBinder<Widget, Wags>{}
 
-	@UiField DockLayoutPanel dock;
-	@UiField Anchor logout;
-	@UiField Anchor save;
-//	@UiField Anchor delete;
-	@UiField Button submit;
-	@UiField Anchor getCode;
-	@UiField Anchor DST;
-	@UiField FormPanel wrapperForm;
-	@UiField com.google.gwt.user.client.ui.Image description;
-	
-	@UiField TextBox fileName;
-	@UiField Label hello;
-	@UiField CodeEditor editor;
-	@UiField FileBrowser browser;
 	@UiField Admin admin;
-	@UiField Students students;
+	@UiField FileBrowser browser;
+	@UiField com.google.gwt.user.client.ui.Image description;
+	@UiField DockLayoutPanel dock;
+	@UiField Anchor DST;
+	@UiField CodeEditor editor;
+	@UiField TextBox fileName;
+	@UiField Anchor getCode;
+	@UiField Label hello;
+	@UiField Anchor logout;
 	@UiField OutputReview review;
+	@UiField Anchor save;
+	@UiField Students students;
+	@UiField Button submit;
 	@UiField TabLayoutPanel tabPanel;
+	@UiField FormPanel wrapperForm;
 	
 	final static int REVIEWPANEL = 1;
 	final static int FILEBROWSER = 0;
 	
-	private Timer autosaveTimer;
 	private final int AUTOSAVETIME = 10000; // autosave time interval in milliseconds
+	private Timer autosaveTimer;
 	
 	private String currentEditorCode = "";
 	
@@ -96,9 +94,6 @@ public class Wags extends View
 		Proxy.checkPassword(this);
 		Proxy.checkMultiUser(this);
 		Proxy.getVisibleExercises(filler, exerciseMap);
-		//Editing out filename changing
-		fileName.setEnabled(false);
-		//until we decide what to do with multiple files
 		commandBarVisible(false);
 		
 		description.setUrl("");
@@ -137,18 +132,6 @@ public class Wags extends View
 				fileName.setText(browser.getItemPath(i).toString().substring(1));
 			}
 		});
-
-// Don't need this right now since filename editing has been disabled for now
-		// Show text to rename the file.
-//		fileName.addFocusHandler(new FocusHandler() {
-//			@Override
-//			public void onFocus(FocusEvent event)
-//			{
-//				// Add an attribute to the filename textbox that stores the old file name. 
-//				// Do this onFocus because the user is probably about to edit the file name.
-//				fileName.getElement().setAttribute("oldName", fileName.getText());
-//			}
-//		});
 		
 		Proxy.isAdmin(tabPanel);
 		Proxy.getUsersName(hello);
@@ -172,63 +155,19 @@ public class Wags extends View
 			}
 		});
 	} // end constructor
-	
-// Don't need this right now since filename editing has been disabled for now
-//
-//	@UiHandler("fileName")
-//	void onChange(ChangeEvent event)
-//	{
-//		save.setVisible(true);
-//		delete.setVisible(true);
-//		submit.setVisible(true);
-//	}
-
-
-// Editing out delete button, as it currently serves no functionality,
-//	and may cause issues, and unpredictability
-// -Plan to remove entirely in future revision once it is agreed upon
-	/**
-	 * Delete file from server.
-	 */
-//	@UiHandler("delete")
-//	void onDeleteClick(ClickEvent event)
-//	{
-//		TreeItem i = browser.getTree().getSelectedItem();
-//		TreeItem parent = i.getParentItem();
-//		
-//		deleteChildren(i);
-//		Notification.notify(WEStatus.STATUS_SUCCESS, i.getText()+" deleted");
-//		i.remove();
-//		
-//		String reloadPath;
-//		if(parent.getChildCount() > 0){
-//			reloadPath = getPath(parent.getChild(0));
-//		} else {
-//			reloadPath = getPath(parent);
-//		}
-//	
-//		editor.setContents("");
-//		Proxy.loadFileListing(browser, reloadPath);
-//		curPath = reloadPath;
-//	}
 
 	@UiHandler("getCode")
-	void onDescClick(ClickEvent event){
+	void onDescClick(ClickEvent event)
+	{
 		String wholeText = editor.codeTop;
 		wholeText +=  editor.codeArea.getText() + editor.codeBottom;
-		//review.setHTML("<pre>" + wholeText + "</pre>");
 		review.setText(wholeText);
-		tabPanel.selectTab(1);
-		
-		/*
-		String value = exercises.getValue(exercises.getSelectedIndex());
-		Proxy.getDesc(exerciseMap.get(value), review);
 		tabPanel.selectTab(REVIEWPANEL);
-		*/
 	}
 
 	@UiHandler("DST")
-	void onDSTClick(ClickEvent event){
+	void onDSTClick(ClickEvent event)
+	{
 		this.setVisible(false);
 		Proxy.buildDST();
 	}
@@ -276,38 +215,9 @@ public class Wags extends View
 	 */
 	private void commandBarVisible(boolean visible){
 		save.setVisible(visible);
-// Delete is being removed, as it offers no functionality currently
-//		delete.setVisible(visible);
 		submit.setVisible(visible);
-		//Exercises is being removed, currently just a placeholder
-		//to retain some of its functionality (name id map)
-		//exercises.setVisible(visible);
 		getCode.setVisible(visible);
-		//btnGetPDF.setVisible(visible);
 	}
-
-// Removing the delete button, and associated functions, as they provide
-//  no functionality currently
-	/**
-	 * deleteChildren
-	 * Description: recursively remove all children of a deleted directory
-	 * @param i The directory
-	 * @return none
-	 */
-//	private void deleteChildren(TreeItem i){
-//		for(int childIndex = 0; childIndex < i.getChildCount(); childIndex++){
-//			TreeItem child = i.getChild(childIndex);
-//			
-//			if(child.getChildCount() > 0)
-//				deleteChildren(child); //recurses down to leaf
-//			
-//			Proxy.deleteFile(getPath(child)); //deletes leaf using path
-//			child.remove(); //remove from browser
-//		}
-//		
-//		Proxy.deleteFile(getPath(i));
-//		i.remove();
-//	}
 	
 	private String getPath(TreeItem i){
 		String path = "";

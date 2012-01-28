@@ -7,13 +7,10 @@ import org.vaadin.gwtgraphics.client.Line;
 
 import webEditor.client.Proxy;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
@@ -330,20 +327,6 @@ public class DisplayManager implements IsSerializable
 				int yOffset = DSTConstants.SUBMIT_MESS_Y + submitText.getOffsetHeight()+2;
 				addToPanel(submitOkButton, DSTConstants.SUBMIT_X, yOffset);
 				showingSubMess = true;
-
-				ArrayList<SerialEdge> serEdges = new ArrayList<SerialEdge>();
-				for(int i = 0; i < getEdges().size(); i++)
-				{
-					Node n1 = getEdges().get(i).getN1();
-					Node n2 = getEdges().get(i).getN2();
-					serEdges.add(new SerialEdge(n1.getValue(), n2.getValue()));
-				}
-
-				ArrayList<SerialNode> serNodes = new ArrayList<SerialNode>();
-				for(int i = 0; i < getNodes().size(); i++)
-				{
-					serNodes.add(new SerialNode(getNodes().get(i).getValue(), getNodes().get(i).getTop(), getNodes().get(i).getLeft()));
-				}
 
 			}
 		});
