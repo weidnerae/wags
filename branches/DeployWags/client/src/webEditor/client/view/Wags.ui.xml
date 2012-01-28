@@ -4,21 +4,16 @@
 	xmlns:my="urn:import:webEditor.client.view">
 	
 	<ui:style>
-		.dock { 
-			margin-top: 25px;
-		}
-			
-		.hello { 
-			vertical-align: middle; 
-			padding-right: 5px; 
-			display: inline;
-		}	
-		
-		.hello-logout { 
+	
+		.applicationBar {
 			border-bottom: 5px solid #E3E3E3; 
-			width: 100%; 
+			width: 100%;
 			text-align: right;
 		}
+		
+		.administration {
+			background-color: #C2C2FF;
+		 }
 		
 		.anchor { 
 			cursor: pointer; 
@@ -26,6 +21,55 @@
 		
 		.anchor:hover { 
 			text-decoration: underline; 
+		}
+		
+		.dock { 
+			margin-top: 25px;
+		}
+		
+		.editor { 
+			height: 100%;
+			width: 100%;
+			border-top: 3px solid #92c1f0;
+			border-bottom: 0px;
+			border-left: 0px;
+			border-right: 0px;
+			padding: 0px;
+			overflow: auto;
+		 }
+		
+		.editorAndFilebar { 
+			border-top: 0px;
+			border-bottom: 0px;
+			border-left: 0px;
+			border-right: 3px solid #C3C3C3;
+			padding: 0.5em;
+		 }
+		 
+		 .filebar {
+		 	vertical-align: middle;
+		 }
+		 
+		.fileName { 
+			padding: 0px;
+		}	
+		
+		.hello-logout {  
+			vertical-align: middle; 
+       		padding-right: 5px; 
+            display: inline;
+		}
+		 
+		.reviewer {
+			height: 100%;
+			width: 100%;
+			border: 0px;
+			padding: 0px;
+			overflow: auto;
+		}
+		
+		.std-txt { 
+			padding-top: 6px 
 		}
 		
 		.title { 
@@ -38,61 +82,18 @@
 			vertical-align: top;
 			top: -10px;
 			display: inline;
-			float:left;
-		 }
-		 
-		.editorAndFilebar { 
-			border-top: 0px;
-			border-bottom: 0px;
-			border-left: 0px;
-			border-right: 3px solid #C3C3C3;
-			padding: 0.5em;
-		 }
-		 
-		 .editor { 
-			height: 100%;
-			width: 100%;
-			border-top: 3px solid #92c1f0;
-			border-bottom: 0px;
-			border-left: 0px;
-			border-right: 0px;
-			padding: 0px;
-			overflow: auto;
-		 }
-		 
-		 .reviewer {
-			height: 100%;
-			width: 100%;
-			border: 0px;
-			padding: 0px;
-			overflow: auto;
-		 }
-		 
-		 .administration {
-			background-color: #C2C2FF;
-		 }
-		
-		 .filebar {
-		 	vertical-align: middle;
-		 }
-		 
-		.fileName { 
-			padding: 0px; 
-		}
-		
-		.std-txt { 
-			padding-top: 6px 
+            float:left;
 		}
 			
 	</ui:style>
 	
 	<g:DockLayoutPanel unit="EM" styleName="{style.dock}" ui:field="dock">
 		<g:north size="3">
-			<g:HTMLPanel styleName="{style.hello-logout}">
+			<g:HTMLPanel styleName="{style.applicationBar}">
 				<g:Label styleName="{style.title}">WAGS</g:Label>
-				<g:Label styleName="{style.hello}" ui:field="hello"></g:Label>
-				<g:Anchor addStyleNames="{style.anchor} {style.hello}" ui:field="DST">DST</g:Anchor> 
-				<g:Anchor addStyleNames="{style.anchor} {style.hello}" ui:field="logout">Logout</g:Anchor>
+				<g:Label styleName="{style.hello-logout}" ui:field="hello"></g:Label>
+				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="DST">DST</g:Anchor> 
+				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="logout">Logout</g:Anchor>
 			</g:HTMLPanel>
 		</g:north>
 		<g:center>
@@ -102,10 +103,8 @@
 						<g:north size="2">
 							<g:FormPanel ui:field="wrapperForm">
 								<g:HTMLPanel>
-									<g:TextBox addStyleNames="{style.fileName} {style.filebar}" ui:field="fileName"></g:TextBox>
+									<g:TextBox addStyleNames="{style.fileName} {style.filebar}" enabled="false" ui:field="fileName"></g:TextBox>
 									<g:Anchor ui:field="save" addStyleNames="{style.anchor} {style.filebar}">Save</g:Anchor>
-									<!-- Editing out the delete button for now
-										<g:Anchor ui:field="delete" addStyleNames="{style.anchor} {style.filebar}">Delete</g:Anchor> -->
 									<g:Anchor ui:field="getCode" addStyleNames="{style.anchor} {style.filebar}"> Code </g:Anchor>
 									<g:Button ui:field="submit" addStyleNames="{style.anchor} {style.filebar}">Submit</g:Button>
 								</g:HTMLPanel>

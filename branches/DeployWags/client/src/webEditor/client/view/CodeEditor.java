@@ -27,7 +27,6 @@ public class CodeEditor extends View implements HasHandlers
 	{
 		initWidget(uiBinder.createAndBindUi(this));
 
-		//codeArea.setFocus(true);
 		codeArea.setEnabled(false); // shouldn't be editable when first logging in
 		
 		/*
@@ -61,18 +60,5 @@ public class CodeEditor extends View implements HasHandlers
 	{
 		return new WEAnchor("Editor", this, "codeEditor");
 	}
-	
-//	@UiHandler("codeArea")
-//	void onFocus(FocusEvent sender)
-//	{
-//		
-//		Window.alert("Focused");
-//	}
-	
-//	@UiHandler("codeArea")
-//	void onBlur(BlurEvent sender)
-//	{
-//		Window.alert("Not Focused");
-//	}
 	
 }
