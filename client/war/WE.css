@@ -9,7 +9,10 @@ h1 {
 }
 
 textarea {
+	font-family: monospace;
+	padding: 0px;
 	resize: none;
+	overflow: auto;
 }
 
 /** Most GWT widgets already have a style name defined */
