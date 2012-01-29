@@ -902,6 +902,15 @@ public class Proxy
 			      msg = msg.replace("<br />", "\n");
 			      review.setText(msg);
 			      
+//			      //			   	we only want html line breaks, so preserve these
+//			      msg = msg.replace("<br />", "\n");
+//			      msg = msg.replace(" ", "&nbsp;"); // for spacing
+//			      // 	sanitize for any other possible html chars
+//			      //SafeHtmlUtils.htmlEscape(msg); 
+//			      //	reinsert the line breaks
+//			      msg = msg.replace("\n", "<br />");
+//			      
+//			      //review.setHTML(msg);
 			      
 			      if(status.getStat() == WEStatus.STATUS_SUCCESS){
 			    	  Notification.notify(WEStatus.STATUS_SUCCESS, "Correct!");

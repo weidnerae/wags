@@ -24,8 +24,8 @@ public class OutputReview extends View{
 		review.setText(text);
 	}
 	
-	// This will be removed at some point
 	public void setHTML(String html){
+		//review.setHTML(html);
 		review.setText(html);
 	}
 
@@ -35,7 +35,6 @@ public class OutputReview extends View{
 
 	@Override
 	public WEAnchor getLink() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

@@ -9,7 +9,6 @@ import webEditor.client.WEStatus;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -18,6 +17,7 @@ import com.google.gwt.event.logical.shared.BeforeSelectionEvent;
 import com.google.gwt.event.logical.shared.BeforeSelectionHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -162,6 +162,15 @@ public class Wags extends View
 		String wholeText = editor.codeTop;
 		wholeText +=  editor.codeArea.getText() + editor.codeBottom;
 		review.setText(wholeText);
+		
+//		//	 	we only want html line breaks, so preserve these
+//		wholeText = wholeText.replace("<br />", "\n");
+//	    // 	sanitize for any other possible html chars
+//	    SafeHtmlUtils.htmlEscape(wholeText); 
+//	    //	reinsert the line breaks
+//	    wholeText = wholeText.replace("\n", "<br />"); // 
+//	    review.setHTML(wholeText);
+	    
 		tabPanel.selectTab(REVIEWPANEL);
 	}
 
