@@ -122,7 +122,12 @@ public class Wags extends View
 				
 				// If clicked item is a leaf TreeItem then open it in editor
 				Proxy.getFileContents(itemName, editor);
-				currentExerciseId = exerciseMap.get(browser.getItemPath(i.getParentItem()).trim().substring(1)); /* Grab the exercise Id */
+				if(itemName.contains("_Versions")){
+					currentExerciseId = exerciseMap.get(browser.getItemPath(i.getParentItem().getParentItem()).trim().substring(1)); /* Grab the exercise Id */
+				}
+				else {
+					currentExerciseId = exerciseMap.get(browser.getItemPath(i.getParentItem()).trim().substring(1)); /* Grab the exercise Id */
+				}
 				
 				/* Update description */
 				Proxy.getDescription(currentExerciseId, description);
@@ -163,14 +168,6 @@ public class Wags extends View
 		wholeText +=  editor.codeArea.getText() + editor.codeBottom;
 		review.setText(wholeText);
 		
-//		//	 	we only want html line breaks, so preserve these
-//		wholeText = wholeText.replace("<br />", "\n");
-//	    // 	sanitize for any other possible html chars
-//	    SafeHtmlUtils.htmlEscape(wholeText); 
-//	    //	reinsert the line breaks
-//	    wholeText = wholeText.replace("\n", "<br />"); // 
-//	    review.setHTML(wholeText);
-	    
 		tabPanel.selectTab(REVIEWPANEL);
 	}
 
