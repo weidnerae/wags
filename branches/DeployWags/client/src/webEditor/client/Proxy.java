@@ -332,6 +332,55 @@ public class Proxy
 		}
 	}
 
+	public static void getDSTSubmissions(String title, final Grid grid){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=DSTReview&title="+title);
+		
+		try{
+			Request req = builder.sendRequest(null, new RequestCallback(){
+	
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("error");					
+				}
+	
+				@Override
+				public void onResponseReceived(Request request,
+						Response response) {
+					
+					WEStatus status = new WEStatus(response);
+					
+			        String subInfo[] = new String[status.getMessageArray().length];
+			        subInfo = status.getMessageArray();
+			        
+			        for (int i = 1; i < subInfo.length; i+=3){
+			        	if(subInfo[i] == "1") subInfo[i] = "Yes";
+			        	else if (subInfo[i] == "0") subInfo[i] = "No";
+			        }
+			        
+			        grid.resize(subInfo.length/3+1, 3);
+			  		grid.setBorderWidth(1);
+			  		
+			  		//Sets the headers for the table
+			  		grid.setHTML(0, 0, "<b> Username </b>");
+			  		grid.setHTML(0, 1, "<b> Correct </b>");
+			  		grid.setHTML(0, 2, "<b> NumAttempts </b>");
+			  		
+			  		int k = 0;
+			  		//Fills table with results
+			  	    for (int row = 1; row < subInfo.length/3+1; ++row) {
+			  	      for (int col = 0; col < 3; ++col)
+			  	        grid.setText(row, col, subInfo[k++]);
+			  	    }
+					
+				}
+				
+			});
+		}catch (RequestException e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+		
+	}
+
 	/**
 	 * Get a list of exercises from the server and put them
 	 * in the FlexTable.
@@ -529,55 +578,6 @@ public class Proxy
 		
 	}
 	
-	public static void getDSTSubmissions(String title, final Grid grid){
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=DSTReview&title="+title);
-		
-		try{
-			Request req = builder.sendRequest(null, new RequestCallback(){
-	
-				@Override
-				public void onError(Request request, Throwable exception) {
-					Window.alert("error");					
-				}
-	
-				@Override
-				public void onResponseReceived(Request request,
-						Response response) {
-					
-					WEStatus status = new WEStatus(response);
-					
-			        String subInfo[] = new String[status.getMessageArray().length];
-			        subInfo = status.getMessageArray();
-			        
-			        for (int i = 1; i < subInfo.length; i+=3){
-			        	if(subInfo[i] == "1") subInfo[i] = "Yes";
-			        	else if (subInfo[i] == "0") subInfo[i] = "No";
-			        }
-			        
-			        grid.resize(subInfo.length/3+1, 3);
-			  		grid.setBorderWidth(1);
-			  		
-			  		//Sets the headers for the table
-			  		grid.setHTML(0, 0, "<b> Username </b>");
-			  		grid.setHTML(0, 1, "<b> Correct </b>");
-			  		grid.setHTML(0, 2, "<b> NumAttempts </b>");
-			  		
-			  		int k = 0;
-			  		//Fills table with results
-			  	    for (int row = 1; row < subInfo.length/3+1; ++row) {
-			  	      for (int col = 0; col < 3; ++col)
-			  	        grid.setText(row, col, subInfo[k++]);
-			  	    }
-					
-				}
-				
-			});
-		}catch (RequestException e){
-			Window.alert("Failed to send the request: " + e.getMessage());
-		}
-		
-	}
-
 	public static void getUsernames(final ListBox users) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetAllUsers");
 		try {
@@ -901,17 +901,7 @@ public class Proxy
 			      String msg = status.getMessage();
 			      msg = msg.replace("<br />", "\n");
 			      review.setText(msg);
-			      
-//			      //			   	we only want html line breaks, so preserve these
-//			      msg = msg.replace("<br />", "\n");
-//			      msg = msg.replace(" ", "&nbsp;"); // for spacing
-//			      // 	sanitize for any other possible html chars
-//			      //SafeHtmlUtils.htmlEscape(msg); 
-//			      //	reinsert the line breaks
-//			      msg = msg.replace("\n", "<br />");
-//			      
-//			      //review.setHTML(msg);
-			      
+			     
 			      if(status.getStat() == WEStatus.STATUS_SUCCESS){
 			    	  Notification.notify(WEStatus.STATUS_SUCCESS, "Correct!");
 			      } else if (status.getStat() == WEStatus.STATUS_WARNING){

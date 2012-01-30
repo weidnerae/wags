@@ -171,27 +171,6 @@ public class DataStructureTool  extends View
 			}
 		});
 	}
-	
-//	/**
-//	 * Method to add click handlers to the buttons.
-//	 */
-//	private void addClickHandlers()
-//	{
-//		for(int i = 0; i < problemList.length; i++)
-//		{
-//			final int id = i;
-//			//add click handler for problem selection
-//			attemptButtons.get(i).addClickHandler(new ClickHandler(){
-//				public void onClick(ClickEvent event)
-//				{
-//					removeAllWidgets();
-//					emailAddr = "TestUser";
-//					getProblem(emailAddr, id);
-//				}
-//			});
-//		}
-//	}
-
 
 	/**
 	 * Removes all widgets currently on the screen.

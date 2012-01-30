@@ -122,11 +122,11 @@
 						</g:tab>
 						<g:tab>
 							<g:header> Review </g:header>
-							<g:LayoutPanel>
-								<g:layer>
-									<my:OutputReview styleName="{style.reviewer}" ui:field="review"></my:OutputReview>
-								</g:layer>
-							</g:LayoutPanel>
+								<g:LayoutPanel>
+									<g:layer>
+										<my:OutputReview styleName="{style.reviewer}" ui:field="review"></my:OutputReview>
+									</g:layer>
+								</g:LayoutPanel>	
 						</g:tab>
 						<g:tab>
 							<g:header> Exercises </g:header>
