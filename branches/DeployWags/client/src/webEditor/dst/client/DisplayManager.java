@@ -45,6 +45,7 @@ public class DisplayManager implements IsSerializable
 	private AbsolutePanel rightButtonPanel;
 	private Button submitOkButton;
 
+
 	public DisplayManager(DrawingArea canvas, AbsolutePanel panel,
 			NodeCollection nc, EdgeCollection ec, Problem problem)
 	{
