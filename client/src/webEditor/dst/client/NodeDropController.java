@@ -27,6 +27,7 @@ public class NodeDropController extends AbsolutePositionDropController implement
 	{
 		boundaryPanel = theBoundaryPanel;
 		ec = theEc;
+		dc = new NodeDropController(boundaryPanel);
 	}
  
 	public void onDrop(DragContext context)
@@ -35,8 +36,4 @@ public class NodeDropController extends AbsolutePositionDropController implement
 		ec.updateEdgeDrawings();
 	}
 	
-	public static void reset()
-	{
-		dc = null;
-	}
 }
