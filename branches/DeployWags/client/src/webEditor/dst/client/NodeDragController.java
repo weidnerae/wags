@@ -36,4 +36,9 @@ public class NodeDragController extends PickupDragController implements IsSerial
 		super.dragEnd();
 		ec.updateEdgeDrawings();
 	}
+	
+	public static void reset()
+	{
+		dc = null;
+	}
 }
