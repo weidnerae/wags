@@ -29,6 +29,7 @@ public class NodeDragController extends PickupDragController implements IsSerial
 		boundaryPanel = theBoundaryPanel;
 		ec = theEc;
 		allowDroppingOnBoundaryPanel = allowDrop;
+		dc = new NodeDragController(boundaryPanel, allowDroppingOnBoundaryPanel);
 	}
 	
 	public void dragEnd()
@@ -37,8 +38,4 @@ public class NodeDragController extends PickupDragController implements IsSerial
 		ec.updateEdgeDrawings();
 	}
 	
-	public static void reset()
-	{
-		dc = null;
-	}
 }
