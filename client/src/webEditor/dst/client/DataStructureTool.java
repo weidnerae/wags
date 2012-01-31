@@ -234,12 +234,14 @@ public class DataStructureTool  extends View
 		EdgeCollection ec = new EdgeCollection(p.getRules(), 
 				new String[]{"Select first node of edge","Select second node of edge"}, p.getEdgesRemovable());
 
+		NodeDropController.reset();
+		NodeDragController.reset();
 		NodeDragController.setFields(panel, true, ec);
 		NodeDropController.setFields(panel, ec);
 		NodeDragController.getInstance().registerDropController(NodeDropController.getInstance());
 
 		NodeCollection nc = new NodeCollection();
-
+		
 		DisplayManager dm = new DisplayManager(canvas, panel, nc, ec, p);
 		ec.setDisplayManager(dm);
 		dm.displayProblem();

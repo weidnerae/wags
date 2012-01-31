@@ -34,4 +34,9 @@ public class NodeDropController extends AbsolutePositionDropController implement
 		super.onDrop(context);
 		ec.updateEdgeDrawings();
 	}
+	
+	public static void reset()
+	{
+		dc = null;
+	}
 }
