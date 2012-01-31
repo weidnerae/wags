@@ -24,7 +24,6 @@ import webEditor.client.Proxy;
 public class DataStructureTool  extends View
 {	
 	private ArrayList<Widget> widgets; //arraylist to hold widgets added to root panel
-	private ArrayList<Widget> attempts; //arraylist to hold widgets added for viewing past problem attempts
 
 	private static String[] problemList;	//array of problem names
 
@@ -41,7 +40,6 @@ public class DataStructureTool  extends View
 	private Button editorButton;
 	private ArrayList<Label>  problemLabels;
 	private ArrayList<Button> attemptButtons;
-	private ArrayList<Button> viewResultButtons;
 
 	/**
 	 * This is the entry point method.
@@ -50,7 +48,6 @@ public class DataStructureTool  extends View
 	{	
 		//intialize fields that will be used
 		widgets = new ArrayList<Widget>();
-		attempts = new ArrayList<Widget>();
 		originalYCoordinates = new ArrayList<Integer>();
 		problemList = problems;
 
@@ -60,7 +57,7 @@ public class DataStructureTool  extends View
 		logoutButton = new Button("Logout");
 		problemLabels = new ArrayList<Label>();
 		attemptButtons = new ArrayList<Button>();
-		viewResultButtons = new ArrayList<Button>();
+
 
 		//set styles
 		RootPanel.get().setStyleName("main_background");
@@ -181,18 +178,6 @@ public class DataStructureTool  extends View
 		{
 			RootPanel.get().remove(widgets.get(i));
 		}
-		removeAllAttempts();
-	}
-
-	/**
-	 * Removes all widgets associated with previous problem attempts from the screen.
-	 */
-	public void removeAllAttempts()
-	{
-		for(int i = 0; i < attempts.size(); i++)
-		{
-			RootPanel.get().remove(attempts.get(i));
-		}
 	}
 
 	/**
@@ -222,6 +207,7 @@ public class DataStructureTool  extends View
 
 	private void initialize(String userEmail, Problem p)
 	{
+		
 		//initialize the necessary components to display the problem
 		AbsolutePanel panel = new AbsolutePanel();
 		panel.setStyleName("boundary_panel");
@@ -230,21 +216,20 @@ public class DataStructureTool  extends View
 		canvas.setStyleName("canvas");
 		panel.add(canvas);
 		RootPanel.get().add(panel, 2, 130);
+		
 		RootPanel.get().setStyleName("prob_background");
 		EdgeCollection ec = new EdgeCollection(p.getRules(), 
 				new String[]{"Select first node of edge","Select second node of edge"}, p.getEdgesRemovable());
 
-		NodeDropController.reset();
-		NodeDragController.reset();
 		NodeDragController.setFields(panel, true, ec);
 		NodeDropController.setFields(panel, ec);
 		NodeDragController.getInstance().registerDropController(NodeDropController.getInstance());
-
+				
 		NodeCollection nc = new NodeCollection();
 		
 		DisplayManager dm = new DisplayManager(canvas, panel, nc, ec, p);
 		ec.setDisplayManager(dm);
-		dm.displayProblem();
+		dm.displayProblem();  
 	}
 
 	/* (non-Javadoc)

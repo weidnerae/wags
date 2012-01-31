@@ -155,6 +155,7 @@ public class Proxy
 		          String[] problemList = status.getMessageArray();
 		          DataStructureTool DST = new DataStructureTool(problemList);
 	
+		          RootPanel.get().clear();
 		          RootPanel.get().add(DST);
 		        }
 		        
