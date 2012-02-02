@@ -22,6 +22,7 @@ public interface DSTConstants {
 	public static String NODE_DRAGGABLE = "draggable";
 	public static String NODE_CLICKABLE = "clickable";
 	public static String NODE_CLICKABLE_FORCE_EVAL = "clickableforceeval";
+	public static String NODE_STRING_DRAGGABLE ="stringdraggable";
 	
 	public static String INSERT_METHOD_VALUE = "byvalue";
 	public static String INSERT_METHOD_VALUE_AND_LOCATION = "byvalueandlocation";
