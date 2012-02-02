@@ -10,7 +10,7 @@ public class ProblemServiceImpl
 		AddEdgeRules noEdgeAddition = new AddEdgeRules();
 		Evaluation_BSTTraversal trav = new Evaluation_BSTTraversal();
 		Evaluation_BSTTraversalWithHelp travHelp = new Evaluation_BSTTraversalWithHelp();
-		
+		Evaluation_RadixSortWithHelp radix = new Evaluation_RadixSortWithHelp();
 		
 		int[] noLocs = new int[0]; //used as a placeholder for problems with no preset locations
 		String[] noEdges = new String[0]; //used as a placeholder for problems with no preset edges
@@ -288,6 +288,19 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
+			case 18: return new Problem("RADIX Sort",
+					"Complete Radix sort on the numbers below by dragging them into the correct bucket",
+                    "634 843 235 643 79 823 9 543 428 67",
+                    DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+                    new int[]{250,150,350,75,225,275,425},
+                    new int[]{50,50,50,50,50,50,50},
+                    noEdges,
+                    new String[]{"0004110112", "84364382354363423567428799"},       
+                    radix,
+                    noEdgeAddition,
+                    false,
+                    true,
+                    DSTConstants.NODE_STRING_DRAGGABLE);
 		default:
 			return new Problem("Binary Search Tree from Postorder Traversal 1",
 					"Given the postorder traversal DBHJFPTUSM, " +
@@ -326,6 +339,7 @@ public class ProblemServiceImpl
 		if(problem.equals("Binary Tree from Pre/Inorder Traversals 2")) return 15;
 		if(problem.equals("Binary Tree from Pre/Inorder Traversals 3")) return 16;
 		if(problem.equals("Binary Tree from Pre/Inorder Traversals 4")) return 17;
+		if(problem.equals("RADIX Sort")) return 18;
 		
 		return 0;
 	}
