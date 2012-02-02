@@ -10,6 +10,7 @@ public class AddEdgeRules implements IsSerializable
 {
 	public String checkFirstNode(Node node, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
 	{
+		
 		return DSTConstants.CORRECT;
 	}
 	
