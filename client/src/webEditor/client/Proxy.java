@@ -33,7 +33,7 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 public class Proxy
 {	
-	//local testing on Philip's machine
+	//local testing on Philip's machine 
 	//private static final String baseURL = "http://localhost/public_html/wagsServer/server.php";
 	
 	// for deploying on CS
