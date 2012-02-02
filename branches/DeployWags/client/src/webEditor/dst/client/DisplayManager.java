@@ -31,6 +31,7 @@ public class DisplayManager implements IsSerializable
 	private boolean addingEdge;
 	private boolean removingEdge;
 	private TraversalContainer cont;
+	private AbsolutePanel labelPanel;
 
 	//permanent widgets
 	private Button resetButton;
@@ -403,28 +404,33 @@ public class DisplayManager implements IsSerializable
 		}
 	}
 	
-	public void insertNodesByValueAndLocation(String nodes, int[] xPositions, int[] yPositions, boolean draggable,
-			String nodeType)
-	{		
-		if(nodes.length() != xPositions.length || nodes.length() != yPositions.length)
-			throw new NullPointerException(); //need to find right exception
-		else
-		{
-			for(int i = 0; i < nodes.length(); i++)
-			{
-				Label label = new Label(nodes.charAt(i)+"");
-				label.setStyleName("node");
-				panel.add(label, xPositions[i], yPositions[i]);
-				if(draggable) NodeDragController.getInstance().makeDraggable(label);
-				if(nodeType.equals(DSTConstants.NODE_DRAGGABLE))
-					nodeCollection.addNode(new Node(nodes.charAt(i), label));
-				else if(nodeType.equals(DSTConstants.NODE_CLICKABLE_FORCE_EVAL))
-					nodeCollection.addNode(new NodeClickable(nodes.charAt(i), label, cont, true));
-				else
-					nodeCollection.addNode(new NodeClickable(nodes.charAt(i), label, cont, false));
-			}
-		}
-	}
+	 public void insertNodesByValueAndLocation(String nodes, int[] xPositions, int[] yPositions, boolean draggable,
+             String nodeType)
+	 {               
+		 if(nodes.length() != xPositions.length || nodes.length() != yPositions.length)
+             throw new NullPointerException(); //need to find right exception
+		 else if(nodeType.equals(DSTConstants.NODE_STRING_DRAGGABLE)){
+			 String labelString="";
+			 int n=0;
+			 char ctr='a';
+			 int counter = 0;
+			 while(n<nodes.length()){
+				 if(nodes.substring(n,n).equals(" ")){
+                     	Label label = new Label(labelString);
+                     	label.setStyleName("stringNode");
+                     	panel.add(label, xPositions[counter], yPositions[counter]);
+                        if(draggable) NodeDragController.getInstance().makeDraggable(label);
+                     	nodeCollection.addNode(new Node(ctr, label));
+                     	ctr++;
+                     	counter++;
+				 }
+				 else{
+					 labelString+=nodes.charAt(n);
+				 }
+				 n++;
+			 }
+		 }	
+	 }
 
 	public ArrayList<Node> getNodes()
 	{
