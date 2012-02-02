@@ -132,6 +132,7 @@
 					<g:Button ui:field="btnAddSkeletons" styleName="{style.button}"> Distribute Student Skeletons</g:Button>
 					<g:Button ui:field="btnMakeVisible" styleName="{style.button}"> Toggle Visibility</g:Button>
 					<g:Button ui:field="btnEnablePartners" styleName="{style.button}"> Toggle Partners</g:Button>
+					<g:Button ui:field="btnDeleteExercise" styleName="{style.button}"> Delete </g:Button>
 				</g:HorizontalPanel>
 				
 				<g:Grid ui:field="grdAdminReview" styleName="{style.grid}"> </g:Grid>

@@ -44,7 +44,7 @@ public class Proxy
 	
 	private static final String getFileContents = getBaseURL()+"?cmd=GetFileContents";
 	private static final String saveFileContents = getBaseURL()+"?cmd=SaveFileContents";
-	private static final String deleteFile = getBaseURL()+"?cmd=DeleteFile";
+	private static final String deleteExercise = getBaseURL()+"?cmd=DeleteExercise";
 	private static final String getSections = getBaseURL() + "?cmd=GetSections";
 	private static final String getFileListing = getBaseURL()+"?cmd=GetFileListing";
 	private static final String submitFile = getBaseURL()+"?cmd=Review";
@@ -280,8 +280,8 @@ public class Proxy
 		}
 	}
 
-	public static void deleteFile(final String fileName){
-		String urlCompl = deleteFile+"&name="+fileName.trim();
+	public static void deleteExercise(final String exId){
+		String urlCompl = deleteExercise+"&exId=" + exId;
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, urlCompl);
 		try {
 			@SuppressWarnings("unused")
@@ -289,13 +289,14 @@ public class Proxy
 				@Override
 				public void onResponseReceived(Request request, Response response)
 				{
-					
+					WEStatus status = new WEStatus(response);
+					Notification.notify(status.getStat(), status.getMessage());
 				}
 				
 				@Override
 				public void onError(Request request, Throwable exception)
 				{
-					Window.alert(fileName);
+					Window.alert("Error in delete Exercise Request");
 				}
 			});
 		} catch (RequestException e) {
@@ -901,6 +902,15 @@ public class Proxy
 			      // from JSON encoding
 			      String msg = status.getMessage();
 			      msg = msg.replace("<br />", "\n");
+			      
+			      //Will change this - currently just hides success line
+			      //When implementing nonce validation, prepend nonce with
+			      //a signal character - then look for the last index of that
+			      //signal character
+			      msg=msg.substring(0, msg.lastIndexOf("\n"));
+			      msg=msg.substring(0, msg.lastIndexOf("\n"));
+			      msg=msg.substring(0, msg.lastIndexOf("\n"));
+			      
 			      review.setText(msg);
 			     
 			      if(status.getStat() == WEStatus.STATUS_SUCCESS){
