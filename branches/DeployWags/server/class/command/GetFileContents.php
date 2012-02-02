@@ -68,16 +68,10 @@ class GetFileContents extends Command
 			}
 			
 			$all = $status.$top.$mid.$bot;
+            //$all = $top.$mid.$bot;
 
 			echo $all;
 
-			//$parsedFile = array($top, $mid, $bot);
-
-			//return JSON::success($parsedFile);
-            
-            //$contents = htmlspecialchars($file->getContents());
-            //echo($status."<pre>".$contents."</pre>");
-			
         }else{
             return JSON::error("No file name given.");
         }

@@ -202,6 +202,30 @@ class Exercise extends Model
 		return  $sth->fetchObject('Exercise');
 	}
 
+    public static function deleteExercise($id){
+        require_once('Database.php');
+        $exercise = Exercise::getExerciseById($id);
+
+        $db = Database::getDb();
+        $sth = $db->prepare('DELETE FROM submission WHERE exerciseId = :id');
+        $sth->execute(array(':id' => $id));
+
+        $sth = $db->prepare('DELETE FROM file WHERE exerciseId = :id');
+        $sth->execute(array('id' => $id));
+
+        #Temporary until we get sol, skel, test to point to exercise
+        #correctly in AddExercise
+        $sth = $db->prepare('DELETE FROM file WHERE id = :sol OR id = :skel OR
+            id = :test');
+        $sth->execute(array(':sol' => $exercise->getSolutionId(), ':skel' =>
+            $exercise->getSkeletonId(), ':test' => $exercise->getTestClassId()));
+
+        $sth = $db->prepare('DELETE FROM exercise WHERE id = :id');
+        $sth->execute(array('id' => $id));
+
+        return 1;
+    }
+
 	public static function getVisibleExercises()
 	{
 		require_once('Database.php');

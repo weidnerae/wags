@@ -190,7 +190,8 @@ class AddExercise extends Command
                 JSON::success('Uploaded exercise '.$e->getTitle());
 			}
 
-			//Update files with correct exercise ID
+			//NOT WORKING AT ALL
+            //Update files with correct exercise ID
             //This is terrible terrible terrible stuff
 			$Sol = CodeFile::getCodeFileById($e->getSolutionId());
 			$Sol->setExerciseId($e->getId());
