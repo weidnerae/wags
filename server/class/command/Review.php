@@ -244,8 +244,8 @@ class Review extends Command
 		if(!$classResult) return JSON::error("Problem writing student file");
 
 		//Compilation
-		exec("/usr/bin/javac $path/*.java 2>&1", $output, $result);
-//        exec("/usr/bin/javac $solutionPath $testPath $helperPaths $classPath 2>&1", $output, $result);
+//		exec("/usr/bin/javac $path/*.java 2>&1", $output, $result);
+        exec("/usr/bin/javac $solutionPath $testPath $helperPaths $classPath 2>&1", $output, $result);
 		if($result == EXEC_ERROR){
 			foreach($output as $line){
 				$error .= $line."\n";
@@ -261,14 +261,6 @@ class Review extends Command
 			else{			//Not within a package
 				$output = $this->runCode($path, $testName);
 			}
-			//retain formatting
-			//	-JSON needs newlins and quotes escaped
-			//$output[0] = "<pre>".$output[0]."</pre>";
-			//$output = addslashes($output);
-			//$output = json_encode($output);
-			//$output = str_replace(array("\n","\r","\t"),array("\\n","\\r","\\t"), $output);
-			
-			
 			
 			//Check for success
 			if(preg_match($successRegex, $output[0])){
