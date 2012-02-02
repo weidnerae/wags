@@ -7,6 +7,7 @@ import webEditor.client.WEStatus;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -16,10 +17,14 @@ import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class Admin extends Composite{
@@ -146,27 +151,47 @@ public class Admin extends Composite{
 		Proxy.alterExercise(Integer.parseInt(exerciseMap.get(value)), "partner");
 	}
 	
-//	private class dateHandler implements ChangeHandler{
-//		TextBox myBox;
-//		
-//		public dateHandler(TextBox aBox){
-//			myBox = aBox;
-//		}
-//
-//		/* (non-Javadoc)
-//		 * @see com.google.gwt.event.dom.client.ChangeHandler#onChange(com.google.gwt.event.dom.client.ChangeEvent)
-//		 */
-//		@Override
-//		public void onChange(ChangeEvent event) {
-//			if(myBox.getText() != ""){
-//				visible.setEnabled(false);
-//				visible.setValue(false);}
-//			else {
-//				visible.setEnabled(true);
-//			}
-//			
-//		}
-//		
-//	}
+	@UiHandler("btnDeleteExercise")
+	void deleteExerciseClick(ClickEvent event){
+		final DialogBox deleteExercise = new DialogBox(false);
+		Label lbl1 = new Label("ARE YOU SURE?  This deletes ALL associated\n" +
+								"files and submissions, and IS NOT RECOVERABLE.");
+		
+		Button delete = new Button("DELETE");
+		Button nvm = new Button("Nevermind");
+		
+		VerticalPanel base = new VerticalPanel();
+		HorizontalPanel line1 = new HorizontalPanel();
+		HorizontalPanel line2 = new HorizontalPanel();
+		
+		deleteExercise.setText("ARE YOU SURE?");
+				
+		delete.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				deleteExercise.hide();
+				String value = exercises.getValue(exercises.getSelectedIndex());
+				Proxy.deleteExercise(exerciseMap.get(value));
+			}
+		});
+		
+		nvm.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				deleteExercise.hide();				
+			}
+		});
+		
+		line1.add(lbl1);
+		line2.add(nvm);
+		line2.add(delete);
+		base.add(line1);
+		base.add(line2);
+		deleteExercise.add(base);
+		
+		deleteExercise.center();
+	}
 
 }
