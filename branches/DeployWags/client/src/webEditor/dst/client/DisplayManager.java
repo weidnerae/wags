@@ -28,10 +28,10 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class DisplayManager implements IsSerializable
 {	
 	private ArrayList<Widget> itemsInPanel;
+	@SuppressWarnings("unused")
 	private TraversalContainer cont;
 	private Problem problem;
 	
-	private Button resetButton;
 	private Button evaluateButton;
 	private TextArea submitText;
 	private AbsolutePanel leftButtonPanel;

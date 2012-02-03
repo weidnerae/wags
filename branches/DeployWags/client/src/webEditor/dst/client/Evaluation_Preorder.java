@@ -42,13 +42,13 @@ public class Evaluation_Preorder extends Evaluation  implements IsSerializable
 			return errorMessage;
 		}
 		
-		emailResult(problemName);
 		Proxy.submitDST(problemName, 1);
 		return "Feedback: Congratulations! Your tree is correct.";
 	}
 
 	private boolean testRootNodeForPreOrderTraversal(String postTrav, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
 	{
+		@SuppressWarnings("unchecked")
 		ArrayList<Node> noParentNodes = (ArrayList<Node>) nodes.clone();
 
 		for(int i = 0; i < edges.size(); i++)
@@ -158,6 +158,7 @@ public class Evaluation_Preorder extends Evaluation  implements IsSerializable
 	
 	private EvaluationNode buildEvaluationTree(ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
 	{
+		@SuppressWarnings("unchecked")
 		ArrayList<Node> noParentNodes = (ArrayList<Node>) nodes.clone();
 
 		for(int i = 0; i < edges.size(); i++)
@@ -243,8 +244,6 @@ public class Evaluation_Preorder extends Evaluation  implements IsSerializable
 		public Node left;
 		public Node right;
 		public boolean visited;
-
-		private EvaluationNode(){}
 
 		public EvaluationNode(Node node, Node parent, Node left, Node right)
 		{

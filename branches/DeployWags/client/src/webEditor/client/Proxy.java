@@ -53,7 +53,6 @@ public class Proxy
 	private static final String logout = getBaseURL()+"?cmd=Logout";
 	private static final String login = getBaseURL()+"?cmd=Login";
 	private static final String registerURL = Proxy.getBaseURL()+"?cmd=RegisterUser";
-	private static final String getExercises = getBaseURL()+"?cmd=GetExerciseList";
 		
 	private static void holdMessage(String message){
 		Notification.cancel(); // Cancel previous clearing schedule if present
@@ -207,7 +206,7 @@ public class Proxy
 	public static void checkMultiUser(final Wags wags){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=CheckMultiUser");
 		try{
-			Request req = builder.sendRequest(null, new RequestCallback(){
+			builder.sendRequest(null, new RequestCallback(){
 	
 				@Override
 				public void onError(Request request, Throwable exception) {
@@ -235,7 +234,7 @@ public class Proxy
 	public static void checkPassword(final Wags wags){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=CheckPassword");
 		try{
-			Request req = builder.sendRequest(null, new RequestCallback(){
+			builder.sendRequest(null, new RequestCallback(){
 	
 				@Override
 				public void onError(Request request, Throwable exception) {
@@ -247,9 +246,7 @@ public class Proxy
 						Response response) {
 					WEStatus status = new WEStatus(response);  
 					
-					if(status.getStat() == WEStatus.STATUS_ERROR){
-						String title = status.getMessage();
-						
+					if(status.getStat() == WEStatus.STATUS_ERROR){	
 						wags.assignPassword();
 					}
 				}
@@ -264,7 +261,7 @@ public class Proxy
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=CheckOpenExercises");
 		
 		try{
-			Request req = builder.sendRequest(null, new RequestCallback() {
+			builder.sendRequest(null, new RequestCallback() {
 				
 				@Override
 				public void onResponseReceived(Request request, Response response) {
@@ -340,7 +337,7 @@ public class Proxy
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=DSTReview&title="+title);
 		
 		try{
-			Request req = builder.sendRequest(null, new RequestCallback(){
+			builder.sendRequest(null, new RequestCallback(){
 	
 				@Override
 				public void onError(Request request, Throwable exception) {
@@ -477,7 +474,7 @@ public class Proxy
 	public static void getLogicalExercises(final ListBox logicalExercises){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetLogicalExercises");
 		try {
-			Request req	 = builder.sendRequest(null, new RequestCallback() {
+			builder.sendRequest(null, new RequestCallback() {
 				
 				@Override
 				public void onResponseReceived(Request request, Response response) {
@@ -537,7 +534,7 @@ public class Proxy
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=AdminReview&exerciseId="+exerciseId);
 		
 		try{
-			Request req = builder.sendRequest(null, new RequestCallback(){
+			builder.sendRequest(null, new RequestCallback(){
 	
 				@Override
 				public void onError(Request request, Throwable exception) {
