@@ -6,7 +6,6 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 
 import webEditor.dst.client.DSTConstants;
 import webEditor.dst.client.EdgeParent;
-import webEditor.dst.client.EdgeUndirected;
 import webEditor.dst.client.Node;
 
 public class AddEdgeRules_TreeMode extends AddEdgeRules implements IsSerializable

@@ -15,8 +15,6 @@ public abstract class EdgeParent implements IsSerializable
 	protected Node n2;
 	protected boolean removable;
 	
-	private EdgeParent(){}
-	
 	public EdgeParent(Node n1, Node n2, EdgeCollection ec, ClickHandler handler, boolean removable)
 	{
 		this.n1 = n1;

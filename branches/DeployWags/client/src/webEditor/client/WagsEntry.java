@@ -3,7 +3,6 @@ package webEditor.client;
 import webEditor.client.view.Login;
 import webEditor.client.view.Registration;
 import webEditor.client.view.Wags;
-import webEditor.dst.client.DataStructureTool;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.http.client.Request;
