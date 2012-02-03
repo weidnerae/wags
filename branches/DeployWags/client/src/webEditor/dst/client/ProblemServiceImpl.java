@@ -10,7 +10,7 @@ public class ProblemServiceImpl
 		AddEdgeRules noEdgeAddition = new AddEdgeRules();
 		Evaluation_BSTTraversal trav = new Evaluation_BSTTraversal();
 		Evaluation_BSTTraversalWithHelp travHelp = new Evaluation_BSTTraversalWithHelp();
-		Evaluation_RadixSortWithHelp radix = new Evaluation_RadixSortWithHelp();
+		
 		
 		int[] noLocs = new int[0]; //used as a placeholder for problems with no preset locations
 		String[] noEdges = new String[0]; //used as a placeholder for problems with no preset edges
@@ -20,7 +20,7 @@ public class ProblemServiceImpl
  		
 		switch(id)
 		{
-			case 0: return new Problem("BST Preorder Traversal (Help on)",
+			case 0: return new TreeProblem("BST Preorder Traversal (Help on)",
 					"Perform a preorder traversal of the binary tree below by clicking" +
 					" nodes in the order the traversal would visit them.",
 					"ABCDEFG",
@@ -34,7 +34,7 @@ public class ProblemServiceImpl
 					false,
 					false,
 					DSTConstants.NODE_CLICKABLE_FORCE_EVAL);
-			case 1: return new Problem("BST Inorder Traversal (Help on)",
+			case 1: return new TreeProblem("BST Inorder Traversal (Help on)",
 					"Perform an inorder traversal of the binary tree below by clicking" +
 					" nodes in the order the traversal would visit them.",
 					"ABCDEFG",
@@ -48,7 +48,7 @@ public class ProblemServiceImpl
 					false,
 					false,
 					DSTConstants.NODE_CLICKABLE_FORCE_EVAL);
-			case 2: return new Problem("BST Postorder Traversal (Help on)",
+			case 2: return new TreeProblem("BST Postorder Traversal (Help on)",
 					"Perform a postorder traversal of the binary tree below by clicking" +
 					" nodes in the order the traversal would visit them.",
 					"ABCDEFG",
@@ -62,7 +62,7 @@ public class ProblemServiceImpl
 					false,
 					false,
 					DSTConstants.NODE_CLICKABLE_FORCE_EVAL);
-			case 3: return new Problem("BST Preorder Traversal (Help off)",
+			case 3: return new TreeProblem("BST Preorder Traversal (Help off)",
 					"Perform a preorder traversal of the binary tree below by clicking" +
 					" nodes in the order the traversal would visit them.",
 					"XRQDHJMZL",
@@ -76,7 +76,7 @@ public class ProblemServiceImpl
 					false,
 					false,
 					DSTConstants.NODE_CLICKABLE);
-			case 4: return new Problem( "BST Inorder Traversal (Help off)",
+			case 4: return new TreeProblem( "BST Inorder Traversal (Help off)",
 					"Perform an inorer traversal of the binary tree below by clicking" +
 					" nodes in the order the traversal would visit them.",
 					"MCLPQNTSD",
@@ -90,7 +90,7 @@ public class ProblemServiceImpl
 					false,
 					false,
 					DSTConstants.NODE_CLICKABLE);
-			case 5: return new Problem("BST Postorder Traversal (Help off)",
+			case 5: return new TreeProblem("BST Postorder Traversal (Help off)",
 					"Perform a postorder traversal of the binarytree below by clicking" +
 					" nodes in the order the traversal would visit them.",
 					"ARJMLQZND",
@@ -104,7 +104,7 @@ public class ProblemServiceImpl
 					false,
 					false,
 					DSTConstants.NODE_CLICKABLE);
-			case 6: return new Problem("Insert Nodes into a BST 1",
+			case 6: return new TreeProblem("Insert Nodes into a BST 1",
 					"Given the following BST, insert the following " +
 					"nodes in order to retain a BST structure." +
 					"\nHint: Add the top node first, and work your way down",
@@ -119,7 +119,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 7: return new Problem("Insert Nodes into a BST 2",
+			case 7: return new TreeProblem("Insert Nodes into a BST 2",
 					"Given the following BST, insert the following " +
 					"nodes in order to retain a BST structure." +
 					"\nHint: Add the top node first, and work your way down",
@@ -134,7 +134,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 8: return new Problem("Insert Nodes into a BST 3",
+			case 8: return new TreeProblem("Insert Nodes into a BST 3",
 					"Given the following BST, insert the following " +
 					"nodes in order to retain a BST structure." +
 					"\nHint: Add the top node first, and work your way down",
@@ -149,7 +149,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 9: return new Problem("Insert Nodes into a BST 4",
+			case 9: return new TreeProblem("Insert Nodes into a BST 4",
 					"Given the following BST, insert the following " +
 					"nodes in order to retain a BST structure." +
 					"\nHint: Add the top node first, and work your way down",
@@ -164,7 +164,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 10: return new Problem("Binary Search Tree from Postorder Traversal 1",
+			case 10: return new TreeProblem("Binary Search Tree from Postorder Traversal 1",
 					"Given the postorder traversal DBHJFPTUSM, " +
 					"construct the original binary search tree.  " +
 					"Hint: The binary search tree is unique.",
@@ -179,7 +179,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 11: return new Problem("Binary Search Tree from Postorder Traversal 2",
+			case 11: return new TreeProblem("Binary Search Tree from Postorder Traversal 2",
 					"Given the postorder traversal, DAJELMONK, " +
 					"construct the original binary search tree.  " +
 					"Hint: The binary search tree is unique.",
@@ -194,7 +194,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 12: return new Problem("Binary Search Tree from Postorder Traversal 3",
+			case 12: return new TreeProblem("Binary Search Tree from Postorder Traversal 3",
 					"Given the postorder traversal BAOMFRXZUP, " +
 					"construct the original binary search tree.  " +
 					"Hint: The binary search tree is unique.",
@@ -209,7 +209,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 13: return new Problem("Binary Search Tree from Postorder Traversal 4",
+			case 13: return new TreeProblem("Binary Search Tree from Postorder Traversal 4",
 					"Given the postorder traversal BEAKJHTRQ, " +
 					"construct the original binary search tree.  " +
 					"Hint: The binary search tree is unique.",
@@ -224,7 +224,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 14: return new Problem("Binary Tree from Pre/Inorder Traversals 1",
+			case 14: return new TreeProblem("Binary Tree from Pre/Inorder Traversals 1",
 					"Given the preorder traversal XDMLTKJ, and " +
 					"the inorder traversal MDLXKTJ " +
 					"construct the original binary tree.  " +
@@ -240,7 +240,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 15: return new Problem("Binary Tree from Pre/Inorder Traversals 2",
+			case 15: return new TreeProblem("Binary Tree from Pre/Inorder Traversals 2",
 					"Given the preorder traversal EXPORALS, and " +
 					"the inorder traversal OPXELARS " +
 					"construct the original binary tree.  " +
@@ -256,7 +256,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 16: return new Problem("Binary Tree from Pre/Inorder Traversals 3",
+			case 16: return new TreeProblem("Binary Tree from Pre/Inorder Traversals 3",
 					"Given the preorder traversal PDLSOQNTB, and " +
 					"the inorder traversal SLODQPNTB " +
 					"construct the original binary tree.  " +
@@ -272,7 +272,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 17: return new Problem("Binary Tree from Pre/Inorder Traversals 4",
+			case 17: return new TreeProblem("Binary Tree from Pre/Inorder Traversals 4",
 					"Given the preorder traversal DLGNRAOPETM, and " +
 					"the inorder traversal GNRLADPEOTM " +
 					"construct the original binary tree.  " +
@@ -288,21 +288,8 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 18: return new Problem("RADIX Sort",
-					"Complete Radix sort on the numbers below by dragging them into the correct bucket",
-                    "634 843 235 643 79 823 9 543 428 67",
-                    DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
-                    new int[]{250,150,350,75,225,275,425},
-                    new int[]{50,50,50,50,50,50,50},
-                    noEdges,
-                    new String[]{"0004110112", "84364382354363423567428799"},       
-                    radix,
-                    noEdgeAddition,
-                    false,
-                    true,
-                    DSTConstants.NODE_STRING_DRAGGABLE);
 		default:
-			return new Problem("Binary Search Tree from Postorder Traversal 1",
+			return new TreeProblem("Binary Search Tree from Postorder Traversal 1",
 					"Given the postorder traversal DBHJFPTUSM, " +
 					"construct the original binary search tree.  " +
 					"Hint: The binary search tree is unique.",
@@ -339,7 +326,6 @@ public class ProblemServiceImpl
 		if(problem.equals("Binary Tree from Pre/Inorder Traversals 2")) return 15;
 		if(problem.equals("Binary Tree from Pre/Inorder Traversals 3")) return 16;
 		if(problem.equals("Binary Tree from Pre/Inorder Traversals 4")) return 17;
-		if(problem.equals("RADIX Sort")) return 18;
 		
 		return 0;
 	}

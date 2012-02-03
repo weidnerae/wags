@@ -2,65 +2,47 @@ package webEditor.dst.client;
 
 import java.util.ArrayList;
 
-import org.vaadin.gwtgraphics.client.DrawingArea;
-import org.vaadin.gwtgraphics.client.Line;
-
 import webEditor.client.Proxy;
 
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
-
-public class DisplayManager implements IsSerializable
-{
-	private AbsolutePanel panel;
-	private DrawingArea canvas;
-	private NodeCollection nodeCollection;
-	private EdgeCollection edgeCollection;
+/**
+ * - Extend this class to create a Display manager specific to each type of problem.
+ * - Initially, this was designed for problems based on trees, so it was difficult to 
+ * add any other type of problem. Everything that was in here originally is now in 
+ * the TreeDisplayManager class.
+ * - For each type of problem, also create a new class that extends the Problem class. 
+ * The createDisplayManager() method in the Problem class should return the type of 
+ * DisplayManager that corresponds to each problem.
+ * - You may need to override the addEvaluateButton() method. I've commented out the 
+ * code that was there specific to the TreeProblem, but it may be useful in the future.
+ *
+ */
+public abstract class DisplayManager implements IsSerializable
+{	
 	private ArrayList<Widget> itemsInPanel;
-	private Problem problem;
-	private boolean addingEdge;
-	private boolean removingEdge;
 	private TraversalContainer cont;
-	private AbsolutePanel labelPanel;
-
-	//permanent widgets
+	private Problem problem;
+	
 	private Button resetButton;
-	private Button addEdgeButton;
-	private Button removeEdgeButton;
-	private Label edgeAdditionIns;
-	private AbsolutePanel edgeAdditionInsPanel;
 	private Button evaluateButton;
 	private TextArea submitText;
 	private AbsolutePanel leftButtonPanel;
 	private AbsolutePanel middlePanel;
 	private AbsolutePanel rightButtonPanel;
 	private Button submitOkButton;
+	
+	private boolean showingSubMess;
 
-
-	public DisplayManager(DrawingArea canvas, AbsolutePanel panel,
-			NodeCollection nc, EdgeCollection ec, Problem problem)
-	{
-		System.out.println(problem.getName());
-		this.panel = panel;
-		this.canvas = canvas;
-		this.nodeCollection = nc;
-		this.edgeCollection = ec;
-		this.problem = problem;
-		this.addingEdge = false;
-		this.removingEdge = false;
-		this.itemsInPanel = new ArrayList<Widget>();
-	}
-
+	protected abstract void addResetButton();
+	
 	public void displayProblem()
 	{
 		cont = new TraversalContainer(this);
@@ -71,158 +53,27 @@ public class DisplayManager implements IsSerializable
 		addBackButton();
 		addResetButton();
 		addEvaluateButton();
-		
-		if(problem.getEdgesRemovable())
-		{
-			addAddEdgeButton();
-			addRemoveEdgeButton();
-		}
-		
-		insertNodesAndEdges();
 	}
 	
-	private void insertNodesAndEdges()
+	public void forceEvaluation()
 	{
-		cont = new TraversalContainer(this); //for reset of traversal problems
-		if(problem.getInsertMethod().equals(DSTConstants.INSERT_METHOD_VALUE))
-		{
-			insertNodesByValue(problem.getNodes());
-		}
-		else
-		{
-			insertNodesByValueAndLocation(problem.getNodes(), problem.getXPositions(),
-					problem.getYPositions(), problem.getNodesDraggable(), problem.getNodeType());
-		}
-		
-		
-		if(problem.getEdges().length > 0)
-			edgeCollection.insertEdges(problem.getEdges(), getNodes());
-	}
-
-	//Add Edge Button
-	private HandlerRegistration edgeEventHandler;
-	private HandlerRegistration edgeCancelEventHandler;
-	private HandlerRegistration removeEdgeEventHandler;
-	private HandlerRegistration removeEdgeCancelEventHandler;
-	private ClickHandler removeEdgeClickHandler;
-	private ClickHandler removeEdgeCancelClickHandler;
-	private ClickHandler edgeClickHandler;
-	private ClickHandler edgeCancelClickHandler;
-	private boolean showingSubMess;
-
-	private class AddEdgeClickHandler implements ClickHandler
-	{
-		public void onClick(ClickEvent event) {
-			removeWidgetsFromPanel();
-			resetRemoveEdgeButton();
-			resetNodeStyles();
-			resetEdgeStyles();
-			makeNodesNotDraggable();
-			addEdgeStart();
-			edgeCollection.addNextEdge();
-		}	
-	}
-
-	private class AddEdgeCancelClickHandler implements ClickHandler
-	{
-		public void onClick(ClickEvent event) {
-			addEdgeCancel();
-			removeEdgeCancelEventHandler.removeHandler();
-			removeEdgeButton.addClickHandler(removeEdgeClickHandler);
-		}	
+		evaluateButton.click();
 	}
 	
-	private class RemoveEdgeClickHandler implements ClickHandler
+	public void removeWidgetsFromPanel()
 	{
-		public void onClick(ClickEvent event)
+		for(int i = 0; i < itemsInPanel.size(); i++)
 		{
-			if(getEdges().size() > 0)
-			{
-				addEdgeCancel();
-				removeWidgetsFromPanel();
-				
-				removingEdge = true;
-				removeEdgeButton.setText("Cancel");
-				removeEdgeEventHandler.removeHandler();
-				removeEdgeCancelEventHandler = removeEdgeButton.addClickHandler(removeEdgeCancelClickHandler);
-
-				Label l = new Label("Click Edge to Remove");
-				l.setStyleName("edge_remove");
-				addToPanel(l, 445, DSTConstants.EDGE_PROMPT_Y);
-			}
+			RootPanel.get().remove(itemsInPanel.get(i));
 		}
 	}
 	
-	private class RemoveEdgeCancelClickHandler implements ClickHandler
+	public void addToPanel(Widget w, int left, int top)
 	{
-		public void onClick(ClickEvent event)
-		{
-			resetRemoveEdgeButton();
-			removeWidgetsFromPanel();
-			addEdgeCancel();
-		}
-	}
-
-	private void resetEdgeButton()
-	{
-		addEdgeButton.setText("Add Edge");
-		edgeCancelEventHandler.removeHandler();
-		edgeEventHandler = addEdgeButton.addClickHandler(edgeClickHandler);
+		itemsInPanel.add(w);
+		RootPanel.get().add(w, left, top);
 	}
 	
-	public void resetRemoveEdgeButton()
-	{
-		if(removingEdge)
-		{
-			removeEdgeButton.setText("Remove Edge");
-			removeEdgeCancelEventHandler.removeHandler();
-			removeEdgeEventHandler = removeEdgeButton.addClickHandler(removeEdgeClickHandler);
-			removingEdge = false;
-		}
-	}
-
-	public void addEdgeStart()
-	{
-		addEdgeButton.setText("Cancel");
-		edgeEventHandler.removeHandler();		
-		edgeCancelEventHandler = addEdgeButton.addClickHandler(edgeCancelClickHandler);
-		addingEdge = true;
-		RootPanel.get().add(edgeAdditionInsPanel, 346, 131);
-	}
-
-	public void addEdgeCancel()
-	{
-		if(addingEdge)
-		{
-			makeNodesDraggable();
-			edgeCollection.clearEdgeNodeSelections();		
-			resetEdgeButton();
-			resetEdgeStyles();
-			resetNodeStyles();
-			setEdgeNodeSelectionInstructions("");
-			addingEdge = false;
-		}
-	}
-	
-	public void removeEdgeCancel()
-	{
-		if(removingEdge)
-		{
-			resetRemoveEdgeButton();
-			removingEdge = false;
-		}
-	}
-
-	public void setEdgeNodeSelectionInstructions(String ins)
-	{
-		if(ins.equals(""))
-		{
-			RootPanel.get().remove(edgeAdditionInsPanel);
-		}
-		edgeAdditionIns.setText(ins);
-	}
-	//End Add Edge Button
-
 	private void addProblemTextArea()
 	{
 		TextArea t = new TextArea();
@@ -271,35 +122,6 @@ public class DisplayManager implements IsSerializable
 		leftButtonPanel.add(backButton, 2, 2);
 	}
 
-	private void addResetButton()
-	{
-		resetButton = new Button("Reset");
-		resetButton.addClickHandler(new ClickHandler(){
-			public void onClick(ClickEvent event)
-			{
-				removeWidgetsFromPanel();
-				addEdgeCancel();
-				resetRemoveEdgeButton();
-
-				for(int i = 0; i < getNodes().size(); i++)
-				{
-					panel.remove(getNodes().get(i).getLabel());
-				}
-
-				for(int i = 0; i < getEdges().size(); i++)
-				{
-					canvas.remove(getEdges().get(i).getLine());
-				}
-
-				edgeCollection.emptyEdges();
-				nodeCollection.emptyNodes();
-				insertNodesAndEdges();
-			}
-		});
-		resetButton.setStyleName("control_button");
-		leftButtonPanel.add(resetButton, 62, 2);
-	}
-
 	private void addEvaluateButton()
 	{
 		evaluateButton = new Button("Evaluate");
@@ -307,13 +129,11 @@ public class DisplayManager implements IsSerializable
 		evaluateButton.addClickHandler(new ClickHandler()
 		{
 			public void onClick(ClickEvent event)
-			{
-				//addEdgeCancel();
-				//resetRemoveEdgeButton();
-				//removeWidgetsFromPanel();
-
-				setEdgeParentAndChildren();
-				String evalResult = problem.getEval().evaluate(problem.getName(), problem.getArguments(), getNodes(), getEdges());
+			{				
+				//setEdgeParentAndChildren();
+				//String evalResult = problem.getEval().evaluate(problem.getName(), problem.getArguments(), getNodes(), getEdges());
+				
+				String evalResult = problem.evaluate();
 
 				if(showingSubMess == true)
 				{
@@ -349,150 +169,5 @@ public class DisplayManager implements IsSerializable
 				showingSubMess = false;
 			}	
 		});
-	}
-	
-	private void addAddEdgeButton()
-	{	
-		addEdgeButton = new Button("Add Edge");					
-		addEdgeButton.setWidth("124px");
-		edgeClickHandler = new AddEdgeClickHandler();
-		edgeCancelClickHandler = new AddEdgeCancelClickHandler();
-		edgeEventHandler = addEdgeButton.addClickHandler(edgeClickHandler);
-		edgeAdditionIns = new Label("");
-		edgeAdditionIns.setStyleName("edge_instructions");
-		edgeAdditionInsPanel = new AbsolutePanel();
-		edgeAdditionInsPanel.setPixelSize(256, 20);
-		edgeAdditionInsPanel.setStyleName("edge_addition_panel");
-		edgeAdditionInsPanel.add(edgeAdditionIns);
-		addEdgeButton.setStyleName("control_button");
-		rightButtonPanel.add(addEdgeButton, 3, 2);
-	}
-
-	private void addRemoveEdgeButton()
-	{
-		removeEdgeButton = new Button("Remove Edge");
-		removeEdgeButton.setWidth("124px");
-		removeEdgeButton.setStyleName("control_button");
-		removeEdgeClickHandler = new RemoveEdgeClickHandler();
-		removeEdgeCancelClickHandler = new RemoveEdgeCancelClickHandler();
-		removeEdgeEventHandler = removeEdgeButton.addClickHandler(removeEdgeClickHandler);
-		rightButtonPanel.add(removeEdgeButton, 133, 2);
-	}
-
-	public void insertNodesByNumber(int numNodes)
-	{
-		for(int i = 0; i < numNodes; i++)
-		{
-			Label label = new Label(((char)('A'+i))+"");
-			label.setStyleName("node");
-			panel.add(label, 5, 150+(50 *i));
-			NodeDragController.getInstance().makeDraggable(label);
-			nodeCollection.addNode(new Node(((char)('A'+i)), label));
-		}
-	}
-
-	public void insertNodesByValue(String nodes)
-	{
-		for(int i = 0; i < nodes.length(); i++)
-		{
-			Label label = new Label(nodes.charAt(i)+"");
-			label.setStyleName("node");
-			label.getElement().getStyle().setTop(10+(45*i), Style.Unit.PX);
-			panel.add(label);
-			NodeDragController.getInstance().makeDraggable(label);
-			nodeCollection.addNode(new Node(nodes.charAt(i), label));
-		}
-	}
-	
-	 public void insertNodesByValueAndLocation(String nodes, int[] xPositions, int[] yPositions, boolean draggable,
-             String nodeType)
-	 {               
-		 if(nodes.length() != xPositions.length || nodes.length() != yPositions.length)
-             throw new NullPointerException(); //need to find right exception
-		 else if(nodeType.equals(DSTConstants.NODE_STRING_DRAGGABLE)){
-			 String labelString="";
-			 int n=0;
-			 char ctr='a';
-			 int counter = 0;
-			 while(n<nodes.length()){
-				 if(nodes.substring(n,n).equals(" ")){
-                     	Label label = new Label(labelString);
-                     	label.setStyleName("stringNode");
-                     	panel.add(label, xPositions[counter], yPositions[counter]);
-                        if(draggable) NodeDragController.getInstance().makeDraggable(label);
-                     	nodeCollection.addNode(new Node(ctr, label));
-                     	ctr++;
-                     	counter++;
-				 }
-				 else{
-					 labelString+=nodes.charAt(n);
-				 }
-				 n++;
-			 }
-		 }	
-	 }
-
-	public ArrayList<Node> getNodes()
-	{
-		return nodeCollection.getNodes();
-	}
-
-	public ArrayList<EdgeParent> getEdges()
-	{
-		return edgeCollection.getEdges();
-	}
-
-	public void addToPanel(Widget w, int left, int top)
-	{
-		itemsInPanel.add(w);
-		RootPanel.get().add(w, left, top);
-	}
-
-	public void removeWidgetsFromPanel()
-	{
-		for(int i = 0; i < itemsInPanel.size(); i++)
-		{
-			RootPanel.get().remove(itemsInPanel.get(i));
-		}
-	}
-
-	public void drawEdge(Line line)
-	{
-		canvas.add(line);
-	}
-
-	public void removeEdge(Line line)
-	{
-		canvas.remove(line);
-	}
-
-	public void makeNodesDraggable()
-	{
-		nodeCollection.makeNodesDraggable(NodeDragController.getInstance());
-	}
-
-	public void makeNodesNotDraggable()
-	{
-		nodeCollection.makeNodesNotDraggable(NodeDragController.getInstance());
-	}
-
-	public void resetNodeStyles()
-	{
-		nodeCollection.resetNodeStyles();
-	}
-
-	public void resetEdgeStyles()
-	{
-		edgeCollection.resetEdgeColor();
-	}
-
-	public void setEdgeParentAndChildren()
-	{
-		edgeCollection.setParentAndChildNodes();
-	}
-	
-	public void forceEvaluation()
-	{
-		evaluateButton.click();
 	}
 }
