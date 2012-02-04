@@ -1,10 +1,12 @@
 package webEditor.dst.client;
+
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.allen_sauer.gwt.dnd.client.DragContext;
 import com.allen_sauer.gwt.dnd.client.drop.GridConstrainedDropController;
+
 public class GridNodeDropController extends GridConstrainedDropController {
 	private static GridNodeDropController dc;
-	private static EdgeCollection ec;
+	private static NodeCollection nc;
 	private static AbsolutePanel boundaryPanel;
 	private static int gridX;
 	private static int gridY;
@@ -21,18 +23,11 @@ public class GridNodeDropController extends GridConstrainedDropController {
 		super(boundaryPanel, gridX, gridY);
 	}
 		
-	public static void setFields(AbsolutePanel theBoundaryPanel,int theGridX, int theGridY)
+	public static void setFields(AbsolutePanel theBoundaryPanel, int theGridX, int theGridY)
 	{
 		boundaryPanel = theBoundaryPanel;
 		gridX=theGridX;
 		gridY=theGridY;
-		dc = new GridNodeDropController(boundaryPanel,gridX,gridY);
+		dc = new GridNodeDropController(boundaryPanel, gridX, gridY);
 	}
- 
-	public void onDrop(DragContext context)
-	{
-		super.onDrop(context);
-		ec.updateEdgeDrawings();
-	}
-	
 }

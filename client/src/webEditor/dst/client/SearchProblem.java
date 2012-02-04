@@ -19,8 +19,7 @@ public class SearchProblem extends Problem implements IsSerializable {
 	private SearchDisplayManager dm;
 
 	public SearchProblem(String name, String problemText, String nodes, String insertMethod, int[] xPositions, int[] yPositions, 
-			String[] arguments, Evaluation eval,
-			boolean nodesDraggable, String nodeType)
+			String[] arguments, Evaluation eval, boolean nodesDraggable, String nodeType)
 	{
 		this.name = name;
 		this.problemText = problemText;
@@ -35,15 +34,13 @@ public class SearchProblem extends Problem implements IsSerializable {
 	}
 	
 	public DisplayManager createDisplayManager(AbsolutePanel panel, DrawingArea canvas) {
-	//	EdgeCollection ec = new EdgeCollection(getRules(), 
-	//			new String[]{"Select first node of edge","Select second node of edge"}, getEdgesRemovable());
 	    NodeDragController.setFields(panel, true, null);
 	//	NodeDropController.setFields(panel, ec);
 	    GridNodeDropController.setFields(panel,10,10);
 		NodeDragController.getInstance().registerDropController(GridNodeDropController.getInstance());		
 		NodeCollection nc = new NodeCollection();
 		
-		dm = new SearchDisplayManager(canvas, panel, nc,null, this);		
+		dm = new SearchDisplayManager(canvas, panel, nc, this);		
 		return dm;
 	}
 	
