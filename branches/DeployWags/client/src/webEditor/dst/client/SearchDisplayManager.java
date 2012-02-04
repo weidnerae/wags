@@ -42,13 +42,12 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 
 
 	public SearchDisplayManager(DrawingArea canvas, AbsolutePanel panel,
-			NodeCollection nc, EdgeCollection ec, SearchProblem problem)
+			NodeCollection nc, SearchProblem problem)
 	{
 		System.out.println(problem.getName());
 		this.panel = panel;
 		this.canvas = canvas;
 		this.nodeCollection = nc;
-		this.edgeCollection = ec;
 		this.problem = problem;
 		this.itemsInPanel = new ArrayList<Widget>();
 	}
@@ -78,6 +77,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		t.setText(problem.getProblemText());
 		RootPanel.get().add(t, 2, 5);
 	}
+	
 	private void addCounterPanel(){
 		TextArea cp = new TextArea();
 		cp.setStyleName("problem_statement");
@@ -127,15 +127,22 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		rightButtonPanel.setStyleName("right_panel");
 		RootPanel.get().add(rightButtonPanel, 222, 100);
 	}
-	private void addBucketLabels(){
-		for(int i=0;i<10;i++){
+	
+	private void addBucketLabels() {
+		AbsolutePanel bucketHolder = new AbsolutePanel();
+		bucketHolder.setPixelSize(601, 30);
+		bucketHolder.setStyleName("bucket_holding_panel");
+		
+		for (int i = 0; i < 10; i++) {
 			labelPanel = new AbsolutePanel();
-			Label l = new Label(""+i);
+			Label l = new Label("" + i);
 			labelPanel.add(l);
-			labelPanel.setPixelSize(40,30);
+			labelPanel.setPixelSize(60, 30);
 			labelPanel.setStyleName("bucket_panel");
-			RootPanel.get().add(labelPanel,2+((i+1)*55),130);
+			bucketHolder.add(labelPanel, (60 * i) + 1, 0);
 		}
+		
+		RootPanel.get().add(bucketHolder, 2, 175);
 	}
 
 	private void addBackButton()
@@ -253,30 +260,29 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 	
 	public void insertNodesByValueAndLocation(String nodes, int[] xPositions, int[] yPositions, boolean draggable,
 			String nodeType)
-	{		
-		if(nodes.length() != xPositions.length || nodes.length() != yPositions.length)
+	{
+		int spaces = 0;
+		
+		for (int i = 0; i < nodes.length(); i++) {
+			if (nodes.charAt(i) == ' ')
+				spaces++;
+		}
+		
+		spaces++;
+		
+		if (spaces != xPositions.length || spaces != yPositions.length)
 			throw new NullPointerException(); //need to find right exception
-		 else if(nodeType.equals(DSTConstants.NODE_STRING_DRAGGABLE)){
-			 String labelString="";
-			 int n=0;
-			 char ctr='a';
-			 int counter = 0;
-			 while(n<nodes.length()){
-				 if(nodes.charAt(n)==' '){
-                     	Label label = new Label(labelString);
-                     	label.setStyleName("string_node");
-                     	panel.add(label, xPositions[counter], yPositions[counter]);
-                        NodeDragController.getInstance().makeDraggable(label);
-                     	nodeCollection.addNode(new Node(ctr, label));
-                     	ctr++;
-                     	counter++;
-				 }
-				 else{
-					 labelString+=nodes.charAt(n);
-				 }
-				 n++;
-			 }
-		 }	
+		else if(nodeType.equals(DSTConstants.NODE_STRING_DRAGGABLE)) {
+			String[] labels = nodes.split(" ");
+			
+			for (int i = 0; i < labels.length; i++) {
+				Label label = new Label(labels[i]);
+				label.setStyleName("string_node");
+                panel.add(label, xPositions[i], yPositions[i]);
+                NodeDragController.getInstance().makeDraggable(label);
+                nodeCollection.addNode(new Node((char) i, label));
+			}
+		}	
 		else
 		{
 			for(int i = 0; i < nodes.length(); i++)
