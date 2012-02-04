@@ -10,7 +10,6 @@ import webEditor.client.Proxy;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
@@ -72,7 +71,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 	{
 		TextArea t = new TextArea();
 		t.setStyleName("problem_statement");
-		t.setPixelSize(450, 90);   // was 598,90
+		t.setPixelSize(400, 90);   // was 598,90
 		t.setReadOnly(true);
 		t.setText(problem.getProblemText());
 		RootPanel.get().add(t, 2, 5);
@@ -81,10 +80,10 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 	private void addCounterPanel(){
 		TextArea cp = new TextArea();
 		cp.setStyleName("problem_statement");
-		cp.setPixelSize(146,90);
+		cp.setPixelSize(195, 90);
 		cp.setReadOnly(true);
-		cp.setText("Current Digit");
-		RootPanel.get().add(cp,452,5);
+		cp.setText("Current Digit: 1");
+		RootPanel.get().add(cp, 407, 5);
 		
 	}
 	private void insertNodesAndEdges()
@@ -116,7 +115,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 	{
 		middlePanel = new AbsolutePanel();
 		middlePanel.setPixelSize(214, 30);
-		middlePanel.setStyleName("middle_panel");
+		middlePanel.setStyleName("right_panel");
 		RootPanel.get().add(middlePanel, 132, 100);
 	}
 
@@ -130,7 +129,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 	
 	private void addBucketLabels() {
 		AbsolutePanel bucketHolder = new AbsolutePanel();
-		bucketHolder.setPixelSize(601, 30);
+		bucketHolder.setPixelSize(600, 30);
 		bucketHolder.setStyleName("bucket_holding_panel");
 		
 		for (int i = 0; i < 10; i++) {
@@ -142,7 +141,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 			bucketHolder.add(labelPanel, (60 * i) + 1, 0);
 		}
 		
-		RootPanel.get().add(bucketHolder, 2, 175);
+		RootPanel.get().add(bucketHolder, 3, 174);
 	}
 
 	private void addBackButton()
