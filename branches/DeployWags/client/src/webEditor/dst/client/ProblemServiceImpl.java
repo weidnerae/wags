@@ -290,11 +290,14 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 18: return new SearchProblem("RADIX Sort",
-					"Complete Radix sort on the numbers below by dragging them into the correct bucket. 50",
+					"A queue of data values is shown at the top of the display. " +
+					"Using the given digit position move each value to the " + 
+					"appropriate bucket. Each bucket is a queue structure with " + 
+					"the front below the label and the rear at the bottom of the screen.",
                     "634 843 235 643 79 823 9 543 428 67",
                     DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
-					new int[]{10, 70, 130, 190, 250, 320, 390, 440, 500, 550},
-					new int[]{10, 10, 10, 10, 10, 10, 10, 10, 10, 10},
+					new int[]{10, 70, 130, 190, 250, 310, 370, 430, 490, 550},
+					new int[]{7, 7, 7, 7, 7, 7, 7, 7, 7, 7},
                     new String[]{"0004110112", "84364382354363423567428799"},       
                     radix,
                     true,
