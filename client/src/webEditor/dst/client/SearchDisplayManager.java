@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class SearchDisplayManager extends DisplayManager implements IsSerializable
 {
+	
 	private AbsolutePanel panel;
 	private DrawingArea canvas;
 	private NodeCollection nodeCollection;
