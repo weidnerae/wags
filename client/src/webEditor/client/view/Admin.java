@@ -36,7 +36,6 @@ public class Admin extends Composite{
 	@UiField SubmitButton addButton;
 	@UiField FormPanel adminForm;
 	@UiField TextBox fileName;
-//	@UiField CheckBox visible;
 	@UiField ListBox exercises;
 	@UiField ListBox logicalExercises;
 	@UiField Button btnDSTReview;
@@ -64,11 +63,6 @@ public class Admin extends Composite{
 		//Fill in exercise listbox
 		Proxy.getVisibleExercises(exercises, exerciseMap); 
 		Proxy.getLogicalExercises(logicalExercises);
-		
-		//Adds handler to date textboxes that disable the
-		//is visible box with it unchecked
-//		openDate.addChangeHandler(new dateHandler(openDate));
-//		closeDate.addChangeHandler(new dateHandler(closeDate));
 		
 		//Handle the Add Exercise Form
 		adminForm.setAction(Proxy.getBaseURL() + "?cmd=AddExercise");

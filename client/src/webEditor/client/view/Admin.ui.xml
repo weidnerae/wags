@@ -167,6 +167,7 @@
 				<g:CheckBox ui:field="InsertNodes" name="InsertNodes">Insert Nodes </g:CheckBox>
 				<g:CheckBox ui:field="BuildBST" name="BuildBST">Build Binary Tree</g:CheckBox>
 				<g:CheckBox ui:field="BuildBT" name="BuildBT">Build Binary Tree</g:CheckBox>
+				<g:CheckBox ui:field="RadixSort" name="RadixSort">Radix Sort</g:CheckBox>
 				
 				<g:SubmitButton ui:field="sbtDST" styleName="{style.button}"> Set Exercises </g:SubmitButton>
 			</g:VerticalPanel>

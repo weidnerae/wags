@@ -72,7 +72,6 @@ public class WagsEntry implements EntryPoint
 				}
 				@Override
 				public void onError(Request request, Throwable exception) {
-					// TODO: Show this message in a notification area.
 					Window.alert("Could not connect to server.");
 				}
 			});
@@ -88,7 +87,6 @@ public class WagsEntry implements EntryPoint
 	}
 	
 	private static void editor(){
-		// TODO: Is user logged in?
 		RootLayoutPanel root = RootLayoutPanel.get();
 		root.add(new Wags());		
 	}

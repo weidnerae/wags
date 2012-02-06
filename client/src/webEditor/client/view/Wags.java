@@ -144,7 +144,6 @@ public class Wags extends View
 			
 			@Override
 			public void onBeforeSelection(BeforeSelectionEvent<Integer> event) {
-				// TODO Auto-generated method stub
 				if(tabPanel.getSelectedIndex() == 0){
 					curPath = getPath(browser.getTree().getSelectedItem());
 				}
