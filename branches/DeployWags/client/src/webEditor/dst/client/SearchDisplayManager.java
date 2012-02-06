@@ -50,6 +50,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		this.nodeCollection = nc;
 		this.problem = problem;
 		this.itemsInPanel = new ArrayList<Widget>();
+		drawLines();
 	}
 
 	public void displayProblem()
@@ -172,12 +173,6 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 					panel.remove(getNodes().get(i).getLabel());
 				}
 
-				for(int i = 0; i < getEdges().size(); i++)
-				{
-					canvas.remove(getEdges().get(i).getLine());
-				}
-
-				edgeCollection.emptyEdges();
 				nodeCollection.emptyNodes();
 				insertNodesAndEdges();
 			}
@@ -194,8 +189,8 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		{
 			public void onClick(ClickEvent event)
 			{
-				setEdgeParentAndChildren();
-				String evalResult = problem.getEval().evaluate(problem.getName(), problem.getArguments(), getNodes(), getEdges());
+			//	setEdgeParentAndChildren();
+				String evalResult = problem.getEval().evaluate(problem.getName(), problem.getArguments(), getNodes(), null);
 
 				if(showingSubMess == true)
 				{
@@ -231,6 +226,12 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 				showingSubMess = false;
 			}	
 		});
+	}
+	public void drawLines(){
+		for(int i=1;i<=9;i++){
+			Line line = new Line(i*60,50,i*60,700);
+			drawEdge(line);
+		}
 	}
 
 	public void insertNodesByNumber(int numNodes)
