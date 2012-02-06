@@ -123,7 +123,6 @@ public class Registration extends View
 	/**
 	 * Check if both password fields have any characters in them.
 	 * Password needs to be longer than NOTHING.
-	 * TODO: Run wordlist on password. 
 	 * 
 	 * @return boolean
 	 */
