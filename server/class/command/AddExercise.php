@@ -32,9 +32,6 @@ class AddExercise extends Command
 
 		#If there are open and close dates, check that they are
 		#parsable
-        #TODO: Make it so exercises can only have a "closedate"
-        #i.e., the default is exercises open when added, but can still
-        #have a specific expiration date
         if($closeDate != ""){
             $closeDate = strtotime($closeDate);
             if($openDate == ""){
@@ -99,6 +96,7 @@ class AddExercise extends Command
 				
 				$file->save();
 			}
+        #A new exercise altogether
 		}else{
        		//check all files for plain text
        		$finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -189,22 +187,6 @@ class AddExercise extends Command
             else{
                 JSON::success('Uploaded exercise '.$e->getTitle());
 			}
-
-			//NOT WORKING AT ALL
-            //Update files with correct exercise ID
-            //This is terrible terrible terrible stuff
-			$Sol = CodeFile::getCodeFileById($e->getSolutionId());
-			$Sol->setExerciseId($e->getId());
-			$Sol->save();
-
-			$Skel = CodeFile::getCodeFileById($e->getSkeletonId());
-			$Skel->setExerciseId($e->getId());
-			$Skel->save();
-
-			$TestClass = CodeFile::getCodeFileById($e->getTestClassId());
-			$TestClass->setExerciseId($e->getId());
-			$TestClass->save();
-
 
         }catch(Exception $e){
             return JSON::error($f->getMessage());
