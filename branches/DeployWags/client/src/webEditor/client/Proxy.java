@@ -40,8 +40,6 @@ public class Proxy
 	//private static final String baseURL = "http://cs.appstate.edu/wags/server.php";
 	
 	// for deploying on Test_Version CS
-	
-	
 	private static final String baseURL = "http://cs.appstate.edu/wags/Test_Version/server.php";
 	
 	private static final String getFileContents = getBaseURL()+"?cmd=GetFileContents";
@@ -265,13 +263,10 @@ public class Proxy
 				
 				@Override
 				public void onResponseReceived(Request request, Response response) {
-	
 				}
 				
 				@Override
 				public void onError(Request request, Throwable exception) {
-					// TODO Auto-generated method stub
-					
 				}
 			});
 		} catch (RequestException e){
@@ -937,13 +932,6 @@ public class Proxy
 			}
 	}
 
-	/**
-	 * Save the file with the given name on server side.
-	 * For now this is just going to take a string with all
-	 * the file's contents. Later I will make this a diff of
-	 * some sort.
-	 * TODO: Read above.text
-	 */
 	public static boolean saveFile(String fileName, String contents, final FileBrowser browser, final boolean notify)
 	{
 		holdMessage("Saving...");

@@ -28,7 +28,6 @@ abstract class WagsCallback implements RequestCallback
 		}else if(status.getStat() == WEStatus.STATUS_WARNING){
 			this.warning(status);
 		}else{
-			/* TODO: Do we need a default handler? */
 			return;
 		}
 	}
