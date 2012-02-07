@@ -252,7 +252,8 @@ class Exercise extends Model
 		require_once('Database.php');
 		$db = Database::getDb();
 
-		$sth = $db->prepare('SELECT user.username, file.name, submission.success, submission.partner
+		$sth = $db->prepare('SELECT user.username, file.name, submission.success, submission.partner,
+            submission.numAttempts
 			FROM submission JOIN file
 			ON submission.fileId = file.id
             JOIN user ON submission.userId = user.id
