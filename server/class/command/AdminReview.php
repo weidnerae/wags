@@ -21,6 +21,7 @@ class AdminReview extends Command
 			foreach($subInfo as $row){
 				$result[] = $row['username'];
 				$result[] = $row['name'];
+                $result[] = $row['numAttempts'];
 				$result[] = $row['success'];
 				if($row['partner'] != NULL){
 					$result[] = $row['partner'];
