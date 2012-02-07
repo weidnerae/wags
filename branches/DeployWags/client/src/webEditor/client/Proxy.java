@@ -562,10 +562,17 @@ public class Proxy
 			  		int k = 0;
 			  		//Fills table with results from AdminReview.php
 			  	    for (int row = 1; row < subInfo.length/NUM_COLUMNS+1; ++row) {
-			  	      for (int col = 0; col < NUM_COLUMNS; ++col)
-			  	        grid.setText(row, col, subInfo[k++]);
+			  	      for (int col = 0; col < NUM_COLUMNS; ++col){
+			  	    	//numAttempts is 0 based on server, so increment
+			  	    	if(col == 2){
+			  	    		int numAttempts = Integer.parseInt(subInfo[k++]);
+			  	    		numAttempts++;
+			  	    		grid.setText(row, col, numAttempts + "");
+			  	    	} else {
+			  	    		grid.setText(row, col, subInfo[k++]);
+			  	    	}
+			  	      }
 			  	    }
-					
 				}
 				
 			});
