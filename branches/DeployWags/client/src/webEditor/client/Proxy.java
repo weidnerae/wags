@@ -527,7 +527,7 @@ public class Proxy
 
 	public static void getSubmissionInfo(int exerciseId, final Grid grid){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=AdminReview&exerciseId="+exerciseId);
-		
+		final int NUM_COLUMNS = 5;
 		try{
 			builder.sendRequest(null, new RequestCallback(){
 	
@@ -544,24 +544,25 @@ public class Proxy
 			        String subInfo[] = new String[status.getMessageArray().length];
 			        subInfo = status.getMessageArray();
 			        
-			        for (int i = 0; i < subInfo.length; i++){
+			        for (int i = 3; i < subInfo.length; i+=NUM_COLUMNS){
 			        	if(subInfo[i] == "1") subInfo[i] = "Yes";
 			        	else if (subInfo[i] == "0") subInfo[i] = "No";
 			        }
 			        
-			        grid.resize(subInfo.length/4+1, 4);
+			        grid.resize(subInfo.length/NUM_COLUMNS+1, NUM_COLUMNS);
 			  		grid.setBorderWidth(1);
 			  		
 			  		//Sets the headers for the table
 			  		grid.setHTML(0, 0, "<b> Username </b>");
 			  		grid.setHTML(0, 1, "<b> File </b>");
-			  		grid.setHTML(0, 2, "<b> Correct </b>");
-			  		grid.setHTML(0, 3, "<b> Partner </b>");
+			  		grid.setHTML(0, 2, "<b> NumAttempts </b>");
+			  		grid.setHTML(0, 3, "<b> Correct </b>");
+			  		grid.setHTML(0, 4, "<b> Partner </b>");
 			  		
 			  		int k = 0;
 			  		//Fills table with results from AdminReview.php
-			  	    for (int row = 1; row < subInfo.length/4+1; ++row) {
-			  	      for (int col = 0; col < 4; ++col)
+			  	    for (int row = 1; row < subInfo.length/NUM_COLUMNS+1; ++row) {
+			  	      for (int col = 0; col < NUM_COLUMNS; ++col)
 			  	        grid.setText(row, col, subInfo[k++]);
 			  	    }
 					
