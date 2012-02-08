@@ -129,8 +129,7 @@
 					
 				<g:HorizontalPanel styleName="{style.filePanel}">
 					<g:Button ui:field="btnAdminReview" styleName="{style.button}"> Review </g:Button>
-					<!--  Deprecated, but not removed until further tests 
-					<g:Button ui:field="btnAddSkeletons" styleName="{style.button}"> Distribute Student Skeletons</g:Button> -->
+					<g:Button ui:field="btnAddSkeletons" styleName="{style.button}"> Distribute Student Skeletons</g:Button>
 					<g:Button ui:field="btnMakeVisible" styleName="{style.button}"> Toggle Visibility</g:Button>
 					<!-- Partners is still being looked at....  
 					<g:Button ui:field="btnEnablePartners" styleName="{style.button}"> Toggle Partners</g:Button>  -->
