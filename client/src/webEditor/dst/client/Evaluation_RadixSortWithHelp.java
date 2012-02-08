@@ -10,11 +10,11 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerializable
 {
 	final int TOP_BORDER = 200;
-	String solution="";
 	int[] completedTasks = {0,0};
 	private final String SECOND_INSTRUCTIONS = "Deque them back to the list in the correct order!";
 	public String evaluate(String problemName, String[] arguments, ArrayList<Node> nodes, ArrayList<EdgeParent> edges){
 		int[] sortedOrderOfNodes;
+		String solution = "";
 		int[] counters = {0,0,0,0,0,0,0,0,0,0};
         if(completedTasks[0]==0){
         	int[][] nodeMatrix = new int[10][nodes.size()];
@@ -31,12 +31,13 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 				}
 			}
 			for(int i=0;i<10;i++){
-				if (counters[i] != (int)(arguments[0].charAt(i))) {
+				if (counters[i]!=Character.digit(arguments[0].charAt(i),10)){
 					Proxy.submitDST(problemName, 0);
-					return "Feedback: You have "+counters[i]+" items in column "+i+" when you should have "+arguments[0].charAt(i);
+					return "Counters: "+counters[0]+counters[1]+counters[2]+counters[3]+counters[4]+counters[5]+counters[6]+counters[7]+counters[8]+counters[9]+"Feedback: You have "+counters[i]+" items in column "+i+" when you should have "+Character.digit(arguments[0].charAt(i),10);
 				}
 				else {
 					for (int n : nodeMatrix[i]) {
+						if(n!=0)
 						solution+=n;
 					}
 				}
@@ -47,12 +48,27 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 				return "Feedback: Your buckets are Correct!";
 			} else {
 				Proxy.submitDST(problemName, 0);
-				return "Feedback: Check the order of your buckets.";
+				return solution+"Feedback: Check the order of your buckets.";
 			}
         }
-        else{
-            return"Feedback: Correct!";
+        else if (completedTasks[0]==1) {
+        	solution = "";
+        	for(int i=0;i<nodes.size();i++){
+				if (nodes.get(i).getTop() > TOP_BORDER) {
+        			Proxy.submitDST(problemName, 0);
+					return "Feedback: Make sure you have dequed all the buckets completely.";
+        		}
+        	}
+	      //  solution = getNodeOrder(nodes);
+	        if(solution.equals(arguments[1])){
+	        	Proxy.submitDST(problemName, 0);
+	        	return "Feedback: You dequed correctly!";
+	        }
         }
+        else{
+            return"Feedback: END OF EVAL";
+        }
+        return "uh oh";
 
 	}
     public void updateProblemText(){
@@ -70,6 +86,28 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 	    		sortedOrderOfNodes[i]=nodes.indexOf(minNode);
     		}
     	return sortedOrderOfNodes;
+    }
+    public String getNodeOrder(ArrayList<Node> nodes){
+    	String solution="";
+    	int[] sortedNodes= new int[nodes.size()];
+    	int min=0;
+    	int minNode=0;
+    	int counter=0;
+    	while(!nodes.isEmpty()){
+        	for(Node n: nodes){
+        		if(n.getLeft() >min){
+        			minNode=nodes.indexOf(n);
+        			min=n.getLeft();
+        		}
+        	}
+        	sortedNodes[counter]=nodes.indexOf(minNode);
+        	counter++;
+        	nodes.remove(minNode);
+    	}
+    	for(int n: sortedNodes){
+    		solution+=nodes.get(n).getLabel();
+    	}
+    	return solution;
     }
 /**
  * 		private final String SECOND_INSTRUCTIONS = "Deque them back to the list in the correct order!";
@@ -131,28 +169,7 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
         }
 	       return ""; 
        }
-        public String getNodeOrder(ArrayList<Node> nodes){
-        	String solution="";
-        	Node[] sortedNodes= new Node[nodes.size()];
-        	int min=0;
-        	Node minNode=null;
-        	int counter=0;
-        	while(!nodes.isEmpty()){
-	        	for(Node n: nodes){
-	        		if(n.getLeft() >min){
-	        			minNode=n;
-	        			min=n.getLeft();
-	        		}
-	        	}
-	        	sortedNodes[counter]=minNode;
-	        	counter++;
-	        	nodes.remove(minNode);
-        	}
-        	for(Node n: sortedNodes){
-        		solution+=n.getLabel();
-        	}
-        	return solution;
-        }
+
         
         public ArrayList<Node> sortNodesByHeight(ArrayList<Node> nodes) {
         	ArrayList<Node> sortedNodes = new ArrayList<Node>();
