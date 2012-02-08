@@ -40,9 +40,9 @@ public class Admin extends Composite{
 	@UiField ListBox logicalExercises;
 	@UiField Button btnDSTReview;
 	@UiField Button btnAdminReview;
-	@UiField Button btnAddSkeletons;
+	//@UiField Button btnAddSkeletons;
 	@UiField Button btnMakeVisible;
-	@UiField Button btnEnablePartners;
+	//@UiField Button btnEnablePartners;
 	@UiField Grid grdAdminReview;
 	@UiField Grid grdDSTReview;
 	@UiField FileUpload testClass;
@@ -76,10 +76,14 @@ public class Admin extends Composite{
 				WEStatus stat = new WEStatus(event.getResults());
 				
 				Notification.notify(stat.getStat(), stat.getMessage());
-				exercises.clear();
 				Proxy.getVisibleExercises(exercises, exerciseMap); 
+				
+				if(stat.getStat() == WEStatus.STATUS_SUCCESS){
+					String exName = stat.getMessage().substring(stat.getMessage().lastIndexOf(" ")+1);
+					Proxy.addSkeletons(exName);
+				}
+				
 			}
-			
 		});
 		
 		//Handle the Actions on Exercises Form
@@ -126,11 +130,11 @@ public class Admin extends Composite{
 		Proxy.getDSTSubmissions(logicalExercises.getValue(logicalExercises.getSelectedIndex()), grdDSTReview);
 	}
 	
-	@UiHandler("btnAddSkeletons")
-	void onSkelClick(ClickEvent event){
-		String value = exercises.getValue(exercises.getSelectedIndex());
-		Proxy.alterExercise(Integer.parseInt(exerciseMap.get(value)), "skel");
-	}
+//	@UiHandler("btnAddSkeletons")
+//	void onSkelClick(ClickEvent event){
+//		String value = exercises.getValue(exercises.getSelectedIndex());
+//		Proxy.alterExercise(Integer.parseInt(exerciseMap.get(value)), "skel");
+//	}
 	
 	@UiHandler("btnMakeVisible")
 	void onVisClick(ClickEvent event){
@@ -139,11 +143,11 @@ public class Admin extends Composite{
 		Proxy.getVisibleExercises(exercises, exerciseMap);
 	}
 	
-	@UiHandler("btnEnablePartners")
-	void onPartnerClick(ClickEvent event){
-		String value = exercises.getValue(exercises.getSelectedIndex());
-		Proxy.alterExercise(Integer.parseInt(exerciseMap.get(value)), "partner");
-	}
+//	@UiHandler("btnEnablePartners")
+//	void onPartnerClick(ClickEvent event){
+//		String value = exercises.getValue(exercises.getSelectedIndex());
+//		Proxy.alterExercise(Integer.parseInt(exerciseMap.get(value)), "partner");
+//	}
 	
 	@UiHandler("btnDeleteExercise")
 	void deleteExerciseClick(ClickEvent event){
@@ -166,7 +170,7 @@ public class Admin extends Composite{
 			public void onClick(ClickEvent event) {
 				deleteExercise.hide();
 				String value = exercises.getValue(exercises.getSelectedIndex());
-				Proxy.deleteExercise(exerciseMap.get(value));
+				Proxy.deleteExercise(exerciseMap.get(value), exercises, exerciseMap);
 			}
 		});
 		
