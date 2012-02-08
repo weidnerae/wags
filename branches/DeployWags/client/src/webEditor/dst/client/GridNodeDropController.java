@@ -2,7 +2,10 @@ package webEditor.dst.client;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.allen_sauer.gwt.dnd.client.drop.GridConstrainedDropController;
+import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
 import com.google.gwt.user.client.ui.Widget;
+import com.allen_sauer.gwt.dnd.client.DragContext;
+
 
 
 
@@ -38,7 +41,7 @@ public class GridNodeDropController extends GridConstrainedDropController {
 	    top = Math.max(0, Math.min(top, boundaryPanel.getOffsetHeight() - widget.getOffsetHeight()));
 	    left = (Math.round((float) left / gridX) * gridX);
 	    top = (Math.round((float) top / gridY) * gridY);
-	    boundaryPanel.add(widget, 10+left, 30+top);
+	    boundaryPanel.add(widget, left, top);
 	  }
 
 }
