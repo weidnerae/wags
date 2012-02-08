@@ -182,7 +182,7 @@ class AddExercise extends Command
         try{
 		    $e->save();
             if(isset($update) && $update){
-                JSON::success('Overwrote exercise '.$e->getTitle());
+                JSON::warn('Overwrote exercise '.$e->getTitle());
 			}
             else{
                 JSON::success('Uploaded exercise '.$e->getTitle());
@@ -195,7 +195,6 @@ class AddExercise extends Command
         }
 
 		finfo_close($finfo);
-
     }
 
 }
