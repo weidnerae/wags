@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
+import webEditor.client.view.Admin;
 import webEditor.client.view.CodeEditor;
 import webEditor.client.view.Exercises;
 import webEditor.client.view.FileBrowser;
@@ -62,6 +63,29 @@ public class Proxy
 	
 	private static void clearMessage(){
 		Notification.clear();
+	}
+	
+	public static void addSkeletons(String exname){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=AddSkeletons&name=" + exname);
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus stat = new WEStatus(response);
+					if( stat.getStat() != WEStatus.STATUS_SUCCESS){
+						Notification.notify(stat.getStat(), stat.getMessage());
+					}
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("addSkeletons failed!");					
+				}
+			});
+		} catch (Exception e) {
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
 	}
 	
 	public static void alterExercise(int exerciseId, String attribute){
@@ -274,7 +298,7 @@ public class Proxy
 		}
 	}
 
-	public static void deleteExercise(final String exId){
+	public static void deleteExercise(final String exId, final ListBox exercises, final HashMap<String, String> exMap){
 		String urlCompl = deleteExercise+"&exId=" + exId;
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, urlCompl);
 		try {
@@ -285,6 +309,7 @@ public class Proxy
 				{
 					WEStatus status = new WEStatus(response);
 					Notification.notify(status.getStat(), status.getMessage());
+					Proxy.getVisibleExercises(exercises, exMap);
 				}
 				
 				@Override
@@ -655,6 +680,8 @@ public class Proxy
 		        	  if(status.getMessageArray().length > 0){
 		        		  String[] message = status.getMessageArray();
 		        		  int n = message.length/2;
+		        		  
+		        		  exercises.clear();
 		        		  
 			        	  for(int i = n; i < message.length; i++){
 			        		  exercises.addItem(message[i]);
