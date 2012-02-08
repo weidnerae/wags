@@ -162,12 +162,12 @@ class Review extends Command
 		//we create it, and fill it with the files
 		//Also - the admin can overwrite whatever non-student files
 		//are in the package, and will always do so
-		if(!is_dir($path) || $user->isAdmin()){
+		/*if(!is_dir($path) || $user->isAdmin()){
 
 			if(!mkdir($path, 0777, true) && !$user->isAdmin()){ //will need to edit permissions
 				$error = error_get_last();
 				return JSON::error($error['message']);		
-			}
+			}*/
 
 			if(is_dir($path)){
 				exec("rm -rf $path/*");
@@ -218,7 +218,7 @@ class Review extends Command
 				return JSON::error("Administrative class error while writing: $errorMsg");
 			}
 
-		}
+		//}
 		//Create student class - 
 		//each time this is run, the student class will be different,
 		//so it's not lumped in with the other classes
@@ -243,9 +243,11 @@ class Review extends Command
 		//Make sure student class was written
 		if(!$classResult) return JSON::error("Problem writing student file");
 
+
 		//Compilation
-//		exec("/usr/bin/javac $path/*.java 2>&1", $output, $result);
         exec("/usr/bin/javac $solutionPath $testPath $helperPaths $classPath 2>&1", $output, $result);
+        #exec("/usr/bin/javac *.java 2>&1", $output, $result);
+
 		if($result == EXEC_ERROR){
 			foreach($output as $line){
 				$error .= $line."\n";

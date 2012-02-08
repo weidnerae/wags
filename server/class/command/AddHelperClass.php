@@ -17,6 +17,8 @@ class AddHelperClass extends Command
 {
 	public function execute()
 	{
+
+
 		if(!Auth::isLoggedIn()){
 			echo 'Must be logged in as administrator to add a class';
 			return;
@@ -27,7 +29,7 @@ class AddHelperClass extends Command
 		$exercise = Exercise::getExerciseByTitle($exerciseTitle);
 		
 		$helper = $_FILES['HelperClass'];
-		$description = $_FILES['descriptionPDF'];
+		#$description = $_FILES['descriptionPDF'];
 
 		$finfo = finfo_open(FILEINFO_MIME_TYPE);
 		$type = finfo_file($finfo, $helper['tmp_name']);
@@ -46,22 +48,22 @@ class AddHelperClass extends Command
 			}
 		}
 
-		$descTmp = $description['tmp_name'];
+		/*$descTmp = $description['tmp_name'];
 		$descName = $description['name'];
-        /* These will have to change when deployed publicly - should be extracted */
+        #These will have to change when deployed publicly - should be extracted */
 
-        $section = $user->getSection();
-        $path = "/usr/local/apache2/htdocs/cs/wags/Test_Version/descriptions".$section;
+        #$section = $user->getSection();
+        #$path = "/usr/local/apache2/htdocs/cs/wags/descriptions".$section;
 
-        if(!is_dir($path)) mkdir($path);
+        #if(!is_dir($path)) mkdir($path);
 
-        $moveTo = "$path/$descName";
-        $truncName = str_replace(".pdf", ".jpg", $descName); /* convert .pdf -> .jpg */
-        $fileLoc = $path;
-        $urlLoc = "http://cs.appstate.edu/wags/Test_Version/descriptions$section/$truncName";
+        #$moveTo = "$path/$descName";
+        #$truncName = str_replace(".pdf", ".jpg", $descName); /* convert .pdf -> .jpg */
+        #$fileLoc = $path;
+        #$urlLoc = "http://cs.appstate.edu/wags/descriptions$section/$truncName";
 
 
-		if($descName != ""){
+		/*if($descName != ""){
 			if(file_exists($moveTo)){
 				echo "Desc file already exists. Please change filename";
 				return;
@@ -71,13 +73,12 @@ class AddHelperClass extends Command
 				echo "Error uploading description file";
 				return;
 			}else{
-                /* doesn't seem to be working */
-                exec("convert $fileLoc/$descName $fileLoc/$truncName"); /* system command to create jpg from pdf */
+                exec("convert $fileLoc/$descName $fileLoc/$truncName"); 
             
 				$exercise->setDescription($urlLoc);
 				$exercise->save();
 			}
-		}
+		}*/
 
         if($helperContents != ""){
     		$helperName = "/".$exerciseTitle."/".$_FILES['HelperClass']['name'];
@@ -90,6 +91,8 @@ class AddHelperClass extends Command
     		$file->setSection($user->getSection());
 	    	$file->setAdded(time());
     		$file->setUpdated(time());
+
+            $id = CodeFile::getHelperId();
 
     		$file->save();
         }
