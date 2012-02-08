@@ -931,15 +931,7 @@ public class Proxy
 			      // from JSON encoding
 			      String msg = status.getMessage();
 			      msg = msg.replace("<br />", "\n");
-			      
-			      //Will change this - currently just hides success line
-			      //When implementing nonce validation, prepend nonce with
-			      //a signal character - then look for the last index of that
-			      //signal character
-			      msg=msg.substring(0, msg.lastIndexOf("\n"));
-			      msg=msg.substring(0, msg.lastIndexOf("\n"));
-			      msg=msg.substring(0, msg.lastIndexOf("\n"));
-			      
+			           
 			      review.setText(msg);
 			     
 			      if(status.getStat() == WEStatus.STATUS_SUCCESS){

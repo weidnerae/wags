@@ -130,11 +130,11 @@ public class Admin extends Composite{
 		Proxy.getDSTSubmissions(logicalExercises.getValue(logicalExercises.getSelectedIndex()), grdDSTReview);
 	}
 	
-//	@UiHandler("btnAddSkeletons")
-//	void onSkelClick(ClickEvent event){
-//		String value = exercises.getValue(exercises.getSelectedIndex());
-//		Proxy.alterExercise(Integer.parseInt(exerciseMap.get(value)), "skel");
-//	}
+	@UiHandler("btnAddSkeletons")
+	void onSkelClick(ClickEvent event){
+		String value = exercises.getValue(exercises.getSelectedIndex());
+		Proxy.alterExercise(Integer.parseInt(exerciseMap.get(value)), "skel");
+	}
 	
 	@UiHandler("btnMakeVisible")
 	void onVisClick(ClickEvent event){
