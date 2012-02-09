@@ -43,7 +43,7 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 				/* If there are the wrong number of nodes in a bucket */
 				if (counters[i] != Character.digit(arguments[0].charAt(i), 10)) {
 					Proxy.submitDST(problemName, 0);
-					return "Counters: "+counters[0]+counters[1]+counters[2]+counters[3]+counters[4]+counters[5]+counters[6]+counters[7]+counters[8]+counters[9]+"Feedback: You have "+counters[i]+" items in column "+i+" when you should have "+Character.digit(arguments[0].charAt(i),10);
+					return "Feedback: You have "+counters[i]+" items in column "+i+" when you should have "+Character.digit(arguments[0].charAt(i),10);
 				} else {
 					/* Iterate through the nodes in the bucket, appending them to solution */
 					for (int n : nodeMatrix[i]) {
@@ -61,18 +61,15 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 				Proxy.submitDST(problemName, 0);
 				return solution+"Feedback: Check the order of your buckets.";
 			}
-        } else if (completedTasks[0] == 1) {
+        } else if (completedTasks[0] == 1) {      // Beginning of Dequeuing evaluation
         	solution = "";
-        	
         	for (int i = 0; i < nodes.size(); i++) {
 				if (nodes.get(i).getTop() > TOP_BORDER) {
         			Proxy.submitDST(problemName, 0);
 					return "Feedback: Make sure you have dequeued all the buckets completely.";
         		}
         	}
-	        
-        	solution = getNodeOrder(nodes);
-        	
+        	solution = getNodeOrder(nodes);	
 	        if (solution.equals(arguments[1])) {
 	        	Proxy.submitDST(problemName, 0);
 	        	return "Feedback: You dequeued correctly!";
@@ -80,7 +77,6 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
         } else {
             return"Feedback: END OF EVAL";
         }
-        
         return "uh oh";
 	}
     
@@ -148,11 +144,19 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
     			}
     		}
     		
-    		solution += minNode.getLabel();
+    		solution += minNode.getLabel().getText();
     		copy.remove(minNode);
     	}
     	
     	return solution;
+    }
+    public int getCurrent(){
+    	for(int i=0;i<completedTasks.length;i++){
+    		if(completedTasks[i]==0){
+    			return i;
+    		}
+    	}
+    	return 0;
     }
 /**
  * 		private final String SECOND_INSTRUCTIONS = "Deque them back to the list in the correct order!";
