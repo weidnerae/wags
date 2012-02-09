@@ -260,11 +260,11 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		}
 	}
 	
-	public void insertNodesByValueAndLocation(String nodes, int[] xPositions, int[] yPositions, boolean draggable,
+	public void insertNodesByValueAndLocation(String nodes, int[][] xPositions, int[][] yPositions, boolean draggable,
 			String nodeType)
 	{
 		int spaces = 0;
-		
+		int current= ((Evaluation_RadixSortWithHelp)problem.getEval()).getCurrent();
 		for (int i = 0; i < nodes.length(); i++) {
 			if (nodes.charAt(i) == ' ')
 				spaces++;
@@ -272,7 +272,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		
 		spaces++;
 		
-		if (spaces != xPositions.length || spaces != yPositions.length)
+		if (spaces != xPositions[0].length || spaces != yPositions[0].length)
 			throw new NullPointerException(); //need to find right exception
 		else if(nodeType.equals(DSTConstants.NODE_STRING_DRAGGABLE)) {
 			String[] labels = nodes.split(" ");
@@ -280,7 +280,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 			for (int i = 0; i < labels.length; i++) {
 				Label label = new Label(labels[i]);
 				label.setStyleName("string_node");
-                panel.add(label, xPositions[i], yPositions[i]);
+                panel.add(label, xPositions[current][i], yPositions[current][i]);
                 NodeDragController.getInstance().makeDraggable(label);
                 nodeCollection.addNode(new Node((char) i, label));
 			}
@@ -291,7 +291,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 			{
 				Label label = new Label(nodes.charAt(i)+"");
 				label.setStyleName("node");
-				panel.add(label, xPositions[i], yPositions[i]);
+				panel.add(label, xPositions[current][i], yPositions[current][i]);
 				if(draggable) NodeDragController.getInstance().makeDraggable(label);
 				if(nodeType.equals(DSTConstants.NODE_DRAGGABLE))
 					nodeCollection.addNode(new Node(nodes.charAt(i), label));
