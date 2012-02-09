@@ -8,8 +8,8 @@ public class SearchProblem extends Problem implements IsSerializable {
 	private String name;
 	private String problemText;
 	private String nodes;
-	private int[] xPositions; //must be same size as nodes
-	private int[] yPositions; //must be sames size edges
+	private int[][] xPositions; //must be same size as nodes
+	private int[][] yPositions; //must be same size edges
 	private String insertMethod;
 	private Evaluation eval;
 	private AddEdgeRules rules;
@@ -18,7 +18,7 @@ public class SearchProblem extends Problem implements IsSerializable {
 	private String nodeType;
 	private SearchDisplayManager dm;
 
-	public SearchProblem(String name, String problemText, String nodes, String insertMethod, int[] xPositions, int[] yPositions, 
+	public SearchProblem(String name, String problemText, String nodes, String insertMethod, int[][] xPositions, int[][] yPositions, 
 			String[] arguments, Evaluation eval, boolean nodesDraggable, String nodeType)
 	{
 		this.name = name;
@@ -103,12 +103,12 @@ public class SearchProblem extends Problem implements IsSerializable {
 		this.arguments = arguments;
 	}
 	
-	public int[] getXPositions()
+	public int[][] getXPositions()
 	{
 		return xPositions;
 	}
 	
-	public int[] getYPositions()
+	public int[][] getYPositions()
 	{
 		return yPositions;
 	}
