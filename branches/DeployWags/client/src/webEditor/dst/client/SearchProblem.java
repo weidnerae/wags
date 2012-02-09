@@ -35,7 +35,6 @@ public class SearchProblem extends Problem implements IsSerializable {
 	
 	public DisplayManager createDisplayManager(AbsolutePanel panel, DrawingArea canvas) {
 	    NodeDragController.setFields(panel, true, null);
-	//	NodeDropController.setFields(panel, ec);
 	    GridNodeDropController.setFields(panel,60,30);
 		NodeDragController.getInstance().registerDropController(GridNodeDropController.getInstance());		
 		NodeCollection nc = new NodeCollection();
