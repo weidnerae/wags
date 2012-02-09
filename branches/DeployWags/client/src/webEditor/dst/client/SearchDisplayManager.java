@@ -227,6 +227,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 			}	
 		});
 	}
+	
 	public void drawLines(){
 		for(int i=1;i<=9;i++){
 			Line line = new Line(i*60,50,i*60,700);
