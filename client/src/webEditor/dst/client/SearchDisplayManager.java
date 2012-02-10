@@ -264,7 +264,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 			String nodeType)
 	{
 		int spaces = 0;
-		int current= ((Evaluation_RadixSortWithHelp)problem.getEval()).getCurrent();
+		int current = ((Evaluation_RadixSortWithHelp)problem.getEval()).getCurrent();
 		for (int i = 0; i < nodes.length(); i++) {
 			if (nodes.charAt(i) == ' ')
 				spaces++;
