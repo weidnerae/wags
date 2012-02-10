@@ -10,15 +10,23 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerializable
 {
 	final int TOP_BORDER = 200;
-	int[] completedTasks = {0,0};
 	private final String SECOND_INSTRUCTIONS = "Dequeue them back to the list in the correct order!";
+	int[] completedTasks = {0,0};
+	
+	int CURRENT_STEP = 0; 		//can be 0-5 representing where we are in the evaluation
+	int CURRENT_COUNT = 0;		//represent where we are in the arguments array for counters
+	int CURRENT_SOLUTION = 3;	//represent where we are in the arguments array for solutions
 	
 	public String evaluate(String problemName, String[] arguments, ArrayList<Node> nodes, ArrayList<EdgeParent> edges) {
 		Node[] sortedOrderOfNodes;
 		String solution = "";
 		int[] counters = {0,0,0,0,0,0,0,0,0,0};
 		
-        if (completedTasks[0] == 0) {
+		if (CURRENT_STEP == 6) {
+			return "You have finished!";
+		}
+		
+        if (CURRENT_STEP % 2 == 0) { 		//begin queuing into buckets evaluation (even steps are queuing)
         	int[][] nodeMatrix = new int[10][nodes.size()];
         	
         	sortedOrderOfNodes = sortNodesByHeight(nodes);
@@ -41,9 +49,11 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
         	/* Iterate through the buckets */
 			for (int i = 0; i < 10; i++) {
 				/* If there are the wrong number of nodes in a bucket */
-				if (counters[i] != Character.digit(arguments[0].charAt(i), 10)) {
+				String counts = arguments[CURRENT_COUNT]; //String representing correct number of nodes in each column
+				
+				if (counters[i] != Character.digit(counts.charAt(i), 10)) {
 					Proxy.submitDST(problemName, 0);
-					return "Feedback: You have "+counters[i]+" items in column "+i+" when you should have "+Character.digit(arguments[0].charAt(i),10);
+					return "Feedback: You have "+counters[i]+" items in column "+i+" when you should have "+Character.digit(counts.charAt(i), 10);
 				} else {
 					/* Iterate through the nodes in the bucket, appending them to solution */
 					for (int n : nodeMatrix[i]) {
@@ -53,15 +63,15 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 				}
 			}
 			
-			if (solution.equals(arguments[1])) { //84364382354363423567428799
-				completedTasks[0] = 1;
+			if (solution.equals(arguments[CURRENT_SOLUTION])) {
+				CURRENT_STEP++;
 				updateProblemText();
 				return "Feedback: Your buckets are Correct!";
 			} else {
 				Proxy.submitDST(problemName, 0);
 				return solution+"Feedback: Check the order of your buckets.";
 			}
-        } else if (completedTasks[0] == 1) {      // Beginning of Dequeuing evaluation
+        } else if (CURRENT_STEP % 2 == 1) {      // Beginning of Dequeuing evaluation (odd steps are dequeuing)
         	solution = "";
         	for (int i = 0; i < nodes.size(); i++) {
 				if (nodes.get(i).getTop() > TOP_BORDER) {
@@ -70,14 +80,25 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
         		}
         	}
         	solution = getNodeOrder(nodes);	
-	        if (solution.equals(arguments[1])) {
+	        if (solution.equals(arguments[CURRENT_SOLUTION])) { //They dequeued correctly. Go on to next step.
 	        	Proxy.submitDST(problemName, 0);
+	        	CURRENT_STEP++;
+	        	CURRENT_COUNT++;
+	        	CURRENT_SOLUTION++;
+	        	
+	        	if (CURRENT_STEP == 6) { //we are done here
+	        		Proxy.submitDST(problemName, 1);
+	        		return "Feedback: Congratulations! You have finished!";
+	        	}
 	        	return "Feedback: You dequeued correctly!";
+	        } else {											//They did not dequeue in the right order
+	        	Proxy.submitDST(problemName, 0);
+	        	return "Feedback: You have dequeued in the wrong order. Remember to dequeue the buckets from lowest " +
+	        			"number to highest number, top to bottom.";
 	        }
         } else {
-            return"Feedback: END OF EVAL";
+            return "Feedback: We should never get here.";
         }
-        return "uh oh";
 	}
     
 	public void updateProblemText() {
@@ -150,93 +171,12 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
     	
     	return solution;
     }
+    
+    /**
+     * Used with SearchDisplayManager to figure out where to put nodes when calling reset()
+     * @return 1 or 0, depending on which set of values are needed from problem
+     */
     public int getCurrent(){
-    	for(int i=0;i<completedTasks.length;i++){
-    		if(completedTasks[i]==0){
-    			return i;
-    		}
-    	}
-    	return 0;
+    	return CURRENT_STEP;
     }
-/**
- * 		private final String SECOND_INSTRUCTIONS = "Deque them back to the list in the correct order!";
-		int TOP_BORDER = 20;
-
-        public String evaluate(String problemName, String[] arguments, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
-        {
-        if(completedTasks[0]==0){
-        	nodes = sortNodesByHeight(nodes);
-			int[][] nodeMatrix = new int[10][nodes.size()];
-			int[] counters = {0,0,0,0,0,0,0,0,0,0};
-			String solution="";
-			
-			for(Node n:nodes){
-				if (n.getTop() < TOP_BORDER) {
-					Proxy.submitDST(problemName, 0);
-					return "Feedback: You must put all the numbers in a column";
-				} else {
-					
-					int col = n.getLeft() / (n.getLabel().getParent().getOffsetWidth() / 10); //figure out which column the node is in
-					nodeMatrix[col][counters[col]] = Integer.parseInt(n.getLabel().getText()); //put num in nodeMatrix
-					counters[col]++;
-				}
-			}
-			
-			for(int i=0;i<10;i++){
-				if (counters[i] != arguments[0].charAt(i)) {
-					Proxy.submitDST(problemName, 0);
-					return "Feedback: Check to see if you are missing any items or have too many items in column "+i;
-				}
-				else {
-					for (int n : nodeMatrix[i]) {
-						solution+=n;
-					}
-				}
-			}
-			
-			if (solution.equals(arguments[1])) {
-				completedTasks[0] = 1;
-				updateProblemText();
-				return "Feedback: Your buckets are Correct!";
-			} else {
-				Proxy.submitDST(problemName, 0);
-				return "Feedback: Check the order of your buckets.";
-			}
-		}
-        else if (completedTasks[0]==1) {
-        	for (Node n:nodes) {
-        		if (n.getTop() > TOP_BORDER) {
-        			Proxy.submitDST(problemName, 0);
-					return "Feedback: Make sure you have dequed all the buckets completely.";
-        		}
-        	}
-	        String solution = getNodeOrder(nodes);
-	        if(solution.equals(arguments[1])){
-	        	Proxy.submitDST(problemName, 0);
-	        	return "Feedback: You dequed correctly!";
-	        }
-        }
-	       return ""; 
-       }
-
-        
-        public ArrayList<Node> sortNodesByHeight(ArrayList<Node> nodes) {
-        	ArrayList<Node> sortedNodes = new ArrayList<Node>();
-        	Node minNode = nodes.get(0);
-        	
-        	while (!nodes.isEmpty()) {
-        		for (Node n : nodes) {
-        			if (n.getTop() <= minNode.getTop()) {
-        				minNode = n;
-        			}
-        		}
-        		sortedNodes.add(minNode);
-        		nodes.remove(minNode);
-        	}
-        	return sortedNodes;
-        }
-        public void updateProblemText(){
-        	((TextArea)RootPanel.get().getWidget(0)).setText(SECOND_INSTRUCTIONS);
-        }
- */
 }
