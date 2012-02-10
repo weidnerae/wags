@@ -10,7 +10,11 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerializable
 {
 	final int TOP_BORDER = 200;
-	private final String SECOND_INSTRUCTIONS = "Dequeue them back to the list in the correct order!";
+	private final String FIRST_INSTRUCTIONS = "A queue of data values is shown at the top of the display. " +    // Queuing instructions
+					"Using the given digit position move each value to the " + 
+					"appropriate bucket. Each bucket is a queue structure with " + 
+					"the front below the label and the rear at the bottom of the screen.";
+	private final String SECOND_INSTRUCTIONS = "Dequeue them back to the list in the correct order!";           // Dequeuing instructions
 	int[] completedTasks = {0,0};
 	
 	int CURRENT_STEP = 0; 		//can be 0-5 representing where we are in the evaluation
@@ -66,6 +70,7 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 			if (solution.equals(arguments[CURRENT_SOLUTION])) {
 				CURRENT_STEP++;
 				updateProblemText();
+				updateCounterPanel();
 				return "Feedback: Your buckets are Correct!";
 			} else {
 				Proxy.submitDST(problemName, 0);
@@ -85,6 +90,8 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 	        	CURRENT_STEP++;
 	        	CURRENT_COUNT++;
 	        	CURRENT_SOLUTION++;
+				updateProblemText();
+				updateCounterPanel();
 	        	
 	        	if (CURRENT_STEP == 6) { //we are done here
 	        		Proxy.submitDST(problemName, 1);
@@ -102,9 +109,20 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 	}
     
 	public void updateProblemText() {
-    	if (RootPanel.get().getWidget(1) instanceof TextArea)
-    		((TextArea)RootPanel.get().getWidget(1)).setText(SECOND_INSTRUCTIONS);
+		String instructions="Brigga Digga";
+		
+		if(CURRENT_STEP%2==0)
+			instructions=FIRST_INSTRUCTIONS;
+		if(CURRENT_STEP%2==1)
+			instructions=SECOND_INSTRUCTIONS;
+		
+	    if (RootPanel.get().getWidget(1) instanceof TextArea)
+	    	((TextArea)RootPanel.get().getWidget(1)).setText(instructions);
     }
+	public void updateCounterPanel(){
+    	if (RootPanel.get().getWidget(2) instanceof TextArea)
+    		((TextArea)RootPanel.get().getWidget(2)).setText("Current Digit: "+(CURRENT_SOLUTION-2));
+	}
     
 	/**
 	 * Return an array of Nodes, sorted by height
