@@ -4,6 +4,8 @@ import webEditor.client.Proxy;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -40,6 +42,26 @@ public class Login extends View
 		initWidget(uiBinder.createAndBindUi(this));
 		loginButton.setText("Programming");
 		dstLoginButton.setText("Logical");
+	}
+	
+	@UiHandler("username")
+	void onKeyPressForUsername(KeyPressEvent event)
+	{
+		if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER)
+		{
+			// when enter is pressed, move to password field
+			password.setFocus(true);
+		}
+	}
+	
+	@UiHandler("password")
+	void onKeyPressForPassword(KeyPressEvent event)
+	{
+		if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER)
+		{
+			// when enter is pressed, sign into editor
+			Proxy.login(username.getText(), password.getText(), "editor");
+		}
 	}
 
 	@UiHandler("loginButton")
