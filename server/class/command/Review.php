@@ -29,8 +29,10 @@ class Review extends Command
 		$exerciseId = $_POST['id'];
 		$fileName = $_POST['name'];
 		$exercise = Exercise::getExerciseById($exerciseId);
-		$exerciseSkeleton = $exercise->getSkeleton();
+        $exerciseSkeleton = $exercise->getSkeleton();
 
+
+        $file = CodeFile::getCodeFileByName($fileName);
 		//Grab the correct skeleton class name
 		preg_match($classRegex, $exerciseSkeleton, $matches);
 		if(empty($matches)){
@@ -51,15 +53,6 @@ class Review extends Command
         	return JSON::error("Please check class name - it needs to match the skeleton class: $badName $skeletonName");
 		}
 
-		//If, for some strange reason, this code is
-		//being used for a different exercise than before,
-		//update it's exid
-		$file = CodeFile::getCodeFileByName($fileName);
-		if(!empty($file) && $file instanceof CodeFile){
-			$file->setExerciseId($exerciseId);
-			$file->save();
-		}
-		
 		//Update or create submission for user/exercise pairing
 		$sub = Submission::getSubmissionByExerciseId($exerciseId);
 		$sub_num = 0;
@@ -83,6 +76,7 @@ class Review extends Command
 			$sub->setSuccess(0);
 			$sub->setNumAttempts(0);
 		}
+
 	// SAVE VERSIONS
 		// Check to see if this file is a version or AdminSkeleton instead of the main file.
 		//	- We don't want to save a version of a version, or a version of the AdminSkeleton.
@@ -227,6 +221,10 @@ class Review extends Command
 			$badName = $matches[1];
         	return JSON::error("Please check class name - it needs to match the skeleton class: $badName $skeletonName");
 		}
+
+        /*********************************
+        * Construct Comp Path for Student
+        **********************************/
 		$className = $matches[1];
 		$classPath = "$path/$className.java";
 		$studentFile = fopen($classPath, "w+");
@@ -234,11 +232,26 @@ class Review extends Command
 		fflush($studentFile);
 		fclose($studentFile);
 
+        //Grab solutionPath as student
+		preg_match($classRegex, $exercise->getSolution(), $matches);
+		$className = $matches[1];
+		$solutionPath = "$path/$className.java";
+
+        //Grab helper classes as student
+		$helpers = $exercise->getHelperClasses();
+        $helperPaths = "";
+		foreach($helpers as $helper){
+	    	preg_match($classRegex, $helper->getContents(), $matches);
+			$helperName = $matches[1];
+			$helperPath = "$path/$helperName.java";
+            $helperPaths = $helperPaths." ".$helperPath;
+        }
+
 		//Likewise, each time it is run we need to locate the
 		//testclass
 		preg_match($classRegex, $exercise->getTestClass(), $matches);
 		$testName = $matches[1];
-
+		$testPath = "$path/$testName.java";
 
 		//Make sure student class was written
 		if(!$classResult) return JSON::error("Problem writing student file");
