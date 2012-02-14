@@ -191,5 +191,9 @@ public class Admin extends Composite{
 		
 		deleteExercise.center();
 	}
+	
+	public HashMap<String, String> getExerciseMap(){
+		return this.exerciseMap;
+	}
 
 }
