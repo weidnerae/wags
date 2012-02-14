@@ -110,6 +110,8 @@ public class Wags extends View
 				TreeItem i = event.getSelectedItem();
 				String itemName = browser.getItemPath(i);  // clicked item
 				
+				exerciseMap = admin.getExerciseMap();
+				
 				// Don't autosave if clicking on the first file of the session, or on a version
 				if (currentExerciseId != null && currentExerciseId.compareTo("") != 0 && 
 						!itemName.contains("_Versions") && !fileName.getText().contains("_Versions"))
@@ -200,8 +202,8 @@ public class Wags extends View
 		saveCurrentCode();
 		
 		String codeText = editor.codeTop;
-		codeText += "//<end!TopSection>" + editor.codeArea.getText();
-		codeText += "//<end!MidSection>" + editor.codeBottom;
+		codeText += "//<end!TopSection>\n" + editor.codeArea.getText();
+		codeText += "//<end!MidSection>\n" + editor.codeBottom;
 		
 		//URL encode fails to encode "+", this is part of the workaround
 		//which is completed on the server side
