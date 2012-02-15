@@ -208,6 +208,7 @@ public class Wags extends View
 		//URL encode fails to encode "+", this is part of the workaround
 		//which is completed on the server side
 		codeText = codeText.replaceAll("[+]", "%2B");
+		codeText = codeText.replaceAll("[&&]", "%!`");
 		
 		Proxy.review(codeText, review, currentExerciseId, "/"+fileName.getText().toString(), submit);
 		
