@@ -3,7 +3,7 @@
 
 // RunCode.php
 // 
-// Executes Java program and does not allow it to hang.
+// Executes program and does not allow it to hang.
 // 	-Will terminate if process runs longer than WAIT_TIME seconds
 //
 // Completely rewritten.
@@ -20,10 +20,7 @@ define('WAIT_TIME', 3);
 /* Get arguments passed in */
 $dir = $argv[1];
 $className = $argv[2];
-
-# define security manager parameters
-$security_stmt = "-Djava.security.manager"
-    ." -Djava.security.policy==/usr/local/apache2/htdocs/cs/wags/class/command/WagsSecurity.policy";
+$lang = $argv[3]; // which language is going to be run
 
 # This contains the pipes that can read and write to the process
 $descriptorspec = array(
@@ -32,10 +29,26 @@ $descriptorspec = array(
    2 => array("pipe", "a") // stderr is a file to write to
 );
 
-# Open the process
-#	-The process will stay open in the background and the php script will continue running.
-#	-The java process will run with a Security Manager and a set of defined permissions
-$process = proc_open("exec /usr/bin/java $security_stmt -cp $dir $className 2>&1", $descriptorspec, $pipes);
+# determine which language we are using
+switch($lang)
+{
+	case "Java":
+		# define security manager parameters
+		$security_stmt = "-Djava.security.manager"
+			." -Djava.security.policy==/usr/local/apache2/htdocs/cs/wags/class/command/WagsSecurity.policy";
+		
+		# Open the process
+		#	-The process will stay open in the background and the php script will continue running.
+		#	-The java process will run with a Security Manager and a set of defined permissions
+		$process = proc_open("exec /usr/bin/java $security_stmt -cp $dir $className 2>&1", $descriptorspec, $pipes);
+		
+		break;
+	case "Prolog":
+	
+		break;
+}
+
+
 
 # Give a normal process a moment (2/10ths of a sec) to run before deciding that it may be hanging
 usleep(200000);
@@ -72,17 +85,14 @@ if (is_resource($process))
         # close the pipe
         fclose($pipes[1]);
 
-//        # Split the string up by newlines
+        # Split the string up by newlines
         $outputs = explode("\n", $outputs);
 
-        # now print line by line
+        # now print results line by line
         foreach ($outputs as $output)
         {
             print("$output<br />");
         }   
-
-		# print out results
-//		print($outputs);
 
         # now close the process
         proc_close($process);
