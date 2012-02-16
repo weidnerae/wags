@@ -85,7 +85,7 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 		cont = new TraversalContainer(this); //for reset of traversal problems
 		if(problem.getInsertMethod().equals(DSTConstants.INSERT_METHOD_VALUE))
 		{
-			insertNodesByValue(problem.getNodes());
+			insertNodesByValue(problem.getNodes(), problem.getNodeType());
 		}
 		else
 		{
@@ -386,16 +386,31 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 		}
 	}
 
-	public void insertNodesByValue(String nodes)
+	public void insertNodesByValue(String nodes,String nodeType)
 	{
-		for(int i = 0; i < nodes.length(); i++)
-		{
-			Label label = new Label(nodes.charAt(i)+"");
-			label.setStyleName("node");
-			label.getElement().getStyle().setTop(10+(45*i), Style.Unit.PX);
-			panel.add(label);
-			NodeDragController.getInstance().makeDraggable(label);
-			nodeCollection.addNode(new Node(nodes.charAt(i), label));
+		
+		if(nodeType.equals(DSTConstants.NODE_STRING_DRAGGABLE)) {
+			String[] labels = nodes.split(" ");
+			
+			for (int i = 0; i < labels.length; i++) {
+				Label label = new Label(labels[i]);
+				label.setStyleName("string_node");
+				label.getElement().getStyle().setTop(10+(45*i), Style.Unit.PX);
+                panel.add(label);
+                NodeDragController.getInstance().makeDraggable(label);
+                nodeCollection.addNode(new Node((char) i, label));
+			}
+		}
+		else{
+			for(int i = 0; i < nodes.length(); i++)
+			{
+				Label label = new Label(nodes.charAt(i)+"");
+				label.setStyleName("node");
+				label.getElement().getStyle().setTop(10+(45*i), Style.Unit.PX);
+				panel.add(label);
+				NodeDragController.getInstance().makeDraggable(label);
+				nodeCollection.addNode(new Node(nodes.charAt(i), label));
+			}
 		}
 	}
 	
@@ -404,6 +419,17 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 	{		
 		if(nodes.length() != xPositions.length || nodes.length() != yPositions.length)
 			throw new NullPointerException(); //need to find right exception
+		else if(nodeType.equals(DSTConstants.NODE_STRING_DRAGGABLE)) {
+			String[] labels = nodes.split(" ");
+			
+			for (int i = 0; i < labels.length; i++) {
+				Label label = new Label(labels[i]);
+				label.setStyleName("string_node");
+                panel.add(label, xPositions[i], yPositions[i]);
+                NodeDragController.getInstance().makeDraggable(label);
+                nodeCollection.addNode(new Node((char) i, label));
+			}
+		}	
 		else
 		{
 			for(int i = 0; i < nodes.length(); i++)
@@ -468,7 +494,7 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 
 	public void resetNodeStyles()
 	{
-		nodeCollection.resetNodeStyles();
+		nodeCollection.resetNodeStyles(problem.getNodeType());
 	}
 
 	public void resetEdgeStyles()

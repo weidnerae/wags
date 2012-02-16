@@ -74,7 +74,7 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 				return "Feedback: Your buckets are Correct!";
 			} else {
 				Proxy.submitDST(problemName, 0);
-				return solution+"Feedback: Check the order of your buckets.";
+				return "Feedback: Check the order of your buckets. You may have switched the ordering of some of the items.";
 			}
         } else if (CURRENT_STEP % 2 == 1) {      // Beginning of Dequeuing evaluation (odd steps are dequeuing)
         	solution = "";
