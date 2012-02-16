@@ -11,7 +11,7 @@ public class ProblemServiceImpl
 		Evaluation_BSTTraversal trav = new Evaluation_BSTTraversal();
 		Evaluation_BSTTraversalWithHelp travHelp = new Evaluation_BSTTraversalWithHelp();
 		Evaluation_RadixSortWithHelp radix = new Evaluation_RadixSortWithHelp();
-		
+		Evaluation_MaxHeap_Preorder preHeap = new Evaluation_MaxHeap_Preorder();
 		
 		int[] noLocs = new int[0]; //used as a placeholder for problems with no preset locations
 		String[] noEdges = new String[0]; //used as a placeholder for problems with no preset edges
@@ -307,6 +307,20 @@ public class ProblemServiceImpl
                     radix,
                     true,
                     DSTConstants.NODE_STRING_DRAGGABLE);
+			case 19: return new TreeProblem("MaxHeap",
+					"MaxHeap Skeleton",
+					"76 98 43 12 48 3 15 29",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+				    noEdges,
+					new String[]{"9843127631529","12 29 76 48 98 3 43 15"},
+					preHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_STRING_DRAGGABLE);
+			
 		default:
 			return new TreeProblem("Binary Search Tree from Postorder Traversal 1",
 					"Given the postorder traversal DBHJFPTUSM, " +
@@ -346,6 +360,7 @@ public class ProblemServiceImpl
 		if(problem.equals("Binary Tree from Pre/Inorder Traversals 3")) return 16;
 		if(problem.equals("Binary Tree from Pre/Inorder Traversals 4")) return 17;
 		if(problem.equals("RADIX Sort")) return 18;
+		if(problem.equals("MaxHeap")) return 19;
 		
 		return 0;
 	}

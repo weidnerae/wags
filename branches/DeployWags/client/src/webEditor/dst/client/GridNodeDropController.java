@@ -4,6 +4,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.allen_sauer.gwt.dnd.client.drop.GridConstrainedDropController;
 import com.google.gwt.user.client.ui.Widget;
 
+
 public class GridNodeDropController extends GridConstrainedDropController {
 	private static GridNodeDropController dc;
 	private static AbsolutePanel boundaryPanel;
@@ -38,5 +39,4 @@ public class GridNodeDropController extends GridConstrainedDropController {
 	    top = (Math.round((float) top / gridY) * gridY);
 	    boundaryPanel.add(widget, left, top);
 	}
-
 }

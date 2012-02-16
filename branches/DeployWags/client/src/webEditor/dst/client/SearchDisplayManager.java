@@ -349,7 +349,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 
 	public void resetNodeStyles()
 	{
-		nodeCollection.resetNodeStyles();
+		nodeCollection.resetNodeStyles(problem.getNodeType());
 	}
 
 	public void resetEdgeStyles()

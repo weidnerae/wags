@@ -49,11 +49,16 @@ public class NodeCollection implements IsSerializable
 		throw new NoSuchElementException();
 	}
 	
-	public void resetNodeStyles()
+	public void resetNodeStyles(String nodeType)
 	{
 		for(int i = 0; i < nodes.size(); i++)
 		{
-			nodes.get(i).getLabel().setStyleName("node");
+			if(nodeType.equals(DSTConstants.NODE_STRING_DRAGGABLE)){
+				nodes.get(i).getLabel().setStyleName("string_node");			
+			}
+			else{
+				nodes.get(i).getLabel().setStyleName("node");
+			}
 		}
 	}
 			

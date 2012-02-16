@@ -21,9 +21,9 @@ public class EdgeUndirected extends EdgeParent implements IsSerializable
 	
 	public void drawEdge()
 	{
-		line = new Line(n1.getLeft()+20, n1.getTop()-100, 
-				n2.getLeft()+20, n2.getTop()-100);
-		if(removable)
+		line = new Line(n1.getLeft()+20, n1.getTop()-105,   //the n1.getTop()-105 used to be n1.getTop()-100
+				n2.getLeft()+20, n2.getTop()-120);           //n2.getTop()-120 used to be n2.getTop()-100
+		if(removable)  
 			line.addClickHandler(handler);
 		line.setStrokeWidth(3);
 		ec.addEdgeToCanvas(line);
