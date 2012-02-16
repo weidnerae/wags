@@ -84,19 +84,21 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 					return "Feedback: Make sure you have dequeued all the buckets completely.";
         		}
         	}
-        	solution = getNodeOrder(nodes);	
+        	solution = getNodeOrder(nodes);
 	        if (solution.equals(arguments[CURRENT_SOLUTION])) { //They dequeued correctly. Go on to next step.
 	        	Proxy.submitDST(problemName, 0);
 	        	CURRENT_STEP++;
 	        	CURRENT_COUNT++;
 	        	CURRENT_SOLUTION++;
-				updateProblemText();
-				updateCounterPanel();
 	        	
 	        	if (CURRENT_STEP == 6) { //we are done here
 	        		Proxy.submitDST(problemName, 1);
 	        		return "Feedback: Congratulations! You have finished!";
 	        	}
+	        	
+				updateProblemText();
+				updateCounterPanel();
+	        	
 	        	return "Feedback: You dequeued correctly!";
 	        } else {											//They did not dequeue in the right order
 	        	Proxy.submitDST(problemName, 0);
@@ -108,20 +110,29 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
         }
 	}
     
+	/**
+	 * Update the problem text for queuing into buckets or dequeuing 
+	 * from the buckets.
+	 */
 	public void updateProblemText() {
-		String instructions="Brigga Digga";
+		String instructions = "";
 		
-		if(CURRENT_STEP%2==0)
-			instructions=FIRST_INSTRUCTIONS;
-		if(CURRENT_STEP%2==1)
-			instructions=SECOND_INSTRUCTIONS;
+		if (CURRENT_STEP % 2 == 0)
+			instructions = FIRST_INSTRUCTIONS;
+		else if (CURRENT_STEP % 2 == 1)
+			instructions = SECOND_INSTRUCTIONS;
 		
 	    if (RootPanel.get().getWidget(1) instanceof TextArea)
-	    	((TextArea)RootPanel.get().getWidget(1)).setText(instructions);
+	    	((TextArea) RootPanel.get().getWidget(1)).setText(instructions);
     }
+	
+	/**
+	 * Update the upper-right hand panel that keeps track of which digit 
+	 * we're currently processing.
+	 */
 	public void updateCounterPanel(){
     	if (RootPanel.get().getWidget(2) instanceof TextArea)
-    		((TextArea)RootPanel.get().getWidget(2)).setText("Current Digit: "+(CURRENT_SOLUTION-2));
+    		((TextArea) RootPanel.get().getWidget(2)).setText("Current Digit: "+(CURRENT_SOLUTION - 2));
 	}
     
 	/**
