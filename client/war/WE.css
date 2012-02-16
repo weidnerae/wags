@@ -118,6 +118,19 @@ body {
 	background: #A8A8A8;
 	position: absolute;
 }
+.bucket_panel{
+	padding-top: 5px;
+	background-color: #FFFFFF;
+	positoin: absolute;
+	text-align: center;
+	font-size:12pt;
+}
+.bucket_holding_panel{
+	background-color:#FFFFFF;
+	background: #FFFFFF;
+	position: absolute;
+	text-align:center;
+}
 
 .edge_addition_panel
 {
@@ -160,6 +173,27 @@ body {
 	font-size: 20pt;
 	width: 40px;
 	height: 40px;
+	background: #FFA500;
+	text-align: center;
+	border-color: #FFFF00;
+	border-style: solid;
+	cursor: pointer;
+}
+.string_node{
+	position: absolute;
+	font-size: 16pt;
+	width:40px;
+	height:30px;
+	background: #FFA500;
+	background-color: #FFA500;
+	text-align: center;
+	cursor: pointer;
+}
+.selected_string_node {
+	position: absolute;
+	font-size: 17pt;
+	width: 40px;
+	height: 30px;
 	background: #FFA500;
 	text-align: center;
 	border-color: #FFFF00;

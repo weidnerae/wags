@@ -130,7 +130,12 @@ public class EdgeCollection implements IsSerializable
 			firstNodeSelected = node;
 			numNodesSelected++;
 			dm.setEdgeNodeSelectionInstructions(nodeSelectionInstructions[1]);
-			node.setStyleName("selected_node");
+			if(node.getOffsetHeight()<38){				// Check to see if regular node or string node
+				node.setStyleName("selected_string_node");
+			}
+			else{				
+				node.setStyleName("selected_node");
+			}
 		}
 		else
 		{
