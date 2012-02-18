@@ -56,7 +56,7 @@ public class Evaluation_MaxHeap_Preorder extends Evaluation  implements IsSerial
 				else
 				{
 					current = travNodes.pop();
-					inorderTrav += current.node.getLabel().getText()+" ";
+					inorderTrav += current.node.getLabel().getText();
 							current = current.right == null ? null : convertNodeToEvalNode(treeNodes, current.right);
 				}
 			}

@@ -4,21 +4,21 @@ import com.google.gwt.user.client.ui.Label;
 
 public class Node
 {
-	protected char value;
+	protected String value;
 	protected Label label;
 	
-	public Node (char value, Label label)
+	public Node (String value, Label label)
 	{
 		this.value = value;
 		this.label = label;
 	}
 
-	public void setValue(char value)
+	public void setValue(String value)
 	{
 		this.value = value;
 	}
 	
-	public char getValue()
+	public String getValue()
 	{
 		return value;
 	}

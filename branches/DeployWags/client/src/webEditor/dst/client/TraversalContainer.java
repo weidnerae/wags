@@ -5,31 +5,31 @@ import com.google.gwt.user.client.ui.Label;
 
 public class TraversalContainer {
 	
-	private ArrayList<Character> traversal;
+	private ArrayList<String> traversal;
 	private DisplayManager dm;
 	
 	public TraversalContainer(DisplayManager dm)
 	{
 		this.dm = dm;
-		traversal = new ArrayList<Character>();
+		traversal = new ArrayList<String>();
 	}
 	
-	public void addToTraversal(Character c)
+	public void addToTraversal(String s)
 	{
-		traversal.add(c);	
+		traversal.add(s);	
 		updateUI();
 	}
 	
-	public void addToTraversalForceEval(Character c)
+	public void addToTraversalForceEval(String s)
 	{
-		addToTraversal(c);
+		addToTraversal(s);
 		dm.forceEvaluation();
 	}
 	
-	public void removeFromTraversal(Character c)
+	public void removeFromTraversal(String s)
 	{
-		if(traversal.contains(c))
-			traversal.remove(c);
+		if(traversal.contains(s))
+			traversal.remove(s);
 		updateUI();
 	}
 	
