@@ -64,7 +64,9 @@ public class Evaluation_PostOrderBST extends Evaluation  implements IsSerializab
 		}
 		else if(noParentNodes.size() == 1)
 		{
-			char rootVal = postTrav.charAt(postTrav.length()-1);
+			String[] splitNodes = postTrav.split(" ");
+			String rootVal = splitNodes[splitNodes.length-1];
+		//	char rootVal = postTrav.charAt(postTrav.length()-1);
 			Node rootNode = noParentNodes.get(0);
 			if(rootVal != rootNode.getValue())
 			{
@@ -103,7 +105,7 @@ public class Evaluation_PostOrderBST extends Evaluation  implements IsSerializab
 
 		System.out.println(inorderTrav);
 
-		if(!inorderTrav.equals(correctTrav))
+		if(!inorderTrav.trim().equals(correctTrav))
 		{
 			errorMessage = "Feedback: Incorrect inorder traversal.  Your traversal is " + inorderTrav;
 			errorMessage += "\nCorrect inorder traversal is " + correctTrav;
@@ -145,7 +147,7 @@ public class Evaluation_PostOrderBST extends Evaluation  implements IsSerializab
 		
 		System.out.println("post" + userPostOrderTrav);
 
-		if(!userPostOrderTrav.equals(postTrav))
+		if(!userPostOrderTrav.trim().equals(postTrav))
 		{
 			errorMessage = "Feedback: Incorrect postorder traversal.  Your postorder traversal is " + userPostOrderTrav;
 			errorMessage += "\nCorrect postorder traversal is " + postTrav;

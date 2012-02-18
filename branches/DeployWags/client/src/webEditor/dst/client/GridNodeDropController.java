@@ -1,5 +1,6 @@
 package webEditor.dst.client;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.allen_sauer.gwt.dnd.client.drop.GridConstrainedDropController;
 import com.google.gwt.user.client.ui.Widget;
@@ -33,6 +34,8 @@ public class GridNodeDropController extends GridConstrainedDropController {
 	
 	@Override
 	public void drop(Widget widget, int left, int top) {
+		widget.getElement().getStyle().setMarginLeft(10, Unit.PX);
+		widget.getElement().getStyle().setMarginTop(10, Unit.PX);
 		left = Math.max(0, Math.min(left, boundaryPanel.getOffsetWidth() - widget.getOffsetWidth()));
 	    top = Math.max(0, Math.min(top, boundaryPanel.getOffsetHeight() - widget.getOffsetHeight()));
 	    left = (Math.round((float) left / gridX) * gridX);

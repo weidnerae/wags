@@ -64,7 +64,8 @@ public class Evaluation_Preorder extends Evaluation  implements IsSerializable
 		}
 		else if(noParentNodes.size() == 1)
 		{
-			char rootVal = postTrav.charAt(0);
+			String[] splitNodes = postTrav.split(" ");
+			String rootVal = splitNodes[0];
 			Node rootNode = noParentNodes.get(0);
 			if(rootVal != rootNode.getValue())
 			{
@@ -95,7 +96,7 @@ public class Evaluation_Preorder extends Evaluation  implements IsSerializable
 				else
 				{
 					current = travNodes.pop();
-					inorderTrav += current.node.getValue();
+					inorderTrav += current.node.getValue()+" ";
 					current = current.right == null ? null : convertNodeToEvalNode(treeNodes, current.right);
 				}
 			}
@@ -103,7 +104,7 @@ public class Evaluation_Preorder extends Evaluation  implements IsSerializable
 
 		System.out.println(inorderTrav);
 
-		if(!inorderTrav.equals(correctTrav))
+		if(!inorderTrav.trim().equals(correctTrav))
 		{
 			errorMessage = "Feedback: Incorrect inorder traversal.  Your traversal is " + inorderTrav;
 			errorMessage += "\nCorrect inorder traversal is " + correctTrav;
@@ -146,7 +147,7 @@ public class Evaluation_Preorder extends Evaluation  implements IsSerializable
 		
 		System.out.println("pre" + userPreOrderTrav);
 
-		if(!userPreOrderTrav.equals(preTrav))
+		if(!userPreOrderTrav.trim().equals(preTrav))
 		{
 			errorMessage = "Feedback: Incorrect preorder traversal.  Your preorder traversal is " + userPreOrderTrav;
 			errorMessage += "\nCorrect preorder traversal is " + preTrav;
