@@ -10,7 +10,7 @@ public class NodeClickable extends Node
 	private boolean forceEval;
 	private TraversalContainer traversal;
 	
-	public NodeClickable(char value, Label label, TraversalContainer traversal, boolean forceEval)
+	public NodeClickable(String value, Label label, TraversalContainer traversal, boolean forceEval)
 	{
 		super(value, label);
 		isSelected = false;

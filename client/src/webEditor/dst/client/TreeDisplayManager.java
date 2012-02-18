@@ -382,34 +382,34 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 			label.setStyleName("node");
 			panel.add(label, 5, 150+(50 *i));
 			NodeDragController.getInstance().makeDraggable(label);
-			nodeCollection.addNode(new Node(((char)('A'+i)), label));
+			nodeCollection.addNode(new Node((""+(char)('A'+i)), label));
 		}
 	}
 
 	public void insertNodesByValue(String nodes,String nodeType)
 	{
+		String[] splitNodes = nodes.split(" ");
 		
 		if(nodeType.equals(DSTConstants.NODE_STRING_DRAGGABLE)) {
-			String[] labels = nodes.split(" ");
 			
-			for (int i = 0; i < labels.length; i++) {
-				Label label = new Label(labels[i]);
+			for (int i = 0; i < splitNodes.length; i++) {
+				Label label = new Label(splitNodes[i]);
 				label.setStyleName("string_node");
 				label.getElement().getStyle().setTop(10+(45*i), Style.Unit.PX);
                 panel.add(label);
                 NodeDragController.getInstance().makeDraggable(label);
-                nodeCollection.addNode(new Node((char) i, label));
+                nodeCollection.addNode(new Node(splitNodes[i], label));
 			}
 		}
 		else{
-			for(int i = 0; i < nodes.length(); i++)
+			for(int i = 0; i <splitNodes.length; i++)
 			{
-				Label label = new Label(nodes.charAt(i)+"");
+				Label label = new Label(splitNodes[i]);
 				label.setStyleName("node");
 				label.getElement().getStyle().setTop(10+(45*i), Style.Unit.PX);
 				panel.add(label);
 				NodeDragController.getInstance().makeDraggable(label);
-				nodeCollection.addNode(new Node(nodes.charAt(i), label));
+				nodeCollection.addNode(new Node(splitNodes[i], label));
 			}
 		}
 	}
@@ -417,33 +417,34 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 	public void insertNodesByValueAndLocation(String nodes, int[] xPositions, int[] yPositions, boolean draggable,
 			String nodeType)
 	{		
-		if(nodes.length() != xPositions.length || nodes.length() != yPositions.length)
+		String[] splitNodes = nodes.split(" ");
+		if(splitNodes.length != xPositions.length || splitNodes.length != yPositions.length)
 			throw new NullPointerException(); //need to find right exception
 		else if(nodeType.equals(DSTConstants.NODE_STRING_DRAGGABLE)) {
-			String[] labels = nodes.split(" ");
+
 			
-			for (int i = 0; i < labels.length; i++) {
-				Label label = new Label(labels[i]);
+			for (int i = 0; i < splitNodes.length; i++) {
+				Label label = new Label(splitNodes[i]);
 				label.setStyleName("string_node");
                 panel.add(label, xPositions[i], yPositions[i]);
                 NodeDragController.getInstance().makeDraggable(label);
-                nodeCollection.addNode(new Node((char) i, label));
+                nodeCollection.addNode(new Node(splitNodes[i], label));
 			}
 		}	
 		else
 		{
-			for(int i = 0; i < nodes.length(); i++)
+			for(int i = 0; i < splitNodes.length; i++)
 			{
-				Label label = new Label(nodes.charAt(i)+"");
+				Label label = new Label(splitNodes[i]);
 				label.setStyleName("node");
 				panel.add(label, xPositions[i], yPositions[i]);
 				if(draggable) NodeDragController.getInstance().makeDraggable(label);
 				if(nodeType.equals(DSTConstants.NODE_DRAGGABLE))
-					nodeCollection.addNode(new Node(nodes.charAt(i), label));
+					nodeCollection.addNode(new Node(splitNodes[i], label));
 				else if(nodeType.equals(DSTConstants.NODE_CLICKABLE_FORCE_EVAL))
-					nodeCollection.addNode(new NodeClickable(nodes.charAt(i), label, cont, true));
+					nodeCollection.addNode(new NodeClickable(splitNodes[i], label, cont, true));
 				else
-					nodeCollection.addNode(new NodeClickable(nodes.charAt(i), label, cont, false));
+					nodeCollection.addNode(new NodeClickable(splitNodes[i], label, cont, false));
 			}
 		}
 	}

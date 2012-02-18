@@ -24,11 +24,11 @@ public class ProblemServiceImpl
 			case 0: return new TreeProblem("BST Preorder Traversal (Help on)",
 					"Perform a preorder traversal of the binary tree below by clicking" +
 					" nodes in the order the traversal would visit them.",
-					"ABCDEFG",
+					"A B C D E F G",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					new int[]{250,150,350,75,225,275,425},
 					new int[]{75,175,175,275,275,275,275},
-					new String[]{"AB","BD","BE","CF","CG", "AC"},
+					new String[]{"A B","B D","B E","C F","C G", "A C"},
 					new String[]{"ABDECFG"},
 					travHelp,
 					noEdgeAddition,
@@ -38,11 +38,11 @@ public class ProblemServiceImpl
 			case 1: return new TreeProblem("BST Inorder Traversal (Help on)",
 					"Perform an inorder traversal of the binary tree below by clicking" +
 					" nodes in the order the traversal would visit them.",
-					"ABCDEFG",
+					"A B C D E F G",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					new int[]{250,150,350,75,225,275,425},
 					new int[]{75,175,175,275,275,275,275},
-					new String[]{"AB","BD","BE","CF","CG", "AC"},
+					new String[]{"A B","B D","B E","C F","C G", "A C"},
 					new String[]{"DBEAFCG"},
 					travHelp,
 					noEdgeAddition,
@@ -52,11 +52,11 @@ public class ProblemServiceImpl
 			case 2: return new TreeProblem("BST Postorder Traversal (Help on)",
 					"Perform a postorder traversal of the binary tree below by clicking" +
 					" nodes in the order the traversal would visit them.",
-					"ABCDEFG",
+					"A B C D E F G",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					new int[]{250,150,350,75,225,275,425},
 					new int[]{75,175,175,275,275,275,275},
-					new String[]{"AB","BD","BE","CF","CG", "AC"},
+					new String[]{"A B","B D","B E","C F","C G", "A C"},
 					new String[]{"DEBFGCA"},
 					travHelp,
 					noEdgeAddition,
@@ -66,11 +66,11 @@ public class ProblemServiceImpl
 			case 3: return new TreeProblem("BST Preorder Traversal (Help off)",
 					"Perform a preorder traversal of the binary tree below by clicking" +
 					" nodes in the order the traversal would visit them.",
-					"XRQDHJMZL",
+					"X R Q D H J M Z L",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					new int[]{250,150,350,100,200,300,450,50,400},
 					new int[]{75,175,175,275,275,275,275,375,375},
-					new String[]{"XR","RD","DZ","RH","XQ", "QJ", "QM", "ML"},
+					new String[]{"X R","R D","D Z","R H","X Q", "Q J", "Q M", "M L"},
 					new String[]{"XRDZHQJML"},
 					trav,
 					noEdgeAddition,
@@ -80,11 +80,11 @@ public class ProblemServiceImpl
 			case 4: return new TreeProblem( "BST Inorder Traversal (Help off)",
 					"Perform an inorer traversal of the binary tree below by clicking" +
 					" nodes in the order the traversal would visit them.",
-					"MCLPQNTSD",
+					"M C L P Q N T S D",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					new int[]{250,200,350,50,300,400,100, 450, 150},
 					new int[]{75,175,175,275,275,275,375, 375, 475},
-					new String[]{"MC","CP","PT","TD","ML", "LQ", "LN", "NS"},
+					new String[]{"M C","C P","P T","T D","M L", "L Q", "L N", "N S"},
 					new String[]{"PTDCMQLNS"},
 					trav,
 					noEdgeAddition,
@@ -94,11 +94,11 @@ public class ProblemServiceImpl
 			case 5: return new TreeProblem("BST Postorder Traversal (Help off)",
 					"Perform a postorder traversal of the binarytree below by clicking" +
 					" nodes in the order the traversal would visit them.",
-					"ARJMLQZND",
+					"A R J M L Q Z N D",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					new int[]{250,150,350,100,200,300,400,50,450},
 					new int[]{75,175,175,275,275,275,275,375,375},
-					new String[]{"AR","RM","MN","AJ","RL","JQ","JZ","ZD"},
+					new String[]{"A R","R M","M N","A J","R L","J Q","J Z","Z D"},
 					new String[]{"NMLRQDZJA"},
 					trav,
 					noEdgeAddition,
@@ -109,7 +109,7 @@ public class ProblemServiceImpl
 					"Given the following BST, insert the following " +
 					"nodes in order to retain a BST structure." +
 					"\nHint: Add the top node first, and work your way down",
-					"QHVMTBPW",
+					"Q H V M T B P W",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
@@ -124,7 +124,7 @@ public class ProblemServiceImpl
 					"Given the following BST, insert the following " +
 					"nodes in order to retain a BST structure." +
 					"\nHint: Add the top node first, and work your way down",
-					"OIVNRZFDP",
+					"O I V N R Z F D P",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
@@ -139,7 +139,7 @@ public class ProblemServiceImpl
 					"Given the following BST, insert the following " +
 					"nodes in order to retain a BST structure." +
 					"\nHint: Add the top node first, and work your way down",
-					"PHQGNKORS",
+					"P H Q G N K O R S",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
@@ -154,7 +154,7 @@ public class ProblemServiceImpl
 					"Given the following BST, insert the following " +
 					"nodes in order to retain a BST structure." +
 					"\nHint: Add the top node first, and work your way down",
-					"PHQGSRKON",
+					"P H Q G S R K O N",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
@@ -169,7 +169,7 @@ public class ProblemServiceImpl
 					"Given the postorder traversal DBHJFPTUSM, " +
 					"construct the original binary search tree.  " +
 					"Hint: The binary search tree is unique.",
-					"DBHJFPTUSM",
+					"D B H J F P T U S M",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
@@ -184,7 +184,7 @@ public class ProblemServiceImpl
 					"Given the postorder traversal, DAJELMONK, " +
 					"construct the original binary search tree.  " +
 					"Hint: The binary search tree is unique.",
-					"DAJELMONK",
+					"D A J E L M O N K",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
@@ -199,7 +199,7 @@ public class ProblemServiceImpl
 					"Given the postorder traversal BAOMFRXZUP, " +
 					"construct the original binary search tree.  " +
 					"Hint: The binary search tree is unique.",
-					"BAOMFRXZUP",
+					"B A O M F R X Z U P",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
@@ -214,7 +214,7 @@ public class ProblemServiceImpl
 					"Given the postorder traversal BEAKJHTRQ, " +
 					"construct the original binary search tree.  " +
 					"Hint: The binary search tree is unique.",
-					"BEAKJHTRQ",
+					"B E A K J H T R Q",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
@@ -230,7 +230,7 @@ public class ProblemServiceImpl
 					"the inorder traversal MDLXKTJ " +
 					"construct the original binary tree.  " +
 					"Hint: The binary tree is unique.",
-					"DJKLMTX",
+					"D J K L M T X",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
@@ -246,7 +246,7 @@ public class ProblemServiceImpl
 					"the inorder traversal OPXELARS " +
 					"construct the original binary tree.  " +
 					"Hint: The binary tree is unique.",
-					"AELOPRSX",
+					"A E L O P R S X",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
@@ -262,7 +262,7 @@ public class ProblemServiceImpl
 					"the inorder traversal SLODQPNTB " +
 					"construct the original binary tree.  " +
 					"Hint: The binary tree is unique.",
-					"BDLNOPQST",
+					"B D L N O P Q S T",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
@@ -278,7 +278,7 @@ public class ProblemServiceImpl
 					"the inorder traversal GNRLADPEOTM " +
 					"construct the original binary tree.  " +
 					"Hint: The binary tree is unique.",
-					"ADEGLMNOPRT",
+					"A D E G L M N O P R T",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
@@ -320,6 +320,19 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
+			case 20: return new TreeProblem("MaxHeap Insertion",
+					"MaxHeap Insertion Skeleton",
+					"A B C D E F G",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{250,150,350,75,225,275,425},
+					new int[]{75,175,175,275,275,275,275},
+					new String[]{"A B","B D","B E","C F","C G", "A C"},
+					new String[]{"DEBFGCA"},
+					travHelp,
+					noEdgeAddition,
+					false,
+					false,
+					DSTConstants.NODE_CLICKABLE_FORCE_EVAL);
 			
 		default:
 			return new TreeProblem("Binary Search Tree from Postorder Traversal 1",

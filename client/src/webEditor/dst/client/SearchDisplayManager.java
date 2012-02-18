@@ -8,6 +8,8 @@ import org.vaadin.gwtgraphics.client.Line;
 import webEditor.client.Proxy;
 
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -243,20 +245,21 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 			label.setStyleName("node");
 			panel.add(label, 5, 150+(50 *i));
 			NodeDragController.getInstance().makeDraggable(label);
-			nodeCollection.addNode(new Node(((char)('A'+i)), label));
+			nodeCollection.addNode(new Node(((""+(char)('A'+i))), label));
 		}
 	}
 
 	public void insertNodesByValue(String nodes)
 	{
+		String[] splitNodes = nodes.split(" ");
 		for(int i = 0; i < nodes.length(); i++)
 		{
-			Label label = new Label(nodes.charAt(i)+"");
+			Label label = new Label(splitNodes[i]);
 			label.setStyleName("node");
 			label.getElement().getStyle().setTop(10+(45*i), Style.Unit.PX);
 			panel.add(label);
 			NodeDragController.getInstance().makeDraggable(label);
-			nodeCollection.addNode(new Node(nodes.charAt(i), label));
+			nodeCollection.addNode(new Node(splitNodes[i], label));
 		}
 	}
 	
@@ -271,34 +274,34 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		}
 		
 		spaces++;
-		
+		String[] splitNodes = nodes.split(" ");
 		if (spaces != xPositions[0].length || spaces != yPositions[0].length)
 			throw new NullPointerException(); //need to find right exception
 		else if(nodeType.equals(DSTConstants.NODE_STRING_DRAGGABLE)) {
-			String[] labels = nodes.split(" ");
 			
-			for (int i = 0; i < labels.length; i++) {
-				Label label = new Label(labels[i]);
+			for (int i = 0; i < splitNodes.length; i++) {
+				Label label = new Label(splitNodes[i]);
 				label.setStyleName("string_node");
                 panel.add(label, xPositions[current][i], yPositions[current][i]);
                 NodeDragController.getInstance().makeDraggable(label);
-                nodeCollection.addNode(new Node((char) i, label));
+                nodeCollection.addNode(new Node(splitNodes[i], label));
 			}
 		}	
 		else
 		{
-			for(int i = 0; i < nodes.length(); i++)
+			for(int i = 0; i <splitNodes.length; i++)
 			{
-				Label label = new Label(nodes.charAt(i)+"");
+				Label label = new Label(splitNodes[i]);
 				label.setStyleName("node");
 				panel.add(label, xPositions[current][i], yPositions[current][i]);
 				if(draggable) NodeDragController.getInstance().makeDraggable(label);
+				
 				if(nodeType.equals(DSTConstants.NODE_DRAGGABLE))
-					nodeCollection.addNode(new Node(nodes.charAt(i), label));
+					nodeCollection.addNode(new Node(splitNodes[i], label));
 				else if(nodeType.equals(DSTConstants.NODE_CLICKABLE_FORCE_EVAL))
-					nodeCollection.addNode(new NodeClickable(nodes.charAt(i), label, cont, true));
+					nodeCollection.addNode(new NodeClickable(splitNodes[i], label, cont, true));
 				else
-					nodeCollection.addNode(new NodeClickable(nodes.charAt(i), label, cont, false));
+					nodeCollection.addNode(new NodeClickable(splitNodes[i], label, cont, false));
 			}
 		}
 	}

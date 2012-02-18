@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 
 
 import com.allen_sauer.gwt.dnd.client.DragController;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Label;
 
@@ -54,7 +55,7 @@ public class NodeCollection implements IsSerializable
 		for(int i = 0; i < nodes.size(); i++)
 		{
 			if(nodeType.equals(DSTConstants.NODE_STRING_DRAGGABLE)){
-				nodes.get(i).getLabel().setStyleName("string_node");			
+				nodes.get(i).getLabel().setStyleName("string_node");
 			}
 			else{
 				nodes.get(i).getLabel().setStyleName("node");
