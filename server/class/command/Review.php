@@ -134,16 +134,12 @@ class Review extends Command
 		$langFileExtension = "java"; // the file extension for this language
 		
 		$code = str_replace("%2B", "+", $code);
+        $code = str_replace("%!`", "&", $code);
 	
 		//Check for the package statement -> in effect,
 		//this tells us whether or not we'll be using an inner
 		//class in this microlab, and allows us to take the
 		//appropriate actions
-		//Note:: We use the exercise solution to determine
-		//whether or not to use a pkg rather than the code in case
-		//the student uploads the skeleton into the wrong exercise.
-		//We overwrite SKELETONS, not Solutions/Testclasses, so
-		//Skeletons shouldn't be calling the shots...
 		preg_match($packageRegex, $exercise->getSolution(), $matches);
 		$fileName = substr($fileName, 1); //files start with a repetitive '/'
 		
@@ -157,58 +153,60 @@ class Review extends Command
 			$pkg = TRUE;
 		}
 
-		//Now that we know what the package would be, we check
-		//to see if it already exists.  If so, we remove it completely
-		if(is_dir($path)){
+
+        //Admin stuff goes here
+		if(is_dir($path) || $user->isAdmin()){
+	    	//Now that we know what the package would be, we check
+	    	//to see if it already exists.  If so, we remove it completely
 			exec("rm -rf $path/*");
+
+    		//Create solution class
+    		preg_match($classRegex, $exercise->getSolution(), $matches);
+    		$className = $matches[1];
+    		$solutionPath = "$path/$className.$langFileExtension";
+    		$solutionFile = fopen($solutionPath, "w+");
+    		$solutionResult = fwrite($solutionFile, $exercise->getSolution());
+    		fflush($solutionFile);
+    		fclose($solutionFile);
+    
+    		//Create tester class
+    		preg_match($classRegex, $exercise->getTestClass(), $matches);
+    		$testName = $matches[1];
+    		$testPath = "$path/$testName.$langFileExtension";
+    		$testFile = fopen($testPath, "w+");
+    		$testResult = fwrite($testFile, $exercise->getTestClass());
+    		fflush($testFile);
+    		fclose($testFile);
+    
+    		//create any helper classes
+    		$helpers = $exercise->getHelperClasses();
+    		$helperResult = TRUE;
+    		$helperPaths = "";
+    		foreach($helpers as $helper){
+    			preg_match($classRegex, $helper->getContents(), $matches);
+    			$helperName = $matches[1];
+    			$helperPath = "$path/$helperName.$langFileExtension";
+    			$helperPaths = $helperPaths." ".$helperPath;
+    			$helperFile = fopen($helperPath, "w+");
+    			$result = fwrite($helperFile, $helper->getContents());
+    
+    			if(!$result){
+    				$helperResult = FALSE;
+    				$error = error_get_last();
+    				$errorMsg = $error['message'];
+    			}
+    
+    			fflush($helperFile);
+    			fclose($helperFile);
+    		}
+
+    		//if any files weren't properly written, exit
+	    	if(!($solutionResult && $testResult && $helperResult)){
+    			return JSON::error("Administrative class error while writing: $errorMsg");
 		}
 
-		//Create solution class
-		preg_match($classRegex, $exercise->getSolution(), $matches);
-		$className = $matches[1];
-		$solutionPath = "$path/$className.$langFileExtension";
-		$solutionFile = fopen($solutionPath, "w+");
-		$solutionResult = fwrite($solutionFile, $exercise->getSolution());
-		fflush($solutionFile);
-		fclose($solutionFile);
-
-		//Create tester class
-		preg_match($classRegex, $exercise->getTestClass(), $matches);
-		$testName = $matches[1];
-		$testPath = "$path/$testName.$langFileExtension";
-		$testFile = fopen($testPath, "w+");
-		$testResult = fwrite($testFile, $exercise->getTestClass());
-		fflush($testFile);
-		fclose($testFile);
-
-		//create any helper classes
-		$helpers = $exercise->getHelperClasses();
-		$helperResult = TRUE;
-		$helperPaths = "";
-		foreach($helpers as $helper){
-			preg_match($classRegex, $helper->getContents(), $matches);
-			$helperName = $matches[1];
-			$helperPath = "$path/$helperName.$langFileExtension";
-			$helperPaths = $helperPaths." ".$helperPath;
-			$helperFile = fopen($helperPath, "w+");
-			$result = fwrite($helperFile, $helper->getContents());
-
-			if(!$result){
-				$helperResult = FALSE;
-				$error = error_get_last();
-				$errorMsg = $error['message'];
-			}
-
-			fflush($helperFile);
-			fclose($helperFile);
 		}
 
-		//if any files weren't properly written, exit
-		if(!($solutionResult && $testResult && $helperResult)){
-			return JSON::error("Administrative class error while writing: $errorMsg");
-		}
-
-		//
 		//Create student class - 
 		//each time this is run, the student class will be different,
 		//so it's not lumped in with the other classes
@@ -252,6 +250,9 @@ class Review extends Command
 		//Make sure student class was written
 		if(!$classResult) return JSON::error("Problem writing student file");
 
+        /*****************
+        *End Construction*
+        *****************/
 
 		//Compilation
 		if ($lang == "Java")
