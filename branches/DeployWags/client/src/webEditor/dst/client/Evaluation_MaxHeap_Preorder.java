@@ -27,7 +27,7 @@ public class Evaluation_MaxHeap_Preorder extends Evaluation  implements IsSerial
 		}		
 		EvaluationNode rootEvalNode = buildEvaluationTree(nodes, edges);
 
-		if(testInorderTraversal(arguments[0], arguments[1], rootEvalNode, nodes, edges) == false)
+		if(testInorderTraversal(arguments[0], rootEvalNode, nodes, edges) == false)
 		{
 			Proxy.submitDST(problemName, 0);
 			return errorMessage;
@@ -37,7 +37,7 @@ public class Evaluation_MaxHeap_Preorder extends Evaluation  implements IsSerial
 		return "Feedback: Congratulations! Your tree is correct.";
 	}
 
-	private Boolean testInorderTraversal(String postTrav, String correctTrav, EvaluationNode rootEvalNode, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
+	private Boolean testInorderTraversal(String correctTrav, EvaluationNode rootEvalNode, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
 	{
 		EvaluationNode current = rootEvalNode;
 
@@ -84,7 +84,17 @@ public class Evaluation_MaxHeap_Preorder extends Evaluation  implements IsSerial
 			EdgeParent edge = edges.get(i);
 			noParentNodes.remove(edge.getN2());
 		}
-
+		
+		/**
+		 * Taking 97 out of the noParentNodes list so that testing for the
+		 * MaxHeap Deletion works.  There needs to be a better way to do this
+		 */
+		for(int i=0;i<noParentNodes.size();i++){
+			if(noParentNodes.get(i).getValue().equals("97")){
+				noParentNodes.remove(i);
+			}
+		}
+		
 		Node rootNode = noParentNodes.get(0);
 		EvaluationNode rootEvalNode = null;
 		Node currNode = null;
