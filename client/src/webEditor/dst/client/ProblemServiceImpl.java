@@ -6,12 +6,13 @@ public class ProblemServiceImpl
 		AddEdgeRules_TreeMode rules = new AddEdgeRules_TreeMode();
 		Evaluation_PostOrderBST eval = new Evaluation_PostOrderBST();
 		Evaluation_Preorder preEval = new Evaluation_Preorder();
+		Evaluation_MaxHeap_Preorder preHeap = new Evaluation_MaxHeap_Preorder();
 		
 		AddEdgeRules noEdgeAddition = new AddEdgeRules();
 		Evaluation_BSTTraversal trav = new Evaluation_BSTTraversal();
 		Evaluation_BSTTraversalWithHelp travHelp = new Evaluation_BSTTraversalWithHelp();
 		Evaluation_RadixSortWithHelp radix = new Evaluation_RadixSortWithHelp();
-		Evaluation_MaxHeap_Preorder preHeap = new Evaluation_MaxHeap_Preorder();
+
 		
 		int[] noLocs = new int[0]; //used as a placeholder for problems with no preset locations
 		String[] noEdges = new String[0]; //used as a placeholder for problems with no preset edges
@@ -314,25 +315,38 @@ public class ProblemServiceImpl
 					noLocs,
 					noLocs,
 				    noEdges,
-					new String[]{"9843127631529","12 29 76 48 98 3 43 15"},
+					new String[]{"122976489834315"},
 					preHeap,
 					rules,
 					true,
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 20: return new TreeProblem("MaxHeap Insertion",
-					"MaxHeap Insertion Skeleton",
-					"A B C D E F G",
+					"MaxHeap Insertion Skeleton, Use the bubble up technique to insert the node 57 into the heap.",
+					"98 80 63 48 39 32 22 19 78",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
-					new int[]{250,150,350,75,225,275,425},
-					new int[]{75,175,175,275,275,275,275},
-					new String[]{"A B","B D","B E","C F","C G", "A C"},
-					new String[]{"DEBFGCA"},
-					travHelp,
-					noEdgeAddition,
-					false,
-					false,
-					DSTConstants.NODE_CLICKABLE_FORCE_EVAL);
+					new int[]{250,150,350,75,225,275,425,15,20},
+					new int[]{75,175,175,275,275,275,275,350,20},
+					new String[]{"98 80","98 63","80 48","80 39","63 22","63 32","48 19"},
+					new String[]{"197848803998326322"},
+					preHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 21: return new TreeProblem("MaxHeap Deletion",
+					"MaxHeap Deletion Skeleton, Use the bubble down technique to remove the node 97 from the heap.",
+					"97 80 63 48 39 32 22 19",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{250,150,350,75,225,275,425,15},
+					new int[]{75,175,175,275,275,275,275,350},
+					new String[]{"97 80","97 63","80 48","80 39","63 22","63 32","48 19"},
+					new String[]{"48803963193222"},
+					preHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
 			
 		default:
 			return new TreeProblem("Binary Search Tree from Postorder Traversal 1",
@@ -374,6 +388,8 @@ public class ProblemServiceImpl
 		if(problem.equals("Binary Tree from Pre/Inorder Traversals 4")) return 17;
 		if(problem.equals("RADIX Sort")) return 18;
 		if(problem.equals("MaxHeap")) return 19;
+		if(problem.equals("MaxHeap Insertion")) return 20;
+		if(problem.equals("MaxHeap Deletion")) return 21;
 		
 		return 0;
 	}
