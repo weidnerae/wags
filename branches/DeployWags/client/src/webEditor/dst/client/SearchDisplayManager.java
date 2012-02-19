@@ -172,7 +172,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 
 				for(int i = 0; i < getNodes().size(); i++)
 				{
-					panel.remove(getNodes().get(i).getLabel());
+					problem.getGridPanel().remove(getNodes().get(i).getLabel());
 				}
 
 				nodeCollection.emptyNodes();
@@ -282,7 +282,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 			for (int i = 0; i < splitNodes.length; i++) {
 				Label label = new Label(splitNodes[i]);
 				label.setStyleName("string_node");
-                panel.add(label, xPositions[current][i], yPositions[current][i]);
+                problem.getGridPanel().add(label, xPositions[current][i], yPositions[current][i]);
                 NodeDragController.getInstance().makeDraggable(label);
                 nodeCollection.addNode(new Node(splitNodes[i], label));
 			}
@@ -293,7 +293,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 			{
 				Label label = new Label(splitNodes[i]);
 				label.setStyleName("node");
-				panel.add(label, xPositions[current][i], yPositions[current][i]);
+				problem.getGridPanel().add(label, xPositions[current][i], yPositions[current][i]);
 				if(draggable) NodeDragController.getInstance().makeDraggable(label);
 				
 				if(nodeType.equals(DSTConstants.NODE_DRAGGABLE))
