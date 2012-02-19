@@ -52,7 +52,8 @@ class SetLogicalExercises extends Command
 
         if(isset($_POST['RadixSort']) && $_POST['RadixSort'] == 'on')
         {
-            $exercises = $exercises."RADIX Sort|"."MaxHeap|";
+            $exercises = $exercises."RADIX Sort|"."MaxHeap|".
+            "MaxHeap Insertion|"."MaxHeap Deletion|";
         }
 
         $sectionNumber = Auth::getCurrentUser()->getSection();
