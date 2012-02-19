@@ -17,6 +17,7 @@ public class SearchProblem extends Problem implements IsSerializable {
 	private boolean nodesDraggable;
 	private String nodeType;
 	private SearchDisplayManager dm;
+	private AbsolutePanel gridPanel;
 
 	public SearchProblem(String name, String problemText, String nodes, String insertMethod, int[][] xPositions, int[][] yPositions, 
 			String[] arguments, Evaluation eval, boolean nodesDraggable, String nodeType)
@@ -34,8 +35,12 @@ public class SearchProblem extends Problem implements IsSerializable {
 	}
 	
 	public DisplayManager createDisplayManager(AbsolutePanel panel, DrawingArea canvas) {
-	    NodeDragController.setFields(panel, true, null);
-	    GridNodeDropController.setFields(panel,60,30);
+	    gridPanel = new AbsolutePanel();
+	    gridPanel.setPixelSize(590, 543);
+	    panel.add(gridPanel, 10, 7);
+	    
+	    NodeDragController.setFields(gridPanel, true, null);
+	    GridNodeDropController.setFields(gridPanel, 60, 30);
 		NodeDragController.getInstance().registerDropController(GridNodeDropController.getInstance());		
 		NodeCollection nc = new NodeCollection();
 		
@@ -126,5 +131,10 @@ public class SearchProblem extends Problem implements IsSerializable {
 	public String getNodeType()
 	{
 		return nodeType;
+	}
+	
+	public AbsolutePanel getGridPanel()
+	{
+		return gridPanel;
 	}
 }
