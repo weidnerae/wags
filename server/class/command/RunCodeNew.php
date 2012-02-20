@@ -31,7 +31,7 @@ $descriptorspec = array(
    2 => array("pipe", "a")	// stderr is a file to write to
 );
 
-# determine which language we are using
+# determine which language we are using, and execute the testing file as a process
 switch($lang)
 {
 	case "Java":
@@ -49,12 +49,10 @@ switch($lang)
 		# Open the process
 		#	-The process will stay open in the background and the php script will continue running.
 		#	-The java process will run with a Security Manager and a set of defined permissions
-		$process = proc_open("exec /usr/bin/java $testclassName $solutionFileName $studentFileName 2>&1", $descriptorspec, $pipes);
+		$process = proc_open("exec /usr/bin/java -cp $dir $testclassName $solutionFileName $studentFileName 2>&1", $descriptorspec, $pipes);
 		
 		break;
 }
-
-
 
 # Give a normal process a moment (2/10ths of a sec) to run before deciding that it may be hanging
 usleep(200000);
