@@ -33,6 +33,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.http.client.URL;
 
 
 public class Wags extends View
@@ -196,10 +197,7 @@ public class Wags extends View
 		codeText += "//<end!TopSection>\n" + editor.codeArea.getText();
 		codeText += "//<end!MidSection>\n" + editor.codeBottom;
 		
-		//URL encode fails to encode "+", this is part of the workaround
-		//which is completed on the server side
-		codeText = codeText.replaceAll("[+]", "%2B");
-		codeText = codeText.replaceAll("[&]", "%!`");
+		codeText = URL.encodePathSegment(codeText);
 		
 		Proxy.review(codeText, review, currentExercise, "/"+fileName.getText().toString(), submit);
 		
@@ -277,7 +275,6 @@ public class Wags extends View
 		if (!editorText.equals(currentEditorCode))
 		{
 			// Code is different, so save
-			
 			// Update the current editor code text
 			currentEditorCode = editorText;
 			
@@ -287,10 +284,7 @@ public class Wags extends View
 			if(editor.codeBottom != "") text += "//<end!MidSection>";
 			text += editor.codeBottom;
 			
-			//URL encoding converts all " " to "+".  Thus, when decoded it was incorrectly
-			//converting all "+" to " ", including those actually meant to be +
-			text = text.replaceAll("[+]", "%2B");
-			text = text.replaceAll("[&&]", "%!`");
+			text = URL.encodePathSegment(text);
 			
 			if(Proxy.saveFile("/" + fileName.getText(), text, browser, false));
 		}
