@@ -180,6 +180,12 @@ class Exercise extends Model
 	}
 
 	public static function getExerciseByTitle($title){
+        //Check for invisibility
+        $lastThree = substr($title, strlen($title)-3);
+        if ($lastThree == "[i]") {
+            $title = substr($title, 0, strlen($title)-3);
+        }
+
 		require_once('Database.php');
 
 		$user = Auth::getCurrentUser();
@@ -233,8 +239,8 @@ class Exercise extends Model
 		$db = Database::getDb();
 
 		if(!$user->isAdmin()){
-			$sth = $db->prepare('SELECT * FROM exercise WHERE visible = 1
-				AND section = :section ORDER BY title');
+			$sth = $db->prepare('SELECT * FROM exercise WHERE 
+				section = :section ORDER BY title');
 			$sth->execute(array(':section' => $user->getSection()));		
 
 			return $sth->fetchAll(PDO::FETCH_CLASS, 'Exercise');
