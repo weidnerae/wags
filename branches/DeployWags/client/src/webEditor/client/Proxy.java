@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-import webEditor.client.view.Admin;
 import webEditor.client.view.CodeEditor;
 import webEditor.client.view.Exercises;
 import webEditor.client.view.FileBrowser;
@@ -30,6 +29,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 
 public class Proxy
@@ -88,9 +88,9 @@ public class Proxy
 		}
 	}
 	
-	public static void alterExercise(int exerciseId, String attribute){
+	public static void alterExercise(String exercise, final String attribute, final ListBox exercises){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=EditExercises" +
-				"&id=" + exerciseId + "&attribute=" + attribute);
+				"&title=" + exercise + "&attribute=" + attribute);
 		try{
 			builder.sendRequest(null, new RequestCallback(){
 	
@@ -105,6 +105,8 @@ public class Proxy
 					WEStatus status = new WEStatus(response);  
 					
 					Notification.notify(status.getStat(), status.getMessage());
+					if(attribute.equals("vis"))
+						Proxy.getVisibleExercises(exercises);
 				}
 				
 			});
@@ -298,8 +300,8 @@ public class Proxy
 		}
 	}
 
-	public static void deleteExercise(final String exId, final ListBox exercises, final HashMap<String, String> exMap){
-		String urlCompl = deleteExercise+"&exId=" + exId;
+	public static void deleteExercise(final String ex, final ListBox exercises){
+		String urlCompl = deleteExercise+"&title=" + ex;
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, urlCompl);
 		try {
 			@SuppressWarnings("unused")
@@ -309,7 +311,7 @@ public class Proxy
 				{
 					WEStatus status = new WEStatus(response);
 					Notification.notify(status.getStat(), status.getMessage());
-					Proxy.getVisibleExercises(exercises, exMap);
+					Proxy.getVisibleExercises(exercises);
 				}
 				
 				@Override
@@ -327,8 +329,8 @@ public class Proxy
 		return baseURL;
 	}
 
-	public static void getDescription(String exerciseId, final Image descImage){
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, getBaseURL()+"?cmd=GetDesc&id=" + exerciseId);
+	public static void getDescription(String exercise, final Image descImage){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, getBaseURL()+"?cmd=GetDesc&title=" + exercise);
 		try {
 			@SuppressWarnings("unused")
 			Request r = builder.sendRequest(null, new RequestCallback() {
@@ -550,8 +552,8 @@ public class Proxy
 		    }
 	}
 
-	public static void getSubmissionInfo(int exerciseId, final Grid grid){
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=AdminReview&exerciseId="+exerciseId);
+	public static void getSubmissionInfo(String exercise, final Grid grid){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=AdminReview&title="+exercise);
 		final int NUM_COLUMNS = 5;
 		try{
 			builder.sendRequest(null, new RequestCallback(){
@@ -668,7 +670,7 @@ public class Proxy
 		Proxy.call("GetUserDetails", null, c);
 	}
 
-	public static void getVisibleExercises(final ListBox exercises, final HashMap<String, String> exerciseMap) {
+	public static void getVisibleExercises(final ListBox exercises) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetVisibleExercises");
 		try {
 		      @SuppressWarnings("unused")
@@ -679,15 +681,12 @@ public class Proxy
 		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
 		        	  if(status.getMessageArray().length > 0){
 		        		  String[] message = status.getMessageArray();
-		        		  int n = message.length/2;
 		        		  
 		        		  exercises.clear();
 		        		  
-			        	  for(int i = n; i < message.length; i++){
+			        	  for(int i = 0; i < message.length; i++)
 			        		  exercises.addItem(message[i]);
-			        		  exerciseMap.put(message[i], message[i-n]); /* maps title to id */
-			        	  }
-			        	  
+
 		        	  } else {
 		        		  exercises.addItem(status.getMessage());
 		        	  }
@@ -906,7 +905,7 @@ public class Proxy
 	 * @param fileName
 	 * @param submit
 	 */
-	public static void review(String code, final OutputReview review, String exerciseId, String fileName, 
+	public static void review(String code, final OutputReview review, String exercise, String fileName, 
 								final Button submit)
 	{		
 		// Disable (gray-out) the submit button until code is done compiling/running
@@ -920,7 +919,7 @@ public class Proxy
 		try {
 		      builder.setHeader("Content-Type", "application/x-www-form-urlencoded");
 		      @SuppressWarnings("unused")
-		      Request req = builder.sendRequest("code="+code+"&id="+exerciseId+"&name="+fileName, new RequestCallback() {
+		      Request req = builder.sendRequest("code="+code+"&title="+exercise+"&name="+fileName, new RequestCallback() {
 		    	  public void onResponseReceived(Request request, Response response) {
 			      
 			      WEStatus status = new WEStatus(response);
