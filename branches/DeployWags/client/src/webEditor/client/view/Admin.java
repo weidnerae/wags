@@ -147,8 +147,8 @@ public class Admin extends Composite{
 		VerticalPanel base = new VerticalPanel();
 		HorizontalPanel line1 = new HorizontalPanel();
 		HorizontalPanel line2 = new HorizontalPanel();
-		
-		deleteExercise.setText("ARE YOU SURE?");
+				
+		deleteExercise.setText("DELETING " + exercises.getValue(exercises.getSelectedIndex()).toUpperCase());
 				
 		delete.addClickHandler(new ClickHandler() {
 			
@@ -173,7 +173,6 @@ public class Admin extends Composite{
 		base.add(line1);
 		base.add(line2);
 		deleteExercise.add(base);
-		
 		deleteExercise.center();
 	}
 
