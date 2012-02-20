@@ -1,8 +1,6 @@
 
 package webEditor.client.view;
 
-import java.util.HashMap;
-
 import webEditor.client.Proxy;
 import webEditor.client.WEStatus;
 
@@ -69,11 +67,9 @@ public class Wags extends View
 	
 	private String currentEditorCode = "";
 	
-	String currentExerciseId;
+	String currentExercise;
 	
 	private String curPath = "";
-	
-	private HashMap<String, String> exerciseMap = new HashMap<String, String>();
 	
 	/**
 	 * Constructor
@@ -87,12 +83,9 @@ public class Wags extends View
 		// Initialize timer used in code autosaving
 		initializeAutosaving();
 		
-		ListBox filler = new ListBox(); /* not used - except for getVisibleExercises */
-		
 		Proxy.checkTimedExercises();
 		Proxy.checkPassword(this);
 		Proxy.checkMultiUser(this);
-		Proxy.getVisibleExercises(filler, exerciseMap);
 		commandBarVisible(false);
 		
 		description.setUrl("");
@@ -110,10 +103,8 @@ public class Wags extends View
 				TreeItem i = event.getSelectedItem();
 				String itemName = browser.getItemPath(i);  // clicked item
 				
-				exerciseMap = admin.getExerciseMap();
-				
 				// Don't autosave if clicking on the first file of the session, or on a version
-				if (currentExerciseId != null && currentExerciseId.compareTo("") != 0 && 
+				if (currentExercise != null && currentExercise.compareTo("") != 0 && 
 						!itemName.contains("_Versions") && !fileName.getText().contains("_Versions"))
 					saveCurrentCode();
 				
@@ -124,14 +115,14 @@ public class Wags extends View
 				// If clicked item is a leaf TreeItem then open it in editor
 				Proxy.getFileContents(itemName, editor);
 				if(itemName.contains("_Versions")){
-					currentExerciseId = exerciseMap.get(browser.getItemPath(i.getParentItem().getParentItem()).trim().substring(1)); /* Grab the exercise Id */
+					currentExercise = browser.getItemPath(i.getParentItem().getParentItem()).trim().substring(1); /* Grab the exercise Id */
 				}
 				else {
-					currentExerciseId = exerciseMap.get(browser.getItemPath(i.getParentItem()).trim().substring(1)); /* Grab the exercise Id */
+					currentExercise = browser.getItemPath(i.getParentItem()).trim().substring(1); /* Grab the exercise Id */
 				}
 				
 				/* Update description */
-				Proxy.getDescription(currentExerciseId, description);
+				Proxy.getDescription(currentExercise, description);
 
 				// Set filename, save, and delete stuff visible
 				commandBarVisible(true);
@@ -208,9 +199,9 @@ public class Wags extends View
 		//URL encode fails to encode "+", this is part of the workaround
 		//which is completed on the server side
 		codeText = codeText.replaceAll("[+]", "%2B");
-		codeText = codeText.replaceAll("[&&]", "%!`");
+		codeText = codeText.replaceAll("[&]", "%!`");
 		
-		Proxy.review(codeText, review, currentExerciseId, "/"+fileName.getText().toString(), submit);
+		Proxy.review(codeText, review, currentExercise, "/"+fileName.getText().toString(), submit);
 		
 		tabPanel.selectTab(REVIEWPANEL);
 	}

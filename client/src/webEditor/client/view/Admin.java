@@ -1,7 +1,5 @@
 package webEditor.client.view;
 
-import java.util.HashMap;
-
 import webEditor.client.Proxy;
 import webEditor.client.WEStatus;
 
@@ -29,8 +27,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class Admin extends Composite{
 
-	private HashMap<String, String> exerciseMap = new HashMap<String, String>();
-	
 	@UiField FileUpload solution;
 	@UiField FileUpload skeleton;
 	@UiField SubmitButton addButton;
@@ -61,7 +57,7 @@ public class Admin extends Composite{
 		initWidget(uiBinder.createAndBindUi(this));
         
 		//Fill in exercise listbox
-		Proxy.getVisibleExercises(exercises, exerciseMap); 
+		Proxy.getVisibleExercises(exercises); 
 		Proxy.getLogicalExercises(logicalExercises);
 		
 		//Handle the Add Exercise Form
@@ -76,7 +72,7 @@ public class Admin extends Composite{
 				WEStatus stat = new WEStatus(event.getResults());
 				
 				Notification.notify(stat.getStat(), stat.getMessage());
-				Proxy.getVisibleExercises(exercises, exerciseMap); 
+				Proxy.getVisibleExercises(exercises); 
 				
 				if(stat.getStat() == WEStatus.STATUS_SUCCESS){
 					String exName = stat.getMessage().substring(stat.getMessage().lastIndexOf(" ")+1);
@@ -120,8 +116,7 @@ public class Admin extends Composite{
 	void onReviewClick(ClickEvent event)
 	{
 		grdAdminReview.clear(true);
-		String value = exercises.getValue(exercises.getSelectedIndex());
-		Proxy.getSubmissionInfo(Integer.parseInt(exerciseMap.get(value)), grdAdminReview);		
+		Proxy.getSubmissionInfo(exercises.getValue(exercises.getSelectedIndex()), grdAdminReview);		
 	}
 	
 	@UiHandler("btnDSTReview")
@@ -132,22 +127,13 @@ public class Admin extends Composite{
 	
 	@UiHandler("btnAddSkeletons")
 	void onSkelClick(ClickEvent event){
-		String value = exercises.getValue(exercises.getSelectedIndex());
-		Proxy.alterExercise(Integer.parseInt(exerciseMap.get(value)), "skel");
+		Proxy.alterExercise(exercises.getValue(exercises.getSelectedIndex()), "skel", exercises);
 	}
 	
 	@UiHandler("btnMakeVisible")
 	void onVisClick(ClickEvent event){
-		String value = exercises.getValue(exercises.getSelectedIndex());
-		Proxy.alterExercise(Integer.parseInt(exerciseMap.get(value)), "vis");
-		Proxy.getVisibleExercises(exercises, exerciseMap);
+		Proxy.alterExercise(exercises.getValue(exercises.getSelectedIndex()), "vis", exercises);
 	}
-	
-//	@UiHandler("btnEnablePartners")
-//	void onPartnerClick(ClickEvent event){
-//		String value = exercises.getValue(exercises.getSelectedIndex());
-//		Proxy.alterExercise(Integer.parseInt(exerciseMap.get(value)), "partner");
-//	}
 	
 	@UiHandler("btnDeleteExercise")
 	void deleteExerciseClick(ClickEvent event){
@@ -169,8 +155,7 @@ public class Admin extends Composite{
 			@Override
 			public void onClick(ClickEvent event) {
 				deleteExercise.hide();
-				String value = exercises.getValue(exercises.getSelectedIndex());
-				Proxy.deleteExercise(exerciseMap.get(value), exercises, exerciseMap);
+				Proxy.deleteExercise(exercises.getValue(exercises.getSelectedIndex()), exercises);
 			}
 		});
 		
@@ -190,10 +175,6 @@ public class Admin extends Composite{
 		deleteExercise.add(base);
 		
 		deleteExercise.center();
-	}
-	
-	public HashMap<String, String> getExerciseMap(){
-		return this.exerciseMap;
 	}
 
 }
