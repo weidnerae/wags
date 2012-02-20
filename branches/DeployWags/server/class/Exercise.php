@@ -314,17 +314,32 @@ class Exercise extends Model
 		}
 
 		foreach ($allUsers as $curUser){
-			if (!in_array($curUser, $exUsers)){
+            // We don't want the helper to be getting skeletons
+			if (!in_array($curUser, $exUsers) && $curUser != CodeFile::getHelperId()){
 			     $file = new CodeFile();
  			     $file->setContents($this->getSkeleton());
-		             $now = time();
-		             $file->setName("/".$this->title."/skeleton");
-		             $file->setExerciseId($this->id);
-		             $file->setOwnerId($curUser);
-					 $file->setSection($this->getSection());
-		             $file->setUpdated($now);
+		         $now = time();
+		         $file->setName("/".$this->title."/skeleton");
+		         $file->setExerciseId($this->id);
+		         $file->setOwnerId($curUser);
+				 $file->setSection($this->getSection());
+		         $file->setUpdated($now);
 			     $file->setAdded($now);
 			     $file->save();
+
+                 // Creates a basic skeleton copy the user
+                 // can always return to
+                 $original = new CodeFile();
+                 $original->setContents($this->getSkeleton());
+                 $now = time();
+                 $original->setName("/".$this->title."/skeleton_Versions/".
+                    "skeleton_Original");
+                 $original->setExerciseId($this->id);
+		         $original->setOwnerId($curUser);
+				 $original->setSection($this->getSection());
+		         $original->setUpdated($now);
+			     $original->setAdded($now);
+			     $original->save();
 			}
 		}
 
