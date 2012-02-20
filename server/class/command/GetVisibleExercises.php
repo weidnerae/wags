@@ -23,7 +23,6 @@ class GetVisibleExercises extends Command
 		$exerciseTitles = "";
 
 		foreach($exercises as $exercise){
-			$exerciseIds[] = $exercise->getId();
 			$title = $exercise->getTitle();
 
 			if(!$exercise->getVisible()){
@@ -32,11 +31,9 @@ class GetVisibleExercises extends Command
 
 			$exerciseTitles[] = $title; 
 		}
-
-		$exerciseArray = array_merge($exerciseIds, $exerciseTitles);
 	
-		if(!empty($exerciseArray)){
-			return JSON::success($exerciseArray);
+		if(!empty($exerciseTitles)){
+			return JSON::success($exerciseTitles);
 		}
 
 		return JSON::success("No Assignments");

@@ -1,7 +1,7 @@
 <?php
 
 
-// RunCode.php
+// RunCodeNew.php
 // 
 // Executes program and does not allow it to hang.
 // 	-Will terminate if process runs longer than WAIT_TIME seconds
@@ -17,16 +17,18 @@
 # define a time (in seconds) to wait for a program to finish
 define('WAIT_TIME', 3);
 
-/* Get arguments passed in */
+# Get arguments passed in
 $dir = $argv[1];
-$className = $argv[2];
-$lang = $argv[3]; // which language is going to be run
+$testclassName = $argv[2];
+$solutionFileName = $argv[3];
+$studentFileName = $argv[4];
+$lang = $argv[5]; // which language is going to be run
 
 # This contains the pipes that can read and write to the process
 $descriptorspec = array(
-   0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
-   1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
-   2 => array("pipe", "a") // stderr is a file to write to
+   0 => array("pipe", "r"),	// stdin is a pipe that the child will read from
+   1 => array("pipe", "w"),	// stdout is a pipe that the child will write to
+   2 => array("pipe", "a")	// stderr is a file to write to
 );
 
 # determine which language we are using
@@ -40,11 +42,15 @@ switch($lang)
 		# Open the process
 		#	-The process will stay open in the background and the php script will continue running.
 		#	-The java process will run with a Security Manager and a set of defined permissions
-		$process = proc_open("exec /usr/bin/java $security_stmt -cp $dir $className 2>&1", $descriptorspec, $pipes);
+		$process = proc_open("exec /usr/bin/java $security_stmt -cp $dir $testclassName 2>&1", $descriptorspec, $pipes);
 		
 		break;
 	case "Prolog":
-	
+		# Open the process
+		#	-The process will stay open in the background and the php script will continue running.
+		#	-The java process will run with a Security Manager and a set of defined permissions
+		$process = proc_open("exec /usr/bin/java $testclassName $solutionFileName $studentFileName 2>&1", $descriptorspec, $pipes);
+		
 		break;
 }
 

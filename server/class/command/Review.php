@@ -26,11 +26,11 @@ class Review extends Command
 
 		//Grab posted information
 		$code = $_POST['code'];
-		$exerciseId = $_POST['id'];
+		$exerciseTitle = $_POST['title'];
 		$fileName = $_POST['name'];
-		$exercise = Exercise::getExerciseById($exerciseId);
+		$exercise = Exercise::getExerciseByTitle($exerciseTitle);
         $exerciseSkeleton = $exercise->getSkeleton();
-
+        $exerciseId = $exercise->getId();
 
         $file = CodeFile::getCodeFileByName($fileName);
 		//Grab the correct skeleton class name

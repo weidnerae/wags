@@ -14,30 +14,27 @@
 class AdminReview extends Command
 {
 	public function execute(){
-		if (isset($_REQUEST['exerciseId'])){
-			$exId = $_REQUEST['exerciseId'];
-			$subInfo = Exercise::getSubmissions($exId);
+		$ex = $_REQUEST['title'];
+        $exercise = Exercise::getExerciseByTitle($ex);
 
-			foreach($subInfo as $row){
-				$result[] = $row['username'];
-				$result[] = $row['name'];
-                $result[] = $row['numAttempts'];
-				$result[] = $row['success'];
-				if($row['partner'] != NULL){
-					$result[] = $row['partner'];
-				}else{
-					$result[] = "  ";
-				}
+		$subInfo = Exercise::getSubmissions($exercise->getId());
 
+		foreach($subInfo as $row){
+			$result[] = $row['username'];
+			$result[] = $row['name'];
+            $result[] = $row['numAttempts'];
+			$result[] = $row['success'];
+			if($row['partner'] != NULL){
+				$result[] = $row['partner'];
+			}else{
+				$result[] = "  ";
 			}
 
-			if(empty($subInfo)){
-				return JSON::success("empty");
-			}
-			return JSON::success($result);
-		}else{
-			return JSON::error("No exercise given");
 		}
 
+		if(empty($subInfo)){
+			return JSON::success("empty");
+		}
+		return JSON::success($result);
 	}
 }
