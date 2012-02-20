@@ -32,6 +32,11 @@ class Review extends Command
         $exerciseSkeleton = $exercise->getSkeleton();
         $exerciseId = $exercise->getId();
 
+        // Invisible exercises = expired
+        if(!$exercise->getVisible()){
+            return JSON::error("Exercise expired");
+        }
+
         $file = CodeFile::getCodeFileByName($fileName);
 		//Grab the correct skeleton class name
 		preg_match($classRegex, $exerciseSkeleton, $matches);
@@ -133,8 +138,7 @@ class Review extends Command
 		$lang = "Java"; // Need to know which language we are using
 		$langFileExtension = "java"; // the file extension for this language
 		
-		$code = str_replace("%2B", "+", $code);
-        $code = str_replace("%!`", "&", $code);
+        $code = utf8_decode($code);
 	
 		//Check for the package statement -> in effect,
 		//this tells us whether or not we'll be using an inner
