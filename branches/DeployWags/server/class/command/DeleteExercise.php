@@ -3,7 +3,9 @@
 class DeleteExercise extends Command
 {
     public function execute(){
-        $exId = $_GET['exId'];
+        $exTitle = $_GET['title'];
+        $exercise = Exercise::getExerciseByTitle($exTitle);
+        $exId = $exercise->getId();
 
         Exercise::deleteExercise($exId);
 

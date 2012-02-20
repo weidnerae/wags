@@ -3,9 +3,9 @@
 class getDesc extends Command
 {
 	public function execute(){
-		$exId = $_GET['id'];
+		$exTitle = $_GET['title'];
 
-		$exercise = Exercise::getExerciseById($exId);
+		$exercise = Exercise::getExerciseByTitle($exTitle);
 		return JSON::success($exercise->getDescription());
 
 	}
