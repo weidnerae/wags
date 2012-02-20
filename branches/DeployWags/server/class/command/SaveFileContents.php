@@ -36,15 +36,7 @@ class SaveFileContents extends Command
 		$file = CodeFile::getCodeFileByName($fileName);
         if($file->getOwnerId() == CodeFile::getHelperId()) return;
 	
-		/**
-		 * For some reason, the URL encoding on the client side does
-		 * not encode "+" correctly.  Thus, it is manually encoded
-		 * on the client side as %2B -> the correct HTML encoding.
-		 * Of course, now %2B is encoded and decoded, so this next
-		 * line manually replaces it with "+" again
-		 */
-		$contents = str_replace("%2B", "+", $contents);
-        $contents = str_replace("%!`", "&", $contents);
+        $contents = utf8_decode($contents);
 	
 			if(!empty($file) && $file instanceof CodeFile){
 				// Update CodeFile.
