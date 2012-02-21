@@ -347,6 +347,34 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
+			case 22: return new TreeProblem("BST Level Traversal (Help on)",
+					"Perform a level traversal of the binary tree below by clicking" +
+					" nodes in the order the traversal would visit them.",
+					"A B C D E F G",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{250,150,350,75,225,275,425},
+					new int[]{75,175,175,275,275,275,275},
+					new String[]{"A B","B D","B E","C F","C G", "A C"},
+					new String[]{"ABCDEFG"},
+					travHelp,
+					noEdgeAddition,
+					false,
+					false,
+					DSTConstants.NODE_CLICKABLE_FORCE_EVAL);
+			case 23: return new TreeProblem( "BST Level Traversal (Help off)",
+					"Perform a Level traversal of the binary tree below by clicking" +
+					" nodes in the order the traversal would visit them.",
+					"F C M P Q N K S Y",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{250,200,350,50,300,400,100, 450, 150},
+					new int[]{75,175,175,275,275,275,375, 375, 475},
+					new String[]{"F C","C P","P K","K Y","F M", "M Q", "M N", "N S"},
+					new String[]{"FCMPQNKSY"},
+					trav,
+					noEdgeAddition,
+					false,
+					false,
+					DSTConstants.NODE_CLICKABLE);
 			
 		default:
 			return new TreeProblem("Binary Search Tree from Postorder Traversal 1",
@@ -390,6 +418,8 @@ public class ProblemServiceImpl
 		if(problem.equals("MaxHeap")) return 19;
 		if(problem.equals("MaxHeap Insertion")) return 20;
 		if(problem.equals("MaxHeap Deletion")) return 21;
+		if(problem.equals("BST Level Traversal (Help on)")) return 22;
+		if(problem.equals("BST Level Traversal (Help off)")) return 23;
 		
 		return 0;
 	}
