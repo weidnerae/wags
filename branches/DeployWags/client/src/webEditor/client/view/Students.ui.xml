@@ -162,6 +162,11 @@
 					<g:TextBox styleName="{style.tbox}" name="last_name[]"></g:TextBox>
 				</g:HorizontalPanel>
 				
+				<g:HorizontalPanel styleName="{style.filePanel}">
+					<g:Label styleName="{style.label}"> CSV (E-mail, Last, First): </g:Label>
+					<g:FileUpload ui:field="csvReg" name="csvReg"></g:FileUpload>
+				</g:HorizontalPanel>
+				
 				<g:HorizontalPanel>
 					<g:SubmitButton styleName="{style.button}">Register</g:SubmitButton>
 					<g:Button styleName="{style.button}">Clear</g:Button>
