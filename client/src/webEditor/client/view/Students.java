@@ -7,6 +7,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
@@ -23,6 +24,7 @@ public class Students extends Composite {
 	@UiField PasswordTextBox checkPassword;
 	@UiField FormPanel passwordForm;
 	@UiField FormPanel registerForm;
+	@UiField FileUpload csvReg;
 
 	private static StudentsUiBinder uiBinder = GWT
 			.create(StudentsUiBinder.class);
