@@ -166,7 +166,7 @@
 				<g:Label> Available Exercises </g:Label>
 				<g:CheckBox ui:field="Traversals" name="Traversals">Traversals</g:CheckBox>
 				<g:CheckBox ui:field="InsertNodes" name="InsertNodes">Insert Nodes </g:CheckBox>
-				<g:CheckBox ui:field="BuildBST" name="BuildBST">Build Binary Tree</g:CheckBox>
+				<g:CheckBox ui:field="BuildBST" name="BuildBST">Build Binary Search Tree</g:CheckBox>
 				<g:CheckBox ui:field="BuildBT" name="BuildBT">Build Binary Tree</g:CheckBox>
 				<g:CheckBox ui:field="RadixSort" name="RadixSort">Radix Sort</g:CheckBox>
 				
