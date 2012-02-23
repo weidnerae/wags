@@ -26,6 +26,12 @@ public class Evaluation_MaxHeap_Preorder extends Evaluation  implements IsSerial
 			System.out.println(e.getN1().getValue() + " " + e.getN2().getValue());
 		}		
 		EvaluationNode rootEvalNode = buildEvaluationTree(nodes, edges);
+		if(rootEvalNode == null){
+			Proxy.submitDST(problemName, 0);
+			return "You have removed too many nodes from the heap, make sure " +
+					"you have gone back and added the necessary edges " +
+					"to complete the new heap.";
+		}
 
 		if(testInorderTraversal(arguments[0], rootEvalNode, nodes, edges) == false)
 		{
@@ -78,21 +84,27 @@ public class Evaluation_MaxHeap_Preorder extends Evaluation  implements IsSerial
 	{
 		@SuppressWarnings("unchecked")
 		ArrayList<Node> noParentNodes = (ArrayList<Node>) nodes.clone();
-
+		@SuppressWarnings("unchecked")
+		ArrayList<Node> unConnectedNodes = (ArrayList<Node>) nodes.clone();
 		for(int i = 0; i < edges.size(); i++)
 		{
 			EdgeParent edge = edges.get(i);
+			//finding the removed node/nodes
+			if(unConnectedNodes.contains(edge.getN1()))  
+				unConnectedNodes.remove(edge.getN1());
+			if(unConnectedNodes.contains(edge.getN2()))
+				unConnectedNodes.remove(edge.getN2());
+			
 			noParentNodes.remove(edge.getN2());
-		}
+		}	
 		
-		/**
-		 * Taking 97 out of the noParentNodes list so that testing for the
-		 * MaxHeap Deletion works.  There needs to be a better way to do this
-		 */
-		for(int i=0;i<noParentNodes.size();i++){
-			if(noParentNodes.get(i).getValue().equals("97")){
-				noParentNodes.remove(i);
-			}
+		// taking the removed nodes out of the noParentNodes list.
+		for(Node n: unConnectedNodes){
+			noParentNodes.remove(n);
+		}
+		//returns null if more than one node is disconnected from the heap
+		if(unConnectedNodes.size()>1){
+			return null;
 		}
 		
 		Node rootNode = noParentNodes.get(0);
