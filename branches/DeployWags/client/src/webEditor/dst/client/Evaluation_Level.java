@@ -11,7 +11,7 @@ import webEditor.client.Proxy;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class Evaluation_MaxHeap_Preorder extends Evaluation  implements IsSerializable
+public class Evaluation_Level extends Evaluation  implements IsSerializable
 {	
 	private ArrayList<EvaluationNode> treeNodes;
 	
@@ -28,9 +28,8 @@ public class Evaluation_MaxHeap_Preorder extends Evaluation  implements IsSerial
 		EvaluationNode rootEvalNode = buildEvaluationTree(nodes, edges);
 		if(rootEvalNode == null){
 			Proxy.submitDST(problemName, 0);
-			return "You have removed too many nodes from the heap, make sure " +
-					"you have gone back and added the necessary edges " +
-					"to complete the new heap.";
+			return "Your tree is incomplete go back and add " +
+				   " the necessary edges to complete the tree.";
 		}
 
 		if(testInorderTraversal(arguments[0], rootEvalNode, nodes, edges) == false)
@@ -40,7 +39,7 @@ public class Evaluation_MaxHeap_Preorder extends Evaluation  implements IsSerial
 		}
 				
 		Proxy.submitDST(problemName, 1);
-		return "Feedback: Congratulations! Your heap is correct.";
+		return "Feedback: Congratulations! Your tree is correct.";
 	}
 
 	private Boolean testInorderTraversal(String correctTrav, EvaluationNode rootEvalNode, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
@@ -72,8 +71,7 @@ public class Evaluation_MaxHeap_Preorder extends Evaluation  implements IsSerial
 
 		if(!inorderTrav.trim().equals(correctTrav))
 		{
-			errorMessage = "Feedback: Incorrect Heap.  The inorder traversal of your heap is " + inorderTrav;
-			errorMessage += "\n while the inorder traversal of the correct heap should be " + correctTrav;
+			errorMessage = "Feedback: Incorrect Tree.";
 			return false;
 		}
 
@@ -103,7 +101,7 @@ public class Evaluation_MaxHeap_Preorder extends Evaluation  implements IsSerial
 			noParentNodes.remove(n);
 		}
 		//returns null if more than one node is disconnected from the heap
-		if(unConnectedNodes.size()>1){
+		if(unConnectedNodes.size()>=1){
 			return null;
 		}
 		
