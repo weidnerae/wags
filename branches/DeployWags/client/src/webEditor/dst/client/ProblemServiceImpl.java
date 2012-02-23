@@ -7,6 +7,7 @@ public class ProblemServiceImpl
 		Evaluation_PostOrderBST eval = new Evaluation_PostOrderBST();
 		Evaluation_Preorder preEval = new Evaluation_Preorder();
 		Evaluation_MaxHeap_Preorder preHeap = new Evaluation_MaxHeap_Preorder();
+		Evaluation_Level level = new Evaluation_Level();
 		
 		AddEdgeRules noEdgeAddition = new AddEdgeRules();
 		Evaluation_BSTTraversal trav = new Evaluation_BSTTraversal();
@@ -375,6 +376,67 @@ public class ProblemServiceImpl
 					false,
 					false,
 					DSTConstants.NODE_CLICKABLE);
+			case 24: return new TreeProblem("Binary Search Tree from Level Traversal Q",
+					"Given the level traversal QWERTYU, " +
+					"construct the original binary search tree.  " +
+					"Hint: The binary search tree is unique.",
+					"W E U Q T R Y",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges,
+					new String[]{"RWTQYEU"},
+					level,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 25: return new TreeProblem("Binary Search Tree from Level Traversal 2",
+					"Given the level traversal YHAOLKD, " +
+					"construct the original binary search tree.  " +
+					"Hint: The binary search tree is unique.",
+					"O H A D Y K L",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges,
+					new String[]{"OHLYKAD"},
+					level,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 26: return new TreeProblem("Binary Search Tree from Level Traversal 3",
+					"Given the level traversal HEZXPOISD, " +
+					"construct the original binary search tree.  " +
+					"Hint: The binary search tree is unique.",
+					"O E D X H S I Z P",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges,
+					new String[]{"SXDEPHOZI"},
+					level,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 27: return new TreeProblem("Binary Search Tree from Level Traversal 4",
+					"Given the level traversal KLAVJISOBE, " +
+					"construct the original binary search tree.  " +
+					"Hint: The binary search tree is unique.",
+					"K E L B V J S I A O",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges,
+					new String[]{"OVBLEJKIAS"},
+					level,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+
 			
 		default:
 			return new TreeProblem("Binary Search Tree from Postorder Traversal 1",
@@ -420,6 +482,10 @@ public class ProblemServiceImpl
 		if(problem.equals("MaxHeap Deletion")) return 21;
 		if(problem.equals("BST Level Traversal (Help on)")) return 22;
 		if(problem.equals("BST Level Traversal (Help off)")) return 23;
+		if(problem.equals("Binary Search Tree from Level Traversal 1")) return 24;
+		if(problem.equals("Binary Search Tree from Level Traversal 2")) return 25;
+		if(problem.equals("Binary Search Tree from Level Traversal 3")) return 26;
+		if(problem.equals("Binary Search Tree from Level Traversal 4")) return 27;
 		
 		return 0;
 	}
