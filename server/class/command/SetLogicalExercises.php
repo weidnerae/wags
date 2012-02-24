@@ -22,7 +22,9 @@ class SetLogicalExercises extends Command
             "BST Postorder Traversal (Help on)|".
             "BST Preorder Traversal (Help off)|".
             "BST Inorder Traversal (Help off)|".
-            "BST Postorder Traversal (Help off)|";
+            "BST Postorder Traversal (Help off)|".
+            "BST Level Traversal 1|".
+            "BST Level Traversal 2|";
         }
 
         if(isset($_POST['InsertNodes']) && $_POST['InsertNodes'] == 'on')
