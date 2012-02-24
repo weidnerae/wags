@@ -367,8 +367,8 @@ public class ProblemServiceImpl
 					" nodes in the order the traversal would visit them.",
 					"F C M P Q N K S Y",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
-					new int[]{250, 200, 350, 50, 300, 400, 100, 450, 150},
-					new int[]{75, 175, 175, 275, 275, 275, 375, 375, 475},
+					new int[]{250,200,350,50,300,400,100, 450, 150},
+					new int[]{75,175,175,275,275,275,375, 375, 475},
 					new String[]{"F C","C P","P K","K Y","F M", "M Q", "M N", "N S"},
 					new String[]{"FCMPQNKSY"},
 					trav,
@@ -376,7 +376,21 @@ public class ProblemServiceImpl
 					false,
 					false,
 					DSTConstants.NODE_CLICKABLE);
-			case 24: return new TreeProblem("Binary Search Tree from Level Traversal 1",
+			case 24: return new TreeProblem( "BST Level Traversal 3",
+					"Perform a Level traversal of the binary tree below by clicking" +
+					" nodes in the order the traversal would visit them.",
+					"V N A L F C G W Q K",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{250,150,350,75,225,425,175,375,475,425},
+					new int[]{50,150,150,250,250,250,350,350,350,450},
+					new String[]{"V N","V A","N L","N F","F G","A C","C W", "C Q","Q K"},
+					new String[]{"VNALFCGWQK"},
+					trav,
+					noEdgeAddition,
+					false,
+					false,
+					DSTConstants.NODE_CLICKABLE);
+			case 25: return new TreeProblem("Binary Search Tree from Level Traversal 1",
 					"Given the level traversal QWERTYU, " +
 					"construct the original binary search tree.  " +
 					"Hint: The binary search tree is unique.",
@@ -391,7 +405,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 25: return new TreeProblem("Binary Search Tree from Level Traversal 2",
+			case 26: return new TreeProblem("Binary Search Tree from Level Traversal 2",
 					"Given the level traversal YHAOLKD, " +
 					"construct the original binary search tree.  " +
 					"Hint: The binary search tree is unique.",
@@ -406,7 +420,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 26: return new TreeProblem("Binary Search Tree from Level Traversal 3",
+			case 27: return new TreeProblem("Binary Search Tree from Level Traversal 3",
 					"Given the level traversal HEZXPOISD, " +
 					"construct the original binary search tree.  " +
 					"Hint: The binary search tree is unique.",
@@ -421,7 +435,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 27: return new TreeProblem("Binary Search Tree from Level Traversal 4",
+			case 28: return new TreeProblem("Binary Search Tree from Level Traversal 4",
 					"Given the level traversal KLAVJISOBE, " +
 					"construct the original binary search tree.  " +
 					"Hint: The binary search tree is unique.",
@@ -436,6 +450,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
+
 			
 		default:
 			return new TreeProblem("Binary Search Tree from Postorder Traversal 1",
@@ -481,10 +496,11 @@ public class ProblemServiceImpl
 		if(problem.equals("MaxHeap Deletion")) return 21;
 		if(problem.equals("BST Level Traversal 1")) return 22;
 		if(problem.equals("BST Level Traversal 2")) return 23;
-		if(problem.equals("Binary Search Tree from Level Traversal 1")) return 24;
-		if(problem.equals("Binary Search Tree from Level Traversal 2")) return 25;
-		if(problem.equals("Binary Search Tree from Level Traversal 3")) return 26;
-		if(problem.equals("Binary Search Tree from Level Traversal 4")) return 27;
+		if(problem.equals("BST Level Traversal 3")) return 24;
+		if(problem.equals("Binary Search Tree from Level Traversal 1")) return 25;
+		if(problem.equals("Binary Search Tree from Level Traversal 2")) return 26;
+		if(problem.equals("Binary Search Tree from Level Traversal 3")) return 27;
+		if(problem.equals("Binary Search Tree from Level Traversal 4")) return 28;
 		
 		return 0;
 	}
