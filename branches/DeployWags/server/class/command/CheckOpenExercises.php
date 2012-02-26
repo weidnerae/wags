@@ -16,19 +16,42 @@
 *Submission times are checked in Review.php
 */
 
+define("VISIBLE", 1);
+define("INVISIBLE", 0);
+
 class CheckOpenExercises extends Command
 {
 	public function execute()
 	{
+		// Following line was missing
+		//	-- Commented out so that function still fails until
+		//	   it is decided what to do.  This script will have
+		// 	   bad consequences if the admin has manually edited the
+		//     visibility, regardless of open/close dates.  May want
+		//     to add in extra logic, as I began to below, to account
+		//	   for this.
+		//$timedExercises = Exercise::getVisibleExercises(); // this line was missing
+		
+		$open = 0;  // added variables
+		$close = 0;
 		foreach($timedExercises as $exercise){
-			//opens
-			if($exercise->getOpenDate() < time()){
-				$exercise->setVisible(1);
+			$open = $exercise->getOpenDate();   // just pulled these out of IF
+			$close = $exercise->getCloseDate(); // statements
+			
+			// Will want to look at case when open/close haven't
+			// been set, in which case they will both be '0'.
+			//	-In this case, may want to just leave the visibility alone,
+			//	 as admin is likely manually changing the visibility
+			//if($open != 0 && $close != 0)
+			
+			//opens - if already open, set visible
+			if($open < time()){
+				$exercise->setVisible(VISIBLE);
 			}
 
-			//closes
-			if($exercise->getCloseDate() < time()){
-				$exercise->setVisible(0);
+			//closes - if already closed, set invisible
+			if($close < time()){
+				$exercise->setVisible(INVISIBLE);
 			}
 		
 			$exercise->save();
