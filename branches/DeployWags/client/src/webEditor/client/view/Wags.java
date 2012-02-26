@@ -193,9 +193,15 @@ public class Wags extends View
 	{
 		saveCurrentCode();
 		
-		String codeText = editor.codeTop;
-		codeText += "//<end!TopSection>\n" + editor.codeArea.getText();
-		codeText += "//<end!MidSection>\n" + editor.codeBottom;
+		// We are now keeping the comments in the top and bottom
+		// portions, so no need to add them back in anymore.
+		// 	-This is all part of redesigning code from working only
+		//	 with Java files -- See getFileContents in Proxy.java
+//		String codeText = editor.codeTop;
+//		codeText += "//<end!TopSection>\n" + editor.codeArea.getText();
+//		codeText += "//<end!MidSection>\n" + editor.codeBottom;
+		
+		String codeText = editor.codeTop + editor.codeArea.getText() + editor.codeBottom;
 		
 		codeText = URL.encodePathSegment(codeText);
 		
@@ -278,11 +284,17 @@ public class Wags extends View
 			// Update the current editor code text
 			currentEditorCode = editorText;
 			
-			String text = editor.codeTop;
-			if(text != "") text += "//<end!TopSection>";
-			text += editorText;
-			if(editor.codeBottom != "") text += "//<end!MidSection>";
-			text += editor.codeBottom;
+			// We are now keeping the comments in the top and bottom
+			// portions, so no need to add them back in anymore.
+			// 	-This is all part of redesigning code from working only
+			//	 with Java files -- See getFileContents in Proxy.java
+//			String text = editor.codeTop;
+//			if(text != "") text += "//<end!TopSection>";
+//			text += editorText;
+//			if(editor.codeBottom != "") text += "//<end!MidSection>";
+//			text += editor.codeBottom;
+			
+			String text = editor.codeTop + editorText + editor.codeBottom;
 			
 			text = URL.encodePathSegment(text);
 			

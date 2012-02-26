@@ -29,7 +29,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 
 public class Proxy
@@ -447,38 +446,57 @@ public class Proxy
 					String allText = response.getText();
 					
 					//Grab status for uneditable codeArea for helper classes
-					allText = allText.substring(5);
+					allText = allText.substring(5);  // WHAT IS THIS FOR???
 					allText.trim();
 					String status = allText.substring(0, 1); 
 					allText = allText.substring(1);
 					editor.codeArea.setEnabled(true); /* defaults to enabled */
 					
-					//Have to take into account comment length when
-					//parsing file
-					String lengthFinder = "..<end!TopSection>";
+					// Have to take into account comment length when
+					//  parsing file
+					//	-Now we will stop checking for the initial "//" part,
+					//	 as that is a comment style accepted only by some 
+					//	 languages (like Java).  Allow the file to have the necessary comment
+					//	 marks for that language, and only check for the unique part
+					//	 like "<end!TopSection>" instead of "//<end!TopSection>"
+					//	-We will still require that two comment marks be used before
+					//	 the unique part:
+					//		-Ex: "//" for Java, "%%" for Prolog (even though only one '%' is
+					//			needed in Prolog for a comment), etc
+//					String lengthFinder = "..<end!TopSection>";
+					String lengthFinder = "<end!TopSection>";
 					int len = lengthFinder.length();
 					
-					//Hoping those /'s escape correctly
-					int endofTop = allText.indexOf("//<end!TopSection>");
-					int endofMid = allText.indexOf("//<end!MidSection>");
+					// Find the end of top and middle comments
+//					int endofTop = allText.indexOf("//<end!TopSection>");
+//					int endofMid = allText.indexOf("//<end!MidSection>");
+					int endofTop = allText.indexOf("<end!TopSection>");
+					int endofMid = allText.indexOf("<end!MidSection>");
 					String top = "", mid = allText, bot = "";
 							
 					//Logic copied from server side
+					//	-Except now we want to keep the section comments in the
+					//	 top and bottom portions, so that they do not have to be
+					//	 added in again later in Wags.java
 					if(endofTop != -1){
-						top = allText.substring(0, endofTop);
-						mid = allText.substring(endofTop);
+//						top = allText.substring(0, endofTop);
+//						mid = allText.substring(endofTop);
+						top = allText.substring(0, endofTop + len); // keep the comment in top
+						mid = allText.substring(endofTop + len); // don't include comment in mid
 					}
 					
 					if(endofMid != -1){
-						bot = allText.substring(endofMid + len);
-						mid = allText.substring(endofTop + len, endofMid);
+//						bot = allText.substring(endofMid + len);
+						bot = allText.substring(endofMid - 2); // keep comment in bottom
+						mid = allText.substring(endofTop + len, endofMid - 2); // don't leave //, or %%, or etc in mid
 					}
 					
 					editor.codeTop = top;
 					editor.codeBottom = bot;
 					editor.codeArea.setText(mid);
 					
-					if(status.equals("0")) editor.codeArea.setEnabled(false); /* if status = 0, files is uneditable */
+					if(status.equals("0")) 
+						editor.codeArea.setEnabled(false); // if status = 0, file is uneditable
 				
 				}
 				
