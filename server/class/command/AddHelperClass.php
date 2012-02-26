@@ -18,7 +18,6 @@ class AddHelperClass extends Command
 	public function execute()
 	{
 
-
 		if(!Auth::isLoggedIn()){
 			echo 'Must be logged in as administrator to add a class';
 			return;
@@ -30,6 +29,12 @@ class AddHelperClass extends Command
 		
 		$helper = $_FILES['HelperClass'];
 		#$description = $_FILES['descriptionPDF'];
+		
+		// Get original file name for helper file
+		$helperFileName = pathinfo($helper["name"], PATHINFO_FILENAME);
+		
+		// Get original file extension for helper file
+		$helperFileExtension = pathinfo($helper["name"], PATHINFO_EXTENSION);
 
 		$finfo = finfo_open(FILEINFO_MIME_TYPE);
 		$type = finfo_file($finfo, $helper['tmp_name']);
@@ -89,6 +94,8 @@ class AddHelperClass extends Command
     		$file->setExerciseId($exercise->getId());
     		$file->setOwnerId(CodeFile::getHelperId()); //0 is used specifically for helper classes
     		$file->setSection($user->getSection());
+			$file->setOriginalFileName($helperFileName);
+			$file->setOriginalFileExtension($helperFileExtension);
 	    	$file->setAdded(time());
     		$file->setUpdated(time());
 

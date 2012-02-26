@@ -38,26 +38,26 @@ class SaveFileContents extends Command
 	
         $contents = utf8_decode($contents);
 	
-			if(!empty($file) && $file instanceof CodeFile){
-				// Update CodeFile.
-				$file->setContents($contents);
-				$file->setUpdated(time());
-				$file->save();
-			}else{
-				// Create new CodeFile.
-				$file = new CodeFile();
-				$file->setContents($contents);
-				$now = time();
-				$file->setName($fileName);
-				$file->setExerciseId(0);
-				$file->setOwnerId($user->getId());
-				$file->setSection($user->getSection());
-				$file->setUpdated($now);
-				$file->setAdded($now);
-				$file->save();
-			}
-	
-			return JSON::success('File '.$fileName.' saved');
+		if(!empty($file) && $file instanceof CodeFile){
+			// Update CodeFile.
+			$file->setContents($contents);
+			$file->setUpdated(time());
+			$file->save();
+		}else{
+			// Create new CodeFile.
+			$file = new CodeFile();
+			$file->setContents($contents);
+			$now = time();
+			$file->setName($fileName);
+			$file->setExerciseId(0);
+			$file->setOwnerId($user->getId());
+			$file->setSection($user->getSection());
+			$file->setUpdated($now);
+			$file->setAdded($now);
+			$file->save();
 		}
+
+		return JSON::success('File '.$fileName.' saved');
+	}
 }
 ?>

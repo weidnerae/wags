@@ -33,13 +33,18 @@ class GetFileContents extends Command
 
 			$status = 1;
             /* If it's a helper class and the user isn't an administrator, they can't alter it */
-			if($file->getOwnerId() == CodeFile::getHelperId() && !($user->isAdmin())) $status = 0;
+			if($file->getOwnerId() == CodeFile::getHelperId() && !($user->isAdmin())) 
+				$status = 0;
 
+			// *** WHY IS THIS NEEDED ON THE SERVER SIDE? ***
+			//	-Removed as it is useless - the top and mid comments should
+			//	already be in the file when uploaded, so the commented out parts 
+			//	effectively do nothing.
 			#must parse skeleton files into three text sections delimited
 			#by "//<end!TopSection>" and "//<end!MidSection>"
 
-			$topNeedle = "//<end!TopSection>";
-			$midNeedle = "//<end!MidSection>";
+//			$topNeedle = "//<end!TopSection>";
+//			$midNeedle = "//<end!MidSection>";
 
 			//Grab the entire program
 			$wholeCode = $file->getContents();
@@ -48,26 +53,27 @@ class GetFileContents extends Command
             $wholeCode = str_replace("&gt;", ">", $wholeCode);
 
 
-			$top = "";
-			$mid = $wholeCode;
-			$bot = "";
-
-			//find the location of the delimiting comments
-			$endofTop = strpos($wholeCode, $topNeedle);
-			$endofMid = strpos($wholeCode, $midNeedle);
-
-			if($endofTop){
-				$top = substr($wholeCode, 0, $endofTop)."//<end!TopSection>";
-				$mid = substr($wholeCode, $endofTop + strlen($topNeedle));
-			}
-
-			if($endofMid){
-				$bot = substr($wholeCode, $endofMid);
-				$mid = substr($wholeCode, $endofTop + strlen($topNeedle), strlen($wholeCode) - 
-					strlen($top) - strlen($bot));
-			}
+//			$top = "";
+//			$mid = $wholeCode;
+//			$bot = "";
+//
+//			//find the location of the delimiting comments
+//			$endofTop = strpos($wholeCode, $topNeedle);
+//			$endofMid = strpos($wholeCode, $midNeedle);
+//
+//			if($endofTop){
+//				$top = substr($wholeCode, 0, $endofTop)."//<end!TopSection>";
+//				$mid = substr($wholeCode, $endofTop + strlen($topNeedle));
+//			}
+//
+//			if($endofMid){
+//				$bot = substr($wholeCode, $endofMid);
+//				$mid = substr($wholeCode, $endofTop + strlen($topNeedle), strlen($wholeCode) - 
+//					strlen($top) - strlen($bot));
+//			}
 			
-			$all = $status.$top.$mid.$bot;
+//			$all = $status.$top.$mid.$bot;
+			$all = $status.$wholeCode;
             //$all = $top.$mid.$bot;
 
 			echo $all;

@@ -10,11 +10,13 @@
 
 class CodeFile extends Model
 {
-    protected $name;
+    protected $name; // the name of this codeFile that Wags uses internally
     protected $ownerId;
     protected $contents;
     protected $exerciseId;
 	protected $section;
+	protected $originalFileName; // the actual name of the upladed file - Used for compiling, etc.
+	protected $originalFileExtension;
     
     public function getTable(){
         return 'file';
@@ -22,14 +24,20 @@ class CodeFile extends Model
     public function getContents(){
         return $this->contents;
     }
-    public function getName(){
+    public function getExerciseId(){
+		return $this->exerciseId;
+    }
+	public function getOriginalFileExtension() {
+		return $this->originalFileExtension;
+	}
+	public function getOriginalFileName() {
+		return $this->originalFileName;
+	}
+	public function getName(){
         return $this->name;
     }
     public function getOwnerId(){
         return $this->ownerId;
-    }
-    public function getExerciseId(){
-		return $this->exerciseId;
     }
 	public function getSection(){
 		return $this->section;
@@ -39,14 +47,20 @@ class CodeFile extends Model
     public function  setContents($text){
         $this->contents = $text;
     }
-    public function setName($name){
+    public function setExerciseId($id){
+	    $this->exerciseId = $id;
+    }
+	public function setOriginalFileExtension($fileExtension) {
+		$this->originalFileExtension = $fileExtension;
+	}
+	public function setOriginalFileName($fileName) {
+		$this->originalFileName = $fileName;
+	}
+	 public function setName($name){
         $this->name = $name;
     }
     public function setOwnerId($id){
         $this->ownerId = $id;
-    }
-    public function setExerciseId($id){
-	    $this->exerciseId = $id;
     }
 	public function setSection($section){
 		$this->section = $section;
@@ -61,7 +75,7 @@ class CodeFile extends Model
      */
 
     /**
-     * Get a CodeFile object from database by it's name.
+     * Get a CodeFile object from database by it's internal Wags name.
      *
      * @return CodeFile 
      */
