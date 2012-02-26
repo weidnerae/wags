@@ -1,11 +1,9 @@
 <?php
-// MICHAEL DUSENBERRY
-// The code you were working on is in originals/updatedruncodenew
-// I was getting errors, so I reverted...
 
-// RunCode.php
+
+// RunCodeNew.php
 // 
-// Executes Java program and does not allow it to hang.
+// Executes program and does not allow it to hang.
 // 	-Will terminate if process runs longer than WAIT_TIME seconds
 //
 // Completely rewritten.
@@ -19,25 +17,53 @@
 # define a time (in seconds) to wait for a program to finish
 define('WAIT_TIME', 3);
 
-/* Get arguments passed in */
+# Get arguments passed in
 $dir = $argv[1];
-$className = $argv[2];
-
-# define security manager parameters
-$security_stmt = "-Djava.security.manager"
-    ." -Djava.security.policy==/usr/local/apache2/htdocs/cs/wags/class/command/WagsSecurity.policy";
+$testFileName = $argv[2];
+$solutionFileName = $argv[3];
+$studentFileName = $argv[4];
+$lang = $argv[5]; // which language is going to be run
 
 # This contains the pipes that can read and write to the process
 $descriptorspec = array(
-   0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
-   1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
-   2 => array("pipe", "a") // stderr is a file to write to
+   0 => array("pipe", "r"),	// stdin is a pipe that the child will read from
+   1 => array("pipe", "w"),	// stdout is a pipe that the child will write to
+   2 => array("pipe", "a")	// stderr is a file to write to
 );
 
-# Open the process
-#	-The process will stay open in the background and the php script will continue running.
-#	-The java process will run with a Security Manager and a set of defined permissions
-$process = proc_open("exec /usr/bin/java $security_stmt -cp $dir $className 2>&1", $descriptorspec, $pipes);
+# determine which language we are using, and execute the testing file as a process
+switch($lang)
+{
+	case "Java":
+		# define security manager parameters
+		$security_stmt = "-Djava.security.manager"
+			." -Djava.security.policy==/usr/local/apache2/htdocs/cs/wags/class/command/WagsSecurity.policy";
+		
+		# Open the process
+		#	-The process will stay open in the background and the php script will continue running.
+		#	-The java process will run with a Security Manager and a set of defined permissions
+		$process = proc_open("exec /usr/bin/java $security_stmt -cp $dir $testFileName 2>&1", $descriptorspec, $pipes);
+		
+		break;
+		
+	case "Prolog":
+		# Need to create strings for executing the files in format == "/usr/local/bin/swipl -q -t main -f fileName.pl"
+		# 	-This just calls the prolog executable 'swipl', suppresses all extra info with '-q', causes the 'main' rule to 
+		#	 be run within the prolog file with '-t main', and runs the given file as a script with '-f fileName.pl'
+		$solutionExecString = "\"/usr/local/bin/swipl -q -t main -f $dir/$solutionFileName.pl\"";
+		$studentExecString = "\"/usr/local/bin/swipl -q -t main -f $dir/$studentFileName.pl\"";
+		
+		# Open the process
+		#	-The process will stay open in the background and the php script will continue running.
+		$process = proc_open("exec /usr/bin/java -cp $dir $testFileName $solutionExecString $studentExecString 2>&1", $descriptorspec, $pipes);
+		
+		break;
+		
+	default:
+		// if not able to match language, return error
+		return JSON::error("Error in matching language to execution");
+		break;
+}
 
 # Give a normal process a moment (2/10ths of a sec) to run before deciding that it may be hanging
 usleep(200000);
@@ -74,17 +100,14 @@ if (is_resource($process))
         # close the pipe
         fclose($pipes[1]);
 
-//        # Split the string up by newlines
+        # Split the string up by newlines
         $outputs = explode("\n", $outputs);
 
-        # now print line by line
+        # now print results line by line
         foreach ($outputs as $output)
         {
             print("$output<br />");
         }   
-
-		# print out results
-//		print($outputs);
 
         # now close the process
         proc_close($process);

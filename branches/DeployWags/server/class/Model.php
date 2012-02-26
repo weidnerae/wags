@@ -99,12 +99,12 @@ abstract class Model
                                 $sth = $db->prepare($sqlComplete);
         
                                 if($sth == FALSE){
-                                        throw new PDOException("Database Error: ".$db->errorCode()." ".$db->errorInfo());
+                                        throw new PDOException("Database Error1: ".$db->errorCode()." ".$db->errorInfo());
                                 }
                                 
                                 if(!$sth->execute()){
                                         // Throw exception. Something bad happened.
-                                        throw new PDOException("Database Error: $sqlComplete\nCode: ".$sth->errorCode()."\nInfo: ". $sth->errorInfo());
+                                        throw new PDOException("Database Error2: $sqlComplete\nCode: ".$sth->errorCode()."\nInfo: ". $sth->errorInfo());
                                 }
                                 
                         }
