@@ -70,7 +70,7 @@ public class Evaluation_Preorder extends Evaluation  implements IsSerializable
 			if(rootVal != rootNode.getValue())
 			{
 				errorMessage += "Feedback: Your solution is not correct.  Remember that in a \n" +
-				"preorder traversal, the first node visited is always the root node.";
+				"preorder traversal, the first node visited is always the root node. ";
 				return false;
 			}
 		}
@@ -120,6 +120,7 @@ public class Evaluation_Preorder extends Evaluation  implements IsSerializable
 		String userPreOrderTrav = "";
 		
 		userPreOrderTrav += current.node.getValue();
+		preTrav = preTrav.replaceAll(" ", "");
 		
 		while(userPreOrderTrav.length() < preTrav.length())
 		{
