@@ -80,7 +80,7 @@ public class ProblemServiceImpl
 					false,
 					DSTConstants.NODE_CLICKABLE);
 			case 4: return new TreeProblem( "BST Inorder Traversal (Help off)",
-					"Perform an inorer traversal of the binary tree below by clicking" +
+					"Perform an inorder traversal of the binary tree below by clicking" +
 					" nodes in the order the traversal would visit them.",
 					"M C L P Q N T S D",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
@@ -116,7 +116,7 @@ public class ProblemServiceImpl
 					noLocs,
 					noLocs,
 					noEdges,
-					new String[]{"QHBMPVTW", "BHMPQTVW"}, //pre, in
+					new String[]{"Q H B M P V T W", "B H M P Q T V W"}, //pre, in
 					preEval,
 					rules,
 					true,
@@ -131,7 +131,7 @@ public class ProblemServiceImpl
 					noLocs,
 					noLocs,
 					noEdges,
-					new String[]{"OIFDNVRPZ", "DFINOPRVZ"}, //pre, in
+					new String[]{"O I F D N V R P Z", "D F I N O P R V Z"}, //pre, in
 					preEval,
 					rules,
 					true,
@@ -146,7 +146,7 @@ public class ProblemServiceImpl
 					noLocs,
 					noLocs,
 					noEdges,
-					new String[]{"PHGNKOQRS", "GHKNOPQRS"}, //pre, in
+					new String[]{"P H G N K O Q R S", "G H K N O P Q R S"}, //pre, in
 					preEval,
 					rules,
 					true,
@@ -161,7 +161,7 @@ public class ProblemServiceImpl
 					noLocs,
 					noLocs,
 					noEdges,
-					new String[]{"PHGKONQSR", "GHKNOPQRS"}, //pre, in
+					new String[]{"P H G K O N Q S R", "G H K N O P Q R S"}, //pre, in
 					preEval,
 					rules,
 					true,
@@ -237,7 +237,7 @@ public class ProblemServiceImpl
 					noLocs,
 					noLocs,
 					noEdges,
-					new String[]{"XDMLTKJ", "MDLXKTJ"}, //post MLDKJTX
+					new String[]{"X D M L T K J", "M D L X K T J"}, //post MLDKJTX
 					preEval,
 					rules,
 					true,
@@ -253,7 +253,7 @@ public class ProblemServiceImpl
 					noLocs,
 					noLocs,
 					noEdges,
-					new String[]{"EXPORALS", "OPXELARS"},  //post OPXLASRE
+					new String[]{"E X P O R A L S", "O P X E L A R S"},  //post OPXLASRE
 					preEval,
 					rules,
 					true,
@@ -269,7 +269,7 @@ public class ProblemServiceImpl
 					noLocs,
 					noLocs,
 					noEdges,
-					new String[]{"PDLSOQNTB", "SLODQPNTB"}, //post SOLQDBTNP
+					new String[]{"P D L S O Q N T B", "S L O D Q P N T B"}, //post SOLQDBTNP
 					preEval,
 					rules,
 					true,
@@ -285,7 +285,7 @@ public class ProblemServiceImpl
 					noLocs,
 					noLocs,
 					noEdges,
-					new String[]{"DLGNRAOPETM", "GNRLADPEOTM"}, //post RNGALEPMTOD
+					new String[]{"D L G N R A O P E T M", "G N R L A D P E O T M"}, //post RNGALEPMTOD
 					preEval,
 					rules,
 					true,
@@ -362,7 +362,7 @@ public class ProblemServiceImpl
 					false,
 					false,
 					DSTConstants.NODE_CLICKABLE);
-			case 23: return new TreeProblem( "BST Level Traversal 2",
+			case 23: return new TreeProblem("BST Level Traversal 2",
 					"Perform a Level traversal of the binary tree below by clicking" +
 					" nodes in the order the traversal would visit them.",
 					"F C M P Q N K S Y",
