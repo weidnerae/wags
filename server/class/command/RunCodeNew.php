@@ -16,6 +16,7 @@
 
 # define a time (in seconds) to wait for a program to finish
 define('WAIT_TIME', 3);
+define('SIGKILL', 9);
 
 # Get arguments passed in
 $dir = $argv[1];
@@ -49,13 +50,16 @@ switch($lang)
 	case "Prolog":
 		# Need to create strings for executing the files in format == "/usr/local/bin/swipl -q -t main -f fileName.pl"
 		# 	-This just calls the prolog executable 'swipl', suppresses all extra info with '-q', causes the 'main' rule to 
-		#	 be run within the prolog file with '-t main', and runs the given file as a script with '-f fileName.pl'
-		$solutionExecString = "\"/usr/local/bin/swipl -q -t main -f $dir/$solutionFileName.pl\"";
-		$studentExecString = "\"/usr/local/bin/swipl -q -t main -f $dir/$studentFileName.pl\"";
+		#	 be run within the prolog file with '-g main', allows the program to die correctly by halting when 'main' finishes
+		#    or fails with '-t halt', and runs the given file as a script with '-f fileName.pl'
+		$solutionExecString = "\"/usr/local/bin/swipl -q -g main -t halt -f $dir/$solutionFileName.pl\"";
+		$studentExecString = "\"/usr/local/bin/swipl -q -g main -t halt -f $dir/$studentFileName.pl\"";
 		
 		# Open the process
 		#	-The process will stay open in the background and the php script will continue running.
 		$process = proc_open("exec /usr/bin/java -cp $dir $testFileName $solutionExecString $studentExecString 2>&1", $descriptorspec, $pipes);
+		
+		//echo "exec /usr/bin/java -cp $dir $testFileName $solutionExecString $studentExecString";
 		
 		break;
 		
@@ -65,12 +69,12 @@ switch($lang)
 		break;
 }
 
-# Give a normal process a moment (2/10ths of a sec) to run before deciding that it may be hanging
-usleep(200000);
-
 # Make sure that the process is ready. If not print an error
 if (is_resource($process))
 {    
+	# Give a normal process a moment (2/10ths of a sec) to run before deciding that it may be hanging
+	usleep(200000);
+
     # Check to see if the process is still running.
     #   -allow the process up to WAIT_TIME seconds to finish
     #   -otherwise, declare it to be hung and terminate
@@ -116,7 +120,24 @@ if (is_resource($process))
     # otherwise, terminate the process and let the user know
     else 
     {
+//		// There is a bug with proc_terminate, whereas child processes will not be terminated
+//		//  so we will kill all processes with a parent pid the same as the process id
+//		$status = proc_get_status($process);
+//		//  -This is the id of the process executed above -- will be parent id of children
+//		$ppid = $status['pid'];
+//		//	-These are the children process ids - we use the "ps" command to get all processes
+//		//   with the parent id above, then we split it to get an array
+//		$childrenPids = preg_split('/\s+/', shell_exec("ps -o pid --no-heading --ppid $ppid"));
+//		
+//		//	-Now go through and kill each process
+//		foreach($childrenPids as $childPid) {
+//			// kill the child process
+//			posix_kill(intval($childPid), SIGKILL);
+//    	}
+		
+		// Now kill the main process
         proc_terminate($process);
+		
         print("Ran too long - check for efficiency/infinite loops.");
     }
 }
