@@ -7,6 +7,7 @@ package webEditor.dst.client;
 
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.LinkedList;
 import webEditor.client.Proxy; 
 
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -26,20 +27,29 @@ public class Evaluation_Level extends Evaluation  implements IsSerializable
 			System.out.println(e.getN1().getValue() + " " + e.getN2().getValue());
 		}		
 		EvaluationNode rootEvalNode = buildEvaluationTree(nodes, edges);
+		String levelTraversalPossibly = "*|*";
+		levelTraversalPossibly = getLevelTraversal(rootEvalNode, arguments[0]);
 		if(rootEvalNode == null){
 			Proxy.submitDST(problemName, 0);
 			return "Your tree is incomplete go back and add " +
 				   " the necessary edges to complete the tree.";
 		}
+		if(levelTraversalPossibly.equals(arguments[0])){
+			Proxy.submitDST(problemName,1);
+			return "Feedback: Congratulations! Your treee is correct.";
+		}
+		else{
+			Proxy.submitDST(problemName,0);
+			return errorMessage;
+		}
 
-		if(testInorderTraversal(arguments[0], rootEvalNode, nodes, edges) == false)
+/*
+ * 		if(testInorderTraversal(arguments[0], rootEvalNode, nodes, edges) == false)
 		{
 			Proxy.submitDST(problemName, 0);
 			return errorMessage;
 		}
-				
-		Proxy.submitDST(problemName, 1);
-		return "Feedback: Congratulations! Your tree is correct.";
+ */				
 	}
 
 	private Boolean testInorderTraversal(String correctTrav, EvaluationNode rootEvalNode, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
@@ -82,29 +92,13 @@ public class Evaluation_Level extends Evaluation  implements IsSerializable
 	{
 		@SuppressWarnings("unchecked")
 		ArrayList<Node> noParentNodes = (ArrayList<Node>) nodes.clone();
-		@SuppressWarnings("unchecked")
-		ArrayList<Node> unConnectedNodes = (ArrayList<Node>) nodes.clone();
+
 		for(int i = 0; i < edges.size(); i++)
 		{
 			EdgeParent edge = edges.get(i);
-			//finding the removed node/nodes
-			if(unConnectedNodes.contains(edge.getN1()))  
-				unConnectedNodes.remove(edge.getN1());
-			if(unConnectedNodes.contains(edge.getN2()))
-				unConnectedNodes.remove(edge.getN2());
-			
 			noParentNodes.remove(edge.getN2());
-		}	
-		
-		// taking the removed nodes out of the noParentNodes list.
-		for(Node n: unConnectedNodes){
-			noParentNodes.remove(n);
 		}
-		//returns null if more than one node is disconnected from the heap
-		if(unConnectedNodes.size()>=1){
-			return null;
-		}
-		
+
 		Node rootNode = noParentNodes.get(0);
 		EvaluationNode rootEvalNode = null;
 		Node currNode = null;
@@ -191,5 +185,43 @@ public class Evaluation_Level extends Evaluation  implements IsSerializable
 			this.right = right;
 			this.visited = false;
 		}
+	}
+	public String getLevelTraversal(EvaluationNode rootEvalNode, String correctTraversal){
+		LinkedList<EvaluationNode> nodeList = new LinkedList<EvaluationNode>();
+		String solution ="";
+		EvaluationNode currentNode= rootEvalNode;
+		nodeList.addLast(currentNode);
+     	while(solution.length()<correctTraversal.length()){
+     		if(nodeList.size()!=0){
+		        currentNode=nodeList.removeFirst();
+				solution += currentNode.node.getValue();
+		        if(currentNode!=null){
+					if(currentNode.left!=null){
+						nodeList.addLast(convertNodeToEvalNode(treeNodes,currentNode.left));
+					}
+					if(currentNode.right!=null){
+						nodeList.addLast(convertNodeToEvalNode(treeNodes,currentNode.right));
+					}
+		        }
+     		}
+			else{
+				solution+=".";
+			}
+		}
+     	if(solution.contains(".")){
+     		errorMessage = "FeedBack: Your tree is incomplete, make sure that all " +
+     				"nodes are connected with edges.";
+     	}
+     	else if(!solution.equals(correctTraversal)){
+     		String correct="";
+     		for(int i=0;i<solution.length();i++){
+     			if(solution.charAt(i)==correctTraversal.charAt(i)){
+     				correct+=""+solution.charAt(i);
+     			}
+     		}
+     		errorMessage = "Feedback: Incorrect tree. The level traversal of your" +
+     				" tree is correct for the segment: "+correct;
+     	}
+		return solution;
 	}
 }

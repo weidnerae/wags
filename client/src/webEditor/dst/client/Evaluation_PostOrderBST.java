@@ -65,13 +65,13 @@ public class Evaluation_PostOrderBST extends Evaluation  implements IsSerializab
 		else if(noParentNodes.size() == 1)
 		{
 			String[] splitNodes = postTrav.split(" ");
+		//	String rootVal = postTrav.substring(postTrav.length()-1);
 			String rootVal = splitNodes[splitNodes.length-1];
-		//	char rootVal = postTrav.charAt(postTrav.length()-1);
 			Node rootNode = noParentNodes.get(0);
 			if(rootVal != rootNode.getValue())
 			{
 				errorMessage += "Feedback: Your solution is not correct.  Remember that in a \n" +
-				"postorder traversal, the last node visited is always the root node.";
+				"postorder traversal, the last node visited is always the root node. rootVal: "+rootVal+"node: "+rootNode.getValue();
 				return false;
 			}
 		}
@@ -103,8 +103,9 @@ public class Evaluation_PostOrderBST extends Evaluation  implements IsSerializab
 			}
 		}
 
+		correctTrav = correctTrav.replaceAll(" ","");
 		System.out.println(inorderTrav);
-
+ 
 		if(!inorderTrav.trim().equals(correctTrav))
 		{
 			errorMessage = "Feedback: Incorrect inorder traversal.  Your traversal is " + inorderTrav;
@@ -145,6 +146,7 @@ public class Evaluation_PostOrderBST extends Evaluation  implements IsSerializab
 			}	
 		}
 		
+		postTrav = postTrav.replaceAll(" ","");
 		System.out.println("post" + userPostOrderTrav);
 
 		if(!userPostOrderTrav.trim().equals(postTrav))
