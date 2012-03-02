@@ -42,52 +42,7 @@ public class Evaluation_Level extends Evaluation  implements IsSerializable
 			Proxy.submitDST(problemName,0);
 			return errorMessage;
 		}
-
-/*
- * 		if(testInorderTraversal(arguments[0], rootEvalNode, nodes, edges) == false)
-		{
-			Proxy.submitDST(problemName, 0);
-			return errorMessage;
-		}
- */				
 	}
-
-	private Boolean testInorderTraversal(String correctTrav, EvaluationNode rootEvalNode, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
-	{
-		EvaluationNode current = rootEvalNode;
-
-		String inorderTrav = "";
-
-		while(!(current == null))
-		{
-			Stack<EvaluationNode> travNodes = new Stack<EvaluationNode>();
-			while((travNodes.size() > 0) || (!(current == null)))
-			{
-				if(!(current == null))
-				{
-					travNodes.push(current);
-					current = current.left == null ? null : convertNodeToEvalNode(treeNodes, current.left);
-				}
-				else
-				{
-					current = travNodes.pop();
-					inorderTrav += current.node.getLabel().getText();
-							current = current.right == null ? null : convertNodeToEvalNode(treeNodes, current.right);
-				}
-			}
-		}
-
-		System.out.println(inorderTrav);
-
-		if(!inorderTrav.trim().equals(correctTrav))
-		{
-			errorMessage = "Feedback: Incorrect Tree.";
-			return false;
-		}
-
-		return true;
-	}
-
 	private EvaluationNode buildEvaluationTree(ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
 	{
 		@SuppressWarnings("unchecked")
