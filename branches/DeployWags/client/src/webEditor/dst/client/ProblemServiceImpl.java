@@ -176,7 +176,7 @@ public class ProblemServiceImpl
 					noLocs,
 					noLocs,
 					noEdges,
-					new String[]{"DBHJFPTUSM", "BDFHJMPSTU"},
+					new String[]{"D B H J F P T U S M", "B D F H J M P S T U"},
 					eval,
 					rules,
 					true,
@@ -191,7 +191,7 @@ public class ProblemServiceImpl
 					noLocs,
 					noLocs,
 					noEdges,
-					new String[]{"DAJELMONK", "ADEJKLMNO"},
+					new String[]{"D A J E L M O N K", "A D E J K L M N O"},
 					eval,
 					rules,
 					true,
@@ -206,7 +206,7 @@ public class ProblemServiceImpl
 					noLocs,
 					noLocs,
 					noEdges,
-					new String[]{"BAOMFRXZUP", "ABFMOPRUXZ"},
+					new String[]{"B A O M F R X Z U P", "A B F M O P R U X Z"},
 					eval,
 					rules,
 					true,
@@ -221,7 +221,7 @@ public class ProblemServiceImpl
 					noLocs,
 					noLocs,
 					noEdges,
-					new String[]{"BEAKJHTRQ", "ABEHJKQRT"},
+					new String[]{"B E A K J H T R Q", "A B E H J K Q R T"},
 					eval,
 					rules,
 					true,
@@ -310,7 +310,8 @@ public class ProblemServiceImpl
                     true,
                     DSTConstants.NODE_STRING_DRAGGABLE);
 			case 19: return new TreeProblem("MaxHeap",
-					"MaxHeap Skeleton",
+					"Insert the nodes into a MaxHeap. Hint: you may have to use the" +
+					" bubble up technique.",
 					"76 98 43 12 48 3 15 29",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -323,7 +324,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 20: return new TreeProblem("MaxHeap Insertion",
-					"MaxHeap Insertion Skeleton, Use the bubble up technique to insert the node 57 into the heap.",
+					"MaxHeap Insertion. Use the bubble up technique to insert the node 57 into the heap.",
 					"98 80 63 48 39 32 22 19 78",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					new int[]{250,150,350,75,225,275,425,15,20},
@@ -336,7 +337,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 21: return new TreeProblem("MaxHeap Deletion",
-					"MaxHeap Deletion Skeleton, Use the bubble down technique to remove the node 97 from the heap.",
+					"MaxHeap Deletion. Use the bubble down technique to remove the node 97 from the heap.",
 					"97 80 63 48 39 32 22 19",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					new int[]{250,150,350,75,225,275,425,15},
@@ -391,67 +392,62 @@ public class ProblemServiceImpl
 					false,
 					DSTConstants.NODE_CLICKABLE);
 			case 25: return new TreeProblem("Binary Search Tree from Level Traversal 1",
-					"Given the level traversal QWERTYU, " +
-					"construct the original binary search tree.  " +
-					"Hint: The binary search tree is unique.",
+					"Construct a binary search tree that would have" +
+					" a Level traversal of QWERTYU. There are several correct solutions.",
 					"W E U Q T R Y",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
 					noEdges,
-					new String[]{"RWTQYEU"},
+					new String[]{"QWERTYU"},
 					level,
 					rules,
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 26: return new TreeProblem("Binary Search Tree from Level Traversal 2",
-					"Given the level traversal YHAOLKD, " +
-					"construct the original binary search tree.  " +
-					"Hint: The binary search tree is unique.",
+					"Construct a binary search tree that would have" +
+					" a Level traversal of YHAOLKD. There are several correct solutions.",
 					"O H A D Y K L",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
 					noEdges,
-					new String[]{"OHLYKAD"},
+					new String[]{"YHAOLKD"},
 					level,
 					rules,
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 27: return new TreeProblem("Binary Search Tree from Level Traversal 3",
-					"Given the level traversal HEZXPOISD, " +
-					"construct the original binary search tree.  " +
-					"Hint: The binary search tree is unique.",
+					"Construct a binary search tree that would have" +
+					" a Level traversal of HEZXPOISD. There are several correct solutions.",
 					"O E D X H S I Z P",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
 					noEdges,
-					new String[]{"SXDEPHOZI"},
+					new String[]{"HEZXPOISD"},
 					level,
 					rules,
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 28: return new TreeProblem("Binary Search Tree from Level Traversal 4",
-					"Given the level traversal KLAVJISOBE, " +
-					"construct the original binary search tree.  " +
-					"Hint: The binary search tree is unique.",
+					"Construct a binary search tree that would have" +
+					" a Level traversal of KLAVJISOBE. There are several correct solutions.",
 					"K E L B V J S I A O",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
 					noEdges,
-					new String[]{"OVBLEJKIAS"},
+					new String[]{"KLAVJISOBE"},
 					level,
 					rules,
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 
-			
 		default:
 			return new TreeProblem("Binary Search Tree from Postorder Traversal 1",
 					"Given the postorder traversal DBHJFPTUSM, " +
