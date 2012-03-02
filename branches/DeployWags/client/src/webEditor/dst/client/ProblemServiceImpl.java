@@ -324,7 +324,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 20: return new TreeProblem("MaxHeap Insertion",
-					"MaxHeap Insertion. Use the bubble up technique to insert the node 57 into the heap.",
+					"MaxHeap Insertion. Use the bubble up technique to insert the node 78 into the heap.",
 					"98 80 63 48 39 32 22 19 78",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					new int[]{250,150,350,75,225,275,425,15,20},
