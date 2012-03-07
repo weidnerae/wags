@@ -6,7 +6,7 @@ public class ProblemServiceImpl
 		AddEdgeRules_TreeMode rules = new AddEdgeRules_TreeMode();
 		Evaluation_PostOrderBST eval = new Evaluation_PostOrderBST();
 		Evaluation_Preorder preEval = new Evaluation_Preorder();
-		Evaluation_MaxHeap_Preorder preHeap = new Evaluation_MaxHeap_Preorder();
+		Evaluation_MaxHeap_Level levelHeap = new Evaluation_MaxHeap_Level();
 		Evaluation_Level level = new Evaluation_Level();
 		
 		AddEdgeRules noEdgeAddition = new AddEdgeRules();
@@ -317,8 +317,8 @@ public class ProblemServiceImpl
 					noLocs,
 					noLocs,
 				    noEdges,
-					new String[]{"122976489834315"},
-					preHeap,
+					new String[]{"98 76 43 29 48 3 15 12"},
+					levelHeap,
 					rules,
 					true,
 					true,
@@ -330,21 +330,22 @@ public class ProblemServiceImpl
 					new int[]{250,150,350,75,225,275,425,15,20},
 					new int[]{75,175,175,275,275,275,275,350,20},
 					new String[]{"98 80","98 63","80 48","80 39","63 22","63 32","48 19"},
-					new String[]{"197848803998326322"},
-					preHeap,
+					new String[]{"98 80 63 78 39 32 22 19 48"},
+					levelHeap,
 					rules,
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 21: return new TreeProblem("MaxHeap Deletion",
-					"MaxHeap Deletion. Use the bubble down technique to remove the node 97 from the heap.",
+					"MaxHeap Deletion. Use the bubble down technique to remove the node 97 from the heap."+
+					" You can simply place 97 out of the way in a corner after removing the connecting edges.",
 					"97 80 63 48 39 32 22 19",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					new int[]{250,150,350,75,225,275,425,15},
 					new int[]{75,175,175,275,275,275,275,350},
 					new String[]{"97 80","97 63","80 48","80 39","63 22","63 32","48 19"},
-					new String[]{"48803963193222"},
-					preHeap,
+					new String[]{"80 48 63 19 39 32 22"},
+					levelHeap,
 					rules,
 					true,
 					true,
