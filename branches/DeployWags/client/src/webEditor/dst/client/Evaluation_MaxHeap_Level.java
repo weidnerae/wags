@@ -1,18 +1,12 @@
 package webEditor.dst.client;
-/**
- * This definitely needs to be cleaned up and reworked, I just wanted something that would get the job done.
- * It just checks the inorder traversal of the heap that they made.
- */
-
 
 import java.util.ArrayList;
-import java.util.Stack;
 import java.util.LinkedList;
 import webEditor.client.Proxy; 
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class Evaluation_Level extends Evaluation  implements IsSerializable
+public class Evaluation_MaxHeap_Level extends Evaluation  implements IsSerializable
 {	
 	private ArrayList<EvaluationNode> treeNodes;
 	
@@ -27,14 +21,13 @@ public class Evaluation_Level extends Evaluation  implements IsSerializable
 			System.out.println(e.getN1().getValue() + " " + e.getN2().getValue());
 		}		
 		EvaluationNode rootEvalNode = buildEvaluationTree(nodes, edges);
-		String levelTraversalPossibly = "*|*";
-		levelTraversalPossibly = getLevelTraversal(rootEvalNode, arguments[0]);
 		if(rootEvalNode == null){
 			Proxy.submitDST(problemName, 0);
 			return "Your tree is incomplete go back and add " +
 				   " the necessary edges to complete the tree.";
 		}
-		if(levelTraversalPossibly.equals(arguments[0])){
+		String levelTraversal = getLevelTraversal(rootEvalNode, arguments[0]);
+		if(levelTraversal.equals(arguments[0])){
 			Proxy.submitDST(problemName,1);
 			return "Feedback: Congratulations! Your treee is correct.";
 		}
@@ -61,15 +54,18 @@ public class Evaluation_Level extends Evaluation  implements IsSerializable
 			noParentNodes.remove(edge.getN2());
 		}	
 		
+		//returns null if more than one node is disconnected from the heap
+		if(unConnectedNodes.size()>1){
+			errorMessage = "Your tree is incomplete go back and add " +
+					   " the necessary edges to complete the tree.";
+			return null;
+		}
+		
 		// taking the removed nodes out of the noParentNodes list.
 		for(Node n: unConnectedNodes){
 			noParentNodes.remove(n);
 		}
-		//returns null if more than one node is disconnected from the heap
-		if(unConnectedNodes.size()>1){
-			return null;
-		}
-		
+
 		Node rootNode = noParentNodes.get(0);
 		EvaluationNode rootEvalNode = null;
 		Node currNode = null;
@@ -165,7 +161,7 @@ public class Evaluation_Level extends Evaluation  implements IsSerializable
      	while(solution.length()<correctTraversal.length()){
      		if(nodeList.size()!=0){
 		        currentNode=nodeList.removeFirst();
-				solution += currentNode.node.getValue();
+				solution += currentNode.node.getValue()+" ";
 		        if(currentNode!=null){
 					if(currentNode.left!=null){
 						nodeList.addLast(convertNodeToEvalNode(treeNodes,currentNode.left));
@@ -180,19 +176,23 @@ public class Evaluation_Level extends Evaluation  implements IsSerializable
 			}
 		}
      	if(solution.contains(".")){
-     		errorMessage = "FeedBack: Your tree is incomplete, make sure that all " +
+     		errorMessage = "FeedBack: Your heap is incomplete, make sure that all " +
      				"nodes are connected with edges.";
      	}
      	else if(!solution.equals(correctTraversal)){
      		String correct="";
+     		boolean done= false;
      		for(int i=0;i<solution.length();i++){
-     			if(solution.charAt(i)==correctTraversal.charAt(i)){
-     				correct+=""+solution.charAt(i);
+     			if(done==false){
+	     			if(solution.substring(i,i+1).equals(correctTraversal.substring(i,i+1))){
+	     				correct+=""+solution.charAt(i);
+	     			}
+	     			else done=true;
      			}
      		}
-     		errorMessage = "Feedback: Incorrect tree. The level traversal of your" +
-     				" tree is correct for the segment: "+correct;
+     		errorMessage = "Feedback: Incorrect MaxHeap. The level traversal of your" +
+     				" MaxHeap is correct through the segment: "+correct.trim();
      	}
-		return solution;
+		return solution.trim();
 	}
 }

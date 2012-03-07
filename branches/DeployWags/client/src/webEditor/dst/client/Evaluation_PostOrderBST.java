@@ -71,7 +71,7 @@ public class Evaluation_PostOrderBST extends Evaluation  implements IsSerializab
 			if(rootVal != rootNode.getValue())
 			{
 				errorMessage += "Feedback: Your solution is not correct.  Remember that in a \n" +
-				"postorder traversal, the last node visited is always the root node. rootVal: "+rootVal+"node: "+rootNode.getValue();
+				"postorder traversal, the last node visited is always the root node.";
 				return false;
 			}
 		}
