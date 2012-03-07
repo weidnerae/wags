@@ -309,7 +309,7 @@ public class ProblemServiceImpl
                     radix,
                     true,
                     DSTConstants.NODE_STRING_DRAGGABLE);
-			case 19: return new TreeProblem("MaxHeap",
+			case 19: return new TreeProblem("MaxHeap 1",
 					"Insert the nodes into a MaxHeap. Hint: you may have to use the" +
 					" bubble up technique.",
 					"76 98 43 12 48 3 15 29",
@@ -323,7 +323,49 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
-			case 20: return new TreeProblem("MaxHeap Insertion",
+			case 20: return new TreeProblem("MaxHeap 2",
+					"Insert the nodes into a MaxHeap. Hint: you may have to use the" +
+					" bubble up technique.",
+					"17 23 7 39 91 78 45 57 82",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+				    noEdges,
+					new String[]{"91 82 78 57 23 7 45 17 39"},
+					levelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_STRING_DRAGGABLE);
+			case 21: return new TreeProblem("MaxHeap 3",
+					"Insert the nodes into a MaxHeap. Hint: you may have to use the" +
+					" bubble up technique.",
+					"9 89 17 53 32 47 91 68 30 21",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+				    noEdges,
+					new String[]{"91 68 89 53 32 17 47 9 30 21"},
+					levelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_STRING_DRAGGABLE);
+			case 22: return new TreeProblem("MaxHeap 4",
+					"Insert the nodes into a MaxHeap. Hint: you may have to use the" +
+					" bubble up technique.",
+					"7 12 15 29 22 37 41 50 48 73 68 85",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+				    noEdges,
+					new String[]{"85 68 73 29 50 41 37 7 22 15 48 12"},
+					levelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_STRING_DRAGGABLE);
+			case 23: return new TreeProblem("MaxHeap Insertion 1",
 					"MaxHeap Insertion. Use the bubble up technique to insert the node 78 into the heap.",
 					"98 80 63 48 39 32 22 19 78",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
@@ -336,7 +378,51 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 21: return new TreeProblem("MaxHeap Deletion",
+			case 24: return new TreeProblem("MaxHeap Insertion 2",
+					"MaxHeap Insertion. Use the bubble up technique to insert the node 99 into the heap.",
+					"98 82 76 77 12 65 31 52 22 7 1 99",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					getHeapXLocations(true,"98 82 76 77 12 65 31 52 22 7 1 99"),
+					getHeapYLocations(true,"98 82 76 77 12 65 31 52 22 7 1 99"),
+					new String[]{"98 82","98 76","82 77","82 12","76 65","76 31","77 52","77 22","12 7","12 1"},
+					new String[]{"99 82 98 77 12 76 31 52 22 7 1 65"},
+					levelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 25: return new TreeProblem("MaxHeap Insertion 3",
+					"MaxHeap Insertion. Use the bubble up technique to insert the node 79 into the heap.",
+					"85 76 68 27 15 39 55 9 79",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					getHeapXLocations(true,"85 76 68 27 15 39 55 9 79"),
+					getHeapYLocations(true,"85 76 68 27 15 39 55 9 79"),
+					new String[]{"85 76","85 68","76 27","76 15","68 39","68 55","27 9"},
+					new String[]{"85 79 68 76 15 39 55 9 27"},
+					levelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 26: return new TreeProblem("MaxHeap Insertion 4",
+					"MaxHeap Insertion. Use the bubble up technique to insert the node 99 into the heap.",
+					"98 87 91 76 67 65 59 35 22 37 12 9 47 17 99",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					getHeapXLocations(true,"98 87 91 76 67 65 59 35 22 37 12 9 47 17 99"),
+					getHeapYLocations(true,"98 87 91 76 67 65 59 35 22 37 12 9 47 17 99"),
+					new String[]{"98 87","98 91","87 76","87 67","91 65","91 59","76 35","76 22","67 37","67 12","65 9","65 47","59 17"},
+					new String[]{"99 87 98 76 67 65 91 35 22 37 12 9 47 17 59"},
+					levelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			
+			
+			
+			
+			//
+			case 27: return new TreeProblem("MaxHeap Deletion 1",
 					"MaxHeap Deletion. Use the bubble down technique to remove the node 97 from the heap."+
 					" You can simply place 97 out of the way in a corner after removing the connecting edges.",
 					"97 80 63 48 39 32 22 19",
@@ -350,7 +436,58 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 22: return new TreeProblem("BST Level Traversal 1",
+			case 28: return new TreeProblem("MaxHeap Deletion 2",
+					"MaxHeap Deletion. Use the bubble down technique to remove the node 83 from the heap."+
+					" You can simply place 83 out of the way in a corner after removing the connecting edges.",
+					"83 45 73 42 28 54 17 33 6",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					getHeapXLocations(false,"83 45 73 42 28 54 17 33 6"),
+					getHeapYLocations(false,"83 45 73 42 28 54 17 33 6"),
+					new String[]{"83 45","83 73","45 42","45 28","73 54","73 17","42 33","43 6"},
+					new String[]{"73 45 54 42 28 6 17 33"},
+					levelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 29: return new TreeProblem("MaxHeap Deletion 3",
+					"MaxHeap Deletion. Use the bubble down technique to remove the node 93 from the heap."+
+					" You can simply place 93 out of the way in a corner after removing the connecting edges.",
+					"93 87 82 85 60 57 79 36 41 27 51 16",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					getHeapXLocations(false,"93 87 82 85 60 57 79 36 41 27 51 16"),
+					getHeapYLocations(false,"93 87 82 85 60 57 79 36 41 27 51 16"),
+					new String[]{"93 87","93 82","87 85","87 60","82 57","82 79","85 36","85 41","60 27","60 51","57 16"},
+					new String[]{"87 85 82 41 60 57 79 36 16 27 51"},
+					levelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 30: return new TreeProblem("MaxHeap Deletion 4",
+					"MaxHeap Deletion. Use the bubble down technique to remove the node 89 from the heap."+
+					" You can simply place 89 out of the way in a corner after removing the connecting edges.",
+					"91 89 85 78 67 69 76 54 17 22 37 45 9",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					getHeapXLocations(false,"91 89 85 78 67 69 76 54 17 22 37 45 9"),
+					getHeapYLocations(false,"91 89 85 78 67 69 76 54 17 22 37 45 9"),
+					new String[]{"91 89","91 85","89 78","89 67","85 69","85 76","78 54","78 17","67 22","67 37","69 45","69 9"},
+					new String[]{"91 78 85 54 67 69 76 9 17 22 37 45"},
+					levelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			
+			
+			
+			
+			
+			
+			
+			
+			//
+			case 31: return new TreeProblem("BST Level Traversal 1",
 					"Perform a level traversal of the binary tree below by clicking" +
 					" nodes in the order the traversal would visit them.",
 					"A B C D E F G",
@@ -364,7 +501,7 @@ public class ProblemServiceImpl
 					false,
 					false,
 					DSTConstants.NODE_CLICKABLE);
-			case 23: return new TreeProblem("BST Level Traversal 2",
+			case 32: return new TreeProblem("BST Level Traversal 2",
 					"Perform a Level traversal of the binary tree below by clicking" +
 					" nodes in the order the traversal would visit them.",
 					"F C M P Q N K S Y",
@@ -378,7 +515,7 @@ public class ProblemServiceImpl
 					false,
 					false,
 					DSTConstants.NODE_CLICKABLE);
-			case 24: return new TreeProblem( "BST Level Traversal 3",
+			case 33: return new TreeProblem( "BST Level Traversal 3",
 					"Perform a Level traversal of the binary tree below by clicking" +
 					" nodes in the order the traversal would visit them.",
 					"V N A L F C G W Q K",
@@ -392,7 +529,7 @@ public class ProblemServiceImpl
 					false,
 					false,
 					DSTConstants.NODE_CLICKABLE);
-			case 25: return new TreeProblem("Binary Search Tree from Level Traversal 1",
+			case 34: return new TreeProblem("Binary Search Tree from Level Traversal 1",
 					"Construct a binary search tree that would have" +
 					" a Level traversal of QWERTYU. There are several correct solutions.",
 					"W E U Q T R Y",
@@ -406,7 +543,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 26: return new TreeProblem("Binary Search Tree from Level Traversal 2",
+			case 35: return new TreeProblem("Binary Search Tree from Level Traversal 2",
 					"Construct a binary search tree that would have" +
 					" a Level traversal of YHAOLKD. There are several correct solutions.",
 					"O H A D Y K L",
@@ -420,7 +557,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 27: return new TreeProblem("Binary Search Tree from Level Traversal 3",
+			case 36: return new TreeProblem("Binary Search Tree from Level Traversal 3",
 					"Construct a binary search tree that would have" +
 					" a Level traversal of HEZXPOISD. There are several correct solutions.",
 					"O E D X H S I Z P",
@@ -434,7 +571,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 28: return new TreeProblem("Binary Search Tree from Level Traversal 4",
+			case 37: return new TreeProblem("Binary Search Tree from Level Traversal 4",
 					"Construct a binary search tree that would have" +
 					" a Level traversal of KLAVJISOBE. There are several correct solutions.",
 					"K E L B V J S I A O",
@@ -488,18 +625,51 @@ public class ProblemServiceImpl
 		if(problem.equals("Binary Tree from Pre/Inorder Traversals 3")) return 16;
 		if(problem.equals("Binary Tree from Pre/Inorder Traversals 4")) return 17;
 		if(problem.equals("RADIX Sort")) return 18;
-		if(problem.equals("MaxHeap")) return 19;
-		if(problem.equals("MaxHeap Insertion")) return 20;
-		if(problem.equals("MaxHeap Deletion")) return 21;
-		if(problem.equals("BST Level Traversal 1")) return 22;
-		if(problem.equals("BST Level Traversal 2")) return 23;
-		if(problem.equals("BST Level Traversal 3")) return 24;
-		if(problem.equals("Binary Search Tree from Level Traversal 1")) return 25;
-		if(problem.equals("Binary Search Tree from Level Traversal 2")) return 26;
-		if(problem.equals("Binary Search Tree from Level Traversal 3")) return 27;
-		if(problem.equals("Binary Search Tree from Level Traversal 4")) return 28;
+		if(problem.equals("MaxHeap 1")) return 19;
+		if(problem.equals("MaxHeap 2")) return 20;
+		if(problem.equals("MaxHeap 3")) return 21;
+		if(problem.equals("MaxHeap 4")) return 22;
+		if(problem.equals("MaxHeap Insertion 1")) return 23;
+		if(problem.equals("MaxHeap Insertion 2")) return 24;
+		if(problem.equals("MaxHeap Insertion 3")) return 25;
+		if(problem.equals("MaxHeap Insertion 4")) return 26;
+		if(problem.equals("MaxHeap Deletion 1")) return 27;
+		if(problem.equals("MaxHeap Deletion 2")) return 28;
+		if(problem.equals("MaxHeap Deletion 3")) return 29;
+		if(problem.equals("MaxHeap Deletion 4")) return 30;
+		if(problem.equals("BST Level Traversal 1")) return 31;
+		if(problem.equals("BST Level Traversal 2")) return 32;
+		if(problem.equals("BST Level Traversal 3")) return 33;
+		if(problem.equals("Binary Search Tree from Level Traversal 1")) return 34;
+		if(problem.equals("Binary Search Tree from Level Traversal 2")) return 35;
+		if(problem.equals("Binary Search Tree from Level Traversal 3")) return 36;
+		if(problem.equals("Binary Search Tree from Level Traversal 4")) return 37;
 		
 		return 0;
 	}
-	
+	public static int[] getHeapXLocations(boolean insert, String nodes){
+		final int[] xMaster = {275,125,425,55,195,355,495,25,85,165,225,325,385,465,525};
+		String[] splitNodes = nodes.split(" ");
+		int[] x = new int[splitNodes.length];
+		for(int i=0;i<splitNodes.length;i++){
+			x[i]=xMaster[i];
+		}
+		if(insert==true){
+			x[x.length-1]=20;
+		}
+		return x;
+	}
+	public static int[] getHeapYLocations(boolean insert, String nodes){
+		final int[] yMaster = {50,150,150,250,250,250,250,350,350,350,350,350,350,350,350};
+		String[] splitNodes = nodes.split(" ");
+		int[] y = new int[splitNodes.length];
+		for(int i=0;i<splitNodes.length;i++){
+			y[i]=yMaster[i];
+		}
+		if(insert==true){
+			y[y.length-1]=20;
+		}
+		return y;
+	}
+
 }
