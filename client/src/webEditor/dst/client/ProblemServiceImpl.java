@@ -644,6 +644,117 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
+			case 42: return new TreeProblem("MinHeap Insertion 1",
+					"MinHeap Insertion. Use the bubble up technique to insert the node 11 into the heap.",
+					"19 22 32 39 48 63 80 98 11",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{250,150,350,75,225,275,425,15,20},
+					new int[]{75,175,175,275,275,275,275,350,20},
+					new String[]{"19 22", "19 32", "22 39", "22 48", "32 63", "32 80", "39 98"},
+					new String[]{"11 19 32 22 48 63 80 98 39"},
+					minLevelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 43: return new TreeProblem("MinHeap Insertion 2",
+					"MinHeap Insertion. Use the bubble up technique to insert the node 2 into the heap.",
+					//"98 82 76 77 12 65 31 52 22 7 1 99",
+					"1 7 22 12 52 31 65 77 76 82 98 2",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					getHeapXLocations(true, "1 7 22 12 52 31 65 77 76 82 98 2"),
+					getHeapYLocations(true, "1 7 22 12 52 31 65 77 76 82 98 2"),
+					new String[]{"1 7","1 22","7 12","7 52","22 31","22 65","12 77","12 76","52 82","52 98"},
+					new String[]{"1 7 2 12 52 22 65 77 76 82 98 31"},
+					minLevelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 44: return new TreeProblem("MinHeap Insertion 3",
+					"MinHeap Insertion. Use the bubble up technique to insert the node 25 into the heap.",
+					"9 15 39 27 76 85 68 55 25",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					getHeapXLocations(true, "9 15 39 27 76 85 68 55 25"),
+					getHeapYLocations(true, "9 15 39 27 76 85 68 55 25"),
+					new String[]{"9 15", "9 39", "15 27", "15 76", "39 85", "39 68", "27 55"},
+					new String[]{"9 15 39 25 76 85 68 55 27"},
+					minLevelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 45: return new TreeProblem("MinHeap Insertion 4",
+					"MinHeap Insertion. Use the bubble up technique to insert the node 1 into the heap.",
+					"9 12 59 17 22 87 65 35 37 47 76 98 91 67 1",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					getHeapXLocations(true,"9 12 59 17 22 87 65 35 37 47 76 98 91 67 1"),
+					getHeapYLocations(true,"9 12 59 17 22 87 65 35 37 47 76 98 91 67 1"),
+					new String[]{"9 12","9 59","12 17","12 22","59 87","59 65","17 35","17 37","22 47","22 76","87 98","87 91","65 67"},
+					new String[]{"1 12 9 17 22 87 59 35 37 47 76 98 91 67 65"},
+					minLevelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			
+			//
+			case 46: return new TreeProblem("MinHeap Deletion 1",
+					"MinHeap Deletion. Use the bubble down technique to remove the node 19 from the heap."+
+					" You can simply place 19 out of the way in a corner after removing the connecting edges.",
+					"19 39 22 80 48 32 63 97",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{250,150,350,75,225,275,425,15},
+					new int[]{75,175,175,275,275,275,275,350},
+					new String[]{"19 39","19 22","39 80","39 48","22 32","22 63","80 97"},
+					new String[]{"22 39 32 80 48 97 63"},
+					minLevelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 47: return new TreeProblem("MinHeap Deletion 2",
+					"MinHeap Deletion. Use the bubble down technique to remove the node 6 from the heap."+
+					" You can simply place 6 out of the way in a corner after removing the connecting edges.",
+					"6 28 17 42 33 54 83 73 45",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					getHeapXLocations(false,"6 28 17 42 33 54 83 73 45"),
+					getHeapYLocations(false,"6 28 17 42 33 54 83 73 45"),
+					new String[]{"6 28","6 17","28 42","28 33","17 54","17 83","42 73","42 45"},
+					new String[]{"17 28 45 42 33 54 83 73"},
+					minLevelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 48: return new TreeProblem("MinHeap Deletion 3",
+					"MinHeap Deletion. Use the bubble down technique to remove the node 16 from the heap."+
+					" You can simply place 16 out of the way in a corner after removing the connecting edges.",
+					"16 27 36 41 51 57 79 82 85 87 93 60",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					getHeapXLocations(false,"16 27 36 41 51 57 79 82 85 87 93 60"),
+					getHeapYLocations(false,"16 27 36 41 51 57 79 82 85 87 93 60"),
+					new String[]{"16 27","16 36","27 41","27 51","36 57","36 79","41 82","41 85","51 87","51 93","57 60"},
+					new String[]{"27 41 36 60 51 57 79 82 85 87 93"},
+					minLevelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 49: return new TreeProblem("MinHeap Deletion 4",
+					"MinHeap Deletion. Use the bubble down technique to remove the node 17 from the heap."+
+					" You can simply place 17 out of the way in a corner after removing the connecting edges.",
+					"9 17 37 22 54 45 76 78 85 89 69 91 67",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					getHeapXLocations(false,"9 17 37 22 54 45 76 78 85 89 69 91 67"),
+					getHeapYLocations(false,"9 17 37 22 54 45 76 78 85 89 69 91 67"),
+					new String[]{"9 17","9 37","17 22","17 54","37 45","37 76","22 78","22 85","54 89","54 69","45 91","45 67"},
+					new String[]{"9 22 37 67 54 45 76 78 85 89 69 91"},
+					minLevelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
 
 		default:
 			return new TreeProblem("Binary Search Tree from Postorder Traversal 1",
@@ -707,6 +818,14 @@ public class ProblemServiceImpl
 		if(problem.equals("MinHeap 2")) return 39;
 		if(problem.equals("MinHeap 3")) return 40;
 		if(problem.equals("MinHeap 4")) return 41;
+		if(problem.equals("MinHeap Insertion 1")) return 42;
+		if(problem.equals("MinHeap Insertion 2")) return 43;
+		if(problem.equals("MinHeap Insertion 3")) return 44;
+		if(problem.equals("MinHeap Insertion 4")) return 45;
+		if(problem.equals("MinHeap Deletion 1")) return 46;
+		if(problem.equals("MinHeap Deletion 2")) return 47;
+		if(problem.equals("MinHeap Deletion 3")) return 48;
+		if(problem.equals("MinHeap Deletion 4")) return 49;
 		
 		return 0;
 	}
