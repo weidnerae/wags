@@ -7,6 +7,7 @@ public class ProblemServiceImpl
 		Evaluation_PostOrderBST eval = new Evaluation_PostOrderBST();
 		Evaluation_Preorder preEval = new Evaluation_Preorder();
 		Evaluation_MaxHeap_Level levelHeap = new Evaluation_MaxHeap_Level();
+		Evaluation_MinHeap_Level minLevelHeap = new Evaluation_MinHeap_Level();
 		Evaluation_Level level = new Evaluation_Level();
 		
 		AddEdgeRules noEdgeAddition = new AddEdgeRules();
@@ -585,6 +586,64 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
+			
+			//
+			case 38: return new TreeProblem("MinHeap 1",
+					"Insert the nodes into a MinHeap. Hint: you may have to use the" +
+					" bubble up technique.",
+					"76 98 43 12 48 3 15 29",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+				    noEdges,
+					new String[]{"3 29 12 43 48 76 15 98"},
+					minLevelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_STRING_DRAGGABLE);
+			case 39: return new TreeProblem("MinHeap 2",
+					"Insert the nodes into a MinHeap. Hint: you may have to use the" +
+					" bubble up technique.",
+					"17 23 91 7 39 78 82 45 57",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+				    noEdges,
+					new String[]{"7 17 78 23 39 91 82 45 57"},
+					minLevelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_STRING_DRAGGABLE);
+			case 40: return new TreeProblem("MinHeap 3",
+					"Insert the nodes into a MinHeap. Hint: you may have to use the" +
+					" bubble up technique.",
+					"9 89 17 53 32 47 91 68 30 21",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+				    noEdges,
+					new String[]{"9 21 17 32 30 47 91 89 68 53"},
+					minLevelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_STRING_DRAGGABLE);
+			case 41: return new TreeProblem("MinHeap 4",
+					"Insert the nodes into a MinHeap. Hint: you may have to use the" +
+					" bubble up technique.",
+					"85 68 73 48 50 41 37 22 29 15 12 7",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+				    noEdges,
+					new String[]{"7 15 12 37 22 41 48 85 50 68 29 73"},
+					minLevelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_STRING_DRAGGABLE);
 
 		default:
 			return new TreeProblem("Binary Search Tree from Postorder Traversal 1",
@@ -644,6 +703,10 @@ public class ProblemServiceImpl
 		if(problem.equals("Binary Search Tree from Level Traversal 2")) return 35;
 		if(problem.equals("Binary Search Tree from Level Traversal 3")) return 36;
 		if(problem.equals("Binary Search Tree from Level Traversal 4")) return 37;
+		if(problem.equals("MinHeap 1")) return 38;
+		if(problem.equals("MinHeap 2")) return 39;
+		if(problem.equals("MinHeap 3")) return 40;
+		if(problem.equals("MinHeap 4")) return 41;
 		
 		return 0;
 	}
