@@ -43,7 +43,6 @@ public class EdgeCollection implements IsSerializable
 	public void addNextEdge()
 	{
 		dm.setEdgeNodeSelectionInstructions(nodeSelectionInstructions[0]);
-		
 		class EdgeNodeSelectionHandler implements ClickHandler
 		{
 			public void onClick(ClickEvent event) {
@@ -140,7 +139,7 @@ public class EdgeCollection implements IsSerializable
 		else
 		{
 			showEdgeAdditionError(check);
-		}	
+		}
 	}
 	
 	public void insertEdges(String[] edgePairs, ArrayList<Node> nodes)
@@ -176,6 +175,7 @@ public class EdgeCollection implements IsSerializable
 		
 	public void addEdgeToCanvas(Line line)
 	{
+		line.setStrokeWidth(5);
 		dm.drawEdge(line);
 	}
 	
@@ -316,5 +316,8 @@ public class EdgeCollection implements IsSerializable
 			});
 			return b;
 		}
+	}
+	public int getNumNodesSelected(){
+		return numNodesSelected;
 	}
 }

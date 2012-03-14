@@ -311,7 +311,7 @@ public class ProblemServiceImpl
                     true,
                     DSTConstants.NODE_STRING_DRAGGABLE);
 			case 19: return new TreeProblem("MaxHeap 1",
-					"Insert the nodes into a MaxHeap. Hint: you may have to use the" +
+					"MaxHeap 1: Insert the nodes into a MaxHeap. Hint: you may have to use the" +
 					" bubble up technique.",
 					"76 98 43 12 48 3 15 29",
 					DSTConstants.INSERT_METHOD_VALUE,
@@ -325,7 +325,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 20: return new TreeProblem("MaxHeap 2",
-					"Insert the nodes into a MaxHeap. Hint: you may have to use the" +
+					"MaxHeap 2: Insert the nodes into a MaxHeap. Hint: you may have to use the" +
 					" bubble up technique.",
 					"17 23 7 39 91 78 45 57 82",
 					DSTConstants.INSERT_METHOD_VALUE,
@@ -339,7 +339,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 21: return new TreeProblem("MaxHeap 3",
-					"Insert the nodes into a MaxHeap. Hint: you may have to use the" +
+					"MaxHeap 3: Insert the nodes into a MaxHeap. Hint: you may have to use the" +
 					" bubble up technique.",
 					"9 89 17 53 32 47 91 68 30 21",
 					DSTConstants.INSERT_METHOD_VALUE,
@@ -353,21 +353,21 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 22: return new TreeProblem("MaxHeap 4",
-					"Insert the nodes into a MaxHeap. Hint: you may have to use the" +
+					"MaxHeap 4: Insert the nodes into a MaxHeap. Hint: you may have to use the" +
 					" bubble up technique.",
 					"7 12 15 29 22 37 41 50 48 73 68 85",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
 				    noEdges,
-					new String[]{"85 68 73 29 50 41 37 7 22 15 48 12"},
+					new String[]{"85 68 73 41 50 37 29 7 22 15 48 12"},
 					levelHeap,
 					rules,
 					true,
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 23: return new TreeProblem("MaxHeap Insertion 1",
-					"MaxHeap Insertion. Use the bubble up technique to insert the node 78 into the heap.",
+					"MaxHeap Insertion 1: Use the bubble up technique to insert the node 78 into the heap.",
 					"98 80 63 48 39 32 22 19 78",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					new int[]{250,150,350,75,225,275,425,15,20},
@@ -378,9 +378,9 @@ public class ProblemServiceImpl
 					rules,
 					true,
 					true,
-					DSTConstants.NODE_DRAGGABLE);
+					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 24: return new TreeProblem("MaxHeap Insertion 2",
-					"MaxHeap Insertion. Use the bubble up technique to insert the node 99 into the heap.",
+					"MaxHeap Insertion 2: Use the bubble up technique to insert the node 99 into the heap.",
 					"98 82 76 77 12 65 31 52 22 7 1 99",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					getHeapXLocations(true,"98 82 76 77 12 65 31 52 22 7 1 99"),
@@ -391,9 +391,9 @@ public class ProblemServiceImpl
 					rules,
 					true,
 					true,
-					DSTConstants.NODE_DRAGGABLE);
+					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 25: return new TreeProblem("MaxHeap Insertion 3",
-					"MaxHeap Insertion. Use the bubble up technique to insert the node 79 into the heap.",
+					"MaxHeap Insertion 3: Use the bubble up technique to insert the node 79 into the heap.",
 					"85 76 68 27 15 39 55 9 79",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					getHeapXLocations(true,"85 76 68 27 15 39 55 9 79"),
@@ -404,9 +404,9 @@ public class ProblemServiceImpl
 					rules,
 					true,
 					true,
-					DSTConstants.NODE_DRAGGABLE);
+					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 26: return new TreeProblem("MaxHeap Insertion 4",
-					"MaxHeap Insertion. Use the bubble up technique to insert the node 99 into the heap.",
+					"MaxHeap Insertion 4: Use the bubble up technique to insert the node 99 into the heap.",
 					"98 87 91 76 67 65 59 35 22 37 12 9 47 17 99",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					getHeapXLocations(true,"98 87 91 76 67 65 59 35 22 37 12 9 47 17 99"),
@@ -417,14 +417,9 @@ public class ProblemServiceImpl
 					rules,
 					true,
 					true,
-					DSTConstants.NODE_DRAGGABLE);
-			
-			
-			
-			
-			//
+					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 27: return new TreeProblem("MaxHeap Deletion 1",
-					"MaxHeap Deletion. Use the bubble down technique to remove the node 97 from the heap."+
+					"MaxHeap Deletion 1: Use the bubble down technique to remove the node 97 from the heap."+
 					" You can simply place 97 out of the way in a corner after removing the connecting edges.",
 					"97 80 63 48 39 32 22 19",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
@@ -436,23 +431,23 @@ public class ProblemServiceImpl
 					rules,
 					true,
 					true,
-					DSTConstants.NODE_DRAGGABLE);
+					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 28: return new TreeProblem("MaxHeap Deletion 2",
-					"MaxHeap Deletion. Use the bubble down technique to remove the node 83 from the heap."+
+					"MaxHeap Deletion 2: Use the bubble down technique to remove the node 83 from the heap."+
 					" You can simply place 83 out of the way in a corner after removing the connecting edges.",
 					"83 45 73 42 28 54 17 33 6",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					getHeapXLocations(false,"83 45 73 42 28 54 17 33 6"),
 					getHeapYLocations(false,"83 45 73 42 28 54 17 33 6"),
-					new String[]{"83 45","83 73","45 42","45 28","73 54","73 17","42 33","43 6"},
+					new String[]{"83 45","83 73","45 42","45 28","73 54","73 17","42 33","42 6"},
 					new String[]{"73 45 54 42 28 6 17 33"},
 					levelHeap,
 					rules,
 					true,
 					true,
-					DSTConstants.NODE_DRAGGABLE);
+					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 29: return new TreeProblem("MaxHeap Deletion 3",
-					"MaxHeap Deletion. Use the bubble down technique to remove the node 93 from the heap."+
+					"MaxHeap Deletion 3: Use the bubble down technique to remove the node 93 from the heap."+
 					" You can simply place 93 out of the way in a corner after removing the connecting edges.",
 					"93 87 82 85 60 57 79 36 41 27 51 16",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
@@ -464,30 +459,21 @@ public class ProblemServiceImpl
 					rules,
 					true,
 					true,
-					DSTConstants.NODE_DRAGGABLE);
+					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 30: return new TreeProblem("MaxHeap Deletion 4",
-					"MaxHeap Deletion. Use the bubble down technique to remove the node 89 from the heap."+
+					"MaxHeap Deletion 4: Use the bubble down technique to remove the node 91 from the heap."+
 					" You can simply place 89 out of the way in a corner after removing the connecting edges.",
 					"91 89 85 78 67 69 76 54 17 22 37 45 9",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					getHeapXLocations(false,"91 89 85 78 67 69 76 54 17 22 37 45 9"),
 					getHeapYLocations(false,"91 89 85 78 67 69 76 54 17 22 37 45 9"),
 					new String[]{"91 89","91 85","89 78","89 67","85 69","85 76","78 54","78 17","67 22","67 37","69 45","69 9"},
-					new String[]{"91 78 85 54 67 69 76 9 17 22 37 45"},
+					new String[]{"89 78 85 54 67 69 76 9 17 22 37 45"},
 					levelHeap,
 					rules,
 					true,
 					true,
-					DSTConstants.NODE_DRAGGABLE);
-			
-			
-			
-			
-			
-			
-			
-			
-			//
+					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 31: return new TreeProblem("BST Level Traversal 1",
 					"Perform a level traversal of the binary tree below by clicking" +
 					" nodes in the order the traversal would visit them.",
@@ -589,7 +575,7 @@ public class ProblemServiceImpl
 			
 			//
 			case 38: return new TreeProblem("MinHeap 1",
-					"Insert the nodes into a MinHeap. Hint: you may have to use the" +
+					"MinHeap 1: Insert the nodes into a MinHeap. Hint: you may have to use the" +
 					" bubble up technique.",
 					"76 98 43 12 48 3 15 29",
 					DSTConstants.INSERT_METHOD_VALUE,
@@ -603,7 +589,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 39: return new TreeProblem("MinHeap 2",
-					"Insert the nodes into a MinHeap. Hint: you may have to use the" +
+					"Minheap 2: Insert the nodes into a MinHeap. Hint: you may have to use the" +
 					" bubble up technique.",
 					"17 23 91 7 39 78 82 45 57",
 					DSTConstants.INSERT_METHOD_VALUE,
@@ -617,7 +603,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 40: return new TreeProblem("MinHeap 3",
-					"Insert the nodes into a MinHeap. Hint: you may have to use the" +
+					"MinHeap 3: Insert the nodes into a MinHeap. Hint: you may have to use the" +
 					" bubble up technique.",
 					"9 89 17 53 32 47 91 68 30 21",
 					DSTConstants.INSERT_METHOD_VALUE,
@@ -631,7 +617,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 41: return new TreeProblem("MinHeap 4",
-					"Insert the nodes into a MinHeap. Hint: you may have to use the" +
+					"MinHeap 4:Insert the nodes into a MinHeap. Hint: you may have to use the" +
 					" bubble up technique.",
 					"85 68 73 48 50 41 37 22 29 15 12 7",
 					DSTConstants.INSERT_METHOD_VALUE,
@@ -645,7 +631,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 42: return new TreeProblem("MinHeap Insertion 1",
-					"MinHeap Insertion. Use the bubble up technique to insert the node 11 into the heap.",
+					"MinHeap Insertion 1: Use the bubble up technique to insert the node 11 into the heap.",
 					"19 22 32 39 48 63 80 98 11",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					new int[]{250,150,350,75,225,275,425,15,20},
@@ -656,9 +642,9 @@ public class ProblemServiceImpl
 					rules,
 					true,
 					true,
-					DSTConstants.NODE_DRAGGABLE);
+					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 43: return new TreeProblem("MinHeap Insertion 2",
-					"MinHeap Insertion. Use the bubble up technique to insert the node 2 into the heap.",
+					"MinHeap Insertion 2: Use the bubble up technique to insert the node 2 into the heap.",
 					//"98 82 76 77 12 65 31 52 22 7 1 99",
 					"1 7 22 12 52 31 65 77 76 82 98 2",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
@@ -670,9 +656,9 @@ public class ProblemServiceImpl
 					rules,
 					true,
 					true,
-					DSTConstants.NODE_DRAGGABLE);
+					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 44: return new TreeProblem("MinHeap Insertion 3",
-					"MinHeap Insertion. Use the bubble up technique to insert the node 25 into the heap.",
+					"MinHeap Insertion 3: Use the bubble up technique to insert the node 25 into the heap.",
 					"9 15 39 27 76 85 68 55 25",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					getHeapXLocations(true, "9 15 39 27 76 85 68 55 25"),
@@ -683,9 +669,9 @@ public class ProblemServiceImpl
 					rules,
 					true,
 					true,
-					DSTConstants.NODE_DRAGGABLE);
+					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 45: return new TreeProblem("MinHeap Insertion 4",
-					"MinHeap Insertion. Use the bubble up technique to insert the node 1 into the heap.",
+					"MinHeap Insertion 4: Use the bubble up technique to insert the node 1 into the heap.",
 					"9 12 59 17 22 87 65 35 37 47 76 98 91 67 1",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					getHeapXLocations(true,"9 12 59 17 22 87 65 35 37 47 76 98 91 67 1"),
@@ -696,11 +682,11 @@ public class ProblemServiceImpl
 					rules,
 					true,
 					true,
-					DSTConstants.NODE_DRAGGABLE);
+					DSTConstants.NODE_STRING_DRAGGABLE);
 			
 			//
 			case 46: return new TreeProblem("MinHeap Deletion 1",
-					"MinHeap Deletion. Use the bubble down technique to remove the node 19 from the heap."+
+					"MinHeap Deletion 1: Use the bubble down technique to remove the node 19 from the heap."+
 					" You can simply place 19 out of the way in a corner after removing the connecting edges.",
 					"19 39 22 80 48 32 63 97",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
@@ -712,9 +698,9 @@ public class ProblemServiceImpl
 					rules,
 					true,
 					true,
-					DSTConstants.NODE_DRAGGABLE);
+					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 47: return new TreeProblem("MinHeap Deletion 2",
-					"MinHeap Deletion. Use the bubble down technique to remove the node 6 from the heap."+
+					"MinHeap Deletion 2: Use the bubble down technique to remove the node 6 from the heap."+
 					" You can simply place 6 out of the way in a corner after removing the connecting edges.",
 					"6 28 17 42 33 54 83 73 45",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
@@ -726,9 +712,9 @@ public class ProblemServiceImpl
 					rules,
 					true,
 					true,
-					DSTConstants.NODE_DRAGGABLE);
+					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 48: return new TreeProblem("MinHeap Deletion 3",
-					"MinHeap Deletion. Use the bubble down technique to remove the node 16 from the heap."+
+					"MinHeap Deletion 3: Use the bubble down technique to remove the node 16 from the heap."+
 					" You can simply place 16 out of the way in a corner after removing the connecting edges.",
 					"16 27 36 41 51 57 79 82 85 87 93 60",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
@@ -740,21 +726,35 @@ public class ProblemServiceImpl
 					rules,
 					true,
 					true,
-					DSTConstants.NODE_DRAGGABLE);
+					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 49: return new TreeProblem("MinHeap Deletion 4",
-					"MinHeap Deletion. Use the bubble down technique to remove the node 17 from the heap."+
+					"MinHeap Deletion 4: Use the bubble down technique to remove the node 17 from the heap."+
 					" You can simply place 17 out of the way in a corner after removing the connecting edges.",
 					"9 17 37 22 54 45 76 78 85 89 69 91 67",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					getHeapXLocations(false,"9 17 37 22 54 45 76 78 85 89 69 91 67"),
 					getHeapYLocations(false,"9 17 37 22 54 45 76 78 85 89 69 91 67"),
 					new String[]{"9 17","9 37","17 22","17 54","37 45","37 76","22 78","22 85","54 89","54 69","45 91","45 67"},
-					new String[]{"9 22 37 67 54 45 76 78 85 89 69 91"},
+					new String[]{"17 22 37 67 54 45 76 78 85 89 69 91"},
 					minLevelHeap,
 					rules,
 					true,
 					true,
-					DSTConstants.NODE_DRAGGABLE);
+					DSTConstants.NODE_STRING_DRAGGABLE);
+			case 50: return new TreeProblem("HeapSort Test",
+					"MinHeap Deletion. Use the bubble down technique to remove the node 17 from the heap."+
+					" You can simply place 17 out of the way in a corner after removing the connecting edges.",
+					"8 6 10 1 15 13 6 4",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					getHeapSortXLocations("8 6 10 1 15 13 6 4"),
+					getHeapSortYLocations("8 6 10 1 15 13 6 4"),
+					noEdges,
+					new String[]{"8 6 10 1 15 13 6 4"},
+					minLevelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_STRING_DRAGGABLE);
 
 		default:
 			return new TreeProblem("Binary Search Tree from Postorder Traversal 1",
@@ -826,6 +826,7 @@ public class ProblemServiceImpl
 		if(problem.equals("MinHeap Deletion 2")) return 47;
 		if(problem.equals("MinHeap Deletion 3")) return 48;
 		if(problem.equals("MinHeap Deletion 4")) return 49;
+		if(problem.equals("HeapSort Test")) return 50;
 		
 		return 0;
 	}
@@ -850,6 +851,23 @@ public class ProblemServiceImpl
 		}
 		if(insert==true){
 			y[y.length-1]=20;
+		}
+		return y;
+	}
+	public static int[] getHeapSortXLocations(String nodes){
+		int startX = 15;
+		String[] splitNodes = nodes.split(" ");
+		int[] x = new int[splitNodes.length];
+		for(int i=0;i<splitNodes.length;i++){
+			x[i]=(75*i)+startX;
+		}
+		return x;
+	}
+	public static int[] getHeapSortYLocations(String nodes){
+		String[] splitNodes = nodes.split(" ");
+		int[] y = new int[splitNodes.length];
+		for(int i=0;i<splitNodes.length;i++){
+			y[i]=206;
 		}
 		return y;
 	}
