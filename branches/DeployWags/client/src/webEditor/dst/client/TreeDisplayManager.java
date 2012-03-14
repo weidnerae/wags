@@ -7,9 +7,12 @@ import org.vaadin.gwtgraphics.client.Line;
 
 import webEditor.client.Proxy;
 
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -58,6 +61,9 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 		this.addingEdge = false;
 		this.removingEdge = false;
 		this.itemsInPanel = new ArrayList<Widget>();
+		if(problem.getName().substring(0,8).toLowerCase().equals("heapsort")){  // Check if heapsort problem.
+			drawBoxes();
+		}
 	}
 
 	public void displayProblem()
@@ -69,8 +75,7 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 		addRightButtonPanel();
 		addBackButton();
 		addResetButton();
-		addEvaluateButton();
-		
+		addEvaluateButton();		
 		if(problem.getEdgesRemovable())
 		{
 			addAddEdgeButton();
@@ -108,7 +113,24 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 	private ClickHandler edgeClickHandler;
 	private ClickHandler edgeCancelClickHandler;
 	private boolean showingSubMess;
-
+	
+	private class AddEdgeNodeClickHandler implements DoubleClickHandler{
+		public void onDoubleClick(DoubleClickEvent event){
+			if(edgeCollection.getNumNodesSelected()==0){
+				removeWidgetsFromPanel();
+				resetRemoveEdgeButton();
+				resetNodeStyles();
+				resetEdgeStyles();
+				makeNodesNotDraggable();
+				addEdgeStart();
+				edgeCollection.selectFirstNodeOfEdge((Label)event.getSource());
+				edgeCollection.addNextEdge();
+				setEdgeNodeSelectionInstructions("Select second node of edge"); // Temporary. TO DO: add getter in ec for nodeSelectionInstructions.
+		
+			}
+		}
+	}
+	
 	private class AddEdgeClickHandler implements ClickHandler
 	{
 		public void onClick(ClickEvent event) {
@@ -379,6 +401,7 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 		for(int i = 0; i < numNodes; i++)
 		{
 			Label label = new Label(((char)('A'+i))+"");
+			label.addDoubleClickHandler(new AddEdgeNodeClickHandler());
 			label.setStyleName("node");
 			panel.add(label, 5, 150+(50 *i));
 			NodeDragController.getInstance().makeDraggable(label);
@@ -396,6 +419,7 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 				Label label = new Label(splitNodes[i]);
 				label.setStyleName("string_node");
 				label.getElement().getStyle().setTop(10+(45*i), Style.Unit.PX);
+				label.addDoubleClickHandler(new AddEdgeNodeClickHandler());
                 panel.add(label);
                 NodeDragController.getInstance().makeDraggable(label);
                 nodeCollection.addNode(new Node(splitNodes[i], label));
@@ -407,6 +431,7 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 				Label label = new Label(splitNodes[i]);
 				label.setStyleName("node");
 				label.getElement().getStyle().setTop(10+(45*i), Style.Unit.PX);
+				label.addDoubleClickHandler(new AddEdgeNodeClickHandler());
 				panel.add(label);
 				NodeDragController.getInstance().makeDraggable(label);
 				nodeCollection.addNode(new Node(splitNodes[i], label));
@@ -425,6 +450,7 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 			
 			for (int i = 0; i < splitNodes.length; i++) {
 				Label label = new Label(splitNodes[i]);
+				label.addDoubleClickHandler(new AddEdgeNodeClickHandler());
 				label.setStyleName("string_node");
                 panel.add(label, xPositions[i], yPositions[i]);
                 NodeDragController.getInstance().makeDraggable(label);
@@ -436,6 +462,7 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 			for(int i = 0; i < splitNodes.length; i++)
 			{
 				Label label = new Label(splitNodes[i]);
+				label.addDoubleClickHandler(new AddEdgeNodeClickHandler());
 				label.setStyleName("node");
 				panel.add(label, xPositions[i], yPositions[i]);
 				if(draggable) NodeDragController.getInstance().makeDraggable(label);
@@ -446,6 +473,23 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 				else
 					nodeCollection.addNode(new NodeClickable(splitNodes[i], label, cont, false));
 			}
+		}
+	}
+	
+	public void drawBoxes(){
+		final int YTOP = 200;
+		final int YBOTTOM = 250;
+		int xStart = 10;
+		for (int i = 0; i < 8; i++) {
+			Line top = new Line(xStart,YTOP,(xStart+50),YTOP);
+			Line right = new Line((xStart+50),YTOP,(xStart+50),YBOTTOM);
+			Line bottom = new Line(xStart,YBOTTOM,(xStart+50),YBOTTOM);
+			Line left = new Line(xStart,YTOP,xStart,YBOTTOM);
+			drawEdge(top);
+			drawEdge(right);
+			drawEdge(bottom);
+			drawEdge(left);
+			xStart+=75;
 		}
 	}
 
