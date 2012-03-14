@@ -56,7 +56,7 @@ public class Evaluation_MaxHeap_Level extends Evaluation  implements IsSerializa
 		
 		//returns null if more than one node is disconnected from the heap
 		if(unConnectedNodes.size()>1){
-			errorMessage = "Your tree is incomplete go back and add " +
+			errorMessage = "Your MaxHeap is incomplete go back and add " +
 					   " the necessary edges to complete the tree.";
 			return null;
 		}
@@ -88,6 +88,14 @@ public class Evaluation_MaxHeap_Level extends Evaluation  implements IsSerializa
 					else if(currNode.getLeft() < edge.getN2().getLeft())
 					{
 						rightNode = edge.getN2();
+					}
+					else{
+						if(leftNode==null){
+							leftNode = edge.getN2();
+						}
+						else{
+							rightNode = edge.getN2();
+						}
 					}
 				}
 				else if(currNode.getValue() == edge.getN2().getValue())
@@ -158,7 +166,7 @@ public class Evaluation_MaxHeap_Level extends Evaluation  implements IsSerializa
 		String solution ="";
 		EvaluationNode currentNode= rootEvalNode;
 		nodeList.addLast(currentNode);
-     	while(solution.length()<correctTraversal.length()){
+     	while(nodeList.size()!=0){  //solution.length()<correctTraversal.length()
      		if(nodeList.size()!=0){
 		        currentNode=nodeList.removeFirst();
 				solution += currentNode.node.getValue()+" ";
@@ -176,22 +184,32 @@ public class Evaluation_MaxHeap_Level extends Evaluation  implements IsSerializa
 			}
 		}
      	if(solution.contains(".")){
-     		errorMessage = "FeedBack: Your heap is incomplete, make sure that all " +
+     		errorMessage = "FeedBack: Your heap is incomplete, make sure that all valid " +
      				"nodes are connected with edges.";
      	}
      	else if(!solution.equals(correctTraversal)){
+     		String[] splitCorrect = correctTraversal.split(" ");
+     		String[] splitSolution = solution.split(" ");
      		String correct="";
      		boolean done= false;
-     		for(int i=0;i<solution.length();i++){
+     		for(int i=0;i<splitSolution.length;i++){
      			if(done==false){
-	     			if(solution.substring(i,i+1).equals(correctTraversal.substring(i,i+1))){
-	     				correct+=""+solution.charAt(i);
+	     			if(splitCorrect[i]==splitSolution[i]){
+	     				correct+=splitSolution[i]+" ";
 	     			}
 	     			else done=true;
      			}
      		}
      		errorMessage = "Feedback: Incorrect MaxHeap. The level traversal of your" +
      				" MaxHeap is correct through the segment: "+correct.trim();
+     		if(splitSolution.length>splitCorrect.length){                                // Make sure there are not to many nodes
+         		errorMessage = "Feedback: Incorrect MaxHeap. Make sure you removed all of" +
+         				" the edges connected to the node specified to be removed.";
+         	}
+     		if(splitSolution[0]!=splitCorrect[0]){                                          // Check to see if root is correct
+     			errorMessage = "Feedback: Incorrect Root Node. Remember, in a MaxHeap the highest" +
+     					" valued node should always be the root.";
+     		}
      	}
 		return solution.trim();
 	}

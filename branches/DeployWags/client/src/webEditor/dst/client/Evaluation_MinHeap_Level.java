@@ -26,7 +26,7 @@ public class Evaluation_MinHeap_Level extends Evaluation  implements IsSerializa
 		if (rootEvalNode == null)
 		{
 			Proxy.submitDST(problemName, 0);
-			return "Your tree is incomplete go back and add " +
+			return "Your MinHeap is incomplete go back and add " +
 				   " the necessary edges to complete the tree.";
 		}
 		
@@ -171,66 +171,57 @@ public class Evaluation_MinHeap_Level extends Evaluation  implements IsSerializa
 		}
 	}
 	
-	public String getLevelTraversal(EvaluationNode rootEvalNode, String correctTraversal)
-	{
+	public String getLevelTraversal(EvaluationNode rootEvalNode, String correctTraversal){
 		LinkedList<EvaluationNode> nodeList = new LinkedList<EvaluationNode>();
-		String solution = "";
-		EvaluationNode currentNode = rootEvalNode;
+		String solution ="";
+		EvaluationNode currentNode= rootEvalNode;
 		nodeList.addLast(currentNode);
-		
-     	while (solution.length() < correctTraversal.length())
-     	{
-     		if (nodeList.size() != 0)
-     		{
-		        currentNode = nodeList.removeFirst();
-				solution += currentNode.node.getValue() + " ";
-		        if (currentNode != null)
-		        {
-					if (currentNode.left != null)
-					{
+     	while(nodeList.size()!=0){  //solution.length()<correctTraversal.length()
+     		if(nodeList.size()!=0){
+		        currentNode=nodeList.removeFirst();
+				solution += currentNode.node.getValue()+" ";
+		        if(currentNode!=null){
+					if(currentNode.left!=null){
 						nodeList.addLast(convertNodeToEvalNode(treeNodes,currentNode.left));
 					}
-					if (currentNode.right != null)
-					{
+					if(currentNode.right!=null){
 						nodeList.addLast(convertNodeToEvalNode(treeNodes,currentNode.right));
 					}
 		        }
      		}
-     		else
-     		{
-				solution += ".";
+			else{
+				solution+=".";
 			}
 		}
-     	
-     	if (solution.contains("."))
-     	{
-     		errorMessage = "FeedBack: Your heap is incomplete, make sure that all " +
-     					   "nodes are connected with edges.";
+     	if(solution.contains(".")){
+     		errorMessage = "FeedBack: Your heap is incomplete, make sure that all valid " +
+     				"nodes are connected with edges.";
      	}
-     	else if (!solution.equals(correctTraversal))
-     	{
-     		String correct = "";
-     		boolean done = false;
-     		
-     		for (int i = 0; i < solution.length(); i++)
-     		{
-     			if (!done)
-     			{
-	     			if (solution.substring(i,i+1).equals(correctTraversal.substring(i,i+1)))
-	     			{
-	     				correct += "" + solution.charAt(i);
+     	else if(!solution.equals(correctTraversal)){
+     		String[] splitCorrect = correctTraversal.split(" ");
+     		String[] splitSolution = solution.split(" ");
+     		String correct="";
+     		boolean done= false;
+     		for(int i=0;i<splitSolution.length;i++){
+     			if(done==false){
+	     			if(splitCorrect[i]==splitSolution[i]){
+	     				correct+=splitSolution[i]+" ";
 	     			}
-	     			else
-	     			{
-	     				done = true;
-	     			}
+	     			else done=true;
      			}
      		}
-     		
      		errorMessage = "Feedback: Incorrect MinHeap. The level traversal of your" +
-     					   " MinHeap is correct through the segment: "+ correct.trim();
+     				" MinHeap is correct through the segment: "+correct.trim();
+     		if(splitSolution.length>splitCorrect.length){                                // Make sure there are not to many nodes
+         		errorMessage = "Feedback: Incorrect MinHeap. Make sure you removed all of" +
+         				" the edges connected to the node specified to be removed.";
+         	}
+     		if(splitSolution[0]!=splitCorrect[0]){                                          // Check to see if root is correct
+     			errorMessage = "Feedback: Incorrect Root Node. Remember, in a MinHeap the lowest" +
+     					" valued node should always be the root.";
+     		}
      	}
-     	
 		return solution.trim();
 	}
+	
 }
