@@ -13,28 +13,60 @@
 
 class AdminReview extends Command
 {
-	public function execute(){
-		$ex = $_REQUEST['title'];
+    public function execute(){
+        # Grab variables
+        $ex = $_REQUEST['title'];
         $exercise = Exercise::getExerciseByTitle($ex);
+        $subInfo = Exercise::getSubmissions($exercise->getId());
+        $users = User::getUserNames();
+        $subCount = 0; # Keeps track of position in subInfo array
+        $result = array();
+        
+        # Create the row to add when there is no submission
+        $emptyRow = array(
+            'username' => "don't print",
+            'name' => "N/A",
+            'numAttempts' => "-1",
+            'success' => "0",
+            'partner' => " " );
 
-		$subInfo = Exercise::getSubmissions($exercise->getId());
+        # Cycles through users, looks for a matching submission
+        # These loops work ONLY BECAUSE both $subInfo and $users
+        # are listed in alphabetical order by username
+        foreach($users as $user){
+           # I still don't totally understand when something is an array
+           $user = $user[0]; 
 
-		foreach($subInfo as $row){
-			$result[] = $row['username'];
-			$result[] = $row['name'];
+           # Match -> add row from subInfo, iterate submission entry
+           if($user == $subInfo[$subCount]['username']){
+                $this->addRow($subInfo[$subCount], $result);
+                $subCount = $subCount + 1;
+           } else {
+                $tmpRow = $emptyRow;
+                $tmpRow['username'] = $user;  # Get the right username
+                $this->addRow($tmpRow, $result);
+           }
+        }
+
+        if(empty($subInfo)){
+            return JSON::success("empty"); # bet this throws errors in client
+        }
+
+        return JSON::success($result);
+    }
+    
+    # Actually adds the rows to the result array
+    # In php 5.0, arrays are passed by reference, so we can do this!
+    # Still must include preceding & though
+    private function addRow($row, &$result){
+            $result[] = $row['username'];
+            $result[] = $row['name'];
             $result[] = $row['numAttempts'];
-			$result[] = $row['success'];
-			if($row['partner'] != NULL){
-				$result[] = $row['partner'];
-			}else{
-				$result[] = "  ";
-			}
-
-		}
-
-		if(empty($subInfo)){
-			return JSON::success("empty");
-		}
-		return JSON::success($result);
-	}
+            $result[] = $row['success'];
+            if($row['partner'] != NULL){
+                $result[] = $row['partner'];
+            }else{
+                $result[] = "  ";
+            }
+    }
 }
