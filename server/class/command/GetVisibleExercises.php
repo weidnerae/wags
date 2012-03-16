@@ -15,23 +15,36 @@
  * and made that change within Exercise::getVisibleExercises()
  */
 
+require_once('DefInvis.php');
+
 class GetVisibleExercises extends Command
 {
 	public function execute()
 	{
+        # Actually gets all exercises
 		$exercises = Exercise::getVisibleExercises();
 		$exerciseTitles = "";
 
 		foreach($exercises as $exercise){
 			$title = $exercise->getTitle();
+            $oldVis = $exercise->getVisible();
+            $newVis = $this->transition($exercise);
 
-			if(!$exercise->getVisible()){
-				$title = $title."[i]";
-			}
+            # Performs transition if necessary
+            if($oldVis != $newVis){
+                $exercise->setVisible($newVis);
+                $exercise->save();
+            }
+
+            # Need a better way of moving this info to the server.......
+            # Easiest way may just be to append the value to the end
+            # of the title, and let the client sort it out...
+#           $vis = $exercise->getVisible();
+#           $title = "$title"."$vis";  # wait until visibility all set
 
 			$exerciseTitles[] = $title; 
 		}
-	
+
 		if(!empty($exerciseTitles)){
 			return JSON::success($exerciseTitles);
 		}
@@ -39,6 +52,25 @@ class GetVisibleExercises extends Command
 		return JSON::success("No Assignments");
 	}
 
+    # Checks to see if the exercise should move to a new state of visibility
+    # Returns the state visibility should be in
+    private function transition($ex){
+        # If it was waiting to open, and has passed the open date, make it
+        #  visibile
+        if($ex->getVisible() == PREOPEN && $ex->getOpenDate() <= time()){
+            return VISIBLE;
+        }
+        
+        # If it was visible, but has passed the close date, make it expired
+        elseif($ex->getVisible() == VISIBLE && $ex->getCloseDate() <= time()){
+            if($ex->getCloseDate() != 0) # No dates get stored as zero
+                return EXPIRED; 
+        }
+
+        # Otherwise, it should remain in whatever state it was as toggling
+        #   handles all other state transitions, found in EditExercise.php
+        return $ex->getVisible();
+    }
 }
 
 
