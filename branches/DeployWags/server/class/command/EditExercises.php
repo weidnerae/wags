@@ -1,6 +1,6 @@
 <?php
 
-include('DefInvis.php');
+require_once('DefInvis.php');
 
 class EditExercises extends Command
 {
