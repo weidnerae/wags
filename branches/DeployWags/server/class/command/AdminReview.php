@@ -26,7 +26,7 @@ class AdminReview extends Command
         $emptyRow = array(
             'username' => "don't print",
             'name' => "N/A",
-            'numAttempts' => "-1",
+            'numAttempts' => "-1", # attempts get incremented by 1 on client
             'success' => "0",
             'partner' => " " );
 
