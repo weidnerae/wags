@@ -144,6 +144,9 @@ public class EdgeCollection implements IsSerializable
 	
 	public void insertEdges(String[] edgePairs, ArrayList<Node> nodes)
 	{
+		ArrayList<String> children = new ArrayList<String>();
+		ArrayList<String> parents = new ArrayList<String>();
+		int count=0;
 		for(int i = 0; i < edgePairs.length; i++)
 		{
 			String[] splitPairs= edgePairs[i].split(" ");
@@ -153,10 +156,24 @@ public class EdgeCollection implements IsSerializable
 			Node n1 = null, n2 = null;
 			for(int j = 0; j < nodes.size(); j++)
 			{
-				if(nodes.get(j).getValue() == parent)
-					n1 = nodes.get(j);
-				else if(nodes.get(j).getValue() == child)
-					n2 = nodes.get(j);
+				if(nodes.get(j).getValue() == parent){
+						n1 = nodes.get(j);
+						parents.add(parent);
+				}
+				else if(nodes.get(j).getValue() == child){
+					if(children.contains(child)){
+						for(int k=j+1;k < nodes.size();k++){
+							if(nodes.get(k).getValue()==child){
+								n2 = nodes.get(k);
+							}
+						}
+						children.remove(child);
+					}
+					else{
+						n2 = nodes.get(j);
+						children.add(child);
+					}
+				}
 			}
 			EdgeUndirected eu = new EdgeUndirected(n1,n2, getInstance(), handler, removable);
 			eu.drawEdge();

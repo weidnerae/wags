@@ -30,6 +30,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 	private EdgeCollection edgeCollection;
 	private ArrayList<Widget> itemsInPanel;
 	private SearchProblem problem;
+	private TraversalContainer cont;
 
 	//permanent widgets
 	private Button resetButton;
@@ -56,6 +57,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 
 	public void displayProblem()
 	{
+		cont = new TraversalContainer(this);
 		addProblemTextArea();
 		addCounterPanel();
 		addLeftButtonPanel();
@@ -88,11 +90,18 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		RootPanel.get().add(cp, 407, 5);
 		
 	}
-	
 	private void insertNodesAndEdges()
 	{
-		insertNodesByValueAndLocation(problem.getNodes(), problem.getXPositions(),
-				problem.getYPositions(), problem.getNodesDraggable(), problem.getNodeType());
+		cont = new TraversalContainer(this); //for reset of traversal problems
+		if(problem.getInsertMethod().equals(DSTConstants.INSERT_METHOD_VALUE))
+		{
+			insertNodesByValue(problem.getNodes());
+		}
+		else
+		{
+			insertNodesByValueAndLocation(problem.getNodes(), problem.getXPositions(),
+					problem.getYPositions(), problem.getNodesDraggable(), problem.getNodeType());
+		}
 		
 	}
 	
@@ -122,8 +131,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		RootPanel.get().add(rightButtonPanel, 222, 100);
 	}
 	
-	private void addBucketLabels()
-	{
+	private void addBucketLabels() {
 		AbsolutePanel bucketHolder = new AbsolutePanel();
 		bucketHolder.setPixelSize(600, 30);
 		bucketHolder.setStyleName("bucket_holding_panel");
@@ -222,29 +230,79 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		});
 	}
 	
-	public void drawLines()
-	{
-		for (int i = 1; i <= 9; i++) {
-			Line line = new Line(i*60, 50, i*60, 700);
+	public void drawLines(){
+		for(int i=1;i<=9;i++){
+			Line line = new Line(i*60,50,i*60,700);
 			drawEdge(line);
+		}
+	}
+
+	public void insertNodesByNumber(int numNodes)
+	{
+		for(int i = 0; i < numNodes; i++)
+		{
+			Label label = new Label(((char)('A'+i))+"");
+			label.setStyleName("node");
+			panel.add(label, 5, 150+(50 *i));
+			NodeDragController.getInstance().makeDraggable(label);
+			nodeCollection.addNode(new Node(((""+(char)('A'+i))), label));
+		}
+	}
+
+	public void insertNodesByValue(String nodes)
+	{
+		String[] splitNodes = nodes.split(" ");
+		for(int i = 0; i < nodes.length(); i++)
+		{
+			Label label = new Label(splitNodes[i]);
+			label.setStyleName("node");
+			label.getElement().getStyle().setTop(10+(45*i), Style.Unit.PX);
+			panel.add(label);
+			NodeDragController.getInstance().makeDraggable(label);
+			nodeCollection.addNode(new Node(splitNodes[i], label));
 		}
 	}
 	
 	public void insertNodesByValueAndLocation(String nodes, int[][] xPositions, int[][] yPositions, boolean draggable,
 			String nodeType)
 	{
+		int spaces = 0;
 		int current = ((Evaluation_RadixSortWithHelp)problem.getEval()).getCurrent();
-		String[] splitNodes = nodes.split(" ");
+		for (int i = 0; i < nodes.length(); i++) {
+			if (nodes.charAt(i) == ' ')
+				spaces++;
+		}
 		
-		if (splitNodes.length != xPositions[0].length || splitNodes.length != yPositions[0].length)
+		spaces++;
+		String[] splitNodes = nodes.split(" ");
+		if (spaces != xPositions[0].length || spaces != yPositions[0].length)
 			throw new NullPointerException(); //need to find right exception
+		else if(nodeType.equals(DSTConstants.NODE_STRING_DRAGGABLE)) {
 			
-		for (int i = 0; i < splitNodes.length; i++) {
-			Label label = new Label(splitNodes[i]);
-			label.setStyleName("string_node");
-            problem.getGridPanel().add(label, xPositions[current][i], yPositions[current][i]);
-            NodeDragController.getInstance().makeDraggable(label);
-            nodeCollection.addNode(new Node(splitNodes[i], label));
+			for (int i = 0; i < splitNodes.length; i++) {
+				Label label = new Label(splitNodes[i]);
+				label.setStyleName("string_node");
+                problem.getGridPanel().add(label, xPositions[current][i], yPositions[current][i]);
+                NodeDragController.getInstance().makeDraggable(label);
+                nodeCollection.addNode(new Node(splitNodes[i], label));
+			}
+		}	
+		else
+		{
+			for(int i = 0; i <splitNodes.length; i++)
+			{
+				Label label = new Label(splitNodes[i]);
+				label.setStyleName("node");
+				problem.getGridPanel().add(label, xPositions[current][i], yPositions[current][i]);
+				if(draggable) NodeDragController.getInstance().makeDraggable(label);
+				
+				if(nodeType.equals(DSTConstants.NODE_DRAGGABLE))
+					nodeCollection.addNode(new Node(splitNodes[i], label));
+				else if(nodeType.equals(DSTConstants.NODE_CLICKABLE_FORCE_EVAL))
+					nodeCollection.addNode(new NodeClickable(splitNodes[i], label, cont, true));
+				else
+					nodeCollection.addNode(new NodeClickable(splitNodes[i], label, cont, false));
+			}
 		}
 	}
 
