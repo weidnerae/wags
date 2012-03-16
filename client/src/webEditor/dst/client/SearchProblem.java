@@ -11,7 +11,7 @@ public class SearchProblem extends Problem implements IsSerializable {
 	private int[][] xPositions; //must be same size as nodes
 	private int[][] yPositions; //must be same size edges
 	private String insertMethod;
-	private Evaluation eval;
+	private Evaluation eval; 
 	private AddEdgeRules rules;
 	private String[] arguments;
 	private boolean nodesDraggable;

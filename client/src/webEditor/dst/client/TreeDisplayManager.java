@@ -61,15 +61,15 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 		this.addingEdge = false;
 		this.removingEdge = false;
 		this.itemsInPanel = new ArrayList<Widget>();
-		if(problem.getName().substring(0,8).toLowerCase().equals("heapsort")){  // Check if heapsort problem.
-			drawBoxes();
-		}
 	}
 
 	public void displayProblem()
 	{
 		cont = new TraversalContainer(this);
 		addProblemTextArea();
+		if(isHeapSort()){
+			addCounterPanel();
+		}
 		addLeftButtonPanel();
 		addMiddlePanel();
 		addRightButtonPanel();
@@ -80,6 +80,9 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 		{
 			addAddEdgeButton();
 			addRemoveEdgeButton();
+		}
+		if(isHeapSort()){  
+			drawBoxes();
 		}
 		
 		insertNodesAndEdges();
@@ -248,7 +251,13 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 	{
 		TextArea t = new TextArea();
 		t.setStyleName("problem_statement");
-		t.setPixelSize(598, 90);
+		if(isHeapSort()){  // Check if heapsort problem.
+			t.setPixelSize(400, 90);
+		}
+		else{
+			t.setPixelSize(598, 90);
+		}
+		
 		t.setReadOnly(true);
 		t.setText(problem.getProblemText());
 		RootPanel.get().add(t, 2, 5);
@@ -331,6 +340,11 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 			{
 				setEdgeParentAndChildren();
 				String evalResult = problem.getEval().evaluate(problem.getName(), problem.getArguments(), getNodes(), getEdges());
+				
+				// Updates the heap display if it is a HeapSort problem.
+				if(isHeapSort()){  
+					addHeapSortTree(((Evaluation_HeapSort)problem.getEval()).getCurrentNodeString(problem.getArguments()[0]));
+				}
 
 				if(showingSubMess == true)
 				{
@@ -412,9 +426,11 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 	public void insertNodesByValue(String nodes,String nodeType)
 	{
 		String[] splitNodes = nodes.split(" ");
-		
-		if(nodeType.equals(DSTConstants.NODE_STRING_DRAGGABLE)) {
-			
+		if(isHeapSort()){
+			insertNodesByValueAndLocation(nodes,ProblemServiceImpl.getHeapSortXLocations(nodes),
+					ProblemServiceImpl.getHeapSortYLocations(nodes),true,nodeType);
+		}
+		else if(nodeType.equals(DSTConstants.NODE_STRING_DRAGGABLE)) {	
 			for (int i = 0; i < splitNodes.length; i++) {
 				Label label = new Label(splitNodes[i]);
 				label.setStyleName("string_node");
@@ -445,9 +461,30 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 		String[] splitNodes = nodes.split(" ");
 		if(splitNodes.length != xPositions.length || splitNodes.length != yPositions.length)
 			throw new NullPointerException(); //need to find right exception
-		else if(nodeType.equals(DSTConstants.NODE_STRING_DRAGGABLE)) {
-
+		else if(isHeapSort()){
+			nodes = ((Evaluation_HeapSort)problem.getEval()).getCurrentNodeString(problem.getArguments()[0]);
+			splitNodes = nodes.split(" ");
+			xPositions = ProblemServiceImpl.getHeapSortXLocations(nodes);
+			yPositions = ProblemServiceImpl.getHeapSortYLocations(nodes);
+			for(int i = 0; i < splitNodes.length; i++)
+			{
+				Label label = new Label(splitNodes[i]);
+				label.addDoubleClickHandler(new AddEdgeNodeClickHandler());
+				label.setStyleName("node");
+				panel.add(label, xPositions[i], yPositions[i]);
+				if(i<=splitNodes.length-((Evaluation_HeapSort)problem.getEval()).getCurrentStep()){
+					NodeDragController.getInstance().makeDraggable(label);
+				}
+				else{
+					label.setStyleName("immobilized_node");
+				}
+				if(nodeType.equals(DSTConstants.NODE_DRAGGABLE))
+					nodeCollection.addNode(new Node(splitNodes[i], label));
+			}
+			addHeapSortTree(((Evaluation_HeapSort)problem.getEval()).getCurrentNodeString(problem.getArguments()[0]));
 			
+		}
+		else if(nodeType.equals(DSTConstants.NODE_STRING_DRAGGABLE)) {	
 			for (int i = 0; i < splitNodes.length; i++) {
 				Label label = new Label(splitNodes[i]);
 				label.addDoubleClickHandler(new AddEdgeNodeClickHandler());
@@ -477,20 +514,75 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 	}
 	
 	public void drawBoxes(){
-		final int YTOP = 200;
-		final int YBOTTOM = 250;
+		final int YTOP = 20;
+		final int YBOTTOM = 70;
 		int xStart = 10;
 		for (int i = 0; i < 8; i++) {
 			Line top = new Line(xStart,YTOP,(xStart+50),YTOP);
 			Line right = new Line((xStart+50),YTOP,(xStart+50),YBOTTOM);
 			Line bottom = new Line(xStart,YBOTTOM,(xStart+50),YBOTTOM);
 			Line left = new Line(xStart,YTOP,xStart,YBOTTOM);
+			Label label = new Label(i+"");
+			RootPanel.get().add(label,xStart+25, 134);
 			drawEdge(top);
 			drawEdge(right);
 			drawEdge(bottom);
 			drawEdge(left);
 			xStart+=75;
 		}
+	}
+	public void addHeapSortTree(String nodes){
+		String[] splitNodes = nodes.split(" ");
+		//Finding X Coords
+		final int[] xMaster = {275,125,425,55,195,355,495,25,85,165,225,325,385,465,525};
+		int[] xPositions = new int[splitNodes.length];
+		for(int i=0;i<splitNodes.length;i++){
+			xPositions[i]=xMaster[i];
+		}
+		//Finding y Coords
+		final int[] yMaster = {200,300,300,400,400,400,400,500,500,500,500,500,500,500,500};
+		int[] yPositions = new int[splitNodes.length];
+		for(int i=0;i<splitNodes.length;i++){
+			yPositions[i]=yMaster[i];
+		}
+		NodeCollection heapNC= new NodeCollection();
+		for(int i=0;i<splitNodes.length;i++)
+		{
+			Label label = new Label(splitNodes[i]);
+			label.setStyleName("mini_node");
+			if(!(i<=splitNodes.length-((Evaluation_HeapSort)problem.getEval()).getCurrentStep())){
+				label.setStyleName("immobilized_mini_node");
+			}
+			panel.add(label, xPositions[i], yPositions[i]);
+			heapNC.addNode(new Node(splitNodes[i], label));
+		}
+		String[] heapSortEdgePairs = getHeapSortEdgePairs(nodes);
+	//	edgeCollection.insertEdges(heapSortEdgePairs, heapNC.getNodes());
+	}
+	public String[] getHeapSortEdgePairs(String nodes){
+		nodes= "0 "+nodes;
+		String[] splitNodes = nodes.split(" ");
+		String[] edgePairs = new String[splitNodes.length];
+		int count=0;
+		for(int i=1;i<=((splitNodes.length-1)/2);i++){
+			for(int j=0;j<2;j++){
+				if(splitNodes[(2*i)+j]!=null){
+					edgePairs[count] = (splitNodes[i]+" "+splitNodes[(2*i)+j]);
+					count++;
+				}
+			}
+		}
+		return edgePairs;
+	}
+	
+	private void addCounterPanel(){
+		TextArea cp = new TextArea();
+		cp.setStyleName("problem_statement");
+		cp.setPixelSize(195, 90);
+		cp.setReadOnly(true);
+		cp.setText("Current Pass: 1");
+		RootPanel.get().add(cp, 407, 5);
+		
 	}
 
 	public ArrayList<Node> getNodes()
@@ -555,5 +647,8 @@ public class TreeDisplayManager extends DisplayManager implements IsSerializable
 	public void forceEvaluation()
 	{
 		evaluateButton.click();
+	}
+	public boolean isHeapSort(){
+		return problem.getName().substring(0,8).toLowerCase().equals("heapsort");
 	}
 }

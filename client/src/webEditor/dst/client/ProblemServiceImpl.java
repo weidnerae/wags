@@ -8,6 +8,7 @@ public class ProblemServiceImpl
 		Evaluation_Preorder preEval = new Evaluation_Preorder();
 		Evaluation_MaxHeap_Level levelHeap = new Evaluation_MaxHeap_Level();
 		Evaluation_MinHeap_Level minLevelHeap = new Evaluation_MinHeap_Level();
+		Evaluation_HeapSort heapSort = new Evaluation_HeapSort();
 		Evaluation_Level level = new Evaluation_Level();
 		
 		AddEdgeRules noEdgeAddition = new AddEdgeRules();
@@ -741,20 +742,32 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
-			case 50: return new TreeProblem("HeapSort Test",
-					"MinHeap Deletion. Use the bubble down technique to remove the node 17 from the heap."+
-					" You can simply place 17 out of the way in a corner after removing the connecting edges.",
-					"8 6 10 1 15 13 6 4",
-					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
-					getHeapSortXLocations("8 6 10 1 15 13 6 4"),
-					getHeapSortYLocations("8 6 10 1 15 13 6 4"),
+			case 50: return new TreeProblem("HeapSort Test with Duplicates",
+					"HeapSort 1: Use the HeapSort algorithm to sort the following array. (Placeholder description) *No Duplicates",
+					"9 6 4 5 5 3 2 1",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
 					noEdges,
-					new String[]{"8 6 10 1 15 13 6 4"},
-					minLevelHeap,
+					new String[]{"9 6 4 5 5 3 2 1"},
+					heapSort,
 					rules,
+					false,
 					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 51: return new TreeProblem("HeapSort Test without Duplicates",
+					"HeapSort 1: Use the HeapSort algorithm to sort the following array. (Placeholder description) * Duplicates",
+					"9 6 4 5 7 3 2 1",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges,
+					new String[]{"9 6 4 5 7 3 2 1"},
+					heapSort,
+					rules,
+					false,
 					true,
-					DSTConstants.NODE_STRING_DRAGGABLE);
+					DSTConstants.NODE_DRAGGABLE);
 
 		default:
 			return new TreeProblem("Binary Search Tree from Postorder Traversal 1",
@@ -826,7 +839,8 @@ public class ProblemServiceImpl
 		if(problem.equals("MinHeap Deletion 2")) return 47;
 		if(problem.equals("MinHeap Deletion 3")) return 48;
 		if(problem.equals("MinHeap Deletion 4")) return 49;
-		if(problem.equals("HeapSort Test")) return 50;
+		if(problem.equals("HeapSort Test with Duplicates")) return 50;
+		if(problem.equals("HeapSort Test without Duplicates")) return 51;
 		
 		return 0;
 	}
@@ -867,7 +881,7 @@ public class ProblemServiceImpl
 		String[] splitNodes = nodes.split(" ");
 		int[] y = new int[splitNodes.length];
 		for(int i=0;i<splitNodes.length;i++){
-			y[i]=206;
+			y[i]=25;
 		}
 		return y;
 	}
