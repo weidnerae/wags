@@ -1,7 +1,7 @@
 <?php
 
 require_once("Model.php");
-
+require_once("command/DefInvis.php");
 
 class Exercise extends Model
 {
@@ -153,6 +153,27 @@ class Exercise extends Model
 		return $sth->fetchAll(PDO::FETCH_CLASS, 'CodeFile');
 	}
 
+    public function transition(){
+        $oldVis = $this->getVisible();
+        $open = $this->getOpenDate();
+        $close = $this->getCloseDate();
+
+        # If it was waiting to open, and has passed the open date, make it
+        #  visible
+        if($oldVis == PREOPEN && $open <= time()){
+            $this->setVisible(VISIBLE);
+            $this->save();
+        }
+
+        # If it was visible, but has passed the close date, make it expired
+        elseif($oldVis == VISIBLE && $close <= time()){
+            if($close != 0){ # Empty dates get stored as zero
+                $this->setVisible(EXPIRED);
+                $this->save();
+            }
+        }
+    }
+
 	public static function getMultiUsers(){
 		require_once('Database.php');
 		$db = Database::getDb();
@@ -232,6 +253,8 @@ class Exercise extends Model
         return 1;
     }
 
+    # Returns all exercises, not just the visible ones
+    # Old name, should be changed....
 	public static function getVisibleExercises()
 	{
 		require_once('Database.php');

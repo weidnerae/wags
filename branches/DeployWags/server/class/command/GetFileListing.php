@@ -11,6 +11,13 @@ class GetFileListing extends Command
 
         $user = Auth::getCurrentUser();
         
+        # Check exercises for opening or expiration
+        $exercises = Exercise::getVisibleExercises();
+        foreach($exercises as $exercise){
+            $exercise->transition();
+        }
+
+
         $files = CodeFile::getCodeFilesByUser($user);
         $fileNames = "";
 
