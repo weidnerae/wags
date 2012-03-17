@@ -73,7 +73,7 @@
 		<g:FormPanel ui:field="adminForm">
 			<g:VerticalPanel>
 					
-				<g:Label styleName="{style.heading}"> Administration</g:Label>
+				<g:Label styleName="{style.subheading}"> Uploading </g:Label>
 				
 				<g:HorizontalPanel styleName="{style.filePanel}">
 					<g:Label styleName="{style.label}"> Exercise Name: </g:Label>
@@ -123,7 +123,7 @@
 		<g:FormPanel ui:field="helperForm">
 			<g:VerticalPanel>
 			
-				<g:Label styleName="{style.subheading}">Exercise Actions</g:Label>
+				<g:Label styleName="{style.subheading}">Programming Microlab Actions</g:Label>
 				
 				<g:ListBox ui:field="exercises" name="Exercises" styleName="{style.lbox}"></g:ListBox>
 					
@@ -155,7 +155,7 @@
 		
 		<g:FormPanel ui:field="DSTForm">
 			<g:VerticalPanel>
-				<g:Label styleName="{style.subheading}">DST Actions</g:Label>
+				<g:Label styleName="{style.subheading}">Logical Microlab Actions</g:Label>
 				<g:HorizontalPanel styleName="{style.filePanel}">
 					<g:ListBox ui:field="logicalExercises" name="logicalExercises" styleName="{style.lbox}"></g:ListBox>
 					<g:Button ui:field="btnDSTReview" styleName = "{style.button}"> Review </g:Button>

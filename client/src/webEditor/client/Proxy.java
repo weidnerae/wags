@@ -433,7 +433,6 @@ public class Proxy
 	 * Put those contents in the passed CodeEditor.
 	 */
 	public static void getFileContents(String fileName, final CodeEditor editor){
-		//fileName.trim() leaves leading /, this is causing select errors
 		String urlCompl = getFileContents+"&name="+fileName.trim().substring(1);
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, urlCompl);
 		try {
@@ -463,13 +462,10 @@ public class Proxy
 					//	 the unique part:
 					//		-Ex: "//" for Java, "%%" for Prolog (even though only one '%' is
 					//			needed in Prolog for a comment), etc
-//					String lengthFinder = "..<end!TopSection>";
 					String lengthFinder = "<end!TopSection>";
 					int len = lengthFinder.length();
 					
 					// Find the end of top and middle comments
-//					int endofTop = allText.indexOf("//<end!TopSection>");
-//					int endofMid = allText.indexOf("//<end!MidSection>");
 					int endofTop = allText.indexOf("<end!TopSection>");
 					int endofMid = allText.indexOf("<end!MidSection>");
 					String top = "", mid = allText, bot = "";
@@ -479,14 +475,11 @@ public class Proxy
 					//	 top and bottom portions, so that they do not have to be
 					//	 added in again later in Wags.java
 					if(endofTop != -1){
-//						top = allText.substring(0, endofTop);
-//						mid = allText.substring(endofTop);
 						top = allText.substring(0, endofTop + len); // keep the comment in top
 						mid = allText.substring(endofTop + len); // don't include comment in mid
 					}
 					
 					if(endofMid != -1){
-//						bot = allText.substring(endofMid + len);
 						bot = allText.substring(endofMid - 2); // keep comment in bottom
 						mid = allText.substring(endofTop + len, endofMid - 2); // don't leave //, or %%, or etc in mid
 					}
@@ -760,8 +753,26 @@ public class Proxy
 				public void onResponseReceived(Request request, Response response)
 				{
 					WEStatus status = new WEStatus(response);
+					
+					// Create HashMap with link between filenames and their current
+					// visibility
 					if(status.getStat() == WEStatus.STATUS_SUCCESS){
-						fileBrowser.loadTree(status.getMessageArray());
+						fileBrowser.visibilities.clear();
+						String[] list = status.getMessageArray();
+						String[] fileNames = new String[list.length];
+						int index = 0;
+						
+						// Cycle through, parsing fileNames and visibilities
+						for(String entry: list){
+							String name = entry.substring(0, entry.length()-1); // Everything but last character
+							Integer vis = Integer.parseInt(entry.substring(entry.length() - 1));  // Only last character
+							fileNames[index] = name;
+				
+							fileBrowser.visibilities.put(name, vis);
+							index++;
+						}
+						
+						fileBrowser.loadTree(fileNames);
 						if(path != "") fileBrowser.openPath(path);
 					}else{
 						Notification.notify(WEStatus.STATUS_ERROR, "Error fetching file listing.");
