@@ -36,7 +36,7 @@ public class Admin extends Composite{
 	@UiField ListBox logicalExercises;
 	@UiField Button btnDSTReview;
 	@UiField Button btnAdminReview;
-	//@UiField Button btnAddSkeletons;
+	@UiField Button btnAddSkeletons;
 	@UiField Button btnMakeVisible;
 	//@UiField Button btnEnablePartners;
 	@UiField Grid grdAdminReview;

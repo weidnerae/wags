@@ -1,5 +1,7 @@
 package webEditor.client.view;
 
+import java.util.HashMap;
+
 import webEditor.client.Proxy;
 
 import com.google.gwt.core.client.GWT;
@@ -10,8 +12,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Tree;
@@ -30,7 +30,7 @@ public class FileBrowser extends View
 	@UiField FormPanel form;
 	@UiField TextBox curDir;
 	@UiField SubmitButton uploadButton;
-
+	public HashMap<String, Integer> visibilities = new HashMap<String, Integer>();
 
 	/**
 	 * FileBrowser is tightly coupled with CodeEditor. Text from items from file
@@ -42,26 +42,7 @@ public class FileBrowser extends View
 	{
 		initWidget(uiBinder.createAndBindUi(this));
 		Proxy.loadFileListing(this, "/");
-		
-		//Editing out the formpanel until we decide how we want to handle multiple files
 		form.setVisible(false);
-		//
-		
-		form.setAction(Proxy.getBaseURL() + "?cmd=UploadFile&dir=" + curDir.getText().toString());
-		form.setEncoding(FormPanel.ENCODING_MULTIPART);
-		form.setMethod(FormPanel.METHOD_POST);
-		final FileBrowser me = this;
-		
-		
-		form.addSubmitCompleteHandler(new SubmitCompleteHandler(){
-			
-			@Override
-			public void onSubmitComplete(SubmitCompleteEvent event) {
-				Proxy.loadFileListing(me, "/"+curDir.getText().toString());
-			}
-			
-		});
-		
 		browser.addSelectionHandler(new SelectionHandler<TreeItem>() {
 			@Override
 			public void onSelection(SelectionEvent<TreeItem> event)
@@ -195,6 +176,10 @@ public class FileBrowser extends View
 	@UiHandler("uploadButton")
 	void onUploadClick(ClickEvent event){
 		formatDirectory();
+	}
+	
+	public int getFileVisibility(String fileName){
+		return visibilities.get(fileName);
 	}
 	
 	

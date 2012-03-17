@@ -62,6 +62,10 @@ public class Wags extends View
 	
 	final static int REVIEWPANEL = 1;
 	final static int FILEBROWSER = 0;
+	final static int VISIBLE = 1;
+	final static int INVISIBLE = 0;
+	final static int EXPIRED = 2;
+	final static int PREOPEN = 3;
 	
 	private final int AUTOSAVETIME = 10000; // autosave time interval in milliseconds
 	private Timer autosaveTimer;
@@ -84,9 +88,10 @@ public class Wags extends View
 		// Initialize timer used in code autosaving
 		initializeAutosaving();
 		
-		Proxy.checkTimedExercises();
+		Proxy.isAdmin(tabPanel);
 		Proxy.checkPassword(this);
 		Proxy.checkMultiUser(this);
+		Proxy.getUsersName(hello);
 		commandBarVisible(false);
 		
 		description.setUrl("");
@@ -101,6 +106,7 @@ public class Wags extends View
 			@Override
 			public void onSelection(SelectionEvent<TreeItem> event)
 			{
+				boolean checkVis = false;
 				TreeItem i = event.getSelectedItem();
 				String itemName = browser.getItemPath(i);  // clicked item
 				
@@ -116,10 +122,12 @@ public class Wags extends View
 				// If clicked item is a leaf TreeItem then open it in editor
 				Proxy.getFileContents(itemName, editor);
 				if(itemName.contains("_Versions")){
-					currentExercise = browser.getItemPath(i.getParentItem().getParentItem()).trim().substring(1); /* Grab the exercise Id */
+					currentExercise = browser.getItemPath(i.getParentItem().getParentItem()).trim().substring(1); /* Grab the exercise */
+					checkVis = true;
 				}
 				else {
-					currentExercise = browser.getItemPath(i.getParentItem()).trim().substring(1); /* Grab the exercise Id */
+					currentExercise = browser.getItemPath(i.getParentItem()).trim().substring(1); /* Grab the exercise */
+					checkVis = true;
 				}
 				
 				/* Update description */
@@ -127,12 +135,10 @@ public class Wags extends View
 
 				// Set filename, save, and delete stuff visible
 				commandBarVisible(true);
+				if(checkVis) handleInvisibility(browser.getFileVisibility(itemName));
 				fileName.setText(browser.getItemPath(i).toString().substring(1));
 			}
 		});
-		
-		Proxy.isAdmin(tabPanel);
-		Proxy.getUsersName(hello);
 		
 		tabPanel.addBeforeSelectionHandler(new BeforeSelectionHandler<Integer>() {
 			
@@ -153,6 +159,28 @@ public class Wags extends View
 		});
 	} // end constructor
 
+	void handleInvisibility(int vis){
+		submit.setEnabled(true);
+		
+		switch (vis){
+			case INVISIBLE:
+				submit.setText("Invis");
+				break;
+			case VISIBLE:
+				submit.setText("Submit");
+				break;
+			case EXPIRED: 
+				submit.setText("Expired");
+				submit.setEnabled(false);
+				break;
+			case PREOPEN:
+				submit.setText("Not Open");
+				break;
+			default:
+				break;
+		}
+	}
+	
 	@UiHandler("getCode")
 	void onDescClick(ClickEvent event)
 	{
@@ -366,6 +394,7 @@ public class Wags extends View
 		setPassword.add(base);
 		
 		setPassword.center();
+		password.setFocus(true);
 	}
 
 	@Override
