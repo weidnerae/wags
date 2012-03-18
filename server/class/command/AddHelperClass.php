@@ -34,6 +34,8 @@ class AddHelperClass extends Command
 
         # If there is a description
         if($_FILES['descriptionPDF']['size'] != 0){
+           # Descriptions don't work yet....  c'mon Darryl, lemme use
+           # the server...
            /* $aFile = TRUE;
 
             if(!$this->addDesc())
