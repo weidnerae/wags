@@ -14,7 +14,6 @@ function x($var, $exit=false){
 
 function logError(Exception $e)
 {
-    //$handle = fopen('error.log', 'a+b');
 	$handle = fopen("/tmp/WagsError.log", 'w');
     // TODO: NOOOOOOOOOOO!!!!!!!!!!!!
     date_default_timezone_set('America/New_York');

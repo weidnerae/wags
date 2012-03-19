@@ -59,8 +59,6 @@ switch($lang)
 		#	-The process will stay open in the background and the php script will continue running.
 		$process = proc_open("exec /usr/bin/java -cp $dir $testFileName $solutionExecString $studentExecString 2>&1", $descriptorspec, $pipes);
 		
-		//echo "exec /usr/bin/java -cp $dir $testFileName $solutionExecString $studentExecString";
-		
 		break;
 		
 	default:

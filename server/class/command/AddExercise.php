@@ -210,8 +210,6 @@ class AddExercise extends Command
         }catch(Exception $e){
             logError($e);
             return JSON::error($e->getMessage());
-//      logError($f);
-//      JSON::error($f);
         }
 
         finfo_close($finfo);
