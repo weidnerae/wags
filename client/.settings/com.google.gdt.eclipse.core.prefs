@@ -1,4 +1,5 @@
-#Thu Jun 02 14:11:41 EDT 2011
+#Sun Mar 18 21:13:41 EDT 2012
 eclipse.preferences.version=1
+jarsExcludedFromWebInfLib=/Users/mikedusenberry/Documents/Academics/School_Years/Senior_Year_2011_2012/Kurtz_Lab/Workspace2/Wags_Client2/lib/gwt-dnd-3.1.2.jar|/Users/mikedusenberry/Documents/Academics/School_Years/Senior_Year_2011_2012/Kurtz_Lab/Workspace2/Wags_Client2/lib/gwt-graphics-1.0.0.jar
 warSrcDir=war
 warSrcDirIsOutput=true
