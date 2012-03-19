@@ -6,7 +6,7 @@
  * Compile code submitted by the user together with
  * the solution class, test class, and whatever 
  * helper classes were provided.
-*/
+ */
 
 define("EXEC_ERROR", 1);
 define("EXEC_SUCCESS", 0);
@@ -21,16 +21,8 @@ class Review extends Command
 		$section = $user->getSection();
 
 		//Define the regular expressions used
-		//for finding class and package name,
+		//for finding package name,
 		//and success of program
-		// ***NOTE*** Getting rid of classRegex soon
-		//		- No reason to use this to get class names,
-		//		  since Java file names must match class names.
-		//        Also, removing this allows for code that runs 
-		//		  universally on all languages.  Simply will be
-		// 		  fetching actual file name (what was uploaded)
-		//		  from database to use
-		$classRegex = "/public\sclass\s+([^\d]\w+)/";  // remove this
 		$packageRegex = "/package\s+([^\d]\w+)/";
 		$successRegex = "/Success<br \/>/";
 
@@ -88,7 +80,6 @@ class Review extends Command
 				break;
 				
 			case "pl":
-				// prolog
 				$lang = "Prolog";
 				
 				break;
@@ -98,26 +89,6 @@ class Review extends Command
 				return JSON::error("Error in matching solution file extension");
 				break;
 		}
-		
-		
-		// Start: get rid of this
-		if ($lang == "Java")
-		{
-			//Grab the correct skeleton class name
-			preg_match($classRegex, $exerciseSkeleton, $matches);
-			if(empty($matches)){
-				return JSON::error("Please check class name for the Administrative Skeleton");
-			}
-			$skeletonName = $matches[1];
-	
-			//If they uploaded the wrong file
-			preg_match($classRegex, $code, $matches);
-			if(empty($matches) || $matches[1] != $skeletonName){
-				$badName = $matches[1];
-				return JSON::error("Please check class name - it needs to match the skeleton class: $badName $skeletonName");
-			}
-		}
-		// End: get rid of this
 
 
 		// Update or create submission for user/exercise pairing
@@ -233,33 +204,24 @@ class Review extends Command
          	}
 
 			//Create solution file
-//			preg_match($classRegex, $solutionCodeFile, $matches);
-//			$className = $matches[1];
-//			$solutionPath = "$path/$className.$solutionFileExtension";
 			$solutionPath = "$path/$solutionFileName.$solutionFileExtension";
 			$solutionFile = fopen($solutionPath, "w+");
 			$solutionResult = fwrite($solutionFile, $solutionCodeFile->getContents());
 			fflush($solutionFile);
 			fclose($solutionFile);
 	
-			//Create tester file
-//			preg_match($classRegex, $testCodeFile, $matches);
-//			$testName = $matches[1];
-//			$testPath = "$path/$testName.$testFileExtension";
+			//Create test file
 			$testPath = "$path/$testFileName.$testFileExtension";
 			$testFile = fopen($testPath, "w+");
 			$testResult = fwrite($testFile, $testCodeFile->getContents());
 			fflush($testFile);
 			fclose($testFile);
 	
-			//create any helper files
+			//Create any helper files
 			$helpers = $exercise->getHelperClasses();
 			$helperResult = TRUE;
 			$helperPaths = "";
 			foreach($helpers as $helper){
-//				preg_match($classRegex, $helper->getContents(), $matches);
-//				$helperName = $matches[1];
-//				$helperPath = "$path/$helperName.".helper->getOriginalFileExtension();
 				$helperPath = "$path/".$helper->getOriginalFileName().".".$helper->getOriginalFileExtension();
 				$helperPaths = $helperPaths." ".$helperPath;
 				$helperFile = fopen($helperPath, "w+");
@@ -288,13 +250,6 @@ class Review extends Command
 		// Create and grab student file
 		//	-each time this is run, the student class will be different,
 		//	 so it's not lumped in with the other classes
-//		preg_match($classRegex, $code, $matches);
-//		if(empty($matches) || $matches[1] != $skeletonName){
-//			$badName = $matches[1];
-//        	return JSON::error("Please check class name - it needs to match the skeleton class: $badName $skeletonName");
-//		}
-//		$className = $matches[1];
-//		$studentPath = "$path/$className.$studentFileExtension";
 		$studentPath = "$path/$studentFileName.$studentFileExtension";
 		$studentFile = fopen($studentPath, "w+");
 		$classResult = fwrite($studentFile, $code);
@@ -303,9 +258,6 @@ class Review extends Command
 
         // Grab solutionPath as student
 		//	- This file should already be present, so no need to write it
-//		preg_match($classRegex, $solutionCodeFile, $matches);
-//		$className = $matches[1];
-//		$solutionPath = "$path/$className.$solutionFileExtension";
 		$solutionPath = "$path/$solutionFileName.$solutionFileExtension";
 
         // Grab helper classes as student
@@ -313,17 +265,11 @@ class Review extends Command
 		$helpers = $exercise->getHelperClasses();
         $helperPaths = "";
 		foreach($helpers as $helper){
-//	    	preg_match($classRegex, $helper->getContents(), $matches);
-//			$helperName = $matches[1];
-//			$helperPath = "$path/$helperName.".helper->getFileExtension();
 			$helperPath = "$path/".$helper->getOriginalFileName().".".$helper->getOriginalFileExtension();
             $helperPaths = $helperPaths." ".$helperPath;
         }
 
 		// Grab the test class as student
-//		preg_match($classRegex, $testCodeFile, $matches);
-//		$testName = $matches[1];
-//		$testPath = "$path/$testName.$testFileExtension";
 		$testPath = "$path/$testFileName.$testFileExtension";
 
 		// Make sure student class was written
@@ -347,29 +293,13 @@ class Review extends Command
 				
 			case "Prolog":
 				// Test class is Java still
-				exec("/usr/bin/javac $testPath 2>&1", $output, $result);
-				
+				//
 				// The prolog files will just be scripted now instead of compiled and run as executables
 				// 	-Only need to pass the solution and student file names to RunCodeNew, where the proper
 				//	 strings to run the files will be created.
 				//	-There were too many issues with permissions -- Will be a problem when wanting to 
 				//	 implement C functionality
-				
-//				// Solution and student classes are Prolog - Use swipl to compile
-//				//	-The student file is compiled last, as it should be the only file with 
-//				//	 possible compilation errors
-//				// 	- Executables will be same name as original file name, without the file extension
-////				$currentPath = getcwd();
-////				$solutionFileName = "$currentPath/executables/$solutionFileName";
-////				$studentFileName = "$currentPath/executables/$studentFileName";
-//				
-//				$solutionFileName = "/usr/local/apache2/htdocs/cs/wags/Test_Version/executables/reverseListSkeleton";
-//				$studentFileName = "/usr/local/apache2/htdocs/cs/wags/Test_Version/executables/reverseListSolution";
-//				
-////				exec("/usr/local/bin/swipl -q -O -t main -o $solutionFileName -c $solutionPath", $output, $result);
-////				exec("/usr/local/bin/swipl -q -O -t main -o $studentFileName -c $studentPath", $output, $result);
-//				
-//				$result = EXEC_SUCCESS;
+				exec("/usr/bin/javac $testPath 2>&1", $output, $result);
 				
 				break;
 				
@@ -405,7 +335,7 @@ class Review extends Command
 				JSON::warn($output);
 			}
 
-		} else { //if($result == EXEC_ERROR){
+		} else {
 			$error = "Compilation Error: \n";
 			foreach($output as $line){
 				$error .= $line."\n";
@@ -422,7 +352,12 @@ class Review extends Command
         }
 	}
 
-	// Pass in directory containing all files, name of test, solution, and student files, and language of solution file
+	
+	/**
+	 *
+	 * Pass in directory containing all files, name of test, solution, and student files, and language of solution file
+	 *
+	 */
 	private function runCode($dir, $testFileName, $solutionFileName, $studentFileName, $lang){
 		exec("/usr/bin/php class/command/RunCodeNew.php $dir $testFileName $solutionFileName $studentFileName $lang 2>&1", $output);
 		return $output;
