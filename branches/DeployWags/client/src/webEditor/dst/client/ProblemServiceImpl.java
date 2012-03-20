@@ -742,7 +742,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
-			case 50: return new TreeProblem("HeapSort Test with Duplicates",
+			case 50: return new SortProblem("HeapSort Test with Duplicates",
 					"HeapSort 1: Use the HeapSort algorithm to sort the following array. (Placeholder description) *No Duplicates",
 					"9 6 4 5 5 3 2 1",
 					DSTConstants.INSERT_METHOD_VALUE,
@@ -755,7 +755,7 @@ public class ProblemServiceImpl
 					false,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 51: return new TreeProblem("HeapSort Test without Duplicates",
+			case 51: return new SortProblem("HeapSort Test without Duplicates",
 					"HeapSort 1: Use the HeapSort algorithm to sort the following array. (Placeholder description) * Duplicates",
 					"9 6 4 5 7 3 2 1",
 					DSTConstants.INSERT_METHOD_VALUE,
@@ -868,22 +868,4 @@ public class ProblemServiceImpl
 		}
 		return y;
 	}
-	public static int[] getHeapSortXLocations(String nodes){
-		int startX = 15;
-		String[] splitNodes = nodes.split(" ");
-		int[] x = new int[splitNodes.length];
-		for(int i=0;i<splitNodes.length;i++){
-			x[i]=(75*i)+startX;
-		}
-		return x;
-	}
-	public static int[] getHeapSortYLocations(String nodes){
-		String[] splitNodes = nodes.split(" ");
-		int[] y = new int[splitNodes.length];
-		for(int i=0;i<splitNodes.length;i++){
-			y[i]=25;
-		}
-		return y;
-	}
-
 }
