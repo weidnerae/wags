@@ -5,7 +5,6 @@ import java.util.NoSuchElementException;
 
 
 import com.allen_sauer.gwt.dnd.client.DragController;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Label;
 
