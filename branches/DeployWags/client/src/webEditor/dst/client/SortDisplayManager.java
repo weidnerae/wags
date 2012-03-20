@@ -22,9 +22,8 @@ public class SortDisplayManager extends DisplayManager implements
 	private AbsolutePanel panel;
 	private DrawingArea canvas;
 	private NodeCollection nodeCollection;
-	private EdgeCollection edgeCollection;
 	private ArrayList<Widget> itemsInPanel;
-	private TreeProblem problem;
+	private SortProblem problem;
 
 	// permanent widgets
 	private Button resetButton;
@@ -36,12 +35,11 @@ public class SortDisplayManager extends DisplayManager implements
 	private Button submitOkButton;
 
 	public SortDisplayManager(DrawingArea canvas, AbsolutePanel panel,
-			NodeCollection nc, EdgeCollection ec, TreeProblem problem) {
+			NodeCollection nc, SortProblem problem) {
 		System.out.println(problem.getName());
 		this.panel = panel;
 		this.canvas = canvas;
 		this.nodeCollection = nc;
-		this.edgeCollection = ec;
 		this.problem = problem;
 		this.itemsInPanel = new ArrayList<Widget>();
 	}
@@ -69,9 +67,6 @@ public class SortDisplayManager extends DisplayManager implements
 					problem.getXPositions(), problem.getYPositions(),
 					problem.getNodesDraggable(), problem.getNodeType());
 		}
-
-		if (problem.getEdges().length > 0)
-			edgeCollection.insertEdges(problem.getEdges(), getNodes());
 	}
 
 	private boolean showingSubMess;
@@ -127,11 +122,6 @@ public class SortDisplayManager extends DisplayManager implements
 					panel.remove(getNodes().get(i).getLabel());
 				}
 
-				for (int i = 0; i < getEdges().size(); i++) {
-					canvas.remove(getEdges().get(i).getLine());
-				}
-
-				edgeCollection.emptyEdges();
 				nodeCollection.emptyNodes();
 				insertNodesAndEdges();
 			}
@@ -145,11 +135,10 @@ public class SortDisplayManager extends DisplayManager implements
 		evaluateButton.setWidth("124px");
 		evaluateButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				setEdgeParentAndChildren();
 				String evalResult = problem.getEval().evaluate(
 						problem.getName(), problem.getArguments(), getNodes(),
 						getEdges());
-
+				
 				if (showingSubMess == true) {
 					RootPanel.get().remove(submitText);
 					RootPanel.get().remove(submitOkButton);
@@ -168,7 +157,6 @@ public class SortDisplayManager extends DisplayManager implements
 						+ submitText.getOffsetHeight() + 2;
 				addToPanel(submitOkButton, DSTConstants.SUBMIT_X, yOffset);
 				showingSubMess = true;
-
 			}
 		});
 		showingSubMess = false;
@@ -268,7 +256,7 @@ public class SortDisplayManager extends DisplayManager implements
 	}
 
 	public ArrayList<EdgeParent> getEdges() {
-		return edgeCollection.getEdges();
+		return null;
 	}
 
 	public void addToPanel(Widget w, int left, int top) {
@@ -300,14 +288,6 @@ public class SortDisplayManager extends DisplayManager implements
 
 	public void resetNodeStyles() {
 		nodeCollection.resetNodeStyles(problem.getNodeType());
-	}
-
-	public void resetEdgeStyles() {
-		edgeCollection.resetEdgeColor();
-	}
-
-	public void setEdgeParentAndChildren() {
-		edgeCollection.setParentAndChildNodes();
 	}
 
 	public void forceEvaluation() {
