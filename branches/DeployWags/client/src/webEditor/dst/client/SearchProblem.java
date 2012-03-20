@@ -8,10 +8,10 @@ public class SearchProblem extends Problem implements IsSerializable {
 	private String name;
 	private String problemText;
 	private String nodes;
-	private int[][] xPositions; //must be same size as nodes
-	private int[][] yPositions; //must be same size edges
+	private int[][] xPositions; // must be same size as nodes
+	private int[][] yPositions; // must be same size edges
 	private String insertMethod;
-	private Evaluation eval; 
+	private Evaluation eval;
 	private AddEdgeRules rules;
 	private String[] arguments;
 	private boolean nodesDraggable;
@@ -19,39 +19,43 @@ public class SearchProblem extends Problem implements IsSerializable {
 	private SearchDisplayManager dm;
 	private AbsolutePanel gridPanel;
 
-	public SearchProblem(String name, String problemText, String nodes, String insertMethod, int[][] xPositions, int[][] yPositions, 
-			String[] arguments, Evaluation eval, boolean nodesDraggable, String nodeType)
-	{
+	public SearchProblem(String name, String problemText, String nodes,
+			String insertMethod, int[][] xPositions, int[][] yPositions,
+			String[] arguments, Evaluation eval, boolean nodesDraggable,
+			String nodeType) {
 		this.name = name;
 		this.problemText = problemText;
 		this.nodes = nodes;
 		this.insertMethod = insertMethod;
 		this.xPositions = xPositions;
-		this.yPositions = yPositions;;
+		this.yPositions = yPositions;
 		this.arguments = arguments;
 		this.eval = eval;
 		this.nodesDraggable = nodesDraggable;
 		this.nodeType = nodeType;
 	}
-	
-	public DisplayManager createDisplayManager(AbsolutePanel panel, DrawingArea canvas) {
-	    gridPanel = new AbsolutePanel();
-	    gridPanel.setPixelSize(590, 543);
-	    panel.add(gridPanel, 10, 7);
-	    
-	    NodeDragController.setFields(gridPanel, true, null);
-	    GridNodeDropController.setFields(gridPanel, 60, 30);
-		NodeDragController.getInstance().registerDropController(GridNodeDropController.getInstance());		
+
+	public DisplayManager createDisplayManager(AbsolutePanel panel,
+			DrawingArea canvas) {
+		gridPanel = new AbsolutePanel();
+		gridPanel.setPixelSize(590, 543);
+		panel.add(gridPanel, 10, 7);
+
+		NodeDragController.setFields(gridPanel, true, null);
+		GridNodeDropController.setFields(gridPanel, 60, 30);
+		NodeDragController.getInstance().registerDropController(
+				GridNodeDropController.getInstance());
 		NodeCollection nc = new NodeCollection();
-		
-		dm = new SearchDisplayManager(canvas, panel, nc, this);		
+
+		dm = new SearchDisplayManager(canvas, panel, nc, this);
 		return dm;
 	}
-	
+
 	public String evaluate() {
-		return getEval().evaluate(getName(), getArguments(), dm.getNodes(), null);
+		return getEval().evaluate(getName(), getArguments(), dm.getNodes(),
+				null);
 	}
-	
+
 	/**
 	 * @return the name
 	 */
@@ -60,7 +64,8 @@ public class SearchProblem extends Problem implements IsSerializable {
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -98,43 +103,35 @@ public class SearchProblem extends Problem implements IsSerializable {
 		this.rules = rules;
 	}
 
-	public String[] getArguments()
-	{
+	public String[] getArguments() {
 		return arguments;
 	}
 
-	public void setArguments(String[] arguments)
-	{
+	public void setArguments(String[] arguments) {
 		this.arguments = arguments;
 	}
-	
-	public int[][] getXPositions()
-	{
+
+	public int[][] getXPositions() {
 		return xPositions;
 	}
-	
-	public int[][] getYPositions()
-	{
+
+	public int[][] getYPositions() {
 		return yPositions;
 	}
-	
-	public String getInsertMethod()
-	{
+
+	public String getInsertMethod() {
 		return insertMethod;
 	}
-		
-	public boolean getNodesDraggable()
-	{
+
+	public boolean getNodesDraggable() {
 		return nodesDraggable;
 	}
-	
-	public String getNodeType()
-	{
+
+	public String getNodeType() {
 		return nodeType;
 	}
-	
-	public AbsolutePanel getGridPanel()
-	{
+
+	public AbsolutePanel getGridPanel() {
 		return gridPanel;
 	}
 }
