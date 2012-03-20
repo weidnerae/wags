@@ -19,7 +19,7 @@ public class TreeProblem extends Problem implements IsSerializable {
 	private boolean edgesRemovable;
 	private boolean nodesDraggable;
 	private String nodeType;
-	private TreeDisplayManager dm;
+	private DisplayManager dm;
 
 	public TreeProblem(String name, String problemText, String nodes, String insertMethod, int[] xPositions, int[] yPositions, 
 			String[] edges, String[] arguments, Evaluation eval, AddEdgeRules rules, boolean edgesRemovable,

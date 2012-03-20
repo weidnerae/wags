@@ -35,9 +35,9 @@ public class EdgeCollection implements IsSerializable
 		numNodesSelected = 0;
 	}
 	
-	public void setDisplayManager(TreeDisplayManager dm)
+	public void setDisplayManager(DisplayManager dm)
 	{
-		this.dm = dm;
+		this.dm = (TreeDisplayManager) dm;
 	}
 	
 	public void addNextEdge()
@@ -146,7 +146,7 @@ public class EdgeCollection implements IsSerializable
 	{
 		ArrayList<String> children = new ArrayList<String>();
 		ArrayList<String> parents = new ArrayList<String>();
-		int count=0;
+
 		for(int i = 0; i < edgePairs.length; i++)
 		{
 			String[] splitPairs= edgePairs[i].split(" ");

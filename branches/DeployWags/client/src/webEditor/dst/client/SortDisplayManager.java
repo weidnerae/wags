@@ -7,10 +7,8 @@ import org.vaadin.gwtgraphics.client.Line;
 
 import webEditor.client.Proxy;
 
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
@@ -19,7 +17,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
-public class TreeDisplayManager extends DisplayManager implements
+public class SortDisplayManager extends DisplayManager implements
 		IsSerializable {
 	private AbsolutePanel panel;
 	private DrawingArea canvas;
@@ -27,16 +25,9 @@ public class TreeDisplayManager extends DisplayManager implements
 	private EdgeCollection edgeCollection;
 	private ArrayList<Widget> itemsInPanel;
 	private TreeProblem problem;
-	private boolean addingEdge;
-	private boolean removingEdge;
-	private TraversalContainer cont;
 
 	// permanent widgets
 	private Button resetButton;
-	private Button addEdgeButton;
-	private Button removeEdgeButton;
-	private Label edgeAdditionIns;
-	private AbsolutePanel edgeAdditionInsPanel;
 	private Button evaluateButton;
 	private TextArea submitText;
 	private AbsolutePanel leftButtonPanel;
@@ -44,7 +35,7 @@ public class TreeDisplayManager extends DisplayManager implements
 	private AbsolutePanel rightButtonPanel;
 	private Button submitOkButton;
 
-	public TreeDisplayManager(DrawingArea canvas, AbsolutePanel panel,
+	public SortDisplayManager(DrawingArea canvas, AbsolutePanel panel,
 			NodeCollection nc, EdgeCollection ec, TreeProblem problem) {
 		System.out.println(problem.getName());
 		this.panel = panel;
@@ -52,14 +43,12 @@ public class TreeDisplayManager extends DisplayManager implements
 		this.nodeCollection = nc;
 		this.edgeCollection = ec;
 		this.problem = problem;
-		this.addingEdge = false;
-		this.removingEdge = false;
 		this.itemsInPanel = new ArrayList<Widget>();
 	}
 
 	public void displayProblem() {
-		cont = new TraversalContainer(this);
 		addProblemTextArea();
+		addCounterPanel();
 		addLeftButtonPanel();
 		addMiddlePanel();
 		addRightButtonPanel();
@@ -67,16 +56,12 @@ public class TreeDisplayManager extends DisplayManager implements
 		addResetButton();
 		addEvaluateButton();
 
-		if (problem.getEdgesRemovable()) {
-			addAddEdgeButton();
-			addRemoveEdgeButton();
-		}
+		drawBoxes();
 
 		insertNodesAndEdges();
 	}
 
 	private void insertNodesAndEdges() {
-		cont = new TraversalContainer(this); // for reset of traversal problems
 		if (problem.getInsertMethod().equals(DSTConstants.INSERT_METHOD_VALUE)) {
 			insertNodesByValue(problem.getNodes(), problem.getNodeType());
 		} else {
@@ -89,121 +74,12 @@ public class TreeDisplayManager extends DisplayManager implements
 			edgeCollection.insertEdges(problem.getEdges(), getNodes());
 	}
 
-	// Add Edge Button
-	private HandlerRegistration edgeEventHandler;
-	private HandlerRegistration edgeCancelEventHandler;
-	private HandlerRegistration removeEdgeEventHandler;
-	private HandlerRegistration removeEdgeCancelEventHandler;
-	private ClickHandler removeEdgeClickHandler;
-	private ClickHandler removeEdgeCancelClickHandler;
-	private ClickHandler edgeClickHandler;
-	private ClickHandler edgeCancelClickHandler;
 	private boolean showingSubMess;
-
-	private class AddEdgeClickHandler implements ClickHandler {
-		public void onClick(ClickEvent event) {
-			removeWidgetsFromPanel();
-			resetRemoveEdgeButton();
-			resetNodeStyles();
-			resetEdgeStyles();
-			makeNodesNotDraggable();
-			addEdgeStart();
-			edgeCollection.addNextEdge();
-		}
-	}
-
-	private class AddEdgeCancelClickHandler implements ClickHandler {
-		public void onClick(ClickEvent event) {
-			addEdgeCancel();
-			removeEdgeCancelEventHandler.removeHandler();
-			removeEdgeButton.addClickHandler(removeEdgeClickHandler);
-		}
-	}
-
-	private class RemoveEdgeClickHandler implements ClickHandler {
-		public void onClick(ClickEvent event) {
-			if (getEdges().size() > 0) {
-				addEdgeCancel();
-				removeWidgetsFromPanel();
-
-				removingEdge = true;
-				removeEdgeButton.setText("Cancel");
-				removeEdgeEventHandler.removeHandler();
-				removeEdgeCancelEventHandler = removeEdgeButton
-						.addClickHandler(removeEdgeCancelClickHandler);
-
-				Label l = new Label("Click Edge to Remove");
-				l.setStyleName("edge_remove");
-				addToPanel(l, 445, DSTConstants.EDGE_PROMPT_Y);
-			}
-		}
-	}
-
-	private class RemoveEdgeCancelClickHandler implements ClickHandler {
-		public void onClick(ClickEvent event) {
-			resetRemoveEdgeButton();
-			removeWidgetsFromPanel();
-			addEdgeCancel();
-		}
-	}
-
-	private void resetEdgeButton() {
-		addEdgeButton.setText("Add Edge");
-		edgeCancelEventHandler.removeHandler();
-		edgeEventHandler = addEdgeButton.addClickHandler(edgeClickHandler);
-	}
-
-	public void resetRemoveEdgeButton() {
-		if (removingEdge) {
-			removeEdgeButton.setText("Remove Edge");
-			removeEdgeCancelEventHandler.removeHandler();
-			removeEdgeEventHandler = removeEdgeButton
-					.addClickHandler(removeEdgeClickHandler);
-			removingEdge = false;
-		}
-	}
-
-	public void addEdgeStart() {
-		addEdgeButton.setText("Cancel");
-		edgeEventHandler.removeHandler();
-		edgeCancelEventHandler = addEdgeButton
-				.addClickHandler(edgeCancelClickHandler);
-		addingEdge = true;
-		RootPanel.get().add(edgeAdditionInsPanel, 346, 131);
-	}
-
-	public void addEdgeCancel() {
-		if (addingEdge) {
-			makeNodesDraggable();
-			edgeCollection.clearEdgeNodeSelections();
-			resetEdgeButton();
-			resetEdgeStyles();
-			resetNodeStyles();
-			setEdgeNodeSelectionInstructions("");
-			addingEdge = false;
-		}
-	}
-
-	public void removeEdgeCancel() {
-		if (removingEdge) {
-			resetRemoveEdgeButton();
-			removingEdge = false;
-		}
-	}
-
-	public void setEdgeNodeSelectionInstructions(String ins) {
-		if (ins.equals("")) {
-			RootPanel.get().remove(edgeAdditionInsPanel);
-		}
-		edgeAdditionIns.setText(ins);
-	}
-
-	// End Add Edge Button
 
 	private void addProblemTextArea() {
 		TextArea t = new TextArea();
 		t.setStyleName("problem_statement");
-		t.setPixelSize(598, 90);
+		t.setPixelSize(400, 90);
 		t.setReadOnly(true);
 		t.setText(problem.getProblemText());
 		RootPanel.get().add(t, 2, 5);
@@ -246,8 +122,6 @@ public class TreeDisplayManager extends DisplayManager implements
 		resetButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				removeWidgetsFromPanel();
-				addEdgeCancel();
-				resetRemoveEdgeButton();
 
 				for (int i = 0; i < getNodes().size(); i++) {
 					panel.remove(getNodes().get(i).getLabel());
@@ -316,33 +190,6 @@ public class TreeDisplayManager extends DisplayManager implements
 		});
 	}
 
-	private void addAddEdgeButton() {
-		addEdgeButton = new Button("Add Edge");
-		addEdgeButton.setWidth("124px");
-		edgeClickHandler = new AddEdgeClickHandler();
-		edgeCancelClickHandler = new AddEdgeCancelClickHandler();
-		edgeEventHandler = addEdgeButton.addClickHandler(edgeClickHandler);
-		edgeAdditionIns = new Label("");
-		edgeAdditionIns.setStyleName("edge_instructions");
-		edgeAdditionInsPanel = new AbsolutePanel();
-		edgeAdditionInsPanel.setPixelSize(256, 20);
-		edgeAdditionInsPanel.setStyleName("edge_addition_panel");
-		edgeAdditionInsPanel.add(edgeAdditionIns);
-		addEdgeButton.setStyleName("control_button");
-		rightButtonPanel.add(addEdgeButton, 3, 2);
-	}
-
-	private void addRemoveEdgeButton() {
-		removeEdgeButton = new Button("Remove Edge");
-		removeEdgeButton.setWidth("124px");
-		removeEdgeButton.setStyleName("control_button");
-		removeEdgeClickHandler = new RemoveEdgeClickHandler();
-		removeEdgeCancelClickHandler = new RemoveEdgeCancelClickHandler();
-		removeEdgeEventHandler = removeEdgeButton
-				.addClickHandler(removeEdgeClickHandler);
-		rightButtonPanel.add(removeEdgeButton, 133, 2);
-	}
-
 	public void insertNodesByNumber(int numNodes) {
 		for (int i = 0; i < numNodes; i++) {
 			Label label = new Label(((char) ('A' + i)) + "");
@@ -354,30 +201,8 @@ public class TreeDisplayManager extends DisplayManager implements
 	}
 
 	public void insertNodesByValue(String nodes, String nodeType) {
-		String[] splitNodes = nodes.split(" ");
-
-		if (nodeType.equals(DSTConstants.NODE_STRING_DRAGGABLE)) {
-
-			for (int i = 0; i < splitNodes.length; i++) {
-				Label label = new Label(splitNodes[i]);
-				label.setStyleName("string_node");
-				label.getElement().getStyle()
-						.setTop(10 + (45 * i), Style.Unit.PX);
-				panel.add(label);
-				NodeDragController.getInstance().makeDraggable(label);
-				nodeCollection.addNode(new Node(splitNodes[i], label));
-			}
-		} else {
-			for (int i = 0; i < splitNodes.length; i++) {
-				Label label = new Label(splitNodes[i]);
-				label.setStyleName("node");
-				label.getElement().getStyle()
-						.setTop(10 + (45 * i), Style.Unit.PX);
-				panel.add(label);
-				NodeDragController.getInstance().makeDraggable(label);
-				nodeCollection.addNode(new Node(splitNodes[i], label));
-			}
-		}
+		insertNodesByValueAndLocation(nodes, getSortXLocations(nodes),
+				getSortYLocations(nodes), true, nodeType);
 	}
 
 	public void insertNodesByValueAndLocation(String nodes, int[] xPositions,
@@ -386,33 +211,56 @@ public class TreeDisplayManager extends DisplayManager implements
 		if (splitNodes.length != xPositions.length
 				|| splitNodes.length != yPositions.length)
 			throw new NullPointerException(); // need to find right exception
-		else if (nodeType.equals(DSTConstants.NODE_STRING_DRAGGABLE)) {
-
-			for (int i = 0; i < splitNodes.length; i++) {
-				Label label = new Label(splitNodes[i]);
-				label.setStyleName("string_node");
-				panel.add(label, xPositions[i], yPositions[i]);
-				NodeDragController.getInstance().makeDraggable(label);
-				nodeCollection.addNode(new Node(splitNodes[i], label));
-			}
-		} else {
+		else {
+			nodes = ((Evaluation_HeapSort) problem.getEval())
+					.getCurrentNodeString(problem.getArguments()[0]);
+			splitNodes = nodes.split(" ");
+			xPositions = getSortXLocations(nodes);
+			yPositions = getSortYLocations(nodes);
 			for (int i = 0; i < splitNodes.length; i++) {
 				Label label = new Label(splitNodes[i]);
 				label.setStyleName("node");
 				panel.add(label, xPositions[i], yPositions[i]);
-				if (draggable)
+				if (i <= splitNodes.length
+						- ((Evaluation_HeapSort) problem.getEval())
+								.getCurrentStep()) {
 					NodeDragController.getInstance().makeDraggable(label);
+				} else {
+					label.setStyleName("immobilized_node");
+				}
 				if (nodeType.equals(DSTConstants.NODE_DRAGGABLE))
 					nodeCollection.addNode(new Node(splitNodes[i], label));
-				else if (nodeType
-						.equals(DSTConstants.NODE_CLICKABLE_FORCE_EVAL))
-					nodeCollection.addNode(new NodeClickable(splitNodes[i],
-							label, cont, true));
-				else
-					nodeCollection.addNode(new NodeClickable(splitNodes[i],
-							label, cont, false));
 			}
 		}
+	}
+
+	public void drawBoxes() {
+		final int YTOP = 20;
+		final int YBOTTOM = 70;
+		int xStart = 10;
+		for (int i = 0; i < problem.getNodes().split(" ").length; i++) {
+			Line top = new Line(xStart, YTOP, (xStart + 50), YTOP);
+			Line right = new Line((xStart + 50), YTOP, (xStart + 50), YBOTTOM);
+			Line bottom = new Line(xStart, YBOTTOM, (xStart + 50), YBOTTOM);
+			Line left = new Line(xStart, YTOP, xStart, YBOTTOM);
+			Label label = new Label(i + "");
+			RootPanel.get().add(label, xStart + 25, 134);
+			drawEdge(top);
+			drawEdge(right);
+			drawEdge(bottom);
+			drawEdge(left);
+			xStart += 75;
+		}
+	}
+
+	private void addCounterPanel() {
+		TextArea cp = new TextArea();
+		cp.setStyleName("problem_statement");
+		cp.setPixelSize(195, 90);
+		cp.setReadOnly(true);
+		cp.setText("Current Pass: 1");
+		RootPanel.get().add(cp, 407, 5);
+
 	}
 
 	public ArrayList<Node> getNodes() {
@@ -464,5 +312,24 @@ public class TreeDisplayManager extends DisplayManager implements
 
 	public void forceEvaluation() {
 		evaluateButton.click();
+	}
+
+	private int[] getSortXLocations(String nodes) {
+		int startX = 15;
+		String[] splitNodes = nodes.split(" ");
+		int[] x = new int[splitNodes.length];
+		for (int i = 0; i < splitNodes.length; i++) {
+			x[i] = (75 * i) + startX;
+		}
+		return x;
+	}
+
+	private int[] getSortYLocations(String nodes) {
+		String[] splitNodes = nodes.split(" ");
+		int[] y = new int[splitNodes.length];
+		for (int i = 0; i < splitNodes.length; i++) {
+			y[i] = 25;
+		}
+		return y;
 	}
 }

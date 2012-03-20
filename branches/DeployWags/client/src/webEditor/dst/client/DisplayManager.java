@@ -170,4 +170,8 @@ public abstract class DisplayManager implements IsSerializable
 			}	
 		});
 	}
+	
+	public abstract ArrayList<Node> getNodes();
+
+	public abstract ArrayList<EdgeParent> getEdges();
 }
