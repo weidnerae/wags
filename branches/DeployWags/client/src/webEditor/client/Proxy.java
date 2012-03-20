@@ -13,6 +13,7 @@ import webEditor.client.view.OutputReview;
 import webEditor.client.view.Wags;
 import webEditor.dst.client.DataStructureTool;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -33,14 +34,12 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 public class Proxy
 {	
-	//local testing on Philip's machine 
-	//private static final String baseURL = "http://localhost/public_html/wagsServer/server.php";
-	
-	// for deploying on CS
-	//private static final String baseURL = "http://cs.appstate.edu/wags/server.php";
-	
-	// for deploying on Test_Version CS
-	private static final String baseURL = "http://cs.appstate.edu/wags/Test_Version/server.php";
+	// Get the URL for the host page
+	//	- Will only return the URL of the host page, ending with a slash, without any of the 
+	//	 php arguments
+	// 	- Removes need for hardcoded URLs anymore.  Can upload client anywhere without having 
+	//	 to change URL
+	private static final String baseURL = GWT.getHostPageBaseURL().concat("server.php");
 	
 	private static final String getFileContents = getBaseURL()+"?cmd=GetFileContents";
 	private static final String saveFileContents = getBaseURL()+"?cmd=SaveFileContents";
