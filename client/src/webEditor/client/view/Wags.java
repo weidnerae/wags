@@ -15,6 +15,7 @@ import com.google.gwt.event.logical.shared.BeforeSelectionEvent;
 import com.google.gwt.event.logical.shared.BeforeSelectionHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -33,7 +34,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.http.client.URL;
 
 
 public class Wags extends View
@@ -221,14 +221,6 @@ public class Wags extends View
 	{
 		saveCurrentCode();
 		
-		// We are now keeping the comments in the top and bottom
-		// portions, so no need to add them back in anymore.
-		// 	-This is all part of redesigning code from working only
-		//	 with Java files -- See getFileContents in Proxy.java
-//		String codeText = editor.codeTop;
-//		codeText += "//<end!TopSection>\n" + editor.codeArea.getText();
-//		codeText += "//<end!MidSection>\n" + editor.codeBottom;
-		
 		String codeText = editor.codeTop + editor.codeArea.getText() + editor.codeBottom;
 		
 		codeText = URL.encodePathSegment(codeText);
@@ -311,16 +303,6 @@ public class Wags extends View
 			// Code is different, so save
 			// Update the current editor code text
 			currentEditorCode = editorText;
-			
-			// We are now keeping the comments in the top and bottom
-			// portions, so no need to add them back in anymore.
-			// 	-This is all part of redesigning code from working only
-			//	 with Java files -- See getFileContents in Proxy.java
-//			String text = editor.codeTop;
-//			if(text != "") text += "//<end!TopSection>";
-//			text += editorText;
-//			if(editor.codeBottom != "") text += "//<end!MidSection>";
-//			text += editor.codeBottom;
 			
 			String text = editor.codeTop + editorText + editor.codeBottom;
 			
