@@ -178,11 +178,12 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 
 	//PROBLEM!
 	public void immobilizeNode(ArrayList<Node> nodes, String solution) {
+		ArrayList<String> duplicateNodes = new ArrayList<String>();
 		String[] splitSolution = solution.split(" ");
 		String desiredNode = splitSolution[splitSolution.length - CURRENT_STEP];
 		int index = 0;
 		for (int i = nodes.size() - 1; i >= 0; i--) {
-			if (nodes.get(i).getValue().equals(desiredNode)) { //HERE?
+			if (nodes.get(i).getValue().equals(desiredNode) && !duplicateNodes.contains(desiredNode)) { //HERE?
 				if (index == 0) {
 					index = i;
 				} else if (nodes.get(i).getLeft() > nodes.get(index).getLeft()
@@ -192,6 +193,7 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 				}
 			}
 		}
+		duplicateNodes.add(nodes.get(index).getValue());
 		NodeDragController.getInstance().makeNotDraggable(
 				nodes.get(index).getLabel());
 		nodes.get(index).getLabel().setStyleName("immobilized_node");
@@ -207,6 +209,9 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 
 	public String getCurrentNodeString(String arg0) {
 		intArray = getIntArrayFromString(arg0);
+		if(CURRENT_STEP==1){
+			return arg0;
+		}
 		CURRENT_STEP--;
 		heapSort.sort(intArray);
 		String currentString = getStringFromIntArray(intArray);
@@ -218,5 +223,6 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 	public int getCurrentStep() {
 		return CURRENT_STEP;
 	}
+	
 
 }
