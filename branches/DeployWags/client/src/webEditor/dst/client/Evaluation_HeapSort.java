@@ -180,14 +180,20 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 	public void immobilizeNode(ArrayList<Node> nodes, String solution) {
 		String[] splitSolution = solution.split(" ");
 		String desiredNode = splitSolution[splitSolution.length - CURRENT_STEP];
-		int index = 0;
+		int index = -1;
 		for (int i = nodes.size() - 1; i >= 0; i--) {
+
 			if (nodes.get(i).getValue().equals(desiredNode)) { //HERE?
-				if (index == 0) {
-					index = i;
-				} else if (nodes.get(i).getLeft() > nodes.get(index).getLeft()
-						&& !(nodes.get(i).getLabel().getStylePrimaryName().equals("immobilized_node"))) {
-					index = i;
+				if (index == -1) {
+					if(!(nodes.get(i).getLabel().getStylePrimaryName().equals("immobilized_node")))
+						index = i;
+				} 
+				else{
+					if(!(nodes.get(i).getLabel().getStylePrimaryName().equals("immobilized_node"))) {
+							if (nodes.get(i).getLeft() >= nodes.get(index).getLeft()){
+								index = i;
+							}
+					}
 				}
 			}
 		}
