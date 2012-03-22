@@ -126,7 +126,7 @@ public class TreeDisplayManager extends DisplayManager implements
 			}
 		}
 	}
-	
+
 	private class AddEdgeClickHandler implements ClickHandler {
 		public void onClick(ClickEvent event) {
 			removeWidgetsFromPanel();
@@ -388,6 +388,7 @@ public class TreeDisplayManager extends DisplayManager implements
 
 			for (int i = 0; i < splitNodes.length; i++) {
 				Label label = new Label(splitNodes[i]);
+				label.addDoubleClickHandler(new AddEdgeNodeClickHandler());
 				label.setStyleName("string_node");
 				label.getElement().getStyle()
 						.setTop(10 + (45 * i), Style.Unit.PX);

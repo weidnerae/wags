@@ -231,7 +231,7 @@ public class SortDisplayManager extends DisplayManager implements
 			Line right = new Line((xStart + 50), YTOP, (xStart + 50), YBOTTOM);
 			Line bottom = new Line(xStart, YBOTTOM, (xStart + 50), YBOTTOM);
 			Line left = new Line(xStart, YTOP, xStart, YBOTTOM);
-			Label label = new Label(i + "");
+			Label label = new Label((i+1) + "");
 			RootPanel.get().add(label, xStart + 25, 134);
 			drawEdge(top);
 			drawEdge(right);
