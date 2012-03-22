@@ -178,22 +178,19 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 
 	//PROBLEM!
 	public void immobilizeNode(ArrayList<Node> nodes, String solution) {
-		ArrayList<String> duplicateNodes = new ArrayList<String>();
 		String[] splitSolution = solution.split(" ");
 		String desiredNode = splitSolution[splitSolution.length - CURRENT_STEP];
 		int index = 0;
 		for (int i = nodes.size() - 1; i >= 0; i--) {
-			if (nodes.get(i).getValue().equals(desiredNode) && !duplicateNodes.contains(desiredNode)) { //HERE?
+			if (nodes.get(i).getValue().equals(desiredNode)) { //HERE?
 				if (index == 0) {
 					index = i;
 				} else if (nodes.get(i).getLeft() > nodes.get(index).getLeft()
-						&& !(nodes.get(i).getLabel().getStyleName()
-								.equals("immobilized_node"))) {
+						&& !(nodes.get(i).getLabel().getStylePrimaryName().equals("immobilized_node"))) {
 					index = i;
 				}
 			}
 		}
-		duplicateNodes.add(nodes.get(index).getValue());
 		NodeDragController.getInstance().makeNotDraggable(
 				nodes.get(index).getLabel());
 		nodes.get(index).getLabel().setStyleName("immobilized_node");
