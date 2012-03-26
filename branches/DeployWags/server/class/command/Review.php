@@ -266,7 +266,7 @@ class Review extends Command
         $helperPaths = "";
 		foreach($helpers as $helper){
 			$helperPath = "$path/".$helper->getOriginalFileName().".".$helper->getOriginalFileExtension();
-            $helperPaths = $helperPaths." ".$helperPath;
+            $helperPaths = $helperPaths.$helperPath;
         }
 
 		// Grab the test class as student
@@ -286,8 +286,14 @@ class Review extends Command
 		switch($lang)
 		{
 			case "Java":
+                $solutionPath = str_replace(' ', '\ ', $solutionPath);
+                $testPath = str_replace(' ', '\ ', $testPath);
+                $helperPaths = str_replace(' ', '\ ', $helperPaths);
+                $studentPath = str_replace(' ', '\ ', $studentPath);
+                $compileCmd = "$solutionPath $testPath $helperPaths $studentPath"; 
+
 				// test, soluton, helper, and student files are all Java
-				exec("/usr/bin/javac $solutionPath $testPath $helperPaths $studentPath 2>&1", $output, $result);
+				exec("/usr/bin/javac $compileCmd 2>&1", $output, $result);
 				
 				break;
 				
@@ -323,6 +329,10 @@ class Review extends Command
 				$output = $this->runCode($compilePath, $pkgName.".$testFileName", $solutionFileName, $studentFileName, $lang);
 			}
 			else{			//Not within a package
+                $path = str_replace(' ', '\ ', $path);
+                $testFileName = str_replace(' ', '\ ', $testFileName);
+                $solutionFileName = str_replace(' ', '\ ', $solutionFileName);
+                $studentFileName = str_replace(' ', '\ ', $studentFileName);
 				$output = $this->runCode($path, $testFileName, $solutionFileName, $studentFileName, $lang);
 			}
 			
