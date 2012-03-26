@@ -65,7 +65,8 @@ class SetLogicalExercises extends Command
             "MinHeap Deletion 1|"."MinHeap Deletion 2|".
             "MinHeap Deletion 3|"."MinHeap Deletion 4|".
             "MinHeap 1|"."MinHeap 2|"."MinHeap 3|"."MinHeap 4|".
-            "HeapSort Test with Duplicates|"."HeapSort Test without Duplicates|";
+            "HeapSort Test with Duplicates|"."HeapSort Test without Duplicates|".
+            "Testing Heap with Duplicates|";
         }
 
         $sectionNumber = Auth::getCurrentUser()->getSection();
