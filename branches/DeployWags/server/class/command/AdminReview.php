@@ -21,7 +21,6 @@ class AdminReview extends Command
         $users = User::getUserNames();
         $subCount = 0; # Keeps track of position in subInfo array
         $result = array();
-        
         # Create the row to add when there is no submission
         $emptyRow = array(
             'username' => "don't print",
@@ -36,9 +35,9 @@ class AdminReview extends Command
         foreach($users as $user){
            # I still don't totally understand when something is an array
            $user = $user[0]; 
-
+           $maxSubs = count($subCount);
            # Match -> add row from subInfo, iterate submission entry
-           if($user == $subInfo[$subCount]['username']){
+           if($subCount < $maxSubs && $user == $subInfo[$subCount]['username']){
                 $this->addRow($subInfo[$subCount], $result);
                 $subCount = $subCount + 1;
            } else {
@@ -51,7 +50,6 @@ class AdminReview extends Command
         if(empty($subInfo)){
             return JSON::success("empty"); # bet this throws errors in client
         }
-
         return JSON::success($result);
     }
     
