@@ -58,6 +58,7 @@ class GetVisibleExercises extends Command
         # If it was waiting to open, and has passed the open date, make it
         #  visibile
         if($ex->getVisible() == PREOPEN && $ex->getOpenDate() <= time()){
+            $ex->addSkeletons();
             return VISIBLE;
         }
         
