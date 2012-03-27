@@ -6,6 +6,7 @@ public class Node
 {
 	protected String value;
 	protected Label label;
+	protected boolean visited = false;
 	
 	public Node (String value, Label label)
 	{
@@ -36,6 +37,12 @@ public class Node
 	public int getLeft()
 	{
 		return label.getAbsoluteLeft();
+	}
+	public void setVisited(boolean v){
+		visited =v;
+	}
+	public boolean getVisited(){
+		return visited;
 	}
 }	
 
