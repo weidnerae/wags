@@ -768,6 +768,20 @@ public class ProblemServiceImpl
 					false,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
+			case 52: return new TreeProblem("Testing Heap with Duplicates",
+					"MinHeap Deletion 4: Use the bubble down technique to remove the node 17 from the heap."+
+					" You can simply place 17 out of the way in a corner after removing the connecting edges.",
+					"82 81 81 81 81 81",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					getHeapXLocations(false,"82 81 81 81 81 81"),
+					getHeapYLocations(false,"82 81 81 81 81 81"),
+					new String[]{"82 81", "82 81","81 81", "81 81", "81 81"},
+					new String[]{"82 81 81 81 81 81"},
+					minLevelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_STRING_DRAGGABLE);
 
 		default:
 			return new TreeProblem("Binary Search Tree from Postorder Traversal 1",
@@ -841,6 +855,7 @@ public class ProblemServiceImpl
 		if(problem.equals("MinHeap Deletion 4")) return 49;
 		if(problem.equals("HeapSort Test with Duplicates")) return 50;
 		if(problem.equals("HeapSort Test without Duplicates")) return 51;
+		if(problem.equals("Testing Heap with Duplicates")) return 52;
 		
 		return 0;
 	}

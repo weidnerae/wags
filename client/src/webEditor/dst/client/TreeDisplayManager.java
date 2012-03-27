@@ -113,15 +113,7 @@ public class TreeDisplayManager extends DisplayManager implements
 				addEdgeStart();
 				edgeCollection.selectFirstNodeOfEdge((Label) event.getSource());
 				edgeCollection.addNextEdge();
-				setEdgeNodeSelectionInstructions("Select second node of edge"); // Temporary.
-																				// TO
-																				// DO:
-																				// add
-																				// getter
-																				// in
-																				// ec
-																				// for
-																				// nodeSelectionInstructions.
+				setEdgeNodeSelectionInstructions(edgeCollection.getSecondInstructions()); 
 
 			}
 		}
@@ -497,5 +489,8 @@ public class TreeDisplayManager extends DisplayManager implements
 
 	public void forceEvaluation() {
 		evaluateButton.click();
+	}
+	public void addDiagLabel(String s){
+		RootPanel.get().add(new Label(s), 250,250);
 	}
 }
