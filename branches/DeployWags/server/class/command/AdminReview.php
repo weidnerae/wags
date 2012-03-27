@@ -18,6 +18,7 @@ class AdminReview extends Command
         $ex = $_REQUEST['title'];
         $exercise = Exercise::getExerciseByTitle($ex);
         $subInfo = Exercise::getSubmissions($exercise->getId());
+        $maxSubs = count($subInfo); # Used to not access outside of array
         $users = User::getUserNames();
         $subCount = 0; # Keeps track of position in subInfo array
         $result = array();
@@ -35,7 +36,6 @@ class AdminReview extends Command
         foreach($users as $user){
            # I still don't totally understand when something is an array
            $user = $user[0]; 
-           $maxSubs = count($subCount);
            # Match -> add row from subInfo, iterate submission entry
            if($subCount < $maxSubs && $user == $subInfo[$subCount]['username']){
                 $this->addRow($subInfo[$subCount], $result);
