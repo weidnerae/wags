@@ -152,10 +152,10 @@ public class EdgeCollection implements IsSerializable {
 		}
 
 		int[] intArray = buildIndexArray(nodesToUse);
-	//	RootPanel.get().add(new Label(ints), 250, 250);
+		// RootPanel.get().add(new Label(ints), 250, 250);
 		Node n1 = null;
 		Node n2 = null;
-		for (int i = 1; i < ((intArray.length) / 2) + 1; i++) {
+		for (int i = 1; i < ((intArray.length-1) / 2) + 1; i++) {
 			n1 = nodesToUse.get(intArray[i]);
 			n2 = nodesToUse.get(intArray[i * 2]);
 			if (usedNodes.contains(n1.getValue()) && usedNodes.contains(n2.getValue())) {
@@ -165,9 +165,9 @@ public class EdgeCollection implements IsSerializable {
 			}
 			if (((i * 2) + 1) < intArray.length) {
 				n1 = nodesToUse.get(intArray[i]);
-				n2 = nodesToUse.get(intArray[(i * 2) + 1]);
+				n2 = nodesToUse.get(intArray[((i * 2) + 1)]);
 				if (usedNodes.contains(n1.getValue()) && usedNodes.contains(n2.getValue())) {
-					EdgeUndirected eu = new EdgeUndirected(n1, n2, getInstance(), handler,	removable);
+					EdgeUndirected eu = new EdgeUndirected(n1, n2, getInstance(), handler, removable);
 					eu.drawEdge();
 					edges.add(eu);
 				}
