@@ -742,21 +742,21 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
-			case 50: return new SortProblem("HeapSort Test with Duplicates",
-					"HeapSort 1: Use the HeapSort algorithm to sort the following array. (Placeholder description) *No Duplicates",
-					"9 2 3 9 5 3 6 5",
+			case 50: return new SortProblem("HeapSort 1",
+					"HeapSort 1: Use the HeapSort algorithm to sort the following array.",
+					"9 5 8 2 4 7 6 1",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
 					noEdges,
-					new String[]{"9 2 3 9 5 3 6 5"},
+					new String[]{"9 5 8 2 4 7 6 1"},
 					heapSort,
 					rules,
 					false,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 51: return new SortProblem("HeapSort Test without Duplicates",
-					"HeapSort 1: Use the HeapSort algorithm to sort the following array. (Placeholder description) * Duplicates",
+			case 51: return new SortProblem("HeapSort 2",
+					"HeapSort 2: Use the HeapSort algorithm to sort the following array.",
 					"9 6 4 5 7 3 2 1",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -768,21 +768,33 @@ public class ProblemServiceImpl
 					false,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 52: return new TreeProblem("Testing Heap with Duplicates",
-					"MinHeap Deletion 4: Use the bubble down technique to remove the node 17 from the heap."+
-					" You can simply place 17 out of the way in a corner after removing the connecting edges.",
-					"82 81 81 81 81 81",
-					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
-					getHeapXLocations(false,"82 81 81 81 81 81"),
-					getHeapYLocations(false,"82 81 81 81 81 81"),
-					new String[]{"82 81", "82 81","81 81", "81 81", "81 81"},
-					new String[]{"82 81 81 81 81 81"},
-					minLevelHeap,
+			case 52: return new SortProblem("HeapSort 3",
+					"HeapSort 3: Use the HeapSort algorithm to sort the following array.",
+					"8 7 4 6 5 1 2 3",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges,
+					new String[]{"8 7 4 6 5 1 2 3"},
+					heapSort,
 					rules,
+					false,
 					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 53: return new SortProblem("HeapSort 4",
+					"HeapSort 4: Use the HeapSort algorithm to sort the following array.",
+					"9 2 3 9 5 3 6 5",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges,
+					new String[]{"9 2 3 9 5 3 6 5"},
+					heapSort,
+					rules,
+					false,
 					true,
-					DSTConstants.NODE_STRING_DRAGGABLE);
-			case 53: return new SearchProblem("Radix Sort 2",
+					DSTConstants.NODE_DRAGGABLE);
+			case 54: return new SearchProblem("Radix Sort 2",
 					"A queue of data values is shown at the top of the display. " +
 					"Using the given digit position move each value to the " + 
 					"appropriate bucket. Each bucket is a queue structure with " + 
@@ -871,10 +883,11 @@ public class ProblemServiceImpl
 		if(problem.equals("MinHeap Deletion 2")) return 47;
 		if(problem.equals("MinHeap Deletion 3")) return 48;
 		if(problem.equals("MinHeap Deletion 4")) return 49;
-		if(problem.equals("HeapSort Test with Duplicates")) return 50;
-		if(problem.equals("HeapSort Test without Duplicates")) return 51;
-		if(problem.equals("Testing Heap with Duplicates")) return 52;
-		if(problem.equals("Radix Sort 2")) return 53;
+		if(problem.equals("HeapSort 1")) return 50;
+		if(problem.equals("HeapSort 2")) return 51;
+		if(problem.equals("HeapSort 3")) return 52;
+		if(problem.equals("HeapSort 4")) return 53;
+		if(problem.equals("Radix Sort 2")) return 54;
 		
 		return 0;
 	}
