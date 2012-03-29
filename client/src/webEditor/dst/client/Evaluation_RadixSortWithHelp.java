@@ -62,10 +62,12 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 					/* Iterate through the nodes in the bucket, appending them to solution */
 					for (int n : nodeMatrix[i]) {
 						if (n != 0)
-							solution += n;
+							solution += n + " ";
 					}
 				}
 			}
+			
+			solution = solution.trim();
 			
 			if (solution.equals(arguments[CURRENT_SOLUTION])) {
 				CURRENT_STEP++;
@@ -74,7 +76,7 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 				return "Feedback: Your buckets are Correct!";
 			} else {
 				Proxy.submitDST(problemName, 0);
-				return "Feedback: Check the order of your buckets. You may have switched the ordering of some of the items.";
+				return "Feedback: Check the order of your buckets. You may have switched the ordering of some of the items. ";
 			}
         } else if (CURRENT_STEP % 2 == 1) {      // Beginning of Dequeuing evaluation (odd steps are dequeuing)
         	solution = "";
@@ -194,11 +196,11 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
     			}
     		}
     		
-    		solution += minNode.getLabel().getText();
+    		solution += minNode.getLabel().getText() + " ";
     		copy.remove(minNode);
     	}
     	
-    	return solution;
+    	return solution.trim();
     }
     
     /**
