@@ -306,8 +306,8 @@ public class ProblemServiceImpl
 					new int[][]{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {73, 73, 73, 113, 73, 153, 113, 193, 73, 73}, 
 								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {73, 73, 113, 113, 73, 73, 73, 153, 113, 73}, 
 								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {73, 113, 73, 113, 153, 73, 73, 73, 73, 113}},
-                    new String[]{"0004110112", "1022301100", "3010112020", "84364382354363423567428799", 
-								 "98234286342358436435436779", "96779235428543634643823843"},       
+                    new String[]{"0004110112", "1022301100", "3010112020", "843 643 823 543 634 235 67 428 79 9", 
+								 "9 823 428 634 235 843 643 543 67 79", "9 67 79 235 428 543 634 643 823 843"},       
                     radix,
                     true,
                     DSTConstants.NODE_STRING_DRAGGABLE);
@@ -782,6 +782,24 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
+			case 53: return new SearchProblem("Radix Sort 2",
+					"A queue of data values is shown at the top of the display. " +
+					"Using the given digit position move each value to the " + 
+					"appropriate bucket. Each bucket is a queue structure with " + 
+					"the front below the label and the rear at the bottom of the screen.",
+                    "371 105 599 21 900 610 5 453 712 99",
+                    DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+                    new int[][]{{0, 60, 120, 180, 240, 300, 360, 420, 480, 540}, {60, 300, 540, 60, 0, 0, 300, 180, 120, 540}, 
+								{120, 360, 480, 180, 0, 60, 420, 300, 240, 540}, {420, 0, 540, 120, 0, 60, 0, 300, 60, 540}, 
+								{420, 60, 480, 300, 0, 180, 120, 360, 240, 540}, {180, 60, 300, 0, 540, 360, 0, 240, 420, 0}},
+					new int[][]{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {73, 73, 73, 113, 73, 113, 113, 73, 73, 113}, 
+								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {73, 113, 73, 73, 73, 73, 153, 73, 113, 113}, 
+								{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {73, 73, 73, 113, 73, 73, 73, 73, 73, 153}},
+                    new String[]{"2211020002", "3210010102", "3101111101", "900 610 371 21 712 453 105 5 599 99", 
+								 "900 105 5 610 712 21 453 371 599 99", "5 21 99 105 371 453 599 610 712 900"},
+                    radix,
+                    true,
+                    DSTConstants.NODE_STRING_DRAGGABLE);
 
 		default:
 			return new TreeProblem("Binary Search Tree from Postorder Traversal 1",
@@ -856,6 +874,7 @@ public class ProblemServiceImpl
 		if(problem.equals("HeapSort Test with Duplicates")) return 50;
 		if(problem.equals("HeapSort Test without Duplicates")) return 51;
 		if(problem.equals("Testing Heap with Duplicates")) return 52;
+		if(problem.equals("Radix Sort 2")) return 53;
 		
 		return 0;
 	}
