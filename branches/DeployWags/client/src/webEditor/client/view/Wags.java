@@ -141,7 +141,6 @@ public class Wags extends View
 		});
 		
 		tabPanel.addBeforeSelectionHandler(new BeforeSelectionHandler<Integer>() {
-			
 			@Override
 			public void onBeforeSelection(BeforeSelectionEvent<Integer> event) {
 				if(tabPanel.getSelectedIndex() == 0){
@@ -151,7 +150,6 @@ public class Wags extends View
 		});
 		
 		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
-
 			@Override
 			public void onSelection(SelectionEvent<Integer> event) {
 				Proxy.loadFileListing(browser, curPath);
@@ -221,7 +219,7 @@ public class Wags extends View
 	{
 		saveCurrentCode();
 		
-		String codeText = editor.codeTop + editor.codeArea.getText() + editor.codeBottom;
+		String codeText = editor.codeTop + "\n" + editor.codeArea.getText() + "\n" + editor.codeBottom;
 		
 		codeText = URL.encodePathSegment(codeText);
 		
