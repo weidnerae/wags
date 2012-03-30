@@ -38,7 +38,7 @@
 		.subheading{
 			padding-bottom: 8px;
 			padding-top: 8px;
-			font-size: large;
+			font-size: x-large;
 			font-family: helvetica;	
 		}
 		.button{
