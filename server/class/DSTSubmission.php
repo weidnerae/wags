@@ -71,7 +71,11 @@ class DSTSubmission extends Model
         $user = Auth::getCurrentUser();
         $section = $user->getSection();
 
-        $sth = $db->prepare('SELECT * FROM dstSubmission WHERE sectionId = :section AND title = :title');
+        $sth = $db->prepare('SELECT user.username, dstSubmission.numAttempts,
+            dstSubmission.success FROM dstSubmission JOIN user
+            ON dstSubmission.userId = user.id WHERE sectionId = :section
+            AND title = :title
+            ORDER BY username');
         $sth->execute(array(':section' => $section, ':title' => $title));
         $sth->setFetchMode(PDO::FETCH_ASSOC);
 
