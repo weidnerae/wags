@@ -34,11 +34,8 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 public class Proxy
 {	
+
 	// Get the URL for the host page
-	//	- Will only return the URL of the host page, ending with a slash, without any of the 
-	//	 php arguments
-	// 	- Removes need for hardcoded URLs anymore.  Can upload client anywhere without having 
-	//	 to change URL
 	private static final String baseURL = GWT.getHostPageBaseURL().concat("server.php");
 	
 	private static final String getFileContents = getBaseURL()+"?cmd=GetFileContents";
@@ -450,17 +447,8 @@ public class Proxy
 					allText = allText.substring(1);
 					editor.codeArea.setEnabled(true); /* defaults to enabled */
 					
-					// Have to take into account comment length when
-					//  parsing file
-					//	-Now we will stop checking for the initial "//" part,
-					//	 as that is a comment style accepted only by some 
-					//	 languages (like Java).  Allow the file to have the necessary comment
-					//	 marks for that language, and only check for the unique part
-					//	 like "<end!TopSection>" instead of "//<end!TopSection>"
-					//	-We will still require that two comment marks be used before
-					//	 the unique part:
-					//		-Ex: "//" for Java, "%%" for Prolog (even though only one '%' is
-					//			needed in Prolog for a comment), etc
+					// Have to take into account comment length
+					//	-We will still require that two comment marks be used before tag
 					String lengthFinder = "<end!TopSection>";
 					int len = lengthFinder.length();
 					
@@ -470,12 +458,10 @@ public class Proxy
 					String top = "", mid = allText, bot = "";
 							
 					//Logic copied from server side
-					//	-Except now we want to keep the section comments in the
-					//	 top and bottom portions, so that they do not have to be
-					//	 added in again later in Wags.java
 					if(endofTop != -1){
 						top = allText.substring(0, endofTop + len); // keep the comment in top
-						mid = allText.substring(endofTop + len); // don't include comment in mid
+						// don't include comment in mid, remove the "\n" added when submitting (so they don't compound)
+						mid = allText.substring(endofTop + len + 1); 
 					}
 					
 					if(endofMid != -1){
