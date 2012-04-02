@@ -460,8 +460,8 @@ public class Proxy
 					//Logic copied from server side
 					if(endofTop != -1){
 						top = allText.substring(0, endofTop + len); // keep the comment in top
-						// don't include comment in mid, remove the "\n" added when submitting (so they don't compound)
-						mid = allText.substring(endofTop + len + 1); 
+						mid = allText.substring(endofTop + len);    // don't include comment in mid
+						if(mid.charAt(0) == '\n') mid = mid.substring(1);  // basically, remove \n added from submit if it exists
 					}
 					
 					if(endofMid != -1){
