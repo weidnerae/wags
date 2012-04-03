@@ -466,7 +466,8 @@ public class Proxy
 					
 					if(endofMid != -1){
 						bot = allText.substring(endofMid - 2); // keep comment in bottom
-						mid = allText.substring(endofTop + len, endofMid - 2); // don't leave //, or %%, or etc in mid
+						mid = allText.substring(endofTop + len, endofMid - 2); // don't leave //, or %%, or etc in mid\
+						if(mid.charAt(0) == '\n') mid = mid.substring(1);  // basically, remove \n added from submit if it exists
 					}
 					
 					editor.codeTop = top;
