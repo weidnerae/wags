@@ -223,7 +223,6 @@ class Review extends Command
 			$helperPaths = "";
 			foreach($helpers as $helper){
 				$helperPath = "$path/".$helper->getOriginalFileName().".".$helper->getOriginalFileExtension();
-				$helperPaths = $helperPaths." ".$helperPath;
 				$helperFile = fopen($helperPath, "w+");
 				$result = fwrite($helperFile, $helper->getContents());
 	
@@ -241,7 +240,7 @@ class Review extends Command
 			if(!($solutionResult && $testResult && $helperResult)){
 				return JSON::error("Administrative file error while writing: $errorMsg");
 			}
-		}
+		} 
 
         // Construct paths for Student
 		// 	-This section is for students to create theirn own file, and grab solution, 
@@ -260,17 +259,19 @@ class Review extends Command
 		//	- This file should already be present, so no need to write it
 		$solutionPath = "$path/$solutionFileName.$solutionFileExtension";
 
-        // Grab helper classes as student
-		//	- These files should already be present, so no need to write them
+		// Grab the test class as student
+		$testPath = "$path/$testFileName.$testFileExtension";
+        
+        // Grab helper classes as student 
 		$helpers = $exercise->getHelperClasses();
         $helperPaths = "";
 		foreach($helpers as $helper){
+            // Note: Using "$path" after following line will, most likely,
+            //   cause errors
+            $path = str_replace(' ', '\ ', $path);
 			$helperPath = "$path/".$helper->getOriginalFileName().".".$helper->getOriginalFileExtension();
-            $helperPaths = $helperPaths.$helperPath;
+            $helperPaths = $helperPaths." ".$helperPath;
         }
-
-		// Grab the test class as student
-		$testPath = "$path/$testFileName.$testFileExtension";
 
 		// Make sure student class was written
 		if(!$classResult) return JSON::error("Problem writing student file");
@@ -286,10 +287,11 @@ class Review extends Command
 		switch($lang)
 		{
 			case "Java":
+                // Handle spaces in exercise names
                 $solutionPath = str_replace(' ', '\ ', $solutionPath);
                 $testPath = str_replace(' ', '\ ', $testPath);
-                $helperPaths = str_replace(' ', '\ ', $helperPaths);
                 $studentPath = str_replace(' ', '\ ', $studentPath);
+
                 $compileCmd = "$solutionPath $testPath $helperPaths $studentPath"; 
 
 				// test, soluton, helper, and student files are all Java
@@ -329,10 +331,6 @@ class Review extends Command
 				$output = $this->runCode($compilePath, $pkgName.".$testFileName", $solutionFileName, $studentFileName, $lang);
 			}
 			else{			//Not within a package
-                $path = str_replace(' ', '\ ', $path);
-                $testFileName = str_replace(' ', '\ ', $testFileName);
-                $solutionFileName = str_replace(' ', '\ ', $solutionFileName);
-                $studentFileName = str_replace(' ', '\ ', $studentFileName);
 				$output = $this->runCode($path, $testFileName, $solutionFileName, $studentFileName, $lang);
 			}
 			
