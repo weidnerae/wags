@@ -743,7 +743,11 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 50: return new SortProblem("HeapSort 1",
-					"HeapSort 1: Use the HeapSort algorithm to sort the following array.",
+					"HeapSort 1: Use the HeapSort algorithm to sort the following array. "+
+					"Evaluate after each pass of HeapSort. A pass constitutes removing the element off " +
+					"of the top of the heap and rebuilding the heap. If the array does not start "+
+					"off as a MaxHeap then you must first heapify the array into a MaxHeap. You will "+
+					"evaluate after you have completed the heapification.",
 					"9 5 8 2 4 7 6 1",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -756,7 +760,11 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 51: return new SortProblem("HeapSort 2",
-					"HeapSort 2: Use the HeapSort algorithm to sort the following array.",
+					"HeapSort 2: Use the HeapSort algorithm to sort the following array. "+
+					"Evaluate after each pass of HeapSort. A pass constitutes removing the element off " +
+					"of the top of the heap and rebuilding the heap. If the array does not start "+
+					"off as a MaxHeap then you must first heapify the array into a MaxHeap. You will "+
+					"evaluate after you have completed the heapification.",
 					"9 6 4 5 7 3 2 1",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -769,7 +777,11 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 52: return new SortProblem("HeapSort 3",
-					"HeapSort 3: Use the HeapSort algorithm to sort the following array.",
+					"HeapSort 3: Use the HeapSort algorithm to sort the following array. "+
+					"Evaluate after each pass of HeapSort. A pass constitutes removing the element off " +
+					"of the top of the heap and rebuilding the heap. If the array does not start "+
+					"off as a MaxHeap then you must first heapify the array into a MaxHeap. You will "+
+					"evaluate after you have completed the heapification.",
 					"8 7 4 6 5 1 2 3",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -782,13 +794,17 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 53: return new SortProblem("HeapSort 4",
-					"HeapSort 4: Use the HeapSort algorithm to sort the following array.",
-					"9 2 3 9 5 3 6 5",
+					"HeapSort 4: Use the HeapSort algorithm to sort the following array. "+
+					"Evaluate after each pass of HeapSort. A pass constitutes removing the element off " +
+					"of the top of the heap and rebuilding the heap. If the array does not start "+
+					"off as a MaxHeap then you must first heapify the array into a MaxHeap. You will "+
+					"evaluate after you have completed the heapification.",
+					"9 2 1 9 5 3 6 5",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
 					noEdges,
-					new String[]{"9 2 3 9 5 3 6 5"},
+					new String[]{"9 2 1 9 5 3 6 5"},
 					heapSort,
 					rules,
 					false,
