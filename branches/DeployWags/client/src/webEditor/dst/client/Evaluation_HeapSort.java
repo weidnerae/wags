@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.TextArea;
 
 public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 	int CURRENT_STEP = 1;
+	int PASS = 1;
 	int[] intArray;
 	String[] stringArray;
 	HeapSorter heapSort = new HeapSorter();
@@ -18,27 +19,53 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 			ArrayList<Node> nodes, ArrayList<EdgeParent> edges) {
 		String solution = getNodeOrder(nodes);
 		intArray = getIntArrayFromString(arguments[0]);
-		heapSort.sort(intArray);
-		String cSolution = getStringFromIntArray(intArray);
-		if (solution.equals(cSolution)) {
-			if (CURRENT_STEP == intArray.length - 1) {
-				Proxy.submitDST(problemName, 1);
-				return "Congratulations! You have completed this exercise.";
+		String cSolution;
+		if (CURRENT_STEP == 1 && !isHeap(intArray)) {
+			intArray = reheapStart(intArray);
+			cSolution = getStringFromIntArray(intArray);
+			if(solution.equals(cSolution)){
+				CURRENT_STEP++;
+				updateCounterPanel();
+				return "Congratulations! You may now start sorting your MaxHeap!";
 			}
-			immobilizeNode(nodes, solution);
-			CURRENT_STEP++;
-			updateCounterPanel();
-			return "You have successfully completed that pass.";
+			else{
+				String correctSection = getCorrectSection(solution, cSolution);
+				if (correctSection.equals("")) {
+					String[] splitCSolution = cSolution.split(" ");
+					Proxy.submitDST(problemName, 0);
+					return "Feedback: Incorrect. Hint: This is array is not a MaxHeap, "+
+					"you have to heapify it first.";
+				}
+				return "Feedback: Incorrect. You were correct for the section: "
+						+ correctSection;
+			}
 		} else {
-			String correctSection = getCorrectSection(solution, cSolution);
-			if (correctSection.equals("")) {
-				String[] splitCSolution = cSolution.split(" ");
-				Proxy.submitDST(problemName, 0);
-				return "Feedback: Incorrect. Hint, the first item is "
-						+ splitCSolution[0];
+			moveArrayLeft();
+			heapSort.sort(intArray);
+			moveArrayRight();
+			cSolution = getStringFromIntArray(intArray);
+			if (solution.equals(cSolution)) {
+				if (solutionInOrder(getIntArrayFromString(solution))) {
+					immobilizeNode(nodes, solution);
+					Proxy.submitDST(problemName, 1);
+					return "Congratulations! You have completed this exercise.";
+				}
+				immobilizeNode(nodes, solution);
+				PASS++;
+				CURRENT_STEP++;
+				updateCounterPanel();
+				return "You have successfully completed that pass.";
+			} else {
+				String correctSection = getCorrectSection(solution, cSolution);
+				if (correctSection.equals("")) {
+					String[] splitCSolution = cSolution.split(" ");
+					Proxy.submitDST(problemName, 0);
+					return "Feedback: Incorrect. Hint, the first item is "
+							+ splitCSolution[0];
+				}
+				return "Feedback: Incorrect. You were correct for the section: "
+						+ correctSection + "**" + cSolution;
 			}
-			return "Feedback: Incorrect. You were correct for the section: "
-					+ correctSection;
 		}
 	}
 
@@ -72,15 +99,11 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 
 		private void heapsort() {
 			buildheap();
-			int s = n - CURRENT_STEP;
+			int s = n - PASS;
 			while (n > s) {
 				n--;
-				exchange(0, n);
+				exchange(0, n);              
 				downheap(0);
-				for (int n : intArray) {
-					System.out.print(n + ", ");
-				}
-				System.out.println("<- " + n);
 			}
 		}
 
@@ -115,8 +138,8 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 	} // end class HeapSorter
 
 	public int[] getIntArrayFromNodes(ArrayList<Node> nodes) {
-		int[] intArray = new int[nodes.size()];
-		int count = 0;
+		int[] intArray = new int[nodes.size() + 1];
+		int count = 1;
 		for (Node n : nodes) {
 			intArray[count] = Integer.parseInt(n.getValue());
 			count++;
@@ -136,14 +159,14 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 		String[] splitNodes = nodes.split(" ");
 		int[] intArray = new int[splitNodes.length];
 		for (int i = 0; i < splitNodes.length; i++) {
-			intArray[i] = Integer.parseInt(splitNodes[i]);
+			intArray[i + 1] = Integer.parseInt(splitNodes[i]);
 		}
 		return intArray;
 	}
 
 	public String getStringFromIntArray(int[] intArray) {
 		String solution = "";
-		for (int i = 0; i < intArray.length; i++) {
+		for (int i = 1; i < intArray.length; i++) {
 			solution += intArray[i] + " ";
 		}
 		return solution.trim();
@@ -176,23 +199,24 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 		return solution.trim();
 	}
 
-	//PROBLEM!
 	public void immobilizeNode(ArrayList<Node> nodes, String solution) {
 		String[] splitSolution = solution.split(" ");
-		String desiredNode = splitSolution[splitSolution.length - CURRENT_STEP];
+		String desiredNode = splitSolution[splitSolution.length - PASS];
 		int index = -1;
 		for (int i = nodes.size() - 1; i >= 0; i--) {
 
-			if (nodes.get(i).getValue().equals(desiredNode)) { //HERE?
+			if (nodes.get(i).getValue().equals(desiredNode)) {
 				if (index == -1) {
-					if(!(nodes.get(i).getLabel().getStylePrimaryName().equals("immobilized_node")))
+					if (!(nodes.get(i).getLabel().getStylePrimaryName()
+							.equals("immobilized_node")))
 						index = i;
-				} 
-				else{
-					if(!(nodes.get(i).getLabel().getStylePrimaryName().equals("immobilized_node"))) {
-							if (nodes.get(i).getLeft() >= nodes.get(index).getLeft()){
-								index = i;
-							}
+				} else {
+					if (!(nodes.get(i).getLabel().getStylePrimaryName()
+							.equals("immobilized_node"))) {
+						if (nodes.get(i).getLeft() >= nodes.get(index)
+								.getLeft()) {
+							index = i;
+						}
 					}
 				}
 			}
@@ -200,32 +224,120 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 		NodeDragController.getInstance().makeNotDraggable(
 				nodes.get(index).getLabel());
 		nodes.get(index).getLabel().setStyleName("immobilized_node");
+		if (PASS == nodes.size() - 1) {
+			for (int i = 0; i < nodes.size(); i++) {
+				if (!(nodes.get(i).getLabel().getStylePrimaryName()
+						.equals("immobilized_node"))) {
+					NodeDragController.getInstance().makeNotDraggable(
+							nodes.get(i).getLabel());
+					nodes.get(i).getLabel().setStyleName("immobilized_node");
+				}
+			}
+		}
 
 	}
 
 	public void updateCounterPanel() {
 		if (RootPanel.get().getWidget(2) instanceof TextArea) {
 			((TextArea) RootPanel.get().getWidget(2)).setText("Current Pass: "
-					+ CURRENT_STEP);
+					+ PASS);
 		}
 	}
 
 	public String getCurrentNodeString(String arg0) {
 		intArray = getIntArrayFromString(arg0);
-		if(CURRENT_STEP==1){
+		if (CURRENT_STEP == 1) {
 			return arg0;
 		}
-		CURRENT_STEP--;
+		else if(CURRENT_STEP == 2 && PASS == 1){
+			int[] tempArr = getIntArrayFromString(arg0);
+			tempArr =reheapStart(tempArr);
+			String currentString = getStringFromIntArray(tempArr);
+			return currentString;
+		}
+		PASS--;
+		moveArrayLeft();
 		heapSort.sort(intArray);
+		moveArrayRight();
 		String currentString = getStringFromIntArray(intArray);
-		CURRENT_STEP++;
+		PASS++;
 		intArray = getIntArrayFromString(arg0);
 		return currentString;
 	}
 
 	public int getCurrentStep() {
-		return CURRENT_STEP;
+		return PASS;
 	}
-	
+
+	public boolean isHeap(int[] ints) {
+		boolean isHeap = true;
+		int[] lInts = new int[ints.length + 1];
+		for (int i = 1; (i * 2) < ints.length; i++) {
+			if (ints[i] < ints[i * 2]) {
+				isHeap = false;
+			}
+			if ((i * 2) + 1 < ints.length && ints[i] < ints[(i * 2) + 1]) {
+				isHeap = false;
+			}
+		}
+		return isHeap;
+	}
+
+	public int[] reheapStart(int[] heap) {
+		int[] heapC = heap;
+		for (int rootIndex = heap.length / 2; rootIndex > 0; rootIndex--) {
+			heapC = reheap(heap, rootIndex, heap.length);
+		}
+		return heapC;
+
+	}
+
+	public int[] reheap(int[] heap, int root, int size) {
+		int leftChildIndex = root * 2;
+		int rightChildIndex = root * 2 + 1;
+		int largest = root;
+
+		if (leftChildIndex < size && heap[leftChildIndex] > heap[root]) {
+			largest = leftChildIndex;
+		}
+		if (rightChildIndex < size && heap[rightChildIndex] > heap[largest]) {
+			largest = rightChildIndex;
+		}
+		if (largest != root) {
+			int tmp = heap[largest];
+			heap[largest] = heap[root];
+			heap[root] = tmp;
+			reheap(heap, largest, size);
+
+		}
+		return heap;
+	}
+	public void moveArrayLeft(){
+		int[] lInts = new int[intArray.length-1];
+	    int count=0;
+		for (int i=1;i<intArray.length;i++) {
+			lInts[count] = intArray[i];
+			count++;
+		}
+		intArray = lInts;
+	}
+	public void moveArrayRight(){
+		int count = 1;
+		int[] lInts = new int[intArray.length+1];
+		for (int n : intArray) {
+			lInts[count] = n;
+			count++;
+		}
+		intArray = lInts;
+	}
+	public boolean solutionInOrder(int[] solution){
+		boolean inOrder=true;
+		for(int i=1;i<solution.length-1;i++){
+			if(solution[i]>solution[i+1]){
+				inOrder=false;
+			}
+		}
+		return inOrder;
+	}
 
 }
