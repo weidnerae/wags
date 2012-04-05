@@ -4,6 +4,9 @@ import org.vaadin.gwtgraphics.client.DrawingArea;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SearchProblem extends Problem implements IsSerializable {
 	private String name;
 	private String problemText;
@@ -18,21 +21,34 @@ public class SearchProblem extends Problem implements IsSerializable {
 	private String nodeType;
 	private SearchDisplayManager dm;
 	private AbsolutePanel gridPanel;
+	private Map<String, Integer> indices;
 
 	public SearchProblem(String name, String problemText, String nodes,
-			String insertMethod, int[][] xPositions, int[][] yPositions,
-			String[] arguments, Evaluation eval, boolean nodesDraggable,
-			String nodeType) {
+			String insertMethod, String[] arguments, Evaluation eval,
+			boolean nodesDraggable, String nodeType) {
 		this.name = name;
 		this.problemText = problemText;
 		this.nodes = nodes;
 		this.insertMethod = insertMethod;
-		this.xPositions = xPositions;
-		this.yPositions = yPositions;
 		this.arguments = arguments;
 		this.eval = eval;
 		this.nodesDraggable = nodesDraggable;
 		this.nodeType = nodeType;
+
+		// Creating a map for grabbing the index of a given node (String)
+		// used for generating the reset locations (xPositions, yPositions)
+		String[] nodeArr = nodes.split(" ");
+		indices = new HashMap<String, Integer>();
+
+		for (int i = 0; i < nodeArr.length; i++) {
+			indices.put(nodeArr[i], i);
+		}
+
+		// Removed passing in of reset positions, generate from these methods
+		// instead
+		String[] solutions = grabSolutions(arguments);
+		this.xPositions = getResetValuesX(solutions);
+		this.yPositions = getResetValuesY(solutions);
 	}
 
 	public DisplayManager createDisplayManager(AbsolutePanel panel,
@@ -133,5 +149,79 @@ public class SearchProblem extends Problem implements IsSerializable {
 
 	public AbsolutePanel getGridPanel() {
 		return gridPanel;
+	}
+
+	private int[][] getResetValuesX(String[] solutions) {
+		int[][] result = new int[6][solutions[0].split(" ").length];
+
+		for (int i = 0; i < indices.size(); i++) {
+			result[0][i] = i * 60;
+		}
+
+		for (int i = 0; i < result.length; i++) {
+			String[] node = solutions[i / 2].split(" ");
+			int[] counters = new int[node.length];
+			int digit = i / 2;
+
+			if (i != 0) {
+				node = solutions[(i - 1) / 2].split(" ");
+				for (int j = 0; j < node.length; j++) {
+					result[i][indices.get(node[j])] = j * 60;
+				}
+			}
+
+			i++;
+
+			for (int j = 0; j < node.length; j++) {
+				int nodeVal = 0;
+
+				if (node[j].length() > digit) {
+					System.out.println(node[j]);
+					System.out.println(digit);
+					nodeVal = Character.digit(
+							node[j].charAt(node[j].length() - (1 + digit)), 10);
+					System.out.println(nodeVal);
+				}
+
+				result[i][indices.get(node[j])] = 60 * nodeVal;
+				counters[nodeVal]++;
+			}
+		}
+
+		return result;
+	}
+
+	private int[][] getResetValuesY(String[] solutions) {
+		int[][] result = new int[6][solutions[0].split(" ").length];
+
+		for (int i = 1; i < result.length; i += 2) {
+			String[] node = solutions[i / 2].split(" ");
+			int[] counters = new int[node.length];
+			int digit = i / 2;
+
+			for (int j = 0; j < node.length; j++) {
+				int nodeVal = 0;
+
+				if (node[j].length() > digit) {
+					nodeVal = Character.digit(
+							node[j].charAt(node[j].length() - (1 + digit)), 10);
+				}
+
+				result[i][indices.get(node[j])] = 73 + 40 * counters[nodeVal];
+				counters[nodeVal]++;
+			}
+		}
+
+		return result;
+	}
+	
+	private String[] grabSolutions(String[] arr) {
+		String[] result = new String[3];
+		
+		for (int i = 3; i < arr.length; i++) {
+			result[i - 3] = arr[i];
+		}
+		
+		return result;
 	}
 }
