@@ -244,9 +244,9 @@ public class TreeDisplayManager extends DisplayManager implements
 
 	private void addRightButtonPanel() {
 		rightButtonPanel = new AbsolutePanel();
-		rightButtonPanel.setPixelSize(382, 30);
-		rightButtonPanel.setStyleName("right_panel");
-		RootPanel.get().add(rightButtonPanel, 222, 100);
+		rightButtonPanel.setPixelSize(383, 30);           
+		rightButtonPanel.setStyleName("right_panel");      
+		RootPanel.get().add(rightButtonPanel, 221, 100);   
 	}
 
 	private void addBackButton() {
@@ -353,13 +353,13 @@ public class TreeDisplayManager extends DisplayManager implements
 
 	private void addRemoveEdgeButton() {
 		removeEdgeButton = new Button("Remove Edge");
-		removeEdgeButton.setWidth("124px");
+		removeEdgeButton.setWidth("130px");
 		removeEdgeButton.setStyleName("control_button");
 		removeEdgeClickHandler = new RemoveEdgeClickHandler();
 		removeEdgeCancelClickHandler = new RemoveEdgeCancelClickHandler();
 		removeEdgeEventHandler = removeEdgeButton
 				.addClickHandler(removeEdgeClickHandler);
-		rightButtonPanel.add(removeEdgeButton, 133, 2);
+		rightButtonPanel.add(removeEdgeButton, 128, 2);
 	}
 
 	public void insertNodesByNumber(int numNodes) {
