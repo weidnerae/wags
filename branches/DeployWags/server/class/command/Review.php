@@ -326,7 +326,7 @@ class Review extends Command
 		// Else, failure
 		if ($result == EXEC_SUCCESS){
 
-            $nonce = rand(); // for validation
+            $nonce = $this->genRandomString(); // for validation
 
 			//Running of microlab
 			if($pkg){ 		//Within a package
@@ -387,6 +387,16 @@ class Review extends Command
 		return $output;
 
 	}
+
+    private function genRandomString() {
+        $length = 10;
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
+        $string = "";    
+        for ($p = 0; $p < $length; $p++) {
+            $string .= $characters[mt_rand(0, strlen($characters))];
+        }
+        return $string;
+    }
 
 }
 
