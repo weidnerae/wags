@@ -346,7 +346,7 @@ class Review extends Command
 		} else {
 			$error = "Compilation Error: \n";
 			foreach($output as $line){
-				$error .= $line."\n";
+				$error .= $line."<br />";
 				$sub->setSuccess(0); //failure to compile is failure for lab
 			}
 			JSON::error($error);
