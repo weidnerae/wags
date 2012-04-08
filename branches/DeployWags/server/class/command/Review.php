@@ -326,20 +326,36 @@ class Review extends Command
 		// Else, failure
 		if ($result == EXEC_SUCCESS){
 
+            $nonce = rand(); // for validation
+
 			//Running of microlab
 			if($pkg){ 		//Within a package
-				$output = $this->runCode($compilePath, $pkgName.".$testFileName", $solutionFileName, $studentFileName, $lang);
+				$output = $this->runCode($compilePath, $pkgName.".$testFileName", $solutionFileName, $studentFileName, $lang, $nonce);
 			}
 			else{			//Not within a package
-				$output = $this->runCode($path, $testFileName, $solutionFileName, $studentFileName, $lang);
+				$output = $this->runCode($path, $testFileName, $solutionFileName, $studentFileName, $lang, $nonce);
 			}
 			
-			//Check for success
-			if(preg_match($successRegex, $output[0])){
+			/******************
+            *Check for success*
+            ******************/
+
+            // "" to make string
+            $noncePos = strpos($output[0], $nonce."");
+            $chkNonce = (FALSE !== $noncePos); // Basically, make 0 = true
+
+			if(preg_match($successRegex, $output[0]) || $chkNonce){
 				$sub->setSuccess(1);
+
+                // Don't print nonce
+                if($chkNonce){
+                    $output[0] = substr($output[0], 0, $noncePos);
+                }
+
 				JSON::success($output);
 			} else {
 				$sub->setSuccess(0);
+                $output[0] = $output[0];
 				JSON::warn($output);
 			}
 
@@ -366,8 +382,8 @@ class Review extends Command
 	 * Pass in directory containing all files, name of test, solution, and student files, and language of solution file
 	 *
 	 */
-	private function runCode($dir, $testFileName, $solutionFileName, $studentFileName, $lang){
-		exec("/usr/bin/php class/command/RunCodeNew.php $dir $testFileName $solutionFileName $studentFileName $lang 2>&1", $output);
+	private function runCode($dir, $testFileName, $solutionFileName, $studentFileName, $lang, $nonce){
+		exec("/usr/bin/php class/command/RunCodeNew.php $dir $testFileName $solutionFileName $studentFileName $lang $nonce 2>&1", $output);
 		return $output;
 
 	}
