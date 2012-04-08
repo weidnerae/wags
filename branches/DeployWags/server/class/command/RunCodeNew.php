@@ -24,6 +24,7 @@ $testFileName = $argv[2];
 $solutionFileName = $argv[3];
 $studentFileName = $argv[4];
 $lang = $argv[5]; // which language is going to be run
+$nonce = $argv[6]; // the value to check for correctness
 
 # This contains the pipes that can read and write to the process
 $descriptorspec = array(
@@ -40,11 +41,11 @@ switch($lang)
 		$security_stmt = "-Djava.security.manager"
 			." -Djava.security.policy==/usr/local/apache2/htdocs/cs/wags/class/command/WagsSecurity.policy";
         $dir = str_replace(' ', '\ ', $dir);
+        
 		# Open the process
 		#	-The process will stay open in the background and the php script will continue running.
 		#	-The java process will run with a Security Manager and a set of defined permissions
-
-		$process = proc_open("exec /usr/bin/java $security_stmt -cp $dir $testFileName 2>&1", $descriptorspec, $pipes);
+		$process = proc_open("exec /usr/bin/java $security_stmt -cp $dir $testFileName $nonce 2>&1", $descriptorspec, $pipes);
 		
 		break;
 		
