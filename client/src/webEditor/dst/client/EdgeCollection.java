@@ -131,15 +131,18 @@ public class EdgeCollection implements IsSerializable {
 	public void insertEdges(String[] edgePairs, ArrayList<Node> nodes) {
 		// finding which nodes are used
 		ArrayList<String> usedNodes = new ArrayList<String>();
+		ArrayList<String> duplicates = new ArrayList<String>();
 		for (String s : edgePairs) {
 			String[] splitEdgePairs = s.split(" ");
-			for (String s2 : splitEdgePairs) {
-				if (!usedNodes.contains(s2)) {
-					usedNodes.add(s2);
+			for (int i=0;i<2;i++) {
+				if (!usedNodes.contains(splitEdgePairs[i])) {
+						usedNodes.add(splitEdgePairs[i]);
+				}
+				else if(i==1){
+					duplicates.add(splitEdgePairs[i]);
 				}
 			}
 		}
-
 		// making an arraylist of nodes with only the nodes that are used
 		ArrayList<Node> nodesToUse = new ArrayList<Node>();
 		int offset = 0;
@@ -150,68 +153,42 @@ public class EdgeCollection implements IsSerializable {
 				offset -= 1;
 			}
 		}
-
-		int[] intArray = buildIndexArray(nodesToUse);
-		// RootPanel.get().add(new Label(ints), 250, 250);
-		Node n1 = null;
-		Node n2 = null;
-		for (int i = 1; i < ((intArray.length-1) / 2) + 1; i++) {
-			n1 = nodesToUse.get(intArray[i]);
-			n2 = nodesToUse.get(intArray[i * 2]);
-			if (usedNodes.contains(n1.getValue()) && usedNodes.contains(n2.getValue())) {
-				EdgeUndirected eu = new EdgeUndirected(n1, n2, getInstance(), handler, removable);
-				eu.drawEdge();
-				edges.add(eu);
-			}
-			if (((i * 2) + 1) < intArray.length) {
-				n1 = nodesToUse.get(intArray[i]);
-				n2 = nodesToUse.get(intArray[((i * 2) + 1)]);
-				if (usedNodes.contains(n1.getValue()) && usedNodes.contains(n2.getValue())) {
-					EdgeUndirected eu = new EdgeUndirected(n1, n2, getInstance(), handler, removable);
-					eu.drawEdge();
-					edges.add(eu);
+		for(String ep: edgePairs){
+			String[] splitEdges = ep.split(" ");
+			String parent = splitEdges[0];
+			String child = splitEdges[1];
+			Node parentNode = null;
+			Node childNode = null;
+			if(!duplicates.contains(parent) && !duplicates.contains(child)){              // If parent and child is unique
+				for(Node n: nodesToUse){
+					if(n.getValue().equals(parent)){
+						parentNode = n;
+					}
+					if(n.getValue().equals(child)){
+						childNode = n;
+					}
+				}
+			}else{          
+				int distance = 1000;    // Magical, just needed to be big.
+				for(Node n1: nodes){
+					if(n1.getValue().equals(parent)){
+						for(Node n2: nodes){
+							if(n2.getValue().equals(child)){
+								if(n2.getTop()>n1.getTop() && Math.abs(n1.getLeft()-n2.getLeft()) < distance){
+									distance = (int) Math.sqrt((Math.pow(Math.abs(n1.getLeft()-n2.getLeft()),2)+Math.pow((n2.getTop()-n1.getTop()),2)));
+									parentNode = n1;
+									childNode = n2;
+								}
+							}
+						}
+					}
 				}
 			}
+            EdgeUndirected eu = new EdgeUndirected(parentNode, childNode, getInstance(), handler, removable);
+            eu.drawEdge();
+            edges.add(eu);
 		}
-	}
-
-	public int[] buildIndexArray(ArrayList<Node> nodes) {
-		int[] arr = new int[nodes.size() + 1];
-		arr[0] = -1;
-		int location = 1;
-		int maxHeight = 0;
-		for (int i = 0; i < nodes.size(); i++) {
-			maxHeight = 800; // A little magical. Just had to be larger than any
-								// of the nodes could be.
-			int highIndex = -1;
-			for (int j = 0; j < nodes.size(); j++) {
-				if ((nodes.get(j).getTop() < maxHeight)
-						&& nodes.get(j).getVisited() == false) {
-					highIndex = j;
-					maxHeight = nodes.get(j).getTop();
-				}
-			}
-			arr[location] = highIndex;
-			location++;
-			nodes.get(highIndex).setVisited(true);
-		}
-		for (int i = 1; i < (arr.length) / 2; i++) {
-			if (nodes.get(arr[i * 2]).getLeft() > nodes.get(arr[i * 2 + 1])
-					.getLeft()) {
-				int temp = arr[i * 2];
-				arr[i * 2] = arr[i * 2 + 1];
-				arr[i * 2 + 1] = temp;
-			}
-		}
-		for (int i = 1; i < (arr.length) / 2; i++) {
-			if (nodes.get(arr[i * 2]).getLeft() > nodes.get(arr[i * 2 + 1])
-					.getLeft()) {
-				int temp = arr[i * 2];
-				arr[i * 2] = arr[(i * 2) + 1];
-				arr[(i * 2) + 1] = temp;
-			}
-		}
-		return arr;
+		
 	}
 
 	public void clearEdgeNodeSelections() {
