@@ -6,7 +6,7 @@ import webEditor.client.Proxy;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class Evaluation_BSTTraversal extends Evaluation implements IsSerializable
+public class Evaluation_MSTTraversal extends Evaluation implements IsSerializable
 {
 	
 	public String evaluate(String problemName, String[] arguments, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
@@ -18,7 +18,7 @@ public class Evaluation_BSTTraversal extends Evaluation implements IsSerializabl
 		if(theTrav.trim().length() < arguments[0].trim().length())
 		{
 			Proxy.submitDST(problemName, 0);
-			return "Feedback: Your traversal is incomplete.  Every node must be clicked once to complete a traversal";
+			return "Feedback: Your traversal is incomplete.  Make sure that you're reaching every node.";
 		}
 		else if(theTrav.trim().equals(arguments[0]))
 		{
@@ -39,8 +39,9 @@ public class Evaluation_BSTTraversal extends Evaluation implements IsSerializabl
 				correct + " was correct. Please try to get the entire traversal correct.";	
 			}
 			
-			return "Feedback: Your traversal: " + theTrav + "\nYour traversal was incorrect.  For the given traversal, what " +
-				"would be the first node visited?";
+			return "Feedback: Your traversal: " + theTrav + "\nYour traversal was incorrect.  Be sure you are starting with the "+
+			"appropriate edge.";
+		
 			
 		}
 	}

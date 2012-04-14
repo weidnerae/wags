@@ -14,6 +14,7 @@ public abstract class EdgeParent implements IsSerializable
 	protected Node n1;
 	protected Node n2;
 	protected boolean removable;
+	protected int weight;
 	
 	public EdgeParent(Node n1, Node n2, EdgeCollection ec, ClickHandler handler, boolean removable)
 	{
@@ -22,6 +23,16 @@ public abstract class EdgeParent implements IsSerializable
 		this.ec = ec;
 		this.handler = handler;
 		this.removable = removable;
+		this.weight=0;
+	}
+	public EdgeParent(Node n1, Node n2, EdgeCollection ec, ClickHandler handler, boolean removable, int weight)
+	{
+		this.n1 = n1;
+		this.n2 = n2;
+		this.ec = ec;
+		this.handler = handler;
+		this.removable = removable;
+		this.weight=weight;
 	}
 	
 	public Node getN1()
@@ -53,6 +64,9 @@ public abstract class EdgeParent implements IsSerializable
 	{
 		ec.removeEdgeFromCanvas(line);
 		drawEdge();
+	}
+	public boolean isWeightedEdge(){
+		return weight!=0;
 	}
 	
 	public abstract void drawEdge();

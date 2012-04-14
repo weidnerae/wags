@@ -4,9 +4,17 @@ package webEditor.dst.client;
 import org.vaadin.gwtgraphics.client.Line;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.google.gwt.user.client.ui.Label;
 
 public class EdgeUndirected extends EdgeParent implements IsSerializable
 {
+	public void addWeightLabel(){
+		int midVert = (line.getY1() + line.getY2())/2+120;
+		int midHoriz = (line.getX1() + line.getX2())/2;
+		Label l = new Label(weight+"");
+		l.setStyleName("edge_weight");
+		ec.addLabel(l, midHoriz, midVert, this);
+	}
 	public EdgeUndirected(){super(null,null,null,null,false);}
 	
 	public EdgeUndirected(Node n1, Node n2, EdgeCollection ec, ClickHandler ch, boolean removable)
@@ -17,6 +25,10 @@ public class EdgeUndirected extends EdgeParent implements IsSerializable
 	public EdgeUndirected(Node n1, Node n2)
 	{
 		super(n1, n2, null, null, false);
+	}
+	public EdgeUndirected(Node n1, Node n2, EdgeCollection ec, ClickHandler ch, boolean removable, int weight)
+	{
+		super(n1, n2, ec, ch, removable, weight);
 	}
 	
 	public void drawEdge()

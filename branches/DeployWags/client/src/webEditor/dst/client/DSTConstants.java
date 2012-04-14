@@ -19,6 +19,7 @@ public interface DSTConstants {
 	public static int SUBMIT_MESS_Y = 131;
 	public static int SUBMIT_X = 335;
 	
+	public static String NODE = "node";
 	public static String NODE_DRAGGABLE = "draggable";
 	public static String NODE_CLICKABLE = "clickable";
 	public static String NODE_CLICKABLE_FORCE_EVAL = "clickableforceeval";

@@ -24,6 +24,7 @@ public class EdgeCollection implements IsSerializable {
 	private HandlerRegistration[] edgeHandlers;
 	private AddEdgeRules rules;
 	private boolean removable;
+	private NodeCollection graphNodeCollection = new NodeCollection();
 
 	public EdgeCollection(AddEdgeRules rules,
 			String[] nodeSelectionInstructions, boolean removable) {
@@ -190,6 +191,27 @@ public class EdgeCollection implements IsSerializable {
 		}
 		
 	}
+	
+	public void insertGraphEdges(String[] edgePairs, ArrayList<Node> nodes){
+		for(String edgePair: edgePairs){
+			String[]splitEdges = edgePair.split(" ");
+			Node n1 = null;
+			Node n2 = null;
+			int weight = Integer.parseInt(splitEdges[2]);
+			for(int i=0;i<nodes.size();i++){
+				if(nodes.get(i).getValue().equals(splitEdges[0])){
+					n1 = nodes.get(i); 
+				}
+				if(nodes.get(i).getValue().equals(splitEdges[1])){
+					n2 = nodes.get(i);
+				}
+			}
+			EdgeUndirected eu = new EdgeUndirected(n1, n2, getInstance(), handler, removable, weight);
+			eu.drawEdge();			
+			eu.addWeightLabel();
+			edges.add(eu);
+		}
+	}
 
 	public void clearEdgeNodeSelections() {
 		numNodesSelected = 0;
@@ -331,5 +353,18 @@ public class EdgeCollection implements IsSerializable {
 
 	public String getSecondInstructions() {
 		return nodeSelectionInstructions[1];
+	}
+	public void addLabel(Label l, int x, int y, EdgeUndirected edge){
+		RootPanel.get().add(l, x, y);
+		graphNodeCollection.addNode(new NodeClickable(l.getText(),l, dm.getTravCont(), false, edge, this));
+	}
+	public NodeCollection getGraphNodeCollection(){
+		return graphNodeCollection;
+	}
+	public void clearGraphNodeCollection(){
+		graphNodeCollection.emptyNodes();
+		for(EdgeParent ep: edges){
+			((EdgeUndirected)ep).addWeightLabel();
+		}
 	}
 }
