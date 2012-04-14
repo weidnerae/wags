@@ -14,6 +14,7 @@ public class ProblemServiceImpl
 		AddEdgeRules noEdgeAddition = new AddEdgeRules();
 		Evaluation_BSTTraversal trav = new Evaluation_BSTTraversal();
 		Evaluation_BSTTraversalWithHelp travHelp = new Evaluation_BSTTraversalWithHelp();
+		Evaluation_MSTTraversal MSTTrav = new Evaluation_MSTTraversal();
 		Evaluation_RadixSortWithHelp radix = new Evaluation_RadixSortWithHelp();
 
 		
@@ -33,7 +34,7 @@ public class ProblemServiceImpl
 					new int[]{250,150,350,75,225,275,425},
 					new int[]{75,175,175,275,275,275,275},
 					new String[]{"A B","B D","B E","C F","C G", "A C"},
-					new String[]{"ABDECFG"},
+					new String[]{"A B D E C F G"},
 					travHelp,
 					noEdgeAddition,
 					false,
@@ -47,7 +48,7 @@ public class ProblemServiceImpl
 					new int[]{250,150,350,75,225,275,425},
 					new int[]{75,175,175,275,275,275,275},
 					new String[]{"A B","B D","B E","C F","C G", "A C"},
-					new String[]{"DBEAFCG"},
+					new String[]{"D B E A F C G"},
 					travHelp,
 					noEdgeAddition,
 					false,
@@ -61,7 +62,7 @@ public class ProblemServiceImpl
 					new int[]{250,150,350,75,225,275,425},
 					new int[]{75,175,175,275,275,275,275},
 					new String[]{"A B","B D","B E","C F","C G", "A C"},
-					new String[]{"DEBFGCA"},
+					new String[]{"D E B F G C A"},
 					travHelp,
 					noEdgeAddition,
 					false,
@@ -75,7 +76,7 @@ public class ProblemServiceImpl
 					new int[]{250,150,350,100,200,300,450,50,400},
 					new int[]{75,175,175,275,275,275,275,375,375},
 					new String[]{"X R","R D","D Z","R H","X Q", "Q J", "Q M", "M L"},
-					new String[]{"XRDZHQJML"},
+					new String[]{"X R D Z H Q J M L"},
 					trav,
 					noEdgeAddition,
 					false,
@@ -89,7 +90,7 @@ public class ProblemServiceImpl
 					new int[]{250,200,350,50,300,400,100, 450, 150},
 					new int[]{75,175,175,275,275,275,375, 375, 475},
 					new String[]{"M C","C P","P T","T D","M L", "L Q", "L N", "N S"},
-					new String[]{"PTDCMQLNS"},
+					new String[]{"P T D C M Q L N S"},
 					trav,
 					noEdgeAddition,
 					false,
@@ -103,7 +104,7 @@ public class ProblemServiceImpl
 					new int[]{250,150,350,100,200,300,400,50,450},
 					new int[]{75,175,175,275,275,275,275,375,375},
 					new String[]{"A R","R M","M N","A J","R L","J Q","J Z","Z D"},
-					new String[]{"NMLRQDZJA"},
+					new String[]{"N M L R Q D Z J A"},
 					trav,
 					noEdgeAddition,
 					false,
@@ -816,6 +817,90 @@ public class ProblemServiceImpl
                     radix,
                     true,
                     DSTConstants.NODE_STRING_DRAGGABLE);
+			case 55: return new TreeProblem("MST Kruskal's 1",
+					"MST Kruskal's 1: Use Kruskal's algorithm to find the minimum spanning tree for "+
+			        "the given graph.",
+					"76 98 43 12 48 3",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{60, 175, 175, 325, 325, 500},
+					new int[]{250, 75, 400, 75, 400, 250},
+				    new String[]{"76 98 9", "76 43 2", "98 12 11", "98 43 14", "98 48 7", "12 48 17", "12 3 8", "3 48 12", "48 43 5", "98 3 4", "76 48 10"},
+					new String[]{"2 4 5 7 8"},
+					MSTTrav,
+					noEdgeAddition,
+					false,
+					false,
+					DSTConstants.NODE_DRAGGABLE);
+			case 56: return new TreeProblem("MST Prim's 1",
+					"MST Prim's 1: Use Prim's algorithm to find the minimum spanning tree for "+
+			        "the given graph. Start with the node 3.",
+					"76 98 43 12 48 3",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{60, 175, 175, 325, 325, 500},
+					new int[]{250, 75, 400, 75, 400, 250},
+				    new String[]{"76 98 9", "76 43 2", "98 12 11", "98 43 14", "98 48 7", "12 48 17", "12 3 8", "3 48 12", "48 43 5", "98 3 4", "76 48 10"},
+					new String[]{"4 7 5 2 8"},
+					MSTTrav,
+					noEdgeAddition,
+					false,
+					false,
+					DSTConstants.NODE_DRAGGABLE);
+			case 57: return new TreeProblem("MST Kruskal's 2",
+					"MST Kruskal's 1: Use Kruskal's algorithm to find the minimum spanning tree for "+
+			        "the given graph.",
+					"87 23 4 29 65 13",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{50, 50, 275, 275, 500, 500},
+					new int[]{175, 375, 50, 500, 175, 375},
+				    new String[]{"87 4 23", "4 65 7", "65 13 1", "13 29 10", "29 23 3", "23 87 17", "87 65 5", "23 13 11", "87 29 9", "23 4 15", "4 13 6", "29 65 14"},
+					new String[]{"1 3 5 6 9"},
+					MSTTrav,
+					noEdgeAddition,
+					false,
+					false,
+					DSTConstants.NODE_DRAGGABLE);
+			case 58: return new TreeProblem("MST Prim's 2",
+					"MST Prim's 1: Use Prim's algorithm to find the minimum spanning tree for "+
+			        "the given graph. Start with the node 4.",
+					"87 23 4 29 65 13",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{50, 50, 275, 275, 500, 500},
+					new int[]{175, 375, 50, 500, 175, 375},
+				    new String[]{"87 4 23", "4 65 7", "65 13 1", "13 29 10", "29 23 3", "23 87 17", "87 65 5", "23 13 11", "87 29 9", "23 4 15", "4 13 6", "29 65 14"},
+					new String[]{"6 1 5 9 3"},
+					MSTTrav,
+					noEdgeAddition,
+					false,
+					false,
+					DSTConstants.NODE_DRAGGABLE);
+			case 59: return new TreeProblem("MST Kruskal's 3",
+					"MST Kruskal's 3: Use Kruskal's algorithm to find the minimum spanning tree for "+
+			        "the given graph.",
+					"15 73 95 2 57 40 23",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{50, 150, 150, 275, 350, 350, 450},
+					new int[]{250, 75, 400, 250, 75, 400, 250},
+				    new String[]{"15 73 14", "15 95 9", "15 2 12", "73 2 7", "73 57 2", "95 2 17", "95 40 11", "57 40 4", "57 2 5", "57 23 21", "40 23 1", "40 2 13"},
+					new String[]{"1 2 4 5 9 11"},
+					MSTTrav,
+					noEdgeAddition,
+					false,
+					false,
+					DSTConstants.NODE_DRAGGABLE);
+			case 60: return new TreeProblem("MST Prim's 3",
+					"MST Prim's 3: Use Prim's algorithm to find the minimum spanning tree for "+
+			        "the given graph. Start with the node 15.",
+					"15 73 95 2 57 40 23",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{50, 150, 150, 275, 350, 350, 450},
+					new int[]{250, 75, 400, 250, 75, 400, 250},
+					new String[]{"15 73 14", "15 95 9", "15 2 12", "73 2 7", "73 57 2", "95 2 17", "95 40 11", "57 40 4", "57 2 5", "57 23 21", "40 23 1", "40 2 13"},
+					new String[]{"9 11 1 4 2 5"},
+					MSTTrav,
+					noEdgeAddition,
+					false,
+					false,
+					DSTConstants.NODE_DRAGGABLE);
 
 		default:
 			return new TreeProblem("Binary Search Tree from Postorder Traversal 1",
@@ -892,6 +977,12 @@ public class ProblemServiceImpl
 		if(problem.equals("HeapSort 3")) return 52;
 		if(problem.equals("HeapSort 4")) return 53;
 		if(problem.equals("Radix Sort 2")) return 54;
+		if(problem.equals("MST Kruskal's 1")) return 55;
+		if(problem.equals("MST Prim's 1")) return 56;
+		if(problem.equals("MST Kruskal's 2")) return 57;
+		if(problem.equals("MST Prim's 2")) return 58;
+		if(problem.equals("MST Kruskal's 3")) return 59;
+		if(problem.equals("MST Prim's 3")) return 60;
 		
 		return 0;
 	}

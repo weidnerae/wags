@@ -14,7 +14,7 @@ public class Evaluation_BSTTraversalWithHelp extends Evaluation implements IsSer
 		
 		String theTrav = n.getTraversal();
 		
-		if(theTrav.length() < arguments[0].length())
+		if(theTrav.trim().length() < arguments[0].trim().length())
 		{
 			boolean foundIncorrect = false;
 			String incorrectNodes = "";
@@ -37,7 +37,7 @@ public class Evaluation_BSTTraversalWithHelp extends Evaluation implements IsSer
 			else
 				return "";
 		}
-		else if(theTrav.equals(arguments[0]))
+		else if(theTrav.trim().equals(arguments[0]))
 		{
 			Proxy.submitDST(problemName, 1);
 			return "Feedback: Your traversal: " + theTrav + "\nCongratulatons, your traversal is correct.";

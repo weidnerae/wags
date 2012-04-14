@@ -46,7 +46,7 @@ public class TraversalContainer {
 		String theTrav = "";
 		for(int i = 0; i < traversal.size(); i++)
 		{
-			theTrav += traversal.get(i).toString();
+			theTrav += traversal.get(i).toString()+" ";
 		}
 		
 		return theTrav;
