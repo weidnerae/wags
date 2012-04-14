@@ -87,8 +87,14 @@ public class TreeDisplayManager extends DisplayManager implements
 					problem.getNodesDraggable(), problem.getNodeType());
 		}
 
-		if (problem.getEdges().length > 0)
-			edgeCollection.insertEdges(problem.getEdges(), getNodes());
+		if (problem.getEdges().length > 0){
+			if(isMST()){
+				edgeCollection.insertGraphEdges(problem.getEdges(), getNodes());
+			}
+			else{
+				edgeCollection.insertEdges(problem.getEdges(), getNodes());
+			}
+		}
 	}
 
 	// Add Edge Button
@@ -279,6 +285,9 @@ public class TreeDisplayManager extends DisplayManager implements
 				edgeCollection.emptyEdges();
 				nodeCollection.emptyNodes();
 				insertNodesAndEdges();
+				if(isMST()){
+					edgeCollection.clearGraphNodeCollection();
+				}
 			}
 		});
 		resetButton.setStyleName("control_button");
@@ -291,9 +300,17 @@ public class TreeDisplayManager extends DisplayManager implements
 		evaluateButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				setEdgeParentAndChildren();
-				String evalResult = problem.getEval().evaluate(
+				String evalResult;
+				if(isMST()){
+					evalResult = problem.getEval().evaluate(
+							problem.getName(), problem.getArguments(), edgeCollection.getGraphNodeCollection().getNodes(),
+							getEdges());
+				}
+				else{
+					evalResult = problem.getEval().evaluate(
 						problem.getName(), problem.getArguments(), getNodes(),
 						getEdges());
+				}
 
 				if (showingSubMess == true) {
 					RootPanel.get().remove(submitText);
@@ -422,13 +439,15 @@ public class TreeDisplayManager extends DisplayManager implements
 		} else {
 			for (int i = 0; i < splitNodes.length; i++) {
 				Label label = new Label(splitNodes[i]);
-				label.addDoubleClickHandler(new AddEdgeNodeClickHandler());
 				label.setStyleName("node");
 				panel.add(label, xPositions[i], yPositions[i]);
-				if (draggable)
+				if (draggable){
 					NodeDragController.getInstance().makeDraggable(label);
-				if (nodeType.equals(DSTConstants.NODE_DRAGGABLE))
+				}
+				if (nodeType.equals(DSTConstants.NODE_DRAGGABLE)){
 					nodeCollection.addNode(new Node(splitNodes[i], label));
+					label.addDoubleClickHandler(new AddEdgeNodeClickHandler());
+				}
 				else if (nodeType
 						.equals(DSTConstants.NODE_CLICKABLE_FORCE_EVAL))
 					nodeCollection.addNode(new NodeClickable(splitNodes[i],
@@ -493,4 +512,10 @@ public class TreeDisplayManager extends DisplayManager implements
 	public void addDiagLabel(String s){
 		RootPanel.get().add(new Label(s), 250,250);
 	}
+    public boolean isMST(){
+    	return problem.getProblemText().substring(0,3).equals("MST");
+    }
+    public TraversalContainer getTravCont(){
+    	return cont;
+    }
 }
