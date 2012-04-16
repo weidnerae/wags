@@ -32,6 +32,11 @@ class AddExercise extends Command
         $solutionFileName = pathinfo($solutionFile["name"], PATHINFO_FILENAME);
         $testFileName = pathinfo($testFile["name"], PATHINFO_FILENAME);
         $skeletonFileName = pathinfo($skeletonFile["name"], PATHINFO_FILENAME);
+		
+		// remove any white space from file names
+		$solutionFileName = str_replace(' ', '', $solutionFileName);
+		$testFileName = str_replace(' ', '', $testFileName);
+		$skeletonFileName = str_replace(' ', '', $skeletonFileName);
         
         // Get original file extensions for solution, test, and student files
         $solutionFileExtension = pathinfo($solutionFile["name"], PATHINFO_EXTENSION);

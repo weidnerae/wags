@@ -40,7 +40,6 @@ switch($lang)
 		# define security manager parameters
 		$security_stmt = "-Djava.security.manager"
 			." -Djava.security.policy==/usr/local/apache2/htdocs/cs/wags/class/command/WagsSecurity.policy";
-        $dir = str_replace(' ', '\ ', $dir);
         
 		# Open the process
 		#	-The process will stay open in the background and the php script will continue running.
