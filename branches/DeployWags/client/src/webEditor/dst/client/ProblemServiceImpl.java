@@ -901,6 +901,62 @@ public class ProblemServiceImpl
 					false,
 					false,
 					DSTConstants.NODE_DRAGGABLE);
+			case 61: return new MSTProblem("MST Kruskal's 4",
+					"MST Kruskal's 4: Use Kruskal's algorithm to find the minimum spanning tree for "+
+			        "the given graph.",
+					"15 73 95 2 57 40 23",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{50, 125, 150, 275, 350, 350, 450},
+					new int[]{100, 350, 200, 375, 300, 50, 400},
+					new String[]{"15 40 3", "40 23 10", "40 57 7", "23 57 18", "57 2 14", "2 73 16", "73 40 12", "95 15 22", "95 57 5", "2 95 20", "73 15 24"},
+					new String[]{"3 5 7 10 12 14"},
+					MSTTrav,
+					noEdgeAddition,
+					false,
+					false,
+					DSTConstants.NODE_DRAGGABLE);
+			case 62: return new MSTProblem("MST Prim's 4",
+					"MST Prim's 4: Use Prim's algorithm to find the minimum spanning tree for "+
+			        "the given graph. Start with the node 23.",
+					"15 73 95 2 57 40 23",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{50, 125, 150, 275, 350, 350, 450},
+					new int[]{100, 350, 200, 375, 300, 50, 400},
+					new String[]{"15 40 3", "40 23 10", "40 57 7", "23 57 18", "57 2 14", "2 73 16", "73 40 12", "95 15 22", "95 57 5", "2 95 20", "73 15 24"},
+					new String[]{"10 3 7 5 12 14"},
+					MSTTrav,
+					noEdgeAddition,
+					false,
+					false,
+					DSTConstants.NODE_DRAGGABLE);
+			case 63: return new MSTProblem("MST Kruskal's DEMO",
+					"MST Kruskal's 4: Use Kruskal's algorithm to find the minimum spanning tree for "+
+			        "the given graph.",
+			        "15 73 95 2 57 40 23",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{450, 150, 250, 350, 50, 275, 75},
+					new int[]{300, 200, 400, 50, 250, 150, 50},
+					new String[]{"57 23 2","23 2 19", "2 15 7", "15 95 13", "95 57 15", "23 73 5", "57 73 11", "23 40 22", "40 2 12", "95 73 4", "15 40 25","73 40 18", "40 95 30"},
+					new String[]{"2 4 5 7 12 13"},
+					MSTTrav,
+					noEdgeAddition,
+					false,
+					false,
+					DSTConstants.NODE_DRAGGABLE);
+			case 64: return new MSTProblem("MST Prim's DEMO",
+					"MST Prim's 4: Use Prim's algorithm to find the minimum spanning tree for "+
+			        "the given graph. Start with the node 2.",
+					"15 73 95 2 57 40 23",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{450, 150, 250, 350, 50, 275, 75},
+					new int[]{300, 200, 400, 50, 250, 150, 50},
+					new String[]{"57 23 2","23 2 19", "2 15 7", "15 95 13", "95 57 15", "23 73 5", "57 73 11", "23 40 22", "40 2 12", "95 73 4", "15 40 25","73 40 18", "40 95 30"},
+					new String[]{"7 12 13 4 5 2"},
+					MSTTrav,
+					noEdgeAddition,
+					false,
+					false,
+					DSTConstants.NODE_DRAGGABLE);
 
 		default:
 			return new TreeProblem("Binary Search Tree from Postorder Traversal 1",
@@ -983,6 +1039,10 @@ public class ProblemServiceImpl
 		if(problem.equals("MST Prim's 2")) return 58;
 		if(problem.equals("MST Kruskal's 3")) return 59;
 		if(problem.equals("MST Prim's 3")) return 60;
+		if(problem.equals("MST Kruskal's 4")) return 61;
+		if(problem.equals("MST Prim's 4")) return 62;
+		if(problem.equals("MST Kruskal's DEMO")) return 63;
+		if(problem.equals("MST Prim's DEMO")) return 64;
 		
 		return 0;
 	}
