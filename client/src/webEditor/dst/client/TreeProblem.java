@@ -5,21 +5,21 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public class TreeProblem extends Problem implements IsSerializable {
-	private String name;
-	private String problemText;
-	private String nodes;
-	private int[] xPositions; // must be same size as nodes
-	private int[] yPositions; // must be same size edges
-	private String insertMethod;
-	private String[] edges; // each array element contains two chars (i.e AB),
-							// 1st is parent, 2nd is child
-	private Evaluation eval;
-	private AddEdgeRules rules;
-	private String[] arguments;
-	private boolean edgesRemovable;
-	private boolean nodesDraggable;
-	private String nodeType;
-	private DisplayManager dm;
+	protected String name;
+	protected String problemText;
+	protected String nodes;
+	protected int[] xPositions; // must be same size as nodes
+	protected int[] yPositions; // must be same size edges
+	protected String insertMethod;
+	protected String[] edges; 	// each array element contains two chars (i.e AB),
+								// 1st is parent, 2nd is child
+	protected Evaluation eval;
+	protected AddEdgeRules rules;
+	protected String[] arguments;
+	protected boolean edgesRemovable;
+	protected boolean nodesDraggable;
+	protected String nodeType;
+	protected DisplayManager dm;
 
 	public TreeProblem(String name, String problemText, String nodes,
 			String insertMethod, int[] xPositions, int[] yPositions,
@@ -51,7 +51,7 @@ public class TreeProblem extends Problem implements IsSerializable {
 		NodeDragController.getInstance().registerDropController(
 				NodeDropController.getInstance());
 		NodeCollection nc = new NodeCollection();
-
+	
 		dm = new TreeDisplayManager(canvas, panel, nc, ec, this);
 		ec.setDisplayManager(dm);
 

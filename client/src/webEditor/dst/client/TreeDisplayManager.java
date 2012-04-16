@@ -23,28 +23,28 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class TreeDisplayManager extends DisplayManager implements
 		IsSerializable {
-	private AbsolutePanel panel;
-	private DrawingArea canvas;
-	private NodeCollection nodeCollection;
-	private EdgeCollection edgeCollection;
-	private ArrayList<Widget> itemsInPanel;
-	private TreeProblem problem;
-	private boolean addingEdge;
-	private boolean removingEdge;
-	private TraversalContainer cont;
+	protected AbsolutePanel panel;
+	protected DrawingArea canvas;
+	protected NodeCollection nodeCollection;
+	protected EdgeCollection edgeCollection;
+	protected ArrayList<Widget> itemsInPanel;
+	protected TreeProblem problem;
+	protected boolean addingEdge;
+	protected boolean removingEdge;
+	protected TraversalContainer cont;
 
 	// permanent widgets
-	private Button resetButton;
-	private Button addEdgeButton;
-	private Button removeEdgeButton;
-	private Label edgeAdditionIns;
-	private AbsolutePanel edgeAdditionInsPanel;
-	private Button evaluateButton;
-	private TextArea submitText;
-	private AbsolutePanel leftButtonPanel;
-	private AbsolutePanel middlePanel;
-	private AbsolutePanel rightButtonPanel;
-	private Button submitOkButton;
+	protected Button resetButton;
+	protected Button addEdgeButton;
+	protected Button removeEdgeButton;
+	protected Label edgeAdditionIns;
+	protected AbsolutePanel edgeAdditionInsPanel;
+	protected Button evaluateButton;
+	protected TextArea submitText;
+	protected AbsolutePanel leftButtonPanel;
+	protected AbsolutePanel middlePanel;
+	protected AbsolutePanel rightButtonPanel;
+	protected Button submitOkButton;
 
 	public TreeDisplayManager(DrawingArea canvas, AbsolutePanel panel,
 			NodeCollection nc, EdgeCollection ec, TreeProblem problem) {
