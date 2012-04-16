@@ -23,7 +23,7 @@ public class Evaluation_MSTTraversal extends Evaluation implements IsSerializabl
 		else if(theTrav.trim().equals(arguments[0]))
 		{
 			Proxy.submitDST(problemName, 1);
-			return "Feedback: Your traversal: " + theTrav + "\nCongratulatons, your traversal is correct.";
+			return "Feedback: Congratulatons, your traversal is correct.";
 		}
 		else{
 			
@@ -35,7 +35,7 @@ public class Evaluation_MSTTraversal extends Evaluation implements IsSerializabl
 			
 			if(i > 1){
 				String correct = theTrav.substring(0, i);
-				return "Feedback: Your traversal: " + theTrav + "\nThe nodes in your traversal are out of order.  The portion " +
+				return "Feedback: Your traversal was: " + theTrav + "\nThe nodes in your traversal are out of order.  The portion " +
 				correct + " was correct. Please try to get the entire traversal correct.";	
 			}
 			
