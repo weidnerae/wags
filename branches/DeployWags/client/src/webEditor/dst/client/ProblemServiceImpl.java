@@ -817,7 +817,7 @@ public class ProblemServiceImpl
                     radix,
                     true,
                     DSTConstants.NODE_STRING_DRAGGABLE);
-			case 55: return new TreeProblem("MST Kruskal's 1",
+			case 55: return new MSTProblem("MST Kruskal's 1",
 					"MST Kruskal's 1: Use Kruskal's algorithm to find the minimum spanning tree for "+
 			        "the given graph.",
 					"76 98 43 12 48 3",
@@ -831,7 +831,7 @@ public class ProblemServiceImpl
 					false,
 					false,
 					DSTConstants.NODE_DRAGGABLE);
-			case 56: return new TreeProblem("MST Prim's 1",
+			case 56: return new MSTProblem("MST Prim's 1",
 					"MST Prim's 1: Use Prim's algorithm to find the minimum spanning tree for "+
 			        "the given graph. Start with the node 3.",
 					"76 98 43 12 48 3",
@@ -845,7 +845,7 @@ public class ProblemServiceImpl
 					false,
 					false,
 					DSTConstants.NODE_DRAGGABLE);
-			case 57: return new TreeProblem("MST Kruskal's 2",
+			case 57: return new MSTProblem("MST Kruskal's 2",
 					"MST Kruskal's 1: Use Kruskal's algorithm to find the minimum spanning tree for "+
 			        "the given graph.",
 					"87 23 4 29 65 13",
@@ -859,7 +859,7 @@ public class ProblemServiceImpl
 					false,
 					false,
 					DSTConstants.NODE_DRAGGABLE);
-			case 58: return new TreeProblem("MST Prim's 2",
+			case 58: return new MSTProblem("MST Prim's 2",
 					"MST Prim's 1: Use Prim's algorithm to find the minimum spanning tree for "+
 			        "the given graph. Start with the node 4.",
 					"87 23 4 29 65 13",
@@ -873,7 +873,7 @@ public class ProblemServiceImpl
 					false,
 					false,
 					DSTConstants.NODE_DRAGGABLE);
-			case 59: return new TreeProblem("MST Kruskal's 3",
+			case 59: return new MSTProblem("MST Kruskal's 3",
 					"MST Kruskal's 3: Use Kruskal's algorithm to find the minimum spanning tree for "+
 			        "the given graph.",
 					"15 73 95 2 57 40 23",
@@ -887,7 +887,7 @@ public class ProblemServiceImpl
 					false,
 					false,
 					DSTConstants.NODE_DRAGGABLE);
-			case 60: return new TreeProblem("MST Prim's 3",
+			case 60: return new MSTProblem("MST Prim's 3",
 					"MST Prim's 3: Use Prim's algorithm to find the minimum spanning tree for "+
 			        "the given graph. Start with the node 15.",
 					"15 73 95 2 57 40 23",
