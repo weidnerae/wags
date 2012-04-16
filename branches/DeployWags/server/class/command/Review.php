@@ -186,6 +186,11 @@ class Review extends Command
 			$compilePath = "/tmp/section$section";
 			$pkg = TRUE;
 		}
+		
+		// remove any white space from the path 
+		// 	- no real reason to have any since spaces just cause problems
+		//	 and this is just a temporary path
+		$path = str_replace(' ', '', $path);
 
 		// Construct paths as admin, or if directory not already created
 		// 	-construct solution, test, and helper class paths
@@ -266,15 +271,18 @@ class Review extends Command
 		$helpers = $exercise->getHelperClasses();
         $helperPaths = "";
 		foreach($helpers as $helper){
-            // Note: Using "$path" after following line will, most likely,
-            //   cause errors
-            $path = str_replace(' ', '\ ', $path);
 			$helperPath = "$path/".$helper->getOriginalFileName().".".$helper->getOriginalFileExtension();
             $helperPaths = $helperPaths." ".$helperPath;
         }
 
 		// Make sure student class was written
 		if(!$classResult) return JSON::error("Problem writing student file");
+		
+		// Escape spaces in all paths
+		//$solutionPath = str_replace(' ', '\ ', $solutionPath);
+		//$testPath = str_replace(' ', '\ ', $testPath);
+		//$studentPath = str_replace(' ', '\ ', $studentPath);
+		//$helperPaths = str_replace(' ', '\ ', $helperPaths);
 
 	// END CONSTRUCTION OF PATHS
 
@@ -287,11 +295,7 @@ class Review extends Command
 		switch($lang)
 		{
 			case "Java":
-                // Handle spaces in exercise names
-                $solutionPath = str_replace(' ', '\ ', $solutionPath);
-                $testPath = str_replace(' ', '\ ', $testPath);
-                $studentPath = str_replace(' ', '\ ', $studentPath);
-
+			
                 $compileCmd = "$solutionPath $testPath $helperPaths $studentPath"; 
 
 				// test, soluton, helper, and student files are all Java
@@ -385,7 +389,6 @@ class Review extends Command
 	private function runCode($dir, $testFileName, $solutionFileName, $studentFileName, $lang, $nonce){
 		exec("/usr/bin/php class/command/RunCodeNew.php $dir $testFileName $solutionFileName $studentFileName $lang $nonce 2>&1", $output);
 		return $output;
-
 	}
 
     private function genRandomString() {
@@ -393,7 +396,10 @@ class Review extends Command
         $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
         $string = "";    
         for ($p = 0; $p < $length; $p++) {
-            $string .= $characters[mt_rand(0, strlen($characters))];
+			// the length of $characters is 36, but indices range from 0 - 35
+			// mt_rand chooses random number between given min and max, INCLUSIVE
+			// so, have to subtract one from the string length of $characters so that max index is 35 instead of 36
+            $string .= $characters[mt_rand(0, (strlen($characters) - 1) )];
         }
         return $string;
     }
