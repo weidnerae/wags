@@ -846,7 +846,7 @@ public class ProblemServiceImpl
 					false,
 					DSTConstants.NODE_DRAGGABLE);
 			case 57: return new MSTProblem("MST Kruskal's 2",
-					"MST Kruskal's 1: Use Kruskal's algorithm to find the minimum spanning tree for "+
+					"MST Kruskal's 2: Use Kruskal's algorithm to find the minimum spanning tree for "+
 			        "the given graph.",
 					"87 23 4 29 65 13",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
@@ -860,7 +860,7 @@ public class ProblemServiceImpl
 					false,
 					DSTConstants.NODE_DRAGGABLE);
 			case 58: return new MSTProblem("MST Prim's 2",
-					"MST Prim's 1: Use Prim's algorithm to find the minimum spanning tree for "+
+					"MST Prim's 2: Use Prim's algorithm to find the minimum spanning tree for "+
 			        "the given graph. Start with the node 4.",
 					"87 23 4 29 65 13",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
