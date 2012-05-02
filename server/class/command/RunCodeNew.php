@@ -16,7 +16,6 @@
 
 # define a time (in seconds) to wait for a program to finish
 define('WAIT_TIME', 3);
-define('SIGKILL', 9);
 
 # Get arguments passed in
 $dir = $argv[1];
@@ -70,7 +69,7 @@ switch($lang)
 
 # Make sure that the process is ready. If not print an error
 if (is_resource($process))
-{    
+{   
 	# Give a normal process a moment (2/10ths of a sec) to run before deciding that it may be hanging
 	usleep(200000);
 
@@ -109,6 +108,10 @@ if (is_resource($process))
         # now print results line by line
         foreach ($outputs as $output)
         {
+			// have to use '<br />' because it gets transmitted incorrectly back to client,
+			//  but the client will replace with '\n' characters
+			//  - this needs to be cleaned up eventually so that we can just keep the '\n'
+			//     to begin with
             print("$output<br />");
         }   
 
@@ -119,24 +122,46 @@ if (is_resource($process))
     # otherwise, terminate the process and let the user know
     else 
     {
-//		// There is a bug with proc_terminate, whereas child processes will not be terminated
-//		//  so we will kill all processes with a parent pid the same as the process id
-//		$status = proc_get_status($process);
-//		//  -This is the id of the process executed above -- will be parent id of children
-//		$ppid = $status['pid'];
-//		//	-These are the children process ids - we use the "ps" command to get all processes
-//		//   with the parent id above, then we split it to get an array
-//		$childrenPids = preg_split('/\s+/', shell_exec("ps -o pid --no-heading --ppid $ppid"));
-//		
-//		//	-Now go through and kill each process
-//		foreach($childrenPids as $childPid) {
-//			// kill the child process
-//			posix_kill(intval($childPid), SIGKILL);
-//    	}
+		/* 
+		 * There is a bug with proc_terminate, whereas child processes of the process we executed above 
+		 *  will not be terminated, so we will kill all processes with a parent pid the same as the process 
+		 *  id of the process we started, in addition to killing the initial process
+		 *
+		 */
+		 
+		// First, get the status of the intial process executed above
+		$status = proc_get_status($process);
 		
+		//  Get the id of the intial process executed above
+		//  - will be the parent id of any possible children it may have spawned
+		//  - convert the string to an int
+		$ppid = intval( $status['pid'] );
+
 		// Now kill the main process
+		//  - this will make sure it doesn't try to keep processing after we kill any possible children
+		//  - if this process doesn't spawn children, then this is all that is needed to terminate
         proc_terminate($process);
 		
+		//  Now cleanup any possible children that may be left still
+		//	- use the "ps" command to get all processes with the parent id of the initial process, 
+		//     then trim and split it to get an array
+		$childrenPids = preg_split('/\s+/', trim( shell_exec("ps -o pid --no-heading --ppid $ppid") ) );
+		
+		//	Now go through and kill each process
+		foreach($childrenPids as $pid)
+		{	
+			// convert string to int
+			$pid = intval($pid);
+			
+			// kill the child process by sending it the SIGKILL (9) signal
+			//  - this signal forces the process to terminate
+			//  - also, a pid of '0' is bogus, and usually relates to an empty set, or NULL characters,
+			//     so ignore it
+			if ($pid != 0)
+				shell_exec("kill -s 9 $pid");
+		}
+		
+		// Give the user an error message
         print("Ran too long - check for efficiency/infinite loops.");
     }
 }
