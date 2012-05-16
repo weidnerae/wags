@@ -164,11 +164,21 @@
 				<g:Grid ui:field="grdDSTReview" styleName="{style.grid}"> </g:Grid>
 				
 				<g:Label> Available Exercises </g:Label>
+				<g:ListBox ui:field="setLogical" name="setLogical" styleName="{style.lbox}"></g:ListBox>
 				<g:CheckBox ui:field="Traversals" name="Traversals">Traversals</g:CheckBox>
 				<g:CheckBox ui:field="InsertNodes" name="InsertNodes">Insert Nodes </g:CheckBox>
 				<g:CheckBox ui:field="BuildBST" name="BuildBST">Build Binary Search Tree</g:CheckBox>
 				<g:CheckBox ui:field="BuildBT" name="BuildBT">Build Binary Tree</g:CheckBox>
 				<g:CheckBox ui:field="RadixSort" name="RadixSort">Radix Sort</g:CheckBox>
+				<g:CheckBox ui:field="MaxHeapInsert" name="MaxHeapInsert">MaxHeap Insert</g:CheckBox>
+				<g:CheckBox ui:field="MaxHeapDelete" name="MaxHeapDelete">MaxHeap Delete</g:CheckBox>
+				<g:CheckBox ui:field="MinHeapInsert" name="MinHeapInsert">MinHeap Insert</g:CheckBox>
+				<g:CheckBox ui:field="MinHeapDelete" name="MinHeapDelete">MinHeap Delete</g:CheckBox>
+				<g:CheckBox ui:field="MaxHeapBuild"  name="MaxHeapBuild">MaxHeap Build</g:CheckBox>
+				<g:CheckBox ui:field="MinHeapBuild"  name="MinHeapBuild">MinHeap Build</g:CheckBox>
+				<g:CheckBox ui:field="HeapSort" name="HeapSort">HeapSort</g:CheckBox>
+				<g:CheckBox ui:field="Kruskal" name="Kruskal">Kruskal</g:CheckBox>
+				<g:CheckBox ui:field="Prim" name="Prim">Prim</g:CheckBox>
 				
 				<g:SubmitButton ui:field="sbtDST" styleName="{style.button}"> Set Exercises </g:SubmitButton>
 			</g:VerticalPanel>
