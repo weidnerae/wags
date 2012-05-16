@@ -4,12 +4,14 @@ import webEditor.client.Proxy;
 import webEditor.client.WEStatus;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -34,6 +36,7 @@ public class Admin extends Composite{
 	@UiField TextBox fileName;
 	@UiField ListBox exercises;
 	@UiField ListBox logicalExercises;
+	@UiField ListBox setLogical;
 	@UiField Button btnDSTReview;
 	@UiField Button btnAdminReview;
 	@UiField Button btnAddSkeletons;
@@ -47,12 +50,15 @@ public class Admin extends Composite{
 	@UiField FormPanel DSTForm;
 	@UiField TextBox openDate;
 	@UiField TextBox closeDate;
+	@UiField CheckBox Traversals, InsertNodes, BuildBST, BuildBT, RadixSort,
+		MaxHeapInsert, MaxHeapDelete, MinHeapInsert, MinHeapDelete, MaxHeapBuild,
+		MinHeapBuild, HeapSort, Kruskal, Prim;
 	
 	private static AdminUiBinder uiBinder = GWT.create(AdminUiBinder.class);
 
 	interface AdminUiBinder extends UiBinder<Widget, Admin> {
 	}
-
+	
 	public Admin() {
 		initWidget(uiBinder.createAndBindUi(this));
         
@@ -110,6 +116,74 @@ public class Admin extends Composite{
 				Proxy.getLogicalExercises(logicalExercises);
 			}
 		});
+		
+		// Decides which logical microlabs to display
+		setLogical.addChangeHandler(new LogicalMicroHandler());
+	
+		// Initialize microlab choosing
+		initializeMicros();
+		
+	}
+	
+	private class LogicalMicroHandler implements com.google.gwt.event.dom.client.ChangeHandler{
+		@Override
+		public void onChange(ChangeEvent event) {
+			hideAllMicros();
+			
+			String check = setLogical.getItemText(setLogical.getSelectedIndex());
+			
+			if(check.equals("BST")){
+				Traversals.setVisible(true);
+				InsertNodes.setVisible(true);
+				BuildBST.setVisible(true);
+				BuildBT.setVisible(true);
+			}else if(check.equals("Heaps")){
+				MaxHeapInsert.setVisible(true);
+				MaxHeapDelete.setVisible(true);
+				MinHeapInsert.setVisible(true);
+				MinHeapDelete.setVisible(true);
+				MaxHeapBuild.setVisible(true);
+				MinHeapBuild.setVisible(true);
+				HeapSort.setVisible(true);
+			}else if(check.equals("RadixSort")){
+				RadixSort.setVisible(true);				
+			}else if(check.equals("MST")){
+				Kruskal.setVisible(true);
+				Prim.setVisible(true);
+			}
+			
+		}
+		
+	}
+	
+	// Adds items to setLogical listbox, *will* default to showing BST microlabs
+	void initializeMicros(){
+		setLogical.clear();
+		setLogical.addItem("BST");
+		setLogical.addItem("Heaps");
+		setLogical.addItem("RadixSort");
+		setLogical.addItem("MST");
+		
+		hideAllMicros();
+		
+		//Set BST exercises as default visible
+		Traversals.setVisible(true);
+		InsertNodes.setVisible(true);
+		BuildBST.setVisible(true);
+		BuildBT.setVisible(true);
+		
+	}
+	
+	// Sets all logical microlabs invisible
+	void hideAllMicros(){
+		// Hmm... shouldn't have those capitalized.
+		CheckBox[] groups = {Traversals, InsertNodes, BuildBST, BuildBT, RadixSort,
+				MaxHeapInsert, MaxHeapDelete, MinHeapInsert, MinHeapDelete, MaxHeapBuild,
+				MinHeapBuild, HeapSort, Kruskal, Prim};
+		
+		for(int i = 0; i < groups.length; i++){
+			groups[i].setVisible(false);
+		}
 	}
 	
 	@UiHandler("btnAdminReview")
