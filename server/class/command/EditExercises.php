@@ -50,13 +50,33 @@ class EditExercises extends Command
             }
 		}
 
-		#creates student skeletons
-		if($attribute == "skel"){
-			$exercise->addSkeletons();
-			$text = "Skeletons added";
+        ##############################################
+		#  update student skeletons
+        ##############################################
+        if($attribute == "skel"){
+            // Grab the skeletons from the exercise
+            $skelName = "/$exTitle/skeleton";
+            $skeletons = Exercise::getSkeletons($exercise->getId(), $skelName);
+
+            // Grab the adminSkeleton
+            $fileName = "/$exTitle/AdminSkeleton";
+            $adminSkel = CodeFile::getCodeFileByName($fileName);
+            $newContents = $adminSkel->getContents();
+            
+            $num = count($skeletons);
+
+            foreach($skeletons as $skeleton){
+                $skeleton->setContents($newContents);
+                $skeleton->save();
+                $txt = $skeleton->getContents();
+            }
+
+			$text = "Skeletons Updated";
 		}
 
-		#Toggles partners
+        #############################################
+		#  Toggles partners
+        #############################################
 		if($attribute == "partner"){
 			if($exercise->isMultiUser() == False) {
 				$exercise->setMultiUser(1);

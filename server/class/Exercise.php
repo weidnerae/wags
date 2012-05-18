@@ -273,8 +273,6 @@ class Exercise extends Model
 		$sth->execute(array(':section' => $user->getSection()));		
 
 		return $sth->fetchAll(PDO::FETCH_CLASS, 'Exercise');
-
-
 	}
 
     public static function getSubmissions($exerciseId){
@@ -294,6 +292,18 @@ class Exercise extends Model
 
 		return $sth->fetchAll();
 	}
+
+    public static function getSkeletons($exId, $fileName){
+		require_once('Database.php');
+		$db = Database::getDb();
+
+		$sth = $db->prepare('SELECT * FROM file WHERE exerciseId = :exId
+            AND name = :fname');
+		$sth->setFetchMode(PDO::FETCH_CLASS, 'CodeFile');
+		$sth->execute(array(':exId' => $exId, ':fname' => $fileName));
+
+		return $sth->fetchAll();
+    }
 
 	public static function getTimedExercises(){
 		require_once('Database.php');
