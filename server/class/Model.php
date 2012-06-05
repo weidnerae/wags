@@ -23,6 +23,13 @@ abstract class Model
      */
     public function save()
     {
+        // Don't want guest account to save
+        if(Auth::isLoggedIn()) {
+            $user = Auth::getCurrentUser(); 
+            // 120 is the id of the Book.Guest account
+            if($user->getId() == 120) return;
+        }
+
         require_once('Database.php');
         $db = Database::getDb();
         $table = $this->getTable();
