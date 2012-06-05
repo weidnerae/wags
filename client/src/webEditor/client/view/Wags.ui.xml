@@ -144,6 +144,10 @@
 							<g:header> Desc </g:header>
 							<g:Image ui:field="description" altText="desc.."> </g:Image>
 						</g:tab>
+						<g:tab>
+							<g:header> Sections </g:header>
+							<my:SectionTab></my:SectionTab>
+						</g:tab>
 					</g:TabLayoutPanel>
 				</g:layer>
      		</g:LayoutPanel>
