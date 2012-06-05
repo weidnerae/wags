@@ -78,6 +78,25 @@ class Section extends Model
 
         return $sth->fetchObject('Section');
     }
+    
+    /**
+     * Check if the section exists in the database.
+     *
+     * @return boolean
+     */
+    public static function isSection($section)
+    {
+        require_once('Database.php');
+
+        $db = Database::getDb();
+
+        $sth = $db->prepare('SELECT count(*) as count FROM section WHERE name LIKE :section');
+        $sth->execute(array(':section' => $section));
+
+        $result = $sth->fetch(PDO::FETCH_ASSOC);
+        
+        return $result['count'] == 1;
+    }
 }
 
 ?>
