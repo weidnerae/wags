@@ -92,6 +92,9 @@ class User extends Model
     public function setAdmin($admin=1){
         $this->admin = $admin;
     }
+    public function isGuest(){
+        return $this->admin == 2;
+    }
 	public function setSection($section=0){
 		$this->section = $section;
 	}
