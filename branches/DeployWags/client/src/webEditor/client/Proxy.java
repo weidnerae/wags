@@ -707,6 +707,11 @@ public class Proxy
 		        public void onResponseReceived(Request request, Response response) {
 		          WEStatus status = new WEStatus(response);
 	
+		          //TODO: Change to superAdmin = SUCCESS, regAdmin = WARN, reg = FAILURE
+		          // Then, superAdmin keeps "Section" tabpanel
+		          // Potentially:  Change WAGS to hide all but basic panels, have this ADD
+		          // panels rather than remove
+		          
 		          if(status.getStat() != WEStatus.STATUS_SUCCESS){
 		        	  //Note: Counts reset after each remove, so
 		        	  //remove(2) then remove(3) would not work
@@ -724,6 +729,29 @@ public class Proxy
 		    } catch (RequestException e) {
 		      Window.alert("Failed to send the request: " + e.getMessage());
 		    }
+	}
+	
+	public static void linkNewSection(String section, String admin, String guest){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, baseURL+"?cmd=LinkNewSection" + 
+				"&sect=" + section + "&admin=" + admin + "&guest=" + guest);
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					// TODO Auto-generated method stub
+					WEStatus stat = new WEStatus(response);
+					Notification.notify(stat.getStat(), stat.getMessage());
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Error in LinkNewSection request");					
+				}
+			});
+		} catch(Exception e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
 	}
 
 	/**
