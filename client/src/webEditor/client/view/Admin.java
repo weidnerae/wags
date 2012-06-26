@@ -10,6 +10,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
@@ -34,8 +35,10 @@ public class Admin extends Composite{
 	@UiField SubmitButton addButton;
 	@UiField FormPanel adminForm;
 	@UiField TextBox fileName;
-	@UiField ListBox exercises;
-	@UiField ListBox logicalExercises;
+	@UiField
+	static ListBox exercises;
+	@UiField
+	static ListBox logicalExercises;
 	@UiField ListBox setLogical;
 	@UiField Button btnDSTReview;
 	@UiField Button btnAdminReview;
@@ -250,6 +253,12 @@ public class Admin extends Composite{
 		base.add(line2);
 		deleteExercise.add(base);
 		deleteExercise.center();
+	}
+	
+	// Needed for superAdmin changing sections
+	public static void updateExercises(){
+		Proxy.getVisibleExercises(exercises); 
+		Proxy.getLogicalExercises(logicalExercises);
 	}
 
 }
