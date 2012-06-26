@@ -46,7 +46,7 @@ class Section extends Model
 		require_once('Database.php');
 		$db = Database::getDb();
 
-		$sth = $db->prepare('SELECT name FROM section;');
+		$sth = $db->prepare('SELECT name FROM section ORDER BY name;');
 		$sth->setFetchMode(PDO::FETCH_NUM); 
 		$sth->execute();
 
@@ -75,6 +75,16 @@ class Section extends Model
 
         $sth = $db->prepare('SELECT * FROM section WHERE id = :id');
         $sth->execute(array(':id' => $id));
+
+        return $sth->fetchObject('Section');
+    }
+
+    public static function getSectionByName($name){
+        require_once("Database.php");
+        $db = Database::getDb();
+
+        $sth = $db->prepare('SELECT * FROM section WHERE name = :name');
+        $sth->execute(array(':name' => $name));
 
         return $sth->fetchObject('Section');
     }

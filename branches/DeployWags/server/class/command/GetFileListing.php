@@ -19,7 +19,7 @@ class GetFileListing extends Command
             $exercise->transition();
         }
 
-
+        # Get the users files
         $files = CodeFile::getCodeFilesByUser($user);
         $fileNames = "";
 

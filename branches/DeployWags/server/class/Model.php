@@ -26,8 +26,7 @@ abstract class Model
         // Don't want guest account to save
         if(Auth::isLoggedIn()) {
             $user = Auth::getCurrentUser(); 
-            // 120 is the id of the Book.Guest account
-            if($user->getId() == 120) return;
+            if($user->isGuest()) return;
         }
 
         require_once('Database.php');
