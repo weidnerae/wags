@@ -104,7 +104,7 @@
 				<g:VerticalPanel>
 					<g:HorizontalPanel>
 						<g:Label styleName="{style.label}">New Section</g:Label>
-						<g:ListBox ui:field="lstCurSections" styleName="{style.lbox}"></g:ListBox>
+						<g:ListBox ui:field="lstCurSections" name="lstCurSections" styleName="{style.lbox}"></g:ListBox>
 					</g:HorizontalPanel>
 					<g:SubmitButton ui:field="sbtChangeSection"> Change Section </g:SubmitButton>
 				</g:VerticalPanel>

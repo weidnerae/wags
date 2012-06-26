@@ -529,10 +529,13 @@ public class Proxy
 		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
 		        	  if(status.getMessageArray().length > 0){
 		        		  String[] message = status.getMessageArray();
+		        		  String name;
 		        		 
 		        		  for(String section: message){
-		        			  sections.addItem(section.substring(1, section.length()-1)); //strip quotes
-		        		  }
+		        			  name = section.substring(1, section.length() - 1); //strip quotes
+		        			  // The value passed to the server is the same as the text
+		        			  sections.addItem(name, name); 
+		           		  }
 			        	  
 		        	  } else {
 		        		  sections.addItem(status.getMessage());
