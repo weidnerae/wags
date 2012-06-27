@@ -146,7 +146,7 @@
 						</g:tab>
 						<g:tab>
 							<g:header> Sections </g:header>
-							<my:SectionTab></my:SectionTab>
+							<my:SectionTab ui:field="sections"></my:SectionTab>
 						</g:tab>
 					</g:TabLayoutPanel>
 				</g:layer>
