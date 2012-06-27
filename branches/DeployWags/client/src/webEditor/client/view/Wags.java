@@ -56,6 +56,7 @@ public class Wags extends View
 	@UiField OutputReview review;
 	@UiField Anchor save;
 	@UiField Students students;
+	@UiField SectionTab sections;
 	@UiField Button submit;
 	@UiField TabLayoutPanel tabPanel;
 	@UiField FormPanel wrapperForm;
@@ -85,10 +86,9 @@ public class Wags extends View
 	{
 		initWidget(uiBinder.createAndBindUi(this));
 		
-		// Initialize timer used in code autosaving
-		initializeAutosaving();
-		
-		Proxy.isAdmin(tabPanel);
+		hideTabs();							// Default, tabs are invisible
+		initializeAutosaving();				// Initialize timer used in code autosaving
+		Proxy.isAdmin(tabPanel, sections, students, admin);
 		Proxy.checkPassword(this);
 		Proxy.checkMultiUser(this);
 		Proxy.getUsersName(hello);
@@ -375,6 +375,12 @@ public class Wags extends View
 		
 		setPassword.center();
 		password.setFocus(true);
+	}
+	
+	private void hideTabs(){
+		tabPanel.remove(5);  // Remove sections
+		tabPanel.remove(3);  // Remove students
+		tabPanel.remove(2);  // Remove admin
 	}
 
 	@Override
