@@ -1,6 +1,5 @@
 package webEditor.client.view;
 
-import webEditor.client.ParseResponseHandler;
 import webEditor.client.Proxy;
 import webEditor.client.WEStatus;
 
@@ -31,7 +30,6 @@ public class SectionTab extends Composite implements HasText {
 	public SectionTab() {
 		initWidget(uiBinder.createAndBindUi(this));
 		
-		//TODO: Fill in listbox with current sections
 		Proxy.getSections(lstCurSections);
 		//TODO: Double check admin password before creating password
 		
@@ -87,14 +85,11 @@ public class SectionTab extends Composite implements HasText {
 	
 	@Override
 	public String getText() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setText(String text) {
-		// TODO Auto-generated method stub
-		
+	public void setText(String text) {	
 	}
 
 }

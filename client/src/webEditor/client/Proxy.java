@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 
 public class Proxy
@@ -702,27 +703,27 @@ public class Proxy
 		    }
 	}
 
-	public static void isAdmin(final TabLayoutPanel tabPanel){	
+	public static void isAdmin(final TabLayoutPanel tabPanel, final Widget sections, final Widget students, final Widget admin){	
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=IsAdmin");
 		try {
 		      @SuppressWarnings("unused")
 			Request req = builder.sendRequest(null, new RequestCallback() {
 		        public void onResponseReceived(Request request, Response response) {
 		          WEStatus status = new WEStatus(response);
-	
-		          //TODO: Change to superAdmin = SUCCESS, regAdmin = WARN, reg = FAILURE
-		          // Then, superAdmin keeps "Section" tabpanel
-		          // Potentially:  Change WAGS to hide all but basic panels, have this ADD
-		          // panels rather than remove
+		          boolean root = false;
 		          
-		          if(status.getStat() != WEStatus.STATUS_SUCCESS){
-		        	  //Note: Counts reset after each remove, so
-		        	  //remove(2) then remove(3) would not work
-		        	  //We could do remove(2) then remove(2), but 
-		        	  //that's just confusing for no reason
-		        	  tabPanel.remove(3);
-		        	  tabPanel.remove(2);
+		          // If not root, no section tab
+		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
+		        	  root = true;
 		          }
+		          
+		          // If not even an administrator, remove administrative tabs
+		          if(status.getStat() == WEStatus.STATUS_WARNING || root){
+		        	  tabPanel.add(admin, "Exercises");
+		        	  tabPanel.add(students, "Students");
+		        	  if(root) tabPanel.add(sections, "Sections");
+		          }
+		          
 		        }
 		        
 		        public void onError(Request request, Throwable exception) {
@@ -742,7 +743,6 @@ public class Proxy
 				
 				@Override
 				public void onResponseReceived(Request request, Response response) {
-					// TODO Auto-generated method stub
 					WEStatus stat = new WEStatus(response);
 					Notification.notify(stat.getStat(), stat.getMessage());
 				}
