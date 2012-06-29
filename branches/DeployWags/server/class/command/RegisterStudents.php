@@ -18,15 +18,17 @@ class RegisterStudents extends Command
         if(isset($_POST['first_name']) && isset($_POST['last_name']))
             $txtRegister = true;
 
-        if(isset($_FILES['csvReg']))
+        if($_FILES['csvReg']['size'] > 0)
             $csvRegister = true;
 
+        // If there is nothing to register
         if(!$txtRegister && !$csvRegister){
             return JSON::warn("No one to register!");
         }
 
-        // Handles adding users from the
-        // text box entries
+        ######################################################
+        #   TEXTBOX REGISTERING                              #
+        ######################################################
         if($txtRegister){
 		    $first_name = $_POST['first_name'];
     		$last_name = $_POST['last_name'];
@@ -64,21 +66,100 @@ class RegisterStudents extends Command
             }
 		}
 
-        // Handles adding users from
-        // the csv file
+        ######################################################
+        #   CSV REGISTERING                                  #
+        ######################################################
         if($csvRegister){
-            $csvReg = $_FILES['csvReg'];
 
+            // Declare some variables
+            $names = array();
+            $nameIndex = 0;
+
+            // Open the file using its temporarly location (we aren't
+            // interested in saving it)
+            $csvReg = $_FILES['csvReg']['tmp_name'];
+            if(($csvFile = fopen($csvReg, "r")) == FALSE){
+                return JSON::error("Error opening file");
+            }
+
+            // Go through the file, checking and creating list
+            // of names
+            while(($line = fgetcsv($csvFile, 1000)) != FALSE){
+
+                // If any line has more than 2 entries, report error
+                if(count($line) > 2) {
+                    return JSON::error("Too many fields!");
+
+                // Add entries to $names, which will be used
+                // to create accounts if there are no errors
+                } else {
+                    $names[$nameIndex][0] = $line[0];
+                    $names[$nameIndex][1] = $line[1];
+
+                    // Make sure username doesn't exist
+                    $username = $line[0].".".$line[1];
+                    if(User::isUsername($username)){
+                        return JSON::error("Username $username is taken");
+                    }
+
+                    $nameIndex++;
+                }
+            }
+            $nameIndex--; // Loop increments index one extra time
+            fclose($csvFile);
+
+            if(!($this->createAccounts($names, $msg))){
+                return JSON::error($msg);
+            }
         }
-
+         
 		return JSON::success("Users added");
-		
 	}
 
+    # createAccounts
+    #
+    # Creates accounts using the array populated by the csv file
+    # Returns 0 and an error message on failure, 1 on success
+    private function createAccounts($names, &$msg){
+        $index = 0;
 
+        while($index < count($names)){
+            $first = $names[$index][1];
+            $last = $names[$index][0];
+            $username = "$last.$first";
 
-    #make sure the number of first names is the same
-    #as the number of last names
+            // Define the user
+            $user = new User();
+            $user->setUsername($username);
+            $user->setEmail("");
+            $user->setFirstName($first);
+            $user->setLastName($last);
+            $user->setPassword(md5('password'));
+            $user->setSection(Auth::getCurrentUser()->getSection());
+            $now = time();
+            $user->setLastLogin(0);
+            $user->setAdded($now);
+            $user->setUpdated($now);
+            $user->setAdmin(0);
+            
+            // Try to create the user
+            try{
+                $user->save();
+            }catch(Exception $e){
+                $msg = "Failed to create $username: ".$e->getMessage();
+                return 0;
+            }
+            
+            $index++;
+        }
+        
+        return 1;
+    }
+
+    # validateCounts
+    #
+    # make sure the number of first names is the same
+    # as the number of last names
     private function validateCounts($first_name, $last_name, &$numUsers){
         $numFirst = $numLast = 0;
 
@@ -94,10 +175,12 @@ class RegisterStudents extends Command
         return true;
     }   
 
-    #before processing any users, check to see if any of them are already
-    #registered.  This is done to keep half of the students from being
-    #registered and then creating this same error when the rest of the students
-    #go to be registered
+    # allNewUsers
+    #
+    # before processing any users, check to see if any of them are already
+    # registered.  This is done to keep half of the students from being
+    # registered and then creating this same error when the rest of the students
+    # go to be registered
     private function allNewUsers($first_name, $last_name, $number, &$err){
 		for($i = 0; $i < $number; $i++){
 			if(User::isusername("$last_name[$i].$first_name[$i]")){
