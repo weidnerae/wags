@@ -54,6 +54,10 @@ class EditExercises extends Command
 		#  update student skeletons
         ##############################################
         if($attribute == "skel"){
+            // Still have to add skeletons in case new
+            // users have been added
+            $exercise->addSkeletons();
+
             // Grab the skeletons from the exercise
             $skelName = "/$exTitle/skeleton";
             $skeletons = Exercise::getSkeletons($exercise->getId(), $skelName);
