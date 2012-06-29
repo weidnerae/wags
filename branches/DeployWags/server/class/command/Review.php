@@ -18,6 +18,7 @@ class Review extends Command
 		try {
 			
 		$user = Auth::getCurrentUser();
+        $admin = $user->isAdmin();
 		$section = $user->getSection();
 
 		//Define the regular expressions used
@@ -58,13 +59,13 @@ class Review extends Command
 		$now = time();
 		
 		// Invisible exercises = expired
-        if(!$exercise->getVisible()){
+        if(!$exercise->getVisible() && !$admin){
             return JSON::error("Exercise not currently visible");
         }
         
         //If the exercise has expired:
 		$closed = $exercise->getCloseDate();
-		if($closed != '' && $closed < $now && $closed != 0){
+		if($closed != '' && $closed < $now && $closed != 0 && !$admin){
 			return JSON::error("This exercise has expired.");
 		}
 		
