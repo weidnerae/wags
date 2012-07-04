@@ -9,7 +9,7 @@ class DSTReview extends Command
             $submissions = DSTSubmission::getAllSubmissionsByTitle($title);
             $maxSubs = count($submissions);
             $subCount = 0;
-            $users = User::getUserNames();
+            $users = User::getUserNames();  // Returns in alphabetical order
             $result = array();
 
             $emptyRow = array(
@@ -26,6 +26,8 @@ class DSTReview extends Command
                 $user = $user[0];
                 
                 # If there is a submission for this user
+                # Only works because both submissions and users are returned
+                # alphabetically by username
                 if($subCount < $maxSubs && $user == $submissions[$subCount]['username']){
                     $this->addRow($submissions[$subCount], $result);
                     $subCount = $subCount + 1;

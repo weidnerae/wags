@@ -317,6 +317,21 @@ class Exercise extends Model
 		return $sth->fetchAll(PDO::FETCH_CLASS, 'Exercise');
 	}
 
+    public static function getExerciseTitles(){
+        require_once('Database.php');
+        $db = Database::getDb();
+        $user = Auth::getCurrentUser();
+
+        $sth = $db->prepare("SELECT title FROM exercise WHERE section = 
+            :section");
+        $sth->execute(array(':section' => $user->getSection()));
+
+        $results = $sth->fetchAll(PDO::FETCH_NUM);
+        $vals = array_values($results);
+
+        return $vals; 
+    }
+
 	public function addSkeletons(){
 		require_once('Database.php');
 		$db = Database::getDb();

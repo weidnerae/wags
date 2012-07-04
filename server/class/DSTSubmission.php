@@ -53,6 +53,22 @@ class DSTSubmission extends Model
         $this->success = $success;
     }
 
+    
+    public static function getSubmissionTitles(){
+        require_once('Database.php');
+        $db = Database::getDb();
+        $user = Auth::getCurrentUser();
+
+        $sth = $db->prepare('SELECT DISTINCT title FROM dstSubmission WHERE
+            sectionId = :section ORDER BY title');
+        $sth->execute(array(':section' => $user->getSection()));
+
+        $results = $sth->fetchAll(PDO::FETCH_NUM);
+        $vals = array_values($results);
+
+        return $vals;
+    }
+
 
     public static function getSubmissionByTitle($title){
         require_once('Database.php');
