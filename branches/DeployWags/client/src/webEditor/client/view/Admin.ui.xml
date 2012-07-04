@@ -184,6 +184,13 @@
 			</g:VerticalPanel>
 		</g:FormPanel>
 		
+		<g:FormPanel ui:field="formCompReview">
+			<g:VerticalPanel>
+				<g:Label styleName="{style.subheading}">Comprehensive Review</g:Label>
+				<g:SubmitButton ui:field="sbtCompReview" styleName="{style.button}">Review</g:SubmitButton>
+			</g:VerticalPanel>
+		</g:FormPanel>
+		
 
 	</g:VerticalPanel>
 	

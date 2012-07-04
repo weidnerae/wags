@@ -10,7 +10,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
@@ -30,29 +29,15 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class Admin extends Composite{
 
-	@UiField FileUpload solution;
-	@UiField FileUpload skeleton;
-	@UiField SubmitButton addButton;
-	@UiField FormPanel adminForm;
-	@UiField TextBox fileName;
-	@UiField
-	static ListBox exercises;
-	@UiField
-	static ListBox logicalExercises;
+	@UiField SubmitButton addButton, sbtCompReview;
+	@UiField static ListBox exercises;
+	@UiField static ListBox logicalExercises;
 	@UiField ListBox setLogical;
-	@UiField Button btnDSTReview;
-	@UiField Button btnAdminReview;
-	@UiField Button btnAddSkeletons;
-	@UiField Button btnMakeVisible;
-	//@UiField Button btnEnablePartners;
-	@UiField Grid grdAdminReview;
-	@UiField Grid grdDSTReview;
-	@UiField FileUpload testClass;
-	@UiField FileUpload helperClass;
-	@UiField FormPanel helperForm;
-	@UiField FormPanel DSTForm;
-	@UiField TextBox openDate;
-	@UiField TextBox closeDate;
+	@UiField Button btnDSTReview, btnAdminReview, btnAddSkeletons, btnMakeVisible;
+	@UiField Grid grdAdminReview, grdDSTReview;
+	@UiField FileUpload testClass, helperClass, solution, skeleton;
+	@UiField FormPanel helperForm, DSTForm, adminForm, formCompReview;
+	@UiField TextBox openDate, closeDate, fileName;
 	@UiField CheckBox Traversals, InsertNodes, BuildBST, BuildBT, RadixSort,
 		MaxHeapInsert, MaxHeapDelete, MinHeapInsert, MinHeapDelete, MaxHeapBuild,
 		MinHeapBuild, HeapSort, Kruskal, Prim;
@@ -65,7 +50,7 @@ public class Admin extends Composite{
 	public Admin() {
 		initWidget(uiBinder.createAndBindUi(this));
         
-		//Fill in exercise listbox
+		//Fill in exercise listboxes
 		Proxy.getVisibleExercises(exercises); 
 		Proxy.getLogicalExercises(logicalExercises);
 		
@@ -125,7 +110,12 @@ public class Admin extends Composite{
 		// Decides which logical microlabs to display
 		setLogical.addChangeHandler(new LogicalMicroHandler());
 	
-		// Initialize microlab choosing
+		// Set up for CSV review
+		formCompReview.setAction(Proxy.getBaseURL()+"?cmd=ComprehensiveReview");
+		formCompReview.setEncoding(FormPanel.ENCODING_MULTIPART);
+		formCompReview.setMethod(FormPanel.METHOD_POST);
+		
+		// Initialize microlab choosing (show BST exercises)
 		initializeMicros();
 		
 	}

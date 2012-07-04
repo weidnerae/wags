@@ -43,7 +43,6 @@ public class Wags extends View
 
 	interface EditorUiBinder extends UiBinder<Widget, Wags>{}
 
-	@UiField Admin admin;
 	@UiField FileBrowser browser;
 	@UiField com.google.gwt.user.client.ui.Image description;
 	@UiField DockLayoutPanel dock;
@@ -55,8 +54,6 @@ public class Wags extends View
 	@UiField Anchor logout;
 	@UiField OutputReview review;
 	@UiField Anchor save;
-	@UiField Students students;
-	@UiField SectionTab sections;
 	@UiField Button submit;
 	@UiField TabLayoutPanel tabPanel;
 	@UiField FormPanel wrapperForm;
@@ -70,7 +67,7 @@ public class Wags extends View
 	
 	private final int AUTOSAVETIME = 10000; // autosave time interval in milliseconds
 	private Timer autosaveTimer;
-	
+		
 	private String currentEditorCode = "";
 	
 	String currentExercise;
@@ -86,7 +83,10 @@ public class Wags extends View
 	{
 		initWidget(uiBinder.createAndBindUi(this));
 		
-		hideTabs();							// Default, tabs are invisible
+		SectionTab sections = new SectionTab();
+		Students students = new Students();
+		Admin admin = new Admin();
+				
 		initializeAutosaving();				// Initialize timer used in code autosaving
 		Proxy.isAdmin(tabPanel, sections, students, admin);
 		Proxy.checkPassword(this);
@@ -169,7 +169,6 @@ public class Wags extends View
 				break;
 			case EXPIRED: 
 				submit.setText("Expired");
-				submit.setEnabled(false);
 				break;
 			case PREOPEN:
 				submit.setText("Not Open");
@@ -377,12 +376,6 @@ public class Wags extends View
 		password.setFocus(true);
 	}
 	
-	private void hideTabs(){
-		tabPanel.remove(5);  // Remove sections
-		tabPanel.remove(3);  // Remove students
-		tabPanel.remove(2);  // Remove admin
-	}
-
 	@Override
 	public WEAnchor getLink()
 	{
