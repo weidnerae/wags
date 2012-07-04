@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -719,9 +720,21 @@ public class Proxy
 		          
 		          // If not even an administrator, remove administrative tabs
 		          if(status.getStat() == WEStatus.STATUS_WARNING || root){
-		        	  tabPanel.add(admin, "Exercises");
-		        	  tabPanel.add(students, "Students");
-		        	  if(root) tabPanel.add(sections, "Sections");
+		        	  ScrollPanel scroll = new ScrollPanel();
+		        	  scroll.add(admin);
+		        	  scroll.addStyleName("administration");
+		        	  
+		        	  ScrollPanel scroll2 = new ScrollPanel();
+		        	  scroll2.add(students);
+		        	  scroll2.addStyleName("administration");
+		        	  
+		        	  ScrollPanel scroll3 = new ScrollPanel();
+		        	  scroll3.add(sections);
+		        	  scroll3.addStyleName("administration");
+		        	  
+		        	  tabPanel.add(scroll, "Exercises");
+		        	  tabPanel.add(scroll2, "Students");
+		        	  if(root) tabPanel.add(scroll3, "Sections");
 		          }
 		          
 		        }

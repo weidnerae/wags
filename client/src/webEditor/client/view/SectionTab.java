@@ -30,8 +30,8 @@ public class SectionTab extends Composite implements HasText {
 	public SectionTab() {
 		initWidget(uiBinder.createAndBindUi(this));
 		
+		// Fill listbox with sections that currently exist
 		Proxy.getSections(lstCurSections);
-		//TODO: Double check admin password before creating password
 		
 		// Bind "addSection" form to AddSection.php
 		formAddSection.setAction(Proxy.getBaseURL() + "?cmd=AddSection");
@@ -58,12 +58,14 @@ public class SectionTab extends Composite implements HasText {
 			WEStatus stat = new WEStatus(event.getResults());
 			
 			
-			if(stat.getStat() == WEStatus.STATUS_SUCCESS)
+			if(stat.getStat() == WEStatus.STATUS_SUCCESS){
 				// This call links the section and accounts together
 				Proxy.linkNewSection(txtSectName.getText(), txtAdminName.getText(), txtGuestName.getText());
 				// linkNewSections provides its own notification of success/failure
-			else
+				// TODO: Get a newly created section to show up in the listbox
+			}else{
 				Notification.notify(stat.getStat(), stat.getMessage());
+			}
 		}
 		
 	}

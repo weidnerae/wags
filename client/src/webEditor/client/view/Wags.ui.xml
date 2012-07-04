@@ -129,25 +129,10 @@
 								</g:LayoutPanel>	
 						</g:tab>
 						<g:tab>
-							<g:header> Exercises </g:header>
-							<g:ScrollPanel styleName="{style.administration}">
-								<my:Admin ui:field="admin"></my:Admin>
-							</g:ScrollPanel>
-						</g:tab>
-						<g:tab>
-							<g:header> Students </g:header>
-							<g:ScrollPanel styleName="{style.administration}">
-								<my:Students ui:field="students"></my:Students>
-							</g:ScrollPanel>
-						</g:tab>
-						<g:tab>
 							<g:header> Desc </g:header>
 							<g:Image ui:field="description" altText="desc.."> </g:Image>
 						</g:tab>
-						<g:tab>
-							<g:header> Sections </g:header>
-							<my:SectionTab ui:field="sections"></my:SectionTab>
-						</g:tab>
+
 					</g:TabLayoutPanel>
 				</g:layer>
      		</g:LayoutPanel>
