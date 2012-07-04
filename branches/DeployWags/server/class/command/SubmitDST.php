@@ -1,5 +1,11 @@
 <?php
 
+# SubmitDST
+#
+# Handles creation of DSTSubmission objects, saves them in database
+#
+# Philip Meznar
+
 class SubmitDST extends Command
 {
     public function execute(){
@@ -10,7 +16,11 @@ class SubmitDST extends Command
         $sub = DSTSubmission::getSubmissionByTitle($title);
 
         if($sub){
-            $sub->setNumAttempts($sub->getNumAttempts() + 1);
+            // Only increment number of attempts if they haven't
+            // gotten it correct yet
+            if($sub->getSuccess == 0)
+                $sub->setNumAttempts($sub->getNumAttempts() + 1);
+            
             $sub->setSuccess($success);
         } else {
             $sub = new DSTSubmission();

@@ -50,6 +50,7 @@ class AddExercise extends Command
         if($e){
             $update = true;
 
+            // Update open and close dates
             if($closeDate != "") $e->setCloseDate(strtotime($closeDate));
             if($openDate != "") $e->setOpenDate(strtotime($openDate));
 
