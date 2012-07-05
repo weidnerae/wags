@@ -12,6 +12,7 @@ import webEditor.client.view.Notification;
 import webEditor.client.view.OutputReview;
 import webEditor.client.view.Wags;
 import webEditor.dst.client.DataStructureTool;
+import webEditor.magnet.client.SplashPage;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -188,6 +189,12 @@ public class Proxy
 		    } catch (RequestException e) {
 		      Window.alert("Failed to send the request: " + e.getMessage());
 		    }
+	}
+	
+	public static void buildMagnet(){
+		SplashPage splash = new SplashPage();	
+		RootPanel.get().clear();
+		RootPanel.get().add(splash);
 	}
 	
 	public static void call(String command, HashMap<String, String> request, WagsCallback callback){
@@ -841,6 +848,9 @@ public class Proxy
 //							DataStructureTool t = new DataStructureTool();
 //							t.go();
 							Proxy.buildDST();
+						}
+						if(location.equals("magnet")){
+							Proxy.buildMagnet();
 						}
 					}else{
 						Notification.notify(WEStatus.STATUS_ERROR, status.getMessage());
