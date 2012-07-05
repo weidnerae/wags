@@ -1,0 +1,41 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	xmlns:us='urn:import:webEditor.magnet.client'>
+	<ui:style>
+	.finalize_button{
+	margin-right: 1%;
+	margin-left: 1%;
+	width: 98%;
+	}
+
+	.base{
+	margin-right: .5%;
+	margin-left: 1%;
+	overflow: auto;
+	height: 100%;
+	width: 100%;
+	}
+	
+	.scroll{
+	width: 99%;
+	}
+
+	.main{
+	height:100%;
+	}
+	</ui:style>
+		
+    
+    <g:LayoutPanel ui:field='layoutPanel' styleName='{style.base}'>
+        <g:layer bottom='35px' top='0px'>
+        		<g:ScrollPanel ui:field='nestPanel' styleName='{style.scroll}'>
+        			<g:AbsolutePanel ui:field='mainPanel' styleName='{style.main}'></g:AbsolutePanel>
+        		</g:ScrollPanel>
+        </g:layer>
+        <g:layer bottom='0%' height='30px'>
+        	<g:Button ui:field="button" styleName='{style.finalize_button}'>Finalize</g:Button>
+        </g:layer>
+    </g:LayoutPanel>
+</ui:UiBinder> 
+

@@ -1,0 +1,43 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	xmlns:us='urn:import:webEditor.magnet.client'>
+	<ui:style>
+	.directions_panel{
+		-moz-border-radius: 15px;
+		border-radius: 15px;
+		font-family: "arial";
+		background: #cccccc;
+		padding-right: 1%;
+		padding-left: 1%;
+		margin-bottom: 10px;
+		border: 1px solid black;
+	}
+	.directions_content{
+		margin-bottom: 1%;
+	}
+	.segment_panel{
+	overflow: auto;
+	}
+	.base{
+	margin-right: 20px;
+	margin-left: 10px;
+	}
+	
+	</ui:style>
+	
+	<g:DockLayoutPanel unit='PX' ui:field='layout'>
+		<g:north size='110'>
+			<g:ScrollPanel styleName='{style.directions_panel}'>
+        		<g:AbsolutePanel ui:field="directionsContent" styleName='{style.directions_content}'>
+        		</g:AbsolutePanel>
+        	</g:ScrollPanel>
+		</g:north>
+		<g:south size='30'>
+			<g:AbsolutePanel ui:field='trashbin'>
+			</g:AbsolutePanel>
+		</g:south>
+	</g:DockLayoutPanel>
+	
+</ui:UiBinder> 
+
