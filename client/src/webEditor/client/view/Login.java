@@ -36,12 +36,14 @@ public class Login extends View
 	@UiField PasswordTextBox password;
 	@UiField Button loginButton;
 	@UiField Button dstLoginButton;
+	@UiField Button magnetLoginButton;
 
 	public Login()
 	{
 		initWidget(uiBinder.createAndBindUi(this));
 		loginButton.setText("Programming");
 		dstLoginButton.setText("Logical");
+		magnetLoginButton.setText("Magnet");
 	}
 	
 	@UiHandler("username")
@@ -75,6 +77,13 @@ public class Login extends View
 	{
 		this.setVisible(false);
 		Proxy.login(username.getText(), password.getText(), "dst");
+	}
+	
+	@UiHandler("magnetLoginButton")
+	void onMagnetClick(ClickEvent event)
+	{
+		this.setVisible(false);
+		Proxy.login(username.getText(), password.getText(), "magnet");
 	}
 
 	@Override

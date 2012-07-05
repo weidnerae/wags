@@ -20,6 +20,7 @@
   <source path='client'/>
   <source path='shared'/>
   <source path='dst'/>
+  <source path='magnet'/>
   <inherits name="com.google.gwt.json.JSON"/>
   <inherits name="com.google.gwt.json.JSON"/>
   <!-- Removes warning message @ compilation due to unsafe html 

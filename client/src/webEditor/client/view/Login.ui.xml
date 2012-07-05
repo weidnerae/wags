@@ -63,6 +63,7 @@
 		<g:HorizontalPanel styleName="{style.columns}">	
 			<g:Button styleName="{style.button}" ui:field="loginButton" />
 			<g:Button styleName="{style.button}" ui:field="dstLoginButton" />
+			<g:Button styleName="{style.button}" ui:field="magnetLoginButton" />
 		</g:HorizontalPanel>
 	</g:VerticalPanel>
 	
