@@ -2,7 +2,6 @@ package webEditor.client;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.http.client.Response;
@@ -13,6 +12,7 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
+import com.google.gwt.user.client.Window;
 
 public class WEStatus 
 {
@@ -23,8 +23,9 @@ public class WEStatus
 	private int stat;
 	private String message = "";
 	private String[] messageArray;
-	private Map<String, String> messageMap;
+	private HashMap<String, String> messageMap;
 	private boolean bool;
+	private Object myObject;
 
 	/**
 	 * Takes a Response as parameter. Parses the response and builds
@@ -83,6 +84,12 @@ public class WEStatus
 						val = val.substring(1, val.length()-1);// Remove quotes
 					}
 					messageMap.put(key, val);
+				}
+				
+				// Since we have a limited number of "objects" being passed from the
+				// server, we'll go ahead and construct similar objects on the client
+				if(messageMap.containsKey("Object")){
+					createObject(messageMap);
 				}
 			}
 			// JSON Boolean
@@ -170,7 +177,7 @@ public class WEStatus
 		return this.messageArray;
 	}
 	
-	public Map<String, String> getMessageMap(){
+	public HashMap<String, String> getMessageMap(){
 		return this.messageMap;
 	}
 	
@@ -183,5 +190,57 @@ public class WEStatus
 	
 	public boolean getBool(){
 		return bool;
+	}
+	
+	private void createObject(HashMap<String, String> messageMap){
+		String objType = messageMap.get("Object");
+		if(objType == "MagnetProblem"){
+			boolean creationStation;
+			
+			// Grab ints
+			int id = Integer.parseInt(messageMap.get("id"));
+			int section = Integer.parseInt(messageMap.get("section"));
+			int creatStat = Integer.parseInt(messageMap.get("creationStation"));
+			
+			// Decide about creationStation
+			if (creatStat == 1) creationStation = true;
+			else creationStation = false;
+			
+			// Get arrays
+			String[] innerFunctions, forLeft, forMid, forRight, bools, statements;
+			innerFunctions = parseArray(messageMap.get("innerFunctions"));
+			forLeft = parseArray(messageMap.get("forLeft"));
+			forMid = parseArray(messageMap.get("forMid"));
+			forRight = parseArray(messageMap.get("forRight"));
+			bools = parseArray(messageMap.get("bools"));
+			statements = parseArray(messageMap.get("statements"));
+			
+			// Create the object
+			myObject = new MagnetProblem(id, messageMap.get("title"), messageMap.get("directions"), 
+						messageMap.get("type"), creationStation, messageMap.get("mainFunction"), innerFunctions, forLeft, forMid, forRight, bools,
+						statements, messageMap.get("solution"), section);			
+		}
+	}
+	
+	// If an object was created, return it.  Otherwise, return a String saying
+	// there is no object
+	public Object getObject(){
+		if (!messageMap.isEmpty() && messageMap.containsKey("Object")){
+			return myObject;
+		} else {
+			String oops = "No object!";
+			return oops;
+		}
+			
+	}
+	
+	// Takes strings delimited by ',' with elements surrounded by " <- standard
+	// JSON encoding, and turns them into arrays with their respective elements
+	private String[] parseArray(String parseText){
+		String[] strArray = parseText.split(",");
+		for(int i = 0; i < strArray.length; i++){
+			strArray[i] = strArray[i].substring(1, strArray[i].length() - 1); // Strip quotes
+		}
+		return strArray;
 	}
 }

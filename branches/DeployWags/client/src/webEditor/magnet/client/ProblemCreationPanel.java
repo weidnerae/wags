@@ -169,7 +169,7 @@ public class ProblemCreationPanel extends AbsolutePanel{
 //				tabPanel.remove(i);
 //			}
 //		}
-		EditingPanelUi editingPanel = new EditingPanelUi(tabPanel.getOffsetHeight(),titleBox.getText(), descriptionBox.getText(), new StackableContainer((mainFunction.getBoxContent()+Consts.FUNCTION),dragControl,Consts.MAIN), makeTestInsideSegments(), problemType , makeTestPremadeSegments(getTestPremadeIDs()), Consts.STRUCTURES_LIST, splitConditions(conditionOptions.getAreasText()[0]), splitConditions(conditionOptions.getAreasText()[1]), splitConditions(conditionOptions.getAreasText()[2]), splitConditions(conditionOptions.getAreasText()[3]),getTestSolution(),getTestPremadeIDs(),dragControl);
+		EditingPanelUi editingPanel = new EditingPanelUi(tabPanel.getOffsetHeight(),titleBox.getText(), descriptionBox.getText(), new StackableContainer((mainFunction.getBoxContent()+Consts.FUNCTION),dragControl,Consts.MAIN), makeTestInsideSegments(), problemType , makeTestPremadeSegments(getTestPremadeIDs()), Consts.STRUCTURES_LIST, splitConditions(conditionOptions.getAreasText()[0]), splitConditions(conditionOptions.getAreasText()[1]), splitConditions(conditionOptions.getAreasText()[2]), splitConditions(conditionOptions.getAreasText()[3]),getTestSolution(),null,dragControl);
 		//Window.alert("before editingpanel is inserted");
 		tabPanel.insert(editingPanel,"Editing Panel", 0);
 		//Window.alert("before editingpanel is starte");
