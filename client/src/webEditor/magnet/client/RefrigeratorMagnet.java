@@ -26,7 +26,7 @@ public class RefrigeratorMagnet{
 	static PickupDragController dc;
 	
 	
-	public RefrigeratorMagnet(String title, String description, StackableContainer mainFunction, StackableContainer[] insideFunctions, String problemType, StackableContainer[] premadeSegments, String[] structuresList, String[] for1List, String[] for2List, String[] for3List, String[] booleanList, String solution, String premadeIDs, PickupDragController dc) {
+	public RefrigeratorMagnet(String title, String description, StackableContainer mainFunction, StackableContainer[] insideFunctions, String problemType, StackableContainer[] premadeSegments, String[] structuresList, String[] for1List, String[] for2List, String[] for3List, String[] booleanList, String solution, String[] premadeIDs, PickupDragController dc) {
 		this.dc=dc;
 		
 		setPremadeIDs(premadeIDs, premadeSegments);
@@ -48,9 +48,8 @@ public class RefrigeratorMagnet{
 	    
 	    editingPanel.start();
 	}
-	public void setPremadeIDs(String solution, StackableContainer[] segments){
-		String[] premadeIDs = solution.split(",");
-		for(int i=0;i<premadeIDs.length;i++){
+	public void setPremadeIDs(String[] ids, StackableContainer[] segments){
+		for(int i=0;i<ids.length;i++){
 			//segments[i].setID(premadeIDs[i]);
 		}
 	}

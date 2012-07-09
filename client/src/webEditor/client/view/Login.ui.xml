@@ -65,6 +65,7 @@
 			<g:Button styleName="{style.button}" ui:field="dstLoginButton" />
 			<g:Button styleName="{style.button}" ui:field="magnetLoginButton" />
 		</g:HorizontalPanel>
+		
 	</g:VerticalPanel>
 	
 </ui:UiBinder> 

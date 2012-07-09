@@ -203,7 +203,7 @@ public class Proxy
 
 	/*
 	 * Makes a request to server.
-	 * The string command will correspond to a commad on the server.
+	 * The string command will correspond to a command on the server.
 	 * The string[] will contain all other request variables.
 	 * The callback will be called when a reponse is received from server.
 	 */
@@ -526,6 +526,32 @@ public class Proxy
 		}
 	}
 
+	/** TEMPORARY
+	 *  Just trying to figure out how our WEStatus currently handles "embedded" arrays
+	 */
+	public static void getMagnetProblem(){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetMagnetProblem");
+		try{
+			builder.sendRequest("", new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus status = new WEStatus(response);
+					MagnetProblem magProb = (MagnetProblem) status.getObject();
+					SplashPage.query(magProb);
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+		} catch(Exception e){
+			Window.alert(e.getMessage());
+		}
+	}
+	
 	public static void getSections(final ListBox sections) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, getSections);
 		try {
