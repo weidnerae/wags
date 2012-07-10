@@ -26,6 +26,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -191,8 +192,9 @@ public class Proxy
 		    }
 	}
 	
+	// TODO: Move out of Proxy
 	public static void buildMagnet(){
-		SplashPage splash = new SplashPage();	
+		SplashPage splash = new SplashPage();
 		RootPanel.get().clear();
 		RootPanel.get().add(splash);
 	}
@@ -529,8 +531,8 @@ public class Proxy
 	/** TEMPORARY
 	 *  Just trying to figure out how our WEStatus currently handles "embedded" arrays
 	 */
-	public static void getMagnetProblem(){
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetMagnetProblem");
+	public static void getMagnetProblem(int id, final HorizontalPanel problemPane){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetMagnetProblem&id=" + id);
 		try{
 			builder.sendRequest("", new RequestCallback() {
 				
@@ -538,13 +540,13 @@ public class Proxy
 				public void onResponseReceived(Request request, Response response) {
 					WEStatus status = new WEStatus(response);
 					MagnetProblem magProb = (MagnetProblem) status.getObject();
+					problemPane.setVisible(false);
 					SplashPage.query(magProb);
 				}
 				
 				@Override
 				public void onError(Request request, Throwable exception) {
-					// TODO Auto-generated method stub
-					
+					Window.alert("Error getting magnet problem");					
 				}
 			});
 		} catch(Exception e){
@@ -853,7 +855,8 @@ public class Proxy
 	}
 
 	/**
-	 * Tell server we want to login.
+	 * Tell server we want to login, and loads the appropriate
+	 * widgets
 	 */
 	public static void login(String username, String password, final String location)
 	{

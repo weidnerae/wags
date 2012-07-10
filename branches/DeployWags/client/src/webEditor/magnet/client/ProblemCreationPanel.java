@@ -444,7 +444,6 @@ public class ProblemCreationPanel extends AbsolutePanel{
 						}
 					});
 				} catch (RequestException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				if(firstClick){
@@ -508,9 +507,7 @@ public class ProblemCreationPanel extends AbsolutePanel{
 							setContainerIDs(containerIDs);
 						}
 						@Override
-						public void onError(Request request, Throwable exception) {
-							// TODO Auto-generated method stub
-							
+						public void onError(Request request, Throwable exception) {					
 						}
 					});
 				}else{
@@ -522,8 +519,6 @@ public class ProblemCreationPanel extends AbsolutePanel{
 					}
 					@Override
 					public void onError(Request request, Throwable exception) {
-						// TODO Auto-generated method stub
-						
 					}
 				});
 				}
