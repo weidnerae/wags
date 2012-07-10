@@ -16,16 +16,18 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class SplashPage extends View {
 	protected static PickupDragController dc = new PickupDragController(RootPanel.get(), false);
 	static String[] structuresList = {"choose structure...","for","while","if","else if", "else"};
+	final HorizontalPanel problemPane = new HorizontalPanel();
 	
 	String title;
 	
 	public SplashPage() {
+		problemPane.clear();
 		String completeURL = "http://cs.appstate.edu/wags/Test_Version/GetProblems.php";
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, completeURL);
 		try {
@@ -40,19 +42,21 @@ public class SplashPage extends View {
 					
 					for(int i=0;i<arr.size();i++){
 						String sId = arr.get(i).isObject().get("id").isString().stringValue();
-						int id = Integer.parseInt(sId);
+						final int id = Integer.parseInt(sId);
 						title = arr.get(i).isObject().get("title").isString().stringValue();
-						RootPanel.get().add(new ProblemButton(title,id, new ClickHandler(){
+						problemPane.add(new ProblemButton(title,id, new ClickHandler(){
 							public void onClick(ClickEvent event) {
 								//TODO: Had Rootpanel.get().clear() here - it broke things.  Still need
 								// to make problem list invisible though
-								Proxy.getMagnetProblem();
+								Proxy.getMagnetProblem(id, problemPane);
 							}
 							public void onError(Request request,
 									Throwable exception) {
 							}
 						}));
 					}
+					
+					RootPanel.get().add(problemPane);
 						
 					
 				}
@@ -143,7 +147,6 @@ public class SplashPage extends View {
 
 	@Override
 	public WEAnchor getLink() {
-		// TODO Auto-generated method stub
 		return new WEAnchor("SP", this, "SP");
 	}
 }
