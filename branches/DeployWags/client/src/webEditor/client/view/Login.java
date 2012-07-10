@@ -44,7 +44,6 @@ public class Login extends View
 		loginButton.setText("Programming");
 		dstLoginButton.setText("Logical");
 		magnetLoginButton.setText("Magnet");
-		username.setText("Messing with magnet button");
 	}
 	
 	@UiHandler("username")
