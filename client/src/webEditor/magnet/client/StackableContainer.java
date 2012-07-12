@@ -7,6 +7,7 @@ import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
 
 import com.google.gwt.user.client.ui.*;
+
 import java.util.ArrayList;
 
 /**
@@ -19,6 +20,7 @@ import java.util.ArrayList;
  * @version r28
  */
 public class StackableContainer extends FocusPanel {
+	private String containerID;
 	private AbsolutePanel innerPanel = new AbsolutePanel();
 	private HTML topLabel;
 	private AbsolutePanel topPanel = new AbsolutePanel();
@@ -166,7 +168,8 @@ public class StackableContainer extends FocusPanel {
 			ArrayList<StackableContainer> children = new ArrayList<StackableContainer>();
 			ArrayList<StackableContainer> sortedChildren = new ArrayList<StackableContainer>();
 			for (int i = 0; i < insidePanel.getWidgetCount(); i++) {
-				children.add((StackableContainer) insidePanel.getWidget(i));
+				if(!child.equals(insidePanel.getWidget(i)))
+					children.add((StackableContainer) insidePanel.getWidget(i));
 			}
 			while (children.size() > 0) {
 				int maxHeight = children.get(0).getAbsoluteTop();
@@ -275,6 +278,19 @@ public class StackableContainer extends FocusPanel {
 	public int getHeight() {
 		return height;
 	}
+	public String getID(){
+		return containerID;
+	}
+	public void setID(String id){
+		containerID = id;
+	}
+	public void setMain(boolean main){
+		this.isMain = main;
+	}
+	public void setStackable(boolean stack){
+		stackable = stack;
+	}
+	
 	
 	@Override
 	protected void onLoad() {
