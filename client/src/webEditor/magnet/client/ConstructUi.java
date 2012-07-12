@@ -8,6 +8,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
@@ -145,65 +146,77 @@ public class ConstructUi extends Composite {
 	}
 	
 	/**
-	 * BEWARE: THERE BE DRAGONS AHEAD
-	 * 
-	 * 
-	 * @param segment
-	 */
-	public void addSegment(final StackableContainer segment) {
-		Timer timer = new Timer() {
-			@Override
-			public void run() {
-				int baseX = 10;
-				int baseY = 10;
-				int widgetCount = segmentsContent.getWidgetCount();
-				
-				if (widgetCount == 0) {
-					segmentsContent.add(segment, baseX, baseY);
-				} else {
-					StackableContainer lastWidget = (StackableContainer) segmentsContent.getWidget(segmentsContent.getWidgetCount() - 1);
-					boolean newColumn = lastWidget.getTop() + lastWidget.getHeight() > 
-										segmentsContent.getAbsoluteTop() + segmentsContent.getOffsetHeight() - 70 - getAbsoluteTop();
-					
-					if (newColumn) {		
-						for (int i = 0; i < widgetCount; i++) {
-							StackableContainer w = (StackableContainer)segmentsContent.getWidget(i);
-							
-							if (w.getLeft() + w.getWidth() > baseX) {
-								baseX = w.getLeft() + w.getWidth();
-							}
-						}
-						
-						segmentsContent.add(segment, baseX, baseY);
-					} else {	
-						
-						if (initial && first) {
-							int left = lastWidget.getAbsoluteLeft();
-							int top = lastWidget.getAbsoluteTop();
-						
-							lastWidget.removeFromParent();
-							
-							segmentsContent.add(lastWidget, left - getAbsoluteLeft(), top - segmentsContent.getAbsoluteTop() - 10);
-							
-							first = false;
-						}
-						
-						baseX = lastWidget.getLeft() - getAbsoluteLeft();
-						baseY = lastWidget.getTop() + lastWidget.getHeight() - getAbsoluteTop();
-						
-						if (initial) {
-							baseY -= segmentsContent.getAbsoluteTop() - getAbsoluteTop();
-						} else if (problemType.equals(Consts.ADVANCED_PROBLEM)) {				
-							baseY -= creationStation.getOffsetHeight();
-						}
-						
-						segmentsContent.add(segment, baseX, baseY);
-					}
-				}
-			}
-		};
-		
-		timer.schedule(1);
-	}
+     * Adds a segment to the left side of the screen.
+     * 
+     * BEWARE: THERE BE DRAGONS AHEAD
+     * 
+     * @param segment
+     */
+    public void addSegment(final StackableContainer segment) {
+            /*
+             * In order for getOffsetWidth(), getAbsoluteTop(), etc. to return the correct values, we have to wrap the calls in a Timer object.
+             * I don't fully understand why this works, but it results in functional code. Current theory is that adding it to the timer allows 
+             * everything to be added to the DOM before we try to call the methods.
+             * 
+             * This is ugly, and I don't like it, but after hours and hours of agonizing over the code, this is my only solution.
+             * 
+             * @author Jon Johnson
+             * @version 7/6/2012
+             */
+            Timer timer = new Timer() {
+                    @Override
+                    public void run() {
+                            int baseX = 10;
+                            int baseY = 10;
+                            int widgetCount = segmentsContent.getWidgetCount();
+                            
+                            if (widgetCount == 0) {
+                                    // we add the first widget at an offset of 10, 10
+                                    segmentsContent.add(segment, baseX, baseY);
+                            } else {
+                                    // after the first, we calculate where the next widget should go based on the last widget in the panel
+                                    StackableContainer lastWidget = (StackableContainer) segmentsContent.getWidget(segmentsContent.getWidgetCount() - 1);
+                                    boolean newColumn = lastWidget.getTop() + lastWidget.getHeight() > 
+                                                                            segmentsContent.getAbsoluteTop() + segmentsContent.getOffsetHeight() - 70 - getAbsoluteTop();
+                                    
+                                    if (newColumn) {
+                                            // if we need to start a new column, we iterate through all the magnets and find the one that's farthest to the right,
+                                            // then base the next column off of that
+                                            for (int i = 0; i < widgetCount; i++) {
+                                                    StackableContainer w = (StackableContainer) segmentsContent.getWidget(i);
+                                                    
+                                                    if (w.getLeft() + w.getWidth() > baseX) {
+                                                            baseX = w.getLeft() + w.getWidth();
+                                                    }
+                                            
+                                            }
+                                            
+                                            segmentsContent.add(segment, baseX, baseY);
+                                            
+                                            // Prevent the user from trying to add too many widgets to the Construct Panel                                  
+                                            if (segment.getAbsoluteLeft() + segment.getOffsetWidth() > getOffsetWidth() + getAbsoluteLeft()) {
+                                                    segmentsContent.remove(segment);
+                                                    Window.alert("Problem! You are trying to add too many magnets. Please consider moving some magnets to the Trash Bin or rearranging them.");
+                                            }
+                                    } else {        
+                                            baseX = lastWidget.getLeft() - getAbsoluteLeft();
+                                            baseY = lastWidget.getTop() + lastWidget.getHeight() - getAbsoluteTop();
+                                            
+                                            // for the first set of magnets (i.e. before the user adds any they created), we have to have a special
+                                            // flag and treat them differently
+                                            if (initial) {
+                                                    baseY -= segmentsContent.getAbsoluteTop() - getAbsoluteTop();
+                                            } else if (problemType.equals(Consts.ADVANCED_PROBLEM)) {       
+                                                    baseY -= creationStation.getOffsetHeight();
+                                            }
+
+                                            segmentsContent.add(segment, baseX, baseY);
+                                    }
+                            }
+                    }
+            };
+            
+            timer.schedule(1);
+    }
 
 }

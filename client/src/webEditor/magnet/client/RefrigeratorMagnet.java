@@ -36,7 +36,7 @@ public class RefrigeratorMagnet{
 		rootPanel.setWidth("99%");
 		
 	    rootPanel.add(tabPanel);
-	    tabPanel.setSize("98%", "96%");
+	    tabPanel.setSize("100%", "100%");
 	    int tabPanelHeight = tabPanel.getOffsetHeight();
 	    editingPanel = new EditingPanelUi(tabPanelHeight,title,description,mainFunction,insideFunctions,problemType,premadeSegments, structuresList,for1List,for2List,for3List,booleanList, solution, premadeIDs, dc);
 		tabPanel.add(editingPanel, "Editing Mode", false);
