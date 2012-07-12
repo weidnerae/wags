@@ -28,6 +28,7 @@ public class RefrigeratorMagnet{
 	
 	public RefrigeratorMagnet(String title, String description, StackableContainer mainFunction, StackableContainer[] insideFunctions, String problemType, StackableContainer[] premadeSegments, String[] structuresList, String[] for1List, String[] for2List, String[] for3List, String[] booleanList, String solution, String[] premadeIDs, PickupDragController dc) {
 		this.dc=dc;
+		this.dc.setBehaviorDragProxy(true);
 		
 		setPremadeIDs(premadeIDs, premadeSegments);
 		RootPanel rootPanel = RootPanel.get();
