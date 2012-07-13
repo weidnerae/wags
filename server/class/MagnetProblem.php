@@ -153,16 +153,33 @@ class MagnetProblem extends Model
             "type" => $this->type,
             "creationStation" => $this->creationStation,
             "mainFunction" => $this->mainFunction,
-            "innerFunctions" => explode(",", $this->innerFunctions),
-            "forLeft" => explode(",", $this->forLeft),
-            "forMid" => explode(",", $this->forMid),
-            "forRight" => explode(",", $this->forRight),
-            "bools" => explode(",", $this->booleans),
-            "statements" => explode(",", $this->statements),
+            "innerFunctions" => $this->getData(explode(",", $this->innerFunctions)),
+            "forLeft" => $this->getData(explode(",", $this->forLeft)),
+            "forMid" => $this->getData(explode(",", $this->forMid)),
+            "forRight" => $this->getData(explode(",", $this->forRight)),
+            "bools" => $this->getData(explode(",", $this->booleans)),
+            "statements" => $this->getData(explode(",", $this->statements)),
             "solution" => $this->solution,
             "section" => $this->section,
         );
         return $objArray;
+    }
+
+    # This function takes the ids of "problemData" entries in the database,
+    # and constructs an array of the contents of the entries whose ID's were
+    # given.  It then returns that array of strings
+    private function getData($ids){
+        require_once('Database.php');
+        $db = Database::getDb();
+
+        $inQuery = implode(',', array_fill(0, count($ids), '?'));
+        $sth = $db->prepare('SELECT data FROM magnetData WHERE id
+            IN(' . $inQuery . ')');
+
+        $sth->execute($ids);
+        $results = $sth->fetchall(PDO::FETCH_NUM);
+
+        return $results;
     }
     
     ###########
