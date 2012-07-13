@@ -239,7 +239,7 @@ public class WEStatus
 	private String[] parseArray(String parseText){
 		String[] strArray = parseText.split(",");
 		for(int i = 0; i < strArray.length; i++){
-			strArray[i] = strArray[i].substring(1, strArray[i].length() - 1); // Strip quotes
+			strArray[i] = strArray[i].substring(2, strArray[i].length() - 2); // Strip quotes
 		}
 		return strArray;
 	}
