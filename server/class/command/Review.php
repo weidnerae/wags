@@ -75,6 +75,10 @@ class Review extends Command
 		//	  being used, and other files will simply use their file extensions
 		switch($solutionFileExtension)
 		{
+			case "fs":	
+				$lang = "FSharp";
+				break;
+			
 			case "java":
 				$lang = "Java";
 				
@@ -279,7 +283,7 @@ class Review extends Command
 		// Make sure student class was written
 		if(!$classResult) return JSON::error("Problem writing student file");
 		
-		// Escape spaces in all paths
+		// Escape spaces in all paths -> *** SPACES HAVE BEEN REMOVED ABOVE ALREADY, SO FOLLOWING NOT NEEDED - Mike ***
 		//$solutionPath = str_replace(' ', '\ ', $solutionPath);
 		//$testPath = str_replace(' ', '\ ', $testPath);
 		//$studentPath = str_replace(' ', '\ ', $studentPath);
@@ -295,8 +299,24 @@ class Review extends Command
 		// -All final executables should be same name as original file name, without the file extension
 		switch($lang)
 		{
+			case "FSharp":
+				// Test class is Java still
+				//
+				// The F# '.fs' files will need to be compiled
+				//	-We run 'fsharpc', which is a script that uses Mono and the Microsoft F# compiler 'fsc.exe'
+				//	-This will create '.exe' files with same name as original file
+				//	-Also, remove any old '.exe' files first
+				exec("rm -f $path/*.exe");
+				exec("cd $path; /usr/local/bin/fsharpc --nologo $solutionPath");
+				exec("cd $path; /usr/local/bin/fsharpc --nologo $studentPath");
+				
+				// Compile the Java test class
+				exec("/usr/bin/javac $testPath 2>&1", $output, $result);
+				
+				break;
+				
 			case "Java":
-			
+				// Compile the Java classes
                 $compileCmd = "$solutionPath $testPath $helperPaths $studentPath"; 
 
 				// test, soluton, helper, and student files are all Java
@@ -310,8 +330,10 @@ class Review extends Command
 				// The prolog files will just be scripted now instead of compiled and run as executables
 				// 	-Only need to pass the solution and student file names to RunCodeNew, where the proper
 				//	 strings to run the files will be created.
-				//	-There were too many issues with permissions -- Will be a problem when wanting to 
+				//	-There were too many issues with permissions to be able to compile and run -- Will be a problem when wanting to 
 				//	 implement C functionality
+				//
+				// Compile the Java test class
 				exec("/usr/bin/javac $testPath 2>&1", $output, $result);
 				
 				break;
