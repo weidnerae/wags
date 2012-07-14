@@ -35,6 +35,24 @@ $descriptorspec = array(
 # determine which language we are using, and execute the testing file as a process
 switch($lang)
 {
+	case "FSharp":
+		# Need to create strings for executing the files in format == "/usr/local/bin/mono fileName.exe"
+		# 	-This calls Mono to run the '.exe' file, which is compiled F# code
+		#		-F# runs on Linux using Mono (a .NET implementation for Linux and OSX, since .NET only runs
+		#		 natively on Windows), and the normal F# Microsoft codebase
+		#			-Red Hat Linux (CS machine) is not officially supported by Mono, but version 2.8.2 (an older version) 
+		#			 was finally able to be installed
+		#			-F# was downloaded from Microsoft's website
+		$solutionExecString = "\"/usr/local/bin/mono $dir/$solutionFileName.exe\"";
+		$studentExecString  = "\"/usr/local/bin/mono $dir/$studentFileName.exe\"";
+		
+		# Open the process
+		#	-A Java test class will be used to run the F# executables
+		#	-The process will stay open in the background and the php script will continue running.
+		$process = proc_open("exec /usr/bin/java -cp $dir $testFileName $solutionExecString $studentExecString 2>&1", $descriptorspec, $pipes);
+		
+		break;
+	
 	case "Java":
 		# define security manager parameters
 		$security_stmt = "-Djava.security.manager"
@@ -56,6 +74,7 @@ switch($lang)
 		$studentExecString = "\"/usr/local/bin/swipl -q -g main -t halt -f $dir/$studentFileName.pl\"";
 		
 		# Open the process
+		#	-A Java test class will be used to run the F# scripts
 		#	-The process will stay open in the background and the php script will continue running.
 		$process = proc_open("exec /usr/bin/java -cp $dir $testFileName $solutionExecString $studentExecString 2>&1", $descriptorspec, $pipes);
 		
