@@ -24,7 +24,7 @@ class MagnetProblem extends Model
     protected $booleans;
     protected $statements;
     protected $solution;
-    protected $section;
+    protected $group;
 
     ###############
     # GETTERS     #
@@ -77,12 +77,12 @@ class MagnetProblem extends Model
         return $this->statements;
     }
 
-    public function getSolution(){
-        return $this->solution;
+    public function getGroup(){
+        return $this->group;
     }
 
-    public function getSection(){
-        return $this->section;
+    public function getSolution(){
+        return $this->solution;
     }
 
     #############
@@ -132,17 +132,20 @@ class MagnetProblem extends Model
          $this->statements = $var;
     }
 
-    public function setSolution($var){
-         $this->solution = $var;
+    public function setGroup($var){
+         $this->group = $var;
     }
 
-    public function setSection($var){
-         $this->section = $var;
+    public function setSolution($var){
+         $this->solution = $var;
     }
 
     // Can't currently use JSON.php to encode objects,
     // and casting it to an array/get_object_vars() wasn't
     // working, so I cheat.
+    //
+    // Note: Some fields aren't send, because they are not
+    // used by the client
     public function toArray(){
         $objArray = array(
             "Object" => "MagnetProblem", // used for client side creation
@@ -160,7 +163,6 @@ class MagnetProblem extends Model
             "bools" => $this->getData(explode(",", $this->booleans)),
             "statements" => $this->getData(explode(",", $this->statements)),
             "solution" => $this->solution,
-            "section" => $this->section,
         );
         return $objArray;
     }
@@ -197,6 +199,86 @@ class MagnetProblem extends Model
         $sth = $db->prepare('SELECT * FROM magnetProblem WHERE id = :id');
         $sth->execute(array(':id' => $id));
         return $sth->fetchObject('MagnetProblem');
+    }
+
+    #  Literally a copy/paste of the above function (which probably means
+    #  I should have implemented it a different way) with substituting title
+    #  for id
+    public static function getMagnetProblemByTitle($title){
+        // Database set up
+        require_once('Database.php');
+        $user = Auth::GetCurrentUser();
+        $db = Database::getDb();
+
+        $sth = $db->prepare('SELECT * FROM magnetProblem WHERE title = :title');
+        $sth->execute(array(':title' => $title));
+        return $sth->fetchObject('MagnetProblem');
+    }
+    
+    #  Used by GetMagnetExercises.php to fill the magnetProblems listbox
+    #  on the administrative tab
+    public static function getMagnetProblemGroups(){
+        require_once('Database.php');
+        $user = Auth::GetCurrentUser();
+        $db = Database::getDb();
+
+        $sth = $db->prepare('SELECT MagnetProblemGroups.name 
+            FROM MagnetProblemGroups, SectionMPG
+            WHERE SectionMPG.section = :section
+            AND SectionMPG.magnetGroup = MagnetProblemGroups.id');
+        $sth->setFetchMode(PDO::FETCH_ASSOC);
+        $sth->execute(array(':section' => $user->getSection()));
+
+        $results = $sth->fetchAll();
+        foreach($results as $result){
+            $values[] = $result['name'];
+        }
+        return $values;
+    }
+
+    # Returns the names of all magnetProblems that are part
+    # of the selected group AND available to that section
+    #
+    # NOTE:  A status of 1 is IMPLEMENTED, 2 is AVAILABLE
+    #  because anything implemented is obviously AVAILABLE we
+    #  use < 3 as the filter on the WHERE line
+    public static function getMagnetProblemsByGroup($group){
+        require_once('Database.php');
+        $user = Auth::GetCurrentUser();
+        $db = Database::getDb();
+
+        $sth = $db->prepare('SELECT magnetProblem.title 
+            FROM magnetProblem, SectionMP
+            WHERE SectionMP.status < 3
+            AND SectionMP.section = :section
+            AND SectionMP.magnetP = magnetProblem.id
+            AND magnetProblem.group = :group');
+        $sth->setFetchMode(PDO::FETCH_NUM);
+        $sth->execute(array(':section' => $user->getSection(),
+            ':group' => $group));
+
+        $results = $sth->fetchAll();
+        return array_values($results);
+
+    }
+
+    # A utility function as MagnetProblemGroups are so basic
+    # they don't warrant their own object.....  So, using PDO
+    # may be sketchy, just you can't do PDO::FETCH_OBJ
+    public static function getGroupIdByName($name){
+        require_once('Database.php');
+        $db = Database::getDb();
+
+        $sth = $db->prepare('SELECT id FROM MagnetProblemGroups
+            WHERE name = :name');
+        $sth->setFetchMode(PDO::FETCH_ASSOC);
+        $sth->execute(array(':name' => $name));
+        
+        // So, I can access $result['id'] that way, but not via array_values
+        $result = $sth->fetch();
+        $str = $result['id'];
+
+        return $str;
     }
 
 }
