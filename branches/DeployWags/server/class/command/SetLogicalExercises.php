@@ -7,6 +7,9 @@
 *
 *This class updates the logicalExercises column
 *of an entry in the section table.
+*
+*
+*This is so gross.  There's gotta be a better way..
 */
 
 class SetLogicalExercises extends Command
