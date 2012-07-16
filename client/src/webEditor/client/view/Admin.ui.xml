@@ -163,6 +163,7 @@
 				
 				<g:Grid ui:field="grdDSTReview" styleName="{style.grid}"> </g:Grid>
 				
+				<!-- So gross.  There has got to be a better way.  See SetLogicalExercises.php for similar complaint  -->
 				<g:Label> Available Exercises </g:Label>
 				<g:ListBox ui:field="setLogical" name="setLogical" styleName="{style.lbox}"></g:ListBox>
 				<g:CheckBox ui:field="Traversals" name="Traversals">Traversals</g:CheckBox>
@@ -181,6 +182,20 @@
 				<g:CheckBox ui:field="Prim" name="Prim">Prim</g:CheckBox>
 				
 				<g:SubmitButton ui:field="sbtDST" styleName="{style.button}"> Set Exercises </g:SubmitButton>
+			</g:VerticalPanel>
+		</g:FormPanel>
+		
+		<g:FormPanel ui:field="magnetForm">
+			<g:VerticalPanel>
+				<g:Label styleName="{style.subheading}">Magnet Microlab Actions</g:Label>
+				<g:HorizontalPanel styleName="{style.filePanel}">
+					<g:ListBox ui:field="magnetExercises" name="magnetExercises" styleName="{style.lbox}"></g:ListBox>
+					<g:Button ui:field="btnMagnetReview" styleName = "{style.button}"> Review </g:Button>
+				</g:HorizontalPanel>
+				
+				<g:VerticalPanel ui:field="magnetSelectionPanel"></g:VerticalPanel>
+								
+				<g:SubmitButton ui:field="sbtMagnet" styleName="{style.button}"> Set Magnets </g:SubmitButton>
 			</g:VerticalPanel>
 		</g:FormPanel>
 		
