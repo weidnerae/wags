@@ -25,6 +25,7 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -33,6 +34,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -512,8 +514,8 @@ public class Proxy
 					
 					String[] problemList = status.getMessageArray();
 					logicalExercises.clear(); //To avoid repeat listings
-					for(int i = 0; i < problemList.length - 1; i++){
-		        		  logicalExercises.addItem(problemList[i]);
+					for(int i = 0; i < problemList.length - 1; i++){ // - 1 due to empty trailing entry resulting from "|" parsing maybe?
+		        		  logicalExercises.addItem(problemList[i]); 
 		        	  }
 					
 				}
@@ -527,9 +529,74 @@ public class Proxy
 			Window.alert("Failed to send the request: " + e.getMessage());
 		}
 	}
+	
+	/** 
+	 * Returns a list of all magnets available for the users section in that group
+	 * 
+	 * @param groupName:  The name of the group - id is found on server
+	 * @param exercisePanel: The vertical panel that will be filled with checkboxes created using
+	 * 							the array returned from the server
+	 */
+	public static void getMagnetsByGroup(String groupName, final VerticalPanel exercisePanel){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetsByGroup&group=" + groupName);
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus stat = new WEStatus(response);
+					String[] exercises = stat.getMessageArray();
+					for(int i = 0; i < exercises.length; i++){
+						String name = exercises[i].substring(1, exercises[i].length() - 1);
+						CheckBox chk = new CheckBox(name);
+						chk.setName(name); // Name by which it is accessed on the server
+						exercisePanel.add(chk);
+					}
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Magnet group error!");					
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
+	
+	/** 
+	 * Loads the magnetGroups for this section
+	 * @param magnetExercises - The listbox to be filled
+	 */
+	public static void getMagnetExercises(final ListBox magnetExercises){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetExercises");
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus status = new WEStatus(response);
+					String[] problemList = status.getMessageArray();
+					magnetExercises.clear(); // To avoid repeat listings
+					
+					for(int i = 0; i < problemList.length; i++){
+						magnetExercises.addItem(problemList[i], problemList[i]);
+					}
+										
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Magnet Exercises error");
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
 
-	/** TEMPORARY
-	 *  Just trying to figure out how our WEStatus currently handles "embedded" arrays
+	/** 
+	 *  TODO: Grabs a magnet problem - will edit to effectively remove splashpage
 	 */
 	public static void getMagnetProblem(int id, final HorizontalPanel problemPane){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetMagnetProblem&id=" + id);

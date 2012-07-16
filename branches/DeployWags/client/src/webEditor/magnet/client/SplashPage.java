@@ -46,8 +46,6 @@ public class SplashPage extends View {
 						title = arr.get(i).isObject().get("title").isString().stringValue();
 						problemPane.add(new ProblemButton(title,id, new ClickHandler(){
 							public void onClick(ClickEvent event) {
-								//TODO: Had Rootpanel.get().clear() here - it broke things.  Still need
-								// to make problem list invisible though
 								Proxy.getMagnetProblem(id, problemPane);
 							}
 							public void onError(Request request,

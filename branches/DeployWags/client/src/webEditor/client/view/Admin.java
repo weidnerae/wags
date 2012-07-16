@@ -29,18 +29,19 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class Admin extends Composite{
 
-	@UiField SubmitButton addButton, sbtCompReview;
+	@UiField SubmitButton addButton, sbtCompReview, sbtMagnet;
 	@UiField static ListBox exercises;
-	@UiField static ListBox logicalExercises;
+	@UiField static ListBox logicalExercises, magnetExercises;
 	@UiField ListBox setLogical;
-	@UiField Button btnDSTReview, btnAdminReview, btnAddSkeletons, btnMakeVisible;
+	@UiField Button btnDSTReview, btnAdminReview, btnAddSkeletons, btnMakeVisible, btnMagnetReview;
 	@UiField Grid grdAdminReview, grdDSTReview;
 	@UiField FileUpload testClass, helperClass, solution, skeleton;
-	@UiField FormPanel helperForm, DSTForm, adminForm, formCompReview;
+	@UiField FormPanel helperForm, DSTForm, adminForm, formCompReview, magnetForm;
 	@UiField TextBox openDate, closeDate, fileName;
 	@UiField CheckBox Traversals, InsertNodes, BuildBST, BuildBT, RadixSort,
 		MaxHeapInsert, MaxHeapDelete, MinHeapInsert, MinHeapDelete, MaxHeapBuild,
 		MinHeapBuild, HeapSort, Kruskal, Prim;
+	@UiField VerticalPanel magnetSelectionPanel;
 	
 	private static AdminUiBinder uiBinder = GWT.create(AdminUiBinder.class);
 
@@ -53,6 +54,8 @@ public class Admin extends Composite{
 		//Fill in exercise listboxes
 		Proxy.getVisibleExercises(exercises); 
 		Proxy.getLogicalExercises(logicalExercises);
+		//TODO: Get initial "default" list to load
+		Proxy.getMagnetExercises(magnetExercises);
 		
 		//Handle the Add Exercise Form
 		adminForm.setAction(Proxy.getBaseURL() + "?cmd=AddExercise");
@@ -109,6 +112,8 @@ public class Admin extends Composite{
 		
 		// Decides which logical microlabs to display
 		setLogical.addChangeHandler(new LogicalMicroHandler());
+		// Decides which magnet microlabs to display
+		magnetExercises.addChangeHandler(new MagnetMicroHandler());
 	
 		// Set up for CSV review
 		formCompReview.setAction(Proxy.getBaseURL()+"?cmd=ComprehensiveReview");
@@ -147,6 +152,17 @@ public class Admin extends Composite{
 				Prim.setVisible(true);
 			}
 			
+		}
+		
+	}
+	
+	private class MagnetMicroHandler implements com.google.gwt.event.dom.client.ChangeHandler{
+
+		@Override
+		public void onChange(ChangeEvent event) {
+			magnetSelectionPanel.clear();
+			// Passes group name to proxy
+			Proxy.getMagnetsByGroup(magnetExercises.getValue(magnetExercises.getSelectedIndex()), magnetSelectionPanel);
 		}
 		
 	}
