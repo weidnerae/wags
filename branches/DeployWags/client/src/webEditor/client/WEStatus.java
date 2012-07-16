@@ -12,7 +12,6 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
-import com.google.gwt.user.client.Window;
 
 public class WEStatus 
 {
@@ -199,7 +198,6 @@ public class WEStatus
 			
 			// Grab ints
 			int id = Integer.parseInt(messageMap.get("id"));
-			int section = Integer.parseInt(messageMap.get("section"));
 			int creatStat = Integer.parseInt(messageMap.get("creationStation"));
 			
 			// Decide about creationStation
@@ -218,7 +216,7 @@ public class WEStatus
 			// Create the object
 			myObject = new MagnetProblem(id, messageMap.get("title"), messageMap.get("directions"), 
 						messageMap.get("type"), creationStation, messageMap.get("mainFunction"), innerFunctions, forLeft, forMid, forRight, bools,
-						statements, messageMap.get("solution"), section);			
+						statements, messageMap.get("solution"));			
 		}
 	}
 	
