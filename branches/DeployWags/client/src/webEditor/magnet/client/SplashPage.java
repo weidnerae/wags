@@ -6,16 +6,7 @@ import webEditor.client.view.View;
 import webEditor.client.view.WEAnchor;
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.http.client.Request;
-import com.google.gwt.http.client.RequestBuilder;
-import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.RequestException;
-import com.google.gwt.http.client.Response;
 import com.google.gwt.json.client.JSONArray;
-import com.google.gwt.json.client.JSONParser;
-import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -28,49 +19,13 @@ public class SplashPage extends View {
 	
 	public SplashPage() {
 		problemPane.clear();
-		String completeURL = "http://cs.appstate.edu/wags/Test_Version/GetProblems.php";
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, completeURL);
-		try {
-			builder.setHeader("Content-Type", "application/x-www-form-urlencoded");
-			
-			@SuppressWarnings("unused")
-			Request req = builder.sendRequest("", new RequestCallback() {
-				@Override
-				public void onResponseReceived(Request request, Response response) {
-					JSONValue vals = JSONParser.parseStrict(response.getText());
-					JSONArray arr = vals.isArray();
-					
-					for(int i=0;i<arr.size();i++){
-						String sId = arr.get(i).isObject().get("id").isString().stringValue();
-						final int id = Integer.parseInt(sId);
-						title = arr.get(i).isObject().get("title").isString().stringValue();
-						problemPane.add(new ProblemButton(title,id, new ClickHandler(){
-							public void onClick(ClickEvent event) {
-								Proxy.getMagnetProblem(id, problemPane);
-							}
-							public void onError(Request request,
-									Throwable exception) {
-							}
-						}));
-					}
-					
-					RootPanel.get().add(problemPane);
-						
-					
-				}
-
-				public void onError(Request request, Throwable exception) {
-				}
-			});
-		} catch (RequestException e) {
-			e.printStackTrace();
-		}
+		Proxy.getMagnetExercises(problemPane);
 	}
 	
 	/**
-	 * TODO: Rename this method, filter by IDs
+	 * Makes the problem
 	 */
-	public static void query(MagnetProblem magnet) {
+	public static void makeProblem(MagnetProblem magnet) {
 		new RefrigeratorMagnet(
 				magnet.title,
 				magnet.directions,
