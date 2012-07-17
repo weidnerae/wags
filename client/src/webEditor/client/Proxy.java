@@ -12,10 +12,13 @@ import webEditor.client.view.Notification;
 import webEditor.client.view.OutputReview;
 import webEditor.client.view.Wags;
 import webEditor.dst.client.DataStructureTool;
+import webEditor.magnet.client.ProblemButton;
 import webEditor.magnet.client.SplashPage;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -564,12 +567,53 @@ public class Proxy
 		}
 	}
 	
+	/**
+	 * Grabs and displays the names of all exercises available for that section
+	 * 
+	 * @param problemPane - This is a little sketch.  It's a pane that is created in SplashPage, but only ever really
+	 *   altered in Proxy.  It gets based to this method and getMagnetProblem.  In this method it is added to the 
+	 *   root panel, in getMagnetProblem it is removed.  It's staying like this since we don't know exactly how
+	 *   we're handling navigation among magnetProblems yet, so no reason to fix it twice.
+	 */
+	public static void getMagnetExercises(final HorizontalPanel problemPane){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetExercises");
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus stat = new WEStatus(response);
+					String[] problems = stat.getMessageArray();
+					String title;
+										
+					for(int i = 0; i < problems.length - 1; i += 2){
+						final int id = Integer.parseInt(problems[i]);
+						title = problems[i + 1];
+						problemPane.add(new ProblemButton(title,id, new ClickHandler(){
+							public void onClick(ClickEvent event) {
+								Proxy.getMagnetProblem(id, problemPane);
+							}
+						}));
+					}
+					RootPanel.get().add(problemPane);
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Magnet Exercises error");
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("error: " + e.getMessage());
+		}
+	}
+	
 	/** 
 	 * Loads the magnetGroups for this section
 	 * @param magnetExercises - The listbox to be filled
 	 */
-	public static void getMagnetExercises(final ListBox magnetExercises){
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetExercises");
+	public static void getMagnetGroups(final ListBox magnetExercises){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetGroups");
 		try{
 			builder.sendRequest(null, new RequestCallback() {
 				
@@ -596,7 +640,7 @@ public class Proxy
 	}
 
 	/** 
-	 *  TODO: Grabs a magnet problem - will edit to effectively remove splashpage
+	 *  Grabs a magnet problem
 	 */
 	public static void getMagnetProblem(int id, final HorizontalPanel problemPane){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetMagnetProblem&id=" + id);
@@ -608,7 +652,7 @@ public class Proxy
 					WEStatus status = new WEStatus(response);
 					MagnetProblem magProb = (MagnetProblem) status.getObject();
 					problemPane.setVisible(false);
-					SplashPage.query(magProb);
+					SplashPage.makeProblem(magProb);
 				}
 				
 				@Override
