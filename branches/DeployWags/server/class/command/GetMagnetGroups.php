@@ -6,7 +6,7 @@
 #
 # Philip Meznar '12
 
-class GetMagnetExercises extends Command
+class GetMagnetGroups extends Command
 {
     public function execute()
     {
