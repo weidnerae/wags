@@ -280,6 +280,31 @@ class MagnetProblem extends Model
 
         return $str;
     }
+    
+    public static function getAvailable(){
+        require_once('Database.php');
+        $db = Database::getDb();
+        $user = Auth::getCurrentUser();
+
+        $sth = $db->prepare('SELECT magnetProblem.title, magnetProblem.id 
+            FROM magnetProblem, SectionMP
+            WHERE SectionMP.section = :section 
+            AND SectionMP.status = 1
+            AND SectionMP.magnetP = magnetProblem.id');
+
+        $sth->setFetchMode(PDO::FETCH_ASSOC);
+        $sth->execute(array(':section' => $user->getSection()));
+        $results = $sth->fetchAll();
+
+        // So, this is really like working through two levels of array
+        // Results is an array of arrays, each result is an array
+        foreach($results as $result){
+            $values[] = $result['id'];
+            $values[] = $result['title'];
+        }
+
+        return $values;
+    }
 
 }
 ?>

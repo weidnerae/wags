@@ -10,7 +10,7 @@ class GetMagnetExercises extends Command
 {
     public function execute()
     {
-        $names = MagnetProblem::getAvailable();
+        $names = MagnetProblem::getMagnetProblemGroups();
         return JSON::success($names);
     }
 }
