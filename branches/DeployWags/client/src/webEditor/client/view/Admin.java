@@ -54,10 +54,8 @@ public class Admin extends Composite{
 		//Fill in exercise listboxes
 		Proxy.getVisibleExercises(exercises); 
 		Proxy.getLogicalExercises(logicalExercises);
-		Proxy.getMagnetGroups(magnetExercises);
-		// Fill in the panel for the first time
-		Proxy.getMagnetsByGroup(magnetExercises.getValue(magnetExercises.getSelectedIndex()), magnetSelectionPanel);
-		
+		Proxy.getMagnetGroups(magnetExercises, magnetSelectionPanel);
+						
 		
 		//Handle the Add Exercise Form
 		adminForm.setAction(Proxy.getBaseURL() + "?cmd=AddExercise");

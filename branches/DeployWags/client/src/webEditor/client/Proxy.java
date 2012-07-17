@@ -612,7 +612,7 @@ public class Proxy
 	 * Loads the magnetGroups for this section
 	 * @param magnetExercises - The listbox to be filled
 	 */
-	public static void getMagnetGroups(final ListBox magnetExercises){
+	public static void getMagnetGroups(final ListBox magnetExercises, final VerticalPanel selectionPanel){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetGroups");
 		try{
 			builder.sendRequest(null, new RequestCallback() {
@@ -626,6 +626,9 @@ public class Proxy
 					for(int i = 0; i < problemList.length; i++){
 						magnetExercises.addItem(problemList[i], problemList[i]);
 					}
+					
+					// Automatically load problems for initially selected group
+					Proxy.getMagnetsByGroup(problemList[0], selectionPanel);
 										
 				}
 				
