@@ -179,11 +179,21 @@ public class Proxy
 		      @SuppressWarnings("unused")
 			Request req = builder.sendRequest(null, new RequestCallback() {
 		        public void onResponseReceived(Request request, Response response) {
-		        	
 		          WEStatus status = new WEStatus(response);
 		         
-		          String[] problemList = status.getMessageArray();
-		          DataStructureTool DST = new DataStructureTool(problemList);
+		          String[] problems = status.getMessageArray();
+		          String[] problemsList = new String[problems.length];
+		          boolean[] successList = new boolean[problems.length];
+		          
+		          for (int i = 0; i < problems.length; i++) {
+		        	  int titleBegin = 9;
+		        	  int titleEnd = problems[i].indexOf('"', titleBegin);
+		        	  problemsList[i] = problems[i].substring(titleBegin, titleEnd);
+		        	  
+		        	  successList[i] = problems[i].charAt(problems[i].length() - 2) == '1';
+		          }
+		          
+		          DataStructureTool DST = new DataStructureTool(problemsList, successList);
 	
 		          RootPanel.get().clear();
 		          RootPanel.get().add(DST);

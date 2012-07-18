@@ -23,6 +23,7 @@ public class DataStructureTool  extends View
 	private ArrayList<Widget> widgets; //arraylist to hold widgets added to root panel
 
 	private static String[] problemList;	//array of problem names
+	private static boolean[] successList;	//array of success values
 
 	private int xCoordinate; 	//field to keep track of current x offset
 	private int yCoordinate; 	//field to keep track of current y offset
@@ -41,12 +42,13 @@ public class DataStructureTool  extends View
 	/**
 	 * This is the entry point method.
 	 */
-	public DataStructureTool(String[] problems) 
+	public DataStructureTool(String[] problems, boolean[] success) 
 	{	
 		//intialize fields that will be used
 		widgets = new ArrayList<Widget>();
 		originalYCoordinates = new ArrayList<Integer>();
 		problemList = problems;
+		successList = success;
 
 		//initialize widgets
 		bannerLabel = new Label("Data Structure Tool");
@@ -116,7 +118,7 @@ public class DataStructureTool  extends View
 			//set the label's style
 			problemLabels.get(i).setStyleName("problem");
 			//create button that allows a problem to be attempted
-			attemptButtons.add(new Button("Attempt"));
+			attemptButtons.add(new Button(successList[i] ? "<font color=green>Completed</font>" : "Attempt"));
 			//create button that allows past attempts to be viewed if present
 			//viewResultButtons.add(new Button("View Attempts"));
 		}
