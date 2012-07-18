@@ -47,6 +47,7 @@ public class Wags extends View
 	@UiField com.google.gwt.user.client.ui.Image description;
 	@UiField DockLayoutPanel dock;
 	@UiField Anchor DST;
+	@UiField Anchor Magnets;
 	@UiField CodeEditor editor;
 	@UiField TextBox fileName;
 	@UiField Anchor getCode;
@@ -193,6 +194,11 @@ public class Wags extends View
 	{
 		this.setVisible(false);
 		Proxy.buildDST();
+	}
+	@UiHandler("Magnets")
+	void onMagnetsClick(ClickEvent event)
+	{
+		Proxy.buildMagnet();
 	}
 
 	/**

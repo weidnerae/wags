@@ -4,7 +4,7 @@ import webEditor.client.MagnetProblem;
 import webEditor.client.Proxy;
 import webEditor.client.view.View;
 import webEditor.client.view.WEAnchor;
-
+import java.util.Random;
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -34,14 +34,28 @@ public class SplashPage extends View {
 				magnet.type,
 				decodePremade(magnet.statements), 
 				structuresList,
-				magnet.forLeft,
-				magnet.forMid,
-				magnet.forRight,
-				magnet.bools,
+				randomizeArray(magnet.forLeft),
+				randomizeArray(magnet.forMid),
+				randomizeArray(magnet.forRight),
+				randomizeArray(magnet.bools),
 				magnet.solution,
 				magnet.statements,
 				dc
 		);
+	}
+	public static String[] randomizeArray(String[] arr){
+		Random rand = new Random();
+		int temp1;
+		int temp2;
+		for(int i=0;i<20;i++){
+			temp1 = rand.nextInt(arr.length);
+			temp2 = rand.nextInt(arr.length);
+			
+			String sTemp1 = arr[temp1];
+			arr[temp1] = arr[temp2];
+			arr[temp2] = sTemp1;
+		}
+		return arr;
 	}
 	
 	public String[] convertArray(JSONArray arr) {
