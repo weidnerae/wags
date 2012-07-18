@@ -13,6 +13,7 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
 
+
 public class WEStatus 
 {
 	public static final int STATUS_ERROR   = 0;
@@ -235,9 +236,12 @@ public class WEStatus
 	// Takes strings delimited by ',' with elements surrounded by " <- standard
 	// JSON encoding, and turns them into arrays with their respective elements
 	private String[] parseArray(String parseText){
-		String[] strArray = parseText.split(",");
+		String[] strArray = parseText.split("],");
 		for(int i = 0; i < strArray.length; i++){
-			strArray[i] = strArray[i].substring(2, strArray[i].length() - 2); // Strip quotes
+			if(i<strArray.length-1)
+				strArray[i] = strArray[i].substring(2, strArray[i].length() - 1); // Strip quotes // not last item
+			else
+				strArray[i] = strArray[i].substring(2, strArray[i].length() - 2); // Strip quotes // last item
 		}
 		return strArray;
 	}
