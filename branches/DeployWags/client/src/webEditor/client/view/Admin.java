@@ -1,5 +1,8 @@
 package webEditor.client.view;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import webEditor.client.Proxy;
 import webEditor.client.WEStatus;
 
@@ -29,14 +32,14 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class Admin extends Composite{
 
-	@UiField SubmitButton addButton, sbtCompReview, sbtMagnet;
+	@UiField SubmitButton addButton, sbtCompReview;
 	@UiField static ListBox exercises;
 	@UiField static ListBox logicalExercises, magnetExercises;
 	@UiField ListBox setLogical;
-	@UiField Button btnDSTReview, btnAdminReview, btnAddSkeletons, btnMakeVisible, btnMagnetReview;
+	@UiField Button btnDSTReview, btnAdminReview, btnAddSkeletons, btnMakeVisible, btnMagnetReview, btnMagnet;
 	@UiField Grid grdAdminReview, grdDSTReview;
 	@UiField FileUpload testClass, helperClass, solution, skeleton;
-	@UiField FormPanel helperForm, DSTForm, adminForm, formCompReview, magnetForm;
+	@UiField FormPanel helperForm, DSTForm, adminForm, formCompReview;
 	@UiField TextBox openDate, closeDate, fileName;
 	@UiField CheckBox Traversals, InsertNodes, BuildBST, BuildBT, RadixSort,
 		MaxHeapInsert, MaxHeapDelete, MinHeapInsert, MinHeapDelete, MaxHeapBuild,
@@ -44,6 +47,8 @@ public class Admin extends Composite{
 	@UiField VerticalPanel magnetSelectionPanel;
 	
 	private static AdminUiBinder uiBinder = GWT.create(AdminUiBinder.class);
+	private ArrayList<CheckBox> currentMagnets = new ArrayList<CheckBox>();
+	private java.util.HashMap<String, CheckBox> allMagnets = new java.util.HashMap<String, CheckBox>();
 
 	interface AdminUiBinder extends UiBinder<Widget, Admin> {
 	}
@@ -54,8 +59,9 @@ public class Admin extends Composite{
 		//Fill in exercise listboxes
 		Proxy.getVisibleExercises(exercises); 
 		Proxy.getLogicalExercises(logicalExercises);
-		Proxy.getMagnetGroups(magnetExercises, magnetSelectionPanel);
-						
+		// I can't believe all the currentMagnets, allMagnets juggling works....
+		Proxy.getMagnetGroups(magnetExercises, magnetSelectionPanel, currentMagnets, allMagnets);
+								
 		
 		//Handle the Add Exercise Form
 		adminForm.setAction(Proxy.getBaseURL() + "?cmd=AddExercise");
@@ -114,6 +120,8 @@ public class Admin extends Composite{
 		setLogical.addChangeHandler(new LogicalMicroHandler());
 		// Decides which magnet microlabs to display
 		magnetExercises.addChangeHandler(new MagnetMicroHandler());
+		btnMagnet.addClickHandler(new MagnetClickHandler());
+		
 	
 		// Set up for CSV review
 		formCompReview.setAction(Proxy.getBaseURL()+"?cmd=ComprehensiveReview");
@@ -122,6 +130,28 @@ public class Admin extends Composite{
 		
 		// Initialize microlab choosing (show BST exercises)
 		initializeMicros();
+		
+	}
+	
+	private class MagnetClickHandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			String assignedMagnets = "";
+			
+			// Construct the string to be passed to the server
+			Iterator<String> it = allMagnets.keySet().iterator();
+			while(it.hasNext()){
+				String key = it.next();
+				if(allMagnets.get(key).getValue() == true){
+					assignedMagnets += key + ",";
+				}
+			}
+			
+			// Remove last comma
+			assignedMagnets = assignedMagnets.substring(0, assignedMagnets.length() - 1);
+			Proxy.SetMagnetExercises(assignedMagnets);
+		}
 		
 	}
 	
@@ -160,9 +190,9 @@ public class Admin extends Composite{
 
 		@Override
 		public void onChange(ChangeEvent event) {
-			magnetSelectionPanel.clear();
 			// Passes group name to proxy
-			Proxy.getMagnetsByGroup(magnetExercises.getValue(magnetExercises.getSelectedIndex()), magnetSelectionPanel);
+			Proxy.getMagnetsByGroup(magnetExercises.getValue(magnetExercises.getSelectedIndex()), magnetSelectionPanel,
+						currentMagnets, allMagnets);
 		}
 		
 	}

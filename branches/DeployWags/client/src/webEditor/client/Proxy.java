@@ -1,5 +1,6 @@
 package webEditor.client;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -540,7 +541,8 @@ public class Proxy
 	 * @param exercisePanel: The vertical panel that will be filled with checkboxes created using
 	 * 							the array returned from the server
 	 */
-	public static void getMagnetsByGroup(String groupName, final VerticalPanel exercisePanel){
+	public static void getMagnetsByGroup(String groupName, final VerticalPanel exercisePanel, final ArrayList<CheckBox>
+			currentMagnets, final HashMap<String, CheckBox> allMagnets){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetsByGroup&group=" + groupName);
 		try{
 			builder.sendRequest(null, new RequestCallback() {
@@ -549,11 +551,32 @@ public class Proxy
 				public void onResponseReceived(Request request, Response response) {
 					WEStatus stat = new WEStatus(response);
 					String[] exercises = stat.getMessageArray();
+					
+					// Clear out current magnets
+					if(!currentMagnets.isEmpty()){
+						for(CheckBox magnet: currentMagnets){
+							magnet.setVisible(false);
+						}
+					}
+					
+					// Add magnets
+					CheckBox chk;
 					for(int i = 0; i < exercises.length; i++){
 						String name = exercises[i].substring(1, exercises[i].length() - 1);
-						CheckBox chk = new CheckBox(name);
-						chk.setName(name); // Name by which it is accessed on the server
-						exercisePanel.add(chk);
+						
+						// If we already added this one, grab it again (it may be checked!)
+						if(allMagnets.containsKey(name)){
+							chk = allMagnets.get(name);
+							chk.setVisible(true);
+							currentMagnets.add(chk);
+					    // If we didn't already add this one, add it now! 
+						} else {
+							chk = new CheckBox(name);
+							currentMagnets.add(chk); // It is a current magnet
+							exercisePanel.add(chk);	 // It is visible
+							allMagnets.put(name, chk); // And we may want it later!
+						}
+						
 					}
 				}
 				
@@ -612,7 +635,8 @@ public class Proxy
 	 * Loads the magnetGroups for this section
 	 * @param magnetExercises - The listbox to be filled
 	 */
-	public static void getMagnetGroups(final ListBox magnetExercises, final VerticalPanel selectionPanel){
+	public static void getMagnetGroups(final ListBox magnetExercises, final VerticalPanel selectionPanel, final ArrayList<CheckBox>
+			currentMagnets, final HashMap<String, CheckBox> allMagnets){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetGroups");
 		try{
 			builder.sendRequest(null, new RequestCallback() {
@@ -628,7 +652,7 @@ public class Proxy
 					}
 					
 					// Automatically load problems for initially selected group
-					Proxy.getMagnetsByGroup(problemList[0], selectionPanel);
+					Proxy.getMagnetsByGroup(problemList[0], selectionPanel, currentMagnets, allMagnets);
 										
 				}
 				
@@ -1223,6 +1247,28 @@ public class Proxy
 		    } catch (RequestException e) {
 		      Window.alert("Failed to send the request: " + e.getMessage());	
 		    }
+	}
+
+	public static void SetMagnetExercises(String assignedMagnets) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=SetMagnetExercises&list=" + assignedMagnets);
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus stat = new WEStatus(response);
+					Notification.notify(stat.getStat(), stat.getMessage());
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Set magnet error");					
+				}
+			});
+		} catch (RequestException e) {
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+		
 	}
 	
 }
