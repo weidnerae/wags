@@ -96,7 +96,26 @@ class DSTSubmission extends Model
         $sth->setFetchMode(PDO::FETCH_ASSOC);
 
         return $sth->fetchAll();
-     } 
+     }
+     
+     public static function getAllSubmissionsByUserID() {
+     	require_once('Database.php');
+     	$db = Database::getDb();
+     	$user = Auth::getCurrentUser();
+     	$section = $user->getSection();
+     	
+     	$sth = $db->prepare('SELECT dstSubmission.title, dstSubmission.success 
+     			FROM dstSubmission 
+     			JOIN user
+     			ON dstSubmission.userId = user.id 
+     			WHERE sectionId = :section
+     			AND userId = :id
+     			ORDER BY title');
+     	$sth->execute(array(':section' => $section, ':id' => $user->getId()));
+     	$sth->setFetchMode(PDO::FETCH_ASSOC);
+     	
+     	return $sth->fetchAll();
+     }
 }
 
 ?>    
