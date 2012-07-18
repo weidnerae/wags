@@ -9,8 +9,25 @@ class GetLogicalExercises extends Command
         $exercises = $section->getLogicalExercises();
         $exercises = str_replace("\n", "", $exercises);
         $exerciseArray = explode("|", $exercises);
+		sort($exerciseArray);
+        
+        $submissions = DSTSubmission::getAllSubmissionsByUserID();
+		
+		
+		$result = array();
+		
+		foreach ($exerciseArray as $exercise) {
+			foreach ($submissions as $submission) {
+				if ($exercise == $submission['title']) {
+					$row = array('title' => $submission['title'],
+								 'success' => $submission['success']);
+					$result[] = $row;
+					break;
+				}
+			}
+		}
 
-        return JSON::success($exerciseArray);
+        return JSON::success($result);
     }
 }
 
