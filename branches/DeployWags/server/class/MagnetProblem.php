@@ -306,5 +306,31 @@ class MagnetProblem extends Model
         return $values;
     }
 
+    # Set the entry in SectionMP with the given magnetP id to 
+    # the given status - used in SetMagnetExercises.php
+    public static function setProblemStatus($id, $status){
+        require_once('Database.php');
+        $db = Database::getDb();
+        
+        $sth = $db->prepare('UPDATE SectionMP
+            SET status = :status
+            WHERE magnetP = :id');
+        $sth->execute(array(':status' => $status, ':id' => $id));
+    }
+
+    # Changes all entries in SectionMP for the users section to
+    # '2' = which is AVAILABLE but not IMPLEMENTED
+    # used in SetMagnetExercises.php
+    public static function unAssignAll(){
+        require_once('Database.php');
+        $db = Database::getDb();
+        $user = Auth::getCurrentUser();
+
+        $sth = $db->prepare('UPDATE SectionMP
+            SET status = 2
+            WHERE section = :section');
+        $sth->execute(array(':section' => $user->getSection()));
+    }
+
 }
 ?>
