@@ -24,7 +24,8 @@ class Review extends Command
 		//Define the regular expressions used
 		//for finding package name,
 		//and success of program
-		$packageRegex = "/package\s+([^\d]\w+)/";
+		// -allows for nested packages
+		$packageRegex = "/^package\s+([^\d]\w+(?:.\w+)*)/m";
 		$successRegex = "/Success<br \/>/";
 
 		//Grab posted information
@@ -187,6 +188,9 @@ class Review extends Command
 			$pkg = FALSE;
 		} else {						// Package, so inner class
 			$pkgName = $matches[1];
+			// we want to allow nested packages, so replace the dots in the Java package
+			//  statement with slashes to create a directory
+			$pkgName = str_replace(".", "/", $pkgName);
 			$path = "/tmp/section$section/$pkgName";
 			$compilePath = "/tmp/section$section";
 			$pkg = TRUE;
