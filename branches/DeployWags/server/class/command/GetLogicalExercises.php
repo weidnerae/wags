@@ -21,9 +21,9 @@ class GetLogicalExercises extends Command
 			$hasSubmission = false;
 			foreach ($submissions as $submission) {
 				if ($exercise == $submission['title']) {
-					$row = array('title' => $exercise,
-								 'success' => $submission['success']);
-					$result[] = $row;
+					$result[] = $exercise;
+					$result[] = $submission['success'];
+					
 					$hasSubmission = true;
 					break;
 				}
@@ -32,9 +32,8 @@ class GetLogicalExercises extends Command
 			// Set success to 0 if the problem hasn't been submitted yet
 			// Also, ignore the empty first element in $exerciseArray
 			if (!$hasSubmission && $exercise != "") {
-				$row = array('title' => $exercise,
-							 'success' => 0);
-				$result[] = $row;
+				$result[] = $exercise;
+				$result[] = 0;
 			}
 		}
 
