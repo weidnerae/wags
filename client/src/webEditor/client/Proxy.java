@@ -173,31 +173,36 @@ public class Proxy
 		}
 	}
 
-	public static void buildDST(){
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetLogicalExercises");
+	public static void buildDST() {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET,
+				Proxy.getBaseURL() + "?cmd=GetLogicalExercises");
 		try {
-		      @SuppressWarnings("unused")
+			@SuppressWarnings("unused")
 			Request req = builder.sendRequest(null, new RequestCallback() {
-		        public void onResponseReceived(Request request, Response response) {
-		          WEStatus status = new WEStatus(response);
-		         
-		          String[] problems = status.getMessageArray();
-		          String[] problemsList = new String[problems.length];
-		          boolean[] successList = new boolean[problems.length];
-		          
-		          for (int i = 0; i < problems.length; i++) {
-		        	  int titleBegin = 9;
-		        	  int titleEnd = problems[i].indexOf('"', titleBegin);
-		        	  problemsList[i] = problems[i].substring(titleBegin, titleEnd);
-		        	  
-		        	  successList[i] = problems[i].charAt(problems[i].length() - 2) == '1';
-		          }
-		          
-		          DataStructureTool DST = new DataStructureTool(problemsList, successList);
-	
-		          RootPanel.get().clear();
-		          RootPanel.get().add(DST);
-		        }
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus status = new WEStatus(response);
+					
+					/*
+					 * The problems array should have even indices corresponding to 
+					 * the problem title, and odd indices with either 0 or 1 for 
+					 * not completed and completed.
+					 */
+					String[] problems = status.getMessageArray();
+					String[] problemsList = new String[problems.length / 2];
+					boolean[] successList = new boolean[problems.length / 2];
+
+					for (int i = 0; i < problems.length - 1; i += 2) {
+						int idx = i / 2; 										   // corresponding index for lists
+						problemsList[idx] = problems[i]; 						   // title of exercise
+						successList[idx] = Integer.parseInt(problems[i + 1]) == 1; // true if corresponding string is '1'
+					}
+
+					DataStructureTool DST = new DataStructureTool(problemsList,
+							successList);
+
+					RootPanel.get().clear();
+					RootPanel.get().add(DST);
+				}
 		        
 		        public void onError(Request request, Throwable exception) {
 		        	Window.alert("error");
