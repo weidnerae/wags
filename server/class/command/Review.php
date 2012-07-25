@@ -175,8 +175,6 @@ class Review extends Command
 	// CONSTRUCTION OF PATHS
 		
 		$code = utf8_decode($code);
-		
-		shell_exec("rm -rf /tmp/section1/*");
 	
 		// Check for the package statement for Java files
 		//	-in effect, this tells us whether or not we'll be 
