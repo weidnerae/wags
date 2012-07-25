@@ -1,5 +1,7 @@
 package webEditor.magnet.client;
 
+import webEditor.client.Proxy;
+
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
 import com.google.gwt.core.client.GWT;
@@ -17,8 +19,9 @@ import com.google.gwt.user.client.ui.Widget;
 public class CodePanelUi extends Composite {
 	public AbsolutePositionDropController dropControl;
 	public String content = "";
-	public StringBuffer plainText = new StringBuffer();
+	public StringBuffer plainText;
 	public StackableContainer mainFunction;
+	private String title;
 	@UiField ScrollPanel nestPanel;
 	@UiField AbsolutePanel mainPanel;
 	@UiField Button button;
@@ -36,9 +39,10 @@ public class CodePanelUi extends Composite {
 	 * @param insideFunctions Possible inner functions nested into the function to be built.
 	 */
 	public CodePanelUi(StackableContainer main,
-			StackableContainer[] insideFunctions, PickupDragController dc) {
+			StackableContainer[] insideFunctions, PickupDragController dc, String title) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.mainFunction = main;
+		this.title = title;
 		
 		if (insideFunctions != null) {
 			addInsideFunctions(insideFunctions);
@@ -50,8 +54,10 @@ public class CodePanelUi extends Composite {
 	//finalize button handler
 	@UiHandler("button")
 	void handleClick(ClickEvent e){
+		plainText = new StringBuffer();
 		buildContent(mainFunction);
 		ResultsPanelUi.setResultsText(getFormattedText());
+		Proxy.magnetReview(getFormattedText(), title);
 		RefrigeratorMagnet.switchTabs(1);
 	}
 	

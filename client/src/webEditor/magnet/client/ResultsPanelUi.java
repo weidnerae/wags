@@ -42,7 +42,7 @@ public class ResultsPanelUi extends Composite {
 		testCode.add(codeToTest);
 	}
 
-	static void setResultsText(String s){
+	public static void setResultsText(String s){
 		codeToTest.setText(s);
 	}
 }

@@ -14,6 +14,7 @@ import webEditor.client.view.OutputReview;
 import webEditor.client.view.Wags;
 import webEditor.dst.client.DataStructureTool;
 import webEditor.magnet.client.ProblemButton;
+import webEditor.magnet.client.ResultsPanelUi;
 import webEditor.magnet.client.SplashPage;
 
 import com.google.gwt.core.client.GWT;
@@ -1073,6 +1074,47 @@ public class Proxy
 		}catch(RequestException e){
 			e.printStackTrace();
 		}
+	}
+
+	public static void magnetReview(String code, String title){
+		code = URL.encodePathSegment(code);  // Escapes things like "+", etc.
+		
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, Proxy.getBaseURL()+"?cmd=MagnetReview");
+		try{
+			builder.setHeader("Content-Type", "application/x-www-form-urlencoded");
+			builder.sendRequest("code=" + code + "&title=" + title, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus stat = new WEStatus(response);
+					String note = "";
+					switch (stat.getStat()){
+						case WEStatus.STATUS_SUCCESS:
+							note = "Success!";
+							break;
+						case WEStatus.STATUS_ERROR:
+							note = "Syntax Error - Incorrect";
+							break;
+						case WEStatus.STATUS_WARNING:
+							note = "Logic Error - Incorrect";
+							break;
+						default:
+							break;
+					}
+					
+					Notification.notify(stat.getStat(), note);
+					ResultsPanelUi.setResultsText(stat.getMessage());
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Magnet review error");
+				}
+			});
+		} catch(RequestException e){
+			Window.alert(e.getMessage());
+		}
+		
 	}
 
 	/**
