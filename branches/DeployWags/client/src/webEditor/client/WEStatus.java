@@ -242,6 +242,8 @@ public class WEStatus
 				strArray[i] = strArray[i].substring(2, strArray[i].length() - 1); // Strip quotes // not last item
 			else
 				strArray[i] = strArray[i].substring(2, strArray[i].length() - 2); // Strip quotes // last item
+			
+			//NOTE:  All " must be stored as &quot; (the HTML encoding) in the DATABASE
 		}
 		return strArray;
 	}
