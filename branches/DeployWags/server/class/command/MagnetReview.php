@@ -70,11 +70,11 @@ class MagnetReview extends Command
                 return JSON::warn($stdout);
         // Check compilation -- Failure 
         } else {
-            $error = "Compilation Error: \n";
+            $error = "Compilation Error: <br />";
             foreach($output as $line){
-                $error .= $line;                //<=========== Error reporting
+                $error .= $line."<br />"; 
             }
-
+            $error = str_replace("\t", "<tab/>", $error);
             return JSON::error($error);
         }
     }
