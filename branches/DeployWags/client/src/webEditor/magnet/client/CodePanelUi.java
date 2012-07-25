@@ -22,6 +22,7 @@ public class CodePanelUi extends Composite {
 	public StringBuffer plainText;
 	public StackableContainer mainFunction;
 	private String title;
+	private int tabNumber = -1; // So the initial increment will give 0 tabs
 	@UiField ScrollPanel nestPanel;
 	@UiField AbsolutePanel mainPanel;
 	@UiField Button button;
@@ -56,7 +57,7 @@ public class CodePanelUi extends Composite {
 	void handleClick(ClickEvent e){
 		plainText = new StringBuffer();
 		buildContent(mainFunction);
-		ResultsPanelUi.setResultsText(getFormattedText());
+		ResultsPanelUi.setCodeText(getFormattedText());
 		Proxy.magnetReview(getFormattedText(), title);
 		RefrigeratorMagnet.switchTabs(1);
 	}
@@ -112,10 +113,18 @@ public class CodePanelUi extends Composite {
 	 * @param sc mainFunction
 	 */
 	public void buildContent(StackableContainer sc) {
+		tabNumber++;
+		String tabs = "";
+		
+		// For proper indentation
+		for(int i = 0; i < tabNumber; i++){
+			tabs += "\t";
+		}
+		
 		if (sc.getTopLabel() != null) {
 			content += sc.getTopLabel().toString();
-			plainText.append(sc.getTopLabel().getText() + "\n");
-
+			plainText.append(tabs + sc.getTopLabel().getText() + "\n");
+			
 		}
 		content += "<span id=\"inside_of_block\">";
 		for (int i = 0; i < sc.getInsidePanel().getWidgetCount(); i++) {
@@ -125,9 +134,10 @@ public class CodePanelUi extends Composite {
 		content += "</span>";
 		if (sc.getBottomLabel() != null) {
 			content += sc.getBottomLabel().toString();
-			plainText.append(sc.getBottomLabel().getText() + "\n");
+			plainText.append(tabs + sc.getBottomLabel().getText() + "\n");
 		}
-
+		
+		tabNumber--;
 	}
 
 }

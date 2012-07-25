@@ -40,9 +40,19 @@ public class ResultsPanelUi extends Composite {
 		codeToTest.setSize("100%", "100%");
 		//add it to left side AbsolutePanel
 		testCode.add(codeToTest);
+		
+		codeTestResults = new TextArea();
+		codeTestResults.setReadOnly(true);
+		codeTestResults.setVisibleLines(25);
+		codeTestResults.setSize("100%", "100%");
+		testResults.add(codeTestResults);
 	}
 
 	public static void setResultsText(String s){
+		codeTestResults.setText(s);
+	}
+	
+	public static void setCodeText(String s){
 		codeToTest.setText(s);
 	}
 }

@@ -1103,7 +1103,10 @@ public class Proxy
 					}
 					
 					Notification.notify(stat.getStat(), note);
-					ResultsPanelUi.setResultsText(stat.getMessage());
+					String results = stat.getMessage();
+					results = results.replaceAll("<br />", "\n");
+					results = results.replaceAll("<tab/>", "\t");
+					ResultsPanelUi.setResultsText(results);
 				}
 				
 				@Override
