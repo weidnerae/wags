@@ -45,8 +45,6 @@ public class RefrigeratorMagnet{
 	    resultsPanel = new ResultsPanelUi(tabPanelHeight);
 	    tabPanel.add(resultsPanel, "Results", false);
 	    
-	    tabPanel.add(new ProblemCreationPanel(tabPanel, this.dc), "Problem Creation", false);
-	    
 	    editingPanel.start();
 	}
 	public void setPremadeIDs(String[] ids, StackableContainer[] segments){
