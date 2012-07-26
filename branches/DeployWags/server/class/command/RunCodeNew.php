@@ -49,7 +49,7 @@ switch($lang)
 		# Open the process
 		#	-A Java test class will be used to run the F# executables
 		#	-The process will stay open in the background and the php script will continue running.
-		$process = proc_open("exec /usr/bin/java -cp $dir $testFileName $solutionExecString $studentExecString 2>&1", $descriptorspec, $pipes);
+		$process = proc_open("exec /usr/bin/java -cp $dir $testFileName $nonce $solutionExecString $studentExecString 2>&1", $descriptorspec, $pipes);
 		
 		break;
 	
@@ -76,7 +76,7 @@ switch($lang)
 		# Open the process
 		#	-A Java test class will be used to run the Prolog scripts
 		#	-The process will stay open in the background and the php script will continue running.
-		$process = proc_open("exec /usr/bin/java -cp $dir $testFileName $solutionExecString $studentExecString 2>&1", $descriptorspec, $pipes);
+		$process = proc_open("exec /usr/bin/java -cp $dir $testFileName $nonce $solutionExecString $studentExecString 2>&1", $descriptorspec, $pipes);
 		
 		break;
 		
