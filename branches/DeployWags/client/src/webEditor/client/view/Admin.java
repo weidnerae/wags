@@ -78,7 +78,7 @@ public class Admin extends Composite{
 				Proxy.getVisibleExercises(exercises); 
 				
 				if(stat.getStat() == WEStatus.STATUS_SUCCESS){
-					// Message is of the form: 'Uploaded Message [exercise title]'
+					// Message is of the form: 'Uploaded Exercise [exercise title]'
 					// So, exercise, exercise title begins at index 18
 					String exName = stat.getMessage().substring(18);
 					Proxy.addSkeletons(exName);
