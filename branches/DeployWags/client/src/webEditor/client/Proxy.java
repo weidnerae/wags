@@ -470,12 +470,12 @@ public class Proxy
 				@Override
 				public void onResponseReceived(Request request, Response response)
 				{
-					//Passing it through JSON kills formatting
-					String allText = response.getText();
+					// Passing it through JSON kills formatting
+					// For some unknown reason, the text from the server gets 
+					// prepended with all sorts of spaces....
+					String allText = response.getText().trim();
 					
 					//Grab status for uneditable codeArea for helper classes
-					allText = allText.substring(5);  // WHAT IS THIS FOR???
-					allText.trim();
 					String status = allText.substring(0, 1); 
 					allText = allText.substring(1);
 					editor.codeArea.setEnabled(true); /* defaults to enabled */
