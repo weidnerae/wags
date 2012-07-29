@@ -494,18 +494,16 @@ public class Proxy
 					if(endofTop != -1){
 						top = allText.substring(0, endofTop + len); // keep the comment in top
 						mid = allText.substring(endofTop + len);    // don't include comment in mid
-						if(mid.charAt(0) == '\n') mid = mid.substring(1);  // basically, remove \n added from submit if it exists
 					}
 					
 					if(endofMid != -1){
 						bot = allText.substring(endofMid - 2); // keep comment in bottom
-						mid = allText.substring(endofTop + len, endofMid - 2); // don't leave //, or %%, or etc in mid\
-						if(mid.charAt(0) == '\n') mid = mid.substring(1);  // basically, remove \n added from submit if it exists
+						mid = allText.substring(endofTop + len, endofMid - 2); // don't leave //, or %%, or etc in mid
 					}
 					
 					editor.codeTop = top;
 					editor.codeBottom = bot;
-					editor.codeArea.setText(mid);
+					editor.codeArea.setText(mid.replaceAll("^\\s+", "")); // get rid of all leading whitespace
 					
 					if(status.equals("0")) 
 						editor.codeArea.setEnabled(false); // if status = 0, file is uneditable
