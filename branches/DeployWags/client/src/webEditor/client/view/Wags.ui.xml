@@ -9,7 +9,6 @@
 			border-bottom: 5px solid #E3E3E3; 
 			width: 100%;
 			text-align: right;
-			padding-bottom:5px;
 		}
 		
 		.administration {
@@ -23,11 +22,7 @@
 		.anchor:hover { 
 			text-decoration: underline; 
 		}
-		
-		.dock { 
-			margin-top: 25px;
-		}
-		
+
 		.editor { 
 			height: 100%;
 			width: 100%;
@@ -71,22 +66,21 @@
 		}
 		
 		.title { 
-			font-size: 3em;
+			font-size: 22px;
 			font-weight: light;
 			font-style: italic;
 			color: #A0A0FF;
 			z-index: 9999;
 			position: relative;
 			vertical-align: top;
-			top: -4px;
 			display: inline;
             float:left;
 		}
 			
 	</ui:style>
 	
-	<g:DockLayoutPanel unit="EM" styleName="{style.dock}" ui:field="dock">
-		<g:north size="3">
+	<g:DockLayoutPanel unit="EM" ui:field="dock">
+		<g:north size="2">
 			<g:HTMLPanel styleName="{style.applicationBar}">
 				<g:Label styleName="{style.title}">WAGS</g:Label>
 				<g:Label styleName="{style.hello-logout}" ui:field="hello"></g:Label>
