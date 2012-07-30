@@ -4,6 +4,9 @@
 	padding: 2px;
 	top: 0px;
 	left: 0px;
+	margin-left:auto;
+	margin-right:auto;
+	width:40%;
 }
 
 .error {
