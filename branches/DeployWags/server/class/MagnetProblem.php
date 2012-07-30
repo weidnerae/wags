@@ -230,6 +230,7 @@ class MagnetProblem extends Model
         $sth->execute(array(':section' => $user->getSection()));
 
         $results = $sth->fetchAll();
+        $values[] = "Default"; // Everyone gets the default magnet group
         foreach($results as $result){
             $values[] = $result['name'];
         }
@@ -247,12 +248,19 @@ class MagnetProblem extends Model
         $user = Auth::GetCurrentUser();
         $db = Database::getDb();
 
-        $sth = $db->prepare('SELECT magnetProblem.title 
-            FROM magnetProblem, SectionMP
-            WHERE SectionMP.status < 3
-            AND SectionMP.section = :section
-            AND SectionMP.magnetP = magnetProblem.id
-            AND magnetProblem.group = :group');
+        if($group != 1){
+            $sth = $db->prepare('SELECT magnetProblem.title 
+                FROM magnetProblem, SectionMP
+                WHERE SectionMP.status < 3
+                AND SectionMP.section = :section
+                AND SectionMP.magnetP = magnetProblem.id
+                AND magnetProblem.group = :group');
+        } else {
+            // Different syntax if no variable replacing???
+            $sth = $db->prepare("SELECT `title`
+                FROM `magnetProblem`
+                WHERE `group` = 1");
+        }
         $sth->setFetchMode(PDO::FETCH_NUM);
         $sth->execute(array(':section' => $user->getSection(),
             ':group' => $group));
