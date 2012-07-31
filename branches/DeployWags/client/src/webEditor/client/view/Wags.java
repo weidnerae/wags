@@ -72,6 +72,7 @@ public class Wags extends View
 	private String currentEditorCode = "";
 	
 	String currentExercise;
+	String curPath = "";
 	
 	/**
 	 * Constructor
@@ -139,14 +140,23 @@ public class Wags extends View
 			}
 		});
 		
-		tabPanel.addBeforeSelectionHandler(new BeforeSelectionHandler<Integer>() {
-			@Override
-			public void onBeforeSelection(BeforeSelectionEvent<Integer> event) {
-				if(tabPanel.getSelectedIndex() == 0){
-					getPath(browser.getTree().getSelectedItem());
-				}
-			}
-		});
+        tabPanel.addBeforeSelectionHandler(new BeforeSelectionHandler<Integer>() {
+            @Override
+            public void onBeforeSelection(BeforeSelectionEvent<Integer> event) {
+            	    if(tabPanel.getSelectedIndex() == 0){
+                            curPath = getPath(browser.getTree().getSelectedItem());
+                    }
+            }
+        });
+    
+        tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
+            @Override
+            public void onSelection(SelectionEvent<Integer> event) {
+            		if(tabPanel.getSelectedIndex() == 0){    
+            				Proxy.loadFileListing(browser, curPath);
+            		}
+            }
+        });
 	} // end constructor
 
 	void handleInvisibility(int vis){
@@ -236,6 +246,8 @@ public class Wags extends View
 	}
 	
 	private String getPath(TreeItem i){
+		if(i == null) return curPath;
+		
 		String path = "";
 		while(i != null && i.getParentItem() != null){
 			path = "/"+i.getText()+path;
