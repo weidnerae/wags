@@ -7,5 +7,7 @@ class AddSkeletons extends Command
         $exercise = Exercise::getExerciseByTitle($exName);
 
         $exercise->addSkeletons();
+
+        return JSON::success(""); // let client know all went well
     }
 }
