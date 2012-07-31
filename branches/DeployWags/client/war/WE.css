@@ -121,7 +121,7 @@ body {
 .bucket_panel{
 	padding-top: 5px;
 	background-color: #FFFFFF;
-	positoin: absolute;
+	position: absolute;
 	text-align: center;
 	font-size:12pt;
 }
@@ -140,7 +140,6 @@ body {
 
 .control_button {
 	font-weight: bold;
-	'
 }
 
 .edge_instructions {

@@ -75,6 +75,7 @@
 			vertical-align: top;
 			display: inline;
             float:left;
+            top: -4px;
 		}
 			
 	</ui:style>
@@ -109,7 +110,7 @@
 					</g:DockLayoutPanel>
 				</g:layer>
 				<g:layer left='50%' right='0%'>
-					<g:TabLayoutPanel width="100%" height="100%" barUnit="EM" barHeight="2" ui:field="tabPanel" addStyleNames="{style.editorAndFilebar}">
+					<g:TabLayoutPanel width="100%" height="100%" barUnit="EM" barHeight="2" ui:field="tabPanel">
 						<g:tab>
 							<g:header> FileBrowser </g:header>
 							<g:ScrollPanel>
