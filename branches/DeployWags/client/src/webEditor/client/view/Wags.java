@@ -13,6 +13,8 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.BeforeSelectionEvent;
 import com.google.gwt.event.logical.shared.BeforeSelectionHandler;
+import com.google.gwt.event.logical.shared.OpenEvent;
+import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.http.client.URL;
@@ -72,7 +74,9 @@ public class Wags extends View
 	private String currentEditorCode = "";
 	
 	String currentExercise;
-	String curPath = "";
+	
+	// Keep track of the currently selected item
+	private TreeItem selectedItem = null;
 	
 	/**
 	 * Constructor
@@ -94,6 +98,8 @@ public class Wags extends View
 		Proxy.getUsersName(hello);
 		commandBarVisible(false);
 		
+		selectedItem = browser.getTree().getItem(0); // initialize selected item to root
+		
 		description.setUrl("");
 
 		//For getting pdf descriptors
@@ -108,6 +114,7 @@ public class Wags extends View
 			{
 				boolean checkVis = false;
 				TreeItem i = event.getSelectedItem();
+				selectedItem = i;
 				String itemName = browser.getItemPath(i);  // clicked item
 				
 				// Don't autosave if clicking on the first file of the session, or on a version
@@ -117,46 +124,71 @@ public class Wags extends View
 				
 				// If clicked item is directory then just open it
 				if(i.getChildCount() > 0)
-					return;
-				
-				// If clicked item is a leaf TreeItem then open it in editor
-				Proxy.getFileContents(itemName, editor);
-				if(itemName.contains("_Versions")){
-					currentExercise = browser.getItemPath(i.getParentItem().getParentItem()).trim().substring(1); /* Grab the exercise */
-					checkVis = true;
+				{
+					// Philip, this is the idea for setting up the browser
+					//  so that the user can click on the exercise name
+					//  as well as the plus sign to open up an exercise,
+					//  rather than always having to use the plus sign.
+					//  -Would help with difficulty of pressing plus signs on
+					//    mobile devices
+					//  -Unfortunately, the following doesn't work yet, but I left
+					//   it because it seemed like the right track
+//					if (!i.getState())
+//						i.setState(true, false);
+//					else
+//						i.setState(false, false);
 				}
-				else {
-					currentExercise = browser.getItemPath(i.getParentItem()).trim().substring(1); /* Grab the exercise */
-					checkVis = true;
+				else
+				{
+					// If clicked item is a leaf TreeItem then open it in editor
+					Proxy.getFileContents(itemName, editor);
+					if(itemName.contains("_Versions")){
+						currentExercise = browser.getItemPath(i.getParentItem().getParentItem()).trim().substring(1); /* Grab the exercise */
+						checkVis = true;
+					}
+					else {
+						currentExercise = browser.getItemPath(i.getParentItem()).trim().substring(1); /* Grab the exercise */
+						checkVis = true;
+					}
+					
+					/* Update description */
+					Proxy.getDescription(currentExercise, description);
+	
+					// Set filename, save, and delete stuff visible
+					commandBarVisible(true);
+					if(checkVis) handleInvisibility(browser.getFileVisibility(itemName));
+					fileName.setText(browser.getItemPath(i).toString().substring(1));
 				}
-				
-				/* Update description */
-				Proxy.getDescription(currentExercise, description);
-
-				// Set filename, save, and delete stuff visible
-				commandBarVisible(true);
-				if(checkVis) handleInvisibility(browser.getFileVisibility(itemName));
-				fileName.setText(browser.getItemPath(i).toString().substring(1));
 			}
 		});
 		
-        tabPanel.addBeforeSelectionHandler(new BeforeSelectionHandler<Integer>() {
-            @Override
-            public void onBeforeSelection(BeforeSelectionEvent<Integer> event) {
-            	    if(tabPanel.getSelectedIndex() == 0){
-                            curPath = getPath(browser.getTree().getSelectedItem());
-                    }
-            }
-        });
-    
-        tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
-            @Override
-            public void onSelection(SelectionEvent<Integer> event) {
-            		if(tabPanel.getSelectedIndex() == 0){    
-            				Proxy.loadFileListing(browser, curPath);
-            		}
-            }
-        });
+		// This allows us to select the exercise name when a plus sign is pressed,
+		//  so that when the user switches tabs and comes back, the file tree won't
+		//  revert back to root
+		browser.getTree().addOpenHandler(new OpenHandler<TreeItem>() {
+			public void onOpen(OpenEvent<TreeItem> event) 
+			{
+				TreeItem t = event.getTarget();
+				selectedItem = t;
+			}
+		});
+		
+		// When the FileBrowser tab is clicked, this will reload the file browser, 
+		//	reselect the previously selected item, and open up to the necessary depth
+		// -If an exercise name is clicked, it will be selected (due to the OpenHandler
+		//	 above), and will be opened up upon reload here.
+		// -This will all happen when switching away from the tab (since it is a BeforeSelectionHandler)
+		//   so the "flickering" issue will not happen
+		tabPanel.addBeforeSelectionHandler(new BeforeSelectionHandler<Integer>() {
+			@Override
+			public void onBeforeSelection(BeforeSelectionEvent<Integer> event) {
+				// only update file tree if switching from FileBrowser or Admin tab
+				if(tabPanel.getSelectedIndex() == 0 || tabPanel.getSelectedIndex() == 3){
+					Proxy.loadFileListing(browser, getPath(selectedItem));
+				}
+			}
+		});
+		
 	} // end constructor
 
 	void handleInvisibility(int vis){
@@ -246,8 +278,6 @@ public class Wags extends View
 	}
 	
 	private String getPath(TreeItem i){
-		if(i == null) return curPath;
-		
 		String path = "";
 		while(i != null && i.getParentItem() != null){
 			path = "/"+i.getText()+path;
