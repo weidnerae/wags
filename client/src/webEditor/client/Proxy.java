@@ -919,7 +919,7 @@ public class Proxy
 		        	  scroll3.add(sections);
 		        	  scroll3.addStyleName("administration");
 		        	  
-		        	  tabPanel.add(scroll, "Exercises");
+		        	  tabPanel.add(scroll, "Admin");
 		        	  tabPanel.add(scroll2, "Students");
 		        	  if(root) tabPanel.add(scroll3, "Sections");
 		          }
