@@ -73,8 +73,6 @@ public class Wags extends View
 	
 	String currentExercise;
 	
-	private String curPath = "";
-	
 	/**
 	 * Constructor
 	 * 
@@ -145,16 +143,7 @@ public class Wags extends View
 			@Override
 			public void onBeforeSelection(BeforeSelectionEvent<Integer> event) {
 				if(tabPanel.getSelectedIndex() == 0){
-					curPath = getPath(browser.getTree().getSelectedItem());
-				}
-			}
-		});
-		
-		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
-			@Override
-			public void onSelection(SelectionEvent<Integer> event) {
-				if(tabPanel.getSelectedIndex() == 0){
-					Proxy.loadFileListing(browser, curPath);
+					getPath(browser.getTree().getSelectedItem());
 				}
 			}
 		});
