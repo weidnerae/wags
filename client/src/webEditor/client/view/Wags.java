@@ -153,7 +153,9 @@ public class Wags extends View
 		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
 			@Override
 			public void onSelection(SelectionEvent<Integer> event) {
-				Proxy.loadFileListing(browser, curPath);
+				if(tabPanel.getSelectedIndex() == 0){
+					Proxy.loadFileListing(browser, curPath);
+				}
 			}
 		});
 	} // end constructor
