@@ -114,6 +114,12 @@ public class FileBrowser extends View
 			t.setState(true, false);
 			t = getItem(t, dirs[i]);
 		}
+		// set the last item as selected, as long as it's not root
+		if (!(t.getText().equals("/")))
+		{
+			browser.setSelectedItem(t, false);
+			t.setState(true, false);
+		}
 	}
 
 	/**
