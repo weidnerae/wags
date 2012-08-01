@@ -190,6 +190,44 @@ public class Wags extends View
 		});
 		
 	} // end constructor
+	
+	/**
+	 * Use this to create code that the user is allowed to see,
+	 *  such as when they click on the "code" button in the editor
+	 * 
+	 * - We don't want users to see our <end!___Section> tags,
+	 *   or any special testing code below the <start!HiddenSection>
+	 *   tag needed to make the program run, but not related to the
+	 *   user's assignment.  (This code is often under a Test Code
+	 *   comment, such as in Prolog and F#)
+	 *   
+	 * @return scrubbed code
+	 */
+	public String createUserViewableCode()
+	{
+		String code = editor.codeTop;
+		code +=  editor.codeArea.getText() + editor.codeBottom;
+		
+		// We need to process the code a bit to hide some of our implementation
+		//  -first, replace our <end!___Section> tags, as well as the
+		//   two preceding comment tags (//, %%, etc based on the language)
+		//		- the '(.)\\1' matches two of the same character, which is
+		//        useful because the comment symbols are different in each
+		//        language
+		code = code.replaceAll("(.)\\1<end!TopSection>", ""); 
+		code = code.replaceAll("(.)\\1<end!MidSection>", "");
+		// 	-then remove any code that needs to be hidden from the user, such
+		//   as how we are running the programs and testing the user's rules
+		//   in Prolog and F#.  This code will have to be at the end of the file
+		//   for now.
+		int hidden = code.indexOf("<start!HiddenSection>");
+		if (hidden != -1)
+		{
+			code = code.substring(0, hidden-2); // subtract two for the two comment symbols 
+		}
+		
+		return code;
+	}
 
 	void handleInvisibility(int vis){
 		submit.setEnabled(true);
@@ -214,10 +252,8 @@ public class Wags extends View
 	
 	@UiHandler("getCode")
 	void onDescClick(ClickEvent event)
-	{
-		String wholeText = editor.codeTop;
-		wholeText +=  editor.codeArea.getText() + editor.codeBottom;
-		review.setText(wholeText);
+	{	
+		review.setText(createUserViewableCode());
 		
 		tabPanel.selectTab(REVIEWPANEL);
 	}
