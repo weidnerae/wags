@@ -6,7 +6,18 @@ class getDesc extends Command
 		$exTitle = $_GET['title'];
 
 		$exercise = Exercise::getExerciseByTitle($exTitle);
-		return JSON::success($exercise->getDescription());
+		$description = $exercise->getDescription();
+		
+		$path = str_replace(WE_ROOT."/descriptions/", '/tmp/', $description);
+		
+		if (!file_exists($path)) {
+			$image = $exercise->getDescriptionJPG();
+			file_put_contents($path, $image);
+		}
+		
+		$url = str_replace(WE_ROOT, WE_URL, $description);
+		
+		return JSON::success($url);
 
 	}
 }

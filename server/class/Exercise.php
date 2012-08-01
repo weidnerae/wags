@@ -6,6 +6,7 @@ require_once("command/DefInvis.php");
 class Exercise extends Model
 {
 	protected $description;
+	protected $descriptionJPG;
 	protected $skeletonId;
 	protected $solutionId;
 	protected $testClassId;
@@ -26,6 +27,14 @@ class Exercise extends Model
 
 	public function getDescription(){
 		return $this->description;
+	}
+	
+	public function setDescriptionJPG($jpg) {
+		$this->descriptionJPG = $jpg;
+	}
+	
+	public function getDescriptionJPG() {
+		return $this->descriptionJPG;
 	}
 
 	public function setSkeletonId($skeleton){
