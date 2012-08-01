@@ -111,6 +111,7 @@ class AddHelperClass extends Command
 		$description = $_FILES['descriptionPDF'];
 		$descTmp = $description['tmp_name'];
 		$descName = $description['name'];
+		$exerciseName = $exercise->getTitle();
         $user = Auth::getCurrentUser();
 
         # Check for right type
@@ -124,19 +125,22 @@ class AddHelperClass extends Command
 
         # These will have to change when deployed publicly - should be extracted
         $section = $user->getSection();
-        $path = "/usr/local/apache2/htdocs/cs/wags/Test_Version/descriptions/section".$section;
+        $path = WE_ROOT."/descriptions/".$section.descName;
 
         # Cannot currently construct the needed directory,
         # must add by hand
+        # -------------------------------------------------------
+        # No longer needed, as we are storing everything in /tmp/
+        # as of 8/1/2012
+        #
         /*if(!is_dir($path)){
             mkdir("$path/", 0777, TRUE);
         }*/
 
         # Set up current file location, final location variables
-        $moveTo = "$path/$descName";
+        $moveTo = "/tmp/$section.$descName";
         $truncName = str_replace(".pdf", ".jpg", $descName); 
-        $fileLoc = $path;
-        $urlLoc = "http://cs.appstate.edu/wags/descriptions/section$section/$truncName";
+        $urlLoc = WE_ROOT."/descriptions/$section.$truncName";
 
         # Currently, descriptions can't be overwritten.  Temporary
 		if(file_exists($moveTo)){
@@ -144,16 +148,25 @@ class AddHelperClass extends Command
 			return FALSE;
 		}
 
-//-----># Breaks on move_uploaded_file, doesn't seem to even continue
-        # Or we would be seeing that error message - same symptoms as
-        # mkdir
+		# I have no idea if this error check works with the new version
+		#
+		# We save the pdf file to /tmp/, then convert it to a JPG,
+		# create a soft link to the JPG from WE_ROOT/descriptions/
+		# to the location in /tmp, and store the JPG as a blob in the
+		# database in the event that we need to recreate the JPG on 
+		# disk (e.g. when the machine is rebooted). Also store the location
+		# of the soft link in the database
 		if(!move_uploaded_file($_FILES['descriptionPDF']['tmp_name'], $moveTo)){
 			echo "Error uploading description file";
 			return FALSE;
-		}else{
-            exec("convert $fileLoc/$descName $fileLoc/$truncName"); 
+		} else {
+            exec("convert /tmp/$section.$descName /tmp/$section.$truncName");
+            exec("ln -s /tmp/$section.$truncName $urlLoc");
+            
+            $image = file_get_contents("/tmp/$section.$truncName");
            
 			$exercise->setDescription($urlLoc);
+			$exercise->setDescriptionJPG($image);
 			$exercise->save();
 		}
 
