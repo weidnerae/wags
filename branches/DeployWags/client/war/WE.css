@@ -178,6 +178,115 @@ body {
 	border-style: solid;
 	cursor: pointer;
 }
+
+.administration {
+	height: 100%;
+	width: 100%;
+	background-color: #C2C2FF;
+}
+
+/** MAGNETS CSS **/
+
+#closeButton {
+  margin: 15px 6px 6px;
+}
+
+/** panel css */
+.base_panel{
+        height:100%;
+        width:100%;
+}
+.creation_station {
+        padding-right: 5px;
+        padding-left: 5px;
+        padding-bottom: 5px;
+        -moz-border-radius: 15px;
+        border-radius: 15px;
+        background: #cccccc;
+        border: 1px solid black;
+}
+.interior_panel{
+        border: 1px solid #BCBCBC;
+}
+.trash_bin{
+        background-color: #FF4A4A;
+        text-align: center;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        height: 30px;
+}
+.trash_bin-engage{
+        background-color: #CB3E3E;
+        text-align: center;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        height: 30px;
+}
+.stackable_container{
+        margin-top: 10px;
+        margin-bottom: 5px;
+        padding: 7px;
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        display: absolute;
+        font-size: 11px;
+        border: 1px solid black;
+        background-color: #ACDEE6;
+        font-family: "courier new";     
+}
+.stackable_container_over{
+        margin-top: 10px;
+        margin-bottom: 5px;
+        padding: 7px;
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        background: #99FFFF;
+        font-size: 11px;
+        border: 1px solid black;
+        font-family: "courier new";     
+}
+.main_code_container{
+        padding: 5px;
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        background: #cccccc;
+        min-height: 20px;
+        font-size: 14px;
+        font-color: white;
+        border: 1px solid black;
+        font-family: "courier new";     
+}
+.main_code_over{
+        padding: 5px;
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        background: #cccccc;
+        display: absolute;
+        min-height: 20px;
+        font-size: 14px;
+        font-color: white;
+        border: 1px solid black;
+        font-family: "courier new";     
+}
+#inside_of_block{
+        position:relative;
+        left:20px;
+}
+.dropdown_panel{
+        padding-top: 5px;
+        width:100%;
+        padding-right:20px;
+}
+/** misc css */
+.trash_label{
+        margin: 5px;
+}
+.create_button{
+        margin-right:20px;
+}
+
+BODY,HTML{height:100%;}=======
+}
 .string_node{
 	position: absolute;
 	font-size: 16pt;
