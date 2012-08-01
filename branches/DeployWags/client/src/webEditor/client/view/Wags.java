@@ -182,10 +182,7 @@ public class Wags extends View
 		tabPanel.addBeforeSelectionHandler(new BeforeSelectionHandler<Integer>() {
 			@Override
 			public void onBeforeSelection(BeforeSelectionEvent<Integer> event) {
-				// only update file tree if switching from FileBrowser or Admin tab
-				if(tabPanel.getSelectedIndex() == 0 || tabPanel.getSelectedIndex() == 3){
-					Proxy.loadFileListing(browser, getPath(selectedItem));
-				}
+				Proxy.loadFileListing(browser, getPath(selectedItem));
 			}
 		});
 		
