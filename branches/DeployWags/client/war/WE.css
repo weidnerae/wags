@@ -1,4 +1,4 @@
-/** Add css rules here for your application. */
+ /** Add css rules here for your application. */
 	/** Example rules used by the template application (remove for your app) */
 h1 {
 	font-size: 2em;
@@ -307,4 +307,12 @@ BODY,HTML{height:100%;}
 	border-color: #FFFF00;
 	border-style: solid;
 	cursor: pointer;
+}
+.gwt-TabPanelBottom {
+  height:98%;
+  border-color: #92c1f0;
+  border-style: solid;
+  border-width: 3px 2px 2px;
+  overflow: hidden;
+  padding: 6px;
 }
