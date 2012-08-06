@@ -47,7 +47,7 @@ class AddExercise extends Command
         if(!($msg = $this->validDates($openDate, $closeDate)))
             return JSON::error($msg);
 
-        if($e){
+        if($e){ // If the exercise already exists
             $update = true;
 
             // Update open and close dates
@@ -187,7 +187,7 @@ class AddExercise extends Command
             $e->setTestClassId($test->getId());
             $e->setSkeletonId($skel->getId());
             $e->setMultiUser(0); //The default is no partners
-            $e->setDescription(""); //This should die when descriptions become pdfs
+            $e->setDescription("descriptions/tstjpgwags.jpg"); 
         }
         
         }catch(Exception $e){

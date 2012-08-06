@@ -16,7 +16,7 @@ class Exercise extends Model
 	protected $multiUser;
 	protected $openDate;
 	protected $closeDate;
-	
+
 	public function getTable(){
 		return 'exercise';
 	}
@@ -26,6 +26,10 @@ class Exercise extends Model
 	}
 
 	public function getDescription(){
+        // If there is no description - should only be old exercises
+        if($this->description === null)
+             return "cs.appstate.edu/wags/Test_Version/descriptions/testjpgwags.jpg";
+
 		return $this->description;
 	}
 	

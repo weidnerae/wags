@@ -230,7 +230,6 @@ class MagnetProblem extends Model
         $sth->execute(array(':section' => $user->getSection()));
 
         $results = $sth->fetchAll();
-        $values[] = "Default"; // Everyone gets the default magnet group
         foreach($results as $result){
             $values[] = $result['name'];
         }
@@ -248,19 +247,12 @@ class MagnetProblem extends Model
         $user = Auth::GetCurrentUser();
         $db = Database::getDb();
 
-        if($group != 1){
-            $sth = $db->prepare('SELECT magnetProblem.title 
-                FROM magnetProblem, SectionMP
-                WHERE SectionMP.status < 3
-                AND SectionMP.section = :section
-                AND SectionMP.magnetP = magnetProblem.id
-                AND magnetProblem.group = :group');
-        } else {
-            // Different syntax if no variable replacing???
-            $sth = $db->prepare("SELECT `title`
-                FROM `magnetProblem`
-                WHERE `group` = 1");
-        }
+        $sth = $db->prepare('SELECT magnetProblem.title 
+            FROM magnetProblem, SectionMP
+            WHERE SectionMP.status < 3
+            AND SectionMP.section = :section
+            AND SectionMP.magnetP = magnetProblem.id
+            AND magnetProblem.group = :group');
         $sth->setFetchMode(PDO::FETCH_NUM);
         $sth->execute(array(':section' => $user->getSection(),
             ':group' => $group));
@@ -338,6 +330,31 @@ class MagnetProblem extends Model
             SET status = 2
             WHERE section = :section');
         $sth->execute(array(':section' => $user->getSection()));
+    }
+
+    # This method adds the default group and all problems in the default
+    # group to any newly created section.  This method is called from
+    # LinkNewSection.php
+    #
+    # We will either have to continually update this method with any changes
+    # to the database concerning defautl exercises, or make it more robust
+    # so that it dynamically changes what values are added depending on what
+    # is currently in the database
+    public static function addDefaults($sectionId){
+        require_once('Database.php');
+        $db = Database::getDb();
+        
+        $sth = $db->prepare('INSERT INTO SectionMPG
+            VALUES (NULL, :sectionId, 1)');
+        $sth->execute(array(':sectionId' => $sectionId));
+
+        $sth = $db->prepare('INSERT INTO SectionMP
+            VALUES
+                (NULL, :sectionId, 46, 2),
+                (NULL, :sectionId, 47, 2),
+                (NULL, :sectionId, 48, 2),
+                (NULL, :sectionId, 60, 2)');
+        $sth->execute(array(':sectionId' => $sectionId));
     }
 
 }
