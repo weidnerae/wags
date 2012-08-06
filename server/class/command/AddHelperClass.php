@@ -34,14 +34,11 @@ class AddHelperClass extends Command
 
         # If there is a description
         if($_FILES['descriptionPDF']['size'] != 0){
-           # Descriptions don't work yet....  c'mon Darryl, lemme use
-           # the server...
-           /* $aFile = TRUE;
+            $aFile = TRUE;
 
             if(!$this->addDesc())
-                return;*/
+                return;
 
-           echo "Desc Uploading Broken. ";
            return;
         }
 
@@ -168,6 +165,7 @@ class AddHelperClass extends Command
 			$exercise->setDescription($urlLoc);
 			$exercise->setDescriptionJPG($image);
 			$exercise->save();
+            echo "hopefully this means it worked";
 		}
 
         return TRUE;

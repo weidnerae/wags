@@ -36,6 +36,9 @@ class LinkNewSection extends Command{
         # Set the administrator for the section
         $section->setAdmin($admin->getId());
 
+        # Add the default magnetExercises for the section
+        MagnetProblem::addDefaults($id);
+
         # Save all the changes
         $admin->save();
         $guest->save();

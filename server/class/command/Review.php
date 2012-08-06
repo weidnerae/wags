@@ -375,7 +375,9 @@ class Review extends Command
             $noncePos = strpos($output[0], $nonce."");
             $chkNonce = (FALSE !== $noncePos); // Basically, make 0 = true
 
-			if(preg_match($successRegex, $output[0]) || $chkNonce){
+            # Testing moving strictly to nonce validation
+			//if(preg_match($successRegex, $output[0]) || $chkNonce){
+			if($chkNonce){
 				$sub->setSuccess(1);
 
                 // Don't print nonce
@@ -391,7 +393,7 @@ class Review extends Command
 			}
 
 		} else {
-			$error = "Compilation Error: \n";
+			$error = "Compilation Error: <br />";
 			foreach($output as $line){
 				$error .= $line."<br />";
 				$sub->setSuccess(0); //failure to compile is failure for lab
