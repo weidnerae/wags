@@ -43,7 +43,7 @@ class GetFileContents extends Command
             $wholeCode = str_replace("&lt;", "<", $wholeCode);
             $wholeCode = str_replace("&gt;", ">", $wholeCode);
 
-			$all = $status.$wholeCode;
+			$all = $status . $wholeCode;
 
 			echo $all;
 

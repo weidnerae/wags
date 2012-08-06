@@ -41,7 +41,7 @@ class MagnetReview extends Command
         }
 
         // Create the file with student code
-        $studentPath = "$dir/PrintArray.java";
+        $studentPath = "$dir/Student.java";
         $file = fopen($studentPath, "w+"); // Will change to default
         fwrite($file, $code);
         fflush($file);
@@ -64,7 +64,7 @@ class MagnetReview extends Command
 
             if($chkNonce){
                 // Don't print nonce
-                //$output[0] = substr($output[0], 0, $noncePos);
+                //$output[0] = substr($output[0], 0, $noncePos); <-- breaks stuff
                 return JSON::success($stdout);
             }else
                 return JSON::warn($stdout);
