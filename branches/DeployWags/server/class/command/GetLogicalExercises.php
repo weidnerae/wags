@@ -33,7 +33,7 @@ class GetLogicalExercises extends Command
 			// Also, ignore the empty first element in $exerciseArray
 			if (!$hasSubmission && $exercise != "") {
 				$result[] = $exercise;
-				$result[] = 0;
+				$result[] = "0"; // Quotes needed to be parsed on client
 			}
 		}
 

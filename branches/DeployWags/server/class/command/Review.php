@@ -381,9 +381,7 @@ class Review extends Command
 				$sub->setSuccess(1);
 
                 // Don't print nonce
-                if($chkNonce){
-                    $output[0] = substr($output[0], 0, $noncePos);
-                }
+                $output[0] = substr($output[0], 0, $noncePos);
 
 				JSON::success($output);
 			} else {
