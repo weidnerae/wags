@@ -14,7 +14,6 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -78,28 +77,28 @@ public class SortDisplayManager extends DisplayManager implements
 		t.setPixelSize(400, 90);
 		t.setReadOnly(true);
 		t.setText(problem.getProblemText());
-		Proxy.getDSTWrapper().add(t, 2, 5);
+		Proxy.getDST().add(t, 2, 5);
 	}
 
 	private void addLeftButtonPanel() {
 		leftButtonPanel = new AbsolutePanel();
 		leftButtonPanel.setPixelSize(130, 30);
 		leftButtonPanel.setStyleName("left_panel");
-		Proxy.getDSTWrapper().add(leftButtonPanel, 2, 100);
+		Proxy.getDST().add(leftButtonPanel, 2, 100);
 	}
 
 	private void addMiddlePanel() {
 		middlePanel = new AbsolutePanel();
 		middlePanel.setPixelSize(214, 30);
 		middlePanel.setStyleName("middle_panel");
-		Proxy.getDSTWrapper().add(middlePanel, 132, 100);
+		Proxy.getDST().add(middlePanel, 132, 100);
 	}
 
 	private void addRightButtonPanel() {
 		rightButtonPanel = new AbsolutePanel();
 		rightButtonPanel.setPixelSize(382, 30);
 		rightButtonPanel.setStyleName("right_panel");
-		Proxy.getDSTWrapper().add(rightButtonPanel, 222, 100);
+		Proxy.getDST().add(rightButtonPanel, 222, 100);
 	}
 
 	private void addBackButton() {
@@ -141,8 +140,8 @@ public class SortDisplayManager extends DisplayManager implements
 						getEdges());
 				
 				if (showingSubMess == true) {
-					Proxy.getDSTWrapper().remove(submitText);
-					Proxy.getDSTWrapper().remove(submitOkButton);
+					Proxy.getDST().remove(submitText);
+					Proxy.getDST().remove(submitOkButton);
 				}
 
 				if (evalResult.equals(""))
@@ -172,8 +171,8 @@ public class SortDisplayManager extends DisplayManager implements
 		submitOkButton.setStyleName("control_button");
 		submitOkButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				Proxy.getDSTWrapper().remove(submitText);
-				Proxy.getDSTWrapper().remove(submitOkButton);
+				Proxy.getDST().remove(submitText);
+				Proxy.getDST().remove(submitOkButton);
 				showingSubMess = false;
 			}
 		});
@@ -233,7 +232,7 @@ public class SortDisplayManager extends DisplayManager implements
 			Line bottom = new Line(xStart, YBOTTOM, (xStart + 50), YBOTTOM);
 			Line left = new Line(xStart, YTOP, xStart, YBOTTOM);
 			Label label = new Label((i+1) + "");
-			Proxy.getDSTWrapper().add(label, xStart + 25, 134);
+			Proxy.getDST().add(label, xStart + 25, 134);
 			drawEdge(top);
 			drawEdge(right);
 			drawEdge(bottom);
@@ -248,7 +247,7 @@ public class SortDisplayManager extends DisplayManager implements
 		cp.setPixelSize(195, 90);
 		cp.setReadOnly(true);
 		cp.setText("Current Pass: 1");
-		Proxy.getDSTWrapper().add(cp, 407, 5);
+		Proxy.getDST().add(cp, 407, 5);
 
 	}
 
@@ -262,12 +261,12 @@ public class SortDisplayManager extends DisplayManager implements
 
 	public void addToPanel(Widget w, int left, int top) {
 		itemsInPanel.add(w);
-		Proxy.getDSTWrapper().add(w, left, top);
+		Proxy.getDST().add(w, left, top);
 	}
 
 	public void removeWidgetsFromPanel() {
 		for (int i = 0; i < itemsInPanel.size(); i++) {
-			Proxy.getDSTWrapper().remove(itemsInPanel.get(i));
+			Proxy.getDST().remove(itemsInPanel.get(i));
 		}
 	}
 

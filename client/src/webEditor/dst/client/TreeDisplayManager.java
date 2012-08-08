@@ -18,7 +18,6 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -195,7 +194,7 @@ public class TreeDisplayManager extends DisplayManager implements
 		edgeCancelEventHandler = addEdgeButton
 				.addClickHandler(edgeCancelClickHandler);
 		addingEdge = true;
-		Proxy.getDSTWrapper().add(edgeAdditionInsPanel, 346, 131);
+		Proxy.getDST().add(edgeAdditionInsPanel, 346, 131);
 	}
 
 	public void addEdgeCancel() {
@@ -219,7 +218,7 @@ public class TreeDisplayManager extends DisplayManager implements
 
 	public void setEdgeNodeSelectionInstructions(String ins) {
 		if (ins.equals("")) {
-			Proxy.getDSTWrapper().remove(edgeAdditionInsPanel);
+			Proxy.getDST().remove(edgeAdditionInsPanel);
 		}
 		edgeAdditionIns.setText(ins);
 	}
@@ -232,28 +231,28 @@ public class TreeDisplayManager extends DisplayManager implements
 		t.setPixelSize(598, 90);
 		t.setReadOnly(true);
 		t.setText(problem.getProblemText());
-		Proxy.getDSTWrapper().add(t, 2, 5);
+		Proxy.getDST().add(t, 2, 5);
 	}
 
 	private void addLeftButtonPanel() {
 		leftButtonPanel = new AbsolutePanel();
 		leftButtonPanel.setPixelSize(130, 30);
 		leftButtonPanel.setStyleName("left_panel");
-		Proxy.getDSTWrapper().add(leftButtonPanel, 2, 100);
+		Proxy.getDST().add(leftButtonPanel, 2, 100);
 	}
 
 	private void addMiddlePanel() {
 		middlePanel = new AbsolutePanel();
 		middlePanel.setPixelSize(214, 30);
 		middlePanel.setStyleName("middle_panel");
-		Proxy.getDSTWrapper().add(middlePanel, 132, 100);
+		Proxy.getDST().add(middlePanel, 132, 100);
 	}
 
 	private void addRightButtonPanel() {
 		rightButtonPanel = new AbsolutePanel();
 		rightButtonPanel.setPixelSize(383, 30);           
 		rightButtonPanel.setStyleName("right_panel");      
-		Proxy.getDSTWrapper().add(rightButtonPanel, 221, 100);   
+		Proxy.getDST().add(rightButtonPanel, 221, 100);   
 	}
 
 	private void addBackButton() {
@@ -314,8 +313,8 @@ public class TreeDisplayManager extends DisplayManager implements
 				}
 
 				if (showingSubMess == true) {
-					Proxy.getDSTWrapper().remove(submitText);
-					Proxy.getDSTWrapper().remove(submitOkButton);
+					Proxy.getDST().remove(submitText);
+					Proxy.getDST().remove(submitOkButton);
 				}
 
 				if (evalResult.equals(""))
@@ -346,8 +345,8 @@ public class TreeDisplayManager extends DisplayManager implements
 		submitOkButton.setStyleName("control_button");
 		submitOkButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				Proxy.getDSTWrapper().remove(submitText);
-				Proxy.getDSTWrapper().remove(submitOkButton);
+				Proxy.getDST().remove(submitText);
+				Proxy.getDST().remove(submitOkButton);
 				showingSubMess = false;
 			}
 		});
@@ -470,12 +469,12 @@ public class TreeDisplayManager extends DisplayManager implements
 
 	public void addToPanel(Widget w, int left, int top) {
 		itemsInPanel.add(w);
-		Proxy.getDSTWrapper().add(w, left, top);
+		Proxy.getDST().add(w, left, top);
 	}
 
 	public void removeWidgetsFromPanel() {
 		for (int i = 0; i < itemsInPanel.size(); i++) {
-			Proxy.getDSTWrapper().remove(itemsInPanel.get(i));
+			Proxy.getDST().remove(itemsInPanel.get(i));
 		}
 	}
 
@@ -511,7 +510,7 @@ public class TreeDisplayManager extends DisplayManager implements
 		evaluateButton.click();
 	}
 	public void addDiagLabel(String s){
-		Proxy.getDSTWrapper().add(new Label(s), 250,250);
+		Proxy.getDST().add(new Label(s), 250,250);
 	}
     public boolean isMST(){
     	return problem.getProblemText().substring(0,3).equals("MST");

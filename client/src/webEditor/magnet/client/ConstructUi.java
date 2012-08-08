@@ -17,7 +17,6 @@ public class ConstructUi extends Composite {
 	private TrashBin bin = new TrashBin();
 	private StackableContainer[] premade;
 	private boolean initial = false;
-	private boolean first = true;
 	private String problemType;
 	private AbsolutePanel contentPanel; //nest panel to hold creation station and segments content
 	private AbsolutePanel csContent;  //nest panel to hold creationStation

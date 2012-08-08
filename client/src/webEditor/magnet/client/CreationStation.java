@@ -14,10 +14,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 
 public class CreationStation extends VerticalPanel{
-	private PickupDragController dc;
 	private String[] structuresList;
 	private String[] for1List;
+	@SuppressWarnings("unused") // I assume these will be getting used later, magnet people?
 	private String[] for2List;
+	@SuppressWarnings("unused")
 	private String[] for3List;
 	private String[] booleanList;
 	private ConstructUi constructPanel;

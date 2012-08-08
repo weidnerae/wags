@@ -10,7 +10,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -65,14 +64,14 @@ public abstract class DisplayManager implements IsSerializable
 	{
 		for(int i = 0; i < itemsInPanel.size(); i++)
 		{
-			Proxy.getDSTWrapper().remove(itemsInPanel.get(i));
+			Proxy.getDST().remove(itemsInPanel.get(i));
 		}
 	}
 	
 	public void addToPanel(Widget w, int left, int top)
 	{
 		itemsInPanel.add(w);
-		Proxy.getDSTWrapper().add(w, left, top);
+		Proxy.getDST().add(w, left, top);
 	}
 	
 	private void addProblemTextArea()
@@ -82,7 +81,7 @@ public abstract class DisplayManager implements IsSerializable
 		t.setPixelSize(598, 90);
 		t.setReadOnly(true);
 		t.setText(problem.getProblemText());
-		Proxy.getDSTWrapper().add(t, 2, 5);
+		Proxy.getDST().add(t, 2, 5);
 	}
 
 	private void addLeftButtonPanel()
@@ -90,7 +89,7 @@ public abstract class DisplayManager implements IsSerializable
 		leftButtonPanel = new AbsolutePanel();
 		leftButtonPanel.setPixelSize(130, 30);
 		leftButtonPanel.setStyleName("left_panel");
-		Proxy.getDSTWrapper().add(leftButtonPanel, 2, 100);
+		Proxy.getDST().add(leftButtonPanel, 2, 100);
 	}
 
 	private void addMiddlePanel()
@@ -98,7 +97,7 @@ public abstract class DisplayManager implements IsSerializable
 		middlePanel = new AbsolutePanel();
 		middlePanel.setPixelSize(214, 30);
 		middlePanel.setStyleName("middle_panel");
-		Proxy.getDSTWrapper().add(middlePanel, 132, 100);
+		Proxy.getDST().add(middlePanel, 132, 100);
 	}
 
 	private void addRightButtonPanel()
@@ -106,7 +105,7 @@ public abstract class DisplayManager implements IsSerializable
 		rightButtonPanel = new AbsolutePanel();
 		rightButtonPanel.setPixelSize(382, 30);
 		rightButtonPanel.setStyleName("right_panel");
-		Proxy.getDSTWrapper().add(rightButtonPanel, 222, 100);
+		Proxy.getDST().add(rightButtonPanel, 222, 100);
 	}
 
 	private void addBackButton()
@@ -138,8 +137,8 @@ public abstract class DisplayManager implements IsSerializable
 
 				if(showingSubMess == true)
 				{
-					Proxy.getDSTWrapper().remove(submitText);
-					Proxy.getDSTWrapper().remove(submitOkButton);
+					Proxy.getDST().remove(submitText);
+					Proxy.getDST().remove(submitOkButton);
 				}
 				
 				if(evalResult.equals("")) return;  //used with the traversal problems with help on, if it was empty string
@@ -165,8 +164,8 @@ public abstract class DisplayManager implements IsSerializable
 		submitOkButton.setStyleName("control_button");
 		submitOkButton.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
-				Proxy.getDSTWrapper().remove(submitText);
-				Proxy.getDSTWrapper().remove(submitOkButton);
+				Proxy.getDST().remove(submitText);
+				Proxy.getDST().remove(submitOkButton);
 				showingSubMess = false;
 			}	
 		});

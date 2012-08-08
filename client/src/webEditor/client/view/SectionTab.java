@@ -28,6 +28,8 @@ public class SectionTab extends Composite implements HasText {
 	}
 
 	public SectionTab() {
+		//TODO:  When a section is changed, the available magnetExercises must also
+		// be updated
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		// Fill listbox with sections that currently exist

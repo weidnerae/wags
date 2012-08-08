@@ -15,7 +15,6 @@ import webEditor.client.view.Wags;
 import webEditor.dst.client.DataStructureTool;
 import webEditor.magnet.client.ProblemButton;
 import webEditor.magnet.client.ResultsPanelUi;
-import webEditor.magnet.client.SplashPage;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -29,7 +28,6 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -60,7 +58,7 @@ public class Proxy
 	private static final String logout = getBaseURL()+"?cmd=Logout";
 	private static final String login = getBaseURL()+"?cmd=Login";
 	private static final String registerURL = Proxy.getBaseURL()+"?cmd=RegisterUser";
-	private static final AbsolutePanel DSTwrapper = new AbsolutePanel();
+	private static DataStructureTool DST;
 		
 	private static void holdMessage(String message){
 		Notification.cancel(); // Cancel previous clearing schedule if present
@@ -203,7 +201,7 @@ public class Proxy
 
 					DataStructureTool DST = new DataStructureTool(problemsList,
 							successList);
-				wags.replaceCenterContent(Proxy.getDSTWrapper());
+					wags.replaceCenterContent(DST);
 				}
 		        
 		        public void onError(Request request, Throwable exception) {
@@ -424,9 +422,6 @@ public class Proxy
 			Window.alert("Failed to send the request: " + e.getMessage());
 		}
 		
-	}
-	public static AbsolutePanel getDSTWrapper(){
-		return DSTwrapper;
 	}
 
 	/**
@@ -1293,7 +1288,7 @@ public class Proxy
 		      @SuppressWarnings("unused")
 			Request req = builder.sendRequest(null, new RequestCallback() {
 		        public void onResponseReceived(Request request, Response response) {
-		          WEStatus status = new WEStatus(response);         
+		          WEStatus status = new WEStatus(response); 
 		        }
 		        
 		        public void onError(Request request, Throwable exception) {
@@ -1305,6 +1300,14 @@ public class Proxy
 		    }
 	}
 
+	public static void setDST(DataStructureTool thisDST){
+		DST = thisDST;
+	}
+	
+	public static DataStructureTool getDST(){
+		return DST;
+	}
+	
 	public static void SetMagnetExercises(String assignedMagnets) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=SetMagnetExercises&list=" + assignedMagnets);
 		try{

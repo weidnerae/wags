@@ -145,6 +145,7 @@ public class Evaluation_Level extends Evaluation  implements IsSerializable
 		public Node node;
 		public Node left;
 		public Node right;
+		@SuppressWarnings("unused")
 		public boolean visited;
 
 		public EvaluationNode(Node node, Node parent, Node left, Node right)
