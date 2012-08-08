@@ -18,7 +18,7 @@ class SubmitDST extends Command
         if($sub){
             // Only increment number of attempts if they haven't
             // gotten it correct yet
-            if($sub->getSuccess == 0)
+            if($sub->getSuccess() == 0)
                 $sub->setNumAttempts($sub->getNumAttempts() + 1);
             
             $sub->setSuccess($success);
