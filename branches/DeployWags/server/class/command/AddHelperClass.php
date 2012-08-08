@@ -104,12 +104,16 @@ class AddHelperClass extends Command
     #   success.  If FALSE, an ECHO statement should immediately
     #   precede the "return FALSE;" line with an error message
     private function addDesc(){
+    	
         # Get Variables
 		$description = $_FILES['descriptionPDF'];
 		$descTmp = $description['tmp_name'];
 		$descName = $description['name'];
+		$exerciseTitle = $_POST['Exercises'];
+		$exercise = Exercise::getExerciseByTitle($exerciseTitle);
 		$exerciseName = $exercise->getTitle();
         $user = Auth::getCurrentUser();
+        
 
         # Check for right type
 		$finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -122,7 +126,7 @@ class AddHelperClass extends Command
 
         # These will have to change when deployed publicly - should be extracted
         $section = $user->getSection();
-        $path = WE_ROOT."/descriptions/".$section.descName;
+        $path = WE_ROOT."/descriptions/$section.$descName";
 
         # Cannot currently construct the needed directory,
         # must add by hand
@@ -158,6 +162,7 @@ class AddHelperClass extends Command
 			return FALSE;
 		} else {
             exec("convert /tmp/$section.$descName /tmp/$section.$truncName");
+            echo "ln -s /tmp/$section.$truncName $urlLoc";
             exec("ln -s /tmp/$section.$truncName $urlLoc");
             
             $image = file_get_contents("/tmp/$section.$truncName");
@@ -165,7 +170,7 @@ class AddHelperClass extends Command
 			$exercise->setDescription($urlLoc);
 			$exercise->setDescriptionJPG($image);
 			$exercise->save();
-            echo "hopefully this means it worked";
+            //echo "hopefully this means it worked";
 		}
 
         return TRUE;
