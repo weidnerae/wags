@@ -3,7 +3,6 @@ package webEditor.magnet.client;
 
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
 
@@ -27,9 +26,9 @@ public class RefrigeratorMagnet extends AbsolutePanel{
 	static PickupDragController dc;
 	
 	
-	public RefrigeratorMagnet(String title, String description, StackableContainer mainFunction, StackableContainer[] insideFunctions, String problemType, StackableContainer[] premadeSegments, String[] structuresList, String[] for1List, String[] for2List, String[] for3List, String[] booleanList, String solution, String[] premadeIDs, PickupDragController dc) {
-		this.dc=dc;
-		this.dc.setBehaviorDragProxy(true);
+	public RefrigeratorMagnet(String title, String description, StackableContainer mainFunction, StackableContainer[] insideFunctions, String problemType, StackableContainer[] premadeSegments, String[] structuresList, String[] for1List, String[] for2List, String[] for3List, String[] booleanList, String solution, String[] premadeIDs, PickupDragController newDC) {
+		dc=newDC;
+		dc.setBehaviorDragProxy(true);
 		setHeight("99%");
 		
 		setPremadeIDs(premadeIDs, premadeSegments);

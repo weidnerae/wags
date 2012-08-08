@@ -183,6 +183,7 @@ public class Evaluation_MaxHeap_Preorder extends Evaluation  implements IsSerial
 		public Node node;
 		public Node left;
 		public Node right;
+		@SuppressWarnings("unused")
 		public boolean visited;
 
 		public EvaluationNode(Node node, Node parent, Node left, Node right)
