@@ -29,6 +29,8 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.Location;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
@@ -58,6 +60,7 @@ public class Proxy
 	private static final String logout = getBaseURL()+"?cmd=Logout";
 	private static final String login = getBaseURL()+"?cmd=Login";
 	private static final String registerURL = Proxy.getBaseURL()+"?cmd=RegisterUser";
+	private static final AbsolutePanel DSTwrapper = new AbsolutePanel();
 		
 	private static void holdMessage(String message){
 		Notification.cancel(); // Cancel previous clearing schedule if present
@@ -174,7 +177,7 @@ public class Proxy
 		}
 	}
 
-	public static void buildDST() {
+	public static void buildDST(final Wags wags) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET,
 				Proxy.getBaseURL() + "?cmd=GetLogicalExercises");
 		try {
@@ -200,9 +203,7 @@ public class Proxy
 
 					DataStructureTool DST = new DataStructureTool(problemsList,
 							successList);
-
-					RootPanel.get().clear();
-					RootPanel.get().add(DST);
+				wags.replaceCenterContent(Proxy.getDSTWrapper());
 				}
 		        
 		        public void onError(Request request, Throwable exception) {
@@ -212,13 +213,6 @@ public class Proxy
 		    } catch (RequestException e) {
 		      Window.alert("Failed to send the request: " + e.getMessage());
 		    }
-	}
-	
-	// TODO: Move out of Proxy
-	public static void buildMagnet(){
-		SplashPage splash = new SplashPage();
-		RootPanel.get().clear();
-		RootPanel.get().add(splash);
 	}
 	
 	public static void call(String command, HashMap<String, String> request, WagsCallback callback){
@@ -431,6 +425,9 @@ public class Proxy
 		}
 		
 	}
+	public static AbsolutePanel getDSTWrapper(){
+		return DSTwrapper;
+	}
 
 	/**
 	 * Get a list of exercises from the server and put them
@@ -612,7 +609,7 @@ public class Proxy
 	 *   root panel, in getMagnetProblem it is removed.  It's staying like this since we don't know exactly how
 	 *   we're handling navigation among magnetProblems yet, so no reason to fix it twice.
 	 */
-	public static void getMagnetExercises(final HorizontalPanel problemPane){
+	public static void getMagnetExercises(final Wags wags, final HorizontalPanel problemPane){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetExercises");
 		try{
 			builder.sendRequest(null, new RequestCallback() {
@@ -628,11 +625,11 @@ public class Proxy
 						title = problems[i + 1];
 						problemPane.add(new ProblemButton(title,id, new ClickHandler(){
 							public void onClick(ClickEvent event) {
-								Proxy.getMagnetProblem(id, problemPane);
+								Proxy.getMagnetProblem(wags, id, problemPane);
 							}
 						}));
 					}
-					RootPanel.get().add(problemPane);
+					wags.updateSplashPage(problemPane);
 				}
 				
 				@Override
@@ -683,7 +680,7 @@ public class Proxy
 	/** 
 	 *  Grabs a magnet problem
 	 */
-	public static void getMagnetProblem(int id, final HorizontalPanel problemPane){
+	public static void getMagnetProblem(final Wags wags, int id, final HorizontalPanel problemPane){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetMagnetProblem&id=" + id);
 		try{
 			builder.sendRequest("", new RequestCallback() {
@@ -693,7 +690,7 @@ public class Proxy
 					WEStatus status = new WEStatus(response);
 					MagnetProblem magProb = (MagnetProblem) status.getObject();
 					problemPane.setVisible(false);
-					SplashPage.makeProblem(magProb);
+					wags.placeProblem(magProb);
 				}
 				
 				@Override
@@ -705,6 +702,7 @@ public class Proxy
 			Window.alert(e.getMessage());
 		}
 	}
+	
 	
 	public static void getSections(final ListBox sections) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, getSections);
@@ -1022,16 +1020,16 @@ public class Proxy
 					WEStatus status = new WEStatus(response);
 					if(status.getStat() == WEStatus.STATUS_SUCCESS){
 						if(location.equals("editor")){
-							Wags e = new Wags();
+							Wags e = new Wags("editor");
 							e.go();
 						}
 						if(location.equals("dst")){
-//							DataStructureTool t = new DataStructureTool();
-//							t.go();
-							Proxy.buildDST();
+							Wags e = new Wags("dst");
+							e.go();
 						}
 						if(location.equals("magnet")){
-							Proxy.buildMagnet();
+							Wags e = new Wags("magnets");
+							e.go();
 						}
 					}else{
 						Notification.notify(WEStatus.STATUS_ERROR, status.getMessage());

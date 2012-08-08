@@ -3,6 +3,7 @@ package webEditor.magnet.client;
 
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
 
@@ -15,7 +16,7 @@ import com.google.gwt.user.client.ui.*;
  * CS 3460 - Kurtz
  * @version r32
  */
-public class RefrigeratorMagnet{
+public class RefrigeratorMagnet extends AbsolutePanel{
 	//screen variables
 	static int SCREEN_WIDTH = Window.getClientWidth();
 	static int SCREEN_HEIGHT = Window.getClientHeight();
@@ -29,30 +30,31 @@ public class RefrigeratorMagnet{
 	public RefrigeratorMagnet(String title, String description, StackableContainer mainFunction, StackableContainer[] insideFunctions, String problemType, StackableContainer[] premadeSegments, String[] structuresList, String[] for1List, String[] for2List, String[] for3List, String[] booleanList, String solution, String[] premadeIDs, PickupDragController dc) {
 		this.dc=dc;
 		this.dc.setBehaviorDragProxy(true);
+		setHeight("99%");
 		
 		setPremadeIDs(premadeIDs, premadeSegments);
-		RootPanel rootPanel = RootPanel.get();
-		rootPanel.setHeight("99%");
-		rootPanel.setWidth("99%");
 		
-	    rootPanel.add(tabPanel);
-	    tabPanel.setSize("100%", "100%");
-	    int tabPanelHeight = tabPanel.getOffsetHeight();
-	    editingPanel = new EditingPanelUi(tabPanelHeight,title,description,mainFunction,insideFunctions,problemType,premadeSegments, structuresList,for1List,for2List,for3List,booleanList, solution, premadeIDs, dc);
-		tabPanel.add(editingPanel, "Editing Mode", false);
-		tabPanel.selectTab(0);
+		
+				add(tabPanel);
+			    tabPanel.setSize("100%", "100%");
+			    int tabPanelHeight = tabPanel.getOffsetHeight();
+			    tabPanelHeight = tabPanel.getOffsetHeight();
+			    editingPanel = new EditingPanelUi(tabPanelHeight,title,description,mainFunction,insideFunctions,problemType,premadeSegments, structuresList,for1List,for2List,for3List,booleanList, solution, premadeIDs, dc);
+				tabPanel.add(editingPanel, "Editing Mode", false);
+				tabPanel.selectTab(0);
 
-	    resultsPanel = new ResultsPanelUi(tabPanelHeight);
-	    tabPanel.add(resultsPanel, "Results", false);
+			    resultsPanel = new ResultsPanelUi(tabPanelHeight);
+			    tabPanel.add(resultsPanel, "Results", false);
+			    
+			    editingPanel.start();
+
 	    
-	    editingPanel.start();
 	}
 	public void setPremadeIDs(String[] ids, StackableContainer[] segments){
 		for(int i=0;i<ids.length;i++){
 			//segments[i].setID(premadeIDs[i]);
 		}
 	}
-
 	 static void switchTabs(int tab){
 		 tabPanel.selectTab(tab);
 	 }
