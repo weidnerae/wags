@@ -1,8 +1,12 @@
 
 package webEditor.client.view;
 
+import webEditor.client.MagnetProblem;
 import webEditor.client.Proxy;
 import webEditor.client.WEStatus;
+import webEditor.dst.client.DataStructureTool;
+import webEditor.magnet.client.RefrigeratorMagnet;
+import webEditor.magnet.client.SplashPage;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -22,6 +26,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -29,8 +34,10 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -48,6 +55,7 @@ public class Wags extends View
 	@UiField FileBrowser browser;
 	@UiField com.google.gwt.user.client.ui.Image description;
 	@UiField DockLayoutPanel dock;
+	@UiField Anchor Editor;
 	@UiField Anchor DST;
 	@UiField Anchor Magnets;
 	@UiField CodeEditor editor;
@@ -77,15 +85,26 @@ public class Wags extends View
 	
 	// Keep track of the currently selected item
 	private TreeItem selectedItem = null;
+	private LayoutPanel editorPanel;
+	private SplashPage splashPage;
+	private RefrigeratorMagnet refrigeratorMagnet;
+	private DataStructureTool dataStructureTool;
+	
+	private String startingPlace;
 	
 	/**
 	 * Constructor
 	 * 
 	 * -Builds Wags interface once logged in
 	 */
-	public Wags()
+	public Wags(String startingPlace)
 	{
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		this.startingPlace = startingPlace;
+		editorPanel = getEditorPanel();
+		splashPage = new SplashPage(this);
+		
 		
 		SectionTab sections = new SectionTab();
 		Students students = new Students();
@@ -186,6 +205,15 @@ public class Wags extends View
 			}
 		});
 		
+		// Doesn't do anything right now, need to figure out how to pass the "startingPlace" variable through
+		// WEAnchor.  Right now it always ends up as "EDITOR" as "editor" is going to proxy.
+//		Window.alert(startingPlace);
+		if(startingPlace.equals("magnets"))
+			replaceCenterContent(splashPage);
+		else if(startingPlace.equals("dst")){
+				Proxy.buildDST(this);
+		}
+		
 	} // end constructor
 	
 	/**
@@ -254,17 +282,21 @@ public class Wags extends View
 		
 		tabPanel.selectTab(REVIEWPANEL);
 	}
-
+	@UiHandler("Editor")
+	void onEditorClick(ClickEvent event)
+	{
+		replaceCenterContent(editorPanel);
+	}
 	@UiHandler("DST")
 	void onDSTClick(ClickEvent event)
 	{
-		this.setVisible(false);
-		Proxy.buildDST();
+		Proxy.buildDST(this);
 	}
 	@UiHandler("Magnets")
 	void onMagnetsClick(ClickEvent event)
 	{
-		Proxy.buildMagnet();
+		replaceCenterContent(splashPage);
+		splashPage.getWidget(0).setVisible(true);
 	}
 
 	/**
@@ -447,11 +479,49 @@ public class Wags extends View
 		setPassword.center();
 		password.setFocus(true);
 	}
+	public void placeProblem(MagnetProblem magnet){
+		RefrigeratorMagnet problem = SplashPage.makeProblem(magnet);
+    	replaceCenterContentMagnet(problem);
+	}
+	public void replaceCenterContentMagnet(RefrigeratorMagnet w){
+		for(int i=0;i<dock.getWidgetCount();i++){
+			if(dock.getWidgetDirection(dock.getWidget(i))==DockLayoutPanel.Direction.CENTER){
+				dock.remove(i);
+				dock.add(w);
+			}
+		}
+	}
+	public void replaceCenterContent(Widget w){
+		for(int i=0;i<dock.getWidgetCount();i++){
+			if(dock.getWidgetDirection(dock.getWidget(i))==DockLayoutPanel.Direction.CENTER){
+				dock.remove(i);
+				dock.add(w);
+			}
+		}
+	}
+	public LayoutPanel getEditorPanel(){
+		for(int i=0;i<dock.getWidgetCount();i++){
+			if(dock.getWidgetDirection(dock.getWidget(i))==DockLayoutPanel.Direction.CENTER){
+				return (LayoutPanel) dock.getWidget(i);
+			}
+		}
+		return null;
+	}
+	public void updateSplashPage(HorizontalPanel problemPane){
+		
+		splashPage.remove(0);  // removes old problemPane ?
+		splashPage.add(problemPane);
+	}
+	public void updateDST(DataStructureTool dst){
+		Window.alert("wags dst updated");
+		this.dataStructureTool = dst;
+		
+	}
 	
 	@Override
 	public WEAnchor getLink()
 	{
-		return new WEAnchor("Wags", this, "editor");
+		return new WEAnchor("Wags", this, startingPlace);
 	}
 	
 }

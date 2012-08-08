@@ -2,6 +2,8 @@ package webEditor.dst.client;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
 
+import webEditor.client.Proxy;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -76,8 +78,8 @@ public class MSTDisplayManager extends TreeDisplayManager implements
 						getEdges());
 
 				if (showingSubMess == true) {
-					RootPanel.get().remove(submitText);
-					RootPanel.get().remove(submitOkButton);
+					Proxy.getDSTWrapper().remove(submitText);
+					Proxy.getDSTWrapper().remove(submitOkButton);
 				}
 
 				if (evalResult.equals(""))
@@ -108,8 +110,8 @@ public class MSTDisplayManager extends TreeDisplayManager implements
 		submitOkButton.setStyleName("control_button");
 		submitOkButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				RootPanel.get().remove(submitText);
-				RootPanel.get().remove(submitOkButton);
+				Proxy.getDSTWrapper().remove(submitText);
+				Proxy.getDSTWrapper().remove(submitOkButton);
 				showingSubMess = false;
 			}
 		});
@@ -132,6 +134,6 @@ public class MSTDisplayManager extends TreeDisplayManager implements
 	}
 
 	public void addDiagLabel(String s) {
-		RootPanel.get().add(new Label(s), 250, 250);
+		Proxy.getDSTWrapper().add(new Label(s), 250, 250);
 	}
 }

@@ -6,6 +6,7 @@ import org.vaadin.gwtgraphics.client.DrawingArea;
 import org.vaadin.gwtgraphics.client.Line;
 
 import webEditor.client.Proxy;
+import webEditor.client.view.Wags;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -77,35 +78,35 @@ public class SortDisplayManager extends DisplayManager implements
 		t.setPixelSize(400, 90);
 		t.setReadOnly(true);
 		t.setText(problem.getProblemText());
-		RootPanel.get().add(t, 2, 5);
+		Proxy.getDSTWrapper().add(t, 2, 5);
 	}
 
 	private void addLeftButtonPanel() {
 		leftButtonPanel = new AbsolutePanel();
 		leftButtonPanel.setPixelSize(130, 30);
 		leftButtonPanel.setStyleName("left_panel");
-		RootPanel.get().add(leftButtonPanel, 2, 100);
+		Proxy.getDSTWrapper().add(leftButtonPanel, 2, 100);
 	}
 
 	private void addMiddlePanel() {
 		middlePanel = new AbsolutePanel();
 		middlePanel.setPixelSize(214, 30);
 		middlePanel.setStyleName("middle_panel");
-		RootPanel.get().add(middlePanel, 132, 100);
+		Proxy.getDSTWrapper().add(middlePanel, 132, 100);
 	}
 
 	private void addRightButtonPanel() {
 		rightButtonPanel = new AbsolutePanel();
 		rightButtonPanel.setPixelSize(382, 30);
 		rightButtonPanel.setStyleName("right_panel");
-		RootPanel.get().add(rightButtonPanel, 222, 100);
+		Proxy.getDSTWrapper().add(rightButtonPanel, 222, 100);
 	}
 
 	private void addBackButton() {
 		Button backButton = new Button("Back");
 		backButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				Proxy.buildDST();
+				Proxy.buildDST(new Wags("dst"));
 			}
 		});
 		backButton.setStyleName("control_button");
@@ -140,8 +141,8 @@ public class SortDisplayManager extends DisplayManager implements
 						getEdges());
 				
 				if (showingSubMess == true) {
-					RootPanel.get().remove(submitText);
-					RootPanel.get().remove(submitOkButton);
+					Proxy.getDSTWrapper().remove(submitText);
+					Proxy.getDSTWrapper().remove(submitOkButton);
 				}
 
 				if (evalResult.equals(""))
@@ -171,8 +172,8 @@ public class SortDisplayManager extends DisplayManager implements
 		submitOkButton.setStyleName("control_button");
 		submitOkButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				RootPanel.get().remove(submitText);
-				RootPanel.get().remove(submitOkButton);
+				Proxy.getDSTWrapper().remove(submitText);
+				Proxy.getDSTWrapper().remove(submitOkButton);
 				showingSubMess = false;
 			}
 		});
@@ -232,7 +233,7 @@ public class SortDisplayManager extends DisplayManager implements
 			Line bottom = new Line(xStart, YBOTTOM, (xStart + 50), YBOTTOM);
 			Line left = new Line(xStart, YTOP, xStart, YBOTTOM);
 			Label label = new Label((i+1) + "");
-			RootPanel.get().add(label, xStart + 25, 134);
+			Proxy.getDSTWrapper().add(label, xStart + 25, 134);
 			drawEdge(top);
 			drawEdge(right);
 			drawEdge(bottom);
@@ -247,7 +248,7 @@ public class SortDisplayManager extends DisplayManager implements
 		cp.setPixelSize(195, 90);
 		cp.setReadOnly(true);
 		cp.setText("Current Pass: 1");
-		RootPanel.get().add(cp, 407, 5);
+		Proxy.getDSTWrapper().add(cp, 407, 5);
 
 	}
 
@@ -261,12 +262,12 @@ public class SortDisplayManager extends DisplayManager implements
 
 	public void addToPanel(Widget w, int left, int top) {
 		itemsInPanel.add(w);
-		RootPanel.get().add(w, left, top);
+		Proxy.getDSTWrapper().add(w, left, top);
 	}
 
 	public void removeWidgetsFromPanel() {
 		for (int i = 0; i < itemsInPanel.size(); i++) {
-			RootPanel.get().remove(itemsInPanel.get(i));
+			Proxy.getDSTWrapper().remove(itemsInPanel.get(i));
 		}
 	}
 
