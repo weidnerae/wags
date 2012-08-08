@@ -64,7 +64,7 @@ class MagnetReview extends Command
 
             if($chkNonce){
                 // Don't print nonce
-                //$output[0] = substr($output[0], 0, $noncePos); <-- breaks stuff
+                $stdout[0] = substr($stdout[0], 0, $noncePos); 
                 return JSON::success($stdout);
             }else
                 return JSON::warn($stdout);

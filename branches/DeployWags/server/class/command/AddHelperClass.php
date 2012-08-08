@@ -139,9 +139,9 @@ class AddHelperClass extends Command
         }*/
 
         # Set up current file location, final location variables
-        $moveTo = "/tmp/$section.$descName";
+        $moveTo = "/tmp/$descName";
         $truncName = str_replace(".pdf", ".jpg", $descName); 
-        $urlLoc = WE_ROOT."/descriptions/$section.$truncName";
+        $urlLoc = WE_ROOT."/descriptions/$truncName";
 
         # Currently, descriptions can't be overwritten.  Temporary
 		if(file_exists($moveTo)){
@@ -165,7 +165,7 @@ class AddHelperClass extends Command
             echo "ln -s /tmp/$section.$truncName $urlLoc";
             exec("ln -s /tmp/$section.$truncName $urlLoc");
             
-            $image = file_get_contents("/tmp/$section.$truncName");
+            $image = file_get_contents("/tmp/$truncName");
            
 			$exercise->setDescription($urlLoc);
 			$exercise->setDescriptionJPG($image);
