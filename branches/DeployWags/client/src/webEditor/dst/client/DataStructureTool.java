@@ -6,16 +6,11 @@ import org.vaadin.gwtgraphics.client.DrawingArea;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import webEditor.client.view.View;
-import webEditor.client.view.WEAnchor;
-import webEditor.client.view.Wags;
 import webEditor.client.Proxy;
 
 
@@ -43,10 +38,7 @@ public class DataStructureTool  extends AbsolutePanel
 	 */
 	public DataStructureTool(String[] problems, boolean[] success) 
 	{	
-	//	Window.alert("Inside construct");
-		//intialize fields that will be used
-		add(Proxy.getDSTWrapper());
-		
+		//initialize fields that will be used
 		widgets = new ArrayList<Widget>();
 		originalYCoordinates = new ArrayList<Integer>();
 		problemList = problems;
@@ -60,7 +52,7 @@ public class DataStructureTool  extends AbsolutePanel
 
 
 		//set styles
-		Proxy.getDSTWrapper().setStyleName("main_background");
+		this.setStyleName("main_background");
 		bannerLabel.setStyleName("banner");
 		selectLabel.setStyleName("welcome");
 
@@ -87,14 +79,12 @@ public class DataStructureTool  extends AbsolutePanel
 	 */
 	private void buildUI()
 	{	
-//		Window.alert("top of buildGUI");
-		Proxy.getDSTWrapper().clear();
+		this.removeAllWidgets();
 		
 		welcomeLabel = new Label();
 		
 		Proxy.getUsersName(welcomeLabel);
 		
-//		Window.alert("before first for loop. problemlist.length: "+problemList.length);
 		//create a label and attempt button for each problem
 		for(int i = 0; i < problemList.length; i++)  //The explode php function results in one extra, empty index
 		{
@@ -117,10 +107,8 @@ public class DataStructureTool  extends AbsolutePanel
 		addToPanel(selectLabel, 4, yCoordinate);
 		yCoordinate += 25 + selectLabel.getOffsetHeight();
 		
-	//	Window.alert("before second for loop. problemlist.length: "+problemList.length+"  wrapper as string: "+Proxy.getDSTWrapper().toString());
-		for(int i = 0; i < problemList.length; i++)   // make -1 to work.
+		for(int i = 0; i < problemList.length; i++)  
 		{
-		//	Window.alert("problemlabels: "+problemLabels.size()+"  attemptButtoms: "+attemptButtons.size());
 			xCoordinate = 4;
 			//add problem name label
 			addToPanel(problemLabels.get(i), xCoordinate, yCoordinate);
@@ -133,14 +121,12 @@ public class DataStructureTool  extends AbsolutePanel
 			//set original Y coordinate for later use with problem result viewing
 			originalYCoordinates.add(yCoordinate);
 			yCoordinate += 31;
-		//	Window.alert("inside second for loop: +"+i);
 		}
 		
 		
 		
 		//call method to add click handlers to buttons
 		//addClickHandlers();
-//		Window.alert("end of  buildgui"+Proxy.getDSTWrapper().toString());
 	}
 	
 	private void addClickHandling(Button button, final String problem){
@@ -162,7 +148,7 @@ public class DataStructureTool  extends AbsolutePanel
 	{
 		for(int i = 0; i < widgets.size(); i++)
 		{
-			Proxy.getDSTWrapper().remove(widgets.get(i));
+			this.remove(widgets.get(i));
 		}
 	}
 
@@ -176,7 +162,7 @@ public class DataStructureTool  extends AbsolutePanel
 	public void addToPanel(Widget widget, int left, int top)
 	{
 		widgets.add(widget);
-		Proxy.getDSTWrapper().add(widget, left, top);
+		this.add(widget, left, top);
 	}
 
 	/**
@@ -201,9 +187,10 @@ public class DataStructureTool  extends AbsolutePanel
 		DrawingArea canvas = new DrawingArea(600, 550);
 		canvas.setStyleName("canvas");
 		panel.add(canvas);
-		Proxy.getDSTWrapper().add(panel, 2, 130);
-		Proxy.getDSTWrapper().setStyleName("prob_background");
+		this.add(panel, 2, 130);
+		this.setStyleName("prob_background");
 				
+		Proxy.setDST(this);
 		DisplayManager dm = p.createDisplayManager(panel, canvas);
 		dm.displayProblem();
 	}

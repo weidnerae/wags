@@ -2,8 +2,6 @@ package webEditor.magnet.client;
 
 import webEditor.client.MagnetProblem;
 import webEditor.client.Proxy;
-import webEditor.client.view.View;
-import webEditor.client.view.WEAnchor;
 import webEditor.client.view.Wags;
 
 import java.util.Random;

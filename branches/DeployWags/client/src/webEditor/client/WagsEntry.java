@@ -79,6 +79,7 @@ public class WagsEntry implements EntryPoint
 		root.add(new Registration());		
 	}
 	
+	@SuppressWarnings("unused")
 	private static void editor(String startingPoint){
 		RootLayoutPanel root = RootLayoutPanel.get();
 		root.add(new Wags(startingPoint));		

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import webEditor.client.Proxy;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 
@@ -31,7 +30,7 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 			else{
 				String correctSection = getCorrectSection(solution, cSolution);
 				if (correctSection.equals("")) {
-					String[] splitCSolution = cSolution.split(" ");
+
 					Proxy.submitDST(problemName, 0);
 					return "Feedback: Incorrect. Hint: This is array is not a MaxHeap, "+
 					"you have to heapify it first.";
@@ -271,7 +270,7 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 
 	public boolean isHeap(int[] ints) {
 		boolean isHeap = true;
-		int[] lInts = new int[ints.length + 1];
+
 		for (int i = 1; (i * 2) < ints.length; i++) {
 			if (ints[i] < ints[i * 2]) {
 				isHeap = false;

@@ -4,7 +4,6 @@ package webEditor.client.view;
 import webEditor.client.MagnetProblem;
 import webEditor.client.Proxy;
 import webEditor.client.WEStatus;
-import webEditor.dst.client.DataStructureTool;
 import webEditor.magnet.client.RefrigeratorMagnet;
 import webEditor.magnet.client.SplashPage;
 
@@ -26,7 +25,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -37,7 +35,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -87,8 +84,6 @@ public class Wags extends View
 	private TreeItem selectedItem = null;
 	private LayoutPanel editorPanel;
 	private SplashPage splashPage;
-	private RefrigeratorMagnet refrigeratorMagnet;
-	private DataStructureTool dataStructureTool;
 	
 	private String startingPlace;
 	
@@ -239,8 +234,8 @@ public class Wags extends View
 		//		- the '(.)\\1' matches two of the same character, which is
 		//        useful because the comment symbols are different in each
 		//        language
-		code = code.replaceAll("(.)\\1<end!TopSection>", ""); 
-		code = code.replaceAll("(.)\\1<end!MidSection>", "");
+		code = code.replaceAll("(.)\\1<end!TopSection>", "\n");  // Added so lines numbers still match what is  
+		code = code.replaceAll("(.)\\1<end!MidSection>", "\n");  // reported in the runtime/compilation errors
 		// 	-then remove any code that needs to be hidden from the user, such
 		//   as how we are running the programs and testing the user's rules
 		//   in Prolog and F#.  This code will have to be at the end of the file
@@ -295,6 +290,9 @@ public class Wags extends View
 	@UiHandler("Magnets")
 	void onMagnetsClick(ClickEvent event)
 	{
+		// Have to construct a new splashpage in case the administrator
+		// has changed available exercises
+		splashPage = new SplashPage(this);
 		replaceCenterContent(splashPage);
 		splashPage.getWidget(0).setVisible(true);
 	}
@@ -511,11 +509,6 @@ public class Wags extends View
 		
 		splashPage.remove(0);  // removes old problemPane ?
 		splashPage.add(problemPane);
-	}
-	public void updateDST(DataStructureTool dst){
-		Window.alert("wags dst updated");
-		this.dataStructureTool = dst;
-		
 	}
 	
 	@Override
