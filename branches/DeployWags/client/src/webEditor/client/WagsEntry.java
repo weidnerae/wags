@@ -59,15 +59,8 @@ public class WagsEntry implements EntryPoint
 						}
 					}
 					else if(status.getStat() == WEStatus.STATUS_SUCCESS){
-						if(Location.getParameter("loc").equals("editor")){
-							editor();
-						}
-						else if(Location.getParameter("loc").equals("DST")){
-							DST();
-						}
-						else if(true){
-							editor(); //Default to editor
-						}
+						RootLayoutPanel root = RootLayoutPanel.get();
+						root.add(new Wags(Location.getParameter("loc")));	
 					}
 				}
 				@Override
@@ -86,9 +79,9 @@ public class WagsEntry implements EntryPoint
 		root.add(new Registration());		
 	}
 	
-	private static void editor(){
+	private static void editor(String startingPoint){
 		RootLayoutPanel root = RootLayoutPanel.get();
-		root.add(new Wags());		
+		root.add(new Wags(startingPoint));		
 	}
 	
 	private static void login(){
@@ -96,9 +89,5 @@ public class WagsEntry implements EntryPoint
 		//RootPanel root = RootPanel.get("main-content");
 		RootLayoutPanel root = RootLayoutPanel.get();
 		root.add(new Login());		
-	}
-	
-	private static void DST(){
-		Proxy.buildDST();
 	}
 }

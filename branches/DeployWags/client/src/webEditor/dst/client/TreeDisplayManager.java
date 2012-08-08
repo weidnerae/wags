@@ -6,6 +6,7 @@ import org.vaadin.gwtgraphics.client.DrawingArea;
 import org.vaadin.gwtgraphics.client.Line;
 
 import webEditor.client.Proxy;
+import webEditor.client.view.Wags;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -194,7 +195,7 @@ public class TreeDisplayManager extends DisplayManager implements
 		edgeCancelEventHandler = addEdgeButton
 				.addClickHandler(edgeCancelClickHandler);
 		addingEdge = true;
-		RootPanel.get().add(edgeAdditionInsPanel, 346, 131);
+		Proxy.getDSTWrapper().add(edgeAdditionInsPanel, 346, 131);
 	}
 
 	public void addEdgeCancel() {
@@ -218,7 +219,7 @@ public class TreeDisplayManager extends DisplayManager implements
 
 	public void setEdgeNodeSelectionInstructions(String ins) {
 		if (ins.equals("")) {
-			RootPanel.get().remove(edgeAdditionInsPanel);
+			Proxy.getDSTWrapper().remove(edgeAdditionInsPanel);
 		}
 		edgeAdditionIns.setText(ins);
 	}
@@ -231,35 +232,35 @@ public class TreeDisplayManager extends DisplayManager implements
 		t.setPixelSize(598, 90);
 		t.setReadOnly(true);
 		t.setText(problem.getProblemText());
-		RootPanel.get().add(t, 2, 5);
+		Proxy.getDSTWrapper().add(t, 2, 5);
 	}
 
 	private void addLeftButtonPanel() {
 		leftButtonPanel = new AbsolutePanel();
 		leftButtonPanel.setPixelSize(130, 30);
 		leftButtonPanel.setStyleName("left_panel");
-		RootPanel.get().add(leftButtonPanel, 2, 100);
+		Proxy.getDSTWrapper().add(leftButtonPanel, 2, 100);
 	}
 
 	private void addMiddlePanel() {
 		middlePanel = new AbsolutePanel();
 		middlePanel.setPixelSize(214, 30);
 		middlePanel.setStyleName("middle_panel");
-		RootPanel.get().add(middlePanel, 132, 100);
+		Proxy.getDSTWrapper().add(middlePanel, 132, 100);
 	}
 
 	private void addRightButtonPanel() {
 		rightButtonPanel = new AbsolutePanel();
 		rightButtonPanel.setPixelSize(383, 30);           
 		rightButtonPanel.setStyleName("right_panel");      
-		RootPanel.get().add(rightButtonPanel, 221, 100);   
+		Proxy.getDSTWrapper().add(rightButtonPanel, 221, 100);   
 	}
 
 	private void addBackButton() {
 		Button backButton = new Button("Back");
 		backButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				Proxy.buildDST();
+				Proxy.buildDST(new Wags("dst"));
 			}
 		});
 		backButton.setStyleName("control_button");
@@ -313,8 +314,8 @@ public class TreeDisplayManager extends DisplayManager implements
 				}
 
 				if (showingSubMess == true) {
-					RootPanel.get().remove(submitText);
-					RootPanel.get().remove(submitOkButton);
+					Proxy.getDSTWrapper().remove(submitText);
+					Proxy.getDSTWrapper().remove(submitOkButton);
 				}
 
 				if (evalResult.equals(""))
@@ -345,8 +346,8 @@ public class TreeDisplayManager extends DisplayManager implements
 		submitOkButton.setStyleName("control_button");
 		submitOkButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				RootPanel.get().remove(submitText);
-				RootPanel.get().remove(submitOkButton);
+				Proxy.getDSTWrapper().remove(submitText);
+				Proxy.getDSTWrapper().remove(submitOkButton);
 				showingSubMess = false;
 			}
 		});
@@ -469,12 +470,12 @@ public class TreeDisplayManager extends DisplayManager implements
 
 	public void addToPanel(Widget w, int left, int top) {
 		itemsInPanel.add(w);
-		RootPanel.get().add(w, left, top);
+		Proxy.getDSTWrapper().add(w, left, top);
 	}
 
 	public void removeWidgetsFromPanel() {
 		for (int i = 0; i < itemsInPanel.size(); i++) {
-			RootPanel.get().remove(itemsInPanel.get(i));
+			Proxy.getDSTWrapper().remove(itemsInPanel.get(i));
 		}
 	}
 
@@ -510,7 +511,7 @@ public class TreeDisplayManager extends DisplayManager implements
 		evaluateButton.click();
 	}
 	public void addDiagLabel(String s){
-		RootPanel.get().add(new Label(s), 250,250);
+		Proxy.getDSTWrapper().add(new Label(s), 250,250);
 	}
     public boolean isMST(){
     	return problem.getProblemText().substring(0,3).equals("MST");

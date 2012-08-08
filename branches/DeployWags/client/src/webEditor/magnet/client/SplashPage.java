@@ -4,29 +4,33 @@ import webEditor.client.MagnetProblem;
 import webEditor.client.Proxy;
 import webEditor.client.view.View;
 import webEditor.client.view.WEAnchor;
+import webEditor.client.view.Wags;
+
 import java.util.Random;
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class SplashPage extends View {
+public class SplashPage extends AbsolutePanel {
 	protected static PickupDragController dc = new PickupDragController(RootPanel.get(), false);
 	static String[] structuresList = {"choose structure...","for","while","if","else if", "else"};
 	final HorizontalPanel problemPane = new HorizontalPanel();
 	
 	String title;
 	
-	public SplashPage() {
+	public SplashPage(Wags wags) {
+		add(problemPane);
 		problemPane.clear();
-		Proxy.getMagnetExercises(problemPane);
+		Proxy.getMagnetExercises(wags,problemPane);
 	}
 	
 	/**
 	 * Makes the problem
 	 */
-	public static void makeProblem(MagnetProblem magnet) {
-		new RefrigeratorMagnet(
+	public static RefrigeratorMagnet makeProblem(MagnetProblem magnet) {
+		return new RefrigeratorMagnet(
 				magnet.title,
 				magnet.directions,
 				getMainContainer(magnet.mainFunction),
@@ -112,8 +116,4 @@ public class SplashPage extends View {
 		return insideFunctionsList;
 	}
 
-	@Override
-	public WEAnchor getLink() {
-		return new WEAnchor("SP", this, "SP");
-	}
 }

@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.Anchor;
 public class WEAnchor extends Anchor 
 {
 	private String url;
-
 	public WEAnchor(String text, final View view, final String locationName)
 	{
 		// Set text of link.
@@ -37,7 +36,26 @@ public class WEAnchor extends Anchor
 			}
 		});
 	}
-
+	public WEAnchor(String text, final View view, final String locationName, String startingLocation)
+	{
+		// Set text of link.
+		this.setText(text);
+		UrlBuilder builder = Location.createUrlBuilder();
+		builder.setParameter("loc", locationName);
+		if(locationName.equals("editor")){
+			builder.setParameter("specLoc",startingLocation);
+		}
+		url = builder.buildString();
+		// Set CSS class
+		this.setStyleName("we-anchor");
+		// On click, redirect to page with the hash in URL.
+		this.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				go();
+			}
+		});
+	}
 	/**
 	 * Go to this URL.
 	 */

@@ -6,6 +6,7 @@ import org.vaadin.gwtgraphics.client.DrawingArea;
 import org.vaadin.gwtgraphics.client.Line;
 
 import webEditor.client.Proxy;
+import webEditor.client.view.Wags;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -76,7 +77,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		t.setPixelSize(400, 90);   // was 598,90
 		t.setReadOnly(true);
 		t.setText(problem.getProblemText());
-		RootPanel.get().add(t, 2, 5);
+		Proxy.getDSTWrapper().add(t, 2, 5);
 	}
 	
 	private void addCounterPanel(){
@@ -85,7 +86,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		cp.setPixelSize(195, 90);
 		cp.setReadOnly(true);
 		cp.setText("Current Digit: 1");
-		RootPanel.get().add(cp, 407, 5);
+		Proxy.getDSTWrapper().add(cp, 407, 5);
 		
 	}
 	private void insertNodesAndEdges()
@@ -110,7 +111,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		leftButtonPanel = new AbsolutePanel();
 		leftButtonPanel.setPixelSize(130, 30);
 		leftButtonPanel.setStyleName("left_panel");
-		RootPanel.get().add(leftButtonPanel, 2, 100);
+		Proxy.getDSTWrapper().add(leftButtonPanel, 2, 100);
 	}
 
 	private void addMiddlePanel()
@@ -118,7 +119,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		middlePanel = new AbsolutePanel();
 		middlePanel.setPixelSize(214, 30);
 		middlePanel.setStyleName("right_panel");
-		RootPanel.get().add(middlePanel, 132, 100);
+		Proxy.getDSTWrapper().add(middlePanel, 132, 100);
 	}
 
 	private void addRightButtonPanel()
@@ -126,7 +127,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		rightButtonPanel = new AbsolutePanel();
 		rightButtonPanel.setPixelSize(382, 30);
 		rightButtonPanel.setStyleName("right_panel");
-		RootPanel.get().add(rightButtonPanel, 222, 100);
+		Proxy.getDSTWrapper().add(rightButtonPanel, 222, 100);
 	}
 	
 	private void addBucketLabels() {
@@ -143,7 +144,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 			bucketHolder.add(labelPanel, (60 * i) + 1, 0);
 		}
 		
-		RootPanel.get().add(bucketHolder, 3, 174);
+		Proxy.getDSTWrapper().add(bucketHolder, 3, 174);
 	}
 
 	private void addBackButton()
@@ -153,7 +154,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		{
 			public void onClick(ClickEvent event)
 			{
-				Proxy.buildDST();
+				Proxy.buildDST(new Wags("dst"));
 			}
 		});
 		backButton.setStyleName("control_button");
@@ -194,8 +195,8 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 
 				if(showingSubMess == true)
 				{
-					RootPanel.get().remove(submitText);
-					RootPanel.get().remove(submitOkButton);
+					Proxy.getDSTWrapper().remove(submitText);
+					Proxy.getDSTWrapper().remove(submitOkButton);
 				}
 				
 				if(evalResult.equals("")) return;  //used with the traversal problems with help on, if it was empty string
@@ -221,8 +222,8 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		submitOkButton.setStyleName("control_button");
 		submitOkButton.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
-				RootPanel.get().remove(submitText);
-				RootPanel.get().remove(submitOkButton);
+				Proxy.getDSTWrapper().remove(submitText);
+				Proxy.getDSTWrapper().remove(submitOkButton);
 				showingSubMess = false;
 			}	
 		});
@@ -317,14 +318,14 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 	public void addToPanel(Widget w, int left, int top)
 	{
 		itemsInPanel.add(w);
-		RootPanel.get().add(w, left, top);
+		Proxy.getDSTWrapper().add(w, left, top);
 	}
 
 	public void removeWidgetsFromPanel()
 	{
 		for(int i = 0; i < itemsInPanel.size(); i++)
 		{
-			RootPanel.get().remove(itemsInPanel.get(i));
+			Proxy.getDSTWrapper().remove(itemsInPanel.get(i));
 		}
 	}
 

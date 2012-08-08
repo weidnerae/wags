@@ -6,6 +6,7 @@ import org.vaadin.gwtgraphics.client.DrawingArea;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
@@ -18,7 +19,7 @@ import webEditor.client.view.Wags;
 import webEditor.client.Proxy;
 
 
-public class DataStructureTool  extends View
+public class DataStructureTool  extends AbsolutePanel
 {	
 	private ArrayList<Widget> widgets; //arraylist to hold widgets added to root panel
 
@@ -34,8 +35,6 @@ public class DataStructureTool  extends View
 	private Label bannerLabel;
 	private Label selectLabel;
 	private Label welcomeLabel;
-	private Button logoutButton;
-	private Button editorButton;
 	private ArrayList<Label>  problemLabels;
 	private ArrayList<Button> attemptButtons;
 
@@ -44,7 +43,10 @@ public class DataStructureTool  extends View
 	 */
 	public DataStructureTool(String[] problems, boolean[] success) 
 	{	
+	//	Window.alert("Inside construct");
 		//intialize fields that will be used
+		add(Proxy.getDSTWrapper());
+		
 		widgets = new ArrayList<Widget>();
 		originalYCoordinates = new ArrayList<Integer>();
 		problemList = problems;
@@ -53,13 +55,12 @@ public class DataStructureTool  extends View
 		//initialize widgets
 		bannerLabel = new Label("Data Structure Tool");
 		selectLabel = new Label("Please select a problem below.");
-		logoutButton = new Button("Logout");
 		problemLabels = new ArrayList<Label>();
 		attemptButtons = new ArrayList<Button>();
 
 
 		//set styles
-		RootPanel.get().setStyleName("main_background");
+		Proxy.getDSTWrapper().setStyleName("main_background");
 		bannerLabel.setStyleName("banner");
 		selectLabel.setStyleName("welcome");
 
@@ -86,32 +87,16 @@ public class DataStructureTool  extends View
 	 */
 	private void buildUI()
 	{	
-		RootPanel.get().clear();
+//		Window.alert("top of buildGUI");
+		Proxy.getDSTWrapper().clear();
 		
-		editorButton = new Button("Editor");
 		welcomeLabel = new Label();
 		
 		Proxy.getUsersName(welcomeLabel);
 		
-		//add click handler to logout button
-		logoutButton.addClickHandler(new ClickHandler(){
-			public void onClick(ClickEvent event)
-			{
-				Proxy.logout();
-			}
-		});
-		
-		editorButton.addClickHandler(new ClickHandler() {
-		
-			@Override
-			public void onClick(ClickEvent event) {
-				Wags e = new Wags();
-				e.go();
-			}
-		});
-		
+//		Window.alert("before first for loop. problemlist.length: "+problemList.length);
 		//create a label and attempt button for each problem
-		for(int i = 0; i < problemList.length - 1; i++)  //The explode php function results in one extra, empty index
+		for(int i = 0; i < problemList.length; i++)  //The explode php function results in one extra, empty index
 		{
 			//add the label with the problem's name
 			problemLabels.add(new Label(problemList[i]));
@@ -128,14 +113,14 @@ public class DataStructureTool  extends View
 		//add static widgets: welcome message, logout button, etc..
 		yCoordinate = 5;
 		addToPanel(bannerLabel, 4, yCoordinate);
-		addToPanel(logoutButton, 80+bannerLabel.getOffsetWidth()+welcomeLabel.getOffsetWidth()+2, yCoordinate+3);
-		addToPanel(editorButton, 80+bannerLabel.getOffsetWidth()+welcomeLabel.getOffsetWidth()+2+logoutButton.getOffsetWidth()+5, yCoordinate+3);
 		yCoordinate = 65+bannerLabel.getOffsetHeight();
 		addToPanel(selectLabel, 4, yCoordinate);
 		yCoordinate += 25 + selectLabel.getOffsetHeight();
 		
-		for(int i = 0; i < problemList.length; i++)
+	//	Window.alert("before second for loop. problemlist.length: "+problemList.length+"  wrapper as string: "+Proxy.getDSTWrapper().toString());
+		for(int i = 0; i < problemList.length; i++)   // make -1 to work.
 		{
+		//	Window.alert("problemlabels: "+problemLabels.size()+"  attemptButtoms: "+attemptButtons.size());
 			xCoordinate = 4;
 			//add problem name label
 			addToPanel(problemLabels.get(i), xCoordinate, yCoordinate);
@@ -148,12 +133,14 @@ public class DataStructureTool  extends View
 			//set original Y coordinate for later use with problem result viewing
 			originalYCoordinates.add(yCoordinate);
 			yCoordinate += 31;
+		//	Window.alert("inside second for loop: +"+i);
 		}
 		
 		
 		
 		//call method to add click handlers to buttons
 		//addClickHandlers();
+//		Window.alert("end of  buildgui"+Proxy.getDSTWrapper().toString());
 	}
 	
 	private void addClickHandling(Button button, final String problem){
@@ -175,7 +162,7 @@ public class DataStructureTool  extends View
 	{
 		for(int i = 0; i < widgets.size(); i++)
 		{
-			RootPanel.get().remove(widgets.get(i));
+			Proxy.getDSTWrapper().remove(widgets.get(i));
 		}
 	}
 
@@ -189,7 +176,7 @@ public class DataStructureTool  extends View
 	public void addToPanel(Widget widget, int left, int top)
 	{
 		widgets.add(widget);
-		RootPanel.get().add(widget, left, top);
+		Proxy.getDSTWrapper().add(widget, left, top);
 	}
 
 	/**
@@ -214,19 +201,12 @@ public class DataStructureTool  extends View
 		DrawingArea canvas = new DrawingArea(600, 550);
 		canvas.setStyleName("canvas");
 		panel.add(canvas);
-		RootPanel.get().add(panel, 2, 130);
-		RootPanel.get().setStyleName("prob_background");
+		Proxy.getDSTWrapper().add(panel, 2, 130);
+		Proxy.getDSTWrapper().setStyleName("prob_background");
 				
 		DisplayManager dm = p.createDisplayManager(panel, canvas);
 		dm.displayProblem();
 	}
 
-	/* (non-Javadoc)
-	 * @see webEditor.client.view.View#getLink()
-	 */
-	@Override
-	public WEAnchor getLink() {
-		return new WEAnchor("DST", this, "DST");
-	}	
 	
 }
