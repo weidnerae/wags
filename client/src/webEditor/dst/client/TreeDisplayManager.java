@@ -259,7 +259,8 @@ public class TreeDisplayManager extends DisplayManager implements
 		Button backButton = new Button("Back");
 		backButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				Proxy.buildDST(new Wags("dst"));
+				Wags e = new Wags("dst");
+				e.go();
 			}
 		});
 		backButton.setStyleName("control_button");

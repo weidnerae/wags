@@ -115,7 +115,8 @@ public abstract class DisplayManager implements IsSerializable
 		{
 			public void onClick(ClickEvent event)
 			{
-				Proxy.buildDST(new Wags("dst"));
+				Wags e = new Wags("dst");
+				e.go();
 			}
 		});
 		backButton.setStyleName("control_button");

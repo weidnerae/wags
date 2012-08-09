@@ -153,7 +153,8 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		{
 			public void onClick(ClickEvent event)
 			{
-				Proxy.buildDST(new Wags("dst"));
+				Wags e = new Wags("dst");
+				e.go();
 			}
 		});
 		backButton.setStyleName("control_button");
