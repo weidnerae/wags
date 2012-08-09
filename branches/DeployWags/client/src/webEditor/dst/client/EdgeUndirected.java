@@ -40,8 +40,8 @@ public class EdgeUndirected extends EdgeParent implements IsSerializable
 			parentTopOffset = 120;
 			leftOffset = 10;
 		}
-		line = new Line(n1.getLeft()+leftOffset, n1.getTop()-parentTopOffset,   //the n1.getTop()-105 used to be n1.getTop()-100
-				n2.getLeft()+leftOffset, n2.getTop()-childTopOffset);           //n2.getTop()-120 used to be n2.getTop()-100
+		line = new Line(n1.getLeft()+leftOffset, n1.getTop()-parentTopOffset-30,   //the n1.getTop()-105 used to be n1.getTop()-100   added -70
+				n2.getLeft()+leftOffset, n2.getTop()-childTopOffset-30);           //n2.getTop()-120 used to be n2.getTop()-100    added -70
 		if(removable)  
 			line.addClickHandler(handler);
 		line.setStrokeWidth(3);
