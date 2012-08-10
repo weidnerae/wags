@@ -28,7 +28,6 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
@@ -495,7 +494,10 @@ public class Proxy
 					
 					editor.codeTop = top;
 					editor.codeBottom = bot;
-					editor.codeArea.setText(mid.replaceAll("^\\s+", "")); // get rid of all leading whitespace
+					// I'll look at this more - but I believe this is causing no indentation on the first line, 
+					// which isn't what we want. - Philip
+					//editor.codeArea.setText(mid.replaceAll("^\\s+", "")); // get rid of all leading whitespace
+					editor.codeArea.setText(mid);
 					
 					if(status.equals("0")) 
 						editor.codeArea.setEnabled(false); // if status = 0, file is uneditable
@@ -524,7 +526,7 @@ public class Proxy
 					
 					String[] problemList = status.getMessageArray();
 					logicalExercises.clear(); //To avoid repeat listings
-					for(int i = 0; i < problemList.length - 1; i++){ // - 1 due to empty trailing entry resulting from "|" parsing maybe?
+					for(int i = 0; i < problemList.length; i+=2){ 
 		        		  logicalExercises.addItem(problemList[i]); 
 		        	  }
 					
