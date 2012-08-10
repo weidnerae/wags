@@ -21,9 +21,9 @@ public class EditingPanelUi extends Composite {
 	@UiField LayoutPanel constructPanel;
 	@UiField LayoutPanel layout;
 
-	public EditingPanelUi(int tabPanelHeight,String title, String directions, StackableContainer mainFunction, StackableContainer[] insideSegments, String problemType, StackableContainer[] premadeSegments, String[] structuresList, String[] for1List,String[] for2List,String[] for3List, String[] booleanList, String solution, String[] premadeIDs, PickupDragController dc) {
+	public EditingPanelUi(RefrigeratorMagnet magnet, int tabPanelHeight,String title, String directions, StackableContainer mainFunction, StackableContainer[] insideSegments, String problemType, StackableContainer[] premadeSegments, String[] structuresList, String[] for1List,String[] for2List,String[] for3List, String[] booleanList, String solution, String[] premadeIDs, PickupDragController dc) {
 		initWidget(uiBinder.createAndBindUi(this));
-		codePanel.add(new CodePanelUi(mainFunction, insideSegments, dc, title));
+		codePanel.add(new CodePanelUi(magnet, mainFunction, insideSegments, dc, title));
 		construct = new ConstructUi(problemType, premadeSegments, title, directions, structuresList, for1List, for2List, for3List, booleanList, dc);
 		constructPanel.add(construct);
 		layout.setSize("100%", tabPanelHeight - 60 + "px");  //stupid magic number to make panel show correctly

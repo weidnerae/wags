@@ -23,6 +23,7 @@ public class CodePanelUi extends Composite {
 	public StackableContainer mainFunction;
 	private String title;
 	private int tabNumber = -1; // So the initial increment will give 0 tabs
+	private RefrigeratorMagnet magnet;
 	@UiField ScrollPanel nestPanel;
 	@UiField AbsolutePanel mainPanel;
 	@UiField Button button;
@@ -39,9 +40,10 @@ public class CodePanelUi extends Composite {
 	 * @param mainFunction The function that is to be built
 	 * @param insideFunctions Possible inner functions nested into the function to be built.
 	 */
-	public CodePanelUi(StackableContainer main,
+	public CodePanelUi(RefrigeratorMagnet magnet, StackableContainer main,
 			StackableContainer[] insideFunctions, PickupDragController dc, String title) {
 		initWidget(uiBinder.createAndBindUi(this));
+		this.magnet = magnet;
 		this.mainFunction = main;
 		this.title = title;
 		
@@ -59,7 +61,7 @@ public class CodePanelUi extends Composite {
 		buildContent(mainFunction);
 		ResultsPanelUi.setCodeText(getFormattedText());
 		Proxy.magnetReview(getFormattedText(), title);
-		RefrigeratorMagnet.switchTabs(1);
+		magnet.tabPanel.selectTab(1);
 	}
 	
 	/**

@@ -478,7 +478,7 @@ public class Wags extends View
 		password.setFocus(true);
 	}
 	public void placeProblem(MagnetProblem magnet){
-		RefrigeratorMagnet problem = SplashPage.makeProblem(magnet);
+		RefrigeratorMagnet problem = splashPage.makeProblem(magnet);
     	replaceCenterContentMagnet(problem);
 	}
 	public void replaceCenterContentMagnet(RefrigeratorMagnet w){

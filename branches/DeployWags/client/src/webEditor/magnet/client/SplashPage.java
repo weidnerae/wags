@@ -12,13 +12,15 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class SplashPage extends AbsolutePanel {
-	protected static PickupDragController dc = new PickupDragController(RootPanel.get(), false);
 	static String[] structuresList = {"choose structure...","for","while","if","else if", "else"};
 	final HorizontalPanel problemPane = new HorizontalPanel();
+	
+	PickupDragController dc = new PickupDragController(RootPanel.get(), false);
 	
 	String title;
 	
 	public SplashPage(Wags wags) {
+		dc.setBehaviorDragProxy(true);
 		add(problemPane);
 		problemPane.clear();
 		Proxy.getMagnetExercises(wags,problemPane);
@@ -27,7 +29,7 @@ public class SplashPage extends AbsolutePanel {
 	/**
 	 * Makes the problem
 	 */
-	public static RefrigeratorMagnet makeProblem(MagnetProblem magnet) {
+	public RefrigeratorMagnet makeProblem(MagnetProblem magnet) {
 		return new RefrigeratorMagnet(
 				magnet.title,
 				magnet.directions,
@@ -73,7 +75,7 @@ public class SplashPage extends AbsolutePanel {
 		
 		return result;
 	}
-	public static StackableContainer[] decodePremade(String[] segments) {
+	public StackableContainer[] decodePremade(String[] segments) {
 		if (segments == null) {
 			return null;
 		}
@@ -93,13 +95,13 @@ public class SplashPage extends AbsolutePanel {
 		return preMadeList;
 	}
 	
-	public static StackableContainer getMainContainer(String str) {
+	public StackableContainer getMainContainer(String str) {
 		return new StackableContainer(str + " {<br /><span id=\"inside_of_block\">"
 				+ Consts.TOP + Consts.INSIDE + Consts.BOTTOM + "</span><br />}", dc, Consts.MAIN);
 	}
 	
 	
-	public static StackableContainer[] buildFunctions(String[] insideFunctions) {
+	public StackableContainer[] buildFunctions(String[] insideFunctions) {
 		if (insideFunctions == null) {
 			return null;
 		}
