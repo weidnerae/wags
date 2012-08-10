@@ -44,11 +44,12 @@ public class Admin extends Composite{
 	@UiField CheckBox Traversals, InsertNodes, BuildBST, BuildBT, RadixSort,
 		MaxHeapInsert, MaxHeapDelete, MinHeapInsert, MinHeapDelete, MaxHeapBuild,
 		MinHeapBuild, HeapSort, Kruskal, Prim;
-	@UiField VerticalPanel magnetSelectionPanel;
+	@UiField
+	static VerticalPanel magnetSelectionPanel;
 	
 	private static AdminUiBinder uiBinder = GWT.create(AdminUiBinder.class);
-	private ArrayList<CheckBox> currentMagnets = new ArrayList<CheckBox>();
-	private java.util.HashMap<String, CheckBox> allMagnets = new java.util.HashMap<String, CheckBox>();
+	private static ArrayList<CheckBox> currentMagnets = new ArrayList<CheckBox>();
+	private static java.util.HashMap<String, CheckBox> allMagnets = new java.util.HashMap<String, CheckBox>();
 
 	interface AdminUiBinder extends UiBinder<Widget, Admin> {
 	}
@@ -295,6 +296,7 @@ public class Admin extends Composite{
 	public static void updateExercises(){
 		Proxy.getVisibleExercises(exercises); 
 		Proxy.getLogicalExercises(logicalExercises);
+		Proxy.getMagnetGroups(magnetExercises, magnetSelectionPanel, currentMagnets, allMagnets);
 	}
 
 }
