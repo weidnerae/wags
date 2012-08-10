@@ -20,15 +20,14 @@ public class RefrigeratorMagnet extends AbsolutePanel{
 	static int SCREEN_WIDTH = Window.getClientWidth();
 	static int SCREEN_HEIGHT = Window.getClientHeight();
 	//the panels
-    static TabPanel tabPanel = new TabPanel();
+    public TabPanel tabPanel = new TabPanel();
 	private EditingPanelUi editingPanel;
 	private ResultsPanelUi resultsPanel;
-	static PickupDragController dc;
+	public PickupDragController dc;
 	
 	
 	public RefrigeratorMagnet(String title, String description, StackableContainer mainFunction, StackableContainer[] insideFunctions, String problemType, StackableContainer[] premadeSegments, String[] structuresList, String[] for1List, String[] for2List, String[] for3List, String[] booleanList, String solution, String[] premadeIDs, PickupDragController newDC) {
 		dc=newDC;
-		dc.setBehaviorDragProxy(true);
 		setHeight("99%");
 		
 		setPremadeIDs(premadeIDs, premadeSegments);
@@ -38,7 +37,7 @@ public class RefrigeratorMagnet extends AbsolutePanel{
 			    tabPanel.setSize("100%", "100%");
 			    int tabPanelHeight = tabPanel.getOffsetHeight();
 			    tabPanelHeight = tabPanel.getOffsetHeight();
-			    editingPanel = new EditingPanelUi(tabPanelHeight,title,description,mainFunction,insideFunctions,problemType,premadeSegments, structuresList,for1List,for2List,for3List,booleanList, solution, premadeIDs, dc);
+			    editingPanel = new EditingPanelUi(this, tabPanelHeight,title,description,mainFunction,insideFunctions,problemType,premadeSegments, structuresList,for1List,for2List,for3List,booleanList, solution, premadeIDs, dc);
 				tabPanel.add(editingPanel, "Editing Mode", false);
 				tabPanel.selectTab(0);
 
@@ -54,14 +53,5 @@ public class RefrigeratorMagnet extends AbsolutePanel{
 			//segments[i].setID(premadeIDs[i]);
 		}
 	}
-	 static void switchTabs(int tab){
-		 tabPanel.selectTab(tab);
-	 }
-
-	 
-	 public static PickupDragController getDragController(){
-		 return dc;
-	 }
-
 
 }
