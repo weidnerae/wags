@@ -19,7 +19,7 @@ class ComprehensiveReview extends Command{
         # Compose the array
         $this->getExercises($array, $progExercises, $logExercises);
         $this->getStudents($array, $usernames);
-        $this->getGrades($array, $progExercises, $usernames);
+        $this->getGrades($array, $progExercises, $logExercises, $usernames);
 
         # Make the file
         $this->outputCSV($array);
@@ -100,7 +100,7 @@ class ComprehensiveReview extends Command{
     #
     # Responsible for filling the rest of the array with the grades of
     # each student per exercise
-    function getGrades(&$array, $progExercises, $usernames){
+    function getGrades(&$array, $progExercises, $logExercises, $usernames){
         $column = 1;
 
         // Add grades for all *programming* exercises
@@ -129,6 +129,32 @@ class ComprehensiveReview extends Command{
             } 
             $column++; 
         } 
+
+        // Add grades for all *logical* microlabs
+        // Practically identical to programming exercise reporting
+        foreach($logExercises as $logExercise){
+            $submissions = DSTSubmission::getAllSubmissionsByTitle($logExercise);
+            $maxSubs = count($submissions);
+            $subCount = 0;
+            $row = 1;
+
+            // Cycle through users for THIS exercise
+            foreach($usernames as $username){
+                if($subCount < $maxSubs && $username == $submissions[$subCount]['username']){
+                    if($submissions[$subCount]['success'] == 0){
+                        $text = " [Incorrect]";
+                    } else {
+                        $text = "";
+                    }
+                    $array[$row][$column] = $submissions[$subCount]['numAttempts'] . "$text";
+                    $subCount++;
+                } else {
+                    $array[$row][$column] = "N/A";
+                }
+                $row++;
+            }
+            $column++;
+        }
     }
 }
 ?>
