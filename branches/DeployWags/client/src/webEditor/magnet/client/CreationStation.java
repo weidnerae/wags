@@ -35,8 +35,11 @@ public class CreationStation extends VerticalPanel{
 	private HorizontalPanel booleanPanel = new HorizontalPanel();
 	private HorizontalPanel topAlignPanel = new HorizontalPanel();
 	
+	final PickupDragController dc;
+	
 	public CreationStation(String[] structuresList, String[] for1List,String[] for2List,String[] for3List, String[] booleanList, ConstructUi constructPanel, PickupDragController dc){		
 		setStyleName("dropdown_panel");
+		this.dc = dc;
 		this.structuresList=structuresList;
 		this.for1List = for1List;
 		this.for2List = for2List;
@@ -146,7 +149,7 @@ public class CreationStation extends VerticalPanel{
 	        	StackableContainer createdContainer = null;
 	        	String selected = structuresList[structures.getSelectedIndex()];
 	        	if(selected.equals("for")){
-	        		createdContainer = new StackableContainer(Consts.FOR, RefrigeratorMagnet.getDragController());
+	        		createdContainer = new StackableContainer(Consts.FOR,dc);
 	        		String containerCondition ="";
 	        		containerCondition+=forConditions1.getItemText(forConditions1.getSelectedIndex());
 	        		containerCondition+="; " + forConditions2.getItemText(forConditions2.getSelectedIndex());
@@ -154,19 +157,19 @@ public class CreationStation extends VerticalPanel{
 	        		createdContainer.addContent(containerCondition, "condition");
 	        	}
 	        	if(selected.equals("while")){
-	        		createdContainer = new StackableContainer(Consts.WHILE, RefrigeratorMagnet.getDragController());
+	        		createdContainer = new StackableContainer(Consts.WHILE, dc);
 	        		createdContainer.addContent(booleanConditions.getItemText(booleanConditions.getSelectedIndex()) , "condition");	
 	        	}
 	        	if(selected.equals("if")){
-	        		createdContainer = new StackableContainer(Consts.IF, RefrigeratorMagnet.getDragController());
+	        		createdContainer = new StackableContainer(Consts.IF, dc);
 	        		createdContainer.addContent(booleanConditions.getItemText(booleanConditions.getSelectedIndex()) , "condition");	
 	        	}
 	        	if(selected.equals("else if")){
-	        		createdContainer = new StackableContainer(Consts.ELSEIF, RefrigeratorMagnet.getDragController());
+	        		createdContainer = new StackableContainer(Consts.ELSEIF, dc);
 	        		createdContainer.addContent(booleanConditions.getItemText(booleanConditions.getSelectedIndex()) , "condition");	
 	        	}
 	        	if(selected.equals("else"))
-	        		createdContainer = new StackableContainer(Consts.ELSE, RefrigeratorMagnet.getDragController());
+	        		createdContainer = new StackableContainer(Consts.ELSE,dc);
 
 	        	
 	        	// add that sucker to the construct panel
