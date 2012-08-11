@@ -12,7 +12,6 @@ class GetLogicalExercises extends Command
 		sort($exerciseArray);
         $submissions = DSTSubmission::getAllSubmissionsByUserID();
 		
-		
 		$result = array();
 		
 		// I haven't optimized this yet, but I don't think it's necessary 
@@ -21,8 +20,7 @@ class GetLogicalExercises extends Command
 			$hasSubmission = false;
 			foreach ($submissions as $submission) {
 				if ($exercise == $submission['title']) {
-					$result[] = $exercise;
-					$result[] = $submission['success'];
+					$result[$exercise] = $submission['success'];
 					
 					$hasSubmission = true;
 					break;
@@ -32,12 +30,23 @@ class GetLogicalExercises extends Command
 			// Set success to 0 if the problem hasn't been submitted yet
 			// Also, ignore the empty first element in $exerciseArray
 			if (!$hasSubmission && $exercise != "") {
-				$result[] = $exercise;
-				$result[] = "0"; // Quotes needed to be parsed on client
+				$result[$exercise] = "0";
 			}
 		}
-
-        return JSON::success($result);
+		
+		
+		//put it back in original order
+		$originalOrder = explode("|", $exercises);
+		$returnArray = array();
+		
+		foreach ($originalOrder as $name) {
+			if ($name) {
+				$returnArray[] = $name;
+				$returnArray[] = $result[$name];
+			}
+		}
+		
+        return JSON::success($returnArray);
     }
 }
 
