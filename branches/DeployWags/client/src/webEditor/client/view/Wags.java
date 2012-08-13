@@ -53,7 +53,7 @@ public class Wags extends View
 	public Wags(String startingPlace)
 	{
 		initWidget(uiBinder.createAndBindUi(this));
-		Proxy.getUsersName(hello);
+		Proxy.getUsersName(hello, Editor, DST, Magnets);
 		Proxy.checkPassword(this);
 		Proxy.checkMultiUser(this);
 		
@@ -61,13 +61,7 @@ public class Wags extends View
 		splashPage = new SplashPage(this);
 		editor = new Editor();
 
-		
-		
-
-		
-		// Doesn't do anything right now, need to figure out how to pass the "startingPlace" variable through
-		// WEAnchor.  Right now it always ends up as "EDITOR" as "editor" is going to proxy.
-//		Window.alert(startingPlace);
+		// Load the correct initial page
 		if(startingPlace.equals("magnets"))
 			replaceCenterContent(splashPage);
 		else if(startingPlace.equals("dst")){

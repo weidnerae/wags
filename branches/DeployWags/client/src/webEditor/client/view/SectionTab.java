@@ -28,8 +28,6 @@ public class SectionTab extends Composite implements HasText {
 	}
 
 	public SectionTab() {
-		//TODO:  When a section is changed, the available magnetExercises must also
-		// be updated
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		// Fill listbox with sections that currently exist
@@ -62,9 +60,10 @@ public class SectionTab extends Composite implements HasText {
 			
 			if(stat.getStat() == WEStatus.STATUS_SUCCESS){
 				// This call links the section and accounts together
-				Proxy.linkNewSection(txtSectName.getText(), txtAdminName.getText(), txtGuestName.getText());
 				// linkNewSections provides its own notification of success/failure
-				// TODO: Get a newly created section to show up in the listbox
+				Proxy.linkNewSection(txtSectName.getText(), txtAdminName.getText(), txtGuestName.getText());
+				
+				Proxy.getSections(lstCurSections);
 			}else{
 				Notification.notify(stat.getStat(), stat.getMessage());
 			}
