@@ -29,7 +29,6 @@ public class DataStructureTool  extends AbsolutePanel
 	//widgets
 	private Label bannerLabel;
 	private Label selectLabel;
-	private Label welcomeLabel;
 	private ArrayList<Label>  problemLabels;
 	private ArrayList<Button> attemptButtons;
 
@@ -59,18 +58,6 @@ public class DataStructureTool  extends AbsolutePanel
 		//Note: method calls to initialize and build the app have to be buried in the onSuccess methods
 		//of the asynchronous calls to ensure that everything is initialized in order
 		//start asynchronous calls
-		getEmailAddressAndLogoutURL();
-	}
-
-	/**
-	 * Method used to perform asynchronous call that gets the user's email address
-	 * and a logout URL.
-	 */
-	private void getEmailAddressAndLogoutURL()
-	{
-		Proxy.getUsersName(welcomeLabel);
-		
-		//Redirects to getProblems
 		buildUI();
 	}
 
@@ -80,10 +67,6 @@ public class DataStructureTool  extends AbsolutePanel
 	private void buildUI()
 	{	
 		this.removeAllWidgets();
-		
-		welcomeLabel = new Label();
-		
-		Proxy.getUsersName(welcomeLabel);
 		
 		//create a label and attempt button for each problem
 		for(int i = 0; i < problemList.length; i++)  //The explode php function results in one extra, empty index
