@@ -75,7 +75,7 @@ public class Editor extends Composite implements IsWidget{
 		
 		selectedItem = browser.getTree().getItem(0); // initialize selected item to root
 		
-		description.setUrl("");
+		description.setUrl(""); // TODO: This needs to be filled with a default
 
 		//For getting pdf descriptors
 		wrapperForm.setAction(Proxy.getBaseURL()+"?cmd=ReturnPDF");		

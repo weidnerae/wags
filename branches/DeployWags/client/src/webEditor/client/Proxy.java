@@ -28,6 +28,7 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
@@ -828,8 +829,10 @@ public class Proxy
 	 * Set the greeting label.
 	 * If user did not submit a name when they registered just 
 	 * use their email address. 
+	 * 
+	 * Also, hides Anchors for guests
 	 */
-	public static void getUsersName(final Label label)
+	public static void getUsersName(final Label label, final Anchor Editor, final Anchor DST, final Anchor Magnets)
 	{
 		WagsCallback c = new WagsCallback() {
 			@Override
@@ -843,6 +846,13 @@ public class Proxy
 					first = status.getMessageMapVal("email");
 				}
 				label.setText("Hello, "+first+"!");
+				
+				boolean guest = (status.getMessageMapVal("admin").equals("2"));
+				if(guest){
+					Editor.setVisible(false);
+					DST.setVisible(false);
+					Magnets.setVisible(false);
+				}
 			}
 			
 			@Override
