@@ -76,7 +76,8 @@ class AddSection extends Command
         $user = new User();
         $user->setUsername($name);
         $user->setEmail("");
-        $user->setFirstName("");
+        if($type == 2) $user->setFirstName("Guest");
+        else $user->setFirstName("Admin");
         $user->setLastName("");
         $user->setPassword(md5($password));
         $user->setSection(1);                   // Also tricky...
