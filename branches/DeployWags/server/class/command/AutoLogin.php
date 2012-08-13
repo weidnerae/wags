@@ -33,6 +33,14 @@ class AutoLogin extends Command
                     }
 
                 }
+
+                // To show up to a certain screen of WAGS
+                if(isset($_REQUEST['loc'])){
+                    $location = $_REQUEST['loc'];
+                    header("Location: http://cs.appstate.edu/wags/Test_Version/?loc=$location");
+                    return;
+                }
+
                 // Exercise::getVisibleExercises() returns all exercises
                 // Set all invisible except one with given title...
                 header("Location: http://cs.appstate.edu/wags/Test_Version");
