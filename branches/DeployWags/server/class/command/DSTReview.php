@@ -6,7 +6,14 @@ class DSTReview extends Command
 {
     public function execute(){
             $title = $_GET['title'];
-            $submissions = DSTSubmission::getAllSubmissionsByTitle($title);
+            $type = $_GET['type'];
+
+            if($type == "dst"){
+                $submissions = DSTSubmission::getAllSubmissionsByTitle($title);
+            } else if ($type == "magnet"){
+                $id = MagnetProblem::getMagnetProblemByTitle($title)->getId();
+                $submissions = MagnetSubmission::getSubmissionsById($id);
+            }
             $maxSubs = count($submissions);
             $subCount = 0;
             $users = User::getUserNames();  // Returns in alphabetical order
