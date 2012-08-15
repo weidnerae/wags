@@ -375,8 +375,8 @@ public class Proxy
 		}
 	}
 
-	public static void getDSTSubmissions(String title, final Grid grid){
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=DSTReview&title="+title);
+	public static void getDSTSubmissions(String title, final Grid grid, String type){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=DSTReview&title="+title+"&type="+type);
 		
 		try{
 			builder.sendRequest(null, new RequestCallback(){
@@ -551,7 +551,7 @@ public class Proxy
 	 * 							the array returned from the server
 	 */
 	public static void getMagnetsByGroup(String groupName, final VerticalPanel exercisePanel, final ArrayList<CheckBox>
-			currentMagnets, final HashMap<String, CheckBox> allMagnets){
+			currentMagnets, final HashMap<String, CheckBox> allMagnets, final ListBox lstMagnetExercises){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetsByGroup&group=" + groupName);
 		try{
 			builder.sendRequest(null, new RequestCallback() {
@@ -570,8 +570,10 @@ public class Proxy
 					
 					// Add magnets
 					CheckBox chk;
+					lstMagnetExercises.clear();
 					for(int i = 0; i < exercises.length; i++){
 						String name = exercises[i].substring(1, exercises[i].length() - 1);
+						lstMagnetExercises.addItem(name, name);
 						
 						// If we already added this one, grab it again (it may be checked!)
 						if(allMagnets.containsKey(name)){
@@ -617,10 +619,16 @@ public class Proxy
 					WEStatus stat = new WEStatus(response);
 					String[] problems = stat.getMessageArray();
 					String title;
-										
-					for(int i = 0; i < problems.length - 1; i += 2){
+					
+					// To understand this, you must understand that problems is an array
+					// following a sequence of id, name, success.  Thus, we iterate over it
+					// in steps of three, to "group" the entries corresponding to the same exercise
+					for(int i = 0; i < problems.length - 2; i += 3){
 						final int id = Integer.parseInt(problems[i]);
 						title = problems[i + 1];
+						if (Integer.parseInt(problems[i + 2]) == 1){
+							title = "<font color=green>" + title + "</font>";
+						}
 						problemPane.add(new ProblemButton(title,id, new ClickHandler(){
 							public void onClick(ClickEvent event) {
 								Proxy.getMagnetProblem(wags, id, problemPane);
@@ -645,7 +653,7 @@ public class Proxy
 	 * @param magnetExercises - The listbox to be filled
 	 */
 	public static void getMagnetGroups(final ListBox magnetExercises, final VerticalPanel selectionPanel, final ArrayList<CheckBox>
-			currentMagnets, final HashMap<String, CheckBox> allMagnets){
+			currentMagnets, final HashMap<String, CheckBox> allMagnets, final ListBox lstMagnetExercises){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetGroups");
 		try{
 			builder.sendRequest(null, new RequestCallback() {
@@ -661,7 +669,7 @@ public class Proxy
 					}
 					
 					// Automatically load problems for initially selected group
-					Proxy.getMagnetsByGroup(problemList[0], selectionPanel, currentMagnets, allMagnets);
+					Proxy.getMagnetsByGroup(problemList[0], selectionPanel, currentMagnets, allMagnets, lstMagnetExercises);
 										
 				}
 				
