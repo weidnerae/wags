@@ -79,7 +79,6 @@ class MagnetSubmission extends Model
     }
 
 
-    //[untested]
     // getSubmissionsById
     // 
     // Gets all of the MagnetSubmissions for a certain magnetProblem
@@ -96,7 +95,7 @@ class MagnetSubmission extends Model
         FROM MagnetSubmission
         JOIN user ON MagnetSubmission.userId = user.id
         WHERE MagnetSubmission.sectionId = :section
-        WHERE MagnetSubmission.magnetProblemId = :id
+        AND MagnetSubmission.magnetProblemId = :id
         ORDER BY username');
 
         $sth->execute(array(':section' => $section, ':id' => $id));

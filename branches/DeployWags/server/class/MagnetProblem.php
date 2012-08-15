@@ -247,7 +247,7 @@ class MagnetProblem extends Model
         $user = Auth::GetCurrentUser();
         $db = Database::getDb();
 
-        $sth = $db->prepare('SELECT magnetProblem.title 
+        $sth = $db->prepare('SELECT DISTINCT magnetProblem.title 
             FROM magnetProblem, SectionMP
             WHERE SectionMP.status < 3
             AND SectionMP.section = :section
