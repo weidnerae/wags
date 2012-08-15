@@ -34,10 +34,10 @@ public class Admin extends Composite{
 
 	@UiField SubmitButton addButton, sbtCompReview;
 	@UiField static ListBox exercises;
-	@UiField static ListBox logicalExercises, magnetExercises;
+	@UiField static ListBox logicalExercises, magnetExercises, lstMagnetExercises;
 	@UiField ListBox setLogical;
 	@UiField Button btnDSTReview, btnAdminReview, btnAddSkeletons, btnMakeVisible, btnMagnetReview, btnMagnet;
-	@UiField Grid grdAdminReview, grdDSTReview;
+	@UiField Grid grdAdminReview, grdDSTReview, grdMagnetReview;
 	@UiField FileUpload testClass, helperClass, solution, skeleton;
 	@UiField FormPanel helperForm, DSTForm, adminForm, formCompReview;
 	@UiField TextBox openDate, closeDate, fileName;
@@ -61,7 +61,7 @@ public class Admin extends Composite{
 		Proxy.getVisibleExercises(exercises); 
 		Proxy.getLogicalExercises(logicalExercises);
 		// I can't believe all the currentMagnets, allMagnets juggling works....
-		Proxy.getMagnetGroups(magnetExercises, magnetSelectionPanel, currentMagnets, allMagnets);
+		Proxy.getMagnetGroups(magnetExercises, magnetSelectionPanel, currentMagnets, allMagnets, lstMagnetExercises);
 								
 		
 		//Handle the Add Exercise Form
@@ -193,7 +193,7 @@ public class Admin extends Composite{
 		public void onChange(ChangeEvent event) {
 			// Passes group name to proxy
 			Proxy.getMagnetsByGroup(magnetExercises.getValue(magnetExercises.getSelectedIndex()), magnetSelectionPanel,
-						currentMagnets, allMagnets);
+						currentMagnets, allMagnets, lstMagnetExercises);
 		}
 		
 	}
@@ -238,7 +238,13 @@ public class Admin extends Composite{
 	@UiHandler("btnDSTReview")
 	void onDSTReviewClick(ClickEvent event)
 	{
-		Proxy.getDSTSubmissions(logicalExercises.getValue(logicalExercises.getSelectedIndex()), grdDSTReview);
+		Proxy.getDSTSubmissions(logicalExercises.getValue(logicalExercises.getSelectedIndex()), grdDSTReview, "dst");
+	}
+	
+	@UiHandler("btnMagnetReview")
+	void onMagnetReviewClick(ClickEvent event)
+	{
+		Proxy.getDSTSubmissions(lstMagnetExercises.getValue(lstMagnetExercises.getSelectedIndex()), grdMagnetReview, "magnet");
 	}
 	
 	@UiHandler("btnAddSkeletons")
@@ -296,7 +302,7 @@ public class Admin extends Composite{
 	public static void updateExercises(){
 		Proxy.getVisibleExercises(exercises); 
 		Proxy.getLogicalExercises(logicalExercises);
-		Proxy.getMagnetGroups(magnetExercises, magnetSelectionPanel, currentMagnets, allMagnets);
+		Proxy.getMagnetGroups(magnetExercises, magnetSelectionPanel, currentMagnets, allMagnets, lstMagnetExercises);
 	}
 
 }

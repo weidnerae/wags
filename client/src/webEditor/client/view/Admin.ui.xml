@@ -188,11 +188,14 @@
 		<g:VerticalPanel>
 			<g:Label styleName="{style.subheading}">Magnet Microlab Actions</g:Label>
 			<g:HorizontalPanel styleName="{style.filePanel}">
-				<g:ListBox ui:field="magnetExercises" name="magnetExercises" styleName="{style.lbox}"></g:ListBox>
+				<g:ListBox ui:field="lstMagnetExercises" name="lstMagnetExercises" styleName="{style.lbox}"></g:ListBox>
 				<g:Button ui:field="btnMagnetReview" styleName = "{style.button}"> Review </g:Button>
 			</g:HorizontalPanel>
 			
+			<g:ListBox ui:field="magnetExercises" name="magnetExercises" styleName="{style.lbox}"></g:ListBox>
 			<g:VerticalPanel ui:field="magnetSelectionPanel"></g:VerticalPanel>
+			
+			<g:Grid ui:field="grdMagnetReview" styleName="{style.grid}"> </g:Grid>
 							
 			<g:Button ui:field="btnMagnet" styleName="{style.button}"> Set Magnets </g:Button>
 		</g:VerticalPanel>
