@@ -126,7 +126,7 @@ class AddHelperClass extends Command
 
         # These will have to change when deployed publicly - should be extracted
         $section = $user->getSection();
-        $path = WE_ROOT."/descriptions/$section.$descName";
+        $path = WE_ROOT."/descriptions/desc/descriptions$section.$descName";
 
         # Cannot currently construct the needed directory,
         # must add by hand
@@ -139,15 +139,17 @@ class AddHelperClass extends Command
         }*/
 
         # Set up current file location, final location variables
-        $moveTo = "/tmp/$descName";
+        $moveTo = "/tmp/descriptions/$descName";
         $truncName = str_replace(".pdf", ".jpg", $descName); 
-        $urlLoc = WE_ROOT."/descriptions/$truncName";
+        $urlLoc = WE_ROOT."/descriptions/desc/descriptions/$section.$truncName";
 
         # Currently, descriptions can't be overwritten.  Temporary
 		if(file_exists($moveTo)){
 			echo "Desc file already exists. Please change filename";
 			return FALSE;
 		}
+		
+		//echo 'test';
 
 		# I have no idea if this error check works with the new version
 		#
@@ -158,19 +160,18 @@ class AddHelperClass extends Command
 		# disk (e.g. when the machine is rebooted). Also store the location
 		# of the soft link in the database
 		if(!move_uploaded_file($_FILES['descriptionPDF']['tmp_name'], $moveTo)){
+			echo 'We never get here';
 			echo "Error uploading description file";
 			return FALSE;
 		} else {
-            exec("convert /tmp/$section.$descName /tmp/$section.$truncName");
-            echo "ln -s /tmp/$section.$truncName $urlLoc";
-            exec("ln -s /tmp/$section.$truncName $urlLoc");
+			echo 'We get here if $moveTo = /tmp/$descname/ instead of /tmp/descriptions/$descName';
+            exec("convert /tmp/descriptions/$descName /tmp/descriptions/$section.$truncName");
             
-            $image = file_get_contents("/tmp/$truncName");
+            $image = file_get_contents("/tmp/descriptions/$section.$truncName");
            
 			$exercise->setDescription($urlLoc);
 			$exercise->setDescriptionJPG($image);
 			$exercise->save();
-            //echo "hopefully this means it worked";
 		}
 
         return TRUE;
