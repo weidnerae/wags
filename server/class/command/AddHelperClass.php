@@ -113,7 +113,7 @@ class AddHelperClass extends Command
 		$exercise = Exercise::getExerciseByTitle($exerciseTitle);
 		$exerciseName = $exercise->getTitle();
         $user = Auth::getCurrentUser();
-        
+        $section = $user->getSection();
 
         # Check for right type
 		$finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -124,23 +124,9 @@ class AddHelperClass extends Command
 			return FALSE;
 		}
 
-        # These will have to change when deployed publicly - should be extracted
-        $section = $user->getSection();
-        $path = WE_ROOT."/descriptions/desc/descriptions$section.$descName";
-
-        # Cannot currently construct the needed directory,
-        # must add by hand
-        # -------------------------------------------------------
-        # No longer needed, as we are storing everything in /tmp/
-        # as of 8/1/2012
-        #
-        /*if(!is_dir($path)){
-            mkdir("$path/", 0777, TRUE);
-        }*/
-
         # Set up current file location, final location variables
         $moveTo = "/tmp/descriptions/$descName";
-        $truncName = str_replace(".pdf", ".jpg", $descName); 
+        $truncName = str_replace(".pdf", ".jpg", $descName);
         $urlLoc = WE_ROOT."/descriptions/desc/descriptions/$section.$truncName";
 
         # Currently, descriptions can't be overwritten.  Temporary
@@ -149,22 +135,17 @@ class AddHelperClass extends Command
 			return FALSE;
 		}
 		
-		//echo 'test';
+		# Make sure the directory exists
+		if (!is_dir("/tmp/descriptions")) {
+			mkdir("/tmp/descriptions");
+		}
 
-		# I have no idea if this error check works with the new version
-		#
-		# We save the pdf file to /tmp/, then convert it to a JPG,
-		# create a soft link to the JPG from WE_ROOT/descriptions/
-		# to the location in /tmp, and store the JPG as a blob in the
-		# database in the event that we need to recreate the JPG on 
-		# disk (e.g. when the machine is rebooted). Also store the location
-		# of the soft link in the database
+		# Make sure the PDF gets uploaded correctly, then convert it to a JPG and store
+		# the URL and image in the database
 		if(!move_uploaded_file($_FILES['descriptionPDF']['tmp_name'], $moveTo)){
-			echo 'We never get here';
 			echo "Error uploading description file";
 			return FALSE;
 		} else {
-			echo 'We get here if $moveTo = /tmp/$descname/ instead of /tmp/descriptions/$descName';
             exec("convert /tmp/descriptions/$descName /tmp/descriptions/$section.$truncName");
             
             $image = file_get_contents("/tmp/descriptions/$section.$truncName");
