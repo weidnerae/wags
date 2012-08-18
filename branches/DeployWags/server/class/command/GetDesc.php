@@ -13,7 +13,7 @@ class getDesc extends Command
 		 * parses out the file name and prepends /tmp/ before it so we can get 
 		 * the actual path of the JPG
 		 */
-		$path = str_replace(WE_ROOT."/descriptions/", '/tmp/', $description);
+		$path = str_replace(WE_ROOT."/descriptions/desc/", '/tmp/', $description);
 		
 		/*
 		 * If the file doesn't exist, we need to recreate it from the JPG stored
