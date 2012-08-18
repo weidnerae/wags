@@ -98,7 +98,7 @@ public class Admin extends Composite{
 			//didn't want to create a whole proxy call, so added this instead
 			public void onSubmitComplete(SubmitCompleteEvent event) {
 				int status = WEStatus.STATUS_SUCCESS;
-				if(event.getResults() != "Class Uploaded") status = WEStatus.STATUS_ERROR; 
+				if(event.getResults() != "Upload Successful") status = WEStatus.STATUS_ERROR; 
 				Notification.notify(status, event.getResults());
 			}
 		});
