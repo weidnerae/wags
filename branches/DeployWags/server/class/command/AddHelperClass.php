@@ -38,8 +38,6 @@ class AddHelperClass extends Command
 
             if(!$this->addDesc())
                 return;
-
-           return;
         }
 
         if(!$aFile){
@@ -47,9 +45,9 @@ class AddHelperClass extends Command
             return;
         }
 
-        # The client looks for "Class Uploaded" and treats
+        # The client looks for "Upload Successful" and treats
         # it differently
-		echo "Class Uploaded";
+		echo "Upload Successful";
 
 	}
     
