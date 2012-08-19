@@ -14,6 +14,7 @@ import webEditor.client.view.OutputReview;
 import webEditor.client.view.Wags;
 import webEditor.dst.client.DataStructureTool;
 import webEditor.magnet.client.ProblemButton;
+import webEditor.magnet.client.RefrigeratorMagnet;
 import webEditor.magnet.client.ResultsPanelUi;
 
 import com.google.gwt.core.client.GWT;
@@ -946,6 +947,36 @@ public class Proxy
 		    } catch (RequestException e) {
 		      Window.alert("Failed to send the request: " + e.getMessage());
 		    }
+	}
+	public static void addProblemCreation(final RefrigeratorMagnet magnet){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=IsAdmin");
+		try {
+		      @SuppressWarnings("unused")
+			Request req = builder.sendRequest(null, new RequestCallback() {
+		        public void onResponseReceived(Request request, Response response) {
+		          WEStatus status = new WEStatus(response);
+		          boolean root = false;
+		          
+		          // If not root, no section tab
+		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
+		        	  root = true;
+		          }
+		          
+		          // If not even an administrator, remove administrative tabs
+		          if(status.getStat() == WEStatus.STATUS_WARNING || root){
+		        	  magnet.addProblemCreation();
+		          }
+		          
+		        }
+		        
+		        public void onError(Request request, Throwable exception) {
+		        	Window.alert("error");
+		        }
+		      });
+		    } catch (RequestException e) {
+		      Window.alert("Failed to send the request: " + e.getMessage());
+		    }
+		
 	}
 	
 	public static void linkNewSection(String section, String admin, String guest){
