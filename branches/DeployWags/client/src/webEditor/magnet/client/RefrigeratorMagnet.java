@@ -2,6 +2,8 @@ package webEditor.magnet.client;
 
 
 
+import webEditor.client.Proxy;
+
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
@@ -44,9 +46,13 @@ public class RefrigeratorMagnet extends AbsolutePanel{
 			    resultsPanel = new ResultsPanelUi(tabPanelHeight);
 			    tabPanel.add(resultsPanel, "Results", false);
 			    
+			    Proxy.addProblemCreation(this);
 			    editingPanel.start();
 
 	    
+	}
+	public void addProblemCreation(){
+		tabPanel.add(new ProblemCreationPanel(this), "Problem Creation", false);
 	}
 	public void setPremadeIDs(String[] ids, StackableContainer[] segments){
 		for(int i=0;i<ids.length;i++){
