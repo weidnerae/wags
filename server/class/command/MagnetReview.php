@@ -59,6 +59,7 @@ class MagnetReview extends Command
             $nonce = $this->genRandomString();            
             exec("/usr/bin/php class/command/RunCodeNew.php $dir $driverName blank blank Java $nonce 2>&1", $stdout); 
 
+            $stdout = str_replace("\t", "<tab/>", $stdout);
             $noncePos = strpos($stdout[0], $nonce."");
             $chkNonce = (FALSE !== $noncePos); // Basically, make 0 = true
 
