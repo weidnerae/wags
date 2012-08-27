@@ -45,7 +45,11 @@ public class DataStructureTool  extends AbsolutePanel
 
 		//initialize widgets
 		bannerLabel = new Label("Data Structure Tool");
-		selectLabel = new Label("Please select a problem below.");
+		if(problems.length > 0){
+			selectLabel = new Label("Please select a problem below."); 
+		} else {
+			selectLabel = new Label("No problems assigned!");
+		}
 		problemLabels = new ArrayList<Label>();
 		attemptButtons = new ArrayList<Button>();
 
