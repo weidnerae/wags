@@ -11,8 +11,12 @@ class SetMagnetExercises extends Command
     public function execute()
     {
         $names = explode(",", $_GET['list']);
+
         // Set all exercises to "available" but not "implemented"
         MagnetProblem::unAssignAll();
+
+        // Message for removing all magnet exercises
+        if($names[0] == "none") return JSON::success("All magnets removed");
 
         foreach($names as $name){
             $magnet = MagnetProblem::getMagnetProblemByTitle($name);
