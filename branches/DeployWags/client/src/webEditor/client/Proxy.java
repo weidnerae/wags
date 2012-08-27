@@ -691,6 +691,8 @@ public class Proxy
 	 *  Grabs a magnet problem
 	 */
 	public static void getMagnetProblem(final Wags wags, int id, final HorizontalPanel problemPane){
+		if(id == 0) return; // The "No Code Magnets Assigned!" button does nothing
+		
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetMagnetProblem&id=" + id);
 		try{
 			builder.sendRequest("", new RequestCallback() {
@@ -1363,6 +1365,7 @@ public class Proxy
 	}
 	
 	public static void SetMagnetExercises(String assignedMagnets) {
+		if(assignedMagnets.equals("")) assignedMagnets = "none";
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=SetMagnetExercises&list=" + assignedMagnets);
 		try{
 			builder.sendRequest(null, new RequestCallback() {
