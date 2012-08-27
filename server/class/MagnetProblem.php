@@ -154,8 +154,8 @@ class MagnetProblem extends Model
             "title" => $this->title,
             "directions" => $this->directions,
             "type" => $this->type,
-            "creationStation" => $this->creationStation,
-            "mainFunction" => $this->mainFunction,
+            "creationStation" => $this->creationStation,                // Don't need
+            "mainFunction" => $this->mainFunction,                      // Don't need
             "innerFunctions" => $this->getData(explode(",", $this->innerFunctions)),
             "forLeft" => $this->getData(explode(",", $this->forLeft)),
             "forMid" => $this->getData(explode(",", $this->forMid)),
@@ -286,7 +286,7 @@ class MagnetProblem extends Model
         $db = Database::getDb();
         $user = Auth::getCurrentUser();
 
-        $sth = $db->prepare('SELECT magnetProblem.title, magnetProblem.id 
+        $sth = $db->prepare('SELECT DISTINCT magnetProblem.title, magnetProblem.id 
             FROM magnetProblem, SectionMP
             WHERE SectionMP.section = :section 
             AND SectionMP.status = 1
@@ -301,6 +301,13 @@ class MagnetProblem extends Model
         foreach($results as $result){
             $values[] = $result['id'];
             $values[] = $result['title'];
+        }
+
+        // Used to indicate to GetMagnetExercises.php that no 
+        // exercises are assigned
+        if($results == null){
+            $values[] = "0";
+            $values[] = "No Code Magnets Assigned!";
         }
 
         return $values;

@@ -16,11 +16,19 @@ class GetMagnetExercises extends Command
         $names = MagnetProblem::getAvailable();
         $result = array();
 
+        // Only occurs when no problems are available to the student
+        if($names[0] == "0"){
+           $result[] = "0";
+           $result[] = "No Code Magnets Assigned!";
+           $result[] = "0"; 
+           return JSON::success($result);
+        }
+
         // $names alternates id, name - starting with id
         for($i = 0; $i < count($names) - 1; $i += 2){
            // Creating new array with success values
-           $result[] = $names[$i];
-           $result[] = $names[$i + 1];
+           $result[] = $names[$i];  // The id
+           $result[] = $names[$i + 1]; // The title
            
            // Grab the submission for this file, if it exists
            $sub = MagnetSubmission::getSubmissionByProblem($names[$i]);
@@ -32,6 +40,7 @@ class GetMagnetExercises extends Command
                 $result[] = "0";
            }
         }
+
 
         return JSON::success($result);
     }
