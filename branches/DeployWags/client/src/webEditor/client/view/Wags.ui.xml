@@ -56,7 +56,6 @@
 			</g:HTMLPanel>
 		</g:north>
 		<g:center>
-          <g:AbsolutePanel></g:AbsolutePanel>
      	</g:center>
      </g:DockLayoutPanel>
  </ui:UiBinder> 

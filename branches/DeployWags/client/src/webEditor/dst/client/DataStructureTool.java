@@ -105,11 +105,7 @@ public class DataStructureTool  extends AbsolutePanel
 			originalYCoordinates.add(yCoordinate);
 			yCoordinate += 31;
 		}
-		
-		
-		
-		//call method to add click handlers to buttons
-		//addClickHandlers();
+
 	}
 	
 	private void addClickHandling(Button button, final String problem){
@@ -176,6 +172,10 @@ public class DataStructureTool  extends AbsolutePanel
 		Proxy.setDST(this);
 		DisplayManager dm = p.createDisplayManager(panel, canvas);
 		dm.displayProblem();
+	}
+	
+	public int getYCoord(){
+		return yCoordinate;
 	}
 
 	

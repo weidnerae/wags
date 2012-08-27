@@ -19,6 +19,7 @@ import webEditor.magnet.client.ResultsPanelUi;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
@@ -202,7 +203,9 @@ public class Proxy
 
 					DataStructureTool DST = new DataStructureTool(problemsList,
 							successList);
+					DST.getElement().getStyle().setOverflowY(Overflow.SCROLL);
 					wags.replaceCenterContent(DST);
+					
 				}
 		        
 		        public void onError(Request request, Throwable exception) {
@@ -933,7 +936,7 @@ public class Proxy
 		        	  scroll3.add(sections);
 		        	  scroll3.addStyleName("administration");
 		        	  
-		        	  tabPanel.add(scroll, "Admin");
+		        	  tabPanel.add(scroll, "Exercises");
 		        	  tabPanel.add(scroll2, "Students");
 		        	  if(root) tabPanel.add(scroll3, "Sections");
 		          }
