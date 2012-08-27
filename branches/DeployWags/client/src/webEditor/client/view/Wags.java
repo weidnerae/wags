@@ -184,12 +184,13 @@ public class Wags extends View
 			}
 		}
 	}
+	
 	public void replaceCenterContent(Widget w){
 		for(int i=0;i<dock.getWidgetCount();i++){
 			if(dock.getWidgetDirection(dock.getWidget(i))==DockLayoutPanel.Direction.CENTER){
-				dock.remove(i);
-				dock.add(w);
+					dock.remove(i);
 			}
+			dock.add(w);
 		}
 	}
 	public void updateSplashPage(HorizontalPanel problemPane){
