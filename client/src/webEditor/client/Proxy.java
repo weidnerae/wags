@@ -203,7 +203,7 @@ public class Proxy
 
 					DataStructureTool DST = new DataStructureTool(problemsList,
 							successList);
-					DST.getElement().getStyle().setOverflowY(Overflow.SCROLL);
+					DST.getElement().getStyle().setOverflowY(Overflow.AUTO);
 					wags.replaceCenterContent(DST);
 					
 				}
