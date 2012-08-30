@@ -1,14 +1,16 @@
 package webEditor.magnet.client;
 
+import java.util.ArrayList;
+
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
@@ -24,6 +26,9 @@ public class ConstructUi extends Composite {
 	private AbsolutePanel segmentsContent;
 	private AbsolutePositionDropController csDropControl;
 	private AbsolutePositionDropController segmentDropControl; 
+	private boolean overflow = false;
+	private ArrayList<StackableContainer> bottoms = new ArrayList<StackableContainer>();
+	private int overflowColumn = 0;
 	
 	@UiField
 	AbsolutePanel directionsContent;
@@ -122,11 +127,8 @@ public class ConstructUi extends Composite {
 			segmentsContent.setHeight("100%");
 			segmentDropControl = new AbsolutePositionDropController(segmentsContent);
 			dc.registerDropController(segmentDropControl);
-			
-			layout.add(segmentsContent);
 		}
-		
-		
+
 		premade = premadeSegments;		
 	}
 	
@@ -140,7 +142,8 @@ public class ConstructUi extends Composite {
 				addSegment(segment);
 			}
 		}
-		
+		segmentsContent.getElement().getStyle().setOverflowY(Overflow.AUTO);
+		layout.add(segmentsContent);
 		initial = true;
 	}
 	
@@ -165,38 +168,44 @@ public class ConstructUi extends Composite {
             Timer timer = new Timer() {
                     @Override
                     public void run() {
+                    	int widgetCount = segmentsContent.getWidgetCount();
+                    	                    	
+                    	if(!overflow){
                             int baseX = 10;
                             int baseY = 10;
-                            int widgetCount = segmentsContent.getWidgetCount();
-                            
+                                                    
                             if (widgetCount == 0) {
                                     // we add the first widget at an offset of 10, 10
                                     segmentsContent.add(segment, baseX, baseY);
                             } else {
                                     // after the first, we calculate where the next widget should go based on the last widget in the panel
                                     StackableContainer lastWidget = (StackableContainer) segmentsContent.getWidget(segmentsContent.getWidgetCount() - 1);
-                                    boolean newColumn = lastWidget.getTop() + lastWidget.getHeight() > 
-                                                                            segmentsContent.getAbsoluteTop() + segmentsContent.getOffsetHeight() - 70 - getAbsoluteTop();
-                                    
+                                    // 70 is guess for offset height of new segment
+                                    boolean newColumn = lastWidget.getAbsoluteTop() + lastWidget.getOffsetHeight() + 70 > 
+                                                                            segmentsContent.getAbsoluteTop() + segmentsContent.getOffsetHeight();
+                                
                                     if (newColumn) {
-                                            // if we need to start a new column, we iterate through all the magnets and find the one that's farthest to the right,
+                                    		// Keep track of widgets at the bottom of a column in case of overflow
+                                    		bottoms.add(lastWidget);
+                                    		
+                                    	    // if we need to start a new column, we iterate through all the magnets and find the one that's farthest to the right,
                                             // then base the next column off of that
                                             for (int i = 0; i < widgetCount; i++) {
-                                                    StackableContainer w = (StackableContainer) segmentsContent.getWidget(i);
+                                            		StackableContainer w = (StackableContainer) segmentsContent.getWidget(i);
                                                     
                                                     if (w.getLeft() + w.getWidth() > baseX) {
                                                             baseX = w.getLeft() + w.getWidth();
                                                     }
+                                                    
+                                                    // Have to add below screen
+                                                    if(w.getAbsoluteLeft() + w.getOffsetWidth() + 100 > segmentsContent.getOffsetWidth() + getAbsoluteLeft()){
+                                                    	overflow = true;
+                                                    }
                                             
                                             }
                                             
-                                            segmentsContent.add(segment, baseX, baseY);
+                                            if(!overflow) segmentsContent.add(segment, baseX, baseY);
                                             
-                                            // Prevent the user from trying to add too many widgets to the Construct Panel                                  
-                                            if (segment.getAbsoluteLeft() + segment.getOffsetWidth() > getOffsetWidth() + getAbsoluteLeft()) {
-                                                    segmentsContent.remove(segment);
-                                                    Window.alert("Problem! You are trying to add too many magnets. Please consider moving some magnets to the Trash Bin or rearranging them.");
-                                            }
                                     } else {        
                                             baseX = lastWidget.getLeft() - getAbsoluteLeft();
                                             baseY = lastWidget.getTop() + lastWidget.getHeight() - getAbsoluteTop();
@@ -212,6 +221,40 @@ public class ConstructUi extends Composite {
                                             segmentsContent.add(segment, baseX, baseY);
                                     }
                             }
+                    	}
+                    	
+                    	// We go from filling in columns to filling in rows
+                    	if(overflow){
+                    		int numColumns = bottoms.size();	
+                    		overflowColumn = overflowColumn % numColumns; // figure out which column to add to now
+                    		
+                    		
+                    		StackableContainer above = bottoms.get(overflowColumn); // get widget which should be directly above new one
+                    		int xPos = above.getLeft();  // use it to get x value
+                    		int yPos = 0;
+                    		
+                    		// y value is more complicated = have to find lowest "bottom" that hasn't been added to yet for this cycle
+                    		for(int i = overflowColumn; i < numColumns; i++){  // starting at current overflow limits to this cycle
+                    			StackableContainer tempWidget = bottoms.get(i);
+                    			if(tempWidget.getTop() + tempWidget.getHeight() - getAbsoluteTop() > yPos){
+                    				yPos = tempWidget.getTop() + tempWidget.getHeight() - getAbsoluteTop();
+                    				
+	                    			if (initial) {
+	                                        yPos -= segmentsContent.getAbsoluteTop() - getAbsoluteTop();
+	                                } else if (problemType.equals(Consts.ADVANCED_PROBLEM)) {       
+	                                        yPos -= creationStation.getOffsetHeight();
+	                                }
+                    			}
+                    		}
+                    		
+                    		// Replace that bottom with the new one
+                    		bottoms.add(overflowColumn, segment);
+                    		bottoms.remove(overflowColumn + 1);
+                    	
+                    		segmentsContent.add(segment, xPos - getAbsoluteLeft(), yPos);
+                    		overflowColumn++;
+                    	                    		
+                    	}
                     }
             };
             
