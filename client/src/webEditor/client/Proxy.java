@@ -629,15 +629,21 @@ public class Proxy
 					// in steps of three, to "group" the entries corresponding to the same exercise
 					for(int i = 0; i < problems.length - 2; i += 3){
 						final int id = Integer.parseInt(problems[i]);
-						title = problems[i + 1];
-						if (Integer.parseInt(problems[i + 2]) == 1){
-							title = "<font color=green>" + title + "</font>";
-						}
-						problemPane.add(new ProblemButton(title,id, new ClickHandler(){
-							public void onClick(ClickEvent event) {
-								Proxy.getMagnetProblem(wags, id, problemPane);
+						
+						if(id == 0){
+							Label noAssignments = new Label("No Magnet Exercises Assigned!");
+							problemPane.add(noAssignments);
+						} else {
+							title = problems[i + 1];
+							if (Integer.parseInt(problems[i + 2]) == 1){
+								title = "<font color=green>" + title + "</font>";
 							}
-						}));
+							problemPane.add(new ProblemButton(title,id, new ClickHandler(){
+								public void onClick(ClickEvent event) {
+									Proxy.getMagnetProblem(wags, id, problemPane);
+								}
+							}));
+						}
 					}
 					wags.updateSplashPage(problemPane);
 				}
@@ -691,8 +697,6 @@ public class Proxy
 	 *  Grabs a magnet problem
 	 */
 	public static void getMagnetProblem(final Wags wags, int id, final HorizontalPanel problemPane){
-		if(id == 0) return; // The "No Code Magnets Assigned!" button does nothing
-		
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetMagnetProblem&id=" + id);
 		try{
 			builder.sendRequest("", new RequestCallback() {
@@ -1273,7 +1277,8 @@ public class Proxy
 			      // from JSON encoding
 			      String msg = status.getMessage();
 			      msg = msg.replace("<br />", "\n");
-			           
+			      msg = msg.replace("<tab/>", "\t");
+			      			           
 			      review.setText(msg);
 			     
 			      if(status.getStat() == WEStatus.STATUS_SUCCESS){
