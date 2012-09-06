@@ -373,6 +373,7 @@ class Review extends Command
 
             // "" to make string
             $noncePos = strpos($output[0], $nonce."");
+            $output[0] = str_replace("\t", "<tab/>", $output[0]);
             $chkNonce = (FALSE !== $noncePos); // Basically, make 0 = true
 
             # Testing moving strictly to nonce validation
