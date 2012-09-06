@@ -51,7 +51,7 @@
 		<g:Label styleName="{style.title2}">Web Automatic Grading System</g:Label>
 		
 		<g:HorizontalPanel styleName="{style.columns}">
-			<g:Label styleName="{style.label}">Username: </g:Label>
+			<g:Label styleName="{style.label}">Account: </g:Label>
 			<g:TextBox ui:field="username" />
 		</g:HorizontalPanel>
 		
