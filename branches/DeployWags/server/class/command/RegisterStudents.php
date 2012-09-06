@@ -87,19 +87,20 @@ class RegisterStudents extends Command
             while(($line = fgetcsv($csvFile, 1000)) != FALSE){
 
                 // If any line has more than 2 entries, report error
-                if(count($line) > 2) {
+                if(count($line) > 3) {
                     return JSON::error("Too many fields!");
 
                 // Add entries to $names, which will be used
                 // to create accounts if there are no errors
                 } else {
-                    $names[$nameIndex][0] = $line[0];
-                    $names[$nameIndex][1] = $line[1];
+                    $names[$nameIndex][0] = $line[0]; // Lastname
+                    $names[$nameIndex][1] = $line[1]; // Firstname
+                    $names[$nameIndex][2] = $line[2]; // Email address
 
                     // Make sure username doesn't exist
-                    $username = $line[0].".".$line[1];
+                    $username = $line[2];
                     if(User::isUsername($username)){
-                        return JSON::error("Username $username is taken");
+                        return JSON::error("Account $username is taken");
                     }
 
                     $nameIndex++;
@@ -126,7 +127,7 @@ class RegisterStudents extends Command
         while($index < count($names)){
             $first = $names[$index][1];
             $last = $names[$index][0];
-            $username = "$last.$first";
+            $username = $names[$index][2];
 
             // Define the user
             $user = new User();
