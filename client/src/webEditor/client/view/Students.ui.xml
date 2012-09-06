@@ -163,7 +163,7 @@
 				</g:HorizontalPanel>
 				
 				<g:HorizontalPanel styleName="{style.filePanel}">
-					<g:Label styleName="{style.label}"> CSV (E-mail, Last, First): </g:Label>
+					<g:Label styleName="{style.label}"> CSV (Last, First, E-mail): </g:Label>
 					<g:FileUpload ui:field="csvReg" name="csvReg"></g:FileUpload>
 				</g:HorizontalPanel>
 				
