@@ -394,6 +394,7 @@ class Review extends Command
 		} else {
 			$error = "Compilation Error: <br />";
 			foreach($output as $line){
+                $line = str_replace("\t", "<tab/>", $line);
 				$error .= $line."<br />";
 				$sub->setSuccess(0); //failure to compile is failure for lab
 			}
