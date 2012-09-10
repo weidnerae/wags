@@ -46,6 +46,7 @@
 		}
 		.administration{
 			background-color: #C2C2FF;	
+			margin-bottom: 10px;
 		}
 		.lbox{
 			width: 130px;

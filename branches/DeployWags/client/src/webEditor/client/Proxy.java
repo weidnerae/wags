@@ -114,8 +114,6 @@ public class Proxy
 					WEStatus status = new WEStatus(response);  
 					
 					Notification.notify(status.getStat(), status.getMessage());
-					if(attribute.equals("vis"))
-						Proxy.getVisibleExercises(exercises);
 				}
 				
 			});
