@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
@@ -19,6 +20,7 @@ public class SectionTab extends Composite implements HasText {
 	
 	@UiField FormPanel formAddSection, formChangeSection;
 	@UiField TextBox txtAdminName, txtGuestName, txtSectName;
+	@UiField PasswordTextBox checkPassword, check2Password;
 	@UiField ListBox lstCurSections;
 	
 	private static SectionTabUiBinder uiBinder = GWT
@@ -64,6 +66,14 @@ public class SectionTab extends Composite implements HasText {
 				Proxy.linkNewSection(txtSectName.getText(), txtAdminName.getText(), txtGuestName.getText());
 				
 				Proxy.getSections(lstCurSections);
+				
+				// Clear field after successful submission
+				txtAdminName.setText("");
+				txtSectName.setText("");
+				txtGuestName.setText("");	
+				checkPassword.setText("");
+				check2Password.setText("");
+				
 			}else{
 				Notification.notify(stat.getStat(), stat.getMessage());
 			}
