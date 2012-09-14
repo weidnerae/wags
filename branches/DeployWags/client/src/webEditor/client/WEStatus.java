@@ -195,16 +195,13 @@ public class WEStatus
 	private void createObject(HashMap<String, String> messageMap){
 		String objType = messageMap.get("Object");
 		if(objType == "MagnetProblem"){
-			boolean creationStation;
 			
 			// Grab ints
 			int id = Integer.parseInt(messageMap.get("id"));
-			int creatStat = Integer.parseInt(messageMap.get("creationStation"));
 			
-			// Decide about creationStation
-			if (creatStat == 1) creationStation = true;
-			else creationStation = false;
-			
+			// This is a stopgap to see if we can get it working correctly - Jon
+			String mainFunction = "public class Student";
+						
 			// Get arrays
 			String[] innerFunctions, forLeft, forMid, forRight, bools, statements;
 			innerFunctions = parseArray(messageMap.get("innerFunctions"));
@@ -216,8 +213,8 @@ public class WEStatus
 			
 			// Create the object
 			myObject = new MagnetProblem(id, messageMap.get("title"), messageMap.get("directions"), 
-						messageMap.get("type"), creationStation, messageMap.get("mainFunction"), innerFunctions, forLeft, forMid, forRight, bools,
-						statements, messageMap.get("solution"));			
+						messageMap.get("type"), mainFunction, innerFunctions, forLeft, forMid, forRight, bools,
+						statements, messageMap.get("solution"));
 		}
 	}
 	
@@ -235,7 +232,15 @@ public class WEStatus
 	
 	// Takes strings delimited by ',' with elements surrounded by " <- standard
 	// JSON encoding, and turns them into arrays with their respective elements
+	
+	/*
+	 * No longer does what above says, but we might revert to that.
+	 * This just returns an array from a string that was delimited by .:|:.
+	 */
 	private String[] parseArray(String parseText){
+		
+		return parseText.split(".:\\|:.");
+		/*
 		String[] strArray = parseText.split("],");
 		for(int i = 0; i < strArray.length; i++){
 			if(i<strArray.length-1)
@@ -246,5 +251,6 @@ public class WEStatus
 			//NOTE:  All " must be stored as &quot; (the HTML encoding) in the DATABASE
 		}
 		return strArray;
+		*/
 	}
 }
