@@ -45,14 +45,6 @@ class MagnetProblem extends Model
         return $this->type;
     }
 
-    public function getCreationStation(){
-        return $this->creationStation;
-    }
-
-    public function getMainFunction(){
-        return $this->mainFunction;
-    }
-
     public function getInnerFunctions(){
         return $this->innerFunctions;
     }
@@ -98,14 +90,6 @@ class MagnetProblem extends Model
 
     public function setProblemType($var){
          $this->type = $var;
-    }
-
-    public function setCreationStation($var){
-         $this->creationStation = $var;
-    }
-
-    public function setMainFunction($var){
-         $this->mainFunction = $var;
     }
 
     public function setInnerFunctions($var){
@@ -154,14 +138,12 @@ class MagnetProblem extends Model
             "title" => $this->title,
             "directions" => $this->directions,
             "type" => $this->type,
-            "creationStation" => $this->creationStation,                // Don't need
-            "mainFunction" => $this->mainFunction,                      // Don't need
-            "innerFunctions" => $this->getData(explode(",", $this->innerFunctions)),
-            "forLeft" => $this->getData(explode(",", $this->forLeft)),
-            "forMid" => $this->getData(explode(",", $this->forMid)),
-            "forRight" => $this->getData(explode(",", $this->forRight)),
-            "bools" => $this->getData(explode(",", $this->booleans)),
-            "statements" => $this->getData(explode(",", $this->statements)),
+            "innerFunctions" => $this->innerFunctions,
+            "forLeft" => $this->forLeft,
+            "forMid" => $this->forMid,
+            "forRight" => $this->forRight,
+            "bools" => $this->booleans,
+            "statements" => $this->statements,
             "solution" => $this->solution,
         );
         return $objArray;
