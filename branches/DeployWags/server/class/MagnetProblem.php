@@ -15,8 +15,6 @@ class MagnetProblem extends Model
 	protected $title;
 	protected $directions;
 	protected $type;
-	protected $creationStation;
-	protected $mainFunction;
 	protected $innerFunctions;
 	protected $forLeft;
 	protected $forMid;
