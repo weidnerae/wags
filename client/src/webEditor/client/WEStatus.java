@@ -200,7 +200,7 @@ public class WEStatus
 			int id = Integer.parseInt(messageMap.get("id"));
 			
 			// This is a stopgap to see if we can get it working correctly - Jon
-			String mainFunction = "public class Student";
+			String mainFunction = messageMap.get("solution");
 						
 			// Get arrays
 			String[] innerFunctions, forLeft, forMid, forRight, bools, statements;
