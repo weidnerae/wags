@@ -728,6 +728,8 @@ public class Proxy
 		          WEStatus status = new WEStatus(response);
 		          
 		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
+		        	  sections.clear();
+		        	  
 		        	  if(status.getMessageArray().length > 0){
 		        		  String[] message = status.getMessageArray();
 		        		  String name;
