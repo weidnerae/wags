@@ -179,6 +179,11 @@ body {
 	cursor: pointer;
 }
 
+.absolute_scroll{
+	height: 100%;
+	width: 100%;
+	position: absolute;	
+}
 .administration {
 	height: 100%;
 	width: 100%;
@@ -229,7 +234,7 @@ body {
         border-radius: 5px;
         -moz-border-radius: 5px;
         display: absolute;
-        font-size: 11px;
+        font-size: 13px;
         border: 1px solid black;
         background-color: #ACDEE6;
         font-family: "courier new";     
@@ -241,12 +246,13 @@ body {
         border-radius: 5px;
         -moz-border-radius: 5px;
         background: #99FFFF;
-        font-size: 11px;
+        font-size: 13px;
         border: 1px solid black;
         font-family: "courier new";     
 }
 .main_code_container{
         padding: 5px;
+        padding-right: 30px;
         border-radius: 5px;
         -moz-border-radius: 5px;
         background: #cccccc;
