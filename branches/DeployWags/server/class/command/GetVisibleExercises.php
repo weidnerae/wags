@@ -10,7 +10,7 @@
  * side, primarily for filling a hashMap and listbox.
  *
  *
- * This class is kind of ironically named now, as we
+ * This class is kind of poorly named now, as we
  * decided that administrators should be able to view all exercise
  * and made that change within Exercise::getVisibleExercises()
  */
@@ -35,12 +35,6 @@ class GetVisibleExercises extends Command
                 $exercise->setVisible($newVis);
                 $exercise->save();
             }
-
-            # Need a better way of moving this info to the server.......
-            # Easiest way may just be to append the value to the end
-            # of the title, and let the client sort it out...
-#           $vis = $exercise->getVisible();
-#           $title = "$title"."$vis";  # wait until visibility all set
 
 			$exerciseTitles[] = $title; 
 		}

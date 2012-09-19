@@ -70,7 +70,6 @@ class RegisterStudents extends Command
         #   CSV REGISTERING                                  #
         ######################################################
         if($csvRegister){
-
             // Declare some variables
             $names = array();
             $nameIndex = 0;
