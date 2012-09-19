@@ -23,11 +23,23 @@ class GetFileListing extends Command
         $files = CodeFile::getCodeFilesByUser($user);
         $fileNames = "";
 
-        // Comma separated file names.
+        # Comma separated file names.
         foreach($files as $file){
             $curEx = Exercise::getExerciseById($file->getExerciseId());
+
             if($curEx){
                 $curVis = $curEx->getVisible();
+                
+                # Coming from iBook router, limits visible files
+                # Hijacks visibility post database access, so doesn't alter
+                # anything for anyone else
+                if(isset($_SESSION['exercise'])){
+                    if($curEx->getTitle() != $_SESSION['exercise']){
+                        $curVis = INVISIBLE;
+                    } else {
+                        $curVis = VISIBLE;
+                    }
+                }
 
                 # Students only get visible or expired exercises, admins get all
                 if($curVis == VISIBLE || $curVis == EXPIRED || $user->isAdmin()){

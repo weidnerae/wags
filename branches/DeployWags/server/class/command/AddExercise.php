@@ -187,7 +187,7 @@ class AddExercise extends Command
             $e->setTestClassId($test->getId());
             $e->setSkeletonId($skel->getId());
             $e->setMultiUser(0); //The default is no partners
-            $e->setDescription("descriptions/tstjpgwags.jpg"); 
+            $e->setDescription("descriptions/defaultdesc.jpg");
         }
         
         }catch(Exception $e){
