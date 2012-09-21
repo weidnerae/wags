@@ -1,20 +1,33 @@
 package webEditor.magnet.client;
 
+import webEditor.client.Proxy;
+import webEditor.client.WEStatus;
+import webEditor.client.view.Notification;
+
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.FileUpload;
+import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.StackPanel;
+import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
+import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
+import com.google.gwt.user.client.ui.Widget;
 
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -34,6 +47,7 @@ public class ProblemCreationPanel extends AbsolutePanel{
 	private VerticalPanel leftPanel = new VerticalPanel();
 	private ModifiedCodePanel innerFunctionsMCS;
 	private ModifiedCodePanel premadeSegmentsMCS;
+	private ModifiedCodePanel algoSolutionMCS;
 	
 	private String problemType = "";
 	private Button algoButton = new Button("Algorithm");
@@ -46,19 +60,24 @@ public class ProblemCreationPanel extends AbsolutePanel{
 	
 	private VerticalPanel titleDescriptionSolutionPanel = new VerticalPanel();
 	private VerticalPanel titleDescriptionPanel = new VerticalPanel();
+	private FormPanel titleDescriptionSolutionFormPanel = new FormPanel();
+	private FormPanel titleDescriptionFormPanel = new FormPanel();
 	private HorizontalPanel titlePanel = new HorizontalPanel();
 	private HorizontalPanel descriptionPanel = new HorizontalPanel();
-	private HorizontalPanel solutionPanel = new HorizontalPanel();
+	
 	
 	private Label innerFunct = new Label("Inner Functions");
 	private Label premade = new Label("Premade Segments/Structures");
+	private Label solutionLabel = new Label("Solution");
 	private Label dropDowns = new Label("CreationStation Dropdown Menu Choices");
 	private VerticalPanel innerFunctPanel = new VerticalPanel();
 	private VerticalPanel premadePanel = new VerticalPanel();
 	private VerticalPanel dropDownsPanel = new VerticalPanel();
+	private VerticalPanel solutionPanel = new VerticalPanel();
 	private MainFunctionPanel mainFunction = new MainFunctionPanel();
 	private ModifiedCreationStation innerFunctions;
 	private ModifiedCreationStation premadeSegments;
+	private ModifiedCreationStation algoSolution;
 	private MCSOptions conditionOptions = new MCSOptions(Consts.CONDITION_TYPES);
 	
 	private Button titleDescSolButton = new Button("Title, Description, Solution",new stackButtonHandler());
@@ -75,19 +94,67 @@ public class ProblemCreationPanel extends AbsolutePanel{
 	private Button createProblemButton = new Button("Create Problem");
 	private Button testProblemButton = new Button("Test Problem");
 	
+	private SubmitButton invisibleSubmitButton = new SubmitButton("submit");
+	
+	private TextArea invisibleProblemType = new TextArea();
+	private TextArea invisiblePremadeSegments = new TextArea();
+	private TextArea invisibleInnerSegments = new TextArea();
+	private TextArea invisibleFor1 = new TextArea();
+	private TextArea invisibleFor2 = new TextArea();
+	private TextArea invisibleFor3 = new TextArea();
+	private TextArea invisibleBoolean = new TextArea();
+	private TextBox invisibleAlgoSolution = new TextBox();
+	private FileUpload solutionUpload = new FileUpload();
+	private FileUpload testClassUpload = new FileUpload();
+	
 	private boolean firstClick = true;
 	
 	public ProblemCreationPanel(RefrigeratorMagnet magnet){
+		
 		this.tabPanel = magnet.tabPanel;
+		
+		invisibleSubmitButton.addClickHandler(new ClickHandler(){
+			@Override
+			public void onClick(ClickEvent event) {
+				Window.alert("IVE BEEN CLICKED");		
+			}
+			
+		});
+		
+		solutionUpload.setName("solutionUpload");
+		testClassUpload.setName("testClassUpload");
+		titleBox.setName("title");
+		descriptionBox.setName("description");
+		
+		invisibleProblemType.setStyleName("invisible");
+		invisibleProblemType.setName("problemType");
+		invisiblePremadeSegments.setStyleName("invisible");
+		invisiblePremadeSegments.setName("premadeSegments");
+		invisibleInnerSegments.setStyleName("invisible");
+		invisibleInnerSegments.setName("innerSegments");
+		invisibleFor1.setStyleName("invisible");
+		invisibleFor1.setName("for1");
+		invisibleFor2.setStyleName("invisible");
+		invisibleFor2.setName("for2");
+		invisibleFor3.setStyleName("invisible");
+		invisibleFor3.setName("for3");
+		invisibleBoolean.setStyleName("invisible");
+		invisibleBoolean.setName("boolean");
+		invisibleAlgoSolution.setStyleName("invisible");
+		invisibleAlgoSolution.setName("algoSolution");
+		invisibleSubmitButton.setStyleName("invisible");
+		
 	//	dragControl = magnet.dc;
 		dragControl = new PickupDragController(RootPanel.get(), false);
 		dragControl.setBehaviorDragProxy(true);
 
 		innerFunctionsMCS =  new ModifiedCodePanel(new StackableContainer("Order your Inner Functions here! " + " {<br /><span id=\"inside_of_block\">" + Consts.TOP + Consts.INSIDE + Consts.BOTTOM + "</span><br />}", dragControl, Consts.MAIN),null, dragControl);
 		premadeSegmentsMCS = new ModifiedCodePanel(new StackableContainer("Order your Premade Segments here!" + " {<br /><span id=\"inside_of_block\">" + Consts.TOP + Consts.INSIDE + Consts.BOTTOM + "</span><br />}", dragControl, Consts.MAIN),null, dragControl);
+		algoSolutionMCS = new ModifiedCodePanel(new StackableContainer("Create your solution here!" + " {<br /><span id=\"inside_of_block\">" + Consts.TOP + Consts.INSIDE + Consts.BOTTOM + "</span><br />}", dragControl, Consts.MAIN),null, dragControl);
 		
 		innerFunctions = new ModifiedCreationStation(Consts.INNER_FUNCTIONS_STRUCTURES_LIST, innerFunctionsMCS);
 		premadeSegments = new ModifiedCreationStation(Consts.PREMADE_SEGMENTS_STRUCTURES_LIST, premadeSegmentsMCS);
+		algoSolution = new ModifiedCreationStation(Consts.ALGORITHM_SOLUTIONS_STRUCTURES_LIST, algoSolutionMCS);
 		
 		algoButton.addClickHandler(new AlgoHandler());
 		basicButton.addClickHandler(new BasicHandler());
@@ -103,6 +170,9 @@ public class ProblemCreationPanel extends AbsolutePanel{
 		premadePanel.add(premade);
 		premadePanel.add(premadeSegments);
 		premadePanel.setWidth("100%");
+		solutionPanel.add(solutionLabel);
+		solutionPanel.add(algoSolution);
+		solutionPanel.setWidth("100%");
 		dropDownsPanel.add(dropDowns);
 		dropDownsPanel.add(conditionOptions);
 		dropDownsPanel.setWidth("100%");
@@ -125,16 +195,33 @@ public class ProblemCreationPanel extends AbsolutePanel{
 		descriptionPanel.add(descriptionBox);
 		titlePanel.setCellHorizontalAlignment(descriptionBox, HasHorizontalAlignment.ALIGN_CENTER);
 		
-		solutionPanel.add(new HTML("Solution: "));
-		solutionPanel.add(solutionBox);
-		titlePanel.setCellHorizontalAlignment(solutionBox, HasHorizontalAlignment.ALIGN_CENTER);
-		
 		titleDescriptionSolutionPanel.add(titlePanel);
 		titleDescriptionSolutionPanel.add(descriptionPanel);
-		titleDescriptionSolutionPanel.add(solutionPanel);
-		titleDescriptionSolutionPanel.setSpacing(20);
-	
-		leftPanel.add(titleDescriptionSolutionPanel);
+		titleDescriptionSolutionPanel.add(solutionUpload);
+		titleDescriptionSolutionPanel.add(testClassUpload);
+		titleDescriptionSolutionPanel.add(invisiblePremadeSegments);
+		titleDescriptionSolutionPanel.add(invisibleInnerSegments);
+		titleDescriptionSolutionPanel.add(invisibleFor1);
+		titleDescriptionSolutionPanel.add(invisibleFor2);
+		titleDescriptionSolutionPanel.add(invisibleFor3);
+		titleDescriptionSolutionPanel.add(invisibleBoolean);
+		titleDescriptionSolutionPanel.add(invisibleSubmitButton);
+		
+		titleDescriptionSolutionFormPanel.setAction(Proxy.getBaseURL() + "?cmd=AddMagnetExercise");
+		titleDescriptionSolutionFormPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
+		titleDescriptionSolutionFormPanel.setMethod(FormPanel.METHOD_POST);
+		titleDescriptionSolutionFormPanel.addSubmitCompleteHandler(new SubmitCompleteHandler(){
+			
+			@Override
+			public void onSubmitComplete(SubmitCompleteEvent event) {
+				WEStatus stat = new WEStatus(event.getResults());
+				
+				Notification.notify(stat.getStat(), stat.getMessage());	
+			}
+		});
+		
+		titleDescriptionSolutionFormPanel.add(titleDescriptionSolutionPanel);
+		leftPanel.add(titleDescriptionSolutionFormPanel);
 	}
 	private void addTitleDescription(){
 		titlePanel.add(new HTML("Title: "));
@@ -147,9 +234,33 @@ public class ProblemCreationPanel extends AbsolutePanel{
 		
 		titleDescriptionPanel.add(titlePanel);
 		titleDescriptionPanel.add(descriptionPanel);
-		titleDescriptionPanel.setSpacing(20);
+
+		titleDescriptionPanel.add(titlePanel);
+		titleDescriptionPanel.add(descriptionPanel);
+		titleDescriptionPanel.add(solutionUpload);
+		titleDescriptionPanel.add(testClassUpload);
+		titleDescriptionPanel.add(invisiblePremadeSegments);
+		titleDescriptionPanel.add(invisibleInnerSegments);
+		titleDescriptionPanel.add(invisibleFor1);
+		titleDescriptionPanel.add(invisibleFor2);
+		titleDescriptionPanel.add(invisibleFor3);
+		titleDescriptionPanel.add(invisibleBoolean);
+		titleDescriptionPanel.add(invisibleSubmitButton);
 		
-		leftPanel.add(titleDescriptionPanel);
+		titleDescriptionFormPanel.setAction(Proxy.getBaseURL() + "?cmd=AddMagnetExercise");
+		titleDescriptionFormPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
+		titleDescriptionFormPanel.setMethod(FormPanel.METHOD_POST);
+		titleDescriptionSolutionFormPanel.addSubmitCompleteHandler(new SubmitCompleteHandler(){
+			
+			@Override
+			public void onSubmitComplete(SubmitCompleteEvent event) {
+				WEStatus stat = new WEStatus(event.getResults());			
+				Notification.notify(stat.getStat(), stat.getMessage());
+			}
+		});
+		
+		titleDescriptionFormPanel.add(titleDescriptionPanel);
+		leftPanel.add(titleDescriptionFormPanel);
 		
 	}
 		
@@ -196,8 +307,8 @@ public class ProblemCreationPanel extends AbsolutePanel{
 	}
 	public String getTestSolution(){
 		IDchainAndCount idAndCount = new IDchainAndCount("",0);
-		for(int i=0;i<premadeSegments.getMainFunction().getInsidePanel().getWidgetCount();i++){
-			idAndCount = buildIDTestString((StackableContainer)premadeSegments.getMainFunction().getInsidePanel().getWidget(i),idAndCount);
+		for(int i=0;i<algoSolution.getMainFunction().getInsidePanel().getWidgetCount();i++){
+			idAndCount = buildIDTestString((StackableContainer)algoSolution.getMainFunction().getInsidePanel().getWidget(i),idAndCount);
 		}
 		return idAndCount.getIDChain();
 	}
@@ -212,8 +323,8 @@ public class ProblemCreationPanel extends AbsolutePanel{
 	}
 	public String getTestPremadeIDs(){
 		int count = 0;
-		for(int i=0;i<premadeSegments.getMainFunction().getInsidePanel().getWidgetCount();i++){
-			count = countWidgets((StackableContainer)premadeSegments.getMainFunction().getInsidePanel().getWidget(i),count);
+		for(int i=0;i<algoSolution.getMainFunction().getInsidePanel().getWidgetCount();i++){
+			count = countWidgets((StackableContainer)algoSolution.getMainFunction().getInsidePanel().getWidget(i),count);
 		}
 		
 		String testIDs = "";
@@ -317,7 +428,7 @@ public class ProblemCreationPanel extends AbsolutePanel{
 	        	horizWrapperPanel.add(leftPanel);
 	        	
 	        	rightPanel.add(titleDescriptionPanel,"Title and Description");
-	        	rightPanel.add(premadeSegments, "Solution"); 
+	        	rightPanel.add(algoSolution, "Solution"); 
 	        	rightPanel.add(mainFunction,"Main Function");
 	        	horizWrapperPanel.add(rightPanel);
 	        	rightPanel.setWidth("100%");
@@ -396,75 +507,49 @@ public class ProblemCreationPanel extends AbsolutePanel{
 	 }
 	 private class CreateProblemHandler implements ClickHandler {
 	        public void onClick(ClickEvent event) {
-	        	String title = titleBox.getText();
-	        	String completeURL = "http://refrigerator.redirectme.net/New.php";	
-				RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, completeURL);
-				
-				try {
-					builder.setHeader("Content-Type", "application/x-www-form-urlencoded");
-					builder.sendRequest("title="+title, new RequestCallback() {
-						@Override
-						public void onResponseReceived(Request request, Response response) {
-							JSONValue vals = JSONParser.parseStrict(response.getText());
-							JSONObject obj = vals.isObject();
-							
-							if(obj!=null){
-								String id = obj.get("id").isString().stringValue();
-								update(Integer.parseInt(id),"type",problemType);
-								update(Integer.parseInt(id),"directions",descriptionBox.getText());
-								if(problemType.equals(Consts.ADVANCED_PROBLEM))
-									update(Integer.parseInt(id),"creationStation","1");
-								else
-									update(Integer.parseInt(id),"creationStation","-1");
-								update(Integer.parseInt(id),"mainFunction",mainFunction.getBoxContent());
-								update(Integer.parseInt(id),"innerFunctions",encodeStringArray(innerFunctions.getDBString().split(".:colon:.")));
-								update(Integer.parseInt(id),"forLeft",encodeStringArray(splitConditions(conditionOptions.getAreasText()[0])));
-								update(Integer.parseInt(id),"forMid",encodeStringArray(splitConditions(conditionOptions.getAreasText()[1])));
-								update(Integer.parseInt(id),"forRight",encodeStringArray(splitConditions(conditionOptions.getAreasText()[2])));
-								update(Integer.parseInt(id),"booleans",encodeStringArray(splitConditions(conditionOptions.getAreasText()[3])));
-							//	  Window.alert("before segments");
-								update(Integer.parseInt(id),"statements",encodeStringArray(premadeSegments.getPremadeDBString().split(".:colon:.")));
-								//  Window.alert("after segments");
-								if(problemType.equals(Consts.ALGORITHM_PROBLEM))
-									update(Integer.parseInt(id),"solution",getAlgoSolution());
-
-							}
-						}
-						public String encodeStringArray(String[] arr){
-							String encoded ="";
-							for(String s:arr)
-								encoded+=s+".:|:.";
-							return encoded;
-						}
-						
-						@Override
-						public void onError(Request request, Throwable exception) {
-						}
-					});
-				} catch (RequestException e) {
-					e.printStackTrace();
-				}
-				if(firstClick){
-					firstClick=false;
-					onClick(event);
-				}
+	        	
+	        	invisibleProblemType.setText(problemType);
+	        	invisibleInnerSegments.setText(encodeStringArray(innerFunctions.getDBString().split(".:colon:.")));
+	        	invisiblePremadeSegments.setText(encodeStringArray(premadeSegments.getPremadeDBString().split(".:colon:.")));
+	        	
+	        	invisibleFor1.setText(encodeStringArray(splitConditions(conditionOptions.getAreasText()[0])));
+	        	invisibleFor2.setText(encodeStringArray(splitConditions(conditionOptions.getAreasText()[1])));
+	        	invisibleFor3.setText(encodeStringArray(splitConditions(conditionOptions.getAreasText()[2])));
+	        	invisibleBoolean.setText(encodeStringArray(splitConditions(conditionOptions.getAreasText()[3])));
+	        	
+	        	invisibleAlgoSolution.setText(getAlgoSolution());
+	        	
+	        	invisibleSubmitButton.click();
+	        	Window.alert("clicked");
 	        }
 	 }
 		public String getAlgoSolution(){
 			String idChain = "";
-			for(int i=0;i<premadeSegments.getMainFunction().getInsidePanel().getWidgetCount();i++){
-				idChain = buildIDString((StackableContainer)premadeSegments.getMainFunction().getInsidePanel().getWidget(i),idChain);
+			for(int i=0;i<algoSolution.getMainFunction().getInsidePanel().getWidgetCount();i++){
+				idChain = buildIDString((StackableContainer)algoSolution.getMainFunction().getInsidePanel().getWidget(i),idChain);
 			}
 			return idChain;
 		}
 		public String buildIDString(StackableContainer sc, String idChain) {
-			idChain+="{";
+			if(sc.getContent().contains(Consts.TOPANYORDER))
+				idChain+="[";
+			else
+				idChain+="{";
 			//idChain+=sc.getID();
 			for (int i = 0; i < sc.getInsidePanel().getWidgetCount(); i++) {
 				idChain=buildIDString((StackableContainer) sc.getInsidePanel().getWidget(i),idChain);
 			}
-			idChain+="}";
+			if(sc.getContent().contains(Consts.TOPANYORDER))
+				idChain+="]";
+			else
+				idChain+="}";
 			return idChain;
+		}
+		public String encodeStringArray(String[] arr){
+			String encoded ="";
+			for(String s:arr)
+				encoded+=s+".:|:.";
+			return encoded;
 		}
 	 private class stackButtonHandler implements ClickHandler{
 		 public void onClick(ClickEvent event) {
@@ -481,7 +566,7 @@ public class ProblemCreationPanel extends AbsolutePanel{
 			  if(source.equals("Set Premade Segments"))
 				  rightPanel.showStack(rightPanel.getWidgetIndex(premadeSegments));
 			  if(source.equals("Solution"))
-				  rightPanel.showStack(rightPanel.getWidgetIndex(premadeSegments));
+				  rightPanel.showStack(rightPanel.getWidgetIndex(algoSolution));
 			  if(source.equals("Set CreationStation Options"))
 				  rightPanel.showStack(rightPanel.getWidgetIndex(conditionOptions));
 		 }
@@ -527,8 +612,8 @@ public class ProblemCreationPanel extends AbsolutePanel{
 	 public void setContainerIDs(String idsAsString){
 		 String[] idArr = idsAsString.split(",");
 		 int index =0;
-		 for(int i=0;i<premadeSegments.getMainFunction().getInsidePanel().getWidgetCount();i++){
-			 index = assignContainerIDs(((StackableContainer)premadeSegments.getMainFunction().getInsidePanel().getWidget(i)),index,idArr);
+		 for(int i=0;i<algoSolution.getMainFunction().getInsidePanel().getWidgetCount();i++){
+			 index = assignContainerIDs(((StackableContainer)algoSolution.getMainFunction().getInsidePanel().getWidget(i)),index,idArr);
 		 }
 	 }
 	 public int assignContainerIDs(StackableContainer sc, int index, String[] idArr){
