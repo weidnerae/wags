@@ -122,6 +122,11 @@ public ModifiedCreationStation(String[] structuresList, ModifiedCodePanel codePa
 		 topAlignPanel.add(functionText);
 		 
 	 }
+	 public void showAnyOrder(){
+		 topAlignPanel.clear();
+		 topAlignPanel.add(structures);
+		 
+	 }
 	 private class CreateHandler implements ClickHandler {
 	        public void onClick(ClickEvent event) {
 	        	StackableContainer createdContainer = null;
@@ -154,6 +159,8 @@ public ModifiedCreationStation(String[] structuresList, ModifiedCodePanel codePa
 	        		createdContainer = new StackableContainer(statementText.getText(), dragControl);
 	        	if(selected.equals("function"))
 	        		createdContainer = new StackableContainer(functionText.getText()+ Consts.FUNCTION, dragControl, Consts.NONDRAGGABLE);
+	        	if(selected.equals("ANY ORDER BOX"))
+	        		createdContainer = new StackableContainer(Consts.ANYORDERBOX,dragControl);
 	        	
 	        	//putting The text that defines the StackableContainer into the TextArea
 	        	codePanel.addCreatedContainer(createdContainer);
