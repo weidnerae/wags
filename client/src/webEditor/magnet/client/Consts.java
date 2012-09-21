@@ -10,7 +10,7 @@ package webEditor.magnet.client;
  */
 public interface Consts {
 	
-	public static String ALGORITHM_PROBLEM = "algorigthm_problem";
+	public static String ALGORITHM_PROBLEM = "algorithm_problem";
 	public static String BASIC_PROBLEM = "basic_problem";
 	public static String ADVANCED_PROBLEM = "advanced_problem";
 	// Special conditions for StackableContainer constructor
@@ -22,6 +22,9 @@ public interface Consts {
 	public static String INSIDE = "<!-- inside -->";
 	public static String BOTTOM = "<!-- bottom -->";
 	public static String CONDITION = "<!-- condition -->";
+	
+	public static String TOPANYORDER = "<!-- topanyorder -->";
+	public static String BOTTOMANYORDER = "<!-- bottomanyorder -->";
 
 	// *** STANDARDS ***//
 	//default structures list
@@ -30,6 +33,7 @@ public interface Consts {
 	public static String[] INNER_FUNCTIONS_STRUCTURES_LIST = {"choose structure...","for","while","if","else if", "else","statement","function"};
 	//default modified structures list used for premade segments
 	public static String[] PREMADE_SEGMENTS_STRUCTURES_LIST = {"choose structure...","for","while","if","else if", "else","statement"};
+	public static String[] ALGORITHM_SOLUTIONS_STRUCTURES_LIST = {"choose structure...","for","while","if","else if", "else","statement", "ANY ORDER BOX"};
 	
 	//for choosing condition type
 	public static String[] CONDITION_TYPES = {"choose condition type...","for","boolean"};
@@ -53,4 +57,8 @@ public interface Consts {
 	public static String ELSEIF = "else if (" + Consts.CONDITION
 			+ ") {<br /><span id=\"inside_of_block\">" + Consts.TOP
 			+ Consts.INSIDE + Consts.BOTTOM + "</span><br />}";
+	
+	// Box to designate that the containers within will be valid in any order in an Algritm problem
+	public static String ANYORDERBOX = "The containers contained within this box can be submitted in any vertical order to be considered correct in an Algoritm Problem."+Consts.TOPANYORDER+"<br /><span id=\"inside_of_block\">"
+			+ Consts.TOP + Consts.INSIDE + Consts.BOTTOM + "</span>"+Consts.BOTTOMANYORDER+"<br />}";
 }

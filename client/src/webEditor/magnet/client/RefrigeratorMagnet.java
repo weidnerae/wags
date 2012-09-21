@@ -25,12 +25,16 @@ public class RefrigeratorMagnet extends AbsolutePanel{
     public TabPanel tabPanel = new TabPanel();
 	private EditingPanelUi editingPanel;
 	private ResultsPanelUi resultsPanel;
+	public String problemType;
+	public String solution;
 	public PickupDragController dc;
 	
 	
 	public RefrigeratorMagnet(String title, String description, StackableContainer mainFunction, StackableContainer[] insideFunctions, String problemType, StackableContainer[] premadeSegments, String[] structuresList, String[] for1List, String[] for2List, String[] for3List, String[] booleanList, String solution, String[] premadeIDs, PickupDragController newDC) {
 		dc=newDC;
 		setHeight("99%");
+		this.problemType = problemType;
+		this.solution = solution;
 		
 		setPremadeIDs(premadeIDs, premadeSegments);
 		
@@ -58,6 +62,12 @@ public class RefrigeratorMagnet extends AbsolutePanel{
 		for(int i=0;i<ids.length;i++){
 			//segments[i].setID(premadeIDs[i]);
 		}
+	}
+	public String getProblemType(){
+		return problemType;
+	}
+	public String getSolution(){
+		return solution;
 	}
 
 }

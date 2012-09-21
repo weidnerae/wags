@@ -57,6 +57,9 @@ public class CodePanelUi extends Composite {
 	//finalize button handler
 	@UiHandler("button")
 	void handleClick(ClickEvent e){
+		if(magnet.getProblemType().equals(Consts.ALGORITHM_PROBLEM)){
+			evaluateAlgorithmProblem();
+		}
 		plainText = new StringBuffer();
 		buildContent(mainFunction);
 		ResultsPanelUi.setCodeText(getFormattedText());
@@ -140,6 +143,38 @@ public class CodePanelUi extends Composite {
 		}
 		
 		tabNumber--;
+	}
+	public void evaluateAlgorithmProblem(){
+		boolean done = false;
+		String userSolution = getAlgoSolution();
+		String givenSolution = magnet.getSolution();
+		for(int i=0;i<givenSolution.length();i++){
+	//		if()
+			
+		}
+		
+	}
+	public String getAlgoSolution(){
+		String idChain = "";
+		for(int i=0;i<mainFunction.getInsidePanel().getWidgetCount();i++){
+			idChain = buildIDString((StackableContainer)mainFunction.getInsidePanel().getWidget(i),idChain);
+		}
+		return idChain;
+	}
+	public String buildIDString(StackableContainer sc, String idChain) {
+		if(sc.getContent().contains(Consts.TOPANYORDER))
+			idChain+="[";
+		else
+			idChain+="{";
+		//idChain+=sc.getID();
+		for (int i = 0; i < sc.getInsidePanel().getWidgetCount(); i++) {
+			idChain=buildIDString((StackableContainer) sc.getInsidePanel().getWidget(i),idChain);
+		}
+		if(sc.getContent().contains(Consts.TOPANYORDER))
+			idChain+="]";
+		else
+			idChain+="}";
+		return idChain;
 	}
 
 }
