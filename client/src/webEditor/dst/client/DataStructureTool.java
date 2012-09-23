@@ -6,6 +6,7 @@ import org.vaadin.gwtgraphics.client.DrawingArea;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
@@ -119,7 +120,13 @@ public class DataStructureTool  extends AbsolutePanel
 			public void onClick(ClickEvent event) {
 				removeAllWidgets();
 				emailAddr = "TestUser";
-				getProblem(emailAddr, problem);
+				Timer timer = new Timer(){
+					 public void run() {
+						 getProblem(emailAddr, problem);
+					 }
+				};
+				timer.schedule(1);
+				
 			}
 		});
 	}
@@ -177,10 +184,5 @@ public class DataStructureTool  extends AbsolutePanel
 		DisplayManager dm = p.createDisplayManager(panel, canvas);
 		dm.displayProblem();
 	}
-	
-	public int getYCoord(){
-		return yCoordinate;
-	}
-
 	
 }
