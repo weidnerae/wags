@@ -32,7 +32,7 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 				if (correctSection.equals("")) {
 
 					Proxy.submitDST(problemName, 0);
-					return "Feedback: Incorrect. Hint: This is array is not a MaxHeap, "+
+					return "Feedback: Incorrect. Hint: This array is not a MaxHeap, "+
 					"you have to heapify it first.";
 				}
 				return "Feedback: Incorrect. You were correct for the section: "

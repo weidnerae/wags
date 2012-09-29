@@ -10,6 +10,7 @@ public class ProblemServiceImpl
 		Evaluation_MinHeap_Level minLevelHeap = new Evaluation_MinHeap_Level();
 		Evaluation_HeapSort heapSort = new Evaluation_HeapSort();
 		Evaluation_Level level = new Evaluation_Level();
+		Evaluation_Hashing hashing = new Evaluation_Hashing();
 		
 		AddEdgeRules noEdgeAddition = new AddEdgeRules();
 		Evaluation_BSTTraversal trav = new Evaluation_BSTTraversal();
@@ -957,6 +958,85 @@ public class ProblemServiceImpl
 					false,
 					false,
 					DSTConstants.NODE_DRAGGABLE);
+			case 65: return new HashingProblem("Hashing 1",
+					"Working from left to right use the has function h(x) = x mod 13 to insert the data into the hash table using linear probing.",
+					"7 29 39 30 58 11 72 91",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges,
+					new String[]{"13","7 7","29 3","39 0","30 4","58 6","11 11","72 8","91 1"},
+					hashing,
+					rules,
+					false,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 66: return new HashingProblem("Hashing 2",
+					"Working from left to right use the has function h(x) = x mod 17 to insert the data into the hash table using linear probing.",
+					"21 32 47 24 83 55 10 75 61 37 42 30 50",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges,
+					new String[]{"17","21 4","32 15","47 13","24 7","83 16","55 5","10 10","75 8","61 11","37 3","42 9","30 14","50 0"},					
+					hashing,
+					rules,
+					false,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 67: return new HashingProblem("Hashing 3",
+					"Working from left to right use the has function h(x) = x mod 11 to insert the data into the hash table using linear probing.",
+					"19 83 61 55 27 13 44 21",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges,
+					new String[]{"11","19 8","83 6","61 7","55 0","27 5","13 2","44 1","21 10"},
+					hashing,
+					rules,
+					false,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 68: return new HashingProblem("Hashing 4",
+					"Starting with the first row of data items and moving your way from left to right use the has function h(x) = x mod 19 to insert the data into the hash table using linear probing.",
+					"7 29 49 30 58 11 75 91 2 37 23 18 40",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges,
+					new String[]{"19","7 7","29 10","49 11","30 12","58 1","11 13","75 18","91 15","2 2","37 0","23 4","18 3","40 5"},
+					hashing,
+					rules,
+					false,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 69: return new HashingProblem("Hashing 5",
+					"Starting with the first row of data items and moving your way from left to right use the has function h(x) = x mod 17 to insert the data into the hash table using linear probing.",
+					"58 73 20 53 17 24 82 32 62 67 15 48",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges,
+					new String[]{"17","58 7","73 5","20 3","53 2","17 0","24 8","82 14","32 15","62 11","67 16","15 1","48 4"},
+					hashing,
+					rules,
+					false,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 70: return new HashingProblem("Hashing 6",
+					"Starting with the first row of data items and moving your way from left to right use the has function h(x) = x mod 19 to insert the data into the hash table using linear probing.",
+					"98 43 59 89 84 35 19 27 1 50 38 13 65",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges,
+					new String[]{"19","98 3","43 5","59 2","89 13","84 8","35 16","19 0","27 9","1 1","50 12","38 4","13 14","65 10"},
+					hashing,
+					rules,
+					false,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+
 
 		default:
 			return new TreeProblem("Binary Search Tree from Postorder Traversal 1",
@@ -1043,7 +1123,12 @@ public class ProblemServiceImpl
 		if(problem.equals("MST Prim's 4")) return 62;
 		if(problem.equals("MST Kruskal's DEMO")) return 63;
 		if(problem.equals("MST Prim's DEMO")) return 64;
-		
+		if(problem.equals("Hashing 1")) return 65;
+		if(problem.equals("Hashing 2")) return 66;
+		if(problem.equals("Hashing 3")) return 67;
+		if(problem.equals("Hashing 4")) return 68;
+		if(problem.equals("Hashing 5")) return 69;
+		if(problem.equals("Hashing 6")) return 70;
 		return 0;
 	}
 	public static int[] getHeapXLocations(boolean insert, String nodes){
