@@ -959,7 +959,7 @@ public class ProblemServiceImpl
 					false,
 					DSTConstants.NODE_DRAGGABLE);
 			case 65: return new HashingProblem("Hashing 1",
-					"Working from left to right use the has function h(x) = x mod 13 to insert the data into the hash table using linear probing.",
+					"Hashing 1: Working from left to right use the has function h(x) = x mod 13 to insert the data into the hash table using linear probing.",
 					"7 29 39 30 58 11 72 91",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -972,7 +972,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 66: return new HashingProblem("Hashing 2",
-					"Working from left to right use the has function h(x) = x mod 17 to insert the data into the hash table using linear probing.",
+					"Hashing 2: Starting with the first row of data items and working your way from left to right use the has function h(x) = x mod 17 to insert the data into the hash table using linear probing.",
 					"21 32 47 24 83 55 10 75 61 37 42 30 50",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -985,7 +985,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 67: return new HashingProblem("Hashing 3",
-					"Working from left to right use the has function h(x) = x mod 11 to insert the data into the hash table using linear probing.",
+					"Hashing 3: Working from left to right use the has function h(x) = x mod 11 to insert the data into the hash table using linear probing.",
 					"19 83 61 55 27 13 44 21",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -998,7 +998,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 68: return new HashingProblem("Hashing 4",
-					"Starting with the first row of data items and moving your way from left to right use the has function h(x) = x mod 19 to insert the data into the hash table using linear probing.",
+					"Hashing 4: Starting with the first row of data items and working your way from left to right use the has function h(x) = x mod 19 to insert the data into the hash table using linear probing.",
 					"7 29 49 30 58 11 75 91 2 37 23 18 40",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -1011,7 +1011,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 69: return new HashingProblem("Hashing 5",
-					"Starting with the first row of data items and moving your way from left to right use the has function h(x) = x mod 17 to insert the data into the hash table using linear probing.",
+					"Hashing 5: Starting with the first row of data items and working your way from left to right use the has function h(x) = x mod 17 to insert the data into the hash table using linear probing.",
 					"58 73 20 53 17 24 82 32 62 67 15 48",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -1024,7 +1024,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 70: return new HashingProblem("Hashing 6",
-					"Starting with the first row of data items and moving your way from left to right use the has function h(x) = x mod 19 to insert the data into the hash table using linear probing.",
+					"Hashing 6: Starting with the first row of data items and working your way from left to right use the has function h(x) = x mod 19 to insert the data into the hash table using linear probing.",
 					"98 43 59 89 84 35 19 27 1 50 38 13 65",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
