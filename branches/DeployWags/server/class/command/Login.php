@@ -44,7 +44,7 @@ class Login extends Command
         }
 
         $host = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-        $username = $_REQUEST['username'];
+        $username = strtolower($_REQUEST['username']);
         # Construct filename
         $hostFile = "/u/csgs/meznarpr/Wags/iBook/byUser/$username";
         if(file_exists($hostFile)) {
