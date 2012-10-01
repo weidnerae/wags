@@ -99,7 +99,12 @@ class SetLogicalExercises extends Command
         if(isset($_POST['HeapSort']) && $_POST['HeapSort'] == 'on')
         {
             $exercises = $exercises.
-            "HeapSort 1|"."HeapSort 2|"."HeapSort 3|"."HeapSort 4|";
+            #"HeapSort 1|"."HeapSort 2|"."HeapSort 3|"."HeapSort 4|".
+            "Hashing 1|"."Hashing 2|"."Hashing 3|"."Hashing 4|".
+            "Hashing 5|"."Hashing 6|"."Hashing 1 - Quadratic|".
+            "Hashing 2 - Quadratic|"."Hashing 3 - Quadratic|".
+            "Hashing 4 - Quadratic|"."Hashing 5 - Quadratic|".
+            "Hashing 6 - Quadratic|";
         }
 
         if(isset($_POST['RadixSort']) && $_POST['RadixSort'] == 'on')
