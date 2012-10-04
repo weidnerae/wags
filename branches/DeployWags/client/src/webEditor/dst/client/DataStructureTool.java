@@ -30,7 +30,6 @@ public class DataStructureTool  extends AbsolutePanel
 	//widgets
 	private Label bannerLabel;
 	private Label selectLabel;
-	private ArrayList<Label>  problemLabels;
 	private ArrayList<Button> attemptButtons;
 
 	/**
@@ -51,7 +50,7 @@ public class DataStructureTool  extends AbsolutePanel
 		} else {
 			selectLabel = new Label("No problems assigned!");
 		}
-		problemLabels = new ArrayList<Label>();
+		//problemLabels = new ArrayList<Label>();
 		attemptButtons = new ArrayList<Button>();
 
 
@@ -73,15 +72,11 @@ public class DataStructureTool  extends AbsolutePanel
 	{	
 		this.removeAllWidgets();
 		
-		//create a label and attempt button for each problem
+		//create an attempt button for each problem
 		for(int i = 0; i < problemList.length; i++)  //The explode php function results in one extra, empty index
 		{
-			//add the label with the problem's name
-			problemLabels.add(new Label(problemList[i]));
-			//set the label's style
-			problemLabels.get(i).setStyleName("problem");
 			//create button that allows a problem to be attempted
-			attemptButtons.add(new Button(successList[i] ? "<font color=green>Completed</font>" : "Attempt"));
+			attemptButtons.add(new Button(successList[i] ? "<font color=green>" + problemList[i] + "</font>" : problemList[i]));
 			//create button that allows past attempts to be viewed if present
 			//viewResultButtons.add(new Button("View Attempts"));
 		}
@@ -91,26 +86,41 @@ public class DataStructureTool  extends AbsolutePanel
 		//add static widgets: welcome message, logout button, etc..
 		yCoordinate = 5;
 		addToPanel(bannerLabel, 4, yCoordinate);
-		yCoordinate = 65+bannerLabel.getOffsetHeight();
+		yCoordinate = 65 + bannerLabel.getOffsetHeight();
 		addToPanel(selectLabel, 4, yCoordinate);
 		yCoordinate += 25 + selectLabel.getOffsetHeight();
 		
-		for(int i = 0; i < problemList.length; i++)  
-		{
-			xCoordinate = 4;
-			//add problem name label
-			addToPanel(problemLabels.get(i), xCoordinate, yCoordinate);
-			xCoordinate += (8+problemLabels.get(i).getOffsetWidth());
-			//add button to attempt problem, Note: handlers are added later
-			addToPanel(attemptButtons.get(i), 300, yCoordinate);
-			addClickHandling(attemptButtons.get(i), problemLabels.get(i).getText());
-			xCoordinate += (12+attemptButtons.get(i).getOffsetWidth());
-			
-			//set original Y coordinate for later use with problem result viewing
-			originalYCoordinates.add(yCoordinate);
-			yCoordinate += 31;
-		}
+		//Wrap all this stuff in a timer so that
+		//getOffsetWidth() works correctly (I am ashamed)
+		Timer timer = new Timer() {
+			public void run() {
+				int maxWidth = 0;
 
+				for (int i = 0; i < problemList.length; i++) {
+					xCoordinate = 4;
+					// add button to attempt problem, Note: handlers are added later
+					addToPanel(attemptButtons.get(i), xCoordinate, yCoordinate);
+					addClickHandling(attemptButtons.get(i),
+							attemptButtons.get(i).getText());
+					attemptButtons.get(i).setStyleName("problem");
+
+					// find the maximum width of buttons
+					int width = attemptButtons.get(i).getOffsetWidth();
+					maxWidth = (width > maxWidth) ? width : maxWidth;
+
+					// set original Y coordinate for later use with problem result viewing
+					originalYCoordinates.add(yCoordinate);
+					yCoordinate += 55;
+				}
+
+				for (int i = 0; i < problemList.length; i++) {
+					Button b = attemptButtons.get(i);
+					b.setWidth(maxWidth + "px");
+					b.setHeight("50px");
+				}
+			}
+		};
+		timer.schedule(1);
 	}
 	
 	private void addClickHandling(Button button, final String problem){
