@@ -193,7 +193,7 @@ public class Wags extends View
 			dock.add(w);
 		}
 	}
-	public void updateSplashPage(HorizontalPanel problemPane){
+	public void updateSplashPage(VerticalPanel problemPane){
 		
 		splashPage.remove(0);  // removes old problemPane ?
 		splashPage.add(problemPane);

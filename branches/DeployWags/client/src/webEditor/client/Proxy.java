@@ -34,7 +34,6 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -611,7 +610,7 @@ public class Proxy
 	 *   root panel, in getMagnetProblem it is removed.  It's staying like this since we don't know exactly how
 	 *   we're handling navigation among magnetProblems yet, so no reason to fix it twice.
 	 */
-	public static void getMagnetExercises(final Wags wags, final HorizontalPanel problemPane){
+	public static void getMagnetExercises(final Wags wags, final VerticalPanel problemPane){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetExercises");
 		try{
 			builder.sendRequest(null, new RequestCallback() {
@@ -629,7 +628,7 @@ public class Proxy
 						final int id = Integer.parseInt(problems[i]);
 						
 						if(id == 0){
-							Label noAssignments = new Label("No Magnet Exercises Assigned!");
+							Label noAssignments = new Label(webEditor.magnet.client.SplashPage.EMPTY_LABEL);
 							problemPane.add(noAssignments);
 						} else {
 							title = problems[i + 1];
@@ -694,7 +693,7 @@ public class Proxy
 	/** 
 	 *  Grabs a magnet problem
 	 */
-	public static void getMagnetProblem(final Wags wags, int id, final HorizontalPanel problemPane){
+	public static void getMagnetProblem(final Wags wags, int id, final VerticalPanel problemPane){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetMagnetProblem&id=" + id);
 		try{
 			builder.sendRequest("", new RequestCallback() {
