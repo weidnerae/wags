@@ -35,7 +35,7 @@ public class Admin extends Composite{
 	@UiField SubmitButton addButton, sbtCompReview;
 	@UiField static ListBox exercises;
 	@UiField static ListBox logicalExercises, magnetExercises, lstMagnetExercises;
-	@UiField ListBox setLogical;
+	@UiField ListBox setLogical, lstLSubjects, lstLGroups;
 	@UiField Button btnDSTReview, btnAdminReview, btnAddSkeletons, btnMakeVisible, btnMagnetReview, btnMagnet;
 	@UiField Grid grdAdminReview, grdDSTReview, grdMagnetReview;
 	@UiField FileUpload testClass, helperClass, solution, skeleton;
@@ -45,11 +45,13 @@ public class Admin extends Composite{
 		MaxHeapInsert, MaxHeapDelete, MinHeapInsert, MinHeapDelete, MaxHeapBuild,
 		MinHeapBuild, HeapSort, Kruskal, Prim;
 	@UiField
-	static VerticalPanel magnetSelectionPanel;
+	static VerticalPanel magnetSelectionPanel, lmPanel;
 	
 	private static AdminUiBinder uiBinder = GWT.create(AdminUiBinder.class);
 	private static ArrayList<CheckBox> currentMagnets = new ArrayList<CheckBox>();
+	private static ArrayList<CheckBox> currentLogicals = new ArrayList<CheckBox>();
 	private static java.util.HashMap<String, CheckBox> allMagnets = new java.util.HashMap<String, CheckBox>();
+	private static java.util.HashMap<String, CheckBox> allLogicals = new java.util.HashMap<String, CheckBox>();
 
 	interface AdminUiBinder extends UiBinder<Widget, Admin> {
 	}
@@ -60,6 +62,7 @@ public class Admin extends Composite{
 		//Fill in exercise listboxes
 		Proxy.getVisibleExercises(exercises); 
 		Proxy.getLogicalExercises(logicalExercises);
+		Proxy.getLogicalForAssignment(lstLSubjects, lstLGroups, lmPanel, currentLogicals, allLogicals);
 		// I can't believe all the currentMagnets, allMagnets juggling works....
 		Proxy.getMagnetGroups(magnetExercises, magnetSelectionPanel, currentMagnets, allMagnets, lstMagnetExercises);
 								
@@ -119,6 +122,8 @@ public class Admin extends Composite{
 		
 		// Decides which logical microlabs to display
 		setLogical.addChangeHandler(new LogicalMicroHandler());
+		lstLSubjects.addChangeHandler(new LogicalSubjectHandler());
+		lstLGroups.addChangeHandler(new LogicalGroupHandler());
 		// Decides which magnet microlabs to display
 		magnetExercises.addChangeHandler(new MagnetMicroHandler());
 		btnMagnet.addClickHandler(new MagnetClickHandler());
@@ -183,6 +188,21 @@ public class Admin extends Composite{
 				Prim.setVisible(true);
 			}
 			
+		}
+		
+	}
+	
+	private class LogicalSubjectHandler implements com.google.gwt.event.dom.client.ChangeHandler{
+		@Override
+		public void onChange(ChangeEvent event) {
+			Proxy.getLogicalGroups(lstLSubjects.getItemText(lstLSubjects.getSelectedIndex()), lstLGroups);
+		}
+	}
+	
+	private class LogicalGroupHandler implements com.google.gwt.event.dom.client.ChangeHandler{
+		@Override
+		public void onChange(ChangeEvent event) {
+			Proxy.getLogicalExercises(lstLGroups.getItemText(lstLGroups.getSelectedIndex()), lmPanel, currentLogicals, allLogicals);			
 		}
 		
 	}
