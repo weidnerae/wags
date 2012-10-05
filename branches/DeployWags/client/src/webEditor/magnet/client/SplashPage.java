@@ -17,6 +17,7 @@ public class SplashPage extends AbsolutePanel {
 	public static final String EMPTY_LABEL = "No Magnet Exercises Assigned!";
 	static String[] structuresList = {"choose structure...","for","while","if","else if", "else"};
 	final VerticalPanel problemPane = new VerticalPanel();
+	Label banner;
 	
 	PickupDragController dc = new PickupDragController(RootPanel.get(), false);
 	
@@ -27,6 +28,11 @@ public class SplashPage extends AbsolutePanel {
 		add(problemPane);
 		problemPane.clear();
 		problemPane.setSpacing(5);
+		
+		banner = new Label("Code Magnet Microlabs");
+		banner.setStyleName("banner");
+		problemPane.add(banner);
+		
 		Proxy.getMagnetExercises(wags,problemPane);
 	}
 	
@@ -128,19 +134,10 @@ public class SplashPage extends AbsolutePanel {
 	 */
 	private void formatButtons() {
 		int count = problemPane.getWidgetCount();
-		int maxWidth = 0;
-		
-		// Just return if it is a label saying there are no exercises
-		if (count == 1) {
-			Label l = ((Label) problemPane.getWidget(0));
-			
-			if (l.getText().equals(EMPTY_LABEL)) {
-				return;
-			}
-		}
+		int maxWidth = 0;	
 		
 		// set style name and figure out max width
-		for (int i = 0; i < count; i++) {
+		for (int i = 1; i < count; i++) {
 			ProblemButton b = ((ProblemButton) problemPane.getWidget(i));
 			b.setStyleName("problem");
 			int width = b.getOffsetWidth();
@@ -148,7 +145,7 @@ public class SplashPage extends AbsolutePanel {
 		}
 		
 		// set width and height for everything
-		for (int i = 0; i < count; i++) {
+		for (int i = 1; i < count; i++) {
 			ProblemButton b = ((ProblemButton) problemPane.getWidget(i));
 			b.setWidth(maxWidth + "px");
 			b.setHeight("50px");
