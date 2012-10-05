@@ -68,6 +68,9 @@
 						</g:HTMLPanel>
 					</g:FormPanel>
 				</g:north>
+				<g:west size="3">
+				    <g:TextArea ui:field="lines"></g:TextArea>
+				</g:west>
 				<g:center>
 					<my:CodeEditor styleName="{style.editor}" ui:field="editor"></my:CodeEditor>
 				</g:center>

@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
@@ -45,6 +46,7 @@ public class Editor extends Composite implements IsWidget{
 	@UiField Button submit;
 	@UiField TabLayoutPanel tabPanel;
 	@UiField FormPanel wrapperForm;
+	@UiField TextArea lines;
 	
 	final static int REVIEWPANEL = 1;
 	final static int FILEBROWSER = 0;
@@ -57,6 +59,7 @@ public class Editor extends Composite implements IsWidget{
 	private Timer autosaveTimer;
 		
 	private String currentEditorCode = "";
+	private String[] lineArr;
 	
 	String currentExercise;
 	
@@ -74,6 +77,8 @@ public class Editor extends Composite implements IsWidget{
 		commandBarVisible(false);
 		
 		selectedItem = browser.getTree().getItem(0); // initialize selected item to root
+		
+		lines.setReadOnly(true);
 		
 		description.setUrl(""); // TODO: This needs to be filled with a default
 
@@ -133,6 +138,8 @@ public class Editor extends Composite implements IsWidget{
 					commandBarVisible(true);
 					if(checkVis) handleInvisibility(browser.getFileVisibility(itemName));
 					fileName.setText(browser.getItemPath(i).toString().substring(1));
+					
+					addLineNumbers();
 				}
 			}
 		});
@@ -182,6 +189,8 @@ public class Editor extends Composite implements IsWidget{
 		Proxy.review(codeText, review, currentExercise, "/"+fileName.getText().toString(), submit);
 		
 		tabPanel.selectTab(REVIEWPANEL);
+		
+		addLineNumbers();
 	}
 	
 	/**
@@ -330,6 +339,52 @@ public class Editor extends Composite implements IsWidget{
 		
 		return code;
 	}
-
-
+	
+	/**
+	 * Adds line numbers next to the code editor.
+	 * 
+	 * Wrapping it in a timer for now while I try to debug it. For 
+	 * some reason, it works correctly if you click the skeleton 
+	 * twice, but not the first time.
+	 * 
+	 * Update: It seems to be that 300 ms is enough time to wait for 
+	 * this to work correctly. 
+	 * 
+	 * When we call Proxy.getFileContents(itemName, editor); to set 
+	 * the contents of the CodeEditor, it takes a while for Proxy 
+	 * to finish. I have no way of calling this method from Proxy, 
+	 * unless I change getFileContents() to also accept this Editor,
+	 * so I can't just call it when Proxy finishes.
+	 * 
+	 * It might be worthwhile to have CodeEditor to hold a reference 
+	 * to Editor so that we can have onKeyDown() for "enter" adds a 
+	 * line number, and deleting a "newline" removes a line number.
+	 */
+	private void addLineNumbers() {
+		Timer timer = new Timer() {
+			public void run() {
+				String code = editor.codeTop;
+				code +=  editor.codeArea.getText() + editor.codeBottom;
+				lineArr = code.split("\n");
+				
+				StringBuilder sb = new StringBuilder();
+				int line = 0;
+				
+				
+				// Just consume lines until we get to end!TopSection
+				while (line < lineArr.length && !lineArr[line].contains("<end!TopSection>")) {
+					line++;
+				}
+				
+				// Append lines until we get to end!MidSection
+				while (line < lineArr.length && !lineArr[line].contains("<end!MidSection>")) {
+					sb.append((line + 2) + "\n"); // adding two makes the line numbers line up
+					line++;
+				}
+				
+				lines.setText(sb.toString());
+			}
+		};
+		timer.schedule(300);
+	}
 }

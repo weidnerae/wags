@@ -44,7 +44,7 @@ public class DataStructureTool  extends AbsolutePanel
 		successList = success;
 
 		//initialize widgets
-		bannerLabel = new Label("Data Structure Tool");
+		bannerLabel = new Label("Logical Microlabs");
 		if(problems.length > 0){
 			selectLabel = new Label("Please select a problem below."); 
 		} else {
