@@ -46,7 +46,7 @@ public class SplashPage extends AbsolutePanel {
 				getMainContainer(magnet.mainFunction),
 				buildFunctions(magnet.innerFunctions),
 				magnet.type,
-				decodePremade(magnet.statements), 
+				decodePremade(randomizeArray(magnet.statements)), 
 				structuresList,
 				randomizeArray(magnet.forLeft),
 				randomizeArray(magnet.forMid),
