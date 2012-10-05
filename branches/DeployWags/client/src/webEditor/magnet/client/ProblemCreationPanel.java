@@ -113,14 +113,6 @@ public class ProblemCreationPanel extends AbsolutePanel{
 		
 		this.tabPanel = magnet.tabPanel;
 		
-		invisibleSubmitButton.addClickHandler(new ClickHandler(){
-			@Override
-			public void onClick(ClickEvent event) {
-				Window.alert("IVE BEEN CLICKED");		
-			}
-			
-		});
-		
 		solutionUpload.setName("solutionUpload");
 		testClassUpload.setName("testClassUpload");
 		titleBox.setName("title");
@@ -143,6 +135,14 @@ public class ProblemCreationPanel extends AbsolutePanel{
 		invisibleAlgoSolution.setStyleName("invisible");
 		invisibleAlgoSolution.setName("algoSolution");
 		invisibleSubmitButton.setStyleName("invisible");
+		invisibleSubmitButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				Window.alert("CLICKED");
+				titleDescriptionFormPanel.submit();
+			}
+		});
 		
 	//	dragControl = magnet.dc;
 		dragControl = new PickupDragController(RootPanel.get(), false);
@@ -207,7 +207,7 @@ public class ProblemCreationPanel extends AbsolutePanel{
 		titleDescriptionSolutionPanel.add(invisibleBoolean);
 		titleDescriptionSolutionPanel.add(invisibleSubmitButton);
 		
-		titleDescriptionSolutionFormPanel.setAction(Proxy.getBaseURL() + "?cmd=AddMagnetExercise");
+		titleDescriptionSolutionFormPanel.setAction("cs.appstate.edu/wags/Test_Version/server.php?cmd=AddMagnetExercise");
 		titleDescriptionSolutionFormPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
 		titleDescriptionSolutionFormPanel.setMethod(FormPanel.METHOD_POST);
 		titleDescriptionSolutionFormPanel.addSubmitCompleteHandler(new SubmitCompleteHandler(){
@@ -245,12 +245,11 @@ public class ProblemCreationPanel extends AbsolutePanel{
 		titleDescriptionPanel.add(invisibleFor2);
 		titleDescriptionPanel.add(invisibleFor3);
 		titleDescriptionPanel.add(invisibleBoolean);
-		titleDescriptionPanel.add(invisibleSubmitButton);
 		
 		titleDescriptionFormPanel.setAction(Proxy.getBaseURL() + "?cmd=AddMagnetExercise");
 		titleDescriptionFormPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
 		titleDescriptionFormPanel.setMethod(FormPanel.METHOD_POST);
-		titleDescriptionSolutionFormPanel.addSubmitCompleteHandler(new SubmitCompleteHandler(){
+		titleDescriptionFormPanel.addSubmitCompleteHandler(new SubmitCompleteHandler(){
 			
 			@Override
 			public void onSubmitComplete(SubmitCompleteEvent event) {
@@ -260,6 +259,7 @@ public class ProblemCreationPanel extends AbsolutePanel{
 		});
 		
 		titleDescriptionFormPanel.add(titleDescriptionPanel);
+		titleDescriptionFormPanel.add(invisibleSubmitButton);
 		leftPanel.add(titleDescriptionFormPanel);
 		
 	}
@@ -519,6 +519,7 @@ public class ProblemCreationPanel extends AbsolutePanel{
 	        	
 	        	invisibleAlgoSolution.setText(getAlgoSolution());
 	        	
+	        	titleDescriptionFormPanel.submit();
 	        	invisibleSubmitButton.click();
 	        	Window.alert("clicked");
 	        }

@@ -56,7 +56,7 @@ public class RefrigeratorMagnet extends AbsolutePanel{
 	    
 	}
 	public void addProblemCreation(){
-		tabPanel.add(new ProblemCreationPanel(this), "Problem Creation", false);
+		tabPanel.add(new ProblemCreationTab(), "Problem Creation", false);
 	}
 	public void setPremadeIDs(String[] ids, StackableContainer[] segments){
 		for(int i=0;i<ids.length;i++){

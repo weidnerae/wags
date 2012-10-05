@@ -132,8 +132,6 @@
 					<g:Button ui:field="btnAdminReview" styleName="{style.button}"> Review </g:Button>
 					<g:Button ui:field="btnAddSkeletons" styleName="{style.button}"> Distribute Student Skeletons</g:Button>
 					<g:Button ui:field="btnMakeVisible" styleName="{style.button}"> Toggle Visibility</g:Button>
-					<!-- Partners is still being looked at....  
-					<g:Button ui:field="btnEnablePartners" styleName="{style.button}"> Toggle Partners</g:Button>  -->
 					<g:Button ui:field="btnDeleteExercise" styleName="{style.button}"> Delete </g:Button>
 				</g:HorizontalPanel>
 				
@@ -164,8 +162,18 @@
 				
 				<g:Grid ui:field="grdDSTReview" styleName="{style.grid}"> </g:Grid>
 				
+				
+				<g:HorizontalPanel>
+					<g:Label styleName="{style.label}">Subject:</g:Label>
+					<g:ListBox ui:field="lstLSubjects" styleName="{style.lbox}"></g:ListBox>					
+				</g:HorizontalPanel>
+				<g:HorizontalPanel>
+					<g:Label styleName="{style.label}">Group:</g:Label>
+					<g:ListBox ui:field="lstLGroups" styleName="{style.lbox}"></g:ListBox>					
+				</g:HorizontalPanel>
+				<g:VerticalPanel ui:field="lmPanel"></g:VerticalPanel>
+				
 				<!-- So gross.  There has got to be a better way.  See SetLogicalExercises.php for similar complaint  -->
-				<g:Label> Available Exercises </g:Label>
 				<g:ListBox ui:field="setLogical" name="setLogical" styleName="{style.lbox}"></g:ListBox>
 				<g:CheckBox ui:field="Traversals" name="Traversals">Traversals</g:CheckBox>
 				<g:CheckBox ui:field="InsertNodes" name="InsertNodes">Insert Nodes </g:CheckBox>

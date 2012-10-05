@@ -31,8 +31,7 @@ public class Wags extends View
 	private static EditorUiBinder uiBinder = GWT.create(EditorUiBinder.class);
 
 	interface EditorUiBinder extends UiBinder<Widget, Wags>{}
-
-
+	
 	@UiField DockLayoutPanel dock;
 	@UiField Anchor Editor;
 	@UiField Anchor DST;
@@ -72,9 +71,6 @@ public class Wags extends View
 		}
 		
 	} // end constructor
-	
-
-
 
 	@UiHandler("Editor")
 	void onEditorClick(ClickEvent event)
