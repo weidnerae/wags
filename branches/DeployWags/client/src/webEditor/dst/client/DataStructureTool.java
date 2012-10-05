@@ -10,6 +10,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import webEditor.client.Proxy;
@@ -22,10 +23,8 @@ public class DataStructureTool  extends AbsolutePanel
 	private static String[] problemList;	//array of problem names
 	private static boolean[] successList;	//array of success values
 
-	private int xCoordinate; 	//field to keep track of current x offset
-	private int yCoordinate; 	//field to keep track of current y offset
 	private String emailAddr;	//user's email address
-	private ArrayList<Integer> originalYCoordinates;
+	final VerticalPanel problemPane = new VerticalPanel();
 
 	//widgets
 	private Label bannerLabel;
@@ -39,14 +38,13 @@ public class DataStructureTool  extends AbsolutePanel
 	{	
 		//initialize fields that will be used
 		widgets = new ArrayList<Widget>();
-		originalYCoordinates = new ArrayList<Integer>();
 		problemList = problems;
 		successList = success;
 
 		//initialize widgets
 		bannerLabel = new Label("Logical Microlabs");
 		if(problems.length > 0){
-			selectLabel = new Label("Please select a problem below."); 
+			selectLabel = new Label(""); 
 		} else {
 			selectLabel = new Label("No problems assigned!");
 		}
@@ -80,37 +78,29 @@ public class DataStructureTool  extends AbsolutePanel
 			//create button that allows past attempts to be viewed if present
 			//viewResultButtons.add(new Button("View Attempts"));
 		}
-
-		//lots of magic numbers here, needs to be cleaned up at some point
-		//most magic numbers represent pixel offsets between various widgets
-		//add static widgets: welcome message, logout button, etc..
-		yCoordinate = 5;
-		addToPanel(bannerLabel, 4, yCoordinate);
-		yCoordinate = 65 + bannerLabel.getOffsetHeight();
-		addToPanel(selectLabel, 4, yCoordinate);
-		yCoordinate += 25 + selectLabel.getOffsetHeight();
+		
+		add(problemPane);
+		problemPane.clear();
+		problemPane.setSpacing(5);
+		problemPane.add(bannerLabel);
+		problemPane.add(selectLabel);
 		
 		//Wrap all this stuff in a timer so that
 		//getOffsetWidth() works correctly (I am ashamed)
 		Timer timer = new Timer() {
 			public void run() {
-				int maxWidth = 0;
+				int maxWidth = bannerLabel.getOffsetWidth();
 
 				for (int i = 0; i < problemList.length; i++) {
-					xCoordinate = 4;
 					// add button to attempt problem, Note: handlers are added later
-					addToPanel(attemptButtons.get(i), xCoordinate, yCoordinate);
-					addClickHandling(attemptButtons.get(i),
-							attemptButtons.get(i).getText());
-					attemptButtons.get(i).setStyleName("problem");
+					Button b = attemptButtons.get(i);
+					addClickHandling(b, b.getText());
+					b.setStyleName("problem");
+					problemPane.add(b);
 
 					// find the maximum width of buttons
 					int width = attemptButtons.get(i).getOffsetWidth();
 					maxWidth = (width > maxWidth) ? width : maxWidth;
-
-					// set original Y coordinate for later use with problem result viewing
-					originalYCoordinates.add(yCoordinate);
-					yCoordinate += 55;
 				}
 
 				for (int i = 0; i < problemList.length; i++) {
@@ -179,6 +169,8 @@ public class DataStructureTool  extends AbsolutePanel
 
 	private void initialize(String userEmail, Problem p)
 	{
+		// Hide the buttons and stuff
+		problemPane.setVisible(false);
 		
 		//initialize the necessary components to display the problem
 		AbsolutePanel panel = new AbsolutePanel();
