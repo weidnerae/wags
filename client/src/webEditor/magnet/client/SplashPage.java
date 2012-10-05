@@ -46,7 +46,7 @@ public class SplashPage extends AbsolutePanel {
 				getMainContainer(magnet.mainFunction),
 				buildFunctions(magnet.innerFunctions),
 				magnet.type,
-				decodePremade(randomizeArray(magnet.statements)), 
+				decodePremade(magnet.statements), 
 				structuresList,
 				randomizeArray(magnet.forLeft),
 				randomizeArray(magnet.forMid),
@@ -131,13 +131,22 @@ public class SplashPage extends AbsolutePanel {
 	 * Format the problem buttons to be of style "problem",
 	 * height of 50px, and width the same of the max
 	 * width of other buttons
+	 * 
+	 * Start at index 2 for the loops because we have the banner 
+	 * Label and can have a label saying that there are no exercises.
+	 * If there are exercises, the second label is blank.
 	 */
 	private void formatButtons() {
 		int count = problemPane.getWidgetCount();
-		int maxWidth = 0;	
+		
+		if (count <= 2) {
+			return;
+		}
+		
+		int maxWidth = problemPane.getWidget(0).getOffsetWidth();
 		
 		// set style name and figure out max width
-		for (int i = 1; i < count; i++) {
+		for (int i = 2; i < count; i++) {
 			ProblemButton b = ((ProblemButton) problemPane.getWidget(i));
 			b.setStyleName("problem");
 			int width = b.getOffsetWidth();
@@ -145,7 +154,7 @@ public class SplashPage extends AbsolutePanel {
 		}
 		
 		// set width and height for everything
-		for (int i = 1; i < count; i++) {
+		for (int i = 2; i < count; i++) {
 			ProblemButton b = ((ProblemButton) problemPane.getWidget(i));
 			b.setWidth(maxWidth + "px");
 			b.setHeight("50px");
