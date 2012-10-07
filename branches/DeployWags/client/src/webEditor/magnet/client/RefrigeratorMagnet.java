@@ -38,22 +38,19 @@ public class RefrigeratorMagnet extends AbsolutePanel{
 		
 		setPremadeIDs(premadeIDs, premadeSegments);
 		
-		
-				add(tabPanel);
-			    tabPanel.setSize("100%", "100%");
-			    int tabPanelHeight = tabPanel.getOffsetHeight();
-			    tabPanelHeight = tabPanel.getOffsetHeight();
-			    editingPanel = new EditingPanelUi(this, tabPanelHeight,title,description,mainFunction,insideFunctions,problemType,premadeSegments, structuresList,for1List,for2List,for3List,booleanList, solution, premadeIDs, dc);
-				tabPanel.add(editingPanel, "Editing Mode", false);
-				tabPanel.selectTab(0);
+		add(tabPanel);
+	    tabPanel.setSize("100%", "100%");
+	    int tabPanelHeight = tabPanel.getOffsetHeight();
+	    tabPanelHeight = tabPanel.getOffsetHeight();
+	    editingPanel = new EditingPanelUi(this, tabPanelHeight,title,description,mainFunction,insideFunctions,problemType,premadeSegments, structuresList,for1List,for2List,for3List,booleanList, solution, premadeIDs, dc);
+		tabPanel.add(editingPanel, "Editing Mode", false);
+		tabPanel.selectTab(0);
 
-			    resultsPanel = new ResultsPanelUi(tabPanelHeight);
-			    tabPanel.add(resultsPanel, "Results", false);
-			    
-			    Proxy.addProblemCreation(this);
-			    editingPanel.start();
-
+	    resultsPanel = new ResultsPanelUi(tabPanelHeight);
+	    tabPanel.add(resultsPanel, "Results", false);
 	    
+	    Proxy.addProblemCreation(this);
+	    editingPanel.start();
 	}
 	public void addProblemCreation(){
 		tabPanel.add(new ProblemCreationTab(), "Problem Creation", false);
