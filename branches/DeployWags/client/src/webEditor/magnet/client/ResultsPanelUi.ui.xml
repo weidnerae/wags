@@ -6,10 +6,7 @@
 	</ui:style>
 	
 	<g:LayoutPanel ui:field="layout">
-		<g:layer right='55%' left='0%'>
-			<g:AbsolutePanel ui:field="testCode"></g:AbsolutePanel>
-		</g:layer>
-		<g:layer right='0%' left='45%'>
+		<g:layer>
 			<g:AbsolutePanel ui:field="testResults"></g:AbsolutePanel>
 		</g:layer>
 	</g:LayoutPanel>
