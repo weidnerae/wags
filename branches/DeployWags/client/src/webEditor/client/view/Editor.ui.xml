@@ -25,6 +25,7 @@
 			border-left: 0px;
 			border-right: 0px;
 			overflow: auto;
+			outline:none;
 		 }
 		
 		.editorAndFilebar { 
@@ -42,6 +43,12 @@
 		.fileName { 
 			padding: 0px;
 		}	
+
+		.lineNumbers {
+			overflow:hidden;
+			text-align:right;
+			padding: 0px;
+		}
 		
 		.reviewer {
 			height: 100%;
@@ -68,8 +75,8 @@
 						</g:HTMLPanel>
 					</g:FormPanel>
 				</g:north>
-				<g:west size="3">
-				    <g:TextArea ui:field="lines"></g:TextArea>
+				<g:west size="2.5">
+				    <g:TextArea ui:field="lines" addStyleNames="{style.lineNumbers} {style.editor}"></g:TextArea>
 				</g:west>
 				<g:center>
 					<my:CodeEditor styleName="{style.editor}" ui:field="editor"></my:CodeEditor>
