@@ -73,7 +73,7 @@ public class ConstructUi extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		// add directions
 		directionsContent.add(new HTML("<h4><center>" + title
-				+ "</center></h4>" + description + "<br/>"));
+				+ "</center></h4>" + description.replace("\\r\\n", "<br/>").replace("\\\"", "\"") + "<br/>"));
 		
 		this.problemType = problemType;
 

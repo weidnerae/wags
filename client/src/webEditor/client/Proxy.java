@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import webEditor.client.view.CodeEditor;
+import webEditor.client.view.Editor;
 import webEditor.client.view.Exercises;
 import webEditor.client.view.FileBrowser;
 import webEditor.client.view.Login;
@@ -454,7 +455,7 @@ public class Proxy
 	 * Get the contents of a file with the given name from server.
 	 * Put those contents in the passed CodeEditor.
 	 */
-	public static void getFileContents(String fileName, final CodeEditor editor){
+	public static void getFileContents(String fileName, final CodeEditor editor, final Editor codeArea){
 		String urlCompl = getFileContents+"&name="+fileName.trim().substring(1);
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, urlCompl);
 		try {
@@ -501,9 +502,11 @@ public class Proxy
 					//editor.codeArea.setText(mid.replaceAll("^\\s+", "")); // get rid of all leading whitespace
 					editor.codeArea.setText(mid);
 					
-					if(status.equals("0")) 
+					if(status.equals("0")) {
 						editor.codeArea.setEnabled(false); // if status = 0, file is uneditable
-				
+					}
+					
+					codeArea.addLineNumbers();
 				}
 				
 				@Override
