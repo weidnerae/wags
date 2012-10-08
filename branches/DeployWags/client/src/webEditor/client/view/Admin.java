@@ -35,21 +35,19 @@ public class Admin extends Composite{
 	@UiField SubmitButton addButton, sbtCompReview;
 	@UiField static ListBox exercises;
 	@UiField static ListBox logicalExercises, magnetExercises, lstMagnetExercises;
-	@UiField ListBox setLogical;
-	@UiField Button btnDSTReview, btnAdminReview, btnAddSkeletons, btnMakeVisible, btnMagnetReview, btnMagnet;
+	@UiField ListBox lstLSubjects, lstLGroups;
+	@UiField Button btnSetDST, btnDSTReview, btnAdminReview, btnAddSkeletons, btnMakeVisible, btnMagnetReview, btnMagnet;
 	@UiField Grid grdAdminReview, grdDSTReview, grdMagnetReview;
 	@UiField FileUpload testClass, helperClass, solution, skeleton;
-	@UiField FormPanel helperForm, DSTForm, adminForm, formCompReview;
+	@UiField FormPanel helperForm, adminForm, formCompReview;
 	@UiField TextBox openDate, closeDate, fileName;
-	@UiField CheckBox Traversals, InsertNodes, BuildBST, BuildBT, RadixSort,
-		MaxHeapInsert, MaxHeapDelete, MinHeapInsert, MinHeapDelete, MaxHeapBuild,
-		MinHeapBuild, HeapSort, Kruskal, Prim;
-	@UiField
-	static VerticalPanel magnetSelectionPanel;
+	@UiField static VerticalPanel magnetSelectionPanel, lmPanel;
 	
 	private static AdminUiBinder uiBinder = GWT.create(AdminUiBinder.class);
 	private static ArrayList<CheckBox> currentMagnets = new ArrayList<CheckBox>();
+	private static ArrayList<CheckBox> currentLogicals = new ArrayList<CheckBox>();
 	private static java.util.HashMap<String, CheckBox> allMagnets = new java.util.HashMap<String, CheckBox>();
+	private static java.util.HashMap<String, CheckBox> allLogicals = new java.util.HashMap<String, CheckBox>();
 
 	interface AdminUiBinder extends UiBinder<Widget, Admin> {
 	}
@@ -60,6 +58,7 @@ public class Admin extends Composite{
 		//Fill in exercise listboxes
 		Proxy.getVisibleExercises(exercises); 
 		Proxy.getLogicalExercises(logicalExercises);
+		Proxy.getLogicalForAssignment(lstLSubjects, lstLGroups, lmPanel, currentLogicals, allLogicals);
 		// I can't believe all the currentMagnets, allMagnets juggling works....
 		Proxy.getMagnetGroups(magnetExercises, magnetSelectionPanel, currentMagnets, allMagnets, lstMagnetExercises);
 								
@@ -103,22 +102,11 @@ public class Admin extends Composite{
 			}
 		});
 		
-		DSTForm.setAction(Proxy.getBaseURL()+"?cmd=SetLogicalExercises");
-		DSTForm.setEncoding(FormPanel.ENCODING_MULTIPART);
-		DSTForm.setMethod(FormPanel.METHOD_POST);
-		
-		DSTForm.addSubmitCompleteHandler(new SubmitCompleteHandler() {
-			
-			@Override
-			public void onSubmitComplete(SubmitCompleteEvent event) {
-				WEStatus stat = new WEStatus(event.getResults());
-				Notification.notify(stat.getStat(), stat.getMessage());
-				Proxy.getLogicalExercises(logicalExercises);
-			}
-		});
+		btnSetDST.addClickHandler(new SetDSTHandler());
 		
 		// Decides which logical microlabs to display
-		setLogical.addChangeHandler(new LogicalMicroHandler());
+		lstLSubjects.addChangeHandler(new LogicalSubjectHandler());
+		lstLGroups.addChangeHandler(new LogicalGroupHandler());
 		// Decides which magnet microlabs to display
 		magnetExercises.addChangeHandler(new MagnetMicroHandler());
 		btnMagnet.addClickHandler(new MagnetClickHandler());
@@ -129,9 +117,25 @@ public class Admin extends Composite{
 		formCompReview.setEncoding(FormPanel.ENCODING_MULTIPART);
 		formCompReview.setMethod(FormPanel.METHOD_POST);
 		
-		// Initialize microlab choosing (show BST exercises)
-		initializeMicros();
-		
+	}
+	
+	private class SetDSTHandler implements ClickHandler{
+		@Override
+		public void onClick(ClickEvent event) {
+			String assignedExercises = "";
+			
+			// Construct the string to be passed to the server
+			Iterator<String> it = allLogicals.keySet().iterator();
+			while(it.hasNext()){
+				String key = it.next();
+				if(allLogicals.get(key).getValue() == true){
+					assignedExercises += key + "|";
+				}
+			}
+			
+			// Remove last comma
+			Proxy.SetLogicalExercises(assignedExercises, logicalExercises);
+		}
 	}
 	
 	private class MagnetClickHandler implements ClickHandler{
@@ -156,33 +160,18 @@ public class Admin extends Composite{
 		
 	}
 	
-	private class LogicalMicroHandler implements com.google.gwt.event.dom.client.ChangeHandler{
+	private class LogicalSubjectHandler implements com.google.gwt.event.dom.client.ChangeHandler{
 		@Override
 		public void onChange(ChangeEvent event) {
-			hideAllMicros();
-			
-			String check = setLogical.getItemText(setLogical.getSelectedIndex());
-			
-			if(check.equals("BST")){
-				Traversals.setVisible(true);
-				InsertNodes.setVisible(true);
-				BuildBST.setVisible(true);
-				BuildBT.setVisible(true);
-			}else if(check.equals("Heaps")){
-				MaxHeapInsert.setVisible(true);
-				MaxHeapDelete.setVisible(true);
-				MinHeapInsert.setVisible(true);
-				MinHeapDelete.setVisible(true);
-				MaxHeapBuild.setVisible(true);
-				MinHeapBuild.setVisible(true);
-				HeapSort.setVisible(true);
-			}else if(check.equals("RadixSort")){
-				RadixSort.setVisible(true);				
-			}else if(check.equals("MST")){
-				Kruskal.setVisible(true);
-				Prim.setVisible(true);
-			}
-			
+			// last 3 parameters passed only so we can automatically call Proxy.getLogicalExercises()
+			Proxy.getLogicalGroups(lstLSubjects.getItemText(lstLSubjects.getSelectedIndex()), lstLGroups, lmPanel, currentLogicals, allLogicals);
+		}
+	}
+	
+	private class LogicalGroupHandler implements com.google.gwt.event.dom.client.ChangeHandler{
+		@Override
+		public void onChange(ChangeEvent event) {
+			Proxy.getLogicalExercises(lstLGroups.getItemText(lstLGroups.getSelectedIndex()), lmPanel, currentLogicals, allLogicals);			
 		}
 		
 	}
@@ -196,36 +185,6 @@ public class Admin extends Composite{
 						currentMagnets, allMagnets, lstMagnetExercises);
 		}
 		
-	}
-	
-	// Adds items to setLogical listbox, *will* default to showing BST microlabs
-	void initializeMicros(){
-		setLogical.clear();
-		setLogical.addItem("BST");
-		setLogical.addItem("Heaps");
-		setLogical.addItem("RadixSort");
-		setLogical.addItem("MST");
-		
-		hideAllMicros();
-		
-		//Set BST exercises as default visible
-		Traversals.setVisible(true);
-		InsertNodes.setVisible(true);
-		BuildBST.setVisible(true);
-		BuildBT.setVisible(true);
-		
-	}
-	
-	// Sets all logical microlabs invisible
-	void hideAllMicros(){
-		// Hmm... shouldn't have those capitalized.
-		CheckBox[] groups = {Traversals, InsertNodes, BuildBST, BuildBT, RadixSort,
-				MaxHeapInsert, MaxHeapDelete, MinHeapInsert, MinHeapDelete, MaxHeapBuild,
-				MinHeapBuild, HeapSort, Kruskal, Prim};
-		
-		for(int i = 0; i < groups.length; i++){
-			groups[i].setVisible(false);
-		}
 	}
 	
 	@UiHandler("btnAdminReview")
