@@ -519,7 +519,160 @@ public class Proxy
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+     * getLogicalForAssignment
+     * 
+     * Handles the initial loading of the Subject and Group listboxes on the admin page for logical exercises, as well as
+     * initially loading the checkboxes for the default selected group
+     * @param subjects      The listbox the subjects are loaded into
+     * @param groups        The listbox the groups are loaded into
+     * @param chkBoxArea    The vertical panel the checkboxes for exercises are loaded into
+     */
+    public static void getLogicalForAssignment(final ListBox subjects, final ListBox groups, final VerticalPanel chkBoxArea,
+                    final ArrayList<CheckBox> currentLogicals, final HashMap<String, CheckBox> allLogicals){
+            RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, Proxy.getBaseURL() + "?cmd=LogicalExercises&request=initial");
+            try {
+                    builder.sendRequest(null, new RequestCallback() {
+                            
+                            @Override
+                            public void onResponseReceived(Request request, Response response) {
+                                    WEStatus status = new WEStatus(response);
+                                    int level = 0; // 0 = subject, 1 = group, 2 = exercise
+                                    
+                                    // Empty to guarantee no duplicates
+                                    subjects.clear();
+                                    groups.clear();
+                                    chkBoxArea.clear();
+                                    for(CheckBox box: currentLogicals){
+                                            box.setVisible(false);
+                                    }
+                                    
+                                    String[] problemList = status.getMessageArray();
+                                    for(String entry: problemList){
+                                            // If we're transitioning into a new level, transition and grab next string
+                                            if(entry.equals("GROUPS")){
+                                                    level = 1;
+                                                    continue;
+                                            } else if(entry.equals("EXERCISES")){
+                                                    level = 2;
+                                                    continue;
+                                            } else {
+                                                    if(level == 0){
+                                                            subjects.addItem(entry, entry);
+                                                    } else if (level == 1){
+                                                            groups.addItem(entry, entry);
+                                                    } else {
+                                                            // For exercises, if it hasn't been loaded, load it
+                                                            if(!allLogicals.containsKey(entry)){
+                                                                    CheckBox ex = new CheckBox(entry);
+                                                                    chkBoxArea.add(ex);
+                                                                    currentLogicals.add(ex);
+                                                                    allLogicals.put(entry, ex);
+                                                            // If it was loaded earlier, grab that one
+                                                            } else {
+                                                                    CheckBox ex = allLogicals.get(entry);
+                                                                    currentLogicals.add(ex);
+                                                                    ex.setVisible(true);
+                                                                    chkBoxArea.add(ex);
+                                                            }
+                                                    }
+                                            }
+                                    }
+                                    
+                            }
+                            
+                            @Override
+                            public void onError(Request request, Throwable exception) {
+                                    Window.alert("Logical Exercise Error");
+                            }
+                    });
+            } catch (RequestException e){
+                    Window.alert("Failed to send the request: " + e.getMessage());
+            }
+    }
+    
+    /**
+     * getLogicalGroups
+     * 
+     * Called off of a changehandler attached to the subject listbox for logical microlabs in the admin tab
+     * Repopulates the groups listbox with the appropriate groups for each new subject
+     * @param subject       The subject that has just been chosen
+     * @param groups        The listbox to populate with the correct groups
+     */
+    public static void getLogicalGroups(String subject, final ListBox groups, 
+    			final VerticalPanel passPanel, final ArrayList<CheckBox> passArray, final HashMap<String, CheckBox> passMap){
+    	
+            RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=LogicalExercises&request=groups&subject=" + subject);
+            try {
+                    builder.sendRequest(null, new RequestCallback() {
+                            
+                            @Override
+                            public void onResponseReceived(Request request, Response response) {
+                                    WEStatus status = new WEStatus(response);
+                                    
+                                    String[] groupList = status.getMessageArray();
+                                    groups.clear();
+                                    for(String s: groupList){
+                                            groups.addItem(s,s);
+                                    }
+        
+                                    // So we don't have weird looking group/exercise combos
+                                    Proxy.getLogicalExercises(groupList[0], passPanel, passArray, passMap);
+                                    
+                            }
+                            
+                            @Override
+                            public void onError(Request request, Throwable exception) {
+                                    Window.alert("Error grabbing groups");
+                            }
+                    });
+            } catch (RequestException e){
+                    Window.alert("Failed to send the request: " + e.getMessage());
+            }
+    }
+    
+    public static void getLogicalExercises(String group, final VerticalPanel panel, final ArrayList<CheckBox> currentLogicals,
+            final HashMap<String, CheckBox> allLogicals){
+    RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=LogicalExercises&request=exercises&group=" + group);
+    try {
+            builder.sendRequest(null, new RequestCallback() {
+                    
+                    @Override
+                    public void onResponseReceived(Request request, Response response) {
+                            WEStatus status = new WEStatus(response);
+                            
+                            String[] exList = status.getMessageArray();
+                            // Hide
+                            for(CheckBox chk: currentLogicals){
+                                    chk.setVisible(false);
+                            }
+                            for(String entry: exList){
+                                    if(!allLogicals.containsKey(entry)){
+                                            CheckBox ex = new CheckBox(entry);
+                                            panel.add(ex);
+                                            currentLogicals.add(ex);
+                                            allLogicals.put(entry, ex);
+                                    // If it was loaded earlier, grab that one
+                                    } else {
+                                            CheckBox ex = allLogicals.get(entry);
+                                            currentLogicals.add(ex);
+                                            ex.setVisible(true);
+                                            panel.add(ex);
+                                    }
+                            }
+                            
+                    }
+                    
+                    @Override
+                    public void onError(Request request, Throwable exception) {
+                            Window.alert("Error grabbing groups");
+                    }
+            });
+    } catch (RequestException e){
+            Window.alert("Failed to send the request: " + e.getMessage());
+    }
+}
+    
 	public static void getLogicalExercises(final ListBox logicalExercises){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetLogicalExercises");
 		try {
@@ -1382,6 +1535,30 @@ public class Proxy
 				public void onResponseReceived(Request request, Response response) {
 					WEStatus stat = new WEStatus(response);
 					Notification.notify(stat.getStat(), stat.getMessage());
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Set magnet error");					
+				}
+			});
+		} catch (RequestException e) {
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+		
+	}
+
+	public static void SetLogicalExercises(String assignedExercises, final ListBox logicalExercises) {
+		if(assignedExercises.equals("")) assignedExercises = "none";
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=SetLogicalExercises&list=" + assignedExercises);
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus stat = new WEStatus(response);
+					Notification.notify(stat.getStat(), stat.getMessage());
+					Proxy.getLogicalExercises(logicalExercises);
 				}
 				
 				@Override
