@@ -152,47 +152,28 @@
 			</g:VerticalPanel>
 		</g:FormPanel>
 		
-		<g:FormPanel ui:field="DSTForm">
-			<g:VerticalPanel>
-				<g:Label styleName="{style.subheading}">Logical Microlab Actions</g:Label>
-				<g:HorizontalPanel styleName="{style.filePanel}">
-					<g:ListBox ui:field="logicalExercises" name="logicalExercises" styleName="{style.lbox}"></g:ListBox>
-					<g:Button ui:field="btnDSTReview" styleName = "{style.button}"> Review </g:Button>
-				</g:HorizontalPanel>
-				
-				<g:Grid ui:field="grdDSTReview" styleName="{style.grid}"> </g:Grid>
-				
-				
-				<g:HorizontalPanel>
-					<g:Label styleName="{style.label}">Subject:</g:Label>
-					<g:ListBox ui:field="lstLSubjects" styleName="{style.lbox}"></g:ListBox>					
-				</g:HorizontalPanel>
-				<g:HorizontalPanel>
-					<g:Label styleName="{style.label}">Group:</g:Label>
-					<g:ListBox ui:field="lstLGroups" styleName="{style.lbox}"></g:ListBox>					
-				</g:HorizontalPanel>
-				<g:VerticalPanel ui:field="lmPanel"></g:VerticalPanel>
-				
-				<!-- So gross.  There has got to be a better way.  See SetLogicalExercises.php for similar complaint  -->
-				<g:ListBox ui:field="setLogical" name="setLogical" styleName="{style.lbox}"></g:ListBox>
-				<g:CheckBox ui:field="Traversals" name="Traversals">Traversals</g:CheckBox>
-				<g:CheckBox ui:field="InsertNodes" name="InsertNodes">Insert Nodes </g:CheckBox>
-				<g:CheckBox ui:field="BuildBST" name="BuildBST">Build Binary Search Tree</g:CheckBox>
-				<g:CheckBox ui:field="BuildBT" name="BuildBT">Build Binary Tree</g:CheckBox>
-				<g:CheckBox ui:field="RadixSort" name="RadixSort">Radix Sort</g:CheckBox>
-				<g:CheckBox ui:field="MaxHeapInsert" name="MaxHeapInsert">MaxHeap Insert</g:CheckBox>
-				<g:CheckBox ui:field="MaxHeapDelete" name="MaxHeapDelete">MaxHeap Delete</g:CheckBox>
-				<g:CheckBox ui:field="MinHeapInsert" name="MinHeapInsert">MinHeap Insert</g:CheckBox>
-				<g:CheckBox ui:field="MinHeapDelete" name="MinHeapDelete">MinHeap Delete</g:CheckBox>
-				<g:CheckBox ui:field="MaxHeapBuild"  name="MaxHeapBuild">MaxHeap Build</g:CheckBox>
-				<g:CheckBox ui:field="MinHeapBuild"  name="MinHeapBuild">MinHeap Build</g:CheckBox>
-				<g:CheckBox ui:field="HeapSort" name="HeapSort">HeapSort</g:CheckBox>
-				<g:CheckBox ui:field="Kruskal" name="Kruskal">Kruskal</g:CheckBox>
-				<g:CheckBox ui:field="Prim" name="Prim">Prim</g:CheckBox>
-				
-				<g:SubmitButton ui:field="sbtDST" styleName="{style.button}"> Set Exercises </g:SubmitButton>
-			</g:VerticalPanel>
-		</g:FormPanel>
+		<g:VerticalPanel>
+			<g:Label styleName="{style.subheading}">Logical Microlab Actions</g:Label>
+			<g:HorizontalPanel styleName="{style.filePanel}">
+				<g:ListBox ui:field="logicalExercises" name="logicalExercises" styleName="{style.lbox}"></g:ListBox>
+				<g:Button ui:field="btnDSTReview" styleName = "{style.button}"> Review </g:Button>
+			</g:HorizontalPanel>
+			
+			<g:Grid ui:field="grdDSTReview" styleName="{style.grid}"> </g:Grid>
+			
+			
+			<g:HorizontalPanel>
+				<g:Label styleName="{style.label}">Subject:</g:Label>
+				<g:ListBox ui:field="lstLSubjects" styleName="{style.lbox}"></g:ListBox>					
+			</g:HorizontalPanel>
+			<g:HorizontalPanel>
+				<g:Label styleName="{style.label}">Group:</g:Label>
+				<g:ListBox ui:field="lstLGroups" styleName="{style.lbox}"></g:ListBox>					
+			</g:HorizontalPanel>
+			<g:VerticalPanel ui:field="lmPanel"></g:VerticalPanel>
+			
+			<g:Button ui:field="btnSetDST" styleName="{style.button}"> Set Exercises </g:Button>
+		</g:VerticalPanel>
 		
 		<g:VerticalPanel>
 			<g:Label styleName="{style.subheading}">Magnet Microlab Actions</g:Label>
