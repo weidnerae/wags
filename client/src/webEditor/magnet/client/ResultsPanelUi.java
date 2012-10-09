@@ -21,8 +21,7 @@ public class ResultsPanelUi extends Composite {
 	@UiField AbsolutePanel testResults;
 	static String code = "";
 	static String results = "";
-	static TextArea codeToTest;
-	static TextArea codeTestResults;
+	static TextArea resultsTextArea;
 	
 	/**
 	 * Creates results panel where students can see their code that will be tested and 
@@ -32,31 +31,20 @@ public class ResultsPanelUi extends Composite {
 	 */
 	public ResultsPanelUi(int tabPanelHeight) {
 		initWidget(uiBinder.createAndBindUi(this));
-		//set size of overall panel
 		layout.setSize("100%", tabPanelHeight - 60 + "px");
-		//set up left side of panel, the code to test from student
-		codeToTest = new TextArea();
-		codeToTest.setReadOnly(true);
-		codeToTest.setVisibleLines(25);
-		codeToTest.setSize("100%", "100%");
 		
-		codeTestResults = new TextArea();
-		codeTestResults.setReadOnly(true);
-		codeTestResults.setVisibleLines(25);
-		codeTestResults.setSize("100%", "100%");
+		resultsTextArea = new TextArea();
+		resultsTextArea.setReadOnly(true);
+		resultsTextArea.setVisibleLines(25);
+		resultsTextArea.setSize("100%", "100%");
 		
-		String test = codeTestResults.getText() + codeToTest.getText();
-		
-		codeTestResults.setText(test);
-		testResults.add(codeTestResults);
-		//testResults.add(codeToTest);
-		
+		testResults.add(resultsTextArea);
 	}
 
 	public static void setResultsText(String s){
 		results = s;
 		
-		codeTestResults.setText(results + "\n\n\n" + code);
+		resultsTextArea.setText(results + "\n\n\n" + code);
 	}
 	
 	/**
@@ -67,7 +55,8 @@ public class ResultsPanelUi extends Composite {
 	 * GWT can't do String.format, so I'm not sure how to 
 	 * properly make the line numbers right-aligned. Thus, 
 	 * I just have to if-statements to add spaces as necessary.
-	 * @param s
+	 * 
+	 * @param s the code
 	 */
 	public static void setCodeText(String s){
 		String[] linedCode = s.split("\n");

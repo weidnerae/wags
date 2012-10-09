@@ -166,7 +166,8 @@ public class ConstructUi extends Composite {
                     @Override
                     public void run() {
                     	int widgetCount = segmentsContent.getWidgetCount();
-                    	                    	
+                    	
+                    	//Spacing is 10 pixels
                         int baseX = 10;
                         int baseY = 10;
                         if(problemType.equals(Consts.ADVANCED_PROBLEM)) 
