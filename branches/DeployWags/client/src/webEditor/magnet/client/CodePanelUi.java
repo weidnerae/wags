@@ -144,6 +144,7 @@ public class CodePanelUi extends Composite {
 		
 		tabNumber--;
 	}
+	
 	public void evaluateAlgorithmProblem(){
 		boolean done = false;
 		String userSolution = getAlgoSolution();
@@ -154,6 +155,7 @@ public class CodePanelUi extends Composite {
 		}
 		
 	}
+	
 	public String getAlgoSolution(){
 		String idChain = "";
 		for(int i=0;i<mainFunction.getInsidePanel().getWidgetCount();i++){
@@ -161,6 +163,7 @@ public class CodePanelUi extends Composite {
 		}
 		return idChain;
 	}
+	
 	public String buildIDString(StackableContainer sc, String idChain) {
 		if(sc.getContent().contains(Consts.TOPANYORDER))
 			idChain+="[";
