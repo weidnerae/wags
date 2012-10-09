@@ -1,12 +1,12 @@
 package webEditor.magnet.client;
 
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
+
 import com.allen_sauer.gwt.dnd.client.DragContext;
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
-
-import com.google.gwt.user.client.ui.*;
 
 import java.util.ArrayList;
 
@@ -20,21 +20,19 @@ import java.util.ArrayList;
  * @version r28
  */
 public class StackableContainer extends FocusPanel {
-	private String containerID;
 	private AbsolutePanel innerPanel = new AbsolutePanel();
-	private HTML topLabel;
 	private AbsolutePanel topPanel = new AbsolutePanel();
-	private HTML bottomLabel;
 	private AbsolutePanel insidePanel = new AbsolutePanel();
 	private AbsolutePanel bottomPanel = new AbsolutePanel();
+	private HTML topLabel;
+	private HTML bottomLabel;
+	
 	private final PickupDragController dragController;
 	private DropController dropController = new PanelDropController(this);
+
 	private boolean stackable = true;
 	private boolean isMain = false;
-	private int left;
-	private int width;
-	private int top;
-	private int height;
+	private String containerID;
 	
 	String content = "";
 
@@ -130,13 +128,15 @@ public class StackableContainer extends FocusPanel {
 		if (engaged) {
 			if (isMain) {
 				setStyleName("main_code_over");
-			} else
+			} else {
 				setStyleName("stackable_container_over");
+			}
 		} else {
 			if (isMain) {
 				setStyleName("main_code_container");
-			} else
+			} else {
 				setStyleName("stackable_container");
+			}
 		}
 	}
 
@@ -264,19 +264,19 @@ public class StackableContainer extends FocusPanel {
 	}
 	
 	public int getLeft() {
-		return left;
+		return this.getAbsoluteLeft();
 	}
 	
 	public int getWidth() {
-		return width;
+		return this.getOffsetWidth();
 	}
 	
 	public int getTop() {
-		return top;
+		return this.getAbsoluteTop();
 	}
 	
 	public int getHeight() {
-		return height;
+		return this.getOffsetHeight();
 	}
 	public String getID(){
 		return containerID;
@@ -291,16 +291,10 @@ public class StackableContainer extends FocusPanel {
 		stackable = stack;
 	}
 	
-	
 	@Override
 	protected void onLoad() {
 		super.onLoad();
 		dragController.registerDropController(dropController);
-		
-		left = this.getAbsoluteLeft();
-		width = this.getOffsetWidth();
-		top = this.getAbsoluteTop();
-		height = this.getOffsetHeight();
 	}
 
 	@Override

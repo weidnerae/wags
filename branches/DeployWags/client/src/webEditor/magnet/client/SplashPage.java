@@ -5,27 +5,45 @@ import webEditor.client.Proxy;
 import webEditor.client.view.Wags;
 
 import java.util.Random;
+
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
-import com.google.gwt.json.client.JSONArray;
+
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * 
+ * This is the "landing page" for magnets problems. It displays a list of 
+ * buttons corresponding to the code magnet exercises that have been assigned 
+ * to the user. If they have successfully completed the problem, the text on 
+ * the button will be green. Otherwise, it will simply be black test displaying 
+ * the name of the exercise.
+ * 
+ *
+ */
 public class SplashPage extends AbsolutePanel {
+	
 	public static final String EMPTY_LABEL = "No Magnet Exercises Assigned!";
 	static String[] structuresList = {"choose structure...","for","while","if","else if", "else"};
-	final VerticalPanel problemPane = new VerticalPanel();
+	VerticalPanel problemPane;
 	Label banner;
 	
-	PickupDragController dc = new PickupDragController(RootPanel.get(), false);
+	PickupDragController dc;
 	
-	String title;
-	
+	/**
+	 * Create a VerticalPanel to hold all the magnet problem buttons 
+	 * and add a Title to it.
+	 * 
+	 * @param wags
+	 */
 	public SplashPage(Wags wags) {
+		dc = new PickupDragController(RootPanel.get(), false);
 		dc.setBehaviorDragProxy(true);
-		add(problemPane);
+		
+		problemPane = new VerticalPanel();
 		problemPane.clear();
 		problemPane.setSpacing(5);
 		
@@ -33,11 +51,14 @@ public class SplashPage extends AbsolutePanel {
 		banner.setStyleName("banner");
 		problemPane.add(banner);
 		
+		add(problemPane);
+		
 		Proxy.getMagnetExercises(wags,problemPane);
 	}
 	
 	/**
-	 * Makes the problem
+	 * @return a RefrigeratorMagnet object, created from the MagnetProblem 
+	 * that was grabbed from the server using Proxy.getMagnetProblem()
 	 */
 	public RefrigeratorMagnet makeProblem(MagnetProblem magnet) {
 		return new RefrigeratorMagnet(
@@ -62,7 +83,8 @@ public class SplashPage extends AbsolutePanel {
 		Random rand = new Random();
 		int temp1;
 		int temp2;
-		for(int i=0;i<20;i++){
+		
+		for (int i = 0; i < 20; i++) {
 			temp1 = rand.nextInt(arr.length);
 			temp2 = rand.nextInt(arr.length);
 			
@@ -70,21 +92,8 @@ public class SplashPage extends AbsolutePanel {
 			arr[temp1] = arr[temp2];
 			arr[temp2] = sTemp1;
 		}
+		
 		return arr;
-	}
-	
-	public String[] convertArray(JSONArray arr) {
-		if (arr.toString().equals("[null]")) {
-			return null;
-		}
-		
-		String[] result = new String[arr.size()];
-		
-		for (int i = 0; i < arr.size(); i++) {
-			result[i] = arr.get(i).isString().stringValue();
-		}
-		
-		return result;
 	}
 	
 	public StackableContainer[] decodePremade(String[] segments) {
@@ -94,22 +103,34 @@ public class SplashPage extends AbsolutePanel {
 		
 		StackableContainer[] preMadeList = new StackableContainer[segments.length]; //should never need this many
 		int counter = 0;
-			while (counter < segments.length) {
-				if (segments[counter].contains(Consts.TOP)) {
-					preMadeList[counter] = new StackableContainer(segments[counter], dc);
-				} else {
-					preMadeList[counter] = new StackableContainer(segments[counter] + Consts.TOP + Consts.INSIDE + Consts.BOTTOM, dc, false);
-				}
-				
-				counter++;
+		
+		while (counter < segments.length) {
+			if (segments[counter].contains(Consts.TOP)) {
+				preMadeList[counter] = new StackableContainer(segments[counter], dc);
+			} else {
+				preMadeList[counter] = new StackableContainer(
+						segments[counter] + Consts.TOP 
+										  + Consts.INSIDE 
+										  + Consts.BOTTOM,
+						dc,
+						false
+				);
 			}
+			
+			counter++;
+		}
 			
 		return preMadeList;
 	}
 	
 	public StackableContainer getMainContainer(String str) {
-		return new StackableContainer(str + " {<br /><span id=\"inside_of_block\">"
-				+ Consts.TOP + Consts.INSIDE + Consts.BOTTOM + "</span><br />}", dc, Consts.MAIN);
+		return new StackableContainer(
+			str + " {<br /><span id=\"inside_of_block\">"
+				+ Consts.TOP + Consts.INSIDE + Consts.BOTTOM
+				+ "</span><br />}",
+			dc,
+			Consts.MAIN
+		);
 	}
 	
 	public StackableContainer[] buildFunctions(String[] insideFunctions) {
@@ -118,10 +139,9 @@ public class SplashPage extends AbsolutePanel {
 		}
 		
 		StackableContainer[] insideFunctionsList = new StackableContainer[insideFunctions.length]; //should never need this many
-		int counter = 0;
-		while (counter < insideFunctions.length) {
-			insideFunctionsList[counter] = new StackableContainer(insideFunctions[counter], dc, Consts.NONDRAGGABLE);
-			counter++;
+		
+		for (int i = 0; i < insideFunctions.length; i++) {
+			insideFunctionsList[i] = new StackableContainer(insideFunctions[i], dc, Consts.NONDRAGGABLE);
 		}
 		
 		return insideFunctionsList;
@@ -140,7 +160,7 @@ public class SplashPage extends AbsolutePanel {
 		int count = problemPane.getWidgetCount();
 		
 		if (count <= 2) {
-			return;
+			return; // there are no problem buttons
 		}
 		
 		int maxWidth = problemPane.getWidget(0).getOffsetWidth();
