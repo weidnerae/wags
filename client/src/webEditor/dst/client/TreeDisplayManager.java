@@ -28,6 +28,7 @@ public class TreeDisplayManager extends DisplayManager implements
 	protected NodeCollection nodeCollection;
 	protected EdgeCollection edgeCollection;
 	protected ArrayList<Widget> itemsInPanel;
+	protected ArrayList<Widget> weightsInPanel;
 	protected TreeProblem problem;
 	protected boolean addingEdge;
 	protected boolean removingEdge;
@@ -57,6 +58,7 @@ public class TreeDisplayManager extends DisplayManager implements
 		this.addingEdge = false;
 		this.removingEdge = false;
 		this.itemsInPanel = new ArrayList<Widget>();
+		this.weightsInPanel = new ArrayList<Widget>();
 	}
 
 	public void displayProblem() {
@@ -128,6 +130,7 @@ public class TreeDisplayManager extends DisplayManager implements
 	private class AddEdgeClickHandler implements ClickHandler {
 		public void onClick(ClickEvent event) {
 			removeWidgetsFromPanel();
+			removeWeightLabelsFromPanel();
 			resetRemoveEdgeButton();
 			resetNodeStyles();
 			resetEdgeStyles();
@@ -472,10 +475,20 @@ public class TreeDisplayManager extends DisplayManager implements
 		itemsInPanel.add(w);
 		Proxy.getDST().add(w, left, top);
 	}
+	
+	public void addWeightLabel(Widget w, int left, int top){
+		weightsInPanel.add(w);
+		Proxy.getDST().add(w, left, top);
+	}
 
 	public void removeWidgetsFromPanel() {
 		for (int i = 0; i < itemsInPanel.size(); i++) {
 			Proxy.getDST().remove(itemsInPanel.get(i));
+		}
+	}
+	public void removeWeightLabelsFromPanel() {
+		for (int i = 0; i < weightsInPanel.size(); i++) {
+			Proxy.getDST().remove(weightsInPanel.get(i));
 		}
 	}
 
