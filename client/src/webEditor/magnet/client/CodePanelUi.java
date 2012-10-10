@@ -4,6 +4,7 @@ import webEditor.client.Proxy;
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -16,9 +17,13 @@ import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * 
+ * This is effectively the right side of the screen in the editing mode tab.
+ *
+ */
 public class CodePanelUi extends Composite {
 	public AbsolutePositionDropController dropControl;
-	public String content = "";
 	public StringBuilder plainText;
 	public StackableContainer mainFunction;
 	private String title;
@@ -49,10 +54,7 @@ public class CodePanelUi extends Composite {
 		this.mainFunction = main;
 		this.title = title;
 		
-		if (insideFunctions != null) {
-			addInsideFunctions(insideFunctions);
-		}
-			
+		addInsideFunctions(insideFunctions);
 		mainPanel.add(mainFunction);
 	}
 	
@@ -66,8 +68,9 @@ public class CodePanelUi extends Composite {
 		plainText = new StringBuilder();
 		
 		buildContent(mainFunction);
-		ResultsPanelUi.setCodeText(getFormattedText());
-		Proxy.magnetReview(getFormattedText(), title);
+		String code = plainText.toString();
+		ResultsPanelUi.setCodeText(code);
+		Proxy.magnetReview(code, title);
 		magnet.tabPanel.selectTab(1);
 	}
 	
@@ -84,37 +87,6 @@ public class CodePanelUi extends Composite {
 		for (int i = 0; i < insideFunctions.length && insideFunctions[i] != null; i++) {
 			mainFunction.addInsideContainer(insideFunctions[i]);
 		}
-	}
-	
-	/**
-	 * Formats plainText for compilation and testing.
-	 * 
-	 * @return String the formatted text ready for compilation and testing
-	 */
-	public String getFormattedText() {
-		boolean done = false;
-		// make sure a newline gets inserted after the imports
-		for (int i = 0; i < plainText.length() && !done; i++) {
-			// put a newline after each import statement
-			if (plainText.charAt(i) == ';'
-					&& plainText.substring(i + 1, i + 7).equals("import")) {
-				plainText.insert(i + 1, '\n');
-			}
-			// get to the last import statement, put a newline and break out
-			// of the loop
-			else if (plainText.charAt(i) == ';'
-					&& plainText.charAt(i + 1) != '\n') {
-				plainText.insert(i + 1, '\n');
-				done = true;
-			}
-			// there is already a newline where we need them
-			else if (plainText.charAt(i) == ';'
-					&& plainText.charAt(i + 1) == '\n') {
-				done = true;
-			}
-		}
-		
-		return plainText.toString();
 	}
 
 	/**
@@ -141,21 +113,15 @@ public class CodePanelUi extends Composite {
 		}
 		
 		if (sc.getTopLabel() != null) {
-			content += sc.getTopLabel().toString();
 			plainText.append(tabs + sc.getTopLabel().getText() + "\n");
 			
 		}
-		
-		content += "<span id=\"inside_of_block\">";
 		
 		for (int i = 0; i < sc.getInsidePanel().getWidgetCount(); i++) {
 			buildContent((StackableContainer) sc.getInsidePanel().getWidget(i));
 		}
 		
-		content += "</span>";
-		
 		if (sc.getBottomLabel() != null) {
-			content += sc.getBottomLabel().toString();
 			plainText.append(tabs + sc.getBottomLabel().getText() + "\n");
 		}
 		

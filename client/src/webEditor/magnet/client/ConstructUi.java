@@ -1,9 +1,8 @@
 package webEditor.magnet.client;
 
-
-
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -15,13 +14,18 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * 
+ * This is effectively the left side of the screen in the editing mode tab.
+ *
+ */
 public class ConstructUi extends Composite {
-	private TrashBin bin = new TrashBin();
+	private TrashBin bin;
 	private StackableContainer[] premade;
 	private boolean initial = false;
 	private String problemType;
 	private AbsolutePanel contentPanel; //nest panel to hold creation station and segments content
-	private AbsolutePanel csContent;  //nest panel to hold creationStation
+	private AbsolutePanel csContent;    //nest panel to hold creationStation
 	private CreationStation creationStation;
 	private AbsolutePanel segmentsContent;
 	private AbsolutePositionDropController csDropControl;
@@ -72,8 +76,16 @@ public class ConstructUi extends Composite {
 			PickupDragController dc) {
 		initWidget(uiBinder.createAndBindUi(this));
 		// add directions
-		directionsContent.add(new HTML("<h4><center>" + title
-				+ "</center></h4>" + description.replace("\\r\\n", "<br/>").replace("\\\"", "\"") + "<br/>"));
+		directionsContent.add(
+			new HTML(
+				"<h4><center>" 
+				+ title
+				+ "</center></h4>" 
+				+ description.replace("\\r\\n", "<br/>").replace("\\\"", "\"") 
+				+ "<br/>"
+			)
+				
+		);
 		
 		this.problemType = problemType;
 
@@ -101,6 +113,7 @@ public class ConstructUi extends Composite {
 			
 			layout.add(contentPanel);
 			
+			bin = new TrashBin();
 			BinDropController binController = new BinDropController(bin);
 			dc.registerDropController(binController);
 			trashbin.add(bin);
@@ -139,6 +152,7 @@ public class ConstructUi extends Composite {
 				addSegment(segment);
 			}
 		}
+		
 		segmentsContent.getElement().getStyle().setOverflowY(Overflow.AUTO);
 		layout.add(segmentsContent);
 		initial = true;
@@ -152,52 +166,50 @@ public class ConstructUi extends Composite {
      * @param segment
      */
     public void addSegment(final StackableContainer segment) {
-            /*
-             * In order for getOffsetWidth(), getAbsoluteTop(), etc. to return the correct values, we have to wrap the calls in a Timer object.
-             * I don't fully understand why this works, but it results in functional code. Current theory is that adding it to the timer allows 
-             * everything to be added to the DOM before we try to call the methods.
-             * 
-             * This is ugly, and I don't like it, but after hours and hours of agonizing over the code, this is my only solution.
-             * 
-             * @author Jon Johnson
-             * @version 7/6/2012
-             */
-            Timer timer = new Timer() {
-                    @Override
-                    public void run() {
-                    	int widgetCount = segmentsContent.getWidgetCount();
-                    	
-                    	//Spacing is 10 pixels
-                        int baseX = 10;
-                        int baseY = 10;
-                        if(problemType.equals(Consts.ADVANCED_PROBLEM)) 
-                        	baseY = 10 + creationStation.getOffsetHeight();
-              
-                                                    
-                        if (widgetCount == 0) {
-                                // we add the first widget at an offset of 10, 10
-                                segmentsContent.add(segment, baseX, baseY);
-                        } else {
-                                // after the first, we calculate where the next widget should go based on the last widget in the panel
-                                StackableContainer lastWidget = (StackableContainer) segmentsContent.getWidget(segmentsContent.getWidgetCount() - 1);
-                                     
-                                baseY = lastWidget.getTop() + lastWidget.getHeight() - getAbsoluteTop();
-                                
-                                // for the first set of magnets (i.e. before the user adds any they created), we have to have a special
-                                // flag and treat them differently
-                                if (initial) {
-                                        baseY -= segmentsContent.getAbsoluteTop() - getAbsoluteTop();
-                                } else if (problemType.equals(Consts.ADVANCED_PROBLEM)) {       
-                                        baseY -= creationStation.getOffsetHeight();
-                                }
-
-                                segmentsContent.add(segment, baseX, baseY);
+        /*
+         * In order for getOffsetWidth(), getAbsoluteTop(), etc. to return the correct values, we have to wrap the calls in a Timer object.
+         * I don't fully understand why this works, but it results in functional code. Current theory is that adding it to the timer allows 
+         * everything to be added to the DOM before we try to call the methods.
+         * 
+         * This is ugly, and I don't like it, but after hours and hours of agonizing over the code, this is my only solution.
+         * 
+         * @author Jon Johnson
+         * @version 7/6/2012
+         */
+        Timer timer = new Timer() {
+            @Override
+            public void run() {
+            	int widgetCount = segmentsContent.getWidgetCount();
+            	
+            	//Spacing is 10 pixels
+                int baseX = 10;
+                int baseY = 10;
+                if(problemType.equals(Consts.ADVANCED_PROBLEM)) 
+                	baseY = 10 + creationStation.getOffsetHeight();
+      
+                                            
+                if (widgetCount == 0) {
+                        // we add the first widget at an offset of 10, 10
+                        segmentsContent.add(segment, baseX, baseY);
+                } else {
+                        // after the first, we calculate where the next widget should go based on the last widget in the panel
+                        StackableContainer lastWidget = (StackableContainer) segmentsContent.getWidget(segmentsContent.getWidgetCount() - 1);
+                             
+                        baseY = lastWidget.getTop() + lastWidget.getHeight() - getAbsoluteTop();
+                        
+                        // for the first set of magnets (i.e. before the user adds any they created), we have to have a special
+                        // flag and treat them differently
+                        if (initial) {
+                                baseY -= segmentsContent.getAbsoluteTop() - getAbsoluteTop();
+                        } else if (problemType.equals(Consts.ADVANCED_PROBLEM)) {       
+                                baseY -= creationStation.getOffsetHeight();
                         }
-                    }
-                    
-            };
-            
-            timer.schedule(1);
-    }
 
+                        segmentsContent.add(segment, baseX, baseY);
+                }
+            }  
+        };
+        
+        timer.schedule(1);
+    }
 }
