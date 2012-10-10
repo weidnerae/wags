@@ -167,6 +167,37 @@ body {
 	text-align: center;
 	cursor: pointer;
 }
+.edge_weight{
+		position: absolute;
+	font-size: 14pt;
+	width: 20px;
+	height: 20px;
+	background: white;
+	text-align: center;
+	cursor: pointer;
+}
+.selected_edge_weight{
+	position: absolute;
+	font-size: 14pt;
+	width: 20px;
+	height: 20px;
+	background: #27F500;
+	text-align: center;
+	border-color: #2FC712;
+	border-style: solid;
+	cursor: pointer;
+}
+.immobilized_node{
+	position: absolute;
+	font-size: 20pt;
+	width: 40px;
+	height: 40px;
+	background: #27F500;
+	text-align: center;
+	border-color: #2FC712;
+	border-style: solid;
+	cursor: pointer;
+}
 
 .selected_node {
 	position: absolute;
@@ -324,4 +355,9 @@ BODY,HTML{height:100%;}
   border-width: 3px 2px 2px;
   overflow: hidden;
   padding: 6px;
+}
+.invisible{
+	width:0px;
+	height:0px;
+	visibility: hidden;
 }
