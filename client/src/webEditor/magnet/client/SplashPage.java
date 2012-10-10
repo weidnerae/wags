@@ -28,6 +28,7 @@ public class SplashPage extends AbsolutePanel {
 	
 	public static final String EMPTY_LABEL = "No Magnet Exercises Assigned!";
 	static String[] structuresList = {"choose structure...","for","while","if","else if", "else"};
+	
 	VerticalPanel problemPane;
 	Label banner;
 	
@@ -79,7 +80,18 @@ public class SplashPage extends AbsolutePanel {
 		);
 	}
 	
-	public static String[] randomizeArray(String[] arr){
+	/**
+	 * Randomizes an array by swapping pairs of random 
+	 * values 20 times.
+	 * 
+	 * This allows for the order of elements in the creation station 
+	 * to be different every time it is attempted, but I'm not sure 
+	 * if we even want that to happen.
+	 * 
+	 * @param arr String array.
+	 * @return A String array containing all the elements from arr, scrambled.
+	 */
+	private static String[] randomizeArray(String[] arr){
 		Random rand = new Random();
 		int temp1;
 		int temp2;
@@ -96,34 +108,48 @@ public class SplashPage extends AbsolutePanel {
 		return arr;
 	}
 	
-	public StackableContainer[] decodePremade(String[] segments) {
+	/**
+	 * Creates an array of StackableContainers from an array of 
+	 * StackableContainers with the text from an array of Strings.
+	 * 
+	 * @param segments Array of Strings representing each code segment.
+	 * 
+	 * @return An array of StackableContainers. Will return null 
+	 * if segments is null.
+	 */
+	private StackableContainer[] decodePremade(String[] segments) {
 		if (segments == null) {
 			return null;
 		}
 		
 		StackableContainer[] preMadeList = new StackableContainer[segments.length]; //should never need this many
-		int counter = 0;
 		
-		while (counter < segments.length) {
-			if (segments[counter].contains(Consts.TOP)) {
-				preMadeList[counter] = new StackableContainer(segments[counter], dc);
+		for (int i = 0; i < segments.length; i++) {
+			if (segments[i].contains(Consts.TOP)) {
+				preMadeList[i] = new StackableContainer(segments[i], dc);
 			} else {
-				preMadeList[counter] = new StackableContainer(
-						segments[counter] + Consts.TOP 
-										  + Consts.INSIDE 
-										  + Consts.BOTTOM,
+				preMadeList[i] = new StackableContainer(
+						segments[i] + Consts.TOP 
+									+ Consts.INSIDE 
+									+ Consts.BOTTOM,
 						dc,
 						false
 				);
 			}
-			
-			counter++;
 		}
 			
 		return preMadeList;
 	}
 	
-	public StackableContainer getMainContainer(String str) {
+	/**
+	 * Creates the main StackableContainer that holds all of 
+	 * the other StackableContainers.
+	 * 
+	 * @param str The text for the main StackableContainer
+	 * 
+	 * @return The main StackableContainer
+	 */
+	private StackableContainer getMainContainer(String str) {
 		return new StackableContainer(
 			str + " {<br /><span id=\"inside_of_block\">"
 				+ Consts.TOP + Consts.INSIDE + Consts.BOTTOM
@@ -133,7 +159,15 @@ public class SplashPage extends AbsolutePanel {
 		);
 	}
 	
-	public StackableContainer[] buildFunctions(String[] insideFunctions) {
+	/**
+	 * Creates an array of StackableContainers from a String array
+	 * 
+	 * @param insideFunctions array of text for inner functions
+	 * 
+	 * @return An array of StackableContainers. Will return null if 
+	 * insideFunctions is null.
+	 */
+	private StackableContainer[] buildFunctions(String[] insideFunctions) {
 		if (insideFunctions == null) {
 			return null;
 		}
