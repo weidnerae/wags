@@ -8,6 +8,7 @@ import org.vaadin.gwtgraphics.client.Line;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
@@ -355,7 +356,7 @@ public class EdgeCollection implements IsSerializable {
 		return nodeSelectionInstructions[1];
 	}
 	public void addLabel(Label l, int x, int y, EdgeUndirected edge){
-		RootPanel.get().add(l, x, y);
+		dm.addWeightLabel(l, x, y);
 		graphNodeCollection.addNode(new NodeClickable(l.getText(),l, dm.getTravCont(), false, edge, this));
 	}
 	public NodeCollection getGraphNodeCollection(){

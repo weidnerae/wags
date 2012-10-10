@@ -37,7 +37,7 @@ public class TraversalContainer {
 	{
 		Label l = new Label("Current traversal: " + getTraversal());
 		l.setStyleName("edge_instructions");
-		dm.removeWidgetsFromPanel();
+		dm.removeWidgetsFromPanel();                         
 		dm.addToPanel(l, 2, DSTConstants.EDGE_PROMPT_Y);
 	}
 	
