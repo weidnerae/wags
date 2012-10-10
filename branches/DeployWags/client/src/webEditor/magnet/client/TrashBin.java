@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
 /**
- * Panel which updates its label to display the number of items in the trash.
+ * Panel that removes StackableContainers that are dragged onto it.
  */
 final class TrashBin extends AbsolutePanel {
 
