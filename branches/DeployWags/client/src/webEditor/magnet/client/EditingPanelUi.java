@@ -1,6 +1,7 @@
 package webEditor.magnet.client;
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
