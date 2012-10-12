@@ -14,7 +14,7 @@ public class SearchProblem extends Problem implements IsSerializable {
 	private int[][] xPositions; // must be same size as nodes
 	private int[][] yPositions; // must be same size edges
 	private String insertMethod;
-	private Evaluation eval;
+	private Evaluation_RadixSortWithHelp eval;
 	private AddEdgeRules rules;
 	private String[] arguments;
 	private boolean nodesDraggable;
@@ -24,7 +24,7 @@ public class SearchProblem extends Problem implements IsSerializable {
 	private Map<String, Integer> indices;
 
 	public SearchProblem(String name, String problemText, String nodes,
-			String insertMethod, String[] arguments, Evaluation eval,
+			String insertMethod, String[] arguments, Evaluation_RadixSortWithHelp eval,
 			boolean nodesDraggable, String nodeType) {
 		this.name = name;
 		this.problemText = problemText;
@@ -64,6 +64,7 @@ public class SearchProblem extends Problem implements IsSerializable {
 		NodeCollection nc = new NodeCollection();
 
 		dm = new SearchDisplayManager(canvas, panel, nc, this);
+		eval.setDisplayManager(dm);
 		return dm;
 	}
 
@@ -107,7 +108,7 @@ public class SearchProblem extends Problem implements IsSerializable {
 		return eval;
 	}
 
-	public void setEval(Evaluation eval) {
+	public void setEval(Evaluation_RadixSortWithHelp eval) {
 		this.eval = eval;
 	}
 

@@ -61,9 +61,12 @@ public class Wags extends View
 		editor = new Editor();
 
 		// Load the correct initial page
-		if(startingPlace.equals("magnets"))
+		if(startingPlace.equals("magnets")){
+			Magnets.setVisible(true);
 			replaceCenterContent(splashPage);
+		}
 		else if(startingPlace.equals("dst")){
+				DST.setVisible(true);
 				Proxy.buildDST(this);
 		}
 		else{
@@ -200,5 +203,5 @@ public class Wags extends View
 	{
 		return new WEAnchor("Wags", this, startingPlace);
 	}
-	
+
 }
