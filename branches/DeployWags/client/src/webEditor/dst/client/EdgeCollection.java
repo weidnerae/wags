@@ -8,11 +8,9 @@ import org.vaadin.gwtgraphics.client.Line;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 
 public class EdgeCollection implements IsSerializable {
@@ -208,9 +206,12 @@ public class EdgeCollection implements IsSerializable {
 				}
 			}
 			EdgeUndirected eu = new EdgeUndirected(n1, n2, getInstance(), handler, removable, weight);
-			eu.drawEdge();			
-			eu.addWeightLabel();
+			eu.drawEdge();	
+			
 			edges.add(eu);
+		}
+		for(EdgeParent eu: edges){
+			((EdgeUndirected)eu).addWeightLabel();
 		}
 	}
 
@@ -355,7 +356,7 @@ public class EdgeCollection implements IsSerializable {
 	public String getSecondInstructions() {
 		return nodeSelectionInstructions[1];
 	}
-	public void addLabel(Label l, int x, int y, EdgeUndirected edge){
+	public void addWeightLabel(Label l, int x, int y, EdgeUndirected edge){
 		dm.addWeightLabel(l, x, y);
 		graphNodeCollection.addNode(new NodeClickable(l.getText(),l, dm.getTravCont(), false, edge, this));
 	}

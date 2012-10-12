@@ -9,11 +9,15 @@ import com.google.gwt.user.client.ui.Label;
 public class EdgeUndirected extends EdgeParent implements IsSerializable
 {
 	public void addWeightLabel(){
-		int midVert = (line.getY1() + line.getY2())/2+120;
-		int midHoriz = (line.getX1() + line.getX2())/2;
+		// MAGIC, MAGIC EVERYWHERE... MAY GOD HAVE MERCY ON MY SOUL       
+		// Why you ask? Because Chrome.
+		int width = Math.abs(n1.getLeft()-n2.getLeft());     // getOffset width returns a big fat 0 so we get an offset from the two nodes on the edge.
+		int height = Math.abs(n1.getTop()-n2.getTop());      // getOffset height returns a big fat 0 as well so we again get an offset from a two friendly neighborhood nodes.
+		int midVert = (((line.getAbsoluteTop()-154)+((line.getAbsoluteTop()-154)+(height-15)))/2+125);              // stuff
+		int midHoriz = ((line.getAbsoluteLeft()+(line.getAbsoluteLeft()+width))/2);                                 // moar stuff
 		Label l = new Label(weight+"");
 		l.setStyleName("edge_weight");
-		ec.addLabel(l, midHoriz, midVert, this);
+		ec.addWeightLabel(l, midHoriz, midVert, this);
 	}
 	public EdgeUndirected(){super(null,null,null,null,false);}
 	
