@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 
 public class Students extends Composite {
 	@UiField PasswordTextBox newPassword;
-	@UiField ListBox users;
+	@UiField static ListBox users;
 	@UiField SubmitButton btnChgPassword;
 	@UiField PasswordTextBox checkPassword;
 	@UiField FormPanel passwordForm;
@@ -49,6 +49,7 @@ public class Students extends Composite {
 				WEStatus status = new WEStatus(event.getResults());
 				
 				Notification.notify(status.getStat(), status.getMessage());
+				Proxy.getUsernames(users);
 			}
 		});
 		
@@ -67,6 +68,10 @@ public class Students extends Composite {
 			}
 		});
 		
+	}
+	
+	public static void updateStudents(){
+		Proxy.getUsernames(users);
 	}
 
 }
