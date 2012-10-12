@@ -202,7 +202,7 @@ public class Evaluation_MaxHeap_Level extends Evaluation  implements IsSerializa
      			}
      		}
      		errorMessage = "Feedback: Incorrect MaxHeap. The level traversal of your" +
-     				" MaxHeap is correct through the segment: "+correct.trim();
+     				" MaxHeap is correct through the segment: "+correct.trim() + " but the next visited node is incorrect.";
      		if(splitSolution.length>splitCorrect.length){                                // Make sure there are not to many nodes
          		errorMessage = "Feedback: Incorrect MaxHeap. Make sure you removed all of" +
          				" the edges connected to the node specified to be removed.";
