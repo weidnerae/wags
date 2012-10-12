@@ -43,6 +43,7 @@ public class MSTDisplayManager extends TreeDisplayManager implements
 		resetButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				removeWidgetsFromPanel();
+				removeWeightLabelsFromPanel();
 				addEdgeCancel();
 				resetRemoveEdgeButton();
 
