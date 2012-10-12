@@ -49,23 +49,34 @@ public class StackableContainer extends FocusPanel {
 		add(innerPanel);
 		this.dragController = dc;
 		this.content = content;
-		if (!content.contains(Consts.INSIDE)) {
-			topLabel = new HTML(content);
+		boolean containsComment = this.content.contains(".:2:.");
+		if(containsComment){
+			String[] splitContent = this.content.split(".:2:.");
+			this.content = splitContent[0];
+		}
+		if (!this.content.contains(Consts.INSIDE)) {
+			topLabel = new HTML(this.content);
 		} else {
-			topLabel = new HTML(content.substring(0,
-					content.indexOf(Consts.INSIDE) + Consts.INSIDE.length()),
+			topLabel = new HTML(this.content.substring(0,
+					this.content.indexOf(Consts.INSIDE) + Consts.INSIDE.length()),
 					true);
 		}
 		topPanel.add(topLabel);
 		innerPanel.add(topPanel);
 		innerPanel.add(insidePanel);
 		bottomLabel = new HTML(Consts.BOTTOM
-				+ content.substring(content.indexOf(Consts.INSIDE)
-						+ Consts.INSIDE.length(), content.length()), true);
+				+ this.content.substring(this.content.indexOf(Consts.INSIDE)
+						+ Consts.INSIDE.length(), this.content.length()), true);
 		bottomPanel.add(bottomLabel);
 		innerPanel.add(bottomPanel);
 		setStyleName("stackable_container");
 		dragController.makeDraggable(this);
+		if(containsComment){
+			String[] splitContent = content.split(".:2:.");
+			for(int i=1; i<splitContent.length;i++){
+				addInsideContainer(new StackableContainer("// "+splitContent[i]+Consts.TOP + Consts.INSIDE + Consts.BOTTOM,dc, Consts.INSIDE_COMMENT));
+			}
+		}
 	}
 
 	/**
@@ -86,20 +97,33 @@ public class StackableContainer extends FocusPanel {
 
 		this.dragController = dc;
 		this.content = content;
-		topLabel = new HTML(content.substring(0, content.indexOf(Consts.INSIDE)
+		boolean containsComment = this.content.contains(".:2:.");
+		if(containsComment){
+			String[] splitContent = this.content.split(".:2:.");
+			this.content = splitContent[0];
+		}
+		topLabel = new HTML(this.content.substring(0, this.content.indexOf(Consts.INSIDE)
 				+ Consts.INSIDE.length()), true);
 		topPanel.add(topLabel);
 		innerPanel.add(topPanel);
 		innerPanel.add(insidePanel);
 		bottomLabel = new HTML(Consts.BOTTOM
-				+ content.substring(content.indexOf(Consts.INSIDE)
-						+ Consts.INSIDE.length(), content.length()), true);
+				+ this.content.substring(this.content.indexOf(Consts.INSIDE)
+						+ Consts.INSIDE.length(), this.content.length()), true);
 		bottomPanel.add(bottomLabel);
 		innerPanel.add(bottomPanel);
 		if (specialCondition.equals(Consts.MAIN)) {
 			isMain = true;
 			setStyleName("main_code_container");
 		}
+		if(containsComment){
+			String[] splitContent = content.split(".:2:.");
+			for(int i=1; i<splitContent.length;i++){
+				addInsideContainer(new StackableContainer("// "+splitContent[i]+Consts.TOP + Consts.INSIDE + Consts.BOTTOM,dc, Consts.INSIDE_COMMENT));
+			}
+		}
+		if(specialCondition.equals(Consts.INSIDE_COMMENT))
+			stackable = false;
 	}
 
 	/**
@@ -120,8 +144,19 @@ public class StackableContainer extends FocusPanel {
 		stackable = s;
 		this.dragController = dc;
 		this.content = content;
+		boolean containsComment = this.content.contains(".:2:.");
+		if(containsComment){
+			String[] splitContent = this.content.split(".:2:.");
+			this.content = splitContent[0];
+		}
 		setStyleName("stackable_container");
 		dragController.makeDraggable(this);
+		if(containsComment){
+			String[] splitContent = content.split(".:2:.");
+			for(int i=1; i<splitContent.length;i++){
+				addInsideContainer(new StackableContainer("// "+splitContent[i]+Consts.TOP + Consts.INSIDE + Consts.BOTTOM,dc, Consts.INSIDE_COMMENT));
+			}
+		}
 	}
 
 	public void setEngaged(boolean engaged) {
