@@ -416,7 +416,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 27: return new TreeProblem("MaxHeap Deletion 1",
-					"MaxHeap Deletion 1: Use the bubble down technique to remove the node 97 from the heap."+
+					"MaxHeap Deletion 1: Use the bubble down technique to remove the node 97 from the heap and then reformulate the heap."+
 					" You can simply place 97 out of the way in a corner after removing the connecting edges.",
 					"97 80 63 48 39 32 22 19",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
@@ -430,7 +430,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 28: return new TreeProblem("MaxHeap Deletion 2",
-					"MaxHeap Deletion 2: Use the bubble down technique to remove the node 83 from the heap."+
+					"MaxHeap Deletion 2: Use the bubble down technique to remove the node 83 from the heap and then reformulate the heap."+
 					" You can simply place 83 out of the way in a corner after removing the connecting edges.",
 					"83 45 73 42 28 54 17 33 6",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
@@ -444,7 +444,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 29: return new TreeProblem("MaxHeap Deletion 3",
-					"MaxHeap Deletion 3: Use the bubble down technique to remove the node 93 from the heap."+
+					"MaxHeap Deletion 3: Use the bubble down technique to remove the node 93 from the heap and then reformulate the heap."+
 					" You can simply place 93 out of the way in a corner after removing the connecting edges.",
 					"93 87 82 85 60 57 79 36 41 27 51 16",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
@@ -458,7 +458,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 30: return new TreeProblem("MaxHeap Deletion 4",
-					"MaxHeap Deletion 4: Use the bubble down technique to remove the node 91 from the heap."+
+					"MaxHeap Deletion 4: Use the bubble down technique to remove the node 91 from the heap and then reformulate the heap."+
 					" You can simply place 89 out of the way in a corner after removing the connecting edges.",
 					"91 89 85 78 67 69 76 54 17 22 37 45 9",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
@@ -683,8 +683,9 @@ public class ProblemServiceImpl
 			
 			//
 			case 46: return new TreeProblem("MinHeap Deletion 1",
-					"MinHeap Deletion 1: Use the bubble down technique to remove the node 19 from the heap."+
-					" You can simply place 19 out of the way in a corner after removing the connecting edges.",
+					"MinHeap Deletion 1: Use the bubble down technique to remove the node 19 from the heap and " +
+					"then reformulate the heap. You can simply place 19 out of the way in a corner after " +
+					"removing the connecting edges.",
 					"19 39 22 80 48 32 63 97",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					new int[]{250,150,350,75,225,275,425,15},
@@ -697,7 +698,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 47: return new TreeProblem("MinHeap Deletion 2",
-					"MinHeap Deletion 2: Use the bubble down technique to remove the node 6 from the heap."+
+					"MinHeap Deletion 2: Use the bubble down technique to remove the node 6 from the heap and then reformulate the heap."+
 					" You can simply place 6 out of the way in a corner after removing the connecting edges.",
 					"6 28 17 42 33 54 83 73 45",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
@@ -711,7 +712,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 48: return new TreeProblem("MinHeap Deletion 3",
-					"MinHeap Deletion 3: Use the bubble down technique to remove the node 16 from the heap."+
+					"MinHeap Deletion 3: Use the bubble down technique to remove the node 16 from the heap and then reformulate the heap."+
 					" You can simply place 16 out of the way in a corner after removing the connecting edges.",
 					"16 27 36 41 51 57 79 82 85 87 93 60",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
@@ -725,7 +726,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 49: return new TreeProblem("MinHeap Deletion 4",
-					"MinHeap Deletion 4: Use the bubble down technique to remove the node 9 from the heap."+
+					"MinHeap Deletion 4: Use the bubble down technique to remove the node 9 from the heap and then reformulate the heap."+
 					" You can simply place out of the way in a corner after removing the connecting edges.",
 					"9 17 37 22 54 45 76 78 85 89 69 91 67",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
@@ -959,7 +960,7 @@ public class ProblemServiceImpl
 					false,
 					DSTConstants.NODE_DRAGGABLE);
 			case 65: return new HashingProblem("Hashing 1",
-					"Hashing 1: Working from left to right use the has function h(x) = x mod 13 to insert the data into the hash table using linear probing.",
+					"Hashing 1: Working from left to right use the hash function h(x) = x mod 13 to insert the data into the hash table using linear probing.",
 					"7 29 39 30 58 11 72 91",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -972,7 +973,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 66: return new HashingProblem("Hashing 2",
-					"Hashing 2: Starting with the first row of data items and working your way from left to right use the has function h(x) = x mod 17 to insert the data into the hash table using linear probing.",
+					"Hashing 2: Starting with the first row of data items and working your way from left to right use the hash function h(x) = x mod 17 to insert the data into the hash table using linear probing.",
 					"21 32 47 24 83 55 10 75 61 37 42 30 50",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -985,7 +986,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 67: return new HashingProblem("Hashing 3",
-					"Hashing 3: Working from left to right use the has function h(x) = x mod 11 to insert the data into the hash table using linear probing.",
+					"Hashing 3: Working from left to right use the hash function h(x) = x mod 11 to insert the data into the hash table using linear probing.",
 					"19 83 61 55 27 13 44 21",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -998,7 +999,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 68: return new HashingProblem("Hashing 4",
-					"Hashing 4: Starting with the first row of data items and working your way from left to right use the has function h(x) = x mod 19 to insert the data into the hash table using linear probing.",
+					"Hashing 4: Starting with the first row of data items and working your way from left to right use the hash function h(x) = x mod 19 to insert the data into the hash table using linear probing.",
 					"7 29 49 30 58 11 75 91 2 37 23 18 40",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -1011,7 +1012,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 69: return new HashingProblem("Hashing 5",
-					"Hashing 5: Starting with the first row of data items and working your way from left to right use the has function h(x) = x mod 17 to insert the data into the hash table using linear probing.",
+					"Hashing 5: Starting with the first row of data items and working your way from left to right use the hash function h(x) = x mod 17 to insert the data into the hash table using linear probing.",
 					"58 73 20 53 17 24 82 32 62 67 15 48",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -1024,7 +1025,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 70: return new HashingProblem("Hashing 6",
-					"Hashing 6: Starting with the first row of data items and working your way from left to right use the has function h(x) = x mod 19 to insert the data into the hash table using linear probing.",
+					"Hashing 6: Starting with the first row of data items and working your way from left to right use the hash function h(x) = x mod 19 to insert the data into the hash table using linear probing.",
 					"98 43 59 89 84 35 19 27 1 50 38 13 65",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -1050,7 +1051,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 72: return new HashingProblem("Hashing 2 - Quadratic",
-					"Hashing 2 - Quadratic: Starting with the first row of data items and working your way from left to right use the has function h(x) = x mod 17 to insert the data into the hash table using quadratic probing in the form (h(x)+i^2) mod 17.",
+					"Hashing 2 - Quadratic: Starting with the first row of data items and working your way from left to right use the hash function h(x) = x mod 17 to insert the data into the hash table using quadratic probing in the form (h(x)+i^2) mod 17.",
 					"21 32 47 24 83 55 10 75 61 37 42 30 50",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -1063,7 +1064,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 73: return new HashingProblem("Hashing 3 - Quadratic",
-					"Hashing 3 - Quadratic: Working from left to right use the has function h(x) = x mod 11 to insert the data into the hash table using quadratic probing in the form (h(x)+i^2) mod 11.",
+					"Hashing 3 - Quadratic: Working from left to right use the hash function h(x) = x mod 11 to insert the data into the hash table using quadratic probing in the form (h(x)+i^2) mod 11.",
 					"19 83 61 55 27 13 44 21",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -1076,7 +1077,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 74: return new HashingProblem("Hashing 4 - Quadratic",
-					"Hashing 4 - Quadratic: Starting with the first row of data items and working your way from left to right use the has function h(x) = x mod 19 to insert the data into the hash table using quadratic probing in the form (h(x)+i^2) mod 19.",
+					"Hashing 4 - Quadratic: Starting with the first row of data items and working your way from left to right use the hash function h(x) = x mod 19 to insert the data into the hash table using quadratic probing in the form (h(x)+i^2) mod 19.",
 					"7 29 49 30 58 11 75 91 2 37 23 18 40",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -1089,7 +1090,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 75: return new HashingProblem("Hashing 5 - Quadratic",
-					"Hashing 5 - Quadratic: Starting with the first row of data items and working your way from left to right use the has function h(x) = x mod 17 to insert the data into the hash table using quadratic probing in the form (h(x)+i^2) mod 17.",
+					"Hashing 5 - Quadratic: Starting with the first row of data items and working your way from left to right use the hash function h(x) = x mod 17 to insert the data into the hash table using quadratic probing in the form (h(x)+i^2) mod 17.",
 					"58 73 20 53 17 24 82 32 62 67 15 48",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -1102,7 +1103,7 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_DRAGGABLE);
 			case 76: return new HashingProblem("Hashing 6 - Quadratic",
-					"Hashing 6 - Quadratic: Starting with the first row of data items and working your way from left to right use the has function h(x) = x mod 19 to insert the data into the hash table using quadratic probing in the form (h(x)+i^2) mod 19.",
+					"Hashing 6 - Quadratic: Starting with the first row of data items and working your way from left to right use the hash function h(x) = x mod 19 to insert the data into the hash table using quadratic probing in the form (h(x)+i^2) mod 19.",
 					"98 43 59 89 84 35 19 27 1 50 38 13 65",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
