@@ -122,8 +122,10 @@ public class StackableContainer extends FocusPanel {
 				addInsideContainer(new StackableContainer("// "+splitContent[i]+Consts.TOP + Consts.INSIDE + Consts.BOTTOM,dc, Consts.INSIDE_COMMENT));
 			}
 		}
-		if(specialCondition.equals(Consts.INSIDE_COMMENT))
+		if(specialCondition.equals(Consts.INSIDE_COMMENT)){
 			stackable = false;
+			this.getStyleElement().getStyle().setProperty("border","none");
+		}
 	}
 
 	/**
