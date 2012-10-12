@@ -63,6 +63,9 @@ class Auth
 
         $user->setLastLogin(time());
         $_SESSION['user'] = $user;
+        if($user->getUsername() == 'Root'){
+            $user->setSection(19); // Root logs in to test section
+        }
         $user->save();
 
         return true;

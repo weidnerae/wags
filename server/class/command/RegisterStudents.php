@@ -14,8 +14,10 @@ class RegisterStudents extends Command
 {
 	public function execute(){
         $txtRegister = $csvRegister = false;
+        $firstName = $_POST['first_name']; // array
+        $lastName = $_POST['last_name']; // array
 
-        if(isset($_POST['first_name']) && isset($_POST['last_name']))
+        if(!empty($firstName[0]) && !empty($lastName[0]))
             $txtRegister = true;
 
         if($_FILES['csvReg']['size'] > 0)
