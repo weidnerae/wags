@@ -130,7 +130,6 @@ public class TreeDisplayManager extends DisplayManager implements
 	private class AddEdgeClickHandler implements ClickHandler {
 		public void onClick(ClickEvent event) {
 			removeWidgetsFromPanel();
-			removeWeightLabelsFromPanel();
 			resetRemoveEdgeButton();
 			resetNodeStyles();
 			resetEdgeStyles();
