@@ -74,6 +74,37 @@ public class Proxy
 		Notification.clear();
 	}
 	
+	public static void addProblemCreation(final RefrigeratorMagnet magnet){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=IsAdmin");
+		try {
+		      @SuppressWarnings("unused")
+			Request req = builder.sendRequest(null, new RequestCallback() {
+		        public void onResponseReceived(Request request, Response response) {
+		          WEStatus status = new WEStatus(response);
+		          boolean root = false;
+		          
+		          // If not root, no section tab
+		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
+		        	  root = true;
+		          }
+		          
+		          // If not even an administrator, remove administrative tabs
+		          if(status.getStat() == WEStatus.STATUS_WARNING || root){
+		        	  magnet.addProblemCreation();
+		          }
+		          
+		        }
+		        
+		        public void onError(Request request, Throwable exception) {
+		        	Window.alert("error");
+		        }
+		      });
+		    } catch (RequestException e) {
+		      Window.alert("Failed to send the request: " + e.getMessage());
+		    }
+		
+	}
+
 	public static void addSkeletons(String exname){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=AddSkeletons&name=" + exname);
 		try{
@@ -375,6 +406,10 @@ public class Proxy
 		} catch (RequestException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static DataStructureTool getDST(){
+		return DST;
 	}
 
 	public static void getDSTSubmissions(String title, final Grid grid, String type){
@@ -1113,37 +1148,6 @@ public class Proxy
 		      Window.alert("Failed to send the request: " + e.getMessage());
 		    }
 	}
-	public static void addProblemCreation(final RefrigeratorMagnet magnet){
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=IsAdmin");
-		try {
-		      @SuppressWarnings("unused")
-			Request req = builder.sendRequest(null, new RequestCallback() {
-		        public void onResponseReceived(Request request, Response response) {
-		          WEStatus status = new WEStatus(response);
-		          boolean root = false;
-		          
-		          // If not root, no section tab
-		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
-		        	  root = true;
-		          }
-		          
-		          // If not even an administrator, remove administrative tabs
-		          if(status.getStat() == WEStatus.STATUS_WARNING || root){
-		        	  magnet.addProblemCreation();
-		          }
-		          
-		        }
-		        
-		        public void onError(Request request, Throwable exception) {
-		        	Window.alert("error");
-		        }
-		      });
-		    } catch (RequestException e) {
-		      Window.alert("Failed to send the request: " + e.getMessage());
-		    }
-		
-	}
-	
 	public static void linkNewSection(String section, String admin, String guest){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, baseURL+"?cmd=LinkNewSection" + 
 				"&sect=" + section + "&admin=" + admin + "&guest=" + guest);
@@ -1499,32 +1503,34 @@ public class Proxy
 		return true;
 	}
 	
-	public static void submitDST(String title, int success){
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=SubmitDST&title="+title+"&success="+success);
-		try {
-		      @SuppressWarnings("unused")
-			Request req = builder.sendRequest(null, new RequestCallback() {
-		        public void onResponseReceived(Request request, Response response) {
-		          WEStatus status = new WEStatus(response); 
-		        }
-		        
-		        public void onError(Request request, Throwable exception) {
-		        	Window.alert("error");
-		        }
-		      });
-		    } catch (RequestException e) {
-		      Window.alert("Failed to send the request: " + e.getMessage());	
-		    }
-	}
-
 	public static void setDST(DataStructureTool thisDST){
 		DST = thisDST;
 	}
 	
-	public static DataStructureTool getDST(){
-		return DST;
+	public static void SetLogicalExercises(String assignedExercises, final ListBox logicalExercises) {
+		if(assignedExercises.equals("")) assignedExercises = "none";
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=SetLogicalExercises&list=" + assignedExercises);
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus stat = new WEStatus(response);
+					Notification.notify(stat.getStat(), stat.getMessage());
+					Proxy.getLogicalExercises(logicalExercises);
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Set magnet error");					
+				}
+			});
+		} catch (RequestException e) {
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+		
 	}
-	
+
 	public static void SetMagnetExercises(String assignedMagnets) {
 		if(assignedMagnets.equals("")) assignedMagnets = "none";
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=SetMagnetExercises&list=" + assignedMagnets);
@@ -1548,28 +1554,22 @@ public class Proxy
 		
 	}
 
-	public static void SetLogicalExercises(String assignedExercises, final ListBox logicalExercises) {
-		if(assignedExercises.equals("")) assignedExercises = "none";
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=SetLogicalExercises&list=" + assignedExercises);
-		try{
-			builder.sendRequest(null, new RequestCallback() {
-				
-				@Override
-				public void onResponseReceived(Request request, Response response) {
-					WEStatus stat = new WEStatus(response);
-					Notification.notify(stat.getStat(), stat.getMessage());
-					Proxy.getLogicalExercises(logicalExercises);
-				}
-				
-				@Override
-				public void onError(Request request, Throwable exception) {
-					Window.alert("Set magnet error");					
-				}
-			});
-		} catch (RequestException e) {
-			Window.alert("Failed to send the request: " + e.getMessage());
-		}
-		
+	public static void submitDST(String title, int success){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=SubmitDST&title="+title+"&success="+success);
+		try {
+		      @SuppressWarnings("unused")
+			Request req = builder.sendRequest(null, new RequestCallback() {
+		        public void onResponseReceived(Request request, Response response) {
+		          WEStatus status = new WEStatus(response); 
+		        }
+		        
+		        public void onError(Request request, Throwable exception) {
+		        	Window.alert("error");
+		        }
+		      });
+		    } catch (RequestException e) {
+		      Window.alert("Failed to send the request: " + e.getMessage());	
+		    }
 	}
 	
 }
