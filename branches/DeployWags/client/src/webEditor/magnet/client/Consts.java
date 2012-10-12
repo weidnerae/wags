@@ -16,6 +16,7 @@ public interface Consts {
 	// Special conditions for StackableContainer constructor
 	public static String MAIN = "main";
 	public static String NONDRAGGABLE = "nondraggable";
+	public static String INSIDE_COMMENT = "inside_comment";
 
 	// Position inside block
 	public static String TOP = "<!-- top -->";
