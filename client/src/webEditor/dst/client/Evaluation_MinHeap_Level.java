@@ -212,7 +212,7 @@ public class Evaluation_MinHeap_Level extends Evaluation  implements IsSerializa
      			}
      		}
      		errorMessage = "Feedback: Incorrect MinHeap. The level traversal of your" +
-     				" MinHeap is correct through the segment: "+correct.trim();
+     				" MinHeap is correct through the segment: "+correct.trim() + " but the next visited node is incorrect.";
      		if(splitSolution.length>splitCorrect.length){                                // Make sure there are not to many nodes
          		errorMessage = "Feedback: Incorrect MinHeap. Make sure you removed all of" +
          				" the edges connected to the node specified to be removed.";

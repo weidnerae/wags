@@ -18,12 +18,12 @@ public class Evaluation_MSTTraversal extends Evaluation implements IsSerializabl
 		if(theTrav.trim().length() < arguments[0].trim().length())
 		{
 			Proxy.submitDST(problemName, 0);
-			return "Feedback: Your traversal is incomplete.  Make sure that you're reaching every node.";
+			return "Feedback: Your MST is incomplete.  Make sure that you're reaching every node.";
 		}
 		else if(theTrav.trim().equals(arguments[0]))
 		{
 			Proxy.submitDST(problemName, 1);
-			return "Feedback: Congratulatons, your traversal is correct.";
+			return "Feedback: Congratulatons, your MST is correct.";
 		}
 		else{
 			
@@ -35,11 +35,11 @@ public class Evaluation_MSTTraversal extends Evaluation implements IsSerializabl
 			
 			if(i > 1){
 				String correct = theTrav.substring(0, i);
-				return "Feedback: Your traversal was: " + theTrav + "\nThe nodes in your traversal are out of order.  The portion " +
-				correct + " was correct. Please try to get the entire traversal correct.";	
+				return "Feedback: You selected the egdes: " + theTrav + "\nThe edges were incorrectly.  The portion " +
+				correct + " was correct. Please try to get the entire MST correct.";	
 			}
 			
-			return "Feedback: Your traversal: " + theTrav + "\nYour traversal was incorrect.  Be sure you are starting with the "+
+			return "Feedback: Your selected the edges: " + theTrav + "\nYour selection was incorrect.  Be sure you are starting with the "+
 			"appropriate edge.";
 		
 			
