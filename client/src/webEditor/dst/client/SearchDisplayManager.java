@@ -33,7 +33,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 	//permanent widgets
 	private Button resetButton;
 	private Button evaluateButton;
-	private TextArea submitText;
+	private TextArea submitText, counterPanel;
 	private AbsolutePanel leftButtonPanel;
 	private AbsolutePanel middlePanel;
 	private AbsolutePanel rightButtonPanel;
@@ -80,12 +80,12 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 	}
 	
 	private void addCounterPanel(){
-		TextArea cp = new TextArea();
-		cp.setStyleName("problem_statement");
-		cp.setPixelSize(195, 90);
-		cp.setReadOnly(true);
-		cp.setText("Current Digit: 1");
-		Proxy.getDST().add(cp, 407, 5);
+		counterPanel = new TextArea();
+		counterPanel.setStyleName("problem_statement");
+		counterPanel.setPixelSize(195, 90);
+		counterPanel.setReadOnly(true);
+		counterPanel.setText("Current Digit: 1");
+		Proxy.getDST().add(counterPanel, 407, 5);
 		
 	}
 	private void insertNodesAndEdges()
@@ -303,6 +303,14 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 					nodeCollection.addNode(new NodeClickable(splitNodes[i], label, cont, false));
 			}
 		}
+	}
+	
+	public TextArea getEvalText(){
+		return this.submitText;
+	}
+	
+	public TextArea getCounterPanel(){
+		return this.counterPanel;
 	}
 
 	public ArrayList<Node> getNodes()

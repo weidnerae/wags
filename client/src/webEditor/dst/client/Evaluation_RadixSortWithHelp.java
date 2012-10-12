@@ -3,8 +3,6 @@ package webEditor.dst.client;
 import java.util.ArrayList;
 
 import webEditor.client.Proxy;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerializable
@@ -20,6 +18,7 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 	int CURRENT_STEP = 0; 		//can be 0-5 representing where we are in the evaluation
 	int CURRENT_COUNT = 0;		//represent where we are in the arguments array for counters
 	int CURRENT_SOLUTION = 3;	//represent where we are in the arguments array for solutions
+	SearchDisplayManager dm;
 	
 	public String evaluate(String problemName, String[] arguments, ArrayList<Node> nodes, ArrayList<EdgeParent> edges) {
 		Node[] sortedOrderOfNodes;
@@ -124,8 +123,7 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 		else if (CURRENT_STEP % 2 == 1)
 			instructions = SECOND_INSTRUCTIONS;
 		
-	    if (RootPanel.get().getWidget(1) instanceof TextArea)
-	    	((TextArea) RootPanel.get().getWidget(1)).setText(instructions);
+	    dm.getEvalText().setText(instructions);
     }
 	
 	/**
@@ -133,8 +131,7 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 	 * we're currently processing.
 	 */
 	public void updateCounterPanel(){
-    	if (RootPanel.get().getWidget(2) instanceof TextArea)
-    		((TextArea) RootPanel.get().getWidget(2)).setText("Current Digit: "+(CURRENT_SOLUTION - 2));
+    	dm.getCounterPanel().setText("Current Digit: "+(CURRENT_SOLUTION - 2));
 	}
     
 	/**
@@ -209,5 +206,9 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
      */
     public int getCurrent(){
     	return CURRENT_STEP;
+    }
+    
+    public void setDisplayManager(SearchDisplayManager dm){
+    	this.dm = dm;
     }
 }
