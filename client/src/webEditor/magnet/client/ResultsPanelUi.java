@@ -9,6 +9,13 @@ import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * This is the tab that is brought up when the student clicks "Finalize".
+ * 
+ * It displays the code that was generated from the student's magnets and
+ * compiler feedback from the server.
+ * 
+ */
 public class ResultsPanelUi extends Composite {
 
 	private static ResultsPanelUiUiBinder uiBinder = GWT

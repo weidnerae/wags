@@ -21,9 +21,9 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ConstructUi extends Composite {
 	private TrashBin bin;
-	private StackableContainer[] premade;
-	private boolean initial = false;
-	private String problemType;
+	private StackableContainer[] premade; //field to store premade segments passed in
+	private boolean initial = false; //a dragon's boolean
+	private String problemType; //differentiates between algo, basic, and advanced
 	private AbsolutePanel contentPanel; //nest panel to hold creation station and segments content
 	private AbsolutePanel csContent;    //nest panel to hold creationStation
 	private CreationStation creationStation;
@@ -32,11 +32,11 @@ public class ConstructUi extends Composite {
 	private AbsolutePositionDropController segmentDropControl; 
 	
 	@UiField
-	AbsolutePanel directionsContent;
+	AbsolutePanel directionsContent;  //place for directions
 	@UiField
-	AbsolutePanel trashbin;
+	AbsolutePanel trashbin;  
 	@UiField
-	DockLayoutPanel layout;
+	DockLayoutPanel layout;  //panel that holds entire left hand side of UI
 
 	private static ConstructUiUiBinder uiBinder = GWT
 			.create(ConstructUiUiBinder.class);
@@ -59,11 +59,11 @@ public class ConstructUi extends Composite {
 	 * @param structuresList
 	 *            String[] the necessary decision structures needed
 	 * @param for1List
-	 *            String[] first for condition choices
+	 *            String[] first 'for' condition choices
 	 * @param for2List
-	 *            String[] second for condition choices
+	 *            String[] second 'for' condition choices
 	 * @param for3List
-	 *            String[] third for condition choices
+	 *            String[] third 'for' condition choices
 	 * @param booleanList
 	 *            String[] boolean condition choices
 	 * @param dc
@@ -142,6 +142,8 @@ public class ConstructUi extends Composite {
 		premade = premadeSegments;		
 	}
 	
+	//this method is called after the constructor because there is a delay between instantiating the panel
+	//and placing all the segments to the segmentsContent panel
 	public void start() {
 		addSegments(premade);
 	}

@@ -11,13 +11,11 @@ import com.allen_sauer.gwt.dnd.client.drop.DropController;
 import java.util.ArrayList;
 
 /**
- * Stackable Containers that hold the code and do most of the work as far as
- * dragging and dropping is concerned.
+ * Stackable containers are the lifeblood of magnets.  This used to be a comment from r28,
+ * but I honestly don't know enough about it in its current form to comment it to my liking currently.
  * 
- * @author Daniel Cook, Alex Weidner, Reed Phillips
- * 
- *         Refrigerator Magnet Microlab CS 3460 - Kurtz
- * @version r28
+ * I will be back to comment this, but I highly encourage anyone that has the time when they come accross 
+ * this to redocument it.
  */
 public class StackableContainer extends FocusPanel {
 	private AbsolutePanel innerPanel = new AbsolutePanel();

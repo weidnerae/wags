@@ -5,12 +5,10 @@ import com.allen_sauer.gwt.dnd.client.VetoDragException;
 import com.allen_sauer.gwt.dnd.client.drop.SimpleDropController;
 
 /**
- * PanelDropController that controls dropping, mostly for stackable containers.
- * 
- * @author Daniel Cook, Alex Weidner, Reed Phillips
- * 
- *         Refrigerator Magnet Microlab CS 3460 - Kurtz
- * @version r32
+ * Stackable Container drop controller that calls method within the stackableContainer class
+ * to achieve the stacking functionality.  This is mostly glue code that connects 
+ * stackableContainer's stacking methods with the drag and drop events that occur as the user drags magnets.
+ *
  */
 public class PanelDropController extends SimpleDropController {
 
