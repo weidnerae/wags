@@ -1,13 +1,13 @@
 package webEditor.magnet.client;
 
 /**
- * Constants that are used to build the code snippets.
  * 
- * @author Daniel Cook, Alex Weidner, Reed Phillips
+ * These constants define a multitude of things inside the magnets themselves
+ * and for peripheral magnet utilities such as the creation station.  
  * 
- *         Refrigerator Magnet Microlab CS 3460 - Kurtz
- * @version r28
+ * 
  */
+
 public interface Consts {
 	
 	public static String ALGORITHM_PROBLEM = "algorithm_problem";
