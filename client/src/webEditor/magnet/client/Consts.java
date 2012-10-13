@@ -26,6 +26,11 @@ public interface Consts {
 	
 	public static String TOPANYORDER = "<!-- topanyorder -->";
 	public static String BOTTOMANYORDER = "<!-- bottomanyorder -->";
+	
+	public static String HIDE_START = "<!-- hideStart -->";
+	public static String HIDE_END = "<!-- hideEnd -->";
+	public static String HIDDEN_CODE = "<!-- hiddenCode -->";
+	public static String HC_DELIMITER = "BRIGGADIGGA";
 
 	// *** STANDARDS ***//
 	//default structures list
