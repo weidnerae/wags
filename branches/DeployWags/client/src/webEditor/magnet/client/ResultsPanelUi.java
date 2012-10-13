@@ -76,7 +76,10 @@ public class ResultsPanelUi extends Composite {
 			sb.append(spaces);
 			sb.append(i + 1);
 			sb.append("  ");
-			sb.append(linedCode[i]);
+			if(linedCode[i].contains(Consts.HC_DELIMITER))
+				sb.append("== Code Hidden ==");
+			else
+				sb.append(linedCode[i]);
 			sb.append("\n");
 		}
 		

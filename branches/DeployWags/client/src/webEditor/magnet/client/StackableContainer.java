@@ -1,5 +1,6 @@
 package webEditor.magnet.client;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -26,6 +27,7 @@ public class StackableContainer extends FocusPanel {
 	private AbsolutePanel bottomPanel = new AbsolutePanel();
 	private HTML topLabel;
 	private HTML bottomLabel;
+	private String hiddenCode;
 	
 	private final PickupDragController dragController;
 	private DropController dropController = new PanelDropController(this);
@@ -48,7 +50,15 @@ public class StackableContainer extends FocusPanel {
 	public StackableContainer(String content, PickupDragController dc) {
 		add(innerPanel);
 		this.dragController = dc;
-		this.content = content;
+		boolean hasHidden = content.contains(Consts.HIDE_START);
+		if(hasHidden){
+			hiddenCode = content.substring(content.indexOf(Consts.HIDE_START)+Consts.HIDE_START.length(),content.indexOf(Consts.HIDE_END)); //  Getting the hidden code
+			hiddenCode = hiddenCode.replaceAll("<br/>|<br />|<br>", "<br/>"+Consts.HC_DELIMITER);
+			Window.alert(hiddenCode);
+			this.content = content.substring(0,content.indexOf(Consts.HIDE_START))+Consts.HIDDEN_CODE+content.substring(content.indexOf(Consts.HIDE_END),content.length()-1);
+		}else{
+			this.content = content;
+		}
 		boolean containsComment = this.content.contains(".:2:.");
 		if(containsComment){
 			String[] splitContent = this.content.split(".:2:.");
@@ -77,6 +87,7 @@ public class StackableContainer extends FocusPanel {
 				addInsideContainer(new StackableContainer("// "+splitContent[i]+Consts.TOP + Consts.INSIDE + Consts.BOTTOM,dc, Consts.INSIDE_COMMENT));
 			}
 		}
+		this.content = content.split(".:2:.")[0];
 	}
 
 	/**
@@ -96,7 +107,15 @@ public class StackableContainer extends FocusPanel {
 		setStyleName("stackable_container");
 
 		this.dragController = dc;
-		this.content = content;
+		boolean hasHidden = content.contains(Consts.HIDE_START);
+		if(hasHidden){
+			hiddenCode = content.substring(content.indexOf(Consts.HIDE_START)+Consts.HIDE_START.length(),content.indexOf(Consts.HIDE_END)); //  Getting the hidden code
+			hiddenCode = hiddenCode.replaceAll("<br/>|<br />|<br>", "<br/>"+Consts.HC_DELIMITER);
+			Window.alert(hiddenCode);
+			this.content = content.substring(0,content.indexOf(Consts.HIDE_START))+Consts.HIDDEN_CODE+content.substring(content.indexOf(Consts.HIDE_END),content.length());
+		}else{
+			this.content = content;
+		}
 		boolean containsComment = this.content.contains(".:2:.");
 		if(containsComment){
 			String[] splitContent = this.content.split(".:2:.");
@@ -112,7 +131,7 @@ public class StackableContainer extends FocusPanel {
 						+ Consts.INSIDE.length(), this.content.length()), true);
 		bottomPanel.add(bottomLabel);
 		innerPanel.add(bottomPanel);
-		if (specialCondition.equals(Consts.MAIN)) {
+		if (specialCondition.equals(Consts.MAIN)) {	
 			isMain = true;
 			setStyleName("main_code_container");
 		}
@@ -126,6 +145,7 @@ public class StackableContainer extends FocusPanel {
 			stackable = false;
 			this.getStyleElement().getStyle().setProperty("border","none");
 		}
+		this.content = content.split(".:2:.")[0];
 	}
 
 	/**
@@ -141,11 +161,20 @@ public class StackableContainer extends FocusPanel {
 	 */
 	public StackableContainer(String content, PickupDragController dc, boolean s) {
 		add(innerPanel);
-		topLabel = new HTML(content);
-		innerPanel.add(topLabel);
+
 		stackable = s;
 		this.dragController = dc;
-		this.content = content;
+		boolean hasHidden = content.contains(Consts.HIDE_START);
+		if(hasHidden){
+			hiddenCode = content.substring(content.indexOf(Consts.HIDE_START)+Consts.HIDE_START.length(),content.indexOf(Consts.HIDE_END)); //  Getting the hidden code
+			hiddenCode = hiddenCode.replaceAll("<br/>|<br />|<br>", ("<br/>"+Consts.HC_DELIMITER));
+			Window.alert(hiddenCode);
+			this.content = content.substring(0,content.indexOf(Consts.HIDE_START))+Consts.HIDDEN_CODE+content.substring(content.indexOf(Consts.HIDE_END)+Consts.HIDE_END.length(),content.length()-1);
+		}else{
+			this.content = content;
+		}
+		topLabel = new HTML(this.content);
+		innerPanel.add(topLabel);
 		boolean containsComment = this.content.contains(".:2:.");
 		if(containsComment){
 			String[] splitContent = this.content.split(".:2:.");
@@ -159,6 +188,7 @@ public class StackableContainer extends FocusPanel {
 				addInsideContainer(new StackableContainer("// "+splitContent[i]+Consts.TOP + Consts.INSIDE + Consts.BOTTOM,dc, Consts.INSIDE_COMMENT));
 			}
 		}
+		this.content = content.split(".:2:.")[0];
 	}
 
 	public void setEngaged(boolean engaged) {
@@ -286,6 +316,9 @@ public class StackableContainer extends FocusPanel {
 	}
 
 	public HTML getTopLabel() {
+		if(topLabel.getHTML().contains(Consts.HIDDEN_CODE)){
+			return new HTML(topLabel.getHTML().replace(Consts.HIDDEN_CODE,hiddenCode));
+		}
 		return topLabel;
 	}
 
