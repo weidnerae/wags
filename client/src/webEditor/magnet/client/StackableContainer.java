@@ -1,6 +1,5 @@
 package webEditor.magnet.client;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -54,7 +53,6 @@ public class StackableContainer extends FocusPanel {
 		if(hasHidden){
 			hiddenCode = content.substring(content.indexOf(Consts.HIDE_START)+Consts.HIDE_START.length(),content.indexOf(Consts.HIDE_END)); //  Getting the hidden code
 			hiddenCode = hiddenCode.replaceAll("<br/>|<br />|<br>", "<br/>"+Consts.HC_DELIMITER);
-			Window.alert(hiddenCode);
 			this.content = content.substring(0,content.indexOf(Consts.HIDE_START))+Consts.HIDDEN_CODE+content.substring(content.indexOf(Consts.HIDE_END),content.length()-1);
 		}else{
 			this.content = content;
@@ -111,7 +109,6 @@ public class StackableContainer extends FocusPanel {
 		if(hasHidden){
 			hiddenCode = content.substring(content.indexOf(Consts.HIDE_START)+Consts.HIDE_START.length(),content.indexOf(Consts.HIDE_END)); //  Getting the hidden code
 			hiddenCode = hiddenCode.replaceAll("<br/>|<br />|<br>", "<br/>"+Consts.HC_DELIMITER);
-			Window.alert(hiddenCode);
 			this.content = content.substring(0,content.indexOf(Consts.HIDE_START))+Consts.HIDDEN_CODE+content.substring(content.indexOf(Consts.HIDE_END),content.length());
 		}else{
 			this.content = content;
@@ -168,7 +165,6 @@ public class StackableContainer extends FocusPanel {
 		if(hasHidden){
 			hiddenCode = content.substring(content.indexOf(Consts.HIDE_START)+Consts.HIDE_START.length(),content.indexOf(Consts.HIDE_END)); //  Getting the hidden code
 			hiddenCode = hiddenCode.replaceAll("<br/>|<br />|<br>", ("<br/>"+Consts.HC_DELIMITER));
-			Window.alert(hiddenCode);
 			this.content = content.substring(0,content.indexOf(Consts.HIDE_START))+Consts.HIDDEN_CODE+content.substring(content.indexOf(Consts.HIDE_END)+Consts.HIDE_END.length(),content.length()-1);
 		}else{
 			this.content = content;
