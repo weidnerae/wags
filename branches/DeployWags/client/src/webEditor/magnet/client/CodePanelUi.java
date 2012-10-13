@@ -31,10 +31,10 @@ public class CodePanelUi extends Composite {
 	private int tabNumber = -1; // So the initial increment will give 0 tabs
 	private RefrigeratorMagnet magnet;
 	
-	@UiField ScrollPanel nestPanel;
-	@UiField AbsolutePanel mainPanel;
-	@UiField Button button;
-	@UiField LayoutPanel layoutPanel;
+	@UiField ScrollPanel nestPanel;   //takes up the entirety of the CodePanel, used to let mainPanel scroll
+	@UiField AbsolutePanel mainPanel;  //nested inside nestPanel, this is where mainFunction lives
+	@UiField Button button; //finalize button 
+	@UiField LayoutPanel layoutPanel; //the panel that all of these pieces are sitting in
 	
 	private static CodePanelUiUiBinder uiBinder = GWT
 			.create(CodePanelUiUiBinder.class);
@@ -59,11 +59,12 @@ public class CodePanelUi extends Composite {
 		mainPanel.add(mainFunction);
 	}
 	
-	//finalize button handler
+	//finalize button handler, calls methods that generate the content and evaluate it
 	@UiHandler("button")
 	void handleClick(ClickEvent e){
+		//algorithms are not yet implemented
 		if (magnet.getProblemType().equals(Consts.ALGORITHM_PROBLEM)) {
-			evaluateAlgorithmProblem();
+			evaluateAlgorithmProblem();  //unfinished method
 		}
 		
 		plainText = new StringBuilder();
@@ -80,7 +81,7 @@ public class CodePanelUi extends Composite {
 	/**
 	 * Places possible inside functions into the main function
 	 * 
-	 * @param insideFunctions
+	 * @param insideFunctions the functions you would like to be placed inside the main function 
 	 */
 	public void addInsideFunctions(StackableContainer[] insideFunctions) {
 		if (insideFunctions == null) {
@@ -140,11 +141,10 @@ public class CodePanelUi extends Composite {
 	
 	
 	
-	/****************************************************
-	 * None of this code is ever called.                *
-	 * We won't use it unless we do Algorithm problems. *
-	 ****************************************************/
-	
+	/********************************************************************
+	 * These are unfinished methods that help with the                  *
+	 *  unimplemented algorithm problems, hopefully to be completed soon*
+	 ********************************************************************/
 	
 	
 	public void evaluateAlgorithmProblem(){
@@ -152,7 +152,6 @@ public class CodePanelUi extends Composite {
 		String userSolution = getAlgoSolution();
 		String givenSolution = magnet.getSolution();
 		for(int i=0;i<givenSolution.length();i++){
-	//		if()
 			
 		}
 		

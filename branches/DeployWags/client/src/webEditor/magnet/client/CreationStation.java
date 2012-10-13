@@ -12,24 +12,34 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * The creation station is a panel that consists of a series of dropdowns, 
+ * and from those dropdowns the students can select options to create their own
+ * custom magnets.
+ *
+ */
 
 public class CreationStation extends VerticalPanel{
+	//structures list is a list of viable decision structures, whether it be for or boolean
 	private String[] structuresList;
-	private String[] for1List;
+	private String[] for1List; //the first argument in a for loop
 	@SuppressWarnings("unused") // I assume these will be getting used later, magnet people?
-	private String[] for2List;
+	private String[] for2List; //the second argument in a for loop
 	@SuppressWarnings("unused")
-	private String[] for3List;
-	private String[] booleanList;
-	private ConstructUi constructPanel;
+	private String[] for3List; //the third argument in a for loop
+	private String[] booleanList; //the boolean arguments for whiles, ifs, else-ifs, etc
+	private ConstructUi constructPanel; //the left hand side of the magnets UI, so that the CS can be placed
+										//under the directions content
 	
-	private Button createButton = new Button("Create");
+	private Button createButton = new Button("Create"); //the button that will be tasked with creating the desired magnet
+	//a series of list boxes that will store the lists from above
 	private ListBox structures;
 	private ListBox forConditions1;
 	private ListBox forConditions2;
 	private ListBox forConditions3;
 	private ListBox booleanConditions;
 	
+	//different use cases are represented by panels, each for the type of decision structure
 	private HorizontalPanel elsePanel = new HorizontalPanel();
 	private HorizontalPanel forPanel = new HorizontalPanel();
 	private HorizontalPanel booleanPanel = new HorizontalPanel();
@@ -47,17 +57,21 @@ public class CreationStation extends VerticalPanel{
 		this.booleanList = booleanList;
 		this.constructPanel = constructPanel;
 		
+		//set up main listbox
 		structures = setupStructuresBox(structuresList);
 		structures.addChangeHandler(new StructuresHandler());
 		
+		//do the leg work of turning string arrays into list boxes
 		forConditions1 = setupListBox(for1List);
 		forConditions2 = setupListBox(for2List);
 		forConditions3 = setupListBox(for3List);
 		booleanConditions = setupListBox(booleanList);
 		
+		//add the topAlignPanel because it contains the structures listbox
 		topAlignPanel.add(structures);
 		add(topAlignPanel);
 		
+		//set up panels for each decision structure so they can be ready to swap to
 		forPanel.add(new HTML("&nbsp ( &nbsp"));
 		forPanel.add(forConditions1);
 		forPanel.add(new HTML("&nbsp ; &nbsp"));
@@ -72,22 +86,16 @@ public class CreationStation extends VerticalPanel{
 		booleanPanel.add(booleanConditions);
 		booleanPanel.add(new HTML("&nbsp ) &nbsp"));
 		
+		//finally make the create button and add it to the bottom of the panel
 		createButton.addClickHandler(new CreateHandler());	
 		createButton.addStyleName("create_button");
 		
 		add(createButton);
 		setCellHorizontalAlignment(createButton, HasHorizontalAlignment.ALIGN_RIGHT);
 	}
-	public boolean checkIfEmpty(String option){
-		if(option.equals("for") && for1List!=null && for1List.length>0)
-			return false;
-		else if(!option.equals("choose structure...") && booleanList!=null && booleanList.length>0)
-			return false;
-		else if(option.equals("choose structure..."))
-			return false;
-		return true;
-			
-	}
+	
+	
+	//takes the string array and turns it into a usable listbox for the decision structures
 	public ListBox setupStructuresBox(String[] listOptions){
 		if (listOptions == null) {
 			return null;
@@ -100,6 +108,20 @@ public class CreationStation extends VerticalPanel{
 		}
 		return listBox;
 	}
+	
+	//helper method for setupStructuresBox that determines if the list is empty
+	public boolean checkIfEmpty(String option){
+		if(option.equals("for") && for1List!=null && for1List.length>0)
+			return false;
+		else if(!option.equals("choose structure...") && booleanList!=null && booleanList.length>0)
+			return false;
+		else if(option.equals("choose structure..."))
+			return false;
+		return true;
+			
+	}
+	
+	//takes the string array and turns it into a usable listbox for the arguments used in decision structures
 	public ListBox setupListBox(String[] listOptions){
 		if (listOptions == null) {
 			return null;
@@ -112,6 +134,7 @@ public class CreationStation extends VerticalPanel{
 		return listBox;
 	}
 
+	//utility methods used to change what dropdowns are available to the student using the creation station
 	 public void clearDropdowns() {
 		 topAlignPanel.clear();
 		 topAlignPanel.add(structures);
@@ -144,10 +167,15 @@ public class CreationStation extends VerticalPanel{
 		 topAlignPanel.add(booleanPanel);
 	 }
 	 
+	 //actually creates the stackable container specified by the selected listbox options
 	 private class CreateHandler implements ClickHandler {
 	        public void onClick(ClickEvent event) {
+	        	//start with a null SC and add the necessary parts to it as we go
 	        	StackableContainer createdContainer = null;
+	        	//determine what base structure was chosen and branch based off of that
 	        	String selected = structuresList[structures.getSelectedIndex()];
+	        	//for each case create a different stackable container and 
+	        	//depending on the case grab the needed arguments from the remaining listboxes
 	        	if(selected.equals("for")){
 	        		createdContainer = new StackableContainer(Consts.FOR,dc);
 	        		String containerCondition ="";
@@ -177,8 +205,10 @@ public class CreationStation extends VerticalPanel{
 	        		constructPanel.addSegment(createdContainer);
 	        }
 	 }
+	 
+	 //the handler that determines what "panel" the students see
+	 //will change which listboxes are available depending on the index of the structures listbox
 	 private class StructuresHandler implements ChangeHandler{
-
 		@Override
 		public void onChange(ChangeEvent event) {
 			String selected = structuresList[structures.getSelectedIndex()];
@@ -197,4 +227,5 @@ public class CreationStation extends VerticalPanel{
 			
 		}
 	 }
+	 
 }

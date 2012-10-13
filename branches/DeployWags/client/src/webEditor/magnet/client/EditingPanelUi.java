@@ -9,6 +9,12 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.LayoutPanel;
 
+/**
+ * The editing panel is where the bulk of the magnets UI is housed.
+ * It consists of a code panel, to the right, and a construct panel, to the left.
+ *
+ */
+
 public class EditingPanelUi extends Composite {
 
 	private static EditingPanelUiUiBinder uiBinder = GWT
@@ -18,9 +24,9 @@ public class EditingPanelUi extends Composite {
 	interface EditingPanelUiUiBinder extends UiBinder<Widget, EditingPanelUi> {
 	}
 	
-	@UiField LayoutPanel codePanel;
-	@UiField LayoutPanel constructPanel;
-	@UiField LayoutPanel layout;
+	@UiField LayoutPanel codePanel;  //the right hand side -> build code here
+	@UiField LayoutPanel constructPanel;  //the left hand side -> drag code segments from here
+	@UiField LayoutPanel layout; //the panel holding it all together
 
 	public EditingPanelUi(RefrigeratorMagnet magnet, int tabPanelHeight,String title, String directions, StackableContainer mainFunction, StackableContainer[] insideSegments, String problemType, StackableContainer[] premadeSegments, String[] structuresList, String[] for1List,String[] for2List,String[] for3List, String[] booleanList, String solution, String[] premadeIDs, PickupDragController dc) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -30,6 +36,8 @@ public class EditingPanelUi extends Composite {
 		layout.setSize("100%", tabPanelHeight - 60 + "px");  //stupid magic number to make panel show correctly
 	}
 	
+	// used to get over the delay between instantiating panels and then
+	// adding magnets to them based on x,y coordinates
 	public void start() {
 		construct.start();
 	}
