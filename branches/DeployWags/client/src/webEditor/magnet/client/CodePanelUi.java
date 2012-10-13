@@ -13,6 +13,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -70,8 +71,10 @@ public class CodePanelUi extends Composite {
 		buildContent(mainFunction);
 		String code = plainText.toString();
 		ResultsPanelUi.setCodeText(code);
+		code = code.replaceAll(Consts.HC_DELIMITER,"");
 		Proxy.magnetReview(code, title);
 		magnet.tabPanel.selectTab(1);
+		tabNumber = -1;
 	}
 	
 	/**
@@ -113,7 +116,10 @@ public class CodePanelUi extends Composite {
 		}
 		
 		if (sc.getTopLabel() != null) {
-			plainText.append(tabs + sc.getTopLabel().getText() + "\n");
+			String rawHTML = sc.getTopLabel().getHTML();
+			String procHTML = rawHTML.replaceAll("<br/>|<br />|<br>", "\n");
+			HTML topLabel = new HTML(procHTML);
+			plainText.append(tabs + topLabel.getText() + "\n");
 			
 		}
 		
@@ -122,8 +128,12 @@ public class CodePanelUi extends Composite {
 		}
 		
 		if (sc.getBottomLabel() != null) {
-			plainText.append(tabs + sc.getBottomLabel().getText() + "\n");
+			String rawHTML = sc.getBottomLabel().getHTML();
+			String procHTML = rawHTML.replaceAll("<br/>|<br />|<br>", "\n");
+			HTML bottomLabel = new HTML(procHTML);
+			plainText.append(tabs + bottomLabel.getText() + "\n");
 		}
+		
 		
 		tabNumber--;
 	}
