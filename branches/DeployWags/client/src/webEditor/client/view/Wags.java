@@ -8,6 +8,7 @@ import webEditor.magnet.client.RefrigeratorMagnet;
 import webEditor.magnet.client.SplashPage;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -52,12 +53,13 @@ public class Wags extends View
 	public Wags(String startingPlace)
 	{
 		initWidget(uiBinder.createAndBindUi(this));
-		Proxy.getUsersName(hello, Editor, DST, Magnets);
+		Proxy.getUsersName(hello, Editor, DST, Magnets, startingPlace);
 		Proxy.checkPassword(this);
 		Proxy.checkMultiUser(this);
 		
 		this.startingPlace = startingPlace;
 		splashPage = new SplashPage(this);
+		splashPage.getElement().getStyle().setOverflowY(Overflow.AUTO);
 		editor = new Editor();
 
 		// Load the correct initial page
@@ -66,7 +68,6 @@ public class Wags extends View
 			replaceCenterContent(splashPage);
 		}
 		else if(startingPlace.equals("dst")){
-				DST.setVisible(true);
 				Proxy.buildDST(this);
 		}
 		else{
@@ -91,6 +92,7 @@ public class Wags extends View
 		// Have to construct a new splashpage in case the administrator
 		// has changed available exercises
 		splashPage = new SplashPage(this);
+		splashPage.getElement().getStyle().setOverflowY(Overflow.AUTO);
 		replaceCenterContent(splashPage);
 		splashPage.getWidget(0).setVisible(true);
 	}
@@ -151,6 +153,11 @@ public class Wags extends View
 			public void onClick(ClickEvent event) {
 				if(!password.getText().equals(passwordCheck.getText())){
 					Notification.notify(WEStatus.STATUS_ERROR, "Passwords don't match");
+					return;
+				}
+				
+				if(password.getText().length() < 8){
+					Notification.notify(WEStatus.STATUS_ERROR, "Password must be at least 8 characters");
 					return;
 				}
 				

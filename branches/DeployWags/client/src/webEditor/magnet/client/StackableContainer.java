@@ -47,7 +47,12 @@ public class StackableContainer extends FocusPanel {
 	public StackableContainer(String content, PickupDragController dc) {
 		add(innerPanel);
 		this.dragController = dc;
+		
+		
 		boolean hasHidden = content.contains(Consts.HIDE_START);
+		
+		// Hides code within tags from the student, but still compiles with it
+		// Hidden code can't have nested comments, so we don't have check for that
 		if(hasHidden){
 			hiddenCode = content.substring(content.indexOf(Consts.HIDE_START)+Consts.HIDE_START.length(),content.indexOf(Consts.HIDE_END)); //  Getting the hidden code
 			hiddenCode = hiddenCode.replaceAll("<br/>|<br />|<br>", "<br/>"+Consts.HC_DELIMITER);
@@ -55,11 +60,15 @@ public class StackableContainer extends FocusPanel {
 		}else{
 			this.content = content;
 		}
+		
 		boolean containsComment = this.content.contains(".:2:.");
 		if(containsComment){
 			String[] splitContent = this.content.split(".:2:.");
+			// The first element is the base magnet
 			this.content = splitContent[0];
 		}
+		
+		// If it should nest, set it up for nesting
 		if (!this.content.contains(Consts.INSIDE)) {
 			topLabel = new HTML(this.content);
 		} else {
@@ -103,6 +112,7 @@ public class StackableContainer extends FocusPanel {
 		setStyleName("stackable_container");
 
 		this.dragController = dc;
+		
 		boolean hasHidden = content.contains(Consts.HIDE_START);
 		if(hasHidden){
 			hiddenCode = content.substring(content.indexOf(Consts.HIDE_START)+Consts.HIDE_START.length(),content.indexOf(Consts.HIDE_END)); //  Getting the hidden code
@@ -111,11 +121,13 @@ public class StackableContainer extends FocusPanel {
 		}else{
 			this.content = content;
 		}
+		
 		boolean containsComment = this.content.contains(".:2:.");
 		if(containsComment){
 			String[] splitContent = this.content.split(".:2:.");
 			this.content = splitContent[0];
 		}
+		
 		topLabel = new HTML(this.content.substring(0, this.content.indexOf(Consts.INSIDE)
 				+ Consts.INSIDE.length()), true);
 		topPanel.add(topLabel);
@@ -126,20 +138,24 @@ public class StackableContainer extends FocusPanel {
 						+ Consts.INSIDE.length(), this.content.length()), true);
 		bottomPanel.add(bottomLabel);
 		innerPanel.add(bottomPanel);
+		
 		if (specialCondition.equals(Consts.MAIN)) {	
 			isMain = true;
 			setStyleName("main_code_container");
 		}
+		
 		if(containsComment){
 			String[] splitContent = content.split(".:2:.");
 			for(int i=1; i<splitContent.length;i++){
 				addInsideContainer(new StackableContainer("// "+splitContent[i]+Consts.TOP + Consts.INSIDE + Consts.BOTTOM,dc, Consts.INSIDE_COMMENT));
 			}
 		}
+		
 		if(specialCondition.equals(Consts.INSIDE_COMMENT)){
 			stackable = false;
 			this.getStyleElement().getStyle().setProperty("border","none");
 		}
+		
 		this.content = content.split(".:2:.")[0];
 	}
 
