@@ -61,6 +61,14 @@ public class WagsEntry implements EntryPoint
 					else if(status.getStat() == WEStatus.STATUS_SUCCESS){
 						RootLayoutPanel root = RootLayoutPanel.get();
 						root.add(new Wags(Location.getParameter("loc")));	
+					} else if(status.getStat() == WEStatus.STATUS_WARNING){
+						String loc = Location.getParameter("loc");
+						if(loc.equals("editor")){
+							Proxy.logout();
+						} else {
+							RootLayoutPanel root = RootLayoutPanel.get();
+							root.add(new Wags(loc));
+						}
 					}
 				}
 				@Override

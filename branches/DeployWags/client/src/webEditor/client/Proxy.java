@@ -1013,6 +1013,7 @@ public class Proxy
 		          
 		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
 		        	  if(status.getMessageArray().length > 0){
+		        		  users.clear();
 		        		  String[] message = status.getMessageArray();
 		        		  
 			        	  for(int i = 0; i < message.length; i++){
@@ -1041,11 +1042,18 @@ public class Proxy
 	 * 
 	 * Also, hides Anchors for guests
 	 */
-	public static void getUsersName(final Label label, final Anchor Editor, final Anchor DST, final Anchor Magnets)
+	public static void getUsersName(final Label label, final Anchor Editor, final Anchor DST, final Anchor Magnets, final String startingPlace)
 	{
 		WagsCallback c = new WagsCallback() {
 			@Override
-			void warning(WEStatus status) {}
+			void warning(WEStatus status) {
+				label.setText("Hello, Guest!");
+				Editor.setVisible(false);
+				// Leave the anchor for the starting place for quicker logical navigation, 
+				// any magnet navigation
+				if(!startingPlace.equals("dst")) DST.setVisible(false);
+				if(!startingPlace.equals("magnets")) Magnets.setVisible(false);
+			}
 			
 			@Override
 			void success(WEStatus status) {
@@ -1055,13 +1063,6 @@ public class Proxy
 					first = status.getMessageMapVal("email");
 				}
 				label.setText("Hello, "+first+"!");
-				
-				boolean guest = (status.getMessageMapVal("admin").equals("2"));
-				if(guest){
-					Editor.setVisible(false);
-					DST.setVisible(false);
-					Magnets.setVisible(false);
-				}
 			}
 			
 			@Override

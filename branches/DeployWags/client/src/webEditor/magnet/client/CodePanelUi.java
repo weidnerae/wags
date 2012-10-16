@@ -118,7 +118,7 @@ public class CodePanelUi extends Composite {
 		
 		if (sc.getTopLabel() != null) {
 			String rawHTML = sc.getTopLabel().getHTML();
-			String procHTML = rawHTML.replaceAll("<br/>|<br />|<br>", "\n");
+			String procHTML = rawHTML.replaceAll("<br/>|<br />|<br>", "\n" + tabs);
 			HTML topLabel = new HTML(procHTML);
 			plainText.append(tabs + topLabel.getText() + "\n");
 			
@@ -130,7 +130,7 @@ public class CodePanelUi extends Composite {
 		
 		if (sc.getBottomLabel() != null) {
 			String rawHTML = sc.getBottomLabel().getHTML();
-			String procHTML = rawHTML.replaceAll("<br/>|<br />|<br>", "\n");
+			String procHTML = rawHTML.replaceAll("<br/>|<br />|<br>", "\n" + tabs);
 			HTML bottomLabel = new HTML(procHTML);
 			plainText.append(tabs + bottomLabel.getText() + "\n");
 		}
