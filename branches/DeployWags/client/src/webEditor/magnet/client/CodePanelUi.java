@@ -110,6 +110,8 @@ public class CodePanelUi extends Composite {
 	public void buildContent(StackableContainer sc) {
 		tabNumber++;
 		String tabs = "";
+		boolean isNested = false;
+		if(sc.getInsidePanel().getWidgetCount() > 0) isNested = true;
 		
 		// For proper indentation
 		for (int i = 0; i < tabNumber; i++) {
@@ -118,8 +120,9 @@ public class CodePanelUi extends Composite {
 		
 		if (sc.getTopLabel() != null) {
 			String rawHTML = sc.getTopLabel().getHTML();
-			String procHTML = rawHTML.replaceAll("<br/>|<br />|<br>", "\n" + tabs);
+			String procHTML = rawHTML.replaceAll("<br/>|<br />|<br>", "");
 			HTML topLabel = new HTML(procHTML);
+			if(isNested) plainText.append("\n");
 			plainText.append(tabs + topLabel.getText() + "\n");
 			
 		}
@@ -130,10 +133,11 @@ public class CodePanelUi extends Composite {
 		
 		if (sc.getBottomLabel() != null) {
 			String rawHTML = sc.getBottomLabel().getHTML();
-			String procHTML = rawHTML.replaceAll("<br/>|<br />|<br>", "\n" + tabs);
+			String procHTML = rawHTML.replaceAll("<br/>|<br />|<br>", "");
 			HTML bottomLabel = new HTML(procHTML);
 			if(!bottomLabel.getText().equals(""))
 				plainText.append(tabs + bottomLabel.getText() + "\n");
+				if(isNested) plainText.append("\n");
 		}
 		
 		
