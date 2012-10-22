@@ -202,10 +202,11 @@ class MagnetProblem extends Model
         $user = Auth::GetCurrentUser();
         $db = Database::getDb();
 
-        $sth = $db->prepare('SELECT MagnetProblemGroups.name 
+        $sth = $db->prepare('SELECT DISTINCT MagnetProblemGroups.name 
             FROM MagnetProblemGroups, SectionMPG
             WHERE SectionMPG.section = :section
-            AND SectionMPG.magnetGroup = MagnetProblemGroups.id');
+            AND SectionMPG.magnetGroup = MagnetProblemGroups.id
+            ORDER BY MagnetProblemGroups.name');
         $sth->setFetchMode(PDO::FETCH_ASSOC);
         $sth->execute(array(':section' => $user->getSection()));
 
@@ -324,7 +325,7 @@ class MagnetProblem extends Model
     # LinkNewSection.php
     #
     # We will either have to continually update this method with any changes
-    # to the database concerning defautl exercises, or make it more robust
+    # to the database concerning default exercises, or make it more robust
     # so that it dynamically changes what values are added depending on what
     # is currently in the database
     public static function addDefaults($sectionId){
@@ -344,5 +345,88 @@ class MagnetProblem extends Model
         $sth->execute(array(':sectionId' => $sectionId));
     }
 
+    // Returns all magnets that exist in some group
+    public static function getMagnetIdsFromGroup($group){
+        require_once('Database.php');
+        $db = Database::getDb();
+
+        $sth = $db->prepare("SELECT id
+            FROM `magnetProblem`
+            WHERE `group` = :group");
+        $sth->setFetchMode(PDO::FETCH_NUM);
+        $sth->execute(array(':group' => $group));
+
+        return $sth->fetchAll();
+    }
+
+    // Returns the ids of all the magnets the admin CAN assign for
+    // this section - NOT the current ASSIGNED magnets, but a superset
+    public static function getAvailableMagnets(){
+        $section = Auth::getCurrentUser()->getSection();
+        require_once('Database.php');
+        $db = Database::getDb();
+
+        $sth = $db->prepare("SELECT magnetP
+            FROM `SectionMP`
+            WHERE `section` = :section");
+        $sth->setFetchMode(PDO::FETCH_NUM);
+        $sth->execute(array(':section' => $section));
+
+        return $sth->fetchAll();
+    }
+
+    // Makes the exercise available for the instructor, not automatically
+    // assigned ($assign = 2 to actually assign)...
+    public static function addExercise($id, $assign=1){
+        $section = Auth::getCurrentUser()->getSection();
+        require_once('Database.php');
+        $db = Database::getDb();
+        
+        $sth = $db->prepare("INSERT INTO SectionMP
+            VALUES(NULL,:section,:id,:assign)");
+        $sth->execute(array(':section' => $section, ':id' => $id, ':assign' => $assign));
+    }
+  
+    // Add the group for the section
+    public static function addGroup($group){
+        $section = Auth::getCurrentUser()->getSection();
+        require_once('Database.php');
+        $db = Database::getDb();
+        
+        $sth = $db->prepare("INSERT INTO SectionMPG
+            VALUES(NULL,:section,:group)");
+        $sth->execute(array(':section' => $section, ':group' => $group));
+    }
+  
+    // Calls multiple smaller methods to add a group and all 
+    // magnet exercises in that group to a certain section
+    public static function addGroupAndExercises($group){
+        $hasGroup = FALSE;
+        
+        // Find out if section can already view group
+        // $group = id, $groups = array of names
+        $groups = MagnetProblem::getMagnetProblemGroups();
+        foreach($groups as $entry){
+            if($group == MagnetProblem::getGroupIdByName($entry)){
+                $hasGroup = TRUE;
+            }
+        }
+        
+        // Allow section to view group
+        if(!$hasGroup) MagnetProblem::addGroup($group);
+
+        // Get exercises within that group
+        $magnets = MagnetProblem::getMagnetIdsFromGroup($group);
+
+        // Get exercises section already has available
+        $avail = MagnetProblem::getAvailableMagnets();
+        foreach($magnets as $magnet){
+            // Only add new exercises
+            if(!in_array($magnet, $avail)){
+                MagnetProblem::addExercise($magnet[0]);
+            }
+        }
+    }
+  
 }
 ?>
