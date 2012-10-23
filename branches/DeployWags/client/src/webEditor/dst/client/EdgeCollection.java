@@ -38,6 +38,10 @@ public class EdgeCollection implements IsSerializable {
 	public void setDisplayManager(DisplayManager dm) {
 		this.dm = (TreeDisplayManager) dm;
 	}
+	
+	public DisplayManager getDisplayManager() {
+		return this.dm;
+	}
 
 	public void addNextEdge() {
 		dm.setEdgeNodeSelectionInstructions(nodeSelectionInstructions[0]);
