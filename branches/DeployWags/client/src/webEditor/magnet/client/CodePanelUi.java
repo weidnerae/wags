@@ -100,8 +100,7 @@ public class CodePanelUi extends Composite {
 	 * so that it can be formatted.
 	 * 
 	 * After this is run, plainText will contain the text of all the stackable 
-	 * containers, but stripped of all the embedded HTML shenanigans, ready to 
-	 * manipulated by getFormattedText(). 
+	 * containers, but stripped of all the embedded HTML shenanigans.
 	 * 
 	 * @param sc 
 	 * 		The mainFunction StackableContainer. All of the other 
