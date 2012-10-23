@@ -40,12 +40,26 @@ public class EdgeUndirected extends EdgeParent implements IsSerializable
 		int parentTopOffset = 105;
 		int childTopOffset = 120;
 		int leftOffset = 20;
+		int scrollOffset = 0;
+		
+		/*
+		 * This fixes an issue where if the browser is scrolled down at all, 
+		 * edges are drawn above where they need to be.
+		 */
+		if (this.ec.getDisplayManager() instanceof TreeDisplayManager) {
+			TreeDisplayManager tdm = (TreeDisplayManager) this.ec.getDisplayManager();
+			scrollOffset = tdm.panel.getParent().getElement().getScrollTop();
+		}
+		
 		if(n1.getLabel().getStyleName().equals("mini_node")){
 			parentTopOffset = 120;
 			leftOffset = 10;
 		}
-		line = new Line(n1.getLeft()+leftOffset, n1.getTop()-parentTopOffset-30,   //the n1.getTop()-105 used to be n1.getTop()-100   added -70
-				n2.getLeft()+leftOffset, n2.getTop()-childTopOffset-30);           //n2.getTop()-120 used to be n2.getTop()-100    added -70
+		
+		line = new Line(n1.getLeft()+leftOffset, 
+						n1.getTop()-parentTopOffset-30+scrollOffset,	//the n1.getTop()-105 used to be n1.getTop()-100   added -70
+						n2.getLeft()+leftOffset, 
+						n2.getTop()-childTopOffset-30+scrollOffset);	//n2.getTop()-120 used to be n2.getTop()-100    added -70
 		if(removable)  
 			line.addClickHandler(handler);
 		line.setStrokeWidth(3);
