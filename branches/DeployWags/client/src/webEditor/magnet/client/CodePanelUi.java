@@ -7,6 +7,7 @@ import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -14,8 +15,12 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -30,11 +35,16 @@ public class CodePanelUi extends Composite {
 	private String title;
 	private int tabNumber = -1; // So the initial increment will give 0 tabs
 	private RefrigeratorMagnet magnet;
+	private PopupPanel popupPanel;
 	
 	@UiField ScrollPanel nestPanel;   //takes up the entirety of the CodePanel, used to let mainPanel scroll
 	@UiField AbsolutePanel mainPanel;  //nested inside nestPanel, this is where mainFunction lives
 	@UiField Button button; //finalize button 
 	@UiField LayoutPanel layoutPanel; //the panel that all of these pieces are sitting in
+//	@UiField PopupPanel popupPanel;
+//	@UiField Button yesButton;
+//	@UiField Button noButton;
+	
 	
 	private static CodePanelUiUiBinder uiBinder = GWT
 			.create(CodePanelUiUiBinder.class);
@@ -54,30 +64,81 @@ public class CodePanelUi extends Composite {
 		this.magnet = magnet;
 		this.mainFunction = main;
 		this.title = title;
+		setupPopupPanel();
+		
+//		popupPanel.setVisible(false);
+		
 		
 		addInsideFunctions(insideFunctions);
 		mainPanel.add(mainFunction);
+	}
+	public void setupPopupPanel(){
+		popupPanel = new PopupPanel(false);
+		VerticalPanel vPanel = new VerticalPanel();
+		HorizontalPanel hPanel = new HorizontalPanel();
+		Label pLabel = new Label("Are you sure you wish to finalize?");
+		Button yesButton = new Button("Yes",new yesHandler());
+		yesButton.addStyleName("big_popup_button");
+		Button noButton = new Button("no",new noHandler());
+		noButton.addStyleName("big_popup_button");
+		hPanel.add(yesButton);	
+		hPanel.add(noButton);
+		hPanel.setCellWidth(yesButton, "100px");
+		hPanel.setCellHeight(yesButton, "50px");
+		hPanel.setCellWidth(noButton, "100px");
+		hPanel.setCellHeight(noButton, "50px");
+		vPanel.add(pLabel);
+		vPanel.add(hPanel);
+		popupPanel.add(vPanel);
 	}
 	
 	//finalize button handler, calls methods that generate the content and evaluate it
 	@UiHandler("button")
 	void handleClick(ClickEvent e){
-		//algorithms are not yet implemented
-		if (magnet.getProblemType().equals(Consts.ALGORITHM_PROBLEM)) {
-			evaluateAlgorithmProblem();  //unfinished method
-		}
-		
-		plainText = new StringBuilder();
-		
-		buildContent(mainFunction);
-		String code = plainText.toString();
-		ResultsPanelUi.setCodeText(code);
-		code = code.replaceAll(Consts.HC_DELIMITER,"");
-		Proxy.magnetReview(code, title);
-		magnet.tabPanel.selectTab(1);
-		tabNumber = -1;
+		popupPanel.setPopupPosition(button.getAbsoluteLeft(), button.getAbsoluteTop()-75);
+		popupPanel.setVisible(true);
+		popupPanel.show();
+
 	}
+	 private class yesHandler implements ClickHandler{
+			public void finalize(){
+				//algorithms are not yet implemented
+				if (magnet.getProblemType().equals(Consts.ALGORITHM_PROBLEM)) {
+					evaluateAlgorithmProblem();  //unfinished method
+				}
+				
+				plainText = new StringBuilder();
+				
+				buildContent(mainFunction);
+				String code = plainText.toString();
+				ResultsPanelUi.setCodeText(code);
+				code = code.replaceAll(Consts.HC_DELIMITER,"");
+				Proxy.magnetReview(code, title);
+				magnet.tabPanel.selectTab(1);
+				tabNumber = -1;
+			}
+			
+		 public void onClick(ClickEvent event) {
+			 finalize();
+			 popupPanel.setVisible(false);
+		 }
+	 }
+	 private class noHandler implements ClickHandler{
+		 public void onClick(ClickEvent event) {
+			 popupPanel.setVisible(false);
+		 }
+	 }
+//	@UiHandler("yesButton")
+//	void handleYesClick(ClickEvent e){
+//		finalize();
+//		popupPanel.setVisible(false);
+//	}
+	//@UiHandler("noButton")
+//	void handleNoClick(ClickEvent e){
+//		popupPanel.setVisible(false);
+//	}
 	
+
 	/**
 	 * Places possible inside functions into the main function
 	 * 
