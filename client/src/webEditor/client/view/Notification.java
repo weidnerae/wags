@@ -11,9 +11,12 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+
 
 
 public class Notification extends View {
@@ -78,17 +81,31 @@ public class Notification extends View {
 		Element na = DOM.getElementById("notification-area");
 		Notification.clear();
 		Notification n = new Notification(status, msg);
-		na.appendChild(n.getElement());
+		int cw = Window.getClientWidth(); // width of the window
+		int sl = Window.getScrollLeft();  // distance from left side of window to left side of viewport
 		
+		// Width of the notification is 40% of the width of the window (from CSS)
+		int nWidth = (int)(cw*.4);
+		
+		// Getting the viewport size, Super gross.
+		int oldLeft = Window.getScrollLeft();
+		int oldTop = Window.getScrollTop();
+		Window.scrollTo(Window.getClientWidth(), 0);
+		int viewportWidth = Window.getClientWidth()-Window.getScrollLeft();		
+		Window.scrollTo(oldLeft,oldTop);
+			
+		int xPos = (sl+(((int)viewportWidth/2)-(nWidth)/2));
+		
+		RootPanel.get().add(n,xPos,Window.getScrollTop());		
 		// Automatically clear notification in 5 seconds.
 		t.schedule(5000);
 	}
 	
 	public static void clear()
 	{
-		Element na = DOM.getElementById("notification-area");
-		for(int i = 0; i < na.getChildCount(); i++){
-			na.removeChild(na.getChild(i));
+		for(int i = 0; i < RootPanel.get().getWidgetCount(); i++){
+			if(RootPanel.get().getWidget(i) instanceof Notification)
+				RootPanel.get().remove(i);
 		}
 	}
 	
@@ -102,4 +119,5 @@ public class Notification extends View {
 	void onPanelClick(ClickEvent event){
 		//Notification.clear();
 	}
+	
 }
