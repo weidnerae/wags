@@ -54,10 +54,24 @@ class MagnetSubmission extends Model
         $this->success = $success;
     }
 
-    
-    // Unimplemented (obviously)
+
     public static function getExerciseTitles(){
+        require_once('Database.php');
+        $db = Database::getDb();
+        $user = Auth::getCurrentUser();
+
+        $sth = $db->prepare('Select DISTINCT magnetProblem.title, MagnetSubmission.magnetProblemId 
+		FROM MagnetSubmission LEFT OUTER JOIN magnetProblem ON MagnetSubmission.magnetProblemId = magnetProblem.id 
+        WHERE sectionID = :section ORDER BY magnetProblemId');
+
+        $sth->execute(array(':section' => $user->getSection()));
+
+        $results = $sth -> fetchAll(PDO::FETCH_NUM);
+        $vals = array_values($results);
+
+        return $vals;
     }
+	
 
     // getSubmissionByProblem
     // 
