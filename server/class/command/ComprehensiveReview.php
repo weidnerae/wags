@@ -17,9 +17,9 @@ class ComprehensiveReview extends Command{
         header("Expires: 0");
 
         # Compose the array
-        $this->getExercises($array, $progExercises, $logExercises);
+        $this->getExercises($array, $progExercises, $logExercises, $magExercises);
         $this->getStudents($array, $usernames);
-        $this->getGrades($array, $progExercises, $logExercises, $usernames);
+        $this->getGrades($array, $progExercises, $logExercises, $magExercises, $usernames);
 
         # Make the file
         $this->outputCSV($array);
@@ -48,7 +48,7 @@ class ComprehensiveReview extends Command{
     #
     # Responsible for filling the first row of the array with the names
     # of the exercises for the section, both programming and logical
-    function getExercises(&$array, &$progExercises, &$logExercises){
+    function getExercises(&$array, &$progExercises, &$logExercises, &$magExercises){
         $row = 0;
         $column = 0;
         
@@ -75,6 +75,20 @@ class ComprehensiveReview extends Command{
             $column++;
             $logCount++;
         }
+		
+		
+		// Get magnet microlabs
+        unset($titles);
+        $titles = MagnetSubmission::getExerciseTitles();
+        $magCount = 0;
+
+        foreach($titles as $title){
+            $array[$row][$column] = $title[0];
+            $magExercises[$magCount] = $title[1];
+            $column++;
+            $magCount++;
+        }
+		
     }
 
     # GetStudents
@@ -100,7 +114,7 @@ class ComprehensiveReview extends Command{
     #
     # Responsible for filling the rest of the array with the grades of
     # each student per exercise
-    function getGrades(&$array, $progExercises, $logExercises, $usernames){
+    function getGrades(&$array, $progExercises, $logExercises, $magExercises, $usernames){
         $column = 1;
 
         // Add grades for all *programming* exercises
@@ -134,6 +148,33 @@ class ComprehensiveReview extends Command{
         // Practically identical to programming exercise reporting
         foreach($logExercises as $logExercise){
             $submissions = DSTSubmission::getAllSubmissionsByTitle($logExercise);
+            $maxSubs = count($submissions);
+            $subCount = 0;
+            $row = 1;
+
+            // Cycle through users for THIS exercise
+            foreach($usernames as $username){
+                if($subCount < $maxSubs && $username == $submissions[$subCount]['username']){
+                    if($submissions[$subCount]['success'] == 0){
+                        $text = " [Incorrect]";
+                    } else {
+                        $text = "";
+                    }
+                    $array[$row][$column] = $submissions[$subCount]['numAttempts'] . "$text";
+                    $subCount++;
+                } else {
+                    $array[$row][$column] = "N/A";
+                }
+                $row++;
+            }
+            $column++;
+        }
+		
+		
+		// Add grades for all *magnet* microlabs
+        // Practically identical to programming exercise reporting
+        foreach($magExercises as $magExercise){
+            $submissions = MagnetSubmission::getSubmissionsById($magExercise);
             $maxSubs = count($submissions);
             $subCount = 0;
             $row = 1;
