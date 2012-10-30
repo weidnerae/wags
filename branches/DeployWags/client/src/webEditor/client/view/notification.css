@@ -10,6 +10,14 @@
 	z-index:999;
 }
 
+.popuppanel {
+	border:0em;
+	margin:0em;
+	padding:0em;
+	overflow: hidden;
+	z-index: 100;
+}
+
 .error {
 	border: 2px solid red;
 	background: #FF7777;

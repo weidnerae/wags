@@ -34,12 +34,12 @@
 			font-weight: light;
 			font-style: italic;
 			color: #A0A0FF;
-			z-index: 9999;
+			z-index: 99;
 			position: relative;
 			vertical-align: top;
 			display: inline;
             float:left;
-            top: -4px;
+            top: -2px;
 		}
 			
 	</ui:style>

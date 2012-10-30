@@ -110,7 +110,7 @@ public class Wags extends View
 	public void assignPartner(final String exercise){
 		final DialogBox pickPartner = new DialogBox(false);
 		final ListBox partners = new ListBox();
-		Button close = new Button("Close");
+		Button close = new Button("Set Partner");
 		
 		HorizontalPanel DialogBoxContents = new HorizontalPanel();
 		pickPartner.setText("Choose a partner for exercise: " + exercise);
@@ -139,7 +139,7 @@ public class Wags extends View
 		Label lbl1 = new Label("Enter password: ");
 		Label lbl2 = new Label("Re-enter password: ");
 		
-		Button close = new Button("Close");
+		Button close = new Button("Set Password");
 		
 		VerticalPanel base = new VerticalPanel();
 		HorizontalPanel line1 = new HorizontalPanel();
