@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
+import webEditor.client.view.Admin;
 import webEditor.client.view.CodeEditor;
 import webEditor.client.view.Editor;
 import webEditor.client.view.Exercises;
@@ -668,10 +669,10 @@ public class Proxy
     
     public static void getLogicalExercises(String group, final VerticalPanel panel, final ArrayList<CheckBox> currentLogicals,
             final HashMap<String, CheckBox> allLogicals){
-    RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=LogicalExercises&request=exercises&group=" + group);
-    try {
-            builder.sendRequest(null, new RequestCallback() {
-                    
+	    RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=LogicalExercises&request=exercises&group=" + group);
+	    try {
+	            builder.sendRequest(null, new RequestCallback() {
+	                    
                     @Override
                     public void onResponseReceived(Request request, Response response) {
                             WEStatus status = new WEStatus(response);
@@ -695,18 +696,18 @@ public class Proxy
                                             panel.add(ex);
                                     }
                             }
-                            
                     }
                     
                     @Override
                     public void onError(Request request, Throwable exception) {
                             Window.alert("Error grabbing groups");
                     }
-            });
-    } catch (RequestException e){
-            Window.alert("Failed to send the request: " + e.getMessage());
+                    
+	            });
+	    } catch (RequestException e){
+	            Window.alert("Failed to send the request: " + e.getMessage());
+	    }
     }
-}
     
 	public static void getLogicalExercises(final ListBox logicalExercises){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetLogicalExercises");
@@ -719,10 +720,12 @@ public class Proxy
 					
 					String[] problemList = status.getMessageArray();
 					logicalExercises.clear(); //To avoid repeat listings
+					
 					for(int i = 0; i < problemList.length; i+=2){ 
 		        		  logicalExercises.addItem(problemList[i]); 
-		        	  }
+		        	}
 					
+					Admin.checkCurrentLogicalExercises();
 				}
 				
 				@Override
