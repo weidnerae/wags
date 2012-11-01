@@ -171,8 +171,10 @@
 				<g:ListBox ui:field="lstLGroups" styleName="{style.lbox}"></g:ListBox>					
 			</g:HorizontalPanel>
 			<g:VerticalPanel ui:field="lmPanel"></g:VerticalPanel>
-			
-			<g:Button ui:field="btnSetDST" styleName="{style.button}"> Set Exercises </g:Button>
+			<g:HorizontalPanel styleName="{style.filePanel}">
+				<g:Button ui:field="btnSetDST" styleName="{style.button}"> Set Exercises </g:Button>
+				<g:Button ui:field="btnClearDST" styleName="{style.button}"> Clear All </g:Button>
+			</g:HorizontalPanel>
 		</g:VerticalPanel>
 		
 		<g:VerticalPanel>
@@ -186,8 +188,10 @@
 			<g:VerticalPanel ui:field="magnetSelectionPanel"></g:VerticalPanel>
 			
 			<g:Grid ui:field="grdMagnetReview" styleName="{style.grid}"> </g:Grid>
-							
-			<g:Button ui:field="btnMagnet" styleName="{style.button}"> Set Magnets </g:Button>
+			<g:HorizontalPanel styleName="{style.filePanel}">
+				<g:Button ui:field="btnMagnet" styleName="{style.button}"> Set Magnets </g:Button>
+				<g:Button ui:field="btnClearMagnets" styleName="{style.button}"> Clear All </g:Button>
+			</g:HorizontalPanel>
 		</g:VerticalPanel>
 		
 		
