@@ -36,7 +36,7 @@ public class Admin extends Composite{
 	@UiField static ListBox exercises;
 	@UiField static ListBox logicalExercises, magnetExercises, lstMagnetExercises;
 	@UiField ListBox lstLSubjects, lstLGroups;
-	@UiField Button btnSetDST, btnDSTReview, btnAdminReview, btnAddSkeletons, btnMakeVisible, btnMagnetReview, btnMagnet;
+	@UiField Button btnSetDST, btnClearDST, btnDSTReview, btnAdminReview, btnAddSkeletons, btnMakeVisible, btnMagnetReview, btnMagnet, btnClearMagnets;
 	@UiField Grid grdAdminReview, grdDSTReview, grdMagnetReview;
 	@UiField FileUpload testClass, helperClass, solution, skeleton;
 	@UiField FormPanel helperForm, adminForm, formCompReview;
@@ -59,6 +59,7 @@ public class Admin extends Composite{
 		Proxy.getVisibleExercises(exercises); 
 		Proxy.getLogicalExercises(logicalExercises);
 		Proxy.getLogicalForAssignment(lstLSubjects, lstLGroups, lmPanel, currentLogicals, allLogicals);
+		
 		// I can't believe all the currentMagnets, allMagnets juggling works....
 		Proxy.getMagnetGroups(magnetExercises, magnetSelectionPanel, currentMagnets, allMagnets, lstMagnetExercises);
 								
@@ -116,7 +117,6 @@ public class Admin extends Composite{
 		formCompReview.setAction(Proxy.getBaseURL()+"?cmd=ComprehensiveReview");
 		formCompReview.setEncoding(FormPanel.ENCODING_MULTIPART);
 		formCompReview.setMethod(FormPanel.METHOD_POST);
-		
 	}
 	
 	private class SetDSTHandler implements ClickHandler{
@@ -257,11 +257,66 @@ public class Admin extends Composite{
 		deleteExercise.center();
 	}
 	
+	@UiHandler("btnClearDST")
+	void clearAllDSTClick(ClickEvent event) {
+		for (CheckBox chk : allLogicals.values()) {
+			chk.setValue(false);
+		}
+	}
+	
+	@UiHandler("btnClearMagnets")
+	void clearAllMagnetClick(ClickEvent event) {
+		for (CheckBox chk : allMagnets.values()) {
+			chk.setValue(false);
+		}
+	}
+	
 	// Needed for superAdmin changing sections
 	public static void updateExercises(){
 		Proxy.getVisibleExercises(exercises); 
 		Proxy.getLogicalExercises(logicalExercises);
 		Proxy.getMagnetGroups(magnetExercises, magnetSelectionPanel, currentMagnets, allMagnets, lstMagnetExercises);
 	}
-
+	
+	/**
+	 * This will go through and select any checkboxes for exercises that are 
+	 * currently assigned so that instructors do not have to recheck all the 
+	 * current exercises if all they want to do is add one assignment.
+	 */
+	public static void checkCurrentLogicalExercises() {
+		int count = logicalExercises.getItemCount();
+		
+		for (int i = 0; i < count; i++) {
+			String exercise = logicalExercises.getItemText(i);
+			if (allLogicals.containsKey(exercise)) {
+				allLogicals.get(exercise).setValue(true);
+			} else {
+				CheckBox chk = new CheckBox(exercise);
+				chk.setValue(true);
+				chk.setVisible(false);
+				allLogicals.put(exercise, chk);
+			}
+		}
+	}
+	
+	
+	/*
+	 * It is broke. Will fix next commit.
+	 *
+	public static void checkCurrentMagnetExercises() {
+		int count = magnetExercises.getItemCount();
+		
+		for (int i = 0; i < count; i++) {
+			String exercise = magnetExercises.getItemText(i);
+			if (allMagnets.containsKey(exercise)) {
+				allMagnets.get(exercise).setValue(true);
+			} else {
+				CheckBox chk = new CheckBox(exercise);
+				chk.setValue(true);
+				chk.setVisible(false);
+				allMagnets.put(exercise, chk);
+			}
+		}
+	}
+	*/
 }
