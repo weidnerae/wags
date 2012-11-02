@@ -134,33 +134,33 @@ public ModifiedCreationStation(String[] structuresList, ModifiedCodePanel codePa
 	        	// get the item from the listbox and use it to create a new stackable container
 	        	String selected = structuresList[structures.getSelectedIndex()];
 	        	if(selected.equals("for")){
-	        		createdContainer = new StackableContainer(Consts.FOR, dragControl);
+	        		createdContainer = new StackableContainer(Consts.FOR, dragControl, Consts.STATEMENT);
 	        		String containerCondition ="";
 	        		containerCondition+=for1Options.getText();
 	        		containerCondition+="; " + for2Options.getText();
 	        		containerCondition+="; " + for3Options.getText();
-	        		createdContainer.addContent(containerCondition, "condition");
+	        		createdContainer.addConditionContent(containerCondition);
 	        	}
 	        	if(selected.equals("while")){
-	        		createdContainer = new StackableContainer(Consts.WHILE, dragControl);
-	        		createdContainer.addContent(booleanOptions.getText() , "condition");	
+	        		createdContainer = new StackableContainer(Consts.WHILE, dragControl, Consts.STATEMENT);
+	        		createdContainer.addConditionContent(booleanOptions.getText());	
 	        	}
 	        	if(selected.equals("if")){
-	        		createdContainer = new StackableContainer(Consts.IF, dragControl);
-	        		createdContainer.addContent(booleanOptions.getText() , "condition");
+	        		createdContainer = new StackableContainer(Consts.IF, dragControl, Consts.STATEMENT);
+	        		createdContainer.addConditionContent(booleanOptions.getText());
 	        	}
 	        	if(selected.equals("else if")){
-	        		createdContainer = new StackableContainer(Consts.ELSEIF, dragControl);
-	        	    createdContainer.addContent(booleanOptions.getText() , "condition");
+	        		createdContainer = new StackableContainer(Consts.ELSEIF, dragControl, Consts.STATEMENT);
+	        	    createdContainer.addConditionContent(booleanOptions.getText());
 	        	}
 	        	if(selected.equals("else"))
-	        		createdContainer = new StackableContainer(Consts.ELSE, dragControl);
+	        		createdContainer = new StackableContainer(Consts.ELSE, dragControl, Consts.STATEMENT);
 	        	if(selected.equals("statement"))
-	        		createdContainer = new StackableContainer(statementText.getText(), dragControl);
+	        		createdContainer = new StackableContainer(statementText.getText(), dragControl, Consts.STATEMENT);
 	        	if(selected.equals("function"))
-	        		createdContainer = new StackableContainer(functionText.getText()+ Consts.FUNCTION, dragControl, Consts.NONDRAGGABLE);
+	        		createdContainer = new StackableContainer(functionText.getText()+ Consts.FUNCTION, dragControl, Consts.STATEMENT);  // may need to be Consts.INNER ?
 	        	if(selected.equals("ANY ORDER BOX"))
-	        		createdContainer = new StackableContainer(Consts.ANYORDERBOX,dragControl);
+	        		createdContainer = new StackableContainer(Consts.ANYORDERBOX,dragControl, Consts.STATEMENT);
 	        	
 	        	//putting The text that defines the StackableContainer into the TextArea
 	        	codePanel.addCreatedContainer(createdContainer);

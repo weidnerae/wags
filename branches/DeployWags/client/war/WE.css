@@ -284,6 +284,18 @@ body {
         font-family: "courier new";
         color: black;    
 }
+.nonstackable_container_over{
+	    margin-top: 10px;
+        margin-bottom: 5px;
+        padding: 7px;
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        background: #B34B4B;
+        font-size: 13px;
+        border: 1px solid AliceBlue;
+        font-family: "courier new";
+        color: black;   
+}
 .main_code_container{
         padding: 5px;
         padding-right: 40px;

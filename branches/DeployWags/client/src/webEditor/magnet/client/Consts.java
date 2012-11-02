@@ -13,16 +13,17 @@ public interface Consts {
 	public static String ALGORITHM_PROBLEM = "algorithm_problem";
 	public static String BASIC_PROBLEM = "basic_problem";
 	public static String ADVANCED_PROBLEM = "advanced_problem";
-	// Special conditions for StackableContainer constructor
-	public static String MAIN = "main";
-	public static String NONDRAGGABLE = "nondraggable";
-	public static String INSIDE_COMMENT = "inside_comment";
-
+	
+	
 	// Position inside block
-	public static String TOP = "<!-- top -->";
-	public static String INSIDE = "<!-- inside -->";
-	public static String BOTTOM = "<!-- bottom -->";
 	public static String CONDITION = "<!-- condition -->";
+	public static String PANEL_TAG = "<!-- panel -->";
+	
+	// Types of Stackable Containers, used in constructor
+	public static final int MAIN = 1;
+	public static final int INNER = 2;
+	public static final int STATEMENT = 3;
+	public static final int COMMENT = 4;
 	
 	public static String TOPANYORDER = "<!-- topanyorder -->";
 	public static String BOTTOMANYORDER = "<!-- bottomanyorder -->";
@@ -45,26 +46,21 @@ public interface Consts {
 	public static String[] CONDITION_TYPES = {"choose condition type...","for","boolean"};
 
 	// Blocks of Code
-	public static String FUNCTION = "{<br /><span id=\"inside_of_block\">" + Consts.TOP
-			+ Consts.INSIDE + Consts.BOTTOM + "</span><br />}";
+	public static String FUNCTION = "{<br /><span id=\"inside_of_block\">" + Consts.PANEL_TAG +  "</span><br />}";
 	public static String WHILE = "while (" + Consts.CONDITION
-			+ ") {<br /><span id=\"inside_of_block\">" + Consts.TOP
-			+ Consts.INSIDE + Consts.BOTTOM + "</span><br />}";
+			+ ") {<br /><span id=\"inside_of_block\">" + Consts.PANEL_TAG + "</span><br />}";
 	public static String FOR = "for (" + Consts.CONDITION
-			+ ") {<br /><span id=\"inside_of_block\">" + Consts.TOP
-			+ Consts.INSIDE + Consts.BOTTOM + "</span><br />}";
+			+ ") {<br /><span id=\"inside_of_block\">" + Consts.PANEL_TAG + "</span><br />}";
 	public static String IF = "if (" + Consts.CONDITION
-			+ ") {<br /><span id=\"inside_of_block\">" + Consts.TOP
-			+ Consts.INSIDE + Consts.BOTTOM + "</span><br />}";
+			+ ") {<br /><span id=\"inside_of_block\">" + Consts.PANEL_TAG + "</span><br />}";
 
 	// ELSE doesn't have conditions associated with it
 	public static String ELSE = "else {<br /><span id=\"inside_of_block\">"
-			+ Consts.TOP + Consts.INSIDE + Consts.BOTTOM + "</span><br />}";
+			+ Consts.PANEL_TAG+ "</span><br />}";
 	public static String ELSEIF = "else if (" + Consts.CONDITION
-			+ ") {<br /><span id=\"inside_of_block\">" + Consts.TOP
-			+ Consts.INSIDE + Consts.BOTTOM + "</span><br />}";
+			+ ") {<br /><span id=\"inside_of_block\">" + Consts.PANEL_TAG + "</span><br />}";
 	
 	// Box to designate that the containers within will be valid in any order in an Algritm problem
 	public static String ANYORDERBOX = "The containers contained within this box can be submitted in any vertical order to be considered correct in an Algoritm Problem."+Consts.TOPANYORDER+"<br /><span id=\"inside_of_block\">"
-			+ Consts.TOP + Consts.INSIDE + Consts.BOTTOM + "</span>"+Consts.BOTTOMANYORDER+"<br />}";
+			+ Consts.PANEL_TAG + "</span>"+Consts.BOTTOMANYORDER+"<br />}";
 }

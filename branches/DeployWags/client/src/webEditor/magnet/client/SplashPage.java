@@ -125,17 +125,7 @@ public class SplashPage extends AbsolutePanel {
 		StackableContainer[] preMadeList = new StackableContainer[segments.length]; //should never need this many
 		
 		for (int i = 0; i < segments.length; i++) {
-			if (segments[i].contains(Consts.TOP)) {
-				preMadeList[i] = new StackableContainer(segments[i], dc);
-			} else {
-				preMadeList[i] = new StackableContainer(
-						segments[i] + Consts.TOP 
-									+ Consts.INSIDE 
-									+ Consts.BOTTOM,
-						dc,
-						false
-				);
-			}
+			preMadeList[i] = new StackableContainer(segments[i], dc, Consts.STATEMENT);
 		}
 			
 		return preMadeList;
@@ -150,17 +140,8 @@ public class SplashPage extends AbsolutePanel {
 	 * @return The main StackableContainer
 	 */
 	private StackableContainer getMainContainer(String str) {
-		String hiddenCode="";
-		if(str.contains(Consts.HIDE_START)){
-			hiddenCode = str.substring(str.indexOf(Consts.HIDE_START),str.indexOf(Consts.HIDE_END)+Consts.HIDE_END.length()); //  Getting the hidden code
-			str = str.substring(0,str.indexOf(Consts.HIDE_START))+str.substring(str.indexOf(Consts.HIDE_END)+Consts.HIDE_END.length(),str.length());
-		}
-		return new StackableContainer(
-			str + " {<br />"+hiddenCode+"<br/><span id=\"inside_of_block\">"
-				+ Consts.TOP + Consts.INSIDE+ Consts.BOTTOM + "</span><br />}",
-			dc,
-			Consts.MAIN
-		);
+		// If stuff breaks, this also may be the culprit		
+		return new StackableContainer(str,dc,Consts.MAIN);
 	}
 	
 	/**
@@ -179,7 +160,7 @@ public class SplashPage extends AbsolutePanel {
 		StackableContainer[] insideFunctionsList = new StackableContainer[insideFunctions.length]; //should never need this many
 		
 		for (int i = 0; i < insideFunctions.length; i++) {
-			insideFunctionsList[i] = new StackableContainer(insideFunctions[i], dc, Consts.NONDRAGGABLE);
+			insideFunctionsList[i] = new StackableContainer(insideFunctions[i], dc, Consts.INNER);
 		}
 		
 		return insideFunctionsList;
