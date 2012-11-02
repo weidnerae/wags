@@ -26,15 +26,13 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
-import com.google.gwt.user.client.ui.Widget;
 
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
-import com.google.gwt.json.client.JSONObject;
+
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 
@@ -148,9 +146,9 @@ public class ProblemCreationPanel extends AbsolutePanel{
 		dragControl = new PickupDragController(RootPanel.get(), false);
 		dragControl.setBehaviorDragProxy(true);
 
-		innerFunctionsMCS =  new ModifiedCodePanel(new StackableContainer("Order your Inner Functions here! " + " {<br /><span id=\"inside_of_block\">" + Consts.TOP + Consts.INSIDE + Consts.BOTTOM + "</span><br />}", dragControl, Consts.MAIN),null, dragControl);
-		premadeSegmentsMCS = new ModifiedCodePanel(new StackableContainer("Order your Premade Segments here!" + " {<br /><span id=\"inside_of_block\">" + Consts.TOP + Consts.INSIDE + Consts.BOTTOM + "</span><br />}", dragControl, Consts.MAIN),null, dragControl);
-		algoSolutionMCS = new ModifiedCodePanel(new StackableContainer("Create your solution here!" + " {<br /><span id=\"inside_of_block\">" + Consts.TOP + Consts.INSIDE + Consts.BOTTOM + "</span><br />}", dragControl, Consts.MAIN),null, dragControl);
+		innerFunctionsMCS =  new ModifiedCodePanel(new StackableContainer("Order your Inner Functions here! " + " {<br /><span id=\"inside_of_block\">" + Consts.PANEL_TAG + "</span><br />}", dragControl, Consts.MAIN),null, dragControl);
+		premadeSegmentsMCS = new ModifiedCodePanel(new StackableContainer("Order your Premade Segments here!" + " {<br /><span id=\"inside_of_block\">" + Consts.PANEL_TAG+ "</span><br />}", dragControl, Consts.MAIN),null, dragControl);
+		algoSolutionMCS = new ModifiedCodePanel(new StackableContainer("Create your solution here!" + " {<br /><span id=\"inside_of_block\">" + Consts.PANEL_TAG + "</span><br />}", dragControl, Consts.MAIN),null, dragControl);
 		
 		innerFunctions = new ModifiedCreationStation(Consts.INNER_FUNCTIONS_STRUCTURES_LIST, innerFunctionsMCS);
 		premadeSegments = new ModifiedCreationStation(Consts.PREMADE_SEGMENTS_STRUCTURES_LIST, premadeSegmentsMCS);
@@ -378,7 +376,7 @@ public class ProblemCreationPanel extends AbsolutePanel{
 		 return ArrAndIndex.getPremadeSegmentsArr();
 	 }
 	 public PremadeArrayAndIndex  addTestPremadeSegment(StackableContainer sc, PremadeArrayAndIndex ArrAndIndex) {
-			ArrAndIndex.add(new StackableContainer(sc.getContent(),dragControl));
+			ArrAndIndex.add(new StackableContainer(sc.getContent(),dragControl, Consts.STATEMENT));
 			for (int i = 0; i < sc.getInsidePanel().getWidgetCount(); i++) {
 				ArrAndIndex = addTestPremadeSegment((StackableContainer)sc.getInsidePanel().getWidget(i), ArrAndIndex);
 			}
@@ -389,7 +387,7 @@ public class ProblemCreationPanel extends AbsolutePanel{
 		String[] splitList = functionsList.split(".:colon:.");
 		StackableContainer[] containers = new StackableContainer[splitList.length];
 		for(int i=0;i<splitList.length;i++){
-			containers[i] = new StackableContainer(splitList[i],dragControl,Consts.NONDRAGGABLE);
+			containers[i] = new StackableContainer(splitList[i],dragControl,Consts.INNER);
 		}
 		return containers;
 	}
@@ -399,7 +397,7 @@ public class ProblemCreationPanel extends AbsolutePanel{
 		String[] splitList = functionsList.split(".:colon:.");
 		StackableContainer[] containers = new StackableContainer[splitList.length];
 		for(int i=0;i<splitList.length;i++){
-			containers[i] = new StackableContainer(splitList[i],dragControl);
+			containers[i] = new StackableContainer(splitList[i],dragControl,Consts.STATEMENT);
 		}
 		return containers;
 	}

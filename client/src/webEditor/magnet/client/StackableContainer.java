@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * this to redocument it.
  */
 public class StackableContainer extends FocusPanel {
-	private AbsolutePanel innerPanel = new AbsolutePanel();
+	private AbsolutePanel primaryPanel = new AbsolutePanel();
 	private AbsolutePanel topPanel = new AbsolutePanel();
 	private AbsolutePanel insidePanel = new AbsolutePanel();
 	private AbsolutePanel bottomPanel = new AbsolutePanel();
@@ -36,66 +36,6 @@ public class StackableContainer extends FocusPanel {
 	String content = "";
 
 	/**
-	 * Constructor - Sets up a stackable container by adding HTML formatted
-	 * content to the corresponding panel within the container.
-	 * 
-	 * @param content
-	 *            the HTML formatted text to be added to the container.
-	 * @param dc
-	 *            the drag controller
-	 */
-	public StackableContainer(String content, PickupDragController dc) {
-		add(innerPanel);
-		this.dragController = dc;
-		
-		
-		boolean hasHidden = content.contains(Consts.HIDE_START);
-		
-		// Hides code within tags from the student, but still compiles with it
-		// Hidden code can't have nested comments, so we don't have check for that
-		if(hasHidden){
-			hiddenCode = content.substring(content.indexOf(Consts.HIDE_START)+Consts.HIDE_START.length(),content.indexOf(Consts.HIDE_END)); //  Getting the hidden code
-			hiddenCode = hiddenCode.replaceAll("<br/>|<br />|<br>", "<br/>"+Consts.HC_DELIMITER);
-			this.content = content.substring(0,content.indexOf(Consts.HIDE_START))+Consts.HIDDEN_CODE+content.substring(content.indexOf(Consts.HIDE_END),content.length()-1);
-		}else{
-			this.content = content;
-		}
-		
-		boolean containsComment = this.content.contains(".:2:.");
-		if(containsComment){
-			String[] splitContent = this.content.split(".:2:.");
-			// The first element is the base magnet
-			this.content = splitContent[0];
-		}
-		
-		// If it should nest, set it up for nesting
-		if (!this.content.contains(Consts.INSIDE)) {
-			topLabel = new HTML(this.content);
-		} else {
-			topLabel = new HTML(this.content.substring(0,
-					this.content.indexOf(Consts.INSIDE) + Consts.INSIDE.length()),
-					true);
-		}
-		topPanel.add(topLabel);
-		innerPanel.add(topPanel);
-		innerPanel.add(insidePanel);
-		bottomLabel = new HTML(Consts.BOTTOM
-				+ this.content.substring(this.content.indexOf(Consts.INSIDE)
-						+ Consts.INSIDE.length(), this.content.length()), true);
-		bottomPanel.add(bottomLabel);
-		innerPanel.add(bottomPanel);
-		setStyleName("stackable_container");
-		dragController.makeDraggable(this);
-		if(containsComment){
-			String[] splitContent = content.split(".:2:.");
-			for(int i=1; i<splitContent.length;i++){
-				addInsideContainer(new StackableContainer("// "+splitContent[i]+Consts.TOP + Consts.INSIDE + Consts.BOTTOM,dc, Consts.INSIDE_COMMENT));
-			}
-		}
-		this.content = content.split(".:2:.")[0];
-	}
-
-	/**
 	 * A stackable container for the overall code with main and such. This
 	 * container is not draggable.
 	 * 
@@ -107,106 +47,99 @@ public class StackableContainer extends FocusPanel {
 	 *            usually main
 	 */
 	public StackableContainer(String content, PickupDragController dc,
-			String specialCondition) { // For mains, non draggable
-		add(innerPanel);
+			int specialCondition) { // For mains, non draggable
+		this.content = content;
+		add(primaryPanel);  // primaryPanel holds everything else, becaue the focusPanel can only hold one widget
 		setStyleName("stackable_container");
-
 		this.dragController = dc;
+		String[] splitContent = new String[0]; // Used to hold comment magnets
 		
-		boolean hasHidden = content.contains(Consts.HIDE_START);
-		if(hasHidden){
-			hiddenCode = content.substring(content.indexOf(Consts.HIDE_START)+Consts.HIDE_START.length(),content.indexOf(Consts.HIDE_END)); //  Getting the hidden code
+		boolean containsComment = this.content.contains(".:2:.");
+		if(containsComment){
+			splitContent = this.content.split(".:2:.");
+			this.content = splitContent[0];
+		}
+		
+		if(this.content.contains(Consts.HIDE_START)){  // Checks to see if the magnet contains hidden code
+			hiddenCode = this.content.substring(this.content.indexOf(Consts.HIDE_START)+Consts.HIDE_START.length(),this.content.indexOf(Consts.HIDE_END)); //  Getting the hidden code
 			hiddenCode = hiddenCode.replaceAll("<br/>|<br />|<br>", "<br/>"+Consts.HC_DELIMITER);
-			this.content = content.substring(0,content.indexOf(Consts.HIDE_START))+Consts.HIDDEN_CODE+content.substring(content.indexOf(Consts.HIDE_END),content.length());
-		}else{
-			this.content = content;
-		}
+			// Label doesn't include hidden code, but content will (done near end of constructor)
+			String beforeHide = this.content.substring(0, this.content.indexOf(Consts.HIDE_START));
+			String afterHide = this.content.substring(this.content.indexOf(Consts.HIDE_END) + Consts.HIDE_END.length());
+			this.content = beforeHide + Consts.HIDDEN_CODE + afterHide;
+		}		
+		switch(specialCondition){
+			case Consts.MAIN:
+				isMain = true;    // needed for resetting CSS styling
+				stackable = true;
+				setStyleName("main_code_container");
+				break;
+			case Consts.INNER:
+				if(content.contains(Consts.PANEL_TAG)){
+					stackable = true;
+				} else {
+					stackable = false;
+				}
+				break;
+			case Consts.STATEMENT:
+				if(content.contains(Consts.PANEL_TAG)){
+					stackable = true;
+				} else {
+					stackable = false;
+				}
+				dragController.makeDraggable(this);
+				break;
+			case Consts.COMMENT:
+				stackable = false;
+				this.getStyleElement().getStyle().setProperty("border","none");
+				break;
+			default:
+				System.err.println("Bad - you shouldn't be here!  Stackable container constructor error.");
+				break;
+		}	
 		
-		boolean containsComment = this.content.contains(".:2:.");
+		if(stackable){
+			topLabel = new HTML(this.content.substring(0, this.content.indexOf(Consts.PANEL_TAG)
+					+ Consts.PANEL_TAG.length()), true);
+			topPanel.add(topLabel);
+			primaryPanel.add(topPanel);
+			primaryPanel.add(insidePanel);
+			
+			// IF STUFF BREAKS THIS MAY BE THE CULPRIT ADD PANEL_TAG ETC.
+			bottomLabel = new HTML(this.content.substring(this.content.indexOf(Consts.PANEL_TAG)
+							+ Consts.PANEL_TAG.length(), this.content.length()), true);
+			bottomPanel.add(bottomLabel);
+			primaryPanel.add(bottomPanel);
+		} else {
+			// topLabel is actually the only label!
+			topLabel = new HTML(this.content);
+			// topPanel is actually the only panel!
+			topPanel.add(topLabel);
+			primaryPanel.add(topPanel);
+		}
+
+		// Adds comment magnets to insidePanel
+		// NOTE:  Comments can only be added to stackable containers
 		if(containsComment){
-			String[] splitContent = this.content.split(".:2:.");
-			this.content = splitContent[0];
-		}
-		
-		topLabel = new HTML(this.content.substring(0, this.content.indexOf(Consts.INSIDE)
-				+ Consts.INSIDE.length()), true);
-		topPanel.add(topLabel);
-		innerPanel.add(topPanel);
-		innerPanel.add(insidePanel);
-		bottomLabel = new HTML(Consts.BOTTOM
-				+ this.content.substring(this.content.indexOf(Consts.INSIDE)
-						+ Consts.INSIDE.length(), this.content.length()), true);
-		bottomPanel.add(bottomLabel);
-		innerPanel.add(bottomPanel);
-		
-		if (specialCondition.equals(Consts.MAIN)) {	
-			isMain = true;
-			setStyleName("main_code_container");
-		}
-		
-		if(containsComment){
-			String[] splitContent = content.split(".:2:.");
 			for(int i=1; i<splitContent.length;i++){
-				addInsideContainer(new StackableContainer("// "+splitContent[i]+Consts.TOP + Consts.INSIDE + Consts.BOTTOM,dc, Consts.INSIDE_COMMENT));
+				addInsideContainer(new StackableContainer(splitContent[i], dc, Consts.COMMENT));
 			}
 		}
 		
-		if(specialCondition.equals(Consts.INSIDE_COMMENT)){
-			stackable = false;
-			this.getStyleElement().getStyle().setProperty("border","none");
-		}
-		
-		this.content = content.split(".:2:.")[0];
+		this.content = content.split(".:2:.")[0]; // Reverts back to actual code - hidden stuff and all.
 	}
 
-	/**
-	 * Constructor that allows any container to be non stackable by providing a
-	 * false as the final argument
-	 * 
-	 * @param content
-	 *            the HTML formatted string
-	 * @param dc
-	 *            the drag controller
-	 * @param s
-	 *            true for draggable, false for undraggable
-	 */
-	public StackableContainer(String content, PickupDragController dc, boolean s) {
-		add(innerPanel);
-
-		stackable = s;
-		this.dragController = dc;
-		boolean hasHidden = content.contains(Consts.HIDE_START);
-		if(hasHidden){
-			hiddenCode = content.substring(content.indexOf(Consts.HIDE_START)+Consts.HIDE_START.length(),content.indexOf(Consts.HIDE_END)); //  Getting the hidden code
-			hiddenCode = hiddenCode.replaceAll("<br/>|<br />|<br>", ("<br/>"+Consts.HC_DELIMITER));
-			this.content = content.substring(0,content.indexOf(Consts.HIDE_START))+Consts.HIDDEN_CODE+content.substring(content.indexOf(Consts.HIDE_END)+Consts.HIDE_END.length(),content.length()-1);
-		}else{
-			this.content = content;
-		}
-		topLabel = new HTML(this.content);
-		innerPanel.add(topLabel);
-		boolean containsComment = this.content.contains(".:2:.");
-		if(containsComment){
-			String[] splitContent = this.content.split(".:2:.");
-			this.content = splitContent[0];
-		}
-		setStyleName("stackable_container");
-		dragController.makeDraggable(this);
-		if(containsComment){
-			String[] splitContent = content.split(".:2:.");
-			for(int i=1; i<splitContent.length;i++){
-				addInsideContainer(new StackableContainer("// "+splitContent[i]+Consts.TOP + Consts.INSIDE + Consts.BOTTOM,dc, Consts.INSIDE_COMMENT));
-			}
-		}
-		this.content = content.split(".:2:.")[0];
-	}
-
+	
 	public void setEngaged(boolean engaged) {
 		if (engaged) {
 			if (isMain) {
 				setStyleName("main_code_over");
 			} else {
-				setStyleName("stackable_container_over");
+				if(!stackable){
+					setStyleName("nonstackable_container_over");
+				} else{
+					setStyleName("stackable_container_over");
+				}
 			}
 		} else {
 			if (isMain) {
@@ -216,24 +149,9 @@ public class StackableContainer extends FocusPanel {
 			}
 		}
 	}
-
-	public void addVeryTopContent(String s) {
-		content = content.replaceAll(Consts.TOP, s);
-		updateContent();
-	}
-
 	public void addConditionContent(String s) {
 		content = content.replaceAll(Consts.CONDITION, s);
 		updateContent();
-	}
-
-	public void addTopContent(String s) {
-		content = content.replaceAll(Consts.TOP, s);
-		updateContent();
-	}
-
-	public void addInsideContent(String s) {
-		insidePanel.add(new StackableContainer(s, dragController));
 	}
 	
 	public void addInsideContainer(StackableContainer sc) {
@@ -262,7 +180,7 @@ public class StackableContainer extends FocusPanel {
 			}
 			boolean done = false;
 			for (int i = 0; i < sortedChildren.size(); i++) {
-				if (sortedChildren.get(i).getAbsoluteTop() > context.desiredDraggableY
+				if (sortedChildren.get(i).getAbsoluteTop() > context.mouseY
 						&& !done) {
 					sortedChildren.add(i, child);
 					done = true;
@@ -280,49 +198,24 @@ public class StackableContainer extends FocusPanel {
 		}
 	}
 
-	public void addBottomContent(String s) {
-		content = content.replaceAll(Consts.BOTTOM, s);
-		updateContent();
-	}
-
-	public void addContent(String s, String position) {
-		if (position.equals("top"))
-			addTopContent(s);
-		else if (position.equals("middle"))
-			addInsideContent(s);
-		else if (position.equals("bottom"))
-			addBottomContent(s);
-		else if (position.equals("verytop"))
-			addVeryTopContent(s);
-		else if (position.equals("condition"))
-			addConditionContent(s);
-		else
-			addInsideContent(s);
-	}
-
 	public void updateContent() {
 		topPanel.remove(topLabel);
 		bottomPanel.remove(bottomLabel);
 		
-		if (!content.contains(Consts.INSIDE)) {
+		if (!content.contains(Consts.PANEL_TAG)) {
 			topLabel = new HTML(content);
 		} else {
 			topLabel = new HTML(content.substring(0,
-					content.indexOf(Consts.INSIDE) + Consts.INSIDE.length()));
+					content.indexOf(Consts.PANEL_TAG) + Consts.PANEL_TAG.length()));
 		}
-		bottomLabel = new HTML(Consts.BOTTOM
-				+ content.substring(content.indexOf(Consts.INSIDE)
-						+ Consts.INSIDE.length(), content.length()));
+		bottomLabel = new HTML(content.substring(content.indexOf(Consts.PANEL_TAG)
+						+ Consts.PANEL_TAG.length(), content.length()));
 		topPanel.add(topLabel);
 		bottomPanel.add(bottomLabel);
 	}
 
 	public boolean isStackable() {
 		return stackable;
-	}
-
-	public boolean isMain() {
-		return isMain;
 	}
 
 	public HTML getTopLabel() {
@@ -333,6 +226,11 @@ public class StackableContainer extends FocusPanel {
 	}
 
 	public HTML getBottomLabel() {
+		if(bottomLabel != null){
+			if(bottomLabel.getHTML().contains(Consts.HIDDEN_CODE)){
+				return new HTML(bottomLabel.getHTML().replace(Consts.HIDDEN_CODE,hiddenCode));
+			}
+		}
 		return bottomLabel;
 	}
 

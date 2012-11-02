@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import webEditor.client.Proxy;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.IsSerializable;
 public class Evaluation_Hashing extends Evaluation implements IsSerializable {
 	public String evaluate(String problemName, String[] arguments,

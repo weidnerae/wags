@@ -73,13 +73,13 @@ public class CodePanelUi extends Composite {
 		mainPanel.add(mainFunction);
 	}
 	public void setupPopupPanel(){
-		popupPanel = new PopupPanel(false);
+		popupPanel = new PopupPanel(true);
 		VerticalPanel vPanel = new VerticalPanel();
 		HorizontalPanel hPanel = new HorizontalPanel();
 		Label pLabel = new Label("Are you sure you wish to finalize?");
 		Button yesButton = new Button("Yes",new yesHandler());
 		yesButton.addStyleName("big_popup_button");
-		Button noButton = new Button("no",new noHandler());
+		Button noButton = new Button("No",new noHandler());
 		noButton.addStyleName("big_popup_button");
 		hPanel.add(yesButton);	
 		hPanel.add(noButton);
@@ -95,9 +95,10 @@ public class CodePanelUi extends Composite {
 	//finalize button handler, calls methods that generate the content and evaluate it
 	@UiHandler("button")
 	void handleClick(ClickEvent e){
-		popupPanel.setPopupPosition(button.getAbsoluteLeft(), button.getAbsoluteTop()-75);
+		popupPanel.setPopupPosition(button.getAbsoluteLeft(), button.getAbsoluteTop()-80);
 		popupPanel.setVisible(true);
 		popupPanel.show();
+		
 
 	}
 	 private class yesHandler implements ClickHandler{
@@ -168,40 +169,39 @@ public class CodePanelUi extends Composite {
 	 * 		StackableContainers are grabbed recursively.
 	 */
 	public void buildContent(StackableContainer sc) {
-		tabNumber++;
-		String tabs = "";
-		boolean isNested = false;
-		if(sc.getInsidePanel().getWidgetCount() > 0) isNested = true;
-		
-		// For proper indentation
-		for (int i = 0; i < tabNumber; i++) {
-			tabs += "\t";
-		}
-		
-		if (sc.getTopLabel() != null) {
-			String rawHTML = sc.getTopLabel().getHTML();
-			String procHTML = rawHTML.replaceAll("<br/>|<br />|<br>", "");
-			HTML topLabel = new HTML(procHTML);
-			if(isNested) plainText.append("\n");
-			plainText.append(tabs + topLabel.getText() + "\n");
-			
-		}
-		
-		for (int i = 0; i < sc.getInsidePanel().getWidgetCount(); i++) {
-			buildContent((StackableContainer) sc.getInsidePanel().getWidget(i));
-		}
-		
-		if (sc.getBottomLabel() != null) {
-			String rawHTML = sc.getBottomLabel().getHTML();
-			String procHTML = rawHTML.replaceAll("<br/>|<br />|<br>", "");
-			HTML bottomLabel = new HTML(procHTML);
-			if(!bottomLabel.getText().equals(""))
-				plainText.append(tabs + bottomLabel.getText() + "\n");
-				if(isNested) plainText.append("\n");
-		}
-		
-		
-		tabNumber--;
+        tabNumber++;
+        String tabs = "";
+        boolean isNested = false;
+        if(sc.getInsidePanel().getWidgetCount() > 0) isNested = true;
+        
+        // For proper indentation
+        for (int i = 0; i < tabNumber; i++) {
+                tabs += "\t";
+        }
+        
+        if (sc.getTopLabel() != null) {
+                String rawHTML = sc.getTopLabel().getHTML();
+                String procHTML = rawHTML.replaceAll("<br/>|<br />|<br>", "");
+                HTML topLabel = new HTML(procHTML);
+                if(isNested) plainText.append("\n");
+                plainText.append(tabs + topLabel.getText() + "\n");
+                
+        }
+        
+        for (int i = 0; i < sc.getInsidePanel().getWidgetCount(); i++) {
+                buildContent((StackableContainer) sc.getInsidePanel().getWidget(i));
+        }
+        
+        if (sc.getBottomLabel() != null) {
+                String rawHTML = sc.getBottomLabel().getHTML();
+                String procHTML = rawHTML.replaceAll("<br/>|<br />|<br>", "\n");
+                HTML bottomLabel = new HTML(procHTML);
+                if(!bottomLabel.getText().equals(""))
+                        plainText.append(tabs + bottomLabel.getText() + "\n");
+                        if(isNested) plainText.append("\n");
+        }        
+        tabNumber--;
+
 	}
 	
 	

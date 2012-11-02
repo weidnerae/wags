@@ -177,27 +177,27 @@ public class CreationStation extends VerticalPanel{
 	        	//for each case create a different stackable container and 
 	        	//depending on the case grab the needed arguments from the remaining listboxes
 	        	if(selected.equals("for")){
-	        		createdContainer = new StackableContainer(Consts.FOR,dc);
+	        		createdContainer = new StackableContainer(Consts.FOR,dc, Consts.STATEMENT);
 	        		String containerCondition ="";
 	        		containerCondition+=forConditions1.getItemText(forConditions1.getSelectedIndex());
 	        		containerCondition+="; " + forConditions2.getItemText(forConditions2.getSelectedIndex());
 	        		containerCondition+="; " + forConditions3.getItemText(forConditions3.getSelectedIndex());
-	        		createdContainer.addContent(containerCondition, "condition");
+	        		createdContainer.addConditionContent(containerCondition);
 	        	}
 	        	if(selected.equals("while")){
-	        		createdContainer = new StackableContainer(Consts.WHILE, dc);
-	        		createdContainer.addContent(booleanConditions.getItemText(booleanConditions.getSelectedIndex()) , "condition");	
+	        		createdContainer = new StackableContainer(Consts.WHILE, dc, Consts.STATEMENT);
+	        		createdContainer.addConditionContent((booleanConditions.getItemText(booleanConditions.getSelectedIndex())));	
 	        	}
 	        	if(selected.equals("if")){
-	        		createdContainer = new StackableContainer(Consts.IF, dc);
-	        		createdContainer.addContent(booleanConditions.getItemText(booleanConditions.getSelectedIndex()) , "condition");	
+	        		createdContainer = new StackableContainer(Consts.IF, dc, Consts.STATEMENT);
+	        		createdContainer.addConditionContent(booleanConditions.getItemText(booleanConditions.getSelectedIndex()));	
 	        	}
 	        	if(selected.equals("else if")){
-	        		createdContainer = new StackableContainer(Consts.ELSEIF, dc);
-	        		createdContainer.addContent(booleanConditions.getItemText(booleanConditions.getSelectedIndex()) , "condition");	
+	        		createdContainer = new StackableContainer(Consts.ELSEIF, dc, Consts.STATEMENT);
+	        		createdContainer.addConditionContent(booleanConditions.getItemText(booleanConditions.getSelectedIndex()));	
 	        	}
 	        	if(selected.equals("else"))
-	        		createdContainer = new StackableContainer(Consts.ELSE,dc);
+	        		createdContainer = new StackableContainer(Consts.ELSE,dc, Consts.STATEMENT);
 
 	        	
 	        	// add that sucker to the construct panel
