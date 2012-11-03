@@ -308,8 +308,10 @@ public class ProblemServiceImpl
                     true,
                     DSTConstants.NODE_STRING_DRAGGABLE);
 			case 19: return new TreeProblem("MaxHeap 1",
-					"MaxHeap 1: Insert the nodes into a MaxHeap. Hint: you may have to use the" +
-					" bubble up technique.",
+					"MaxHeap 1: Move the nodes to the left into a complete binary tree in the given order;" +
+				    " you do not have to add edges. Scroll down to make sure you have included all the given data." +
+					" Then apply the reheap algorithm to this tree to form a max heap." +
+				    " Add the edges to your final answer and then press Evaluate.",
 					"76 98 43 12 48 3 15 29",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -322,8 +324,10 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 20: return new TreeProblem("MaxHeap 2",
-					"MaxHeap 2: Insert the nodes into a MaxHeap. Hint: you may have to use the" +
-					" bubble up technique.",
+					"MaxHeap 2: Move the nodes to the left into a complete binary tree in the given order;" +
+				    " you do not have to add edges. Scroll down to make sure you have included all the given data." +
+					" Then apply the reheap algorithm to this tree to form a max heap." +
+				    " Add the edges to your final answer and then press Evaluate.",
 					"17 23 7 39 91 78 45 57 82",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -336,28 +340,32 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 21: return new TreeProblem("MaxHeap 3",
-					"MaxHeap 3: Insert the nodes into a MaxHeap. Hint: you may have to use the" +
-					" bubble up technique.",
+					"MaxHeap 3: Move the nodes to the left into a complete binary tree in the given order;" +
+				    " you do not have to add edges. Scroll down to make sure you have included all the given data." +
+					" Then apply the reheap algorithm to this tree to form a max heap." +
+				    " Add the edges to your final answer and then press Evaluate.",
 					"9 89 17 53 32 47 91 68 30 21",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
 				    noEdges,
-					new String[]{"91 68 89 53 32 17 47 9 30 21"},
+					new String[]{"91 89 47 68 32 9 17 53 30 21"},
 					levelHeap,
 					rules,
 					true,
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 22: return new TreeProblem("MaxHeap 4",
-					"MaxHeap 4: Insert the nodes into a MaxHeap. Hint: you may have to use the" +
-					" bubble up technique.",
+					"Move the nodes to the left into a complete binary tree in the given order;" +
+				    " you do not have to add edges. Scroll down to make sure you have included all the given data." +
+					" Then apply the reheap algorithm to this tree to form a max heap." +
+				    " Add the edges to your final answer and then press Evaluate.",
 					"7 12 15 29 22 37 41 50 48 73 68 85",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
 				    noEdges,
-					new String[]{"85 68 73 41 50 37 29 7 22 15 48 12"},
+					new String[]{"85 73 41 50 68 37 7 29 48 22 12 15"},
 					levelHeap,
 					rules,
 					true,
@@ -572,22 +580,26 @@ public class ProblemServiceImpl
 			
 			//
 			case 38: return new TreeProblem("MinHeap 1",
-					"MinHeap 1: Insert the nodes into a MinHeap. Hint: you may have to use the" +
-					" bubble up technique.",
+					"MinHeap 1: Move the nodes to the left into a complete binary tree in the given order;" +
+				    " you do not have to add edges. Scroll down to make sure you have included all the given data." +
+					" Then apply the reheap algorithm to this tree to form a min heap." +
+				    " Add the edges to your final answer and then press Evaluate.",
 					"76 98 43 12 48 3 15 29",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
 				    noEdges,
-					new String[]{"3 29 12 43 48 76 15 98"},
+					new String[]{"3 12 15 29 48 43 76 98"},
 					minLevelHeap,
 					rules,
 					true,
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 39: return new TreeProblem("MinHeap 2",
-					"Minheap 2: Insert the nodes into a MinHeap. Hint: you may have to use the" +
-					" bubble up technique.",
+					"Minheap 2: Move the nodes to the left into a complete binary tree in the given order;" +
+				    " you do not have to add edges. Scroll down to make sure you have included all the given data." +
+					" Then apply the reheap algorithm to this tree to form a min heap." +
+				    " Add the edges to your final answer and then press Evaluate.",
 					"17 23 91 7 39 78 82 45 57",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
@@ -600,28 +612,32 @@ public class ProblemServiceImpl
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 40: return new TreeProblem("MinHeap 3",
-					"MinHeap 3: Insert the nodes into a MinHeap. Hint: you may have to use the" +
-					" bubble up technique.",
+					"MinHeap 3: Move the nodes to the left into a complete binary tree in the given order;" +
+				    " you do not have to add edges. Scroll down to make sure you have included all the given data." +
+					" Then apply the reheap algorithm to this tree to form a min heap." +
+				    " Add the edges to your final answer and then press Evaluate.",
 					"9 89 17 53 32 47 91 68 30 21",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
 				    noEdges,
-					new String[]{"9 21 17 32 30 47 91 89 68 53"},
+					new String[]{"9 21 17 30 32 47 91 68 53 89"},
 					minLevelHeap,
 					rules,
 					true,
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 41: return new TreeProblem("MinHeap 4",
-					"MinHeap 4:Insert the nodes into a MinHeap. Hint: you may have to use the" +
-					" bubble up technique.",
+					"MinHeap 4: Move the nodes to the left into a complete binary tree in the given order;" +
+				    " you do not have to add edges. Scroll down to make sure you have included all the given data." +
+					" Then apply the reheap algorithm to this tree to form a min heap." +
+				    " Add the edges to your final answer and then press Evaluate.",
 					"85 68 73 48 50 41 37 22 29 15 12 7",
 					DSTConstants.INSERT_METHOD_VALUE,
 					noLocs,
 					noLocs,
 				    noEdges,
-					new String[]{"7 15 12 37 22 41 48 85 50 68 29 73"},
+					new String[]{"7 12 37 22 15 41 85 48 29 68 50 73"},
 					minLevelHeap,
 					rules,
 					true,
