@@ -3,8 +3,9 @@
 class getDesc extends Command
 {
 	public function execute(){
+		
 		$exTitle = $_GET['title'];
-
+		
 		$exercise = Exercise::getExerciseByTitle($exTitle);
 		$description = $exercise->getDescription();
 		
@@ -29,6 +30,7 @@ class getDesc extends Command
 		$url = str_replace(WE_ROOT, WE_URL, $description);
 		
 		return JSON::success($url);
+		
 
 	}
 }
