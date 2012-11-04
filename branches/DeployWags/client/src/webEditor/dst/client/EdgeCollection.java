@@ -227,7 +227,7 @@ public class EdgeCollection implements IsSerializable {
 	}
 
 	public void addEdgeToCanvas(Line line) {
-		line.setStrokeWidth(5);
+		line.setStrokeWidth(10);
 		dm.drawEdge(line);
 	}
 
