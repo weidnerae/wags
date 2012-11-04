@@ -17,12 +17,14 @@
 		
 		.anchor:hover { 
 			text-decoration: underline; 
+			z-index: 102;
 		}
 
 		.hello-logout {  
 			vertical-align: middle; 
        		padding-right: 5px; 
             display: inline;
+            z-index: 102;
 		}
 		
 		.std-txt { 
@@ -34,7 +36,7 @@
 			font-weight: light;
 			font-style: italic;
 			color: #A0A0FF;
-			z-index: 99;
+			z-index: 101;
 			position: relative;
 			vertical-align: top;
 			display: inline;

@@ -197,7 +197,7 @@ public class CodePanelUi extends Composite {
                 String procHTML = rawHTML.replaceAll("<br/>|<br />|<br>", "\n");
                 HTML bottomLabel = new HTML(procHTML);
                 if(!bottomLabel.getText().equals(""))
-                        plainText.append(tabs + bottomLabel.getText() + "\n");
+                        plainText.append(tabs + bottomLabel.getText().trim() + "\n");
                         if(isNested) plainText.append("\n");
         }        
         tabNumber--;
