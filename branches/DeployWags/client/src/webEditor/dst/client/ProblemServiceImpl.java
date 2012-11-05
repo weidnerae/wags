@@ -467,7 +467,7 @@ public class ProblemServiceImpl
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 30: return new TreeProblem("MaxHeap Deletion 4",
 					"MaxHeap Deletion 4: Use the bubble down technique to remove the node 91 from the heap and then reformulate the heap."+
-					" You can simply place 89 out of the way in a corner after removing the connecting edges.",
+					" You can simply place 91 out of the way in a corner after removing the connecting edges.",
 					"91 89 85 78 67 69 76 54 17 22 37 45 9",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					getHeapXLocations(false,"91 89 85 78 67 69 76 54 17 22 37 45 9"),
@@ -743,7 +743,7 @@ public class ProblemServiceImpl
 					DSTConstants.NODE_STRING_DRAGGABLE);
 			case 49: return new TreeProblem("MinHeap Deletion 4",
 					"MinHeap Deletion 4: Use the bubble down technique to remove the node 9 from the heap and then reformulate the heap."+
-					" You can simply place out of the way in a corner after removing the connecting edges.",
+					" You can simply place 9 out of the way in a corner after removing the connecting edges.",
 					"9 17 37 22 54 45 76 78 85 89 69 91 67",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
 					getHeapXLocations(false,"9 17 37 22 54 45 76 78 85 89 69 91 67"),
