@@ -11,9 +11,13 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -61,30 +65,55 @@ public class Wags extends View
 		splashPage = new SplashPage(this);
 		splashPage.getElement().getStyle().setOverflowY(Overflow.AUTO);
 		editor = new Editor();
-
+		
 		// Load the correct initial page
-		if(startingPlace.equals("magnets")){
+		if (startingPlace.equals("magnets")) {
 			Magnets.setVisible(true);
 			replaceCenterContent(splashPage);
-		}
-		else if(startingPlace.equals("dst")){
-				Proxy.buildDST(this);
-		}
-		else{
+			History.newItem("?loc=magnets");
+		} else if (startingPlace.equals("dst")) {
+			Proxy.buildDST(this);
+			History.newItem("?loc=dst");
+		} else {
 			replaceCenterContent(editor);
+			History.newItem("?loc=editor");
 		}
 		
+		//Make back/forward buttons work.
+		History.addValueChangeHandler(new ValueChangeHandler<String>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<String> event) {
+				String url = event.getValue();
+				if (url.endsWith("editor")) {
+					Editor.fireEvent(new ClickEvent() { });
+				} else if (url.endsWith("dst")) {
+					DST.fireEvent(new ClickEvent() { });
+				} else if (url.endsWith("magnets")) {
+					Magnets.fireEvent(new ClickEvent() { });
+				}
+			}
+			
+		});
 	} // end constructor
 
 	@UiHandler("Editor")
 	void onEditorClick(ClickEvent event)
 	{
 		replaceCenterContent(editor);
+		
+		if (!Window.Location.getHref().endsWith("editor")) {
+			History.newItem("?loc=editor");
+		}
 	}
 	@UiHandler("DST")
 	void onDSTClick(ClickEvent event)
 	{
 		Proxy.buildDST(this);
+		
+		if (!Window.Location.getHref().endsWith("dst")) {
+			History.newItem("?loc=dst");
+		}
 	}
 	@UiHandler("Magnets")
 	void onMagnetsClick(ClickEvent event)
@@ -95,6 +124,10 @@ public class Wags extends View
 		splashPage.getElement().getStyle().setOverflowY(Overflow.AUTO);
 		replaceCenterContent(splashPage);
 		splashPage.getWidget(0).setVisible(true);
+		
+		if (!Window.Location.getHref().endsWith("magnets")) {
+			History.newItem("?loc=magnets");
+		}
 	}
 
 	/**
@@ -178,10 +211,12 @@ public class Wags extends View
 		setPassword.center();
 		password.setFocus(true);
 	}
+	
 	public void placeProblem(MagnetProblem magnet){
 		RefrigeratorMagnet problem = splashPage.makeProblem(magnet);
     	replaceCenterContentMagnet(problem);
 	}
+	
 	public void replaceCenterContentMagnet(RefrigeratorMagnet w){
 		for(int i=0;i<dock.getWidgetCount();i++){
 			if(dock.getWidgetDirection(dock.getWidget(i))==DockLayoutPanel.Direction.CENTER){
@@ -199,6 +234,7 @@ public class Wags extends View
 			dock.add(w);
 		}
 	}
+	
 	public void updateSplashPage(VerticalPanel problemPane){
 		
 		splashPage.remove(0);  // removes old problemPane ?
