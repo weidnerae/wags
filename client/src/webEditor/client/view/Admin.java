@@ -46,6 +46,8 @@ public class Admin extends Composite{
 	private static AdminUiBinder uiBinder = GWT.create(AdminUiBinder.class);
 	private static ArrayList<CheckBox> currentMagnets = new ArrayList<CheckBox>();
 	private static ArrayList<CheckBox> currentLogicals = new ArrayList<CheckBox>();
+	private static ArrayList<String> assignedMagExs = new ArrayList<String>();
+	private static ArrayList<String> assignedLogExs = new ArrayList<String>();
 	private static java.util.HashMap<String, CheckBox> allMagnets = new java.util.HashMap<String, CheckBox>();
 	private static java.util.HashMap<String, CheckBox> allLogicals = new java.util.HashMap<String, CheckBox>();
 
@@ -58,10 +60,12 @@ public class Admin extends Composite{
 		//Fill in exercise listboxes
 		Proxy.getVisibleExercises(exercises); 
 		Proxy.getLogicalExercises(logicalExercises);
+		Proxy.getAssignedLogicalExercises(assignedLogExs);
 		Proxy.getLogicalForAssignment(lstLSubjects, lstLGroups, lmPanel, currentLogicals, allLogicals);
 		
 		// I can't believe all the currentMagnets, allMagnets juggling works....
 		Proxy.getMagnetGroups(magnetExercises, magnetSelectionPanel, currentMagnets, allMagnets, lstMagnetExercises);
+		Proxy.getAssignedMagnetExercises(assignedMagExs);
 								
 		
 		//Handle the Add Exercise Form
@@ -284,10 +288,7 @@ public class Admin extends Composite{
 	 * current exercises if all they want to do is add one assignment.
 	 */
 	public static void checkCurrentLogicalExercises() {
-		int count = logicalExercises.getItemCount();
-		
-		for (int i = 0; i < count; i++) {
-			String exercise = logicalExercises.getItemText(i);
+		for (String exercise : assignedLogExs) {
 			if (allLogicals.containsKey(exercise)) {
 				allLogicals.get(exercise).setValue(true);
 			} else {
@@ -299,15 +300,11 @@ public class Admin extends Composite{
 		}
 	}
 	
-	
-	/*
-	 * It is broke. Will fix next commit.
-	 *
+	/**
+	 * Same as checkCurrentLogicalExercises, but with Magnets.
+	 */
 	public static void checkCurrentMagnetExercises() {
-		int count = magnetExercises.getItemCount();
-		
-		for (int i = 0; i < count; i++) {
-			String exercise = magnetExercises.getItemText(i);
+		for (String exercise : assignedMagExs) {
 			if (allMagnets.containsKey(exercise)) {
 				allMagnets.get(exercise).setValue(true);
 			} else {
@@ -318,5 +315,4 @@ public class Admin extends Composite{
 			}
 		}
 	}
-	*/
 }
