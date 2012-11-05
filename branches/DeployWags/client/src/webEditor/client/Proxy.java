@@ -598,18 +598,19 @@ public class Proxy
                                                     } else if (level == 1){
                                                             groups.addItem(entry, entry);
                                                     } else {
-                                                            // For exercises, if it hasn't been loaded, load it
-                                                            if(!allLogicals.containsKey(entry)){
-                                                                    CheckBox ex = new CheckBox(entry);
-                                                                    chkBoxArea.add(ex);
-                                                                    currentLogicals.add(ex);
-                                                                    allLogicals.put(entry, ex);
-                                                            // If it was loaded earlier, grab that one
+                                                            if (!allLogicals.containsKey(entry)){
+                                                            	// For exercises, if it hasn't been loaded, load it
+                                                                CheckBox ex = new CheckBox(entry);
+                                                                chkBoxArea.add(ex);
+                                                                currentLogicals.add(ex);
+                                                                allLogicals.put(entry, ex);
+                                                            
                                                             } else {
-                                                                    CheckBox ex = allLogicals.get(entry);
-                                                                    currentLogicals.add(ex);
-                                                                    ex.setVisible(true);
-                                                                    chkBoxArea.add(ex);
+                                                            	// If it was loaded earlier, grab that one    
+                                                            	CheckBox ex = allLogicals.get(entry);
+                                                                currentLogicals.add(ex);
+                                                                 ex.setVisible(true);
+                                                                 //chkBoxArea.add(ex);
                                                             }
                                                     }
                                             }
@@ -667,47 +668,49 @@ public class Proxy
             }
     }
     
-    public static void getLogicalExercises(String group, final VerticalPanel panel, final ArrayList<CheckBox> currentLogicals,
-            final HashMap<String, CheckBox> allLogicals){
-	    RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=LogicalExercises&request=exercises&group=" + group);
-	    try {
-	            builder.sendRequest(null, new RequestCallback() {
-	                    
-                    @Override
-                    public void onResponseReceived(Request request, Response response) {
-                            WEStatus status = new WEStatus(response);
-                            
-                            String[] exList = status.getMessageArray();
-                            // Hide
-                            for(CheckBox chk: currentLogicals){
-                                    chk.setVisible(false);
-                            }
-                            for(String entry: exList){
-                                    if(!allLogicals.containsKey(entry)){
-                                            CheckBox ex = new CheckBox(entry);
-                                            panel.add(ex);
-                                            currentLogicals.add(ex);
-                                            allLogicals.put(entry, ex);
-                                    // If it was loaded earlier, grab that one
-                                    } else {
-                                            CheckBox ex = allLogicals.get(entry);
-                                            currentLogicals.add(ex);
-                                            ex.setVisible(true);
-                                            panel.add(ex);
-                                    }
-                            }
-                    }
-                    
-                    @Override
-                    public void onError(Request request, Throwable exception) {
-                            Window.alert("Error grabbing groups");
-                    }
-                    
-	            });
-	    } catch (RequestException e){
-	            Window.alert("Failed to send the request: " + e.getMessage());
-	    }
-    }
+	public static void getLogicalExercises(String group, final VerticalPanel panel,final ArrayList<CheckBox> currentLogicals,
+			final HashMap<String, CheckBox> allLogicals) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=LogicalExercises&request=exercises&group=" + group);
+		try {
+			builder.sendRequest(null, new RequestCallback() {
+
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus status = new WEStatus(response);
+
+					String[] exList = status.getMessageArray();
+					// Hide
+					for (CheckBox chk : currentLogicals) {
+						chk.setVisible(false);
+					}
+
+					CheckBox ex;
+					for (String entry : exList) {
+						if (allLogicals.containsKey(entry)) {
+							// If it was loaded earlier, grab that one
+							ex = allLogicals.get(entry);
+							ex.setVisible(true);
+						} else {
+							// Add it as a new exercise
+							ex = new CheckBox(entry);
+							allLogicals.put(entry, ex);
+						}
+						
+						panel.add(ex);
+						currentLogicals.add(ex);
+					}
+				}
+
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Error grabbing groups");
+				}
+
+			});
+		} catch (RequestException e) {
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
     
 	public static void getLogicalExercises(final ListBox logicalExercises){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetLogicalExercises");
@@ -724,6 +727,36 @@ public class Proxy
 					for(int i = 0; i < problemList.length; i+=2){ 
 		        		  logicalExercises.addItem(problemList[i]); 
 		        	}
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Logical Exercise Error");
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
+	
+	/**
+	 * This will check to see which exercises are curently assigned, then call 
+	 * Admin.checkCurrentLogicalExercises() to make them checked by default.
+	 * 
+	 * @param result ArrayList for storing the result.
+	 */
+	public static void getAssignedLogicalExercises(final ArrayList<String> result) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetLogicalExercises");
+		try {
+			builder.sendRequest(null, new RequestCallback() {
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus status = new WEStatus(response);
+					String[] problemList = status.getMessageArray();
+					
+					for (int i = 0; i < problemList.length; i+=2) { 
+						result.add(problemList[i]);
+					}
 					
 					Admin.checkCurrentLogicalExercises();
 				}
@@ -733,7 +766,7 @@ public class Proxy
 					Window.alert("Logical Exercise Error");
 				}
 			});
-		} catch (RequestException e){
+		} catch (RequestException e) {
 			Window.alert("Failed to send the request: " + e.getMessage());
 		}
 	}
@@ -770,19 +803,18 @@ public class Proxy
 						String name = exercises[i].substring(1, exercises[i].length() - 1);
 						lstMagnetExercises.addItem(name, name);
 						
-						// If we already added this one, grab it again (it may be checked!)
 						if(allMagnets.containsKey(name)){
+							// If we already added this one, grab it again (it may be checked!)
 							chk = allMagnets.get(name);
 							chk.setVisible(true);
-							currentMagnets.add(chk);
-					    // If we didn't already add this one, add it now! 
 						} else {
+							// If we didn't already add this one, add it now! 
 							chk = new CheckBox(name);
-							currentMagnets.add(chk); // It is a current magnet
-							exercisePanel.add(chk);	 // It is visible
 							allMagnets.put(name, chk); // And we may want it later!
 						}
 						
+						exercisePanel.add(chk);
+						currentMagnets.add(chk);
 					}
 				}
 				
@@ -792,6 +824,38 @@ public class Proxy
 				}
 			});
 		} catch (RequestException e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
+	
+	/**
+	 * This will check to see which magnets are currently assigned, then call 
+	 * Admin.checkCurrentMagnetExercises() to make them checked by default.
+	 * 
+	 * @param result ArrayList for storing the result.
+	 */
+	public static void getAssignedMagnetExercises(final ArrayList<String> result) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetExercises");
+		try {
+			builder.sendRequest(null, new RequestCallback() {
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus status = new WEStatus(response);
+					String[] problemList = status.getMessageArray();
+
+					for (int i = 1; i < problemList.length; i+=3) {
+						result.add(problemList[i]);
+					}
+					
+					Admin.checkCurrentMagnetExercises();
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Magnet Exercise Error");
+				}
+			});
+		} catch (RequestException e) {
 			Window.alert("Failed to send the request: " + e.getMessage());
 		}
 	}
@@ -827,14 +891,18 @@ public class Proxy
 							noAssignments.setText(webEditor.magnet.client.SplashPage.EMPTY_LABEL);
 						} else {
 							title = problems[i + 1];
+							
 							if (Integer.parseInt(problems[i + 2]) == 1){
 								title = "<font color=green>" + title + "</font>";
 							}
-							problemPane.add(new ProblemButton(title,id, new ClickHandler(){
+							
+							ProblemButton b = new ProblemButton(title,id, new ClickHandler(){
 								public void onClick(ClickEvent event) {
 									Proxy.getMagnetProblem(wags, id, problemPane);
 								}
-							}));
+							});
+							
+							problemPane.add(b);
 						}
 					}
 					wags.updateSplashPage(problemPane);
