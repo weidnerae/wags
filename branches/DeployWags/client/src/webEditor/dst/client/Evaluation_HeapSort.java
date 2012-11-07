@@ -236,8 +236,8 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 	}
 
 	public void updateCounterPanel() {
-		if (Proxy.getDST().getWidget(2) instanceof TextArea) {
-			((TextArea) Proxy.getDST().getWidget(2)).setText("Current Pass: "
+		if (Proxy.getDST().getWidget(3) instanceof TextArea) {
+			((TextArea) Proxy.getDST().getWidget(3)).setText("Current Pass: "
 					+ PASS);
 		}
 	}
