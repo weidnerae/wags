@@ -13,8 +13,12 @@ public class NodeDragController extends PickupDragController implements IsSerial
 	
 	public static NodeDragController getInstance()
 	{
-		if(dc == null)
+		if (dc == null) {
 			dc = new NodeDragController(boundaryPanel, allowDroppingOnBoundaryPanel);
+		}
+		
+		dc.setBehaviorDragStartSensitivity(1); // make double clicking work
+		
 		return dc;
 	}
 	
