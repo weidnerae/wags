@@ -62,7 +62,7 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 							+ splitCSolution[0];
 				}
 				return "Feedback: Incorrect. You were correct for the section: "
-						+ correctSection + "**" + cSolution;
+						+ correctSection;
 			}
 		}
 	}
