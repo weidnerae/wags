@@ -98,29 +98,6 @@ public class TreeDisplayManager extends DisplayManager implements
 	private boolean showingSubMess;
 
 	private class AddEdgeNodeClickHandler implements DoubleClickHandler {
-		/*
-		public void onClick(ClickEvent event) {
-			if (edgeCollection.getNumNodesSelected() == 0) {
-				if (event.getSource() instanceof Label) {
-					Label l = (Label) event.getSource();
-					Node n = nodeCollection.getNodeByLabel(l);
-					
-					if (new Date().getTime() - n.lastClicked < 200) {
-						removeWidgetsFromPanel();
-						resetRemoveEdgeButton();
-						resetNodeStyles();
-						resetEdgeStyles();
-						makeNodesNotDraggable();
-						addEdgeStart();
-						edgeCollection.selectFirstNodeOfEdge((Label) event.getSource());
-						edgeCollection.addNextEdge();
-						setEdgeNodeSelectionInstructions(edgeCollection.getSecondInstructions());
-					}
-				}
-			}
-		}
-		*/
-
 		@Override
 		public void onDoubleClick(DoubleClickEvent event) {
 			if (edgeCollection.getNumNodesSelected() == 0) {
