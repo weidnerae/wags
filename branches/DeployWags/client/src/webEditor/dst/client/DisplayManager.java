@@ -2,8 +2,10 @@ package webEditor.dst.client;
 
 import java.util.ArrayList;
 
+import org.vaadin.gwtgraphics.client.DrawingArea;
+import org.vaadin.gwtgraphics.client.Line;
+
 import webEditor.client.Proxy;
-import webEditor.client.view.Wags;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -27,19 +29,24 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public abstract class DisplayManager implements IsSerializable
 {	
-	private ArrayList<Widget> itemsInPanel;
-	@SuppressWarnings("unused")
-	private TraversalContainer cont;
-	private Problem problem;
+	protected AbsolutePanel panel;
+	protected DrawingArea canvas;
+	protected ArrayList<Widget> itemsInPanel;
+	protected NodeCollection nodeCollection;
+	protected TraversalContainer cont;
+	protected Problem problem;
 	
-	private Button evaluateButton;
-	private TextArea submitText;
-	private AbsolutePanel leftButtonPanel;
-	private AbsolutePanel middlePanel;
-	private AbsolutePanel rightButtonPanel;
-	private Button submitOkButton;
+	protected Button evaluateButton;
+	protected TextArea submitText;
+	protected AbsolutePanel leftButtonPanel;
+	protected AbsolutePanel middlePanel;
+	protected AbsolutePanel rightButtonPanel;
+	protected Button submitOkButton;
 	
-	private boolean showingSubMess;
+	protected boolean showingSubMess;
+
+	// permanent widgets
+	protected Button resetButton;
 
 	protected abstract void addResetButton();
 	
@@ -74,7 +81,7 @@ public abstract class DisplayManager implements IsSerializable
 		Proxy.getDST().add(w, left, top);
 	}
 	
-	private void addProblemTextArea()
+	protected void addProblemTextArea()
 	{
 		TextArea t = new TextArea();
 		t.setStyleName("problem_statement");
@@ -84,7 +91,7 @@ public abstract class DisplayManager implements IsSerializable
 		Proxy.getDST().add(t, 2, 5);
 	}
 
-	private void addLeftButtonPanel()
+	protected void addLeftButtonPanel()
 	{
 		leftButtonPanel = new AbsolutePanel();
 		leftButtonPanel.setPixelSize(130, 30);
@@ -92,7 +99,7 @@ public abstract class DisplayManager implements IsSerializable
 		Proxy.getDST().add(leftButtonPanel, 2, 100);
 	}
 
-	private void addMiddlePanel()
+	protected void addMiddlePanel()
 	{
 		middlePanel = new AbsolutePanel();
 		middlePanel.setPixelSize(214, 30);
@@ -100,7 +107,7 @@ public abstract class DisplayManager implements IsSerializable
 		Proxy.getDST().add(middlePanel, 132, 100);
 	}
 
-	private void addRightButtonPanel()
+	protected void addRightButtonPanel()
 	{
 		rightButtonPanel = new AbsolutePanel();
 		rightButtonPanel.setPixelSize(382, 30);
@@ -108,15 +115,14 @@ public abstract class DisplayManager implements IsSerializable
 		Proxy.getDST().add(rightButtonPanel, 222, 100);
 	}
 
-	private void addBackButton()
+	protected void addBackButton()
 	{
 		Button backButton = new Button("Back");					
 		backButton.addClickHandler(new ClickHandler()
 		{
 			public void onClick(ClickEvent event)
 			{
-				Wags e = new Wags("dst");
-				e.go();
+				Proxy.getWags().loadDST();
 			}
 		});
 		backButton.setStyleName("control_button");
@@ -131,9 +137,6 @@ public abstract class DisplayManager implements IsSerializable
 		{
 			public void onClick(ClickEvent event)
 			{				
-				//setEdgeParentAndChildren();
-				//String evalResult = problem.getEval().evaluate(problem.getName(), problem.getArguments(), getNodes(), getEdges());
-				
 				String evalResult = problem.evaluate();
 
 				if(showingSubMess == true)
@@ -170,6 +173,16 @@ public abstract class DisplayManager implements IsSerializable
 				showingSubMess = false;
 			}	
 		});
+	}
+	
+	protected void drawEdge(Line line)
+	{
+		canvas.add(line);
+	}
+
+	protected void removeEdge(Line line)
+	{
+		canvas.remove(line);
 	}
 	
 	public abstract ArrayList<Node> getNodes();
