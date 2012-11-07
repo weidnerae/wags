@@ -32,6 +32,11 @@ public interface Consts {
 	public static String HIDE_END = "<!-- hideEnd -->";
 	public static String HIDDEN_CODE = "<!-- hiddenCode -->";
 	public static String HC_DELIMITER = "BRIGGADIGGA";
+	
+	// Used to surround the java code related to that magnet that will be compiled
+	public static String CODE_START = "<!-- codeStart -->";
+	public static String CODE_SPLIT = "<!-- codeSplit -->";
+	public static String CODE_END ="<!-- codeEnd -->";
 
 	// *** STANDARDS ***//
 	//default structures list

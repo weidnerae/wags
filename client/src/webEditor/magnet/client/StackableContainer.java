@@ -1,5 +1,6 @@
 package webEditor.magnet.client;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -25,12 +26,15 @@ public class StackableContainer extends FocusPanel {
 	private HTML topLabel;
 	private HTML bottomLabel;
 	private String hiddenCode;
+	private String topJavaCode;
+	private String bottomJavaCode;
 	
 	private final PickupDragController dragController;
 	private DropController dropController = new PanelDropController(this);
 
 	private boolean stackable = true;
 	private boolean isMain = false;
+	private boolean hasCode = false;
 	private String containerID;
 	
 	String content = "";
@@ -49,6 +53,17 @@ public class StackableContainer extends FocusPanel {
 	public StackableContainer(String content, PickupDragController dc,
 			int specialCondition) { // For mains, non draggable
 		this.content = content;
+		// pulling out the java code
+		if(this.content.contains(Consts.CODE_START)){
+			hasCode = true;
+			String javaCode = this.content.substring(this.content.indexOf(Consts.CODE_START)+Consts.CODE_START.length(),this.content.indexOf(Consts.CODE_END));
+			topJavaCode = javaCode.substring(0,javaCode.indexOf(Consts.CODE_SPLIT));
+			bottomJavaCode = javaCode.substring(javaCode.indexOf(Consts.CODE_SPLIT)+Consts.CODE_SPLIT.length());
+			
+			String contentBeforeCode = this.content.substring(0,this.content.indexOf(Consts.CODE_START));
+			String contentAfterCode = this.content.substring(this.content.indexOf(Consts.CODE_END)+Consts.CODE_END.length());
+			this.content = contentBeforeCode+contentAfterCode;
+		}
 		add(primaryPanel);  // primaryPanel holds everything else, becaue the focusPanel can only hold one widget
 		setStyleName("stackable_container");
 		this.dragController = dc;
@@ -219,14 +234,21 @@ public class StackableContainer extends FocusPanel {
 	}
 
 	public HTML getTopLabel() {
-		if(topLabel.getHTML().contains(Consts.HIDDEN_CODE)){
+		if(hasCode){
+			Window.alert("has code");
+			return new HTML(topJavaCode);
+		}
+		else if(topLabel.getHTML().contains(Consts.HIDDEN_CODE)){
 			return new HTML(topLabel.getHTML().replace(Consts.HIDDEN_CODE,hiddenCode));
 		}
 		return topLabel;
 	}
 
 	public HTML getBottomLabel() {
-		if(bottomLabel != null){
+		if(hasCode){
+			return new HTML(bottomJavaCode); // Possibly not what we want. I think all the code should be contained within javaCode.
+		}
+		else if(bottomLabel != null){
 			if(bottomLabel.getHTML().contains(Consts.HIDDEN_CODE)){
 				return new HTML(bottomLabel.getHTML().replace(Consts.HIDDEN_CODE,hiddenCode));
 			}
