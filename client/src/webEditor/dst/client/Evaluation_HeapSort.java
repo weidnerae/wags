@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import webEditor.client.Proxy;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 
 public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
