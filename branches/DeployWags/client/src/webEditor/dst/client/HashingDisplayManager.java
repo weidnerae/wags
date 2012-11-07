@@ -6,7 +6,6 @@ import org.vaadin.gwtgraphics.client.DrawingArea;
 import org.vaadin.gwtgraphics.client.Line;
 
 import webEditor.client.Proxy;
-import webEditor.client.view.Wags;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -18,20 +17,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class HashingDisplayManager extends DisplayManager implements
 		IsSerializable {
-	private AbsolutePanel panel;
-	private DrawingArea canvas;
-	private NodeCollection nodeCollection;
-	private ArrayList<Widget> itemsInPanel;
 	private HashingProblem problem;
 
 	// permanent widgets
 	private Button resetButton;
-	private Button evaluateButton;
-	private TextArea submitText;
-	private AbsolutePanel leftButtonPanel;
-	private AbsolutePanel middlePanel;
-	private AbsolutePanel rightButtonPanel;
-	private Button submitOkButton;
 
 	public HashingDisplayManager(DrawingArea canvas, AbsolutePanel panel,
 			NodeCollection nc, HashingProblem problem) {
@@ -40,6 +29,7 @@ public class HashingDisplayManager extends DisplayManager implements
 		this.canvas = canvas;
 		this.nodeCollection = nc;
 		this.problem = problem;
+		super.problem = problem;
 		this.itemsInPanel = new ArrayList<Widget>();
 	}
 
@@ -68,48 +58,6 @@ public class HashingDisplayManager extends DisplayManager implements
 
 	private boolean showingSubMess;
 
-	private void addProblemTextArea() {
-		TextArea t = new TextArea();
-		t.setStyleName("problem_statement");
-		t.setPixelSize(598, 90);
-		t.setReadOnly(true);
-		t.setText(problem.getProblemText());
-		Proxy.getDST().add(t, 2, 5);
-	}
-
-	private void addLeftButtonPanel() {
-		leftButtonPanel = new AbsolutePanel();
-		leftButtonPanel.setPixelSize(130, 30);
-		leftButtonPanel.setStyleName("left_panel");
-		Proxy.getDST().add(leftButtonPanel, 2, 100);
-	}
-
-	private void addMiddlePanel() {
-		middlePanel = new AbsolutePanel();
-		middlePanel.setPixelSize(214, 30);
-		middlePanel.setStyleName("middle_panel");
-		Proxy.getDST().add(middlePanel, 132, 100);
-	}
-
-	private void addRightButtonPanel() {
-		rightButtonPanel = new AbsolutePanel();
-		rightButtonPanel.setPixelSize(382, 30);
-		rightButtonPanel.setStyleName("right_panel");
-		Proxy.getDST().add(rightButtonPanel, 222, 100);
-	}
-
-	private void addBackButton() {
-		Button backButton = new Button("Back");
-		backButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				Wags e = new Wags("dst");
-				e.go();
-			}
-		});
-		backButton.setStyleName("control_button");
-		leftButtonPanel.add(backButton, 2, 2);
-	}
-
 	protected void addResetButton() {
 		resetButton = new Button("Reset");
 		resetButton.addClickHandler(new ClickHandler() {
@@ -129,7 +77,7 @@ public class HashingDisplayManager extends DisplayManager implements
 		leftButtonPanel.add(resetButton, 62, 2);
 	}
 
-	private void addEvaluateButton() {
+	protected void addEvaluateButton() {
 		evaluateButton = new Button("Evaluate");
 		evaluateButton.setWidth("124px");
 		evaluateButton.addClickHandler(new ClickHandler() {
@@ -248,26 +196,6 @@ public class HashingDisplayManager extends DisplayManager implements
 		return null;
 	}
 
-	public void addToPanel(Widget w, int left, int top) {
-		itemsInPanel.add(w);
-		Proxy.getDST().add(w, left, top);
-	}
-
-	public void removeWidgetsFromPanel() {
-		for(int i = 0; i < itemsInPanel.size(); i++)
-		{
-			Proxy.getDST().remove(itemsInPanel.get(i));
-		}
-	}
-
-	public void drawEdge(Line line) {
-		canvas.add(line);
-	}
-
-	public void removeEdge(Line line) {
-		canvas.remove(line);
-	}
-
 	public void makeNodesDraggable() {
 		nodeCollection.makeNodesDraggable(NodeDragController.getInstance());
 	}
@@ -278,10 +206,6 @@ public class HashingDisplayManager extends DisplayManager implements
 
 	public void resetNodeStyles() {
 		nodeCollection.resetNodeStyles(problem.getNodeType());
-	}
-
-	public void forceEvaluation() {
-		evaluateButton.click();
 	}
 
 	private int[] getSortXLocations(String nodes) {
