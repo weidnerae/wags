@@ -15,15 +15,13 @@ import webEditor.client.view.Notification;
 import webEditor.client.view.OutputReview;
 import webEditor.client.view.Wags;
 import webEditor.dst.client.DataStructureTool;
-import webEditor.magnet.client.ProblemButton;
 import webEditor.magnet.client.RefrigeratorMagnet;
 import webEditor.magnet.client.ResultsPanelUi;
+import webEditor.magnet.client.Magnets;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -62,6 +60,7 @@ public class Proxy
 	private static final String login = getBaseURL()+"?cmd=Login";
 	private static final String registerURL = Proxy.getBaseURL()+"?cmd=RegisterUser";
 	private static DataStructureTool DST;
+	private static Wags wags;
 		
 	private static void holdMessage(String message){
 		Notification.cancel(); // Cancel previous clearing schedule if present
@@ -245,6 +244,51 @@ public class Proxy
 		    } catch (RequestException e) {
 		      Window.alert("Failed to send the request: " + e.getMessage());
 		    }
+	}
+	
+	public static void buildMagnets(final Wags wags) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetExercises");
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus stat = new WEStatus(response);
+					
+					String[] problems = stat.getMessageArray();
+					int[] idList = new int[problems.length / 3];
+					String[] problemsList = new String[problems.length / 3];
+					boolean[] successList = new boolean[problems.length / 3];
+					
+					// To understand this, you must understand that problems is an array
+					// following a sequence of id, name, success.  Thus, we iterate over it
+					// in steps of three, to "group" the entries corresponding to the same exercise
+					for(int i = 0; i < problems.length - 2; i += 3){
+						final int id = Integer.parseInt(problems[i]);
+						
+						if (id != 0) {
+							int idx = i / 3;
+							
+							idList[idx] = id;
+							problemsList[idx] = problems[i + 1];
+							successList[idx] = problems[i + 2].equals("1");
+						}
+					}
+					
+					Magnets Magnets = new Magnets(idList, problemsList, successList, wags);
+					wags.splashPage = Magnets;
+					Magnets.getElement().getStyle().setOverflowY(Overflow.AUTO);
+					wags.replaceCenterContent(Magnets);
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Magnet Exercises error");
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("error: " + e.getMessage());
+		}
 	}
 	
 	public static void call(String command, HashMap<String, String> request, WagsCallback callback){
@@ -609,8 +653,8 @@ public class Proxy
                                                             	// If it was loaded earlier, grab that one    
                                                             	CheckBox ex = allLogicals.get(entry);
                                                                 currentLogicals.add(ex);
-                                                                 ex.setVisible(true);
-                                                                 //chkBoxArea.add(ex);
+                                                                ex.setVisible(true);
+                                                                chkBoxArea.add(ex);
                                                             }
                                                     }
                                             }
@@ -860,64 +904,6 @@ public class Proxy
 		}
 	}
 	
-	/**
-	 * Grabs and displays the names of all exercises available for that section
-	 * 
-	 * @param problemPane - This is a little sketch.  It's a pane that is created in SplashPage, but only ever really
-	 *   altered in Proxy.  It gets based to this method and getMagnetProblem.  In this method it is added to the 
-	 *   root panel, in getMagnetProblem it is removed.  It's staying like this since we don't know exactly how
-	 *   we're handling navigation among magnetProblems yet, so no reason to fix it twice.
-	 */
-	public static void getMagnetExercises(final Wags wags, final VerticalPanel problemPane){
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetExercises");
-		try{
-			builder.sendRequest(null, new RequestCallback() {
-				
-				@Override
-				public void onResponseReceived(Request request, Response response) {
-					WEStatus stat = new WEStatus(response);
-					String[] problems = stat.getMessageArray();
-					String title;
-					Label noAssignments = new Label("");
-					problemPane.add(noAssignments);
-					
-					// To understand this, you must understand that problems is an array
-					// following a sequence of id, name, success.  Thus, we iterate over it
-					// in steps of three, to "group" the entries corresponding to the same exercise
-					for(int i = 0; i < problems.length - 2; i += 3){
-						final int id = Integer.parseInt(problems[i]);
-						
-						if(id == 0){
-							noAssignments.setText(webEditor.magnet.client.SplashPage.EMPTY_LABEL);
-						} else {
-							title = problems[i + 1];
-							
-							if (Integer.parseInt(problems[i + 2]) == 1){
-								title = "<font color=green>" + title + "</font>";
-							}
-							
-							ProblemButton b = new ProblemButton(title,id, new ClickHandler(){
-								public void onClick(ClickEvent event) {
-									Proxy.getMagnetProblem(wags, id, problemPane);
-								}
-							});
-							
-							problemPane.add(b);
-						}
-					}
-					wags.updateSplashPage(problemPane);
-				}
-				
-				@Override
-				public void onError(Request request, Throwable exception) {
-					Window.alert("Magnet Exercises error");
-				}
-			});
-		} catch (RequestException e){
-			Window.alert("error: " + e.getMessage());
-		}
-	}
-	
 	/** 
 	 * Loads the magnetGroups for this section
 	 * @param magnetExercises - The listbox to be filled
@@ -955,8 +941,9 @@ public class Proxy
 
 	/** 
 	 *  Grabs a magnet problem
+	 * @return 
 	 */
-	public static void getMagnetProblem(final Wags wags, int id, final VerticalPanel problemPane){
+	public static void getMagnetProblem(final int id, final Wags wags){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetMagnetProblem&id=" + id);
 		try{
 			builder.sendRequest("", new RequestCallback() {
@@ -964,9 +951,8 @@ public class Proxy
 				@Override
 				public void onResponseReceived(Request request, Response response) {
 					WEStatus status = new WEStatus(response);
-					MagnetProblem magProb = (MagnetProblem) status.getObject();
-					problemPane.setVisible(false);
-					wags.placeProblem(magProb);
+					MagnetProblem magProblem = (MagnetProblem) status.getObject();
+					wags.placeProblem(magProblem);
 				}
 				
 				@Override
@@ -1577,6 +1563,14 @@ public class Proxy
 	
 	public static void setDST(DataStructureTool thisDST){
 		DST = thisDST;
+	}
+	
+	public static void setWags(Wags thisWags) {
+		wags = thisWags;
+	}
+	
+	public static Wags getWags() {
+		return wags;
 	}
 	
 	public static void SetLogicalExercises(String assignedExercises, final ListBox logicalExercises) {

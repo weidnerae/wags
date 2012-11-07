@@ -1,6 +1,5 @@
 package webEditor.magnet.client;
 
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 
 /**
@@ -12,10 +11,16 @@ import com.google.gwt.user.client.ui.Button;
  */
 public class ProblemButton extends Button {
 	private int id;
+	private String title;
 
-	public ProblemButton(String title, int id, ClickHandler ch) {
-		super(title, ch);
+	public ProblemButton(String title, int id) {
+		super(title);
 		this.id = id;
+		this.title = title;
+	}
+	
+	public String getTitle() {
+		return title;
 	}
 
 	public int getID() {
