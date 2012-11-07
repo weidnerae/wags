@@ -60,7 +60,7 @@ public class WagsEntry implements EntryPoint
 					}
 					else if(status.getStat() == WEStatus.STATUS_SUCCESS){
 						RootLayoutPanel root = RootLayoutPanel.get();
-						root.add(new Wags(Location.getParameter("loc")));	
+						root.add(new Wags(getParam("loc")));	
 					} else if(status.getStat() == WEStatus.STATUS_WARNING){
 						String loc = Location.getParameter("loc");
 						if(loc.equals("editor")){
@@ -98,5 +98,43 @@ public class WagsEntry implements EntryPoint
 		//RootPanel root = RootPanel.get("main-content");
 		RootLayoutPanel root = RootLayoutPanel.get();
 		root.add(new Login());		
+	}
+	
+	/**
+	 * So, I'd like to use Window.Location.getParameter(), but it doesn't 
+	 * work for values after the '#', so I have to roll my own if I want 
+	 * that to work. This is probably not the most efficient thing ever, 
+	 * but it works.
+	 * 
+	 * Given a param, it will look through url and find the first occurence of 
+	 * '?%param%=', then return whatever follows it (until it finds something 
+	 * that is not a letter).
+	 * 
+	 * 
+	 * @param param parameter in the URL that we're looking for
+	 * 
+	 * @return the value associated with it
+	 */
+	private String getParam(String param) {
+		StringBuilder sb = new StringBuilder();
+		String url = Window.Location.getHref();
+		char[] urlArr = url.toCharArray();
+		
+		int start = url.indexOf('?');
+		start = url.indexOf(param + '=', start);
+		
+		if (start == -1) {
+			return "undefined"; //param did not exist
+		}
+		
+		for (int i = start + param.length() + 1; i < urlArr.length; i++) {
+			if (!Character.isLetter(urlArr[i])) {
+				break;
+			}
+			
+			sb.append(urlArr[i]);
+ 		}
+		
+		return sb.toString();
 	}
 }

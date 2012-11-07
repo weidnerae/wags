@@ -6,6 +6,7 @@ import org.vaadin.gwtgraphics.client.DrawingArea;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
@@ -123,6 +124,7 @@ public class DataStructureTool  extends AbsolutePanel
 				Timer timer = new Timer(){
 					 public void run() {
 						 getProblem(emailAddr, problem);
+						 History.newItem("?loc=dstproblem");
 					 }
 				};
 				timer.schedule(1);

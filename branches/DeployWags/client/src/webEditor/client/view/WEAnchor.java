@@ -24,7 +24,7 @@ public class WEAnchor extends Anchor
 		// Set text of link.
 		this.setText(text);
 		UrlBuilder builder = Location.createUrlBuilder();
-		builder.setParameter("loc", locationName);
+		builder.setHash("?loc=" + locationName);
 		url = builder.buildString();
 		// Set CSS class
 		this.setStyleName("we-anchor");
@@ -62,5 +62,6 @@ public class WEAnchor extends Anchor
 	public void go()
 	{
 		Window.Location.assign(url);
+		Window.Location.reload();
 	}
 }
