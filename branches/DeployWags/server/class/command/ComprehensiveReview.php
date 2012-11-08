@@ -176,7 +176,7 @@ class ComprehensiveReview extends Command{
         foreach($magExercises as $magExercise){
             $submissions = MagnetSubmission::getSubmissionsById($magExercise);
             $maxSubs = count($submissions);
-            $subCount = 0;
+            $subCount = 1;
             $row = 1;
 
             // Cycle through users for THIS exercise
