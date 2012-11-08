@@ -147,29 +147,12 @@ class MagnetProblem extends Model
         return $objArray;
     }
 
-    # This function takes the ids of "problemData" entries in the database,
-    # and constructs an array of the contents of the entries whose ID's were
-    # given.  It then returns that array of strings
-    private function getData($ids){
-        require_once('Database.php');
-        $db = Database::getDb();
-
-        $inQuery = implode(',', array_fill(0, count($ids), '?'));
-        $sth = $db->prepare('SELECT data FROM magnetData WHERE id
-            IN(' . $inQuery . ')');
-
-        $sth->execute($ids);
-        $results = $sth->fetchall(PDO::FETCH_NUM);
-
-        return $results;
-    }
-    
     ###########
     # STATIC  #
     ###########
 
-    #  Currently, these DO NOT use sections as filters,
-    #  THIS WILL HAVE TO CHANGE
+    #  Takes an id of a magnet problem, returns the entire magnet problem
+    #  Used for sending stuff to the client
     public static function getMagnetProblemById($id){
         // Database set up
         require_once('Database.php');
@@ -181,9 +164,7 @@ class MagnetProblem extends Model
         return $sth->fetchObject('MagnetProblem');
     }
 
-    #  Literally a copy/paste of the above function (which probably means
-    #  I should have implemented it a different way) with substituting title
-    #  for id
+    #  Same as above function, but with the title of the magnet
     public static function getMagnetProblemByTitle($title){
         // Database set up
         require_once('Database.php');
@@ -197,6 +178,8 @@ class MagnetProblem extends Model
     
     #  Used by GetMagnetExercises.php to fill the magnetProblems listbox
     #  on the administrative tab
+    #
+    #  Returns the names of all the magnetProblemGroups a section has access to
     public static function getMagnetProblemGroups(){
         require_once('Database.php');
         $user = Auth::GetCurrentUser();
@@ -218,7 +201,8 @@ class MagnetProblem extends Model
     }
 
     # Returns the names of all magnetProblems that are part
-    # of the selected group AND available to that section
+    # of the selected group AND available to that section.  
+    # Used to create checkboxes on client
     #
     # NOTE:  A status of 1 is IMPLEMENTED, 2 is AVAILABLE
     #  because anything implemented is obviously AVAILABLE we
@@ -262,6 +246,8 @@ class MagnetProblem extends Model
         return $str;
     }
     
+    // Returns all the magnetProblems for a group that are currently
+    // assigned to the students (status = 1) in an array of id's and names
     public static function getAvailable(){
         require_once('Database.php');
         $db = Database::getDb();
@@ -320,32 +306,14 @@ class MagnetProblem extends Model
         $sth->execute(array(':section' => $user->getSection()));
     }
 
-    # This method adds the default group and all problems in the default
-    # group to any newly created section.  This method is called from
-    # LinkNewSection.php
-    #
-    # We will either have to continually update this method with any changes
-    # to the database concerning default exercises, or make it more robust
-    # so that it dynamically changes what values are added depending on what
-    # is currently in the database
+    # Currently, this is a 'hook' where we can set what all new sections
+    # get concerning MagnetProblems.  This should probably be used in 
+    # conjunction with AddGroupAndExercises as seen below.
     public static function addDefaults($sectionId){
-        require_once('Database.php');
-        $db = Database::getDb();
-        
-        $sth = $db->prepare('INSERT INTO SectionMPG
-            VALUES (NULL, :sectionId, 1)');
-        $sth->execute(array(':sectionId' => $sectionId));
 
-        $sth = $db->prepare('INSERT INTO SectionMP
-            VALUES
-                (NULL, :sectionId, 46, 2),
-                (NULL, :sectionId, 47, 2),
-                (NULL, :sectionId, 48, 2),
-                (NULL, :sectionId, 60, 2)');
-        $sth->execute(array(':sectionId' => $sectionId));
     }
 
-    // Returns all magnets that exist in some group
+    // Returns all magnet exerciseIds that exist in some group
     public static function getMagnetIdsFromGroup($group){
         require_once('Database.php');
         $db = Database::getDb();
@@ -361,6 +329,11 @@ class MagnetProblem extends Model
 
     // Returns the ids of all the magnets the admin CAN assign for
     // this section - NOT the current ASSIGNED magnets, but a superset
+    //
+    // A 'looser' version of getAvailable that also allows for magnets
+    // in a group of 3 or more...
+    // 
+    // WILL HAVE TO CHANGE WHEN PROBLEM CREATION COMES UP
     public static function getAvailableMagnets(){
         $section = Auth::getCurrentUser()->getSection();
         require_once('Database.php');
@@ -376,15 +349,15 @@ class MagnetProblem extends Model
     }
 
     // Makes the exercise available for the instructor, not automatically
-    // assigned ($assign = 2 to actually assign)...
-    public static function addExercise($id, $assign=1){
+    // assigned ($status = 1 to actually assign)...
+    public static function addExercise($id, $status=2){
         $section = Auth::getCurrentUser()->getSection();
         require_once('Database.php');
         $db = Database::getDb();
         
         $sth = $db->prepare("INSERT INTO SectionMP
-            VALUES(NULL,:section,:id,:assign)");
-        $sth->execute(array(':section' => $section, ':id' => $id, ':assign' => $assign));
+            VALUES(NULL,:section,:id,:status)");
+        $sth->execute(array(':section' => $section, ':id' => $id, ':status' => $status));
     }
   
     // Add the group for the section

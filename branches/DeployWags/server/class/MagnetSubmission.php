@@ -109,6 +109,7 @@ class MagnetSubmission extends Model
         FROM MagnetSubmission
         JOIN user ON MagnetSubmission.userId = user.id
         WHERE MagnetSubmission.sectionId = :section
+        AND user.admin = 0
         AND MagnetSubmission.magnetProblemId = :id
         ORDER BY username');
 
