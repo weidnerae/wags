@@ -94,9 +94,9 @@ class RegisterStudents extends Command
                 // Add entries to $names, which will be used
                 // to create accounts if there are no errors
                 } else {
-                    $names[$nameIndex][0] = $line[0]; // Lastname
-                    $names[$nameIndex][1] = $line[1]; // Firstname
-                    $names[$nameIndex][2] = $line[2]; // Email address
+                    $names[$nameIndex][0] = trim($line[0]); // Lastname
+                    $names[$nameIndex][1] = trim($line[1]); // Firstname
+                    $names[$nameIndex][2] = trim($line[2]); // Email address
 
                     // Make sure username doesn't exist
                     $username = $line[2];
