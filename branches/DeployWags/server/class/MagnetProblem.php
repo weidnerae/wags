@@ -285,11 +285,13 @@ class MagnetProblem extends Model
     public static function setProblemStatus($id, $status){
         require_once('Database.php');
         $db = Database::getDb();
+        $user = Auth::getCurrentUser();
         
         $sth = $db->prepare('UPDATE SectionMP
             SET status = :status
-            WHERE magnetP = :id');
-        $sth->execute(array(':status' => $status, ':id' => $id));
+            WHERE magnetP = :id
+            AND section = :section');
+        $sth->execute(array(':status' => $status, ':id' => $id, ':section' => $user->getSection()));
     }
 
     # Changes all entries in SectionMP for the users section to

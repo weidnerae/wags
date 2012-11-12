@@ -64,6 +64,9 @@ class DSTSubmission extends Model
         $sth->execute(array(':section' => $user->getSection()));
 
         $results = $sth->fetchAll(PDO::FETCH_NUM);
+
+        if(empty($results)) return -1;
+
         $vals = array_values($results);
 
         return $vals;

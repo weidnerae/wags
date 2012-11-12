@@ -57,11 +57,13 @@ class ComprehensiveReview extends Command{
         
         // Get programming microlabs
         $titles = Exercise::getExerciseTitles();
-
-        foreach($titles as $title){
-            $array[$row][$column] = $title[0];  // Again, element of array
-            $progExercises[$column - 1] = $title[0];
-            $column++;
+        
+        if($titles != -1){
+            foreach($titles as $title){
+                $array[$row][$column] = $title[0];  // Again, element of array
+                $progExercises[$column - 1] = $title[0];
+                $column++;
+            }
         }
 
         // Get logical microlabs
@@ -69,24 +71,27 @@ class ComprehensiveReview extends Command{
         $titles = DSTSubmission::getSubmissionTitles();
         $logCount = 0;
 
-        foreach($titles as $title){
-            $array[$row][$column] = $title[0];
-            $logExercises[$logCount] = $title[0];
-            $column++;
-            $logCount++;
-        }
-		
+        if($titles != -1){
+            foreach($titles as $title){
+                $array[$row][$column] = $title[0];
+                $logExercises[$logCount] = $title[0];
+                $column++;
+                $logCount++;
+            }
+		}
 		
 		// Get magnet microlabs
         unset($titles);
         $titles = MagnetSubmission::getExerciseTitles();
         $magCount = 0;
 
-        foreach($titles as $title){
-            $array[$row][$column] = $title[0];
-            $magExercises[$magCount] = $title[1];
-            $column++;
-            $magCount++;
+        if($titles != -1){
+            foreach($titles as $title){
+                $array[$row][$column] = $title[0];
+                $magExercises[$magCount] = $title[1];
+                $column++;
+                $magCount++;
+            }
         }
 		
     }
@@ -118,6 +123,7 @@ class ComprehensiveReview extends Command{
         $column = 1;
 
         // Add grades for all *programming* exercises
+        if(!empty($progExercises)){
         foreach($progExercises as $progExercise){
             $exercise = Exercise::getExerciseByTitle($progExercise);
             $subInfo = Exercise::getSubmissions($exercise->getId());
@@ -143,9 +149,11 @@ class ComprehensiveReview extends Command{
             } 
             $column++; 
         } 
+        }
 
         // Add grades for all *logical* microlabs
         // Practically identical to programming exercise reporting
+        if(!empty($logExercises)){
         foreach($logExercises as $logExercise){
             $submissions = DSTSubmission::getAllSubmissionsByTitle($logExercise);
             $maxSubs = count($submissions);
@@ -169,10 +177,12 @@ class ComprehensiveReview extends Command{
             }
             $column++;
         }
+        }
 		
 		
 		// Add grades for all *magnet* microlabs
         // Practically identical to programming exercise reporting
+        if(!empty($magExercises)){
         foreach($magExercises as $magExercise){
             $submissions = MagnetSubmission::getSubmissionsById($magExercise);
             $maxSubs = count($submissions);
@@ -195,6 +205,7 @@ class ComprehensiveReview extends Command{
                 $row++;
             }
             $column++;
+        }
         }
     }
 }
