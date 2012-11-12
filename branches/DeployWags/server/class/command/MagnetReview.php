@@ -8,13 +8,14 @@ class MagnetReview extends Command
 		$code = $_POST['code'];
         $title = $_POST['title'];
         $magnetProblem = MagnetProblem::getMagnetProblemByTitle($title);
+        $user = Auth::getCurrentUser();
 
         // Grab the necessary simple files
         $simpleFiles = SimpleFile::getFilesForMP($magnetProblem->getId());
   
         // Find the correct directory (i.e., package structure or not) to
         // place the files
-        $dir = "/tmp/array";
+        $dir = "/tmp/magnets/".$user->getUsername();
         $dir = $dir . $simpleFiles[0]->getPackage();
         // Create a directory for the files if it doesn't exist
         if(!is_dir($dir)) mkdir($dir, 0777, true);
