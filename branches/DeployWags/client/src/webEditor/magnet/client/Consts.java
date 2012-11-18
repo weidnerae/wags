@@ -37,6 +37,10 @@ public interface Consts {
 	public static String CODE_START = "<!-- codeStart -->";
 	public static String CODE_SPLIT = "<!-- codeSplit -->";
 	public static String CODE_END ="<!-- codeEnd -->";
+	
+	// Major Delimiters
+	public static String COMMENT_DELIMITER = ".:2:.";
+	public static String MAGNET_DELIMITER = ".:|:.";
 
 	// *** STANDARDS ***//
 	//default structures list
