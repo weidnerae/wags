@@ -112,6 +112,7 @@ public class CodePanelUi extends Composite {
 				
 				buildContent(mainFunction);
 				String code = plainText.toString();
+				ResultsPanelUi.clearCodeArea();
 				ResultsPanelUi.setCodeText(code);
 				code = code.replaceAll(Consts.HC_DELIMITER,"");
 				Proxy.magnetReview(code, title);

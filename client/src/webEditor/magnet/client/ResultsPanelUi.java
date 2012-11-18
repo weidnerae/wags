@@ -95,4 +95,8 @@ public class ResultsPanelUi extends Composite {
 		
 		code = sb.toString();
 	}
+	
+	public static void clearCodeArea(){
+		resultsTextArea.setText("");
+	}
 }

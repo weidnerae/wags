@@ -1,0 +1,131 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">   
+	<ui:style>
+		.column_header{
+			font-weight: bold;
+			font-size:20px
+		}
+		.column{
+			border:1px solid black;
+			padding:5px;
+			min-height:500px;
+			text-align:center;
+		}
+		.label {
+			text-align: left;
+			display:block;
+			width:100px;
+			float: left;
+		}
+		.fieldTextBox{
+			width: 300px;
+		}
+		.creatorButton{
+			height: 50px;
+			width: 250px;
+		}
+		.labelBoxGroup{
+			padding-top:10px;
+			padding-bottom:10px;
+		}
+		.label {
+			text-align: left;
+			display:block;
+			width:100px;
+			float: left;
+		}
+		.fieldTextBox{
+			width: 400px;
+		}
+		.descTxtArea{
+			width:400px;
+			height:100px;
+			overflow:auto;
+		}
+		.accumulatorTextArea{
+			min-width:300px;
+			min-height:200px;
+			overflow:auto;
+		}
+
+	</ui:style>
+	<g:HorizontalPanel>
+		<g:ScrollPanel>
+			<g:AbsolutePanel>
+				<g:FormPanel ui:field="problemCreateFormPanel">
+					<g:VerticalPanel>
+						<g:HorizontalPanel>
+							<g:Label styleName="{style.label}">Title:</g:Label>
+							<g:TextBox ui:field="titleTxtBox" styleName="{style.fieldTextBox}"></g:TextBox>
+							<g:Button ui:field = "setTitleButton">Set Title</g:Button>
+						</g:HorizontalPanel>
+						<g:HorizontalPanel>
+							<g:Label styleName="{style.label}">Description:</g:Label>
+							<g:TextArea ui:field="descriptionTxtArea" styleName = "{style.descTxtArea}"></g:TextArea>
+							<g:Button ui:field = "setDescriptionButton">Set Description</g:Button>
+						</g:HorizontalPanel>
+						<g:VerticalPanel>
+	           				 <g:VerticalPanel styleName="{style.column}">
+	                			<g:Label styleName="{style.column_header}">Top</g:Label>
+	                			<g:HorizontalPanel styleName="{style.labelBoxGroup}">
+	                    			<g:Label styleName="{style.label}">Label: </g:Label>
+	                    			<g:TextBox name = "topLabel" ui:field = "topLabelTxtBox" styleName="{style.fieldTextBox}"></g:TextBox>
+	               				 </g:HorizontalPanel>
+	                		     <g:HorizontalPanel styleName="{style.labelBoxGroup}">
+	                   				 <g:Label styleName="{style.label}">Real Code: </g:Label>
+	                    			 <g:TextBox name = "topRealCode" ui:field = "topRealCodeTxtBox" styleName="{style.fieldTextBox}"></g:TextBox>
+		                		 </g:HorizontalPanel>
+		                		 <g:HorizontalPanel styleName="{style.labelBoxGroup}">
+		                 		 	 <g:Label styleName="{style.label}">Hidden Code: </g:Label>
+		                			 <g:TextBox name = "topHiddenCode" ui:field = "topHiddenCodeTxtBox" styleName="{style.fieldTextBox}"></g:TextBox>
+		                		 </g:HorizontalPanel>
+		                		 <g:HorizontalPanel styleName="{style.labelBoxGroup}">
+		                		     <g:Button ui:field ="createCommentsButton">Add Comment</g:Button>
+		                    		 <g:Label styleName="{style.label}">Comments: </g:Label>
+		               	     		 <g:TextBox name = "comments" ui:field = "commentsTxtBox" styleName="{style.fieldTextBox}"></g:TextBox>
+		                		 </g:HorizontalPanel>
+		                		 <g:TextArea ui:field = "commentsStagingArea"></g:TextArea>
+		            		</g:VerticalPanel>
+		            		<g:VerticalPanel styleName="{style.column}">
+		                		<g:Label styleName="{style.column_header}">Bottom</g:Label>
+				                <g:HorizontalPanel styleName="{style.labelBoxGroup}">
+				                    <g:Label styleName="{style.label}">Label: </g:Label>
+				                    <g:TextBox name = "bottomLabel" ui:field = "bottomLabelTxtBox" styleName="{style.fieldTextBox}"></g:TextBox>
+				                </g:HorizontalPanel>
+				                <g:HorizontalPanel styleName="{style.labelBoxGroup}">
+				                    <g:Label styleName="{style.label}">Real Code: </g:Label>
+				                    <g:TextBox name = "bottomRealCode" ui:field = "bottomRealCodeTxtBox" styleName="{style.fieldTextBox}"></g:TextBox>
+				                </g:HorizontalPanel>
+				                <g:HorizontalPanel styleName="{style.labelBoxGroup}">
+				                    <g:Label styleName="{style.label}">Hidden Code: </g:Label>
+				                	<g:TextBox name = "bottomHiddenCode" ui:field = "bottomHiddenCodeTxtBox" styleName="{style.fieldTextBox}"></g:TextBox>
+				                </g:HorizontalPanel>
+		           	 		</g:VerticalPanel>			 
+				            <g:Button ui:field = "classDeclarationButton" styleName="{style.creatorButton}">Class</g:Button>
+				            <g:Button ui:field = "innerFunctionsButton" styleName="{style.creatorButton}">Inner</g:Button>
+				            <g:Button ui:field = "statementsButton" styleName="{style.creatorButton}">Statment</g:Button> 
+				            <g:Button ui:field = "clearDataButton" styleName="{style.creatorButton}">Clear Data Fields</g:Button>   
+						</g:VerticalPanel>
+						<g:SubmitButton ui:field= "createProblemSubmitButton">CREATE PROBLEM</g:SubmitButton>
+					</g:VerticalPanel>
+				</g:FormPanel>
+			</g:AbsolutePanel>
+		</g:ScrollPanel>
+		<g:AbsolutePanel>
+		    <g:TextBox name = "title" ui:field ="finalTitleTxtBox"></g:TextBox>
+		    <g:TextArea name = "description" ui:field ="finalDescriptionTxtArea"></g:TextArea>
+		    <g:HorizontalPanel>
+				<g:Label styleName="{style.label}">Solution File:</g:Label>
+				<g:FileUpload ui:field = "solutionUpload"></g:FileUpload>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel>
+				<g:Label styleName="{style.label}">Helper file:</g:Label>
+				<g:FileUpload ui:field = "helperUpload"></g:FileUpload>
+			</g:HorizontalPanel>
+		    <g:TextArea name = "classDeclaration" ui:field = "classDeclarationTxtArea" styleName="{style.accumulatorTextArea}"></g:TextArea>
+			<g:TextArea name = "innerFunctions" ui:field = "innerFunctionsTxtArea" styleName="{style.accumulatorTextArea}"></g:TextArea>
+			<g:TextArea name = "statements" ui:field = "statementsTxtArea" styleName="{style.accumulatorTextArea}"></g:TextArea>
+		</g:AbsolutePanel>
+	</g:HorizontalPanel>
+</ui:UiBinder> 
