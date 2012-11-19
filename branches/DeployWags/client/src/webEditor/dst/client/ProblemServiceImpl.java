@@ -11,6 +11,7 @@ public class ProblemServiceImpl
 		Evaluation_HeapSort heapSort = new Evaluation_HeapSort();
 		Evaluation_Level level = new Evaluation_Level();
 		Evaluation_Hashing hashing = new Evaluation_Hashing();
+		Evaluation_Quicksort quicksort = new Evaluation_Quicksort();
 		
 		AddEdgeRules noEdgeAddition = new AddEdgeRules();
 		Evaluation_BSTTraversal trav = new Evaluation_BSTTraversal();
@@ -1131,6 +1132,19 @@ public class ProblemServiceImpl
 					false,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
+			case 77: return new SortProblem("Quicksort Partition",
+					"Quicksort Partition: For each pass, put the nodes in order according to the pivot",
+					"9 2 7 1 0 5 3 6",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges,
+					new String[]{"9 2 7 1 0 5 3 6"},
+					quicksort,
+					rules,
+					false,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
 
 
 		default:
@@ -1230,6 +1244,7 @@ public class ProblemServiceImpl
 		if(problem.equals("Hashing 4 - Quadratic")) return 74;
 		if(problem.equals("Hashing 5 - Quadratic")) return 75;
 		if(problem.equals("Hashing 6 - Quadratic")) return 76;
+		if(problem.equals("Quicksort Partition")) return 77;
 		return 0;
 	}
 	public static int[] getHeapXLocations(boolean insert, String nodes){
