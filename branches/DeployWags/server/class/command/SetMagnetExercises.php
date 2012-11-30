@@ -16,7 +16,7 @@ class SetMagnetExercises extends Command
         MagnetProblem::unAssignAll();
 
         // Message for removing all magnet exercises
-        if($names[0] == "none") return JSON::success("All magnets removed");
+        if($names[0] == "none") return JSON::success("All Magnet Microlabs Removed!");
 
         foreach($names as $name){
             $magnet = MagnetProblem::getMagnetProblemByTitle($name);
@@ -25,7 +25,7 @@ class SetMagnetExercises extends Command
             MagnetProblem::setProblemStatus($magnet->getId(), 1);
             // 1 = assigned
         }
-        return JSON::success("Magnet exercises updated");
+        return JSON::success("Magnet Exercises Updated");
     }
 }
 
