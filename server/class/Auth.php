@@ -55,6 +55,7 @@ class Auth
         }
 
         // If we get here then user has correct username and password.
+        //return JSON::warn($username);
         $user = User::getUserByUsername($username);
 
         if(is_null($user)){

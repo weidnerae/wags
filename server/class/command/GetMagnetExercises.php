@@ -18,10 +18,7 @@ class GetMagnetExercises extends Command
 
         // Only occurs when no problems are available to the student
         if($names[0] == "0"){
-           $result[] = "0";
-           $result[] = "No Code Magnets Assigned!";
-           $result[] = "0"; 
-           return JSON::success($result);
+           return JSON::success(array());
         }
 
         // $names alternates id, name - starting with id
