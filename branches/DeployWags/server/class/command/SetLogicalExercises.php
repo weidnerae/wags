@@ -16,11 +16,16 @@ class SetLogicalExercises extends Command
 {
     public function execute(){
         $exercises = $_GET['list'];
+
+        if($exercises == "none") $exercises = "";
+
         $sectionNumber = Auth::getCurrentUser()->getSection();
         $section = Section::getSectionById($sectionNumber);
 
         $section->setLogicalExercises($exercises);
         $section->save();
+
+        if($exercises == "") return JSON::success("All Logical Microlabs Removed!");
         return JSON::success("Logical Microlabs Updated");
     }   
 }

@@ -23,6 +23,15 @@ class Login extends Command
             }
         }
 
+        // If they failed to log in and didn't have an @ symbol
+        /*if(!strpos($_REQUEST['username'],"@")){
+            $username = $_REQUEST['username']."@email.appstate.edu";
+            return Auth::login($username,$_REQUEST['password']);
+            if($result){
+                return JSON::success('Successfully logged in.');
+            }
+        }*/
+
         return JSON::error('Login failed. Check username and password.');
     }
 
