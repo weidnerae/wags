@@ -27,8 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
  * code that was there specific to the TreeProblem, but it may be useful in the future.
  *
  */
-public abstract class DisplayManager implements IsSerializable
-{	
+public abstract class DisplayManager implements IsSerializable {	
 	protected AbsolutePanel panel;
 	protected DrawingArea canvas;
 	protected ArrayList<Widget> itemsInPanel;
@@ -50,8 +49,7 @@ public abstract class DisplayManager implements IsSerializable
 
 	protected abstract void addResetButton();
 	
-	public void displayProblem()
-	{
+	public void displayProblem() {
 		cont = new TraversalContainer(this);
 		addProblemTextArea();
 		addLeftButtonPanel();
@@ -62,27 +60,22 @@ public abstract class DisplayManager implements IsSerializable
 		addEvaluateButton();
 	}
 	
-	public void forceEvaluation()
-	{
+	public void forceEvaluation() {
 		evaluateButton.click();
 	}
 	
-	public void removeWidgetsFromPanel()
-	{
-		for(int i = 0; i < itemsInPanel.size(); i++)
-		{
+	public void removeWidgetsFromPanel() {
+		for (int i = 0; i < itemsInPanel.size(); i++) {
 			Proxy.getDST().remove(itemsInPanel.get(i));
 		}
 	}
 	
-	public void addToPanel(Widget w, int left, int top)
-	{
+	public void addToPanel(Widget w, int left, int top) {
 		itemsInPanel.add(w);
 		Proxy.getDST().add(w, left, top);
 	}
 	
-	protected void addProblemTextArea()
-	{
+	protected void addProblemTextArea() {
 		TextArea t = new TextArea();
 		t.setStyleName("problem_statement");
 		t.setPixelSize(598, 90);
@@ -91,32 +84,28 @@ public abstract class DisplayManager implements IsSerializable
 		Proxy.getDST().add(t, 2, 5);
 	}
 
-	protected void addLeftButtonPanel()
-	{
+	protected void addLeftButtonPanel() {
 		leftButtonPanel = new AbsolutePanel();
 		leftButtonPanel.setPixelSize(130, 30);
 		leftButtonPanel.setStyleName("left_panel");
 		Proxy.getDST().add(leftButtonPanel, 2, 100);
 	}
 
-	protected void addMiddlePanel()
-	{
+	protected void addMiddlePanel() {
 		middlePanel = new AbsolutePanel();
 		middlePanel.setPixelSize(214, 30);
 		middlePanel.setStyleName("middle_panel");
 		Proxy.getDST().add(middlePanel, 132, 100);
 	}
 
-	protected void addRightButtonPanel()
-	{
+	protected void addRightButtonPanel() {
 		rightButtonPanel = new AbsolutePanel();
 		rightButtonPanel.setPixelSize(382, 30);
 		rightButtonPanel.setStyleName("right_panel");
 		Proxy.getDST().add(rightButtonPanel, 222, 100);
 	}
 
-	protected void addBackButton()
-	{
+	protected void addBackButton() {
 		Button backButton = new Button("Back");					
 		backButton.addClickHandler(new ClickHandler()
 		{
@@ -129,8 +118,7 @@ public abstract class DisplayManager implements IsSerializable
 		leftButtonPanel.add(backButton, 2, 2);
 	}
 
-	private void addEvaluateButton()
-	{
+	private void addEvaluateButton() {
 		evaluateButton = new Button("Evaluate");
 		evaluateButton.setWidth("124px");
 		evaluateButton.addClickHandler(new ClickHandler()
@@ -175,17 +163,18 @@ public abstract class DisplayManager implements IsSerializable
 		});
 	}
 	
-	protected void drawEdge(Line line)
-	{
+	protected void drawEdge(Line line) {
 		canvas.add(line);
 	}
 
-	protected void removeEdge(Line line)
-	{
+	protected void removeEdge(Line line) {
 		canvas.remove(line);
 	}
 	
+	public Problem getProblem() {
+		return problem;
+	}
+	
 	public abstract ArrayList<Node> getNodes();
-
 	public abstract ArrayList<EdgeParent> getEdges();
 }
