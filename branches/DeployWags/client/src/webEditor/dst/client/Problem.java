@@ -36,4 +36,5 @@ public abstract class Problem implements IsSerializable
 	public abstract String[] getArguments();
 	public abstract Evaluation getEval();
 	public abstract String evaluate();
+	public abstract String getNodeType();
 }
