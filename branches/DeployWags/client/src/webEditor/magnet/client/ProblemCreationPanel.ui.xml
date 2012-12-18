@@ -18,9 +18,6 @@
 			width:100px;
 			float: left;
 		}
-		.fieldTextBox{
-			width: 300px;
-		}
 		.creatorButton{
 			height: 50px;
 			width: 250px;
@@ -28,12 +25,6 @@
 		.labelBoxGroup{
 			padding-top:10px;
 			padding-bottom:10px;
-		}
-		.label {
-			text-align: left;
-			display:block;
-			width:100px;
-			float: left;
 		}
 		.fieldTextBox{
 			width: 400px;
@@ -48,84 +39,110 @@
 			min-height:200px;
 			overflow:auto;
 		}
+		.fillingTextBox{
+			width: 100%;
+		}
+		.fillingTextArea{
+			width: 95%;
+			float: left;
+		}
+		.floatLeft{
+			float: left;
+		}
+		.padded{
+			padding: 10px;
+		}
 
 	</ui:style>
-	<g:HorizontalPanel>
-		<g:ScrollPanel>
-			<g:AbsolutePanel>
-				<g:FormPanel ui:field="problemCreateFormPanel">
-					<g:VerticalPanel>
-						<g:HorizontalPanel>
-							<g:Label styleName="{style.label}">Title:</g:Label>
-							<g:TextBox ui:field="titleTxtBox" styleName="{style.fieldTextBox}"></g:TextBox>
-							<g:Button ui:field = "setTitleButton">Set Title</g:Button>
-						</g:HorizontalPanel>
-						<g:HorizontalPanel>
-							<g:Label styleName="{style.label}">Description:</g:Label>
-							<g:TextArea ui:field="descriptionTxtArea" styleName = "{style.descTxtArea}"></g:TextArea>
-							<g:Button ui:field = "setDescriptionButton">Set Description</g:Button>
-						</g:HorizontalPanel>
-						<g:VerticalPanel>
-	           				 <g:VerticalPanel styleName="{style.column}">
-	                			<g:Label styleName="{style.column_header}">Top</g:Label>
-	                			<g:HorizontalPanel styleName="{style.labelBoxGroup}">
-	                    			<g:Label styleName="{style.label}">Label: </g:Label>
-	                    			<g:TextBox name = "topLabel" ui:field = "topLabelTxtBox" styleName="{style.fieldTextBox}"></g:TextBox>
-	               				 </g:HorizontalPanel>
-	                		     <g:HorizontalPanel styleName="{style.labelBoxGroup}">
-	                   				 <g:Label styleName="{style.label}">Real Code: </g:Label>
-	                    			 <g:TextBox name = "topRealCode" ui:field = "topRealCodeTxtBox" styleName="{style.fieldTextBox}"></g:TextBox>
-		                		 </g:HorizontalPanel>
-		                		 <g:HorizontalPanel styleName="{style.labelBoxGroup}">
-		                 		 	 <g:Label styleName="{style.label}">Hidden Code: </g:Label>
-		                			 <g:TextBox name = "topHiddenCode" ui:field = "topHiddenCodeTxtBox" styleName="{style.fieldTextBox}"></g:TextBox>
-		                		 </g:HorizontalPanel>
-		                		 <g:HorizontalPanel styleName="{style.labelBoxGroup}">
-		                		     <g:Button ui:field ="createCommentsButton">Add Comment</g:Button>
-		                    		 <g:Label styleName="{style.label}">Comments: </g:Label>
-		               	     		 <g:TextBox name = "comments" ui:field = "commentsTxtBox" styleName="{style.fieldTextBox}"></g:TextBox>
-		                		 </g:HorizontalPanel>
-		                		 <g:TextArea ui:field = "commentsStagingArea"></g:TextArea>
-		            		</g:VerticalPanel>
-		            		<g:VerticalPanel styleName="{style.column}">
-		                		<g:Label styleName="{style.column_header}">Bottom</g:Label>
-				                <g:HorizontalPanel styleName="{style.labelBoxGroup}">
-				                    <g:Label styleName="{style.label}">Label: </g:Label>
-				                    <g:TextBox name = "bottomLabel" ui:field = "bottomLabelTxtBox" styleName="{style.fieldTextBox}"></g:TextBox>
-				                </g:HorizontalPanel>
-				                <g:HorizontalPanel styleName="{style.labelBoxGroup}">
-				                    <g:Label styleName="{style.label}">Real Code: </g:Label>
-				                    <g:TextBox name = "bottomRealCode" ui:field = "bottomRealCodeTxtBox" styleName="{style.fieldTextBox}"></g:TextBox>
-				                </g:HorizontalPanel>
-				                <g:HorizontalPanel styleName="{style.labelBoxGroup}">
-				                    <g:Label styleName="{style.label}">Hidden Code: </g:Label>
-				                	<g:TextBox name = "bottomHiddenCode" ui:field = "bottomHiddenCodeTxtBox" styleName="{style.fieldTextBox}"></g:TextBox>
-				                </g:HorizontalPanel>
-		           	 		</g:VerticalPanel>			 
-				            <g:Button ui:field = "classDeclarationButton" styleName="{style.creatorButton}">Class</g:Button>
-				            <g:Button ui:field = "innerFunctionsButton" styleName="{style.creatorButton}">Inner</g:Button>
-				            <g:Button ui:field = "statementsButton" styleName="{style.creatorButton}">Statment</g:Button> 
-				            <g:Button ui:field = "clearDataButton" styleName="{style.creatorButton}">Clear Data Fields</g:Button>   
-						</g:VerticalPanel>
-						<g:SubmitButton ui:field= "createProblemSubmitButton">CREATE PROBLEM</g:SubmitButton>
-					</g:VerticalPanel>
-				</g:FormPanel>
-			</g:AbsolutePanel>
-		</g:ScrollPanel>
-		<g:AbsolutePanel>
-		    <g:TextBox name = "title" ui:field ="finalTitleTxtBox"></g:TextBox>
-		    <g:TextArea name = "description" ui:field ="finalDescriptionTxtArea"></g:TextArea>
-		    <g:HorizontalPanel>
-				<g:Label styleName="{style.label}">Solution File:</g:Label>
-				<g:FileUpload ui:field = "solutionUpload"></g:FileUpload>
+	<g:DockLayoutPanel>
+	<g:west size="700">
+		<g:VerticalPanel width="100%" height="">
+			<g:HorizontalPanel width="100%">
+				<g:Label text="Title:" width="70px"/>
+				<g:TextBox styleName="{style.fillingTextBox}" ui:field="titleTxtBox"/>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel width="100%">
+				<g:Label text="Desc:" width="70px"/>
+				<g:TextArea width="100%" ui:field="descriptionTxtArea"/>
+			</g:HorizontalPanel>
+			<g:DockLayoutPanel width="100%" height="100px">
+				<g:west size="350">
+				<g:VerticalPanel width="100%">
+					<g:Label text="TOP"/>
+					<g:HorizontalPanel height="100%" width="100%">
+						<g:Label text="Label:" width="50px"/>
+						<g:TextBox styleName="{style.fillingTextBox}" ui:field="topLabelTxtBox"/>
+					</g:HorizontalPanel>
+					<g:HorizontalPanel width="100%">
+						<g:Label text="Real:" width="50px"/>
+						<g:TextBox styleName="{style.fillingTextBox}" ui:field="topRealCodeTxtBox"/>
+					</g:HorizontalPanel>
+					<g:HorizontalPanel width="100%">
+						<g:Label text="Hidden:" width="50px"/>
+						<g:TextBox styleName="{style.fillingTextBox}" ui:field="topHiddenCodeTxtBox"/>
+					</g:HorizontalPanel>
+				</g:VerticalPanel>
+				</g:west>
+				<g:east size="350">
+				<g:VerticalPanel width="100%">
+					<g:Label text="BOTTOM"/>
+					<g:HorizontalPanel height="100%" width="100%">
+						<g:Label text="Label:" width="50px"/>
+						<g:TextBox styleName="{style.fillingTextBox}" ui:field="bottomLabelTxtBox"/>
+					</g:HorizontalPanel>
+					<g:HorizontalPanel width="100%">
+						<g:Label text="Real:" width="50px"/>
+						<g:TextBox styleName="{style.fillingTextBox}" ui:field="bottomRealCodeTxtBox"/>
+					</g:HorizontalPanel>
+					<g:HorizontalPanel width="100%">
+						<g:Label text="Hidden:" width="50px"/>
+						<g:TextBox styleName="{style.fillingTextBox}" ui:field="bottomHiddenCodeTxtBox"/>
+					</g:HorizontalPanel>
+				</g:VerticalPanel>
+				</g:east>
+			</g:DockLayoutPanel>
+			<g:HorizontalPanel width="100%">
+				<g:Label text="Comment:" width="70px"/>
+				<g:TextBox width="100%" ui:field="commentsTxtBox"/>
+				<g:Button ui:field="createCommentsButton" styleName="{style.floatLeft}">Add</g:Button>
+			</g:HorizontalPanel>
+			<g:Label text="Current Comments:"/>
+			<g:TextArea width="96%" enabled="false" ui:field="commentsStagingArea"/>
+			<g:HorizontalPanel width="100%">
+				<g:Button width="100%" ui:field="classDeclarationButton">Class</g:Button>
+				<g:Button width="100%" ui:field="innerFunctionsButton">Function</g:Button>
+				<g:Button width="100%" ui:field="statementsButton">Statement</g:Button>
+				<g:Button width="100%" ui:field="clearDataButton">Clear</g:Button>
 			</g:HorizontalPanel>
 			<g:HorizontalPanel>
-				<g:Label styleName="{style.label}">Helper file:</g:Label>
-				<g:FileUpload ui:field = "helperUpload"></g:FileUpload>
+				<g:Label text="Solution:" width="71px"/>
+				<g:FileUpload ui:field="solutionUpload"/>
 			</g:HorizontalPanel>
-		    <g:TextArea name = "classDeclaration" ui:field = "classDeclarationTxtArea" styleName="{style.accumulatorTextArea}"></g:TextArea>
-			<g:TextArea name = "innerFunctions" ui:field = "innerFunctionsTxtArea" styleName="{style.accumulatorTextArea}"></g:TextArea>
-			<g:TextArea name = "statements" ui:field = "statementsTxtArea" styleName="{style.accumulatorTextArea}"></g:TextArea>
-		</g:AbsolutePanel>
-	</g:HorizontalPanel>
+			<g:HorizontalPanel>
+				<g:Label text="Helper:" width="71px"/>
+				<g:FileUpload ui:field="helperUpload"/>
+			</g:HorizontalPanel>
+		</g:VerticalPanel>
+	</g:west>
+	<g:east size="300">
+		<g:VerticalPanel>
+			<g:FormPanel ui:field="problemCreateFormPanel">
+				<g:VerticalPanel width="100%" height="100%">
+					<g:Label text="Title:"/>
+					<g:TextArea enabled="false" ui:field="finalTitleTxtBox" width="100%"/>
+					<g:Label text="Description:"/>
+					<g:TextArea enabled="false" ui:field="finalDescriptionTxtArea" width="100%"/>
+					<g:Label text="Class:"/>
+					<g:TextArea enabled="false" ui:field="classDeclarationTxtArea" width="100%"/>
+					<g:Label text="Functions:"/>
+					<g:TextArea enabled="false" ui:field="innerFunctionsTxtArea" width="100%"/>
+					<g:Label text="Statements:"/>
+					<g:TextArea enabled="false" ui:field="statementsTxtArea" width="100%"/>
+					<g:SubmitButton ui:field="createProblemSubmitButton">Create</g:SubmitButton>
+				</g:VerticalPanel>
+			</g:FormPanel>
+		</g:VerticalPanel>
+	</g:east>
+	</g:DockLayoutPanel>
+
 </ui:UiBinder> 

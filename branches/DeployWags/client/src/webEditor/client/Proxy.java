@@ -83,12 +83,11 @@ public class Proxy
 		          WEStatus status = new WEStatus(response);
 		          boolean root = false;
 		          
-		          // If not root, no section tab
 		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
 		        	  root = true;
 		          }
 		          
-		          // If not even an administrator, remove administrative tabs
+		          // If administrator or root
 		          if(status.getStat() == WEStatus.STATUS_WARNING || root){
 		        	  magnet.addProblemCreation();
 		          }
