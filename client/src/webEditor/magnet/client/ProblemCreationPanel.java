@@ -5,6 +5,8 @@ import webEditor.client.WEStatus;
 import webEditor.client.view.Notification;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -31,11 +33,10 @@ public class ProblemCreationPanel extends Composite{
 	
 	@UiField FormPanel problemCreateFormPanel;
 	@UiField TextBox titleTxtBox;
-	@UiField TextBox finalTitleTxtBox;
-	@UiField Button setTitleButton;
+	@UiField TextArea finalTitleTxtBox; //oooh, I am a bad person
 	@UiField TextArea descriptionTxtArea;
 	@UiField TextArea finalDescriptionTxtArea;
-	@UiField Button setDescriptionButton;
+	
 	@UiField TextArea classDeclarationTxtArea;
 	@UiField TextArea innerFunctionsTxtArea;
 	@UiField TextArea statementsTxtArea;
@@ -72,6 +73,20 @@ public class ProblemCreationPanel extends Composite{
 				Notification.notify(stat.getStat(), stat.getMessage());
 			}
 		});
+		
+		titleTxtBox.addBlurHandler(new BlurHandler() {
+			@Override
+			public void onBlur(BlurEvent event) {
+				finalTitleTxtBox.setText(titleTxtBox.getText());
+			}
+		});
+		
+		descriptionTxtArea.addBlurHandler(new BlurHandler() {
+			@Override
+			public void onBlur(BlurEvent event) {
+				finalDescriptionTxtArea.setText(descriptionTxtArea.getText());
+			}
+		});
 	}	
 	
 	@UiHandler("createCommentsButton")
@@ -99,18 +114,6 @@ public class ProblemCreationPanel extends Composite{
 	{
 		String newMagnetString = buildString();
 		statementsTxtArea.setText(statementsTxtArea.getText()+newMagnetString);
-	}	
-	
-	@UiHandler("setTitleButton")
-	void onSetTitleClick(ClickEvent event)
-	{
-		finalTitleTxtBox.setText(titleTxtBox.getText());
-	}	
-	
-	@UiHandler("setDescriptionButton")
-	void onSetDescriptionClick(ClickEvent event)
-	{
-		finalDescriptionTxtArea.setText(descriptionTxtArea.getText());
 	}	
 	
 	@UiHandler("clearDataButton")
