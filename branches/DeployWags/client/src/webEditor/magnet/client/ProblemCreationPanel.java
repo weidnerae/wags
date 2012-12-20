@@ -92,7 +92,7 @@ public class ProblemCreationPanel extends Composite{
 	@UiHandler("createCommentsButton")
 	void onCreateCommentClick(ClickEvent event)
 	{
-		commentsStagingArea.setText(commentsStagingArea.getText()+Consts.COMMENT_DELIMITER + commentsTxtBox.getText());
+		commentsStagingArea.setText(commentsStagingArea.getText()+Consts.COMMENT_DELIMITER + "\\" + commentsTxtBox.getText());
     }
 	
 	@UiHandler("classDeclarationButton")
@@ -169,7 +169,7 @@ public class ProblemCreationPanel extends Composite{
 			bottomHiddenCode = Consts.HIDE_START+bottomHiddenCodeTxtBox.getText()+Consts.HIDE_END;
 		}
 		
-		return topLabel+topRealCode+bottomRealCode+topHiddenCode+"<!-- panel -->"+bottomHiddenCode+bottomLabel+comments+Consts.MAGNET_DELIMITER;
+		return topLabel+topRealCode+bottomRealCode+topHiddenCode+"<br/><!-- panel --><br/>"+bottomHiddenCode+bottomLabel+comments+Consts.MAGNET_DELIMITER;
 	
 	}
 }
