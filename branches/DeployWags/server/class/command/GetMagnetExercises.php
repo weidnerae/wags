@@ -2,7 +2,7 @@
 
 # GetMagnetExercises.php
 #
-# Returns a list of all magnet problem groups for the users section
+# Returns a list of all magnet problems for the users section
 # Also returns a success value denoting whether or not the user has
 # completed this exercise
 #
