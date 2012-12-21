@@ -8,6 +8,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.http.client.URL;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -92,7 +94,7 @@ public class ProblemCreationPanel extends Composite{
 	@UiHandler("createCommentsButton")
 	void onCreateCommentClick(ClickEvent event)
 	{
-		commentsStagingArea.setText(commentsStagingArea.getText()+Consts.COMMENT_DELIMITER + "\\" + commentsTxtBox.getText());
+		commentsStagingArea.setText(commentsStagingArea.getText()+Consts.COMMENT_DELIMITER + "\\\\" + commentsTxtBox.getText());
     }
 	
 	@UiHandler("classDeclarationButton")
@@ -100,6 +102,7 @@ public class ProblemCreationPanel extends Composite{
 	{
 		String newMagnetString = buildString();
 		classDeclarationTxtArea.setText(classDeclarationTxtArea.getText()+newMagnetString);
+		commentsStagingArea.setText("");
     }
 	
 	@UiHandler("innerFunctionsButton")
@@ -107,6 +110,7 @@ public class ProblemCreationPanel extends Composite{
 	{
 		String newMagnetString = buildString();
 		innerFunctionsTxtArea.setText(innerFunctionsTxtArea.getText()+newMagnetString);
+		commentsStagingArea.setText("");
 	}
 	
 	@UiHandler("statementsButton")
@@ -114,6 +118,7 @@ public class ProblemCreationPanel extends Composite{
 	{
 		String newMagnetString = buildString();
 		statementsTxtArea.setText(statementsTxtArea.getText()+newMagnetString);
+		commentsStagingArea.setText("");
 	}	
 	
 	@UiHandler("clearDataButton")
