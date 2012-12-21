@@ -10,9 +10,17 @@ class getMagnetProblem extends Command
 {
 	public function execute(){
         $id = $_GET['id'];
+        
         $magProb = MagnetProblem::getMagnetProblemById($id);
         $objArray = $magProb->toArray();
-
+        
+        $state = MagnetProblemState::getEntryByProblemId($id);
+        
+        if($state){
+            $objArray['state'] = $state->getState();
+        } else {
+            $objArray[] = "";
+        }
         return JSON::success($objArray);
 
 	}

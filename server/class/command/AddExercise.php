@@ -1,7 +1,6 @@
 <?php
 
-/** TEST EDITING
-*AddExercise
+/*AddExercise
 *
 *Heavily based off of UploadFile.php
 *Should receive two files as well as a 
