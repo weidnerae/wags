@@ -1,6 +1,5 @@
 package webEditor.magnet.client;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -235,7 +234,6 @@ public class StackableContainer extends FocusPanel {
 
 	public HTML getTopLabel() {
 		if(hasCode){
-			Window.alert("has code");
 			return new HTML(topJavaCode);
 		}
 		else if(topLabel.getHTML().contains(Consts.HIDDEN_CODE)){

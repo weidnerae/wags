@@ -1176,7 +1176,7 @@ public class Proxy
 		        	  root = true;
 		          }
 		          
-		          // If not even an administrator, remove administrative tabs
+		          // If Admin or Root
 		          if(status.getStat() == WEStatus.STATUS_WARNING || root){
 		        	  ScrollPanel scroll = new ScrollPanel();
 		        	  scroll.add(admin);
@@ -1344,7 +1344,7 @@ public class Proxy
 		}
 	}
 
-	public static void magnetReview(String code, String title){
+	public static void magnetReview(final String saveState, final int id, String code, String title){
 		code = URL.encodePathSegment(code);  // Escapes things like "+", etc.
 		
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, Proxy.getBaseURL()+"?cmd=MagnetReview");
@@ -1359,6 +1359,7 @@ public class Proxy
 					switch (stat.getStat()){
 						case WEStatus.STATUS_SUCCESS:
 							note = "Success!";
+							saveMagnetState(saveState,id,1);   // Save Correct Magnet State
 							break;
 						case WEStatus.STATUS_ERROR:
 							note = "Syntax Error - Incorrect";
@@ -1558,6 +1559,34 @@ public class Proxy
 		
 		
 		return true;
+	}
+	
+	public static void saveMagnetState(String state, int magnetId, int success){
+		String url = getBaseURL()+"?cmd=SaveMagnetState&state="+state+"&magnetId="+magnetId+"&success="+success;
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
+		try{
+			@SuppressWarnings("unused")
+			Request r = builder.sendRequest(null, new RequestCallback() {
+				@Override
+				public void onResponseReceived(Request request, Response response)
+				{
+					// Quietly rebuild the file browser on success.
+					WEStatus stat = new WEStatus(response);
+					if(stat.getStat() == WEStatus.STATUS_SUCCESS){
+						// Rebuild browser
+						Notification.notify(stat.getStat(), stat.getMessage());
+						
+					}else{
+						Window.alert("failed");
+					}
+				}
+				@Override
+				public void onError(Request request, Throwable exception)
+				{}
+			});
+		}catch(RequestException e){
+			e.printStackTrace();
+		}
 	}
 	
 	public static void setDST(DataStructureTool thisDST){

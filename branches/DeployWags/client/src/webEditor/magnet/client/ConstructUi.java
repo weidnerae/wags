@@ -209,6 +209,7 @@ public class ConstructUi extends Composite {
 
                         segmentsContent.add(segment, baseX, baseY);
                 }
+//            	Window.alert("CU- ID:"+segment.getID()+" Count: "+widgetCount+" X: "+baseX+" Y:"+baseY);
             }  
         };
         
