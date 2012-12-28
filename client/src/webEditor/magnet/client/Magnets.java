@@ -35,6 +35,7 @@ public class Magnets extends AbsolutePanel {
 	private static int[] idList;			//array of problem id numbers
 	private static String[] problemList;	//array of problem names
 	private static boolean[] successList;	//array of success values
+	public int idAssignor = 0;
 
 	final VerticalPanel problemPane = new VerticalPanel();
 
@@ -172,6 +173,7 @@ public class Magnets extends AbsolutePanel {
 	 */
 	public RefrigeratorMagnet makeProblem(MagnetProblem magnet) {
 		return new RefrigeratorMagnet(
+				magnet.id,
 				magnet.title,
 				magnet.directions,
 				getMainContainer(magnet.mainFunction),
@@ -185,7 +187,8 @@ public class Magnets extends AbsolutePanel {
 				magnet.bools,
 				magnet.solution,
 				magnet.statements,
-				dc
+				dc,
+				magnet.state
 		);
 	}
 	
@@ -206,11 +209,14 @@ public class Magnets extends AbsolutePanel {
 		StackableContainer[] preMadeList = new StackableContainer[segments.length]; //should never need this many
 		
 		for (int i = 0; i < segments.length; i++) {
-			preMadeList[i] = new StackableContainer(segments[i], dc, Consts.STATEMENT);
+			StackableContainer sc = new StackableContainer(segments[i], dc, Consts.STATEMENT);
+			sc.setID(getID());
+			preMadeList[i] = sc;
 		}
 			
 		return preMadeList;
 	}
+	
 	
 	/**
 	 * Creates the main StackableContainer that holds all of 
@@ -221,8 +227,10 @@ public class Magnets extends AbsolutePanel {
 	 * @return The main StackableContainer
 	 */
 	private StackableContainer getMainContainer(String str) {
-		// If stuff breaks, this also may be the culprit		
-		return new StackableContainer(str,dc,Consts.MAIN);
+		// If stuff breaks, this also may be the culprit
+		StackableContainer sc = new StackableContainer(str,dc,Consts.MAIN);
+		sc.setID(getID());
+		return sc;
 	}
 	
 	/**
@@ -241,9 +249,20 @@ public class Magnets extends AbsolutePanel {
 		StackableContainer[] insideFunctionsList = new StackableContainer[insideFunctions.length]; //should never need this many
 		
 		for (int i = 0; i < insideFunctions.length; i++) {
-			insideFunctionsList[i] = new StackableContainer(insideFunctions[i], dc, Consts.INNER);
+			StackableContainer sc = new StackableContainer(insideFunctions[i], dc, Consts.INNER);
+			sc.setID(getID());
+			insideFunctionsList[i] = sc;
 		}
 		
 		return insideFunctionsList;
+	}
+	
+	/**
+	 * Returns the next unused id and increments the global varaible idAssignor
+	 * @return String of the next id number
+	 */
+	private String getID(){
+		idAssignor++;
+		return ""+(idAssignor-1);
 	}
 }

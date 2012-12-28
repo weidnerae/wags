@@ -6,7 +6,7 @@
 	.finalize_button{
 	margin-right: 1%;
 	margin-left: 1%;
-	width: 98%;
+	width: 40%;
 	}
 
 	.base{
@@ -34,7 +34,10 @@
         		</g:ScrollPanel>
         </g:layer>
         <g:layer bottom='0%' height='30px'>
-        	<g:Button ui:field="button" styleName='{style.finalize_button}'>Finalize</g:Button>
+            <g:AbsolutePanel>
+            	<g:Button ui:field = "stateButton" styleName='{style.finalize_button}'>Save State</g:Button>
+        		<g:Button ui:field="button" styleName='{style.finalize_button}'>Finalize</g:Button>
+        	</g:AbsolutePanel>
         </g:layer>
     </g:LayoutPanel>
 </ui:UiBinder> 

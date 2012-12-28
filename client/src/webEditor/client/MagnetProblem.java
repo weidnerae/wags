@@ -2,13 +2,13 @@ package webEditor.client;
 
 public class MagnetProblem {
 	public int id;
-	public String title, directions, mainFunction, solution, type;
+	public String title, directions, mainFunction, solution, type, state;
 	public boolean creationStation;
 	public String[] innerFunctions, forLeft, forMid, forRight, bools, statements;
 	
 	public MagnetProblem(int id, String title, String directions, String type, String mainFunction,
 			String[] innerFunctions, String[] forLeft, String[] forMid, String[] forRight, String[] bools, String[] statements,
-			String solution){
+			String solution, String state){
 		this.id = id;
 		this.title = title;
 		this.directions = directions;
@@ -21,5 +21,6 @@ public class MagnetProblem {
 		this.bools = bools;
 		this.statements = statements;
 		this.solution = solution;
+		this.state = state;
 	}
 }

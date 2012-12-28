@@ -40,6 +40,7 @@ public class CodePanelUi extends Composite {
 	@UiField ScrollPanel nestPanel;   //takes up the entirety of the CodePanel, used to let mainPanel scroll
 	@UiField AbsolutePanel mainPanel;  //nested inside nestPanel, this is where mainFunction lives
 	@UiField Button button; //finalize button 
+	@UiField Button stateButton; // button to save state;
 	@UiField LayoutPanel layoutPanel; //the panel that all of these pieces are sitting in
 //	@UiField PopupPanel popupPanel;
 //	@UiField Button yesButton;
@@ -115,7 +116,7 @@ public class CodePanelUi extends Composite {
 				ResultsPanelUi.clearCodeArea();
 				ResultsPanelUi.setCodeText(code);
 				code = code.replaceAll(Consts.HC_DELIMITER,"");
-				Proxy.magnetReview(code, title);
+				Proxy.magnetReview(getSaveState(), magnet.getID(), code, title);
 				magnet.tabPanel.selectTab(1);
 				tabNumber = -1;
 			}
@@ -130,16 +131,10 @@ public class CodePanelUi extends Composite {
 			 popupPanel.setVisible(false);
 		 }
 	 }
-//	@UiHandler("yesButton")
-//	void handleYesClick(ClickEvent e){
-//		finalize();
-//		popupPanel.setVisible(false);
-//	}
-	//@UiHandler("noButton")
-//	void handleNoClick(ClickEvent e){
-//		popupPanel.setVisible(false);
-//	}
-	
+		@UiHandler("stateButton")
+		void handleStateClick(ClickEvent e){
+	        	Proxy.saveMagnetState(getSaveState(), magnet.getID(),0);
+	    }
 
 	/**
 	 * Places possible inside functions into the main function
@@ -206,24 +201,7 @@ public class CodePanelUi extends Composite {
 	}
 	
 	
-	
-	/********************************************************************
-	 * These are unfinished methods that help with the                  *
-	 *  unimplemented algorithm problems, hopefully to be completed soon*
-	 ********************************************************************/
-	
-	
-	public void evaluateAlgorithmProblem(){
-		boolean done = false;
-		String userSolution = getAlgoSolution();
-		String givenSolution = magnet.getSolution();
-		for(int i=0;i<givenSolution.length();i++){
-			
-		}
-		
-	}
-	
-	public String getAlgoSolution(){
+	public String getSaveState(){
 		String idChain = "";
 		for(int i=0;i<mainFunction.getInsidePanel().getWidgetCount();i++){
 			idChain = buildIDString((StackableContainer)mainFunction.getInsidePanel().getWidget(i),idChain);
@@ -233,18 +211,35 @@ public class CodePanelUi extends Composite {
 	
 	public String buildIDString(StackableContainer sc, String idChain) {
 		if(sc.getContent().contains(Consts.TOPANYORDER))
-			idChain+="[";
-		else
 			idChain+="{";
-		//idChain+=sc.getID();
+		else
+			idChain+="[";
+		    idChain+=sc.getID();
 		for (int i = 0; i < sc.getInsidePanel().getWidgetCount(); i++) {
 			idChain=buildIDString((StackableContainer) sc.getInsidePanel().getWidget(i),idChain);
 		}
 		if(sc.getContent().contains(Consts.TOPANYORDER))
-			idChain+="]";
-		else
 			idChain+="}";
+		else
+			idChain+="]";
 		return idChain;
 	}
+	/********************************************************************
+	 * These are unfinished methods that help with the                  *
+	 *  unimplemented algorithm problems, hopefully to be completed soon*
+	 ********************************************************************/
+	
+	
+	public void evaluateAlgorithmProblem(){
+		boolean done = false;
+		String userSolution = getSaveState();  // getSaveState is new name for getAlgoSolution
+		String givenSolution = magnet.getSolution();
+		for(int i=0;i<givenSolution.length();i++){
+			
+		}
+		
+	}
+	
+
 
 }
