@@ -214,7 +214,7 @@ public class WEStatus
 			// Create the object
 			myObject = new MagnetProblem(id, messageMap.get("title"), messageMap.get("directions"), 
 						messageMap.get("type"), mainFunction, innerFunctions, forLeft, forMid, forRight, bools,
-						statements, messageMap.get("solution"));
+						statements, messageMap.get("solution"), messageMap.get("state"));
 		}
 	}
 	
