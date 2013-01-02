@@ -11,7 +11,7 @@ class AutoLogin extends Command
 {
     public function execute()
     {
-        if(isset($_REQUEST['username']) && isset($_REQUEST['password'])){
+        if(!empty($_REQUEST['username']) && !empty($_REQUEST['password'])){
             $result = Auth::login($_REQUEST['username'],$_REQUEST['password']);
             if($result){
 
@@ -43,12 +43,16 @@ class AutoLogin extends Command
 
                 // Exercise::getVisibleExercises() returns all exercises
                 // Set all invisible except one with given title...
-                header("Location: http://www.cs.appstate.edu/wags/Test_Version");
+                header("Location: http://www.cs.appstate.edu/wags/");
                 return;
             }
+       
+        return JSON::error('Login failed. Check username and password.');
         }
 
-        return JSON::error('Login failed. Check username and password.');
+        // No username/password provided
+        Auth::logout();
+        header("Location: http://www.cs.appstate.edu/wags/");
     }
 }
 ?>
