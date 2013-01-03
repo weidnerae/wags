@@ -78,6 +78,10 @@ class MagnetProblem extends Model
     #############
     # SETTERS   #
     #############
+    public function setTimestamp($time){
+        $this->timestamp = $time;
+    }
+
     public function setTitle($var){
          $this->title = $var;
     }
@@ -401,6 +405,18 @@ class MagnetProblem extends Model
                 MagnetProblem::addExercise($magnet[0]);
             }
         }
+    }
+
+    // Creates a new MagetProblemGroup - called from 
+    // AddMagnetExercise.php
+    public static function createGroup($name){
+        require_once('Database.php');
+        $section = Auth::getCurrentUser()->getSection();
+        
+        $db = Database::getDb();
+        $sth = $db->prepare('INSERT INTO MagnetProblemGroups
+            VALUES(NULL, :name)');
+        $sth->execute(array(':name' => $name));
     }
   
 }
