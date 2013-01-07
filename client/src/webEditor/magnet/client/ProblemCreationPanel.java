@@ -72,7 +72,11 @@ public class ProblemCreationPanel extends Composite{
 			@Override
 			public void onSubmitComplete(SubmitCompleteEvent event) {
 				WEStatus stat = new WEStatus(event.getResults());
-				Notification.notify(stat.getStat(), stat.getMessage());
+				if(stat.getStat() == WEStatus.STATUS_SUCCESS){
+					Proxy.addMagnetLinkage(stat.getMessage()); // The title of the problem
+				} else {
+					Notification.notify(stat.getStat(), stat.getMessage());
+				}
 			}
 		});
 		
@@ -100,8 +104,10 @@ public class ProblemCreationPanel extends Composite{
 	@UiHandler("classDeclarationButton")
 	void onClassDeclClick(ClickEvent event)
 	{
-		String newMagnetString = buildString();
-		classDeclarationTxtArea.setText(classDeclarationTxtArea.getText()+newMagnetString);
+		String newText = buildString();
+		// The main class should only have one magnet, and no delimiter
+		String realText = newText.substring(0, newText.length()-Consts.MAGNET_DELIMITER.length());
+		classDeclarationTxtArea.setText(realText);
 		commentsStagingArea.setText("");
     }
 	

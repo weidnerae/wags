@@ -74,6 +74,28 @@ public class Proxy
 		Notification.clear();
 	}
 	
+	public static void addMagnetLinkage(final String title){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=AddMagnetLinkage&title="+title);
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus stat = new WEStatus(response);
+					Notification.notify(stat.getStat(), stat.getMessage());
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Notification.notify(WEStatus.STATUS_ERROR, "Failure: Problem in AddMagnetLinkage");					
+				}
+			});
+		} catch(Exception e){
+			Window.alert("Error Occurred.  Please e-mail the following to pmeznar@gmail.com:\n" +
+					e.getMessage());
+		}
+	}
+	
 	public static void addProblemCreation(final RefrigeratorMagnet magnet){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=IsAdmin");
 		try {
@@ -1577,7 +1599,7 @@ public class Proxy
 						Notification.notify(stat.getStat(), stat.getMessage());
 						
 					}else{
-						Window.alert("failed");
+						//Window.alert("failed");
 					}
 				}
 				@Override
