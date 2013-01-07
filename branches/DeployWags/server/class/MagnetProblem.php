@@ -22,7 +22,7 @@ class MagnetProblem extends Model
     protected $booleans;
     protected $statements;
     protected $solution;
-    protected $group;
+    protected $groupID;
 
     ###############
     # GETTERS     #
@@ -68,7 +68,7 @@ class MagnetProblem extends Model
     }
 
     public function getGroup(){
-        return $this->group;
+        return $this->groupID;
     }
 
     public function getSolution(){
@@ -119,7 +119,7 @@ class MagnetProblem extends Model
     }
 
     public function setGroup($var){
-         $this->group = $var;
+         $this->groupID = $var;
     }
 
     public function setSolution($var){
@@ -221,7 +221,7 @@ class MagnetProblem extends Model
             WHERE SectionMP.status < 3
             AND SectionMP.section = :section
             AND SectionMP.magnetP = magnetProblem.id
-            AND magnetProblem.group = :group');
+            AND magnetProblem.groupID = :group');
         $sth->setFetchMode(PDO::FETCH_NUM);
         $sth->execute(array(':section' => $user->getSection(),
             ':group' => $group));
@@ -326,7 +326,7 @@ class MagnetProblem extends Model
 
         $sth = $db->prepare("SELECT id
             FROM `magnetProblem`
-            WHERE `group` = :group");
+            WHERE `groupID` = :group");
         $sth->setFetchMode(PDO::FETCH_NUM);
         $sth->execute(array(':group' => $group));
 
