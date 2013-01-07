@@ -77,9 +77,8 @@ class AddMagnetExercise extends Command
         // and potentially the new magnetProblemGroup
 
         // All this is done in AddMagnetLinkage.php
-
-
-        return JSON::success('ok');
+        // $title is used to find the correct problem
+        return JSON::success($title);
 	}
 }
 
