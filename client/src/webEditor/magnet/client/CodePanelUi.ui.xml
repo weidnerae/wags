@@ -25,7 +25,7 @@
 	height:100%;
 	}
 	</ui:style>
-		
+	
     
     <g:LayoutPanel ui:field='layoutPanel' styleName='{style.base}'>
         <g:layer bottom='35px' top='0px'>
@@ -35,8 +35,8 @@
         </g:layer>
         <g:layer bottom='0%' height='30px'>
             <g:AbsolutePanel>
-            	<g:Button ui:field = "stateButton" styleName='{style.finalize_button}'>Save State</g:Button>
         		<g:Button ui:field="button" styleName='{style.finalize_button}'>Finalize</g:Button>
+        		<g:Button ui:field = "stateButton" styleName='{style.finalize_button}'>Save State</g:Button>
         	</g:AbsolutePanel>
         </g:layer>
     </g:LayoutPanel>

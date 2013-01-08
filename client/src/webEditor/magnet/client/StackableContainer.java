@@ -227,6 +227,15 @@ public class StackableContainer extends FocusPanel {
 		topPanel.add(topLabel);
 		bottomPanel.add(bottomLabel);
 	}
+	
+	public boolean hasChild(String childID){
+		for (int i = 0; i < insidePanel.getWidgetCount(); i++) {
+			if(insidePanel.getWidget(i) instanceof StackableContainer && ((StackableContainer)insidePanel.getWidget(i)).getID().equals(childID)){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public boolean isStackable() {
 		return stackable;
