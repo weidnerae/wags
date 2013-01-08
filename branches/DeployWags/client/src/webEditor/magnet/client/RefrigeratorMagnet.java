@@ -70,7 +70,7 @@ public class RefrigeratorMagnet extends AbsolutePanel{
 	            }
 	        };
 	        
-	        timer.schedule(10);
+	        timer.schedule(1);
 	    }
 	}
 	
@@ -98,7 +98,7 @@ public class RefrigeratorMagnet extends AbsolutePanel{
 			int endIndex = state.indexOf("]");
 			if(state.indexOf("[",startIndex+1)!=-1 && state.indexOf("[",startIndex+1) < endIndex){   //another open brace before close brace
 				addMagnetsByID(state.substring(startIndex+1, state.indexOf("[",startIndex+1)),parentID);
-				decode(state.substring(startIndex+1,state.indexOf("[",startIndex+1)),state.substring(state.indexOf("[",startIndex+1)));
+				decode2(state.substring(startIndex+1,state.indexOf("[",startIndex+1)),state.substring(state.indexOf("[",startIndex+1)));
 			}
 			else{
 				addMagnetsByID(state.substring(startIndex+1,endIndex),parentID);
@@ -183,10 +183,12 @@ public class RefrigeratorMagnet extends AbsolutePanel{
 			} else if(childIndex != -1 && parentIndex != -1){
 				if(premadeParent){
 	//				Window.alert("adding to premade");
-					premadeFunctions[parentIndex].addInsideContainer(premadeFunctions[childIndex]);
+					if(!premadeFunctions[parentIndex].hasChild(premadeFunctions[childIndex].getID()))
+						premadeFunctions[parentIndex].addInsideContainer(premadeFunctions[childIndex]);
 				}else{
 	//				Window.alert("adding to inside");
-					insideFunctions[parentIndex].addInsideContainer(premadeFunctions[childIndex]);
+					if(!insideFunctions[parentIndex].hasChild(premadeFunctions[childIndex].getID()))
+						insideFunctions[parentIndex].addInsideContainer(premadeFunctions[childIndex]);
 				}
 				
 			}
