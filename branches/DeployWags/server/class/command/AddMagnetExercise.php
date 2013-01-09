@@ -9,7 +9,6 @@ class AddMagnetExercise extends Command
         $functions = $_POST['functions'];
         $statements = $_POST['statements'];
 
-        
         // Make sure there is no magnet exercises that already
         // has this title....
         /*  This is bad.  I should have implemented everything
@@ -56,6 +55,7 @@ class AddMagnetExercise extends Command
         $newMP->setAdded(time());
         $newMP->setUpdated(time());
 
+        /* Useful for debugging, but unneeded
         $file = '/tmp/check.txt';
         $file = fopen($file, "w");
 
@@ -63,13 +63,30 @@ class AddMagnetExercise extends Command
         $thisLine = print_r($objArray, true);
         fputs($file, $thisLine);
 
-        fclose($file);
+        fclose($file);*/
+
         // Attempt to save the new problem
         try{
             $newMP->save();
         } catch(Exception $e){
             logError($e);
-            return JSON::error($e->getMessage());
+            return JSON::error("MP: ".$e->getMessage());
+        }
+
+        // Now, save uploaded files into database, linkage
+        // will map them correctly
+        if($_FILES['testClass']['size'] != 0){
+            $result = $this->addSimpleFile($_FILES['testClass'], 1);
+            if($result != 1){
+                return JSON::error("TC: ".$result);
+            }
+        }
+
+        if($_FILES['helperClass']['size'] != 0){
+            $result = $this->addSimpleFile($_FILES['helperClass'], 0);
+            if($result != 1){
+                return JSON::error("HC: ".$result);
+            }
         }
 
         // Return to client - client will perform a callback,
@@ -80,6 +97,37 @@ class AddMagnetExercise extends Command
         // $title is used to find the correct problem
         return JSON::success($title);
 	}
+
+    function addSimpleFile($file, $testValue){
+        $fileName = pathinfo($file["name"], PATHINFO_FILENAME);
+        $fileExtension = pathinfo($file["name"], PATHINFO_EXTENSION);
+
+        // Get file contents
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $type = finfo_file($finfo, $file['tmp_name']);
+        if(strpos($type, 'text') === FALSE){
+            return "Please only upload plain text or source files";
+        }
+        $fileContents = file_get_contents($file['tmp_name']);
+
+        $newSF = new SimpleFile();
+        $newSF->setClassName($fileName);
+        $newSF->setPackage("");
+        $newSF->setContents($fileContents);
+        $newSF->setMagnetPRoblemId(0); // 'holding' for linkage
+        $newSF->setTest($testValue);
+        $newSF->setAdded();
+        $newSF->setUpdated();
+
+        try{
+            $newSF->save();
+        } catch(Exception $e){
+            logError($e);
+            return $e->getMessage();
+        }
+
+        return 1;
+    }
 }
 
 ?>
