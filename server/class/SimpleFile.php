@@ -83,6 +83,18 @@ class SimpleFile extends Model
 
         return $sth->fetch();
     } 
+
+    public static function getHoldingSimpleFiles(){
+        require_once('Database.php');
+        $db = Database::getDb();
+
+        $sth = $db->prepare('SELECT *
+            FROM SimpleFiles
+            WHERE magnetProblemId = 0');
+        $sth->setFetchMode(PDO::FETCH_CLASS, 'SimpleFile');
+        $sth->execute();
+        return $sth->fetchAll();
+    }
 }
 
 ?>    
