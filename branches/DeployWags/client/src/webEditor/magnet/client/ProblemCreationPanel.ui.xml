@@ -114,14 +114,6 @@
 				<g:Button width="100%" ui:field="statementsButton">Statement</g:Button>
 				<g:Button width="100%" ui:field="clearDataButton">Clear</g:Button>
 			</g:HorizontalPanel>
-			<g:HorizontalPanel>
-				<g:Label text="Solution:" width="71px"/>
-				<g:FileUpload ui:field="solutionUpload"/>
-			</g:HorizontalPanel>
-			<g:HorizontalPanel>
-				<g:Label text="Helper:" width="71px"/>
-				<g:FileUpload ui:field="helperUpload"/>
-			</g:HorizontalPanel>
 		</g:VerticalPanel>
 	</g:west>
 	<g:east size="500">
@@ -138,6 +130,14 @@
 					<g:TextArea name="functions" ui:field="innerFunctionsTxtArea" width="100%" visibleLines="5" readOnly="true"/>
 					<g:Label text="Statements:"/>
 					<g:TextArea name="statements" ui:field="statementsTxtArea" width="100%" visibleLines="5" readOnly="true"/>
+					<g:HorizontalPanel>
+						<g:Label text="Testing Class:" width="150px"/>
+						<g:FileUpload name="testClass" ui:field="solutionUpload"/>
+					</g:HorizontalPanel>
+					<g:HorizontalPanel>
+						<g:Label text="Helper Class:" width="150px"/>
+						<g:FileUpload name="helperClass" ui:field="helperUpload"/>
+					</g:HorizontalPanel>
 					<g:SubmitButton ui:field="createProblemSubmitButton">Create</g:SubmitButton>
 				</g:VerticalPanel>
 			</g:FormPanel>
