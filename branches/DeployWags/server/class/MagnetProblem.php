@@ -418,6 +418,6 @@ class MagnetProblem extends Model
             VALUES(NULL, :name)');
         $sth->execute(array(':name' => $name));
     }
-  
+
 }
 ?>

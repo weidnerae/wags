@@ -20,8 +20,6 @@
 
 class AddSection extends Command
 {
-    // Good - we have contact with the client.
-
     public function execute(){
         $sectName  = $_POST["txtSectName"];
         $adminName = $_POST["txtAdminName"];

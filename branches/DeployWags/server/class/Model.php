@@ -101,7 +101,13 @@ abstract class Model
                                 $sqlVals .= ")";
                                 
                                 $sqlComplete = $sql.$sqlKeys.$sqlVals;
-                                
+
+                                // Useful for debugging
+                                /*$file = '/tmp/sql.txt';
+                                $file = fopen($file, "w");
+                                fputs($file, $sqlComplete);
+                                fclose($file);*/
+                            
                                 $sth = $db->prepare($sqlComplete);
         
                                 if($sth == FALSE){

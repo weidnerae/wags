@@ -43,6 +43,14 @@ class AddMagnetLinkage extends Command
 
         // Update the problem status for the mp
         MagnetProblem::addExercise($mpID);
+        
+        // Bind the SimpleFiles added in AddMagnetExercises
+        // correctly (they are currently 'holding')
+        $files = SimpleFile::getHoldingSimpleFiles();
+        foreach($files as $file){
+            $file->setMagnetProblemId($mpID);
+            $file->save();
+        }
 
         return JSON::success('MagnetProblem Added');
     }
