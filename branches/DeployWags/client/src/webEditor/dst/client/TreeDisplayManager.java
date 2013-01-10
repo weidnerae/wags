@@ -26,10 +26,12 @@ public class TreeDisplayManager extends DisplayManager implements
 	protected TreeProblem problem;
 	protected boolean addingEdge;
 	protected boolean removingEdge;
+	protected boolean coloring;
 
 	// permanent widgets
 	protected Button addEdgeButton;
 	protected Button removeEdgeButton;
+	protected Button colorButton;
 	protected Label edgeAdditionIns;
 	protected AbsolutePanel edgeAdditionInsPanel;
 
@@ -58,9 +60,13 @@ public class TreeDisplayManager extends DisplayManager implements
 		addResetButton();
 		addEvaluateButton();
 		
+		
 		if (problem.getEdgesRemovable()) {
 			addAddEdgeButton();
 			addRemoveEdgeButton();
+		}
+		if (problem.getNodeType().equals(DSTConstants.NODE_RED_BLACK)){
+			addColorButton();
 		}
 
 		insertNodesAndEdges();
@@ -70,7 +76,12 @@ public class TreeDisplayManager extends DisplayManager implements
 		cont = new TraversalContainer(this); // for reset of traversal problems
 		if (problem.getInsertMethod().equals(DSTConstants.INSERT_METHOD_VALUE)) {
 			insertNodesByValue(problem.getNodes(), problem.getNodeType());
-		} else {
+		}
+		else if(problem.getInsertMethod().equals(DSTConstants.INSERT_METHOD_VALUE_LOCATION_COLOR)){
+			insertNodesByValueLocationColor(problem.getNodes(),
+					problem.getXPositions(), problem.getYPositions(),
+					problem.getNodesDraggable(), problem.getNodeType(), problem.getArguments());
+		}else {
 			insertNodesByValueAndLocation(problem.getNodes(),
 					problem.getXPositions(), problem.getYPositions(),
 					problem.getNodesDraggable(), problem.getNodeType());
@@ -86,15 +97,20 @@ public class TreeDisplayManager extends DisplayManager implements
 		}
 	}
 
-	// Add Edge Button
+
+	// Add Edge Buttons and Color Button
 	private HandlerRegistration edgeEventHandler;
 	private HandlerRegistration edgeCancelEventHandler;
 	private HandlerRegistration removeEdgeEventHandler;
 	private HandlerRegistration removeEdgeCancelEventHandler;
+	private HandlerRegistration colorButtonEventHandler;
+	private HandlerRegistration colorButtonCancelEventHandler;
 	private ClickHandler removeEdgeClickHandler;
 	private ClickHandler removeEdgeCancelClickHandler;
 	private ClickHandler edgeClickHandler;
 	private ClickHandler edgeCancelClickHandler;
+	private ClickHandler colorButtonClickHandler;
+	private ClickHandler colorButtonCancelClickHandler;
 	private boolean showingSubMess;
 
 	private class AddEdgeNodeClickHandler implements DoubleClickHandler {
@@ -103,7 +119,8 @@ public class TreeDisplayManager extends DisplayManager implements
 			if (edgeCollection.getNumNodesSelected() == 0) {
 				removeWidgetsFromPanel();
 				resetRemoveEdgeButton();
-				resetNodeStyles();
+				if (!problem.getNodeType().equals(DSTConstants.NODE_RED_BLACK))
+					resetNodeStyles();
 				resetEdgeStyles();
 				makeNodesNotDraggable();
 				addEdgeStart();
@@ -118,12 +135,31 @@ public class TreeDisplayManager extends DisplayManager implements
 		public void onClick(ClickEvent event) {
 			removeWidgetsFromPanel();
 			resetRemoveEdgeButton();
-			resetNodeStyles();
+			if (!problem.getNodeType().equals(DSTConstants.NODE_RED_BLACK))
+				resetNodeStyles();
 			resetEdgeStyles();
 			makeNodesNotDraggable();
 			addEdgeStart();
 			edgeCollection.addNextEdge();
 		}
+	}
+	
+	private class ColorButtonClickHandler implements ClickHandler {
+		public void onClick(ClickEvent event) {
+			//removeWidgetsFromPanel();
+			//resetColorButton();
+			makeNodesNotDraggable();
+			colorButtonStart();
+			
+		}
+	}
+	private class ColorButtonCancelClickHander implements ClickHandler {
+		public void onClick(ClickEvent event){
+			colorButtonCancel();
+			colorButtonCancelEventHandler.removeHandler();
+			colorButton.addClickHandler(colorButtonClickHandler);
+		}
+		
 	}
 
 	private class AddEdgeCancelClickHandler implements ClickHandler {
@@ -139,7 +175,6 @@ public class TreeDisplayManager extends DisplayManager implements
 			if (getEdges().size() > 0) {
 				addEdgeCancel();
 				removeWidgetsFromPanel();
-
 				removingEdge = true;
 				removeEdgeButton.setText("Cancel");
 				removeEdgeEventHandler.removeHandler();
@@ -163,8 +198,11 @@ public class TreeDisplayManager extends DisplayManager implements
 
 	private void resetEdgeButton() {
 		addEdgeButton.setText("Add Edge");
+		if (!problem.getNodeType().equals(DSTConstants.NODE_RED_BLACK))	
+			resetNodeStyles();
 		edgeCancelEventHandler.removeHandler();
 		edgeEventHandler = addEdgeButton.addClickHandler(edgeClickHandler);
+		changeRBNodeEdgeStatus(false);
 	}
 
 	public void resetRemoveEdgeButton() {
@@ -176,6 +214,15 @@ public class TreeDisplayManager extends DisplayManager implements
 			removingEdge = false;
 		}
 	}
+	
+	public void resetColorButton(){
+		if (coloring){	
+			colorButton.setText("Recolor");
+			colorButtonCancelEventHandler.removeHandler();
+			colorButtonEventHandler = colorButton.addClickHandler(colorButtonClickHandler);
+			coloring = false;
+		}
+	}
 
 	public void addEdgeStart() {
 		addEdgeButton.setText("Cancel");
@@ -183,7 +230,17 @@ public class TreeDisplayManager extends DisplayManager implements
 		edgeCancelEventHandler = addEdgeButton
 				.addClickHandler(edgeCancelClickHandler);
 		addingEdge = true;
+		if (problem.getNodeType().equals(DSTConstants.NODE_RED_BLACK))	
+			changeRBNodeEdgeStatus(true);
 		Proxy.getDST().add(edgeAdditionInsPanel, 346, 131);
+	}
+	
+	public void colorButtonStart(){		
+		colorButton.setText(" Done ");
+		colorButtonEventHandler.removeHandler();
+		colorButtonCancelEventHandler = colorButton.addClickHandler(colorButtonCancelClickHandler);
+		changeRBNodeStatus(true);
+		coloring = true;
 	}
 
 	public void addEdgeCancel() {
@@ -192,9 +249,17 @@ public class TreeDisplayManager extends DisplayManager implements
 			edgeCollection.clearEdgeNodeSelections();
 			resetEdgeButton();
 			resetEdgeStyles();
-			resetNodeStyles();
 			setEdgeNodeSelectionInstructions("");
 			addingEdge = false;
+		}
+	}
+	
+	public void colorButtonCancel(){
+		if (coloring){
+			makeNodesDraggable();
+			changeRBNodeStatus(false);
+			colorButton.setText("Recolor");
+			coloring = false;
 		}
 	}
 
@@ -313,6 +378,16 @@ public class TreeDisplayManager extends DisplayManager implements
 		addEdgeButton.setStyleName("control_button");
 		rightButtonPanel.add(addEdgeButton, 3, 2);
 	}
+	
+	private void addColorButton(){
+		colorButton = new Button("Recolor");
+		colorButton.setStyleName("control_button");
+		colorButtonClickHandler = new ColorButtonClickHandler();
+		colorButtonCancelClickHandler = new ColorButtonCancelClickHander();
+		colorButtonEventHandler = colorButton.addClickHandler(colorButtonClickHandler);
+		middlePanel.add(colorButton, 0, 2);
+		
+	}
 
 	private void addRemoveEdgeButton() {
 		removeEdgeButton = new Button("Remove Edge");
@@ -398,10 +473,53 @@ public class TreeDisplayManager extends DisplayManager implements
 						.equals(DSTConstants.NODE_CLICKABLE_FORCE_EVAL))
 					nodeCollection.addNode(new NodeClickable(splitNodes[i],
 							label, cont, true));
+				else if (nodeType.equals(DSTConstants.NODE_RED_BLACK)){
+					label.setStyleName("red_node");
+					nodeCollection.addNode(new NodeRedBlack(splitNodes[i], label, cont, false));
+					
+				}
 				else
 					nodeCollection.addNode(new NodeClickable(splitNodes[i],
 							label, cont, false));
 			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param nodes	The list of nodes to to be added
+	 * @param xPositions
+	 * @param yPositions
+	 * @param draggable
+	 * @param nodeType
+	 * @param arguments
+	 */
+	public void insertNodesByValueLocationColor(String nodes, int[] xPositions,
+			int[] yPositions, boolean draggable, String nodeType, String[] arguments) {
+		String[] splitNodes = nodes.split(" ");
+		if (splitNodes.length != xPositions.length
+				|| splitNodes.length != yPositions.length)
+			throw new NullPointerException(); // need to find right exception
+		
+		for (int i = 0; i < splitNodes.length; i++) {
+			Label label = new Label(splitNodes[i]);
+			label.setStyleName("node");
+			panel.add(label, xPositions[i], yPositions[i]);
+			if (draggable){
+				NodeDragController.getInstance().makeDraggable(label);
+			}
+			if (nodeType.equals(DSTConstants.NODE_RED_BLACK)){
+				if (arguments[3].contains(splitNodes[i])){
+					label.setStyleName("black_node");
+				}else
+					label.setStyleName("red_node");
+				
+				nodeCollection.addNode(new NodeRedBlack(splitNodes[i], label, cont, false));
+				
+			}
+			else
+				nodeCollection.addNode(new NodeClickable(splitNodes[i],
+						label, cont, false));
 		}
 	}
 
@@ -435,6 +553,7 @@ public class TreeDisplayManager extends DisplayManager implements
 	public void resetNodeStyles() {
 		nodeCollection.resetNodeStyles(problem.getNodeType());
 	}
+	
 
 	public void resetEdgeStyles() {
 		edgeCollection.resetEdgeColor();
@@ -442,6 +561,26 @@ public class TreeDisplayManager extends DisplayManager implements
 
 	public void setEdgeParentAndChildren() {
 		edgeCollection.setParentAndChildNodes();
+	}
+	
+	public void changeRBNodeStatus(boolean color){
+		for (Node node : nodeCollection.getNodes()){
+			NodeRedBlack rbNode = (NodeRedBlack)node;
+			if (color)
+				rbNode.setBeingColoredTrue();
+			else
+				rbNode.setBeingColoredFalse();
+		}
+	}
+	
+	public void changeRBNodeEdgeStatus(boolean status){
+		for (Node node : nodeCollection.getNodes()){
+			NodeRedBlack rbNode = (NodeRedBlack)node;
+			if (status)
+				rbNode.setAddingEdgesTrue();
+			else
+				rbNode.setAddingEdgesFalse();
+		}
 	}
 
 	public void addDiagLabel(String s){
