@@ -84,6 +84,8 @@ class SimpleFile extends Model
         return $sth->fetch();
     } 
 
+    // Used in AddMagnetLinkage in order to correctly
+    // associate uploaded SimpleFiles with the new problem
     public static function getHoldingSimpleFiles(){
         require_once('Database.php');
         $db = Database::getDb();

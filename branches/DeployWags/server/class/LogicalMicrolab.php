@@ -60,7 +60,8 @@ class LogicalMicrolab
         $sth = $db->prepare('SELECT LMExercise.Exercise
             FROM LMExercise JOIN LMGroup
             ON LMExercise.Group = LMGroup.id
-            WHERE LMGroup.Group = :group');
+            WHERE LMGroup.Group = :group
+            ORDER BY LMExercise.id');
 		$sth->setFetchMode(PDO::FETCH_NUM);
         $sth->execute(array(':group' => $group));
 
