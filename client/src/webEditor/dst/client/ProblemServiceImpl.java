@@ -13,6 +13,7 @@ public class ProblemServiceImpl
 		Evaluation_Hashing hashing = new Evaluation_Hashing();
 		Evaluation_Quicksort quicksort = new Evaluation_Quicksort();
 		Evaluation_SelectionSort select = new Evaluation_SelectionSort();
+		Evaluation_RedBlackTree redBlack = new Evaluation_RedBlackTree();
 		
 		AddEdgeRules noEdgeAddition = new AddEdgeRules();
 		Evaluation_BSTTraversal trav = new Evaluation_BSTTraversal();
@@ -1156,7 +1157,237 @@ public class ProblemServiceImpl
 					rules,
 					false,
 					DSTConstants.NODE_CLICKABLE);
-
+			// The following 16 exercises were created by Michael Nastasi and Mark Stumpf as part
+			// of a Datastructures class project
+			case 79: return new TreeProblem( "Create Infix Expression 1",
+					"Extrapolate an infix expression from the binary expression tree " +
+					"by clicking the nodes in the correct order (If necessary, click the " + 
+					"parenthesis nodes to add to the expression).",
+					"+ / * O - B K P L ( )",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{250, 100, 325, 50, 167, 275, 375, 125, 200, 15, 65},
+					new int[]{ 75, 150, 150, 225, 225, 225, 225, 300, 300, 30, 30},
+					new String[]{"+ /","+ *","/ O","/ -","- P", "- L", "* B", "* K"},
+					new String[]{"O / ( P - L ) + B * K"},
+					trav,
+					noEdgeAddition,
+					false,
+					false,
+					DSTConstants.NODE_CLICKABLE);
+			case 80: return new TreeProblem( "Create Infix Expression 2",
+					"Extrapolate an infix expression from the binary expression tree " +
+					"by clicking the nodes in the correct order (If necessary, click the " + 
+					"parenthesis nodes to add to the expression).",
+					"+ / * O S - Z M R ( )",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{250, 150, 375, 75, 200, 325, 450, 275, 375, 15, 65},
+					new int[]{75, 150, 150, 225, 225, 225, 225, 300, 300, 30, 30},
+					new String[]{"+ /","+ *","/ O","/ S","* -", "- M", "- R", "* Z"},
+					new String[]{"O / S + ( M - R ) * Z"},
+					trav,
+					noEdgeAddition,
+					false,
+					false,
+					DSTConstants.NODE_CLICKABLE);
+			case 81: return new TreeProblem("Create Postfix Expression 1",
+					"Extrapolate a postfix expression from the binary expression tree" +
+					"by clicking the nodes in the correct order.",
+					"/ - * K U R + T Z",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{250, 125, 375, 75, 175, 325, 425, 390, 460},
+					new int[]{ 75, 175,175, 275, 275, 275, 275, 350, 350},
+					new String[]{"/ -","/ *","- K","- U","* R","* +","+ T","+ Z"},
+					new String[]{"K U - R T Z + * /"},
+					trav,
+					noEdgeAddition,
+					false,
+					false,
+					DSTConstants.NODE_CLICKABLE);
+			case 82: return new TreeProblem("Create Postfix Expression 2",
+					"Extrapolate a postfix expression from the binary expression tree" +
+					"by clicking the nodes in the correct order.",
+					"/ + * - V G I T % A B",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{300, 175, 400, 100, 225, 350, 450, 50, 150, 115, 180},
+					new int[]{ 75, 175, 175, 275, 275, 275, 275, 350, 350, 425, 425},
+					new String[]{"/ +","/ *","* G","* I","+ -","+ V","- T","- %", "% A", "% B"},
+					new String[]{"T A B % - V + G I * /"},
+					trav,
+					noEdgeAddition,
+					false,
+					false,
+					DSTConstants.NODE_CLICKABLE);
+			case 83: return new TreeProblem("Build BET from Infix 1",
+					"Build the binary tree given the following infix expression " +
+					"(A+B)*D-E",
+					"A + B * D - E",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges,
+					new String[]{"- * + A B D E", "A + B * D - E"}, //pre, in
+					preEval,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 84: return new TreeProblem("Build BET from Infix 2",
+					"Build the binary tree given the following infix expression " +
+					"X*(Y-Z)/(F+H)",
+					"X * Y - Z / F + H",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges,
+					new String[]{"/ * X - Y Z + F H", "X * Y - Z / F + H"}, //pre, in
+					preEval,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 85: return new TreeProblem("Build BET from Postfix 1",
+					"Build the binary tree given the following postfix expression: " +
+					"AB+D*EG+-",
+					"A B + D * E G + -",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges, 
+					new String[]{"- * + A B D + E G", "A + B * D - E + G"}, //pre, in
+					preEval,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 86: return new TreeProblem("Build BET from Postfix 2",
+					"Build the binary tree given the following postfix expression: " +
+					"HD+AX%Y*-",
+					"H D + A X % Y * -",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges, 
+					new String[]{"- + H D * % A X Y", "H + D - A % X * Y"}, //pre, in
+					preEval,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 87: return new TreeProblem("Red Black Tree Insertion 1",
+					"Insert the node 90 and recolor as neccessary."+
+				    "\nSelect the black nodes in a level order traversal.",
+					"40 20 60 10 30 50 70 80 90",
+					DSTConstants.INSERT_METHOD_VALUE_LOCATION_COLOR,
+					new int[]{250, 125, 375, 75, 175, 325, 425, 450, 15},
+					new int[]{ 75, 175,175, 275, 275, 275, 275, 350, 15},
+					new String[] {"40 20", "40 60", "20 10", "20 30", "60 50", "60 70", "70 80"}, //connected nodes
+					new String[]{"10 30 20 50 70 90 80 60 40 ", "10 20 30 40 50 60 70 80 90 ", //postorder, inorder,
+									"40 10 30 50 80X40 20 50 80", "40 10 30 50 70"},  //correct black nodes, initial black nodes
+					redBlack,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_RED_BLACK);
+			case 88: return new TreeProblem("Red Black Tree Insertion 2",
+					"Insert the node 91 and recolor as neccessary."+
+					"\nSelect the black nodes in a level order traversal.",
+					"65 30 96 22 32 79 97 88 91",
+					DSTConstants.INSERT_METHOD_VALUE_LOCATION_COLOR,
+					new int[]{250, 100, 375, 50, 167, 300, 425, 350, 15},
+					new int[]{ 75, 150, 150, 225, 225, 225, 225, 300, 15},
+					new String[] {"65 30", "65 96", "30 22", "30 32", "96 79", "79 88", "96 97"}, //connected nodes
+					new String[]{"22 32 30 79 91 88 97 96 65 ", "22 30 32 65 79 88 91 96 97 ", //postorder, inorder,
+							       "65 30 88 97X65 22 32 88 97", "65 30 79 97"},  //correct black nodes, initial black nodes
+					redBlack,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_RED_BLACK);
+			case 89: return new TreeProblem("Red Black Tree Insertion 3",
+					"Insert the node 26 and recolor as neccessary."+
+				    "\nSelect the black nodes in a level order traversal.",
+					"29 6 59 24 49 81 85 26",
+					DSTConstants.INSERT_METHOD_VALUE_LOCATION_COLOR,
+					new int[]{250, 125, 375, 175, 325, 425, 450, 15},
+					new int[]{ 75, 175, 175, 275, 275, 275, 350, 15},
+					new String[] {"29 6", "29 59", "6 24", "59 49", "59 81", "81 85"}, //connected nodes
+					new String[]{"26 24 6 49 85 81 59 29 ", "6 24 26 29 49 59 81 85 ", //postorder, inorder,
+									"29 24 49 81X29 6 26 49 81", "29 6 49 81"},  //correct black nodes, initial black nodes
+					redBlack,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_RED_BLACK);
+			case 90: return new TreeProblem("Red Black Tree Insertion 4",
+					"Insert the node 50 and recolor as neccessary."+
+				    "\nSelect the black nodes in a level order traversal.",
+					"63 30 89 10 33 78 22 50",
+					DSTConstants.INSERT_METHOD_VALUE_LOCATION_COLOR,
+					new int[]{300, 175, 375, 100, 225, 325, 150, 15},
+					new int[]{ 75, 175, 175, 275, 275, 275, 350, 15},
+					new String[] {"63 30", "63 89", "30 10", "30 33", "10 22", "89 78"}, //connected nodes
+					new String[]{"22 10 50 33 30 78 89 63 ", "10 22 30 33 50 63 78 89 ", //postorder, inorder,
+									"63 89 10 33", "63 89 10 33"},  //correct black nodes, initial black nodes
+					redBlack,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_RED_BLACK);
+			case 91: return new TreeProblem("Binary Search Tree Deletion 1",
+					"Remove the node 18 from the BST and replace it with its successor."+
+					"and put 18 off to the side.",
+					"18 2 79 1 12 55 85 6 45 48",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{250, 150, 350, 75, 215, 285, 425, 160, 235, 260},
+					new int[]{75, 175, 175, 250, 250, 250, 250, 325, 325, 375},
+					new String[]{"18 2","18 79", "2 1", "2 12", "12 6", "79 55", "79 85", "55 45", "45 48"},
+					new String[]{"45 2 79 1 12 55 85 6 48"},
+					levelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_STRING_DRAGGABLE);
+			case 92: return new TreeProblem("Binary Search Tree Deletion 2",
+					"Remove the node 18 from the BST and replace it with its predecessor."+
+					"and put 18 off to the side.",
+					"18 2 79 1 12 55 85 6 45 48",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{250, 150, 350, 75, 215, 285, 425, 160, 235, 260},
+					new int[]{75, 175, 175, 250, 250, 250, 250, 325, 325, 375},
+					new String[]{"18 2","18 79", "2 1", "2 12", "12 6", "79 55", "79 85", "55 45", "45 48"},
+					new String[]{"12 2 79 1 6 55 85 45 48"},
+					levelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_STRING_DRAGGABLE);
+			case 93: return new TreeProblem("Binary Search Tree Deletion 3",
+					"Remove the node 45 from the BST and put it off to the side.",
+					"87 71 93 45 78 16 56 23",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{375, 325, 425, 275, 350, 225, 300, 175},
+					new int[]{50, 150, 150, 250, 250, 350, 350, 450},
+					new String[]{"87 93","87 71", "71 78", "71 45", "45 56", "45 16", "16 23"},
+					new String[]{"87 71 93 56 78 16 23"},
+					levelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_STRING_DRAGGABLE);
+			case 94: return new TreeProblem("Binary Search Tree Deletion 4",
+					"Remove the node 28 from the BST and replace it with its successor."+
+					"and put 28 off to the side.",
+					"59 28 95 19 43 87 11 55",
+					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
+					new int[]{300, 125, 375, 80, 175, 350, 50, 225},
+					new int[]{75, 175, 175, 250, 250, 250, 325, 325},
+					new String[]{"59 95","95 87", "59 28", "28 19", "19 11", "28 43", "43 55"},
+					new String[]{"59 43 95 19 55 87 11"},
+					levelHeap,
+					rules,
+					true,
+					true,
+					DSTConstants.NODE_STRING_DRAGGABLE);
 
 		default:
 			return new TreeProblem("Binary Search Tree from Postorder Traversal 1",
@@ -1257,6 +1488,25 @@ public class ProblemServiceImpl
 		if(problem.equals("Hashing 6 - Quadratic")) return 76;
 		if(problem.equals("Quicksort Partition")) return 77;
 		if(problem.equals("Selection Sort Test")) return 78;
+		//SWAGS Cases
+		if(problem.equals("Create Infix Expression 1")) return 79;
+		if(problem.equals("Create Infix Expression 2")) return 80;
+		if(problem.equals("Create Postfix Expression 1")) return 81;
+		if(problem.equals("Create Postfix Expression 2")) return 82;
+		if(problem.equals("Build BET from Infix 1")) return 83;
+		if(problem.equals("Build BET from Infix 2")) return 84;
+		if(problem.equals("Build BET from Postfix 1")) return 85;
+		if(problem.equals("Build BET from Postfix 2")) return 86;
+		
+		if (problem.equals("Red Black Tree Insertion 1")) return 87;
+		if (problem.equals("Red Black Tree Insertion 2")) return 88;
+		if (problem.equals("Red Black Tree Insertion 3")) return 89;
+		if (problem.equals("Red Black Tree Insertion 4")) return 90;
+		
+		if (problem.equals("Binary Search Tree Deletion 1")) return 91;
+		if (problem.equals("Binary Search Tree Deletion 2")) return 92;
+		if (problem.equals("Binary Search Tree Deletion 3")) return 93;
+		if (problem.equals("Binary Search Tree Deletion 4")) return 94;
 		return 0;
 	}
 	public static int[] getHeapXLocations(boolean insert, String nodes){
