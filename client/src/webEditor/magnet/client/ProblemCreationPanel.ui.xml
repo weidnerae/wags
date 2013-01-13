@@ -14,7 +14,6 @@
 		}
 		.fillingTextArea{
 			width: 100%;
-			float: Left;
 		}
 		.floatRight{
 			float: Right;
@@ -25,24 +24,35 @@
 			text-align: center;
 			
 		}
+		.titleDescPanel {
+			border: 1px solid;
+			background: WhiteSmoke;
+			margin: 5px 0px 5px 0px;
+			padding: 10px;
+			border-radius: 5px;
+			width: 100%;
+		}
 		.magnetCreationPanel {
 			border: 1px solid;
 			background: #dbdbdb;
-			margin: 10px 0px 10px 0px;
+			margin: 5px 0px 10px 0px;
 			padding: 10px;
+			border-radius: 5px;
 		}
 
 	</ui:style>
 	<g:LayoutPanel>
 	<g:layer left="0" right="45%">
 		<g:VerticalPanel width="98%">
-			<g:VerticalPanel width="98%">
-				<g:Label styleName="{style.centeredLabel}" text="Title:" width="50px"/>
-				<g:TextBox styleName="{style.fillingTextBox}" ui:field="titleTxtBox"/>
-			</g:VerticalPanel>
-			<g:VerticalPanel width="98%">
-				<g:Label styleName="{style.centeredLabel}" text="Desc:" width="50px"/>
-				<g:TextArea visibleLines="5" styleName="{style.fillingTextArea}" ui:field="descriptionTxtArea"/>
+		    <g:VerticalPanel styleName="{style.titleDescPanel}">
+				<g:VerticalPanel width="98%">
+					<g:Label styleName="{style.centeredLabel}" text="Title:" width="50px"/>
+					<g:TextBox styleName="{style.fillingTextBox}" ui:field="titleTxtBox"/>
+				</g:VerticalPanel>
+				<g:VerticalPanel width="98%">
+					<g:Label styleName="{style.centeredLabel}" text="Desc:" width="50px"/>
+					<g:TextArea visibleLines="5" styleName="{style.fillingTextArea}" ui:field="descriptionTxtArea"/>
+				</g:VerticalPanel>
 			</g:VerticalPanel>
 			<g:VerticalPanel styleName='{style.magnetCreationPanel}' width ="100%">
 				<g:VerticalPanel width="100%">
