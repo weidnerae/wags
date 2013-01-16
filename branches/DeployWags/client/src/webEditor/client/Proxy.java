@@ -111,7 +111,11 @@ public class Proxy
 		          
 		          // If administrator or root
 		          if(status.getStat() == WEStatus.STATUS_WARNING || root){
-		        	  magnet.addProblemCreation();
+		        	  if(status.getMessage().equals("magnet")){
+		        		  magnet.addProblemCreation(true);
+		        	  } else {
+		        		  magnet.addProblemCreation(false);
+		        	  }
 		          }
 		          
 		        }
@@ -945,6 +949,10 @@ public class Proxy
 						magnetExercises.addItem(problemList[i], problemList[i]);
 					}
 					
+					if(selectionPanel == null){
+						return;
+					}
+					
 					// Automatically load problems for initially selected group
 					Proxy.getMagnetsByGroup(problemList[0], selectionPanel, currentMagnets, allMagnets, lstMagnetExercises);
 										
@@ -1595,11 +1603,9 @@ public class Proxy
 					// Quietly rebuild the file browser on success.
 					WEStatus stat = new WEStatus(response);
 					if(stat.getStat() == WEStatus.STATUS_SUCCESS){
-						// Rebuild browser
-						Notification.notify(stat.getStat(), stat.getMessage());
 						
 					}else{
-						//Window.alert("failed");
+						Notification.notify(WEStatus.STATUS_WARNING, "Submission Processed Correctly - State not saved");
 					}
 				}
 				@Override

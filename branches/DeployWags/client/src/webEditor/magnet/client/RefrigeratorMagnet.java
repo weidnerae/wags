@@ -75,7 +75,11 @@ public class RefrigeratorMagnet extends AbsolutePanel{
 	}
 	
 	public void addProblemCreation(){
-		tabPanel.add(new ProblemCreationPanel(this), "Problem Creation", false);
+		tabPanel.add(new ProblemCreationPanel(this, false), "Problem Creation", false);
+	}
+	
+	public void addProblemCreation(boolean magnetAdmin){
+		tabPanel.add(new ProblemCreationPanel(this, magnetAdmin), "Problem Creation Plus", false);
 	}
 	
 	public String getProblemType(){

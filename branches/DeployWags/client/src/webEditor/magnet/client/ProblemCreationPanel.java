@@ -17,6 +17,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
@@ -34,35 +37,29 @@ public class ProblemCreationPanel extends Composite{
 	}
 	
 	@UiField FormPanel problemCreateFormPanel;
-	@UiField TextBox titleTxtBox;
-	@UiField TextArea finalTitleTxtBox; //oooh, I am a bad person
-	@UiField TextArea descriptionTxtArea;
-	@UiField TextArea finalDescriptionTxtArea;
-	
-	@UiField TextArea classDeclarationTxtArea;
-	@UiField TextArea innerFunctionsTxtArea;
-	@UiField TextArea statementsTxtArea;
-//	@UiField MagnetCreation magnetCreator;
+	@UiField TextBox titleTxtBox, topLabelTxtBox, topRealCodeTxtBox, topHiddenCodeTxtBox,
+		commentsTxtBox, bottomLabelTxtBox, bottomRealCodeTxtBox, bottomHiddenCodeTxtBox;
+	@UiField TextArea finalTitleTxtBox, descriptionTxtArea, finalDescriptionTxtArea,
+		classDeclarationTxtArea, innerFunctionsTxtArea, statementsTxtArea, commentsStagingArea;
+	//	@UiField MagnetCreation magnetCreator;
 	@UiField SubmitButton createProblemSubmitButton;
-	@UiField TextBox topLabelTxtBox;
-	@UiField TextBox topRealCodeTxtBox;
-	@UiField TextBox topHiddenCodeTxtBox;
-	@UiField TextBox commentsTxtBox;
-	@UiField Button createCommentsButton;
-	@UiField TextArea commentsStagingArea;
-	@UiField TextBox bottomLabelTxtBox;
-	@UiField TextBox bottomRealCodeTxtBox;
-	@UiField TextBox bottomHiddenCodeTxtBox;
-	@UiField Button classDeclarationButton;
-	@UiField Button innerFunctionsButton;
-	@UiField Button statementsButton;
-	@UiField Button clearDataButton;
-	@UiField FileUpload solutionUpload;
-	@UiField FileUpload helperUpload;
-	
-	
-	public ProblemCreationPanel(RefrigeratorMagnet magnet){
+	@UiField Button createCommentsButton, classDeclarationButton, innerFunctionsButton,
+		statementsButton, clearDataButton;
+	@UiField FileUpload solutionUpload, helperUpload;
+	@UiField ListBox lstGroup;
+	@UiField Label lblGroup;
+		
+	public ProblemCreationPanel(RefrigeratorMagnet magnet, boolean magnetAdmin){
 		initWidget(uiBinder.createAndBindUi(this));
+		Proxy.getMagnetGroups(lstGroup, null, null, null, null);
+		
+		/*if(magnetAdmin){
+			lstGroup.setEnabled(true);
+			Proxy.getMagnetGroups(lstGroup, null, null, null, null);
+		} else {
+			lblGroup.setVisible(false);
+		}*/
+		
 		
 		problemCreateFormPanel.setAction(Proxy.getBaseURL() + "?cmd=AddMagnetExercise");
 		problemCreateFormPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
@@ -108,7 +105,7 @@ public class ProblemCreationPanel extends Composite{
 		// The main class should only have one magnet, and no delimiter
 		String realText = newText.substring(0, newText.length()-Consts.MAGNET_DELIMITER.length());
 		classDeclarationTxtArea.setText(realText);
-		commentsStagingArea.setText("");
+		clearLabels();
     }
 	
 	@UiHandler("innerFunctionsButton")
@@ -116,7 +113,7 @@ public class ProblemCreationPanel extends Composite{
 	{
 		String newMagnetString = buildString();
 		innerFunctionsTxtArea.setText(innerFunctionsTxtArea.getText()+newMagnetString);
-		commentsStagingArea.setText("");
+		clearLabels();
 	}
 	
 	@UiHandler("statementsButton")
@@ -124,26 +121,18 @@ public class ProblemCreationPanel extends Composite{
 	{
 		String newMagnetString = buildString();
 		statementsTxtArea.setText(statementsTxtArea.getText()+newMagnetString);
-		commentsStagingArea.setText("");
+		clearLabels();
 	}	
 	
 	@UiHandler("clearDataButton")
 	void onClearDataClick(ClickEvent event)
 	{
-		topLabelTxtBox.setText("");
-		topRealCodeTxtBox.setText("");
-		topHiddenCodeTxtBox.setText("");
-		bottomLabelTxtBox.setText("");
-		bottomRealCodeTxtBox.setText("");
-		bottomHiddenCodeTxtBox.setText("");
-		commentsTxtBox.setText("");
-		
-		commentsStagingArea.setText("");
-		
+		clearLabels();
     }
 	
 	private String buildString(){
-
+		boolean withPanel = false;
+		
 		String topLabel = "";
 		if(topLabelTxtBox.getText()!=""){
 			topLabel = topLabelTxtBox.getText();
@@ -163,25 +152,45 @@ public class ProblemCreationPanel extends Composite{
 		String comments = "";
 		if(commentsStagingArea.getText()!=""){
 			comments = commentsStagingArea.getText();
+			withPanel = true;
 		}
 		
 		String bottomLabel = "";
 		if(bottomLabelTxtBox.getText()!=""){
+			withPanel = true;
 			bottomLabel = bottomLabelTxtBox.getText();
 		}
 		
 		String bottomRealCode = "";
 		if(bottomRealCodeTxtBox.getText()!=""){
+			withPanel = true;
 			bottomRealCode = bottomRealCodeTxtBox.getText()+Consts.CODE_END;
 		}
 		
 		String bottomHiddenCode = "";
 		if(bottomHiddenCodeTxtBox.getText()!=""){
+			withPanel=true;
 			bottomHiddenCode = Consts.HIDE_START+bottomHiddenCodeTxtBox.getText()+Consts.HIDE_END;
 		}
 		
-		return topLabel+topRealCode+bottomRealCode+topHiddenCode+"<br/><!-- panel --><br/>"+bottomHiddenCode+bottomLabel+comments+Consts.MAGNET_DELIMITER;
+		if(withPanel){
+			return topLabel+topRealCode+bottomRealCode+topHiddenCode+"<br/><!-- panel --><br/>"+bottomHiddenCode+bottomLabel+comments+Consts.MAGNET_DELIMITER;
+		} else {
+			return topLabel+topRealCode+bottomRealCode+topHiddenCode+Consts.MAGNET_DELIMITER;
+		}
 	
+	}
+	
+	public void clearLabels(){
+		topHiddenCodeTxtBox.setText("");
+		topLabelTxtBox.setText("");
+		topRealCodeTxtBox.setText("");
+		
+		bottomHiddenCodeTxtBox.setText("");
+		bottomLabelTxtBox.setText("");
+		bottomRealCodeTxtBox.setText("");
+		commentsStagingArea.setText("");
+		commentsTxtBox.setText("");
 	}
 }
 
