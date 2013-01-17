@@ -42,7 +42,6 @@
 		.addCommentPanel {
 			padding: 3px 0px 3px 0px;
 			margin: 3px;
-			border: 1px solid gray;
 			border-radius: 3px;
 		}
 		.addCommentSubPanel {
@@ -124,13 +123,13 @@
 								</g:row>
 							</g:Grid>
 						<g:VerticalPanel width="100%">
-						    <g:HorizontalPanel styleName='{style.addCommentPanel}' width="100%">
+						    <g:AbsolutePanel styleName='{style.addCommentPanel}' width="100%">
 								<g:Label text="Comment:" styleName='{style.addCommentSubPanel}' width="50px"/>
-								<g:VerticalPanel styleName='{style.addCommentSubPanel}' width="95%">
+								<g:VerticalPanel styleName='{style.addCommentSubPanel}' width="100%">
 									<g:TextBox styleName='{style.fillingTextBox}' ui:field="commentsTxtBox"/>
-									<g:Button ui:field="createCommentsButton" styleName="{style.floatRight}">Add Comment</g:Button>
+									<g:Button styleName="{style.floatRight}" ui:field="createCommentsButton">Add Comment</g:Button>
 								</g:VerticalPanel>
-							</g:HorizontalPanel>
+							</g:AbsolutePanel>
 						</g:VerticalPanel>
 						<g:Label text="Current Comments:"/>
 						<g:TextArea width="98%" enabled="false" ui:field="commentsStagingArea"/>
@@ -177,5 +176,4 @@
 		</g:VerticalPanel>
 	</g:layer>
 	</g:LayoutPanel>
-
 </ui:UiBinder> 
