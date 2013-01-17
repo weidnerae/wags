@@ -39,69 +39,111 @@
 			padding: 10px;
 			border-radius: 5px;
 		}
+		.addCommentPanel {
+			padding: 3px 0px 3px 0px;
+			margin: 3px;
+			border: 1px solid gray;
+			border-radius: 3px;
+		}
+		.addCommentSubPanel {
+			margin: 3px;
+			padding: 3px;
+		}
+		.halfCell {
+			width: 50%;
+			padding: 0px 2px 0px 2px;
+		}
 
 	</ui:style>
 	<g:LayoutPanel>
 	<g:layer left="0" right="45%">
-		<g:VerticalPanel width="98%">
-		    <g:VerticalPanel styleName="{style.titleDescPanel}">
+	    <g:ScrollPanel>
+		    <g:AbsolutePanel>
 				<g:VerticalPanel width="98%">
-					<g:Label styleName="{style.centeredLabel}" text="Title:" width="50px"/>
-					<g:TextBox styleName="{style.fillingTextBox}" ui:field="titleTxtBox"/>
-				</g:VerticalPanel>
-				<g:VerticalPanel width="98%">
-					<g:Label styleName="{style.centeredLabel}" text="Desc:" width="50px"/>
-					<g:TextArea visibleLines="5" styleName="{style.fillingTextArea}" ui:field="descriptionTxtArea"/>
-				</g:VerticalPanel>
-			</g:VerticalPanel>
-			<g:VerticalPanel styleName='{style.magnetCreationPanel}' width ="100%">
-				<g:VerticalPanel width="100%">
-					<g:Label text="TOP" styleName='{style.centeredLabel}'/>
-					<g:HorizontalPanel height="100%" width="100%">
-						<g:Label text="Label:" width="50px"/>
-						<g:TextBox styleName="{style.fillingTextBox}" ui:field="topLabelTxtBox"/>
-					</g:HorizontalPanel>
+				    <g:VerticalPanel styleName="{style.titleDescPanel}">
+						<g:VerticalPanel width="98%">
+							<g:Label styleName="{style.centeredLabel}" text="Title:" width="50px"/>
+							<g:TextBox styleName="{style.fillingTextBox}" ui:field="titleTxtBox"/>
+						</g:VerticalPanel>
+						<g:VerticalPanel width="98%">
+							<g:Label styleName="{style.centeredLabel}" text="Desc:" width="50px"/>
+							<g:TextArea visibleLines="5" styleName="{style.fillingTextArea}" ui:field="descriptionTxtArea"/>
+						</g:VerticalPanel>
+					</g:VerticalPanel>
+					<g:VerticalPanel styleName='{style.magnetCreationPanel}' width ="100%">
+					    	<g:Grid width="100%">
+					    	    <g:row>
+									<g:customCell styleName='{style.halfCell}'>
+										<g:Label text="TOP" styleName='{style.centeredLabel}'/>
+									</g:customCell>
+									<g:customCell styleName='{style.halfCell}'>
+										<g:Label text="BOTTOM" styleName='{style.centeredLabel}'/>
+									</g:customCell>
+								</g:row>
+								<g:row>
+								    <g:customCell styleName='{style.halfCell}'>
+										<g:HorizontalPanel height="100%" width="100%">
+											<g:Label text="Label:" width="50px"/>
+											<g:TextBox styleName="{style.fillingTextBox}" ui:field="topLabelTxtBox"/>
+										</g:HorizontalPanel>
+									</g:customCell>
+									<g:customCell styleName='{style.halfCell}'>
+									    <g:HorizontalPanel height="100%" width="100%">
+											<g:Label text="Label:" width="50px"/>
+											<g:TextBox styleName="{style.fillingTextBox}" ui:field="bottomLabelTxtBox"/>
+										</g:HorizontalPanel>
+									</g:customCell>
+								</g:row>
+								<g:row>
+								    <g:customCell styleName='{style.halfCell}'>
+								        <g:HorizontalPanel width="100%">
+											<g:Label text="Real:" width="50px"/>
+											<g:TextBox styleName="{style.fillingTextBox}" ui:field="topRealCodeTxtBox"/>
+										</g:HorizontalPanel>
+								    </g:customCell>
+								    <g:customCell styleName='{style.halfCell}'>
+								        <g:HorizontalPanel width="100%">
+											<g:Label text="Real:" width="50px"/>
+											<g:TextBox styleName="{style.fillingTextBox}" ui:field="bottomRealCodeTxtBox"/>
+										</g:HorizontalPanel>
+								    </g:customCell>
+								</g:row>
+								<g:row>
+								    <g:customCell styleName='{style.halfCell}'>
+								        <g:HorizontalPanel width="100%">
+											<g:Label text="Hidden:" width="50px"/>
+											<g:TextBox styleName="{style.fillingTextBox}" ui:field="topHiddenCodeTxtBox"/>
+										</g:HorizontalPanel>
+								    </g:customCell>
+								    <g:customCell styleName='{style.halfCell}'>
+								        <g:HorizontalPanel width="100%">
+											<g:Label text="Hidden:" width="50px"/>
+											<g:TextBox styleName="{style.fillingTextBox}" ui:field="bottomHiddenCodeTxtBox"/>
+										</g:HorizontalPanel>
+								    </g:customCell>
+								</g:row>
+							</g:Grid>
+						<g:VerticalPanel width="100%">
+						    <g:HorizontalPanel styleName='{style.addCommentPanel}' width="100%">
+								<g:Label text="Comment:" styleName='{style.addCommentSubPanel}' width="50px"/>
+								<g:VerticalPanel styleName='{style.addCommentSubPanel}' width="95%">
+									<g:TextBox styleName='{style.fillingTextBox}' ui:field="commentsTxtBox"/>
+									<g:Button ui:field="createCommentsButton" styleName="{style.floatRight}">Add Comment</g:Button>
+								</g:VerticalPanel>
+							</g:HorizontalPanel>
+						</g:VerticalPanel>
+						<g:Label text="Current Comments:"/>
+						<g:TextArea width="98%" enabled="false" ui:field="commentsStagingArea"/>
+					</g:VerticalPanel>
 					<g:HorizontalPanel width="100%">
-						<g:Label text="Real:" width="50px"/>
-						<g:TextBox styleName="{style.fillingTextBox}" ui:field="topRealCodeTxtBox"/>
-					</g:HorizontalPanel>
-					<g:HorizontalPanel width="100%">
-						<g:Label text="Hidden:" width="50px"/>
-						<g:TextBox styleName="{style.fillingTextBox}" ui:field="topHiddenCodeTxtBox"/>
+						<g:Button styleName='{style.roundedButton}' ui:field="classDeclarationButton">Class</g:Button>
+						<g:Button styleName='{style.roundedButton}' ui:field="innerFunctionsButton">Function</g:Button>
+						<g:Button styleName='{style.roundedButton}' ui:field="statementsButton">Statement</g:Button>
+						<g:Button styleName='{style.roundedButton}' ui:field="clearDataButton">Clear</g:Button>
 					</g:HorizontalPanel>
 				</g:VerticalPanel>
-				<g:VerticalPanel width="100%">
-					<g:Label text="BOTTOM" styleName='{style.centeredLabel}'/>
-					<g:HorizontalPanel height="100%" width="100%">
-						<g:Label text="Label:" width="50px"/>
-						<g:TextBox styleName="{style.fillingTextBox}" ui:field="bottomLabelTxtBox"/>
-					</g:HorizontalPanel>
-					<g:HorizontalPanel width="100%">
-						<g:Label text="Real:" width="50px"/>
-						<g:TextBox styleName="{style.fillingTextBox}" ui:field="bottomRealCodeTxtBox"/>
-					</g:HorizontalPanel>
-					<g:HorizontalPanel width="100%">
-						<g:Label text="Hidden:" width="50px"/>
-						<g:TextBox styleName="{style.fillingTextBox}" ui:field="bottomHiddenCodeTxtBox"/>
-					</g:HorizontalPanel>
-				</g:VerticalPanel>
-				<g:VerticalPanel width="100%">
-				    <g:HorizontalPanel width="100%">
-						<g:Label text="Comment:" width="50px"/>
-						<g:TextBox styleName='{style.fillingTextBox}' ui:field="commentsTxtBox"/>
-					</g:HorizontalPanel>
-					<g:Button ui:field="createCommentsButton" styleName="{style.floatRight}">Add</g:Button>
-				</g:VerticalPanel>
-				<g:Label text="Current Comments:"/>
-				<g:TextArea width="98%" enabled="false" ui:field="commentsStagingArea"/>
-			</g:VerticalPanel>
-			<g:HorizontalPanel width="100%">
-				<g:Button styleName='{style.roundedButton}' ui:field="classDeclarationButton">Class</g:Button>
-				<g:Button styleName='{style.roundedButton}' ui:field="innerFunctionsButton">Function</g:Button>
-				<g:Button styleName='{style.roundedButton}' ui:field="statementsButton">Statement</g:Button>
-				<g:Button styleName='{style.roundedButton}' ui:field="clearDataButton">Clear</g:Button>
-			</g:HorizontalPanel>
-		</g:VerticalPanel>
+			</g:AbsolutePanel>
+		</g:ScrollPanel>
 	</g:layer>
 	<g:layer left="55%" right="0">
 		<g:VerticalPanel width="98%">
@@ -118,8 +160,8 @@
 					<g:Label text="Statements:"/>
 					<g:TextArea name="statements" ui:field="statementsTxtArea" width="100%" visibleLines="5" readOnly="true"/>
 					<g:HorizontalPanel>
-						<g:Label ui:field="lblGroup" text="Group:" width="150px" />
-						<g:ListBox ui:field="lstGroup" name="lstGroup" ></g:ListBox>
+					    <g:Label ui:field="lblGroup" text="Group:" width="150px" />
+							<g:ListBox ui:field="lstGroup" name="lstGroup" ></g:ListBox>
 					</g:HorizontalPanel>
 					<g:HorizontalPanel>
 						<g:Label text="Testing Class:" width="150px"/>
