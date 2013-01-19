@@ -71,7 +71,7 @@ public class SearchDisplayManager extends DisplayManager implements IsSerializab
 		counterPanel.setStyleName("problem_statement");
 		counterPanel.setPixelSize(195, 90);
 		counterPanel.setReadOnly(true);
-		counterPanel.setText("Current Digit: 1");
+		counterPanel.setText("Current Position: Ones");
 		Proxy.getDST().add(counterPanel, 407, 5);
 		
 	}
