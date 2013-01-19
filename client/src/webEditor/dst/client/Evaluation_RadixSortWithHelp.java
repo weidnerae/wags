@@ -131,7 +131,23 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 	 * we're currently processing.
 	 */
 	public void updateCounterPanel(){
-    	dm.getCounterPanel().setText("Current Digit: "+(CURRENT_SOLUTION - 2));
+		int pos = CURRENT_SOLUTION - 2;
+		String text = "";
+		switch(pos){
+			case 1:	text = "Ones";
+					break;
+			case 2:	text = "Tens";
+					break;
+			case 3: text = "Hundreds";
+					break;
+			case 4: text = "Thousands";
+					break;
+			default:
+					text = "Ones";
+					break;
+		}
+													
+    	dm.getCounterPanel().setText("Current Position: "+ text);
 	}
     
 	/**

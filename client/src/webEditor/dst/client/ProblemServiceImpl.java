@@ -298,7 +298,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 18: return new SearchProblem("RADIX Sort",
+			case 18: return new SearchProblem("Radix Sort 1",
 					"A queue of data values is shown at the top of the display. " +
 					"Using the given digit position move each value to the " + 
 					"appropriate bucket. Each bucket is a queue structure with " + 
@@ -1427,7 +1427,7 @@ public class ProblemServiceImpl
 		if(problem.equals("Binary Tree from Pre/Inorder Traversals 2")) return 15;
 		if(problem.equals("Binary Tree from Pre/Inorder Traversals 3")) return 16;
 		if(problem.equals("Binary Tree from Pre/Inorder Traversals 4")) return 17;
-		if(problem.equals("RADIX Sort")) return 18;
+		if(problem.equals("Radix Sort 1")) return 18;
 		if(problem.equals("MaxHeap 1")) return 19;
 		if(problem.equals("MaxHeap 2")) return 20;
 		if(problem.equals("MaxHeap 3")) return 21;
