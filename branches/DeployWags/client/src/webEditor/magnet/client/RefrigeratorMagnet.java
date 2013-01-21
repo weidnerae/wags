@@ -199,5 +199,9 @@ public class RefrigeratorMagnet extends AbsolutePanel{
 		}
 		
 	}
+	
+	public void resetProblem(){
+		editingPanel.resetProblem();
+	}
 
 }

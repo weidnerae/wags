@@ -41,5 +41,9 @@ public class EditingPanelUi extends Composite {
 	public void start() {
 		construct.start();
 	}
+	
+	public void resetProblem(){
+			construct.reset();
+	}
 
 }

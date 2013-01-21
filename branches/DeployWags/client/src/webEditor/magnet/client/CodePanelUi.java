@@ -42,6 +42,7 @@ public class CodePanelUi extends Composite {
 	@UiField Button button; //finalize button 
 	@UiField Button stateButton; // button to save state;
 	@UiField LayoutPanel layoutPanel; //the panel that all of these pieces are sitting in
+	@UiField Button resetButton;
 //	@UiField PopupPanel popupPanel;
 //	@UiField Button yesButton;
 //	@UiField Button noButton;
@@ -99,8 +100,10 @@ public class CodePanelUi extends Composite {
 		popupPanel.setPopupPosition(button.getAbsoluteLeft(), button.getAbsoluteTop()-80);
 		popupPanel.setVisible(true);
 		popupPanel.show();
-		
-
+	}
+	@UiHandler("resetButton")
+	void handleResetClick(ClickEvent e){
+		magnet.resetProblem();
 	}
 	 private class yesHandler implements ClickHandler{
 			public void finalize(){

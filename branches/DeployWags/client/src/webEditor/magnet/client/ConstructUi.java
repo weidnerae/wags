@@ -5,10 +5,13 @@ import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -215,4 +218,9 @@ public class ConstructUi extends Composite {
         
         timer.schedule(1);
     }
+    
+	public void reset(){
+		segmentsContent.clear();
+		start();
+	}
 }
