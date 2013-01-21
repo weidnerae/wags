@@ -7,7 +7,13 @@
 	margin-right: 1%;
 	margin-left: 1%;
 	padding-top: 2px;
-	width: 40%;
+	width: 36%;
+	}
+	.reset_button{
+	margin-right: 1%;
+	margin-left: 1%;
+	padding-top: 2px;
+	width: 16%;
 	}
 	.base{
 	margin-right: .5%;
@@ -34,6 +40,7 @@
             <g:AbsolutePanel>
         		<g:Button ui:field="button" styleName='{style.finalize_button}' height="30px">Finalize</g:Button>
         		<g:Button ui:field = "stateButton" styleName='{style.finalize_button}' height="30px">Save State</g:Button>
+        		 <g:Button ui:field="resetButton" styleName='{style.reset_button}' height="30px">Reset</g:Button>
         	</g:AbsolutePanel>
         </g:layer>
     </g:LayoutPanel>
