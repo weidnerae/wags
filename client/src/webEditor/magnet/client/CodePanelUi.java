@@ -36,6 +36,7 @@ public class CodePanelUi extends Composite {
 	private int tabNumber = -1; // So the initial increment will give 0 tabs
 	private RefrigeratorMagnet magnet;
 	private PopupPanel popupPanel;
+	private PopupPanel resetPopupPanel;
 	
 	@UiField ScrollPanel nestPanel;   //takes up the entirety of the CodePanel, used to let mainPanel scroll
 	@UiField AbsolutePanel mainPanel;  //nested inside nestPanel, this is where mainFunction lives
@@ -67,6 +68,7 @@ public class CodePanelUi extends Composite {
 		this.mainFunction = main;
 		this.title = title;
 		setupPopupPanel();
+		setupResetPopupPanel();
 		
 //		popupPanel.setVisible(false);
 		
@@ -93,6 +95,25 @@ public class CodePanelUi extends Composite {
 		vPanel.add(hPanel);
 		popupPanel.add(vPanel);
 	}
+	public void setupResetPopupPanel(){
+		resetPopupPanel = new PopupPanel(true);
+		VerticalPanel vPanel = new VerticalPanel();
+		HorizontalPanel hPanel = new HorizontalPanel();
+		Label pLabel = new Label("Are you sure you wish to reset the problem?");
+		Button yesButton = new Button("Yes",new yesResetHandler());
+		yesButton.addStyleName("big_popup_button");
+		Button noButton = new Button("No",new noResetHandler());
+		noButton.addStyleName("big_popup_button");
+		hPanel.add(yesButton);	
+		hPanel.add(noButton);
+		hPanel.setCellWidth(yesButton, "100px");
+		hPanel.setCellHeight(yesButton, "50px");
+		hPanel.setCellWidth(noButton, "100px");
+		hPanel.setCellHeight(noButton, "50px");
+		vPanel.add(pLabel);
+		vPanel.add(hPanel);
+		resetPopupPanel.add(vPanel);
+	}
 	
 	//finalize button handler, calls methods that generate the content and evaluate it
 	@UiHandler("button")
@@ -103,7 +124,9 @@ public class CodePanelUi extends Composite {
 	}
 	@UiHandler("resetButton")
 	void handleResetClick(ClickEvent e){
-		magnet.resetProblem();
+		resetPopupPanel.setPopupPosition(resetButton.getAbsoluteLeft()-150, resetButton.getAbsoluteTop()-80);
+		resetPopupPanel.setVisible(true);
+		resetPopupPanel.show();
 	}
 	 private class yesHandler implements ClickHandler{
 			public void finalize(){
@@ -134,11 +157,23 @@ public class CodePanelUi extends Composite {
 			 popupPanel.setVisible(false);
 		 }
 	 }
-		@UiHandler("stateButton")
-		void handleStateClick(ClickEvent e){
-	        	Proxy.saveMagnetState(getSaveState(), magnet.getID(),0);
-	    }
-
+	@UiHandler("stateButton")
+	void handleStateClick(ClickEvent e){
+	   	Proxy.saveMagnetState(getSaveState(), magnet.getID(),0);
+	}
+    
+	private class yesResetHandler implements ClickHandler{
+		public void onClick(ClickEvent event){
+			magnet.resetProblem();
+			resetPopupPanel.setVisible(false);
+		}
+	}
+	 private class noResetHandler implements ClickHandler{
+		 public void onClick(ClickEvent event) {
+			 resetPopupPanel.setVisible(false);
+		 }
+	 }
+	
 	/**
 	 * Places possible inside functions into the main function
 	 * 
