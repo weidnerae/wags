@@ -52,18 +52,30 @@ public class StackableContainer extends FocusPanel {
 	public StackableContainer(String content, PickupDragController dc,
 			int specialCondition) { // For mains, non draggable
 		this.content = content;
+		
 		// pulling out the java code
 		if(this.content.contains(Consts.CODE_START)){
 			hasCode = true;
 			String javaCode = this.content.substring(this.content.indexOf(Consts.CODE_START)+Consts.CODE_START.length(),this.content.indexOf(Consts.CODE_END));
-			topJavaCode = javaCode.substring(0,javaCode.indexOf(Consts.CODE_SPLIT));
-			bottomJavaCode = javaCode.substring(javaCode.indexOf(Consts.CODE_SPLIT)+Consts.CODE_SPLIT.length());
 			
-			String contentBeforeCode = this.content.substring(0,this.content.indexOf(Consts.CODE_START));
-			String contentAfterCode = this.content.substring(this.content.indexOf(Consts.CODE_END)+Consts.CODE_END.length());
-			this.content = contentBeforeCode+contentAfterCode;
+			// If this magnet nests
+			if(this.content.indexOf(Consts.CODE_SPLIT) != -1){
+				topJavaCode = javaCode.substring(0,javaCode.indexOf(Consts.CODE_SPLIT));
+				bottomJavaCode = javaCode.substring(javaCode.indexOf(Consts.CODE_SPLIT)+Consts.CODE_SPLIT.length());
+			
+				String contentBeforeCode = this.content.substring(0,this.content.indexOf(Consts.CODE_START));
+				String contentAfterCode = this.content.substring(this.content.indexOf(Consts.CODE_END)+Consts.CODE_END.length());
+				this.content = contentBeforeCode+contentAfterCode;
+			// If not
+			} else {
+				topJavaCode = javaCode;
+				this.content = this.content.substring(0, this.content.indexOf(Consts.CODE_START));
+			}
+			
+			
 		}
-		add(primaryPanel);  // primaryPanel holds everything else, becaue the focusPanel can only hold one widget
+		
+		add(primaryPanel);  // primaryPanel holds everything else, because the focusPanel can only hold one widget
 		setStyleName("stackable_container");
 		this.dragController = dc;
 		String[] splitContent = new String[0]; // Used to hold comment magnets
