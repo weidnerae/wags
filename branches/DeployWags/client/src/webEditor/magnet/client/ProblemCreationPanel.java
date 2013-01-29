@@ -140,7 +140,13 @@ public class ProblemCreationPanel extends Composite{
 		
 		String topRealCode = "";
 		if(topRealCodeTxtBox.getText()!=""){
-			topRealCode = Consts.CODE_START+topRealCodeTxtBox.getText()+Consts.CODE_SPLIT;
+			// If this magnet nests.  Shouldn't be a case with topLabel and topReal
+			// but then only bottomLabel, so this should work.
+			if(bottomRealCodeTxtBox.getText() != ""){
+				topRealCode = Consts.CODE_START+topRealCodeTxtBox.getText()+Consts.CODE_SPLIT;
+			} else {
+				topRealCode = Consts.CODE_START + topRealCodeTxtBox.getText() + Consts.CODE_END;
+			}
 		}
 		
 		String topHiddenCode = "";
