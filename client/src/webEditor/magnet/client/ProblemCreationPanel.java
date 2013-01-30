@@ -108,13 +108,24 @@ public class ProblemCreationPanel extends Composite{
 		String hiddenCode = hiddenFunctionsArea.getText();
 		hiddenCode = hiddenCode.replaceAll("(\r\n|\n)", "<br>");
 		hiddenCode = hiddenCode.replaceAll("\t", "");
+		hiddenCode = Consts.HIDE_START+"<br>"+hiddenCode+Consts.HIDE_END;
 		
 		// Remove the previous magnet delimiter
 		String currentCode = innerFunctionsTxtArea.getText();
 		currentCode = currentCode.substring(0, currentCode.length()-Consts.MAGNET_DELIMITER.length());
+		
+		// If the last thing in the current code is now "<!-- hideEnd -->"
+		if(currentCode.substring(currentCode.length()-Consts.HIDE_END.length()).equals(Consts.HIDE_END)){
+			// Removes middle <!-- hideEnd --> and <!-- hideStart -->
+			currentCode = currentCode.substring(0, currentCode.length() - Consts.HIDE_END.length());
+			hiddenCode = hiddenCode.substring(Consts.HIDE_START.length());
+		}
+		
 		currentCode = currentCode+"<br>";
 		
-		innerFunctionsTxtArea.setText(currentCode+Consts.HIDE_START+"<br>"+hiddenCode+Consts.HIDE_END+Consts.MAGNET_DELIMITER);
+		innerFunctionsTxtArea.setText(currentCode+hiddenCode+Consts.MAGNET_DELIMITER);
+		
+		hiddenFunctionsArea.setText("");
 	}
 	
 	@UiHandler("classDeclarationButton")
