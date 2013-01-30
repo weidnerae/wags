@@ -141,6 +141,11 @@
 						<g:Button styleName='{style.roundedButton}' ui:field="clearDataButton">Clear</g:Button>
 					</g:HorizontalPanel>
 				</g:VerticalPanel>
+				<g:VerticalPanel width="100%">
+					<g:Label text="Hidden Code:"/>
+					<g:TextArea width="98%" ui:field="hiddenFunctionsArea" visibleLines="5"/>
+					<g:Button styleName="{style.floatRight}" ui:field="createHidFunctionButton">Add Hidden Code</g:Button>
+				</g:VerticalPanel>
 			</g:AbsolutePanel>
 		</g:ScrollPanel>
 	</g:layer>

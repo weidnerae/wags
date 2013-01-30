@@ -8,8 +8,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.http.client.URL;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -17,7 +15,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SubmitButton;
@@ -40,11 +37,12 @@ public class ProblemCreationPanel extends Composite{
 	@UiField TextBox titleTxtBox, topLabelTxtBox, topRealCodeTxtBox, topHiddenCodeTxtBox,
 		commentsTxtBox, bottomLabelTxtBox, bottomRealCodeTxtBox, bottomHiddenCodeTxtBox;
 	@UiField TextArea finalTitleTxtBox, descriptionTxtArea, finalDescriptionTxtArea,
-		classDeclarationTxtArea, innerFunctionsTxtArea, statementsTxtArea, commentsStagingArea;
+		classDeclarationTxtArea, innerFunctionsTxtArea, statementsTxtArea, commentsStagingArea,
+		hiddenFunctionsArea;
 	//	@UiField MagnetCreation magnetCreator;
 	@UiField SubmitButton createProblemSubmitButton;
 	@UiField Button createCommentsButton, classDeclarationButton, innerFunctionsButton,
-		statementsButton, clearDataButton;
+		statementsButton, clearDataButton, createHidFunctionButton;
 	@UiField FileUpload solutionUpload, helperUpload;
 	@UiField ListBox lstGroup;
 	@UiField Label lblGroup;
@@ -97,6 +95,27 @@ public class ProblemCreationPanel extends Composite{
 	{
 		commentsStagingArea.setText(commentsStagingArea.getText()+Consts.COMMENT_DELIMITER + "\\\\" + commentsTxtBox.getText());
     }
+	
+	@UiHandler("createHidFunctionButton")
+	void onCreateHidFunctionClick(ClickEvent event)
+	{
+		if(innerFunctionsTxtArea.getText() == ""){
+			Notification.notify(WEStatus.STATUS_WARNING, "Hidden Functions must come after a visible function");
+			return;
+		}
+		
+		// Convert hidden code to a better format for magnet problems
+		String hiddenCode = hiddenFunctionsArea.getText();
+		hiddenCode = hiddenCode.replaceAll("(\r\n|\n)", "<br>");
+		hiddenCode = hiddenCode.replaceAll("\t", "");
+		
+		// Remove the previous magnet delimiter
+		String currentCode = innerFunctionsTxtArea.getText();
+		currentCode = currentCode.substring(0, currentCode.length()-Consts.MAGNET_DELIMITER.length());
+		currentCode = currentCode+"<br>";
+		
+		innerFunctionsTxtArea.setText(currentCode+Consts.HIDE_START+"<br>"+hiddenCode+Consts.HIDE_END+Consts.MAGNET_DELIMITER);
+	}
 	
 	@UiHandler("classDeclarationButton")
 	void onClassDeclClick(ClickEvent event)
