@@ -106,9 +106,9 @@ public class CodePanelUi extends Composite {
 		noButton.addStyleName("big_popup_button");
 		hPanel.add(yesButton);	
 		hPanel.add(noButton);
-		hPanel.setCellWidth(yesButton, "100px");
+		hPanel.setCellWidth(yesButton, "128px");
 		hPanel.setCellHeight(yesButton, "50px");
-		hPanel.setCellWidth(noButton, "100px");
+		hPanel.setCellWidth(noButton, "128px");
 		hPanel.setCellHeight(noButton, "50px");
 		vPanel.add(pLabel);
 		vPanel.add(hPanel);
@@ -124,7 +124,7 @@ public class CodePanelUi extends Composite {
 	}
 	@UiHandler("resetButton")
 	void handleResetClick(ClickEvent e){
-		resetPopupPanel.setPopupPosition(resetButton.getAbsoluteLeft()-150, resetButton.getAbsoluteTop()-80);
+		resetPopupPanel.setPopupPosition(resetButton.getAbsoluteLeft()-160, resetButton.getAbsoluteTop()-80);
 		resetPopupPanel.setVisible(true);
 		resetPopupPanel.show();
 	}
