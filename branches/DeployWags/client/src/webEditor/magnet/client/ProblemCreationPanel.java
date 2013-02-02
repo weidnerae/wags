@@ -34,8 +34,8 @@ public class ProblemCreationPanel extends Composite{
 	}
 	
 	@UiField FormPanel problemCreateFormPanel;
-	@UiField TextBox titleTxtBox, topLabelTxtBox, topRealCodeTxtBox, topHiddenCodeTxtBox,
-		commentsTxtBox, bottomLabelTxtBox, bottomRealCodeTxtBox, bottomHiddenCodeTxtBox;
+	@UiField TextBox titleTxtBox, topLabelTxtBox, topRealCodeTxtBox, 
+		commentsTxtBox, bottomLabelTxtBox, bottomRealCodeTxtBox;
 	@UiField TextArea finalTitleTxtBox, descriptionTxtArea, finalDescriptionTxtArea,
 		classDeclarationTxtArea, innerFunctionsTxtArea, statementsTxtArea, commentsStagingArea,
 		hiddenFunctionsArea;
@@ -177,13 +177,7 @@ public class ProblemCreationPanel extends Composite{
 			} else {
 				topRealCode = Consts.CODE_START + topRealCodeTxtBox.getText() + Consts.CODE_END;
 			}
-		}
-		
-		String topHiddenCode = "";
-		if(topHiddenCodeTxtBox.getText()!=""){
-			topHiddenCode = Consts.HIDE_START+topHiddenCodeTxtBox.getText()+Consts.HIDE_END;
-		}
-		
+		}		
 
 		String comments = "";
 		if(commentsStagingArea.getText()!=""){
@@ -203,26 +197,19 @@ public class ProblemCreationPanel extends Composite{
 			bottomRealCode = bottomRealCodeTxtBox.getText()+Consts.CODE_END;
 		}
 		
-		String bottomHiddenCode = "";
-		if(bottomHiddenCodeTxtBox.getText()!=""){
-			withPanel=true;
-			bottomHiddenCode = Consts.HIDE_START+bottomHiddenCodeTxtBox.getText()+Consts.HIDE_END;
-		}
 		
 		if(withPanel){
-			return topLabel+topRealCode+bottomRealCode+topHiddenCode+"<br/><!-- panel --><br/>"+bottomHiddenCode+bottomLabel+comments+Consts.MAGNET_DELIMITER;
+			return topLabel+topRealCode+bottomRealCode+"<br/><!-- panel --><br/>"+bottomLabel+comments+Consts.MAGNET_DELIMITER;
 		} else {
-			return topLabel+topRealCode+bottomRealCode+topHiddenCode+Consts.MAGNET_DELIMITER;
+			return topLabel+topRealCode+bottomRealCode+Consts.MAGNET_DELIMITER;
 		}
 	
 	}
 	
 	public void clearLabels(){
-		topHiddenCodeTxtBox.setText("");
 		topLabelTxtBox.setText("");
 		topRealCodeTxtBox.setText("");
 		
-		bottomHiddenCodeTxtBox.setText("");
 		bottomLabelTxtBox.setText("");
 		bottomRealCodeTxtBox.setText("");
 		commentsStagingArea.setText("");

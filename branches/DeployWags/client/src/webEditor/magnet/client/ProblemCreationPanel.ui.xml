@@ -107,20 +107,6 @@
 										</g:HorizontalPanel>
 								    </g:customCell>
 								</g:row>
-								<g:row>
-								    <g:customCell styleName='{style.halfCell}'>
-								        <g:HorizontalPanel width="100%">
-											<g:Label text="Hidden:" width="50px"/>
-											<g:TextBox styleName="{style.fillingTextBox}" ui:field="topHiddenCodeTxtBox"/>
-										</g:HorizontalPanel>
-								    </g:customCell>
-								    <g:customCell styleName='{style.halfCell}'>
-								        <g:HorizontalPanel width="100%">
-											<g:Label text="Hidden:" width="50px"/>
-											<g:TextBox styleName="{style.fillingTextBox}" ui:field="bottomHiddenCodeTxtBox"/>
-										</g:HorizontalPanel>
-								    </g:customCell>
-								</g:row>
 							</g:Grid>
 						<g:VerticalPanel width="100%">
 						    <g:AbsolutePanel styleName='{style.addCommentPanel}' width="100%">
@@ -154,15 +140,15 @@
 			<g:FormPanel ui:field="problemCreateFormPanel">
 				<g:VerticalPanel width="100%" height="100%">
 					<g:Label text="Title:"/>
-					<g:TextArea name="title" ui:field="finalTitleTxtBox" width="100%" readOnly="true"/>
+					<g:TextArea name="title" ui:field="finalTitleTxtBox" width="100%" />
 					<g:Label text="Description:"/>
-					<g:TextArea name="desc" ui:field="finalDescriptionTxtArea" width="100%" visibleLines="5" readOnly="true"/>
+					<g:TextArea name="desc" ui:field="finalDescriptionTxtArea" width="100%" visibleLines="5" />
 					<g:Label text="Class:"/>
-					<g:TextArea name="class" ui:field="classDeclarationTxtArea" width="100%" visibleLines="5" readOnly="true"/>
+					<g:TextArea name="class" ui:field="classDeclarationTxtArea" width="100%" visibleLines="5" />
 					<g:Label text="Functions:"/>
-					<g:TextArea name="functions" ui:field="innerFunctionsTxtArea" width="100%" visibleLines="5" readOnly="true"/>
+					<g:TextArea name="functions" ui:field="innerFunctionsTxtArea" width="100%" visibleLines="5" />
 					<g:Label text="Statements:"/>
-					<g:TextArea name="statements" ui:field="statementsTxtArea" width="100%" visibleLines="5" readOnly="true"/>
+					<g:TextArea name="statements" ui:field="statementsTxtArea" width="100%" visibleLines="5" />
 					<g:HorizontalPanel>
 					    <g:Label ui:field="lblGroup" text="Group:" width="150px" />
 							<g:ListBox ui:field="lstGroup" name="lstGroup" ></g:ListBox>
