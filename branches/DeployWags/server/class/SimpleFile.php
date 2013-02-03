@@ -70,6 +70,16 @@ class SimpleFile extends Model
         return $sth->fetchAll();
     } 
 
+    public static function deleteFilesForMP($id){
+        require_once('Database.php');
+        $db = Database::getDb();
+
+        $sth = $db->prepare('DELETE FROM SimpleFiles
+            WHERE magnetProblemID = :id');
+        $sth->execute(array(':id' => $id));
+        return;
+    }
+
     public static function getTestFileForMP($id){
         require_once('Database.php');
         $db = Database::getDb();
