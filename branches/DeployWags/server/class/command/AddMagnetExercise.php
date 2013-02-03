@@ -8,6 +8,12 @@ class AddMagnetExercise extends Command
         $className = $_POST['class'];
         $functions = $_POST['functions'];
         $statements = $_POST['statements'];
+        $overwrite = false;
+
+        // Get the name of the magnet group for this section
+        $sectionId = Auth::getCurrentUser()->getSection();
+        $sectionTitle = Section::getSectionById($sectionId)->getName();
+        $mpGroup = $sectionTitle."MPs";
 
         // Make sure there is no magnet exercises that already
         // has this title....
@@ -20,15 +26,25 @@ class AddMagnetExercise extends Command
             to ids... */
         $checkEx = MagnetProblem::getMagnetProblemByTitle($title);
         if(!empty($checkEx)){
-            return JSON::error("Problem with that title already exists");
+            // If they already decided to overwrite
+            if(!empty($_POST['overwrite'])){
+                if($_POST['overwrite'] == 1){
+                    $overwrite = true;
+                }
+            } else {
+                // See if the problem is in this administrators group
+                $magnetGroupId = $checkEx->getGroup();
+                $magnetGroupName = MagnetProblem::getGroupNameById($magnetGroupId);
+                if($magnetGroupName == $mpGroup){
+                    return JSON::warn("Overwrite problem?");
+                }
+
+                return JSON::error("Problem with that title already exists");
+            }
         }
 
-        // Check for a MagnetProblemGroup for this section
-        // -  if it doesn't exist, create it
-        $sectionId = Auth::getCurrentUser()->getSection();
-        $sectionTitle = Section::getSectionById($sectionId)->getName();
-        $mpGroup = $sectionTitle."MPs";
-
+        // If the magnet group for this section doesn't exist, 
+        // then create it
         $groupNames = MagnetProblem::getMagnetProblemGroups();
         if(!in_array($mpGroup, $groupNames)){
             MagnetProblem::createGroup($mpGroup);
@@ -39,7 +55,11 @@ class AddMagnetExercise extends Command
 
 
         // Create the magnet problem
-        $newMP = new MagnetProblem();
+        if($overwrite) { 
+            $newMP = MagnetProblem::getMagnetProblemByTitle($title);
+        } else {
+            $newMP = new MagnetProblem();
+        }
         $newMP->setTimestamp($mysqlDate); // when working, remove
         $newMP->setTitle($title);
         $newMP->setDirections($desc);
@@ -51,7 +71,7 @@ class AddMagnetExercise extends Command
         $newMP->setBooleans("text");    // unused
         $newMP->setStatements($statements);
         $newMP->setSolution($className); // Still badly named...
-        $newMP->setGroup(1); // A temporary value, replaced in AddMagnetLinkage.php
+        if(!$overwrite) $newMP->setGroup(1); // A temporary value, replaced in AddMagnetLinkage.php
         $newMP->setAdded(time());
         $newMP->setUpdated(time());
 
@@ -76,6 +96,12 @@ class AddMagnetExercise extends Command
         // Now, save uploaded files into database, linkage
         // will map them correctly
         if($_FILES['testClass']['size'] != 0){
+            // If we have files AND we are overwriting the exercise
+            // then we want to delete the old files
+            if($overwrite){
+                $files = SimpleFile::deleteFilesForMP($newMP->getId());
+            }
+
             $result = $this->addSimpleFile($_FILES['testClass'], 1);
             if($result != 1){
                 return JSON::error("TC: ".$result);

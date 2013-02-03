@@ -250,6 +250,20 @@ class MagnetProblem extends Model
         return $str;
     }
     
+    public static function getGroupNameById($id){
+        require_once('Database.php');
+        $db = Database::getDb();
+
+        $sth = $db->prepare('SELECT name FROM MagnetProblemGroups
+            WHERE id = :id');
+        $sth->setFetchMode(PDO::FETCH_ASSOC);
+        $sth->execute(array(':id' => $id));
+
+        $result = $sth->fetch();
+        $str = $result['name'];
+        return $str;
+    }
+    
     // Returns all the magnetProblems for a group that are currently
     // assigned to the students (status = 1) in an array of id's and names
     public static function getAvailable(){

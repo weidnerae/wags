@@ -33,7 +33,7 @@ class AddMagnetLinkage extends Command
         }
 
         // Update the groupID for the magnetProblem
-        $mp->setGroup($mpGroupID);
+        $mp->setGroup($mpGroupID); // temporary for creation of radix sort labs
         try{
             $mp->save();
         } catch(Exception $e){
