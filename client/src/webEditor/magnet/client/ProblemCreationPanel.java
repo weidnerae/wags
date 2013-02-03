@@ -8,18 +8,23 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
@@ -46,6 +51,7 @@ public class ProblemCreationPanel extends Composite{
 	@UiField FileUpload solutionUpload, helperUpload;
 	@UiField ListBox lstGroup;
 	@UiField Label lblGroup;
+	@UiField CheckBox overwrite;
 		
 	public ProblemCreationPanel(RefrigeratorMagnet magnet, boolean magnetAdmin){
 		initWidget(uiBinder.createAndBindUi(this));
@@ -66,9 +72,15 @@ public class ProblemCreationPanel extends Composite{
 			
 			@Override
 			public void onSubmitComplete(SubmitCompleteEvent event) {
+				// Should have to verify overwrite each time
+				overwrite.setValue(false);
+				
 				WEStatus stat = new WEStatus(event.getResults());
 				if(stat.getStat() == WEStatus.STATUS_SUCCESS){
 					Proxy.addMagnetLinkage(stat.getMessage()); // The title of the problem
+				} else if (stat.getStat() == WEStatus.STATUS_WARNING){
+					Notification.notify(stat.getStat(), stat.getMessage());
+					verifyOverwrite();
 				} else {
 					Notification.notify(stat.getStat(), stat.getMessage());
 				}
@@ -89,6 +101,56 @@ public class ProblemCreationPanel extends Composite{
 			}
 		});
 	}	
+	
+	void verifyOverwrite(){
+		// Construct a dialog box verify the overwrite
+		final DialogBox overwriteBox = new DialogBox(false);
+		Label overwriteLbl = new Label("Overwrite Current Exercise: " + finalTitleTxtBox.getText());
+		Button yes = new Button("YES");
+		Button no = new Button("NO");
+		
+		VerticalPanel base = new VerticalPanel();
+		base.setWidth("100%");
+		HorizontalPanel buttonPanel = new HorizontalPanel();
+		buttonPanel.setWidth("100%");
+		buttonPanel.setHeight("22px");
+		
+		buttonPanel.add(yes);
+		buttonPanel.add(no);
+		yes.setHeight("20px");
+		yes.setWidth("100%");
+		no.setHeight("20px");
+		no.setWidth("100%");
+		base.add(overwriteLbl);
+		base.add(buttonPanel);
+		overwriteBox.add(base);
+		
+		// If yes, re-submit the form with overwrite flagged
+		yes.addClickHandler(new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				overwrite.setValue(true);
+				problemCreateFormPanel.submit();
+				
+				overwriteBox.hide();
+			}
+			
+		});
+		
+		// If no, clear title box and focus it for user
+		no.addClickHandler(new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				titleTxtBox.setText("");
+				finalTitleTxtBox.setText("");
+				titleTxtBox.setFocus(true);
+				
+				overwriteBox.hide();
+			}
+		});
+		
+		overwriteBox.center();
+	}
 	
 	@UiHandler("createCommentsButton")
 	void onCreateCommentClick(ClickEvent event)
