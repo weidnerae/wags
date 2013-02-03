@@ -161,6 +161,7 @@
 						<g:Label text="Helper Class:" width="150px"/>
 						<g:FileUpload name="helperClass" ui:field="helperUpload"/>
 					</g:HorizontalPanel>
+					<g:CheckBox ui:field="overwrite" name="overwrite" formValue="1" visible="false"></g:CheckBox>
 					<g:SubmitButton ui:field="createProblemSubmitButton">Create</g:SubmitButton>
 				</g:VerticalPanel>
 			</g:FormPanel>
