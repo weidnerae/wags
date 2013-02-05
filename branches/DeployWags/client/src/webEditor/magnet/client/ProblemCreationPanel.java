@@ -7,11 +7,14 @@ import webEditor.client.view.Notification;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
@@ -47,16 +50,16 @@ public class ProblemCreationPanel extends Composite{
 	//	@UiField MagnetCreation magnetCreator;
 	@UiField SubmitButton createProblemSubmitButton;
 	@UiField Button createCommentsButton, classDeclarationButton, innerFunctionsButton,
-		statementsButton, clearDataButton, createHidFunctionButton;
+		statementsButton, clearDataButton, createHidFunctionButton, btnLoadExercise;
 	@UiField FileUpload solutionUpload, helperUpload;
-	@UiField ListBox lstGroup;
+	@UiField ListBox lstGroup, lstLoadGroup, lstLoadExercise;
 	@UiField Label lblGroup;
 	@UiField CheckBox overwrite;
 		
 	public ProblemCreationPanel(RefrigeratorMagnet magnet, boolean magnetAdmin){
 		initWidget(uiBinder.createAndBindUi(this));
-		Proxy.getMagnetGroups(lstGroup, null, null, null, null);
-		
+		Proxy.getMagnetGroups(lstLoadGroup);
+		Proxy.getMagnetsByGroup("Arrays/ArrayLists", lstLoadExercise);		
 		/*if(magnetAdmin){
 			lstGroup.setEnabled(true);
 			Proxy.getMagnetGroups(lstGroup, null, null, null, null);
@@ -88,16 +91,27 @@ public class ProblemCreationPanel extends Composite{
 		});
 		
 		titleTxtBox.addBlurHandler(new BlurHandler() {
-			@Override
 			public void onBlur(BlurEvent event) {
 				finalTitleTxtBox.setText(titleTxtBox.getText());
 			}
 		});
 		
 		descriptionTxtArea.addBlurHandler(new BlurHandler() {
-			@Override
 			public void onBlur(BlurEvent event) {
 				finalDescriptionTxtArea.setText(descriptionTxtArea.getText());
+			}
+		});
+		
+		lstLoadGroup.addChangeHandler(new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+				Proxy.getMagnetsByGroup(lstLoadGroup.getItemText(lstLoadGroup.getSelectedIndex()), lstLoadExercise);
+			}
+		});
+		
+		btnLoadExercise.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				Proxy.getMagnetProblemForEdit(finalTitleTxtBox, finalDescriptionTxtArea, classDeclarationTxtArea, 
+						innerFunctionsTxtArea, statementsTxtArea, lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()));
 			}
 		});
 	}	
@@ -169,7 +183,7 @@ public class ProblemCreationPanel extends Composite{
 		// Convert hidden code to a better format for magnet problems
 		String hiddenCode = hiddenFunctionsArea.getText();
 		hiddenCode = hiddenCode.replaceAll("(\r\n|\n)", "<br>");
-		hiddenCode = hiddenCode.replaceAll("\t", "");
+		hiddenCode = removeAngleBrackets(hiddenCode);
 		hiddenCode = Consts.HIDE_START+"<br>"+hiddenCode+Consts.HIDE_END;
 		
 		// Remove the previous magnet delimiter
@@ -228,16 +242,20 @@ public class ProblemCreationPanel extends Composite{
 		String topLabel = "";
 		if(topLabelTxtBox.getText()!=""){
 			topLabel = topLabelTxtBox.getText();
+			topLabel = removeAngleBrackets(topLabel);
 		}
 		
 		String topRealCode = "";
 		if(topRealCodeTxtBox.getText()!=""){
+			topRealCode = topRealCodeTxtBox.getText();
+			topRealCode = removeAngleBrackets(topRealCode);
+			
 			// If this magnet nests.  Shouldn't be a case with topLabel and topReal
 			// but then only bottomLabel, so this should work.
 			if(bottomRealCodeTxtBox.getText() != ""){
-				topRealCode = Consts.CODE_START+topRealCodeTxtBox.getText()+Consts.CODE_SPLIT;
+				topRealCode = Consts.CODE_START+topRealCode+Consts.CODE_SPLIT;
 			} else {
-				topRealCode = Consts.CODE_START + topRealCodeTxtBox.getText() + Consts.CODE_END;
+				topRealCode = Consts.CODE_START + topRealCode + Consts.CODE_END;
 			}
 		}		
 
@@ -251,12 +269,15 @@ public class ProblemCreationPanel extends Composite{
 		if(bottomLabelTxtBox.getText()!=""){
 			withPanel = true;
 			bottomLabel = bottomLabelTxtBox.getText();
+			bottomLabel = removeAngleBrackets(bottomLabel);
 		}
 		
 		String bottomRealCode = "";
 		if(bottomRealCodeTxtBox.getText()!=""){
 			withPanel = true;
-			bottomRealCode = bottomRealCodeTxtBox.getText()+Consts.CODE_END;
+			bottomRealCode = bottomRealCodeTxtBox.getText();
+			bottomRealCode = removeAngleBrackets(bottomRealCode);
+			bottomRealCode = bottomRealCode+Consts.CODE_END;
 		}
 		
 		
@@ -266,6 +287,12 @@ public class ProblemCreationPanel extends Composite{
 			return topLabel+topRealCode+bottomRealCode+Consts.MAGNET_DELIMITER;
 		}
 	
+	}
+	
+	private String removeAngleBrackets(String text){
+		text = text.replaceAll("<", "&lt;");
+		text = text.replaceAll(">", "&gt;");
+		return text;
 	}
 	
 	public void clearLabels(){
