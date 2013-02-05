@@ -9,9 +9,14 @@
 class getMagnetProblem extends Command
 {
 	public function execute(){
-        $id = $_GET['id'];
-        
-        $magProb = MagnetProblem::getMagnetProblemById($id);
+        if(!empty($_GET['id'])){
+            $magProb = MagnetProblem::getMagnetProblemById($_GET['id']);
+        } elseif(!empty($_GET['title'])){
+            $magProb = MagnetProblem::getMagnetProblemByTitle($_GET['title']); 
+        } else {
+            return JSON::error("No magnet problem found");
+        }
+
         $objArray = $magProb->toArray();
         
         if(!Auth::getCurrentUser()->isAdmin()){
