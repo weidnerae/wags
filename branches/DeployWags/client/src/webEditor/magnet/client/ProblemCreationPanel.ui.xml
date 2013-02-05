@@ -19,6 +19,10 @@
 			float: Right;
 			padding-right: 5px;
 		}
+		.floatLeft{
+			float: Left;
+			padding-left: 5px;
+		}
 		.centeredLabel {
 			padding-bottom: 5px;
 			text-align: center;
@@ -59,6 +63,14 @@
 	    <g:ScrollPanel>
 		    <g:AbsolutePanel>
 				<g:VerticalPanel width="98%">
+					<g:HorizontalPanel styleName='{style.magnetCreationPanel}' width="100%">
+						<g:Label text="LOAD:" width="100px"/>
+						<g:Label text="Group - " />
+						<g:ListBox name="lstLoadGroup" ui:field="lstLoadGroup" width="160px" styleName='{style.floatLeft}'/>
+						<g:Label text="Exercise - " />
+						<g:ListBox name="lstLoadExercise" ui:field="lstLoadExercise" width="160px" styleName='{style.floatLeft}'/>
+						<g:Button ui:field="btnLoadExercise">Load</g:Button>
+					</g:HorizontalPanel>
 				    <g:VerticalPanel styleName="{style.titleDescPanel}">
 						<g:VerticalPanel width="98%">
 							<g:Label styleName="{style.centeredLabel}" text="Title:" width="50px"/>
@@ -149,10 +161,12 @@
 					<g:TextArea name="functions" ui:field="innerFunctionsTxtArea" width="100%" visibleLines="5" />
 					<g:Label text="Statements:"/>
 					<g:TextArea name="statements" ui:field="statementsTxtArea" width="100%" visibleLines="5" />
+					<!--  ListBox for privileged admin only, defaults to hidden -->
 					<g:HorizontalPanel>
-					    <g:Label ui:field="lblGroup" text="Group:" width="150px" />
-							<g:ListBox ui:field="lstGroup" name="lstGroup" ></g:ListBox>
+					    <g:Label ui:field="lblGroup" text="Group:" width="150px" visible="false"/>
+							<g:ListBox ui:field="lstGroup" name="lstGroup" enabled="false" visible="false"></g:ListBox>
 					</g:HorizontalPanel>
+					<!--  -->
 					<g:HorizontalPanel>
 						<g:Label text="Testing Class:" width="150px"/>
 						<g:FileUpload name="testClass" ui:field="solutionUpload"/>
