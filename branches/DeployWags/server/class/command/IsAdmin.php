@@ -5,7 +5,7 @@ class IsAdmin extends Command
     public function execute()
     {
         $user = Auth::getCurrentUser();
-        $MAGNET_ADMIN = 19;
+        $MAGNET_ADMIN = 263;
         
         // Root admin
         if($user->getId() == 1){
