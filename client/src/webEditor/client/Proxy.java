@@ -40,6 +40,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -840,8 +841,49 @@ public class Proxy
 		}
 	}
 	
+	/**
+	 * This will check to see which magnets are currently assigned, then call 
+	 * Admin.checkCurrentMagnetExercises() to make them checked by default.
+	 * 
+	 * @param result ArrayList for storing the result.
+	 */
+	public static void getAssignedMagnetExercises(final ArrayList<String> result) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetExercises");
+		try {
+			builder.sendRequest(null, new RequestCallback() {
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus status = new WEStatus(response);
+					String[] problemList = status.getMessageArray();
+
+					for (int i = 1; i < problemList.length; i+=3) {
+						result.add(problemList[i]);
+					}
+					
+					Admin.checkCurrentMagnetExercises();
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Magnet Exercise Error");
+				}
+			});
+		} catch (RequestException e) {
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
+	
+	/* Simplified getMagnetsByGroup, just fills a listbox */
+	public static void getMagnetsByGroup(String groupName, final ListBox lstMagnetExercises){
+		getMagnetsByGroup(groupName, null, null, null, lstMagnetExercises);
+	}
+	
 	/** 
-	 * Returns a list of all magnets available for the users section in that group
+	 * Returns a list of all magnets available for the users section in that group, as well as setting up
+	 * the necessary array and HashMap for retaining information about what was selected when navigating
+	 * between magnet groups
+	 * 
+	 * If called from the simplified method handle, only fills a listbox
 	 * 
 	 * @param groupName:  The name of the group - id is found on server
 	 * @param exercisePanel: The vertical panel that will be filled with checkboxes created using
@@ -857,6 +899,16 @@ public class Proxy
 				public void onResponseReceived(Request request, Response response) {
 					WEStatus stat = new WEStatus(response);
 					String[] exercises = stat.getMessageArray();
+					
+					/* Only runs when called getMagnetsByGroup(String groupName, final ListBox lstMagnetExercises) */
+					if(exercisePanel == null){
+						lstMagnetExercises.clear();
+						for(int i = 0; i < exercises.length; i++){
+							String name = exercises[i].substring(1, exercises[i].length() - 1);
+							lstMagnetExercises.addItem(name, name);
+						}
+						return;
+					}
 					
 					// Clear out current magnets
 					if(!currentMagnets.isEmpty()){
@@ -896,37 +948,10 @@ public class Proxy
 			Window.alert("Failed to send the request: " + e.getMessage());
 		}
 	}
-	
-	/**
-	 * This will check to see which magnets are currently assigned, then call 
-	 * Admin.checkCurrentMagnetExercises() to make them checked by default.
-	 * 
-	 * @param result ArrayList for storing the result.
-	 */
-	public static void getAssignedMagnetExercises(final ArrayList<String> result) {
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetExercises");
-		try {
-			builder.sendRequest(null, new RequestCallback() {
-				@Override
-				public void onResponseReceived(Request request, Response response) {
-					WEStatus status = new WEStatus(response);
-					String[] problemList = status.getMessageArray();
 
-					for (int i = 1; i < problemList.length; i+=3) {
-						result.add(problemList[i]);
-					}
-					
-					Admin.checkCurrentMagnetExercises();
-				}
-				
-				@Override
-				public void onError(Request request, Throwable exception) {
-					Window.alert("Magnet Exercise Error");
-				}
-			});
-		} catch (RequestException e) {
-			Window.alert("Failed to send the request: " + e.getMessage());
-		}
+	/* For simply populating a listbox, wraps more complicated method */
+	public static void getMagnetGroups(final ListBox magnetExercises){
+		Proxy.getMagnetGroups(magnetExercises, null, null, null, null);
 	}
 	
 	/** 
@@ -982,6 +1007,48 @@ public class Proxy
 					WEStatus status = new WEStatus(response);
 					MagnetProblem magProblem = (MagnetProblem) status.getObject();
 					wags.placeProblem(magProblem);
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Error getting magnet problem");					
+				}
+			});
+		} catch(Exception e){
+			Window.alert(e.getMessage());
+		}
+	}
+	
+	/* Loads editor page */
+	public static void getMagnetProblemForEdit(final TextArea titleArea, final TextArea desc, final TextArea classArea,
+			final TextArea functions, final TextArea statements, String title){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetMagnetProblem&title=" + title);
+		try{
+			builder.sendRequest("", new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus status = new WEStatus(response);
+					MagnetProblem magProblem = (MagnetProblem) status.getObject();
+					titleArea.setText(magProblem.title);
+					desc.setText(magProblem.directions);
+					classArea.setText(magProblem.solution);
+					
+					String innerFunctions = "";
+					if(magProblem.innerFunctions.length > 0){
+						for(int i = 0; i < magProblem.innerFunctions.length; i++){
+							innerFunctions += magProblem.innerFunctions[i] + ".:|:.";
+						}
+					}
+					functions.setText(innerFunctions);
+					
+					String statementList = "";
+					if(magProblem.statements.length > 0){
+						for(int i = 0; i < magProblem.statements.length; i++){
+							statementList += magProblem.statements[i] + ".:|:.";
+						}
+					}
+					statements.setText(statementList);
 				}
 				
 				@Override
