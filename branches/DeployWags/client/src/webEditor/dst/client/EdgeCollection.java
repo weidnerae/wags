@@ -19,7 +19,7 @@ public class EdgeCollection implements IsSerializable {
 	private int numNodesSelected;
 	private Label firstNodeSelected;
 	private EdgeClickListener handler;
-	private TreeDisplayManager dm;
+	private TreeTypeDisplayManager dm;
 	private HandlerRegistration[] edgeHandlers;
 	private AddEdgeRules rules;
 	private boolean removable;
@@ -36,7 +36,7 @@ public class EdgeCollection implements IsSerializable {
 	}
 
 	public void setDisplayManager(DisplayManager dm) {
-		this.dm = (TreeDisplayManager) dm;
+		this.dm = (TreeTypeDisplayManager) dm;
 	}
 	
 	public DisplayManager getDisplayManager() {
