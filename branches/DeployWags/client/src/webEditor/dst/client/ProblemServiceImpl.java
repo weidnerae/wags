@@ -1273,7 +1273,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
-			case 87: return new TreeProblem("Red Black Tree Insertion 1",
+			case 87: return new RedBlackProblem("Red Black Tree Insertion 1",
 					"Insert the node 90 and recolor as neccessary."+
 				    "\nSelect the black nodes in a level order traversal.",
 					"40 20 60 10 30 50 70 80 90",
@@ -1288,7 +1288,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_RED_BLACK);
-			case 88: return new TreeProblem("Red Black Tree Insertion 2",
+			case 88: return new RedBlackProblem("Red Black Tree Insertion 2",
 					"Insert the node 91 and recolor as neccessary."+
 					"\nSelect the black nodes in a level order traversal.",
 					"65 30 96 22 32 79 97 88 91",
@@ -1303,7 +1303,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_RED_BLACK);
-			case 89: return new TreeProblem("Red Black Tree Insertion 3",
+			case 89: return new RedBlackProblem("Red Black Tree Insertion 3",
 					"Insert the node 26 and recolor as neccessary."+
 				    "\nSelect the black nodes in a level order traversal.",
 					"29 6 59 24 49 81 85 26",
@@ -1318,7 +1318,7 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_RED_BLACK);
-			case 90: return new TreeProblem("Red Black Tree Insertion 4",
+			case 90: return new RedBlackProblem("Red Black Tree Insertion 4",
 					"Insert the node 50 and recolor as neccessary."+
 				    "\nSelect the black nodes in a level order traversal.",
 					"63 30 89 10 33 78 22 50",

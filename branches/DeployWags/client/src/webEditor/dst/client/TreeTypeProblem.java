@@ -4,7 +4,7 @@ import org.vaadin.gwtgraphics.client.DrawingArea;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
-public class TreeProblem extends TreeTypeProblem implements IsSerializable {
+public abstract class TreeTypeProblem extends Problem implements IsSerializable {
 	protected String name;
 	protected String problemText;
 	protected String nodes;
@@ -21,12 +21,11 @@ public class TreeProblem extends TreeTypeProblem implements IsSerializable {
 	protected String nodeType;
 	protected DisplayManager dm;
 
-	public TreeProblem(String name, String problemText, String nodes,
+	public TreeTypeProblem(String name, String problemText, String nodes,
 			String insertMethod, int[] xPositions, int[] yPositions,
 			String[] edges, String[] arguments, Evaluation eval,
 			AddEdgeRules rules, boolean edgesRemovable, boolean nodesDraggable,
 			String nodeType) {
-		super(name,problemText,nodes,insertMethod,xPositions,yPositions,edges,arguments,eval,rules,edgesRemovable,nodesDraggable,nodeType);
 		this.name = name;
 		this.problemText = problemText;
 		this.nodes = nodes;
@@ -53,7 +52,7 @@ public class TreeProblem extends TreeTypeProblem implements IsSerializable {
 				NodeDropController.getInstance());
 		NodeCollection nc = new NodeCollection();
 	
-		dm = new TreeDisplayManager(canvas, panel, nc, ec, this);
+		dm = new TreeTypeDisplayManager(canvas, panel, nc, ec, this);
 		ec.setDisplayManager(dm);
 
 		return dm;
