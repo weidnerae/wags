@@ -20,7 +20,7 @@ public class MSTDisplayManager extends TreeDisplayManager implements
 		super(canvas, panel, nc, ec, problem);
 	}
 
-	private void insertNodesAndEdges() {
+	protected void insertNodesAndEdges() {
 		cont = new TraversalContainer(this); // for reset of traversal problems
 		if (problem.getInsertMethod().equals(DSTConstants.INSERT_METHOD_VALUE)) {
 			insertNodesByValue(problem.getNodes(), problem.getNodeType());
