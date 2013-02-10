@@ -33,8 +33,6 @@ abstract class Model
         $db = Database::getDb();
         $table = $this->getTable();
         $this->setUpdated(time());
-
-
         // Check if anything exists by this ID.
         $sth = $db->prepare("SELECT count(*) FROM $table WHERE id = :id");
         $sth->execute(array(':id' => $this->id));
@@ -109,11 +107,11 @@ abstract class Model
                                 fclose($file);*/
                             
                                 $sth = $db->prepare($sqlComplete);
-        
+        echo("after prepared in SAVE");
                                 if($sth == FALSE){
                                         throw new PDOException("Database Error1: ".$db->errorCode()." ".$db->errorInfo());
                                 }
-                                
+                                echo($sqlComplete);
                                 if(!$sth->execute()){
                                         // Throw exception. Something bad happened.
                                         throw new PDOException("Database Error2: $sqlComplete\nCode: ".$sth->errorCode()."\nInfo: ". $sth->errorInfo());
