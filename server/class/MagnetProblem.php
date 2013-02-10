@@ -180,6 +180,18 @@ class MagnetProblem extends Model
         return $sth->fetchObject('MagnetProblem');
     }
     
+    public static function deleteMagnetExerciseByTitle($title){
+        // Database set up
+        require_once('Database.php');
+        $db = Database::getDb();
+
+        // Deletions should cascade through SectionMP, Simplefiles, and MPState
+        $sth = $db->prepare('DELETE FROM magnetProblem WHERE title = :title');
+        $sth->execute(array(':title' => $title));
+
+        return 1;
+    }
+    
     #  Used by GetMagnetExercises.php to fill the magnetProblems listbox
     #  on the administrative tab
     #

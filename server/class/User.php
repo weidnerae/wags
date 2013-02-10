@@ -98,6 +98,15 @@ class User extends Model
 	public function setSection($section=0){
 		$this->section = $section;
 	}
+    // Returns the magnet problem group individualized to 
+    // this users section, with the form of "<<sectionname>>MPs"
+    // Used in AddMagnetExercise.php, DeleteMagnetExercise.php
+    public function getMagnetProblemGroup(){
+        $sectionId = $this->getSection();
+        $sectionTitle = Section::getSectionById($sectionId)->getName();
+        $mpGroup = $sectionTitle."MPs";
+        return $mpGroup;
+    }
 
 	//Returns all DST problem results from that user
 	public function getProbResults(){

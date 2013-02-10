@@ -10,10 +10,7 @@ class AddMagnetExercise extends Command
         $statements = $_POST['statements'];
         $overwrite = false;
 
-        // Get the name of the magnet group for this section
-        $sectionId = Auth::getCurrentUser()->getSection();
-        $sectionTitle = Section::getSectionById($sectionId)->getName();
-        $mpGroup = $sectionTitle."MPs";
+        $mpGroup = Auth::getCurrentUser()->getMagnetProblemGroup();
 
         // Make sure there is no magnet exercises that already
         // has this title....
