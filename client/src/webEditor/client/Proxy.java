@@ -448,6 +448,27 @@ public class Proxy
 			e.printStackTrace();
 		}
 	}
+	
+	public static void deleteMagnetExercise(String title){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, getBaseURL()+"?cmd=DeleteMagnetExercise&title=" + title);
+		try {
+			builder.sendRequest(null, new RequestCallback() {
+				@Override
+				public void onResponseReceived(Request request, Response response)
+				{
+					WEStatus status = new WEStatus(response);
+					Notification.notify(status.getStat(), status.getMessage());
+				}
+				@Override
+				public void onError(Request request, Throwable exception)
+				{
+					
+				}
+			});
+		} catch (RequestException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static String getBaseURL() {
 		return baseURL;
