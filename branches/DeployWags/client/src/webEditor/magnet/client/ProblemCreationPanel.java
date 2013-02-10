@@ -50,7 +50,8 @@ public class ProblemCreationPanel extends Composite{
 	//	@UiField MagnetCreation magnetCreator;
 	@UiField SubmitButton createProblemSubmitButton;
 	@UiField Button createCommentsButton, classDeclarationButton, innerFunctionsButton,
-		statementsButton, clearDataButton, createHidFunctionButton, btnLoadExercise;
+		statementsButton, clearDataButton, createHidFunctionButton, btnLoadExercise,
+		btnDeleteExercise;
 	@UiField FileUpload solutionUpload, helperUpload;
 	@UiField ListBox lstGroup, lstLoadGroup, lstLoadExercise;
 	@UiField Label lblGroup;
@@ -60,12 +61,6 @@ public class ProblemCreationPanel extends Composite{
 		initWidget(uiBinder.createAndBindUi(this));
 		Proxy.getMagnetGroups(lstLoadGroup);
 		Proxy.getMagnetsByGroup("Arrays/ArrayLists", lstLoadExercise);		
-		/*if(magnetAdmin){
-			lstGroup.setEnabled(true);
-			Proxy.getMagnetGroups(lstGroup, null, null, null, null);
-		} else {
-			lblGroup.setVisible(false);
-		}*/
 		
 		
 		problemCreateFormPanel.setAction(Proxy.getBaseURL() + "?cmd=AddMagnetExercise");
@@ -114,7 +109,53 @@ public class ProblemCreationPanel extends Composite{
 						innerFunctionsTxtArea, statementsTxtArea, lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()));
 			}
 		});
+		
+		btnDeleteExercise.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				String title = lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex());
+				verifyDelete(title);
+			}
+		});
 	}	
+	
+	void verifyDelete(final String title){
+		// Construct a dialog box verify the overwrite
+		final DialogBox deleteBox = new DialogBox(false);
+		Label deleteLbl = new Label("Delete Exercise: " + title);
+		Button yes = new Button("YES");
+		Button no = new Button("NO");
+		
+		VerticalPanel base = new VerticalPanel();
+		base.setWidth("100%");
+		HorizontalPanel buttonPanel = new HorizontalPanel();
+		buttonPanel.setWidth("100%");
+		buttonPanel.setHeight("22px");
+		
+		buttonPanel.add(yes);
+		buttonPanel.add(no);
+		yes.setHeight("20px");
+		yes.setWidth("100%");
+		no.setHeight("20px");
+		no.setWidth("100%");
+		base.add(deleteLbl);
+		base.add(buttonPanel);
+		deleteBox.add(base);
+		
+		yes.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				Proxy.deleteMagnetExercise(title);
+				deleteBox.hide();
+			}	
+		});
+		
+		no.addClickHandler(new ClickHandler() {	
+			public void onClick(ClickEvent event) {
+				deleteBox.hide();
+			}
+		});
+		
+		deleteBox.center();
+	}
 	
 	void verifyOverwrite(){
 		// Construct a dialog box verify the overwrite
