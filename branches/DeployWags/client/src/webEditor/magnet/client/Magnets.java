@@ -13,6 +13,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -31,17 +33,22 @@ public class Magnets extends AbsolutePanel {
 	
 	public static final String EMPTY_LABEL = "No Magnet Exercises Assigned!";
 	static String[] structuresList = {"choose structure...","for","while","if","else if", "else"};
+	public static int INCOMPLETE = 0;
+	public static int SUCCESS = 1;
+	public static int REVIEW = 2;
 
 	private static int[] idList;			//array of problem id numbers
 	private static String[] problemList;	//array of problem names
-	private static boolean[] successList;	//array of success values
+	private static int[] statusList;	//array of success values
 	public int idAssignor = 0;
 
 	final VerticalPanel problemPane = new VerticalPanel();
+	private HorizontalPanel topButtonPanel;
 
 	private Label banner;
 	private Label selectLabel;
 	private ArrayList<ProblemButton> attemptButtons;
+	private ArrayList<ProblemButton> reviewButtons;
 	
 	private Wags wags;
 	
@@ -57,10 +64,10 @@ public class Magnets extends AbsolutePanel {
 	 * @param wags		reference to Wags so that Wags can switch between different pages
 	 * 					while retaining the top bar
 	 */
-	public Magnets(int[] ids, String[] problems, boolean[] success, Wags wags) {
+	public Magnets(int[] ids, String[] problems, int[] status, Wags wags) {
 		idList = ids;
 		problemList = problems;
-		successList = success;
+		statusList = status;
 		this.wags = wags;
 		
 		dc = new PickupDragController(RootPanel.get(), false);
@@ -75,34 +82,41 @@ public class Magnets extends AbsolutePanel {
 		}
 		
 		attemptButtons = new ArrayList<ProblemButton>();
+		reviewButtons = new ArrayList<ProblemButton>();
 		
 		this.setStyleName("main_background");
 		banner.setStyleName("banner");
 		selectLabel.setStyleName("welcome");
 		
-		buildUI();
+		// create an attempt button for each problem
+		// buttons text is green if they have completed the problem successfully
+		for (int i = 0; i < problemList.length; i++) {
+			int id = idList[i];
+			String title = statusList[i] == SUCCESS ? "<font color=green>" + problemList[i] + "</font>" : problemList[i];
+			ProblemButton b = new ProblemButton(title, id);
+			
+			if (statusList[i] == REVIEW) {
+				reviewButtons.add(b);
+			} else {
+				attemptButtons.add(b);
+			}
+		}
+		
+		topButtonPanel = buildButtonPanel();
+		buildUI(attemptButtons);
 	}
 	
 	/**
 	 * Method used to build the user interface.
 	 */
-	private void buildUI()
+	private void buildUI(final ArrayList<ProblemButton> buttons)
 	{	
 		this.removeAllWidgets();
-		
-		// create an attempt button for each problem
-		// buttons text is green if they have completed the problem successfully
-		for (int i = 0; i < problemList.length; i++) {
-			int id = idList[i];
-			String title = successList[i] ? "<font color=green>" + problemList[i] + "</font>" : problemList[i];
-			ProblemButton b = new ProblemButton(title, id);
-			attemptButtons.add(b);
-		}
-		
 		add(problemPane);
 		problemPane.clear();
 		problemPane.setSpacing(5);
 		problemPane.add(banner);
+		problemPane.add(topButtonPanel);
 		problemPane.add(selectLabel);
 		
 		/*
@@ -116,20 +130,20 @@ public class Magnets extends AbsolutePanel {
 
 				// Add the style to all the buttons, add the buttons to problemPane,
 				// and figure out the maximum width of all the buttons
-				for (int i = 0; i < problemList.length; i++) {
-					ProblemButton b = attemptButtons.get(i);
+				for (int i = 0; i < buttons.size(); i++) {
+					ProblemButton b = buttons.get(i);
 					addClickHandling(b, b.getID());
 					b.setStyleName("problem");
 					problemPane.add(b);
 
 					// find the maximum width of buttons
-					int width = attemptButtons.get(i).getOffsetWidth();
+					int width = b.getOffsetWidth();
 					maxWidth = (width > maxWidth) ? width : maxWidth;
 				}
 
 				// Go back through and set all the buttons to the max width
-				for (int i = 0; i < problemList.length; i++) {
-					ProblemButton b = attemptButtons.get(i);
+				for (int i = 0; i < buttons.size(); i++) {
+					ProblemButton b = buttons.get(i);
 					b.setWidth(maxWidth + "px");
 					b.setHeight("50px");
 				}
@@ -138,6 +152,28 @@ public class Magnets extends AbsolutePanel {
 		timer.schedule(1);
 	}
 	
+	private HorizontalPanel buildButtonPanel() {
+		Button assigned = new Button("Assigned Problems");
+		assigned.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				buildUI(attemptButtons);
+			}
+		});
+		
+		Button review = new Button("Review Past Problems");
+		review.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				buildUI(reviewButtons);
+			}
+		});
+		
+		HorizontalPanel hp = new HorizontalPanel();
+		hp.add(assigned);
+		hp.add(review);
+		
+		return hp;
+	}
+
 	/**
 	 * Removes all widgets currently on the screen.
 	 */

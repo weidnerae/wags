@@ -248,16 +248,16 @@ public class Proxy
 					 */
 					String[] problems = status.getMessageArray();
 					String[] problemsList = new String[problems.length / 2];
-					boolean[] successList = new boolean[problems.length / 2];
+					int[] statusList = new int[problems.length / 2];
 
 					for (int i = 0; i < problems.length - 1; i += 2) {
 						int idx = i / 2; 										   // corresponding index for lists
 						problemsList[idx] = problems[i]; 						   // title of exercise
-						successList[idx] = Integer.parseInt(problems[i + 1]) == 1; // true if corresponding string is '1'
+						statusList[idx] = Integer.parseInt(problems[i + 1]); 	   // true if corresponding string is '1'
 					}
 
 					DataStructureTool DST = new DataStructureTool(problemsList,
-							successList);
+							statusList);
 					DST.getElement().getStyle().setOverflowY(Overflow.AUTO);
 					wags.replaceCenterContent(DST);
 					
@@ -284,7 +284,7 @@ public class Proxy
 					String[] problems = stat.getMessageArray();
 					int[] idList = new int[problems.length / 3];
 					String[] problemsList = new String[problems.length / 3];
-					boolean[] successList = new boolean[problems.length / 3];
+					int[] statusList = new int[problems.length / 3];
 					
 					// To understand this, you must understand that problems is an array
 					// following a sequence of id, name, success.  Thus, we iterate over it
@@ -297,11 +297,11 @@ public class Proxy
 							
 							idList[idx] = id;
 							problemsList[idx] = problems[i + 1];
-							successList[idx] = problems[i + 2].equals("1");
+							statusList[idx] = Integer.parseInt(problems[i + 2]);
 						}
 					}
 					
-					Magnets Magnets = new Magnets(idList, problemsList, successList, wags);
+					Magnets Magnets = new Magnets(idList, problemsList, statusList, wags);
 					wags.splashPage = Magnets;
 					Magnets.getElement().getStyle().setOverflowY(Overflow.AUTO);
 					wags.replaceCenterContent(Magnets);
