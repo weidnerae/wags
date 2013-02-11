@@ -309,6 +309,42 @@ class MagnetProblem extends Model
 
         return $values;
     }
+	
+    // Returns all the magnetProblems for a group that are currently
+    // assigned to the students (status = 1) in an array of id's and names
+    public static function getAttempted(){
+        require_once('Database.php');
+        $db = Database::getDb();
+        $user = Auth::getCurrentUser();
+
+        $sth = $db->prepare('SELECT DISTINCT magnetProblem.title, magnetProblem.id, SUM(numAttempts) as attempts
+            FROM magnetProblem, SectionMP, MagnetSubmission
+            WHERE SectionMP.section = :section
+            AND SectionMP.magnetP = magnetProblem.id
+			AND MagnetSubmission.magnetProblemId = magnetProblem.id
+			GROUP BY magnetProblem.id
+    		HAVING attempts > 1');
+
+        $sth->setFetchMode(PDO::FETCH_ASSOC);
+        $sth->execute(array(':section' => $user->getSection()));
+        $results = $sth->fetchAll();
+
+        // So, this is really like working through two levels of array
+        // Results is an array of arrays, each result is an array
+        foreach($results as $result){
+            $values[] = $result['id'];
+            $values[] = $result['title'];
+        }
+
+        // Used to indicate to GetMagnetExercises.php that no 
+        // exercises are assigned
+        if($results == null){
+            $values[] = "0";
+            $values[] = "No Code Magnets Assigned!";
+        }
+
+        return $values;
+    }
 
     # Set the entry in SectionMP with the given magnetP id to 
     # the given status - used in SetMagnetExercises.php
@@ -446,4 +482,3 @@ class MagnetProblem extends Model
     }
 
 }
-?>

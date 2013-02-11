@@ -14,6 +14,7 @@ class GetMagnetExercises extends Command
     {
         $user = Auth::getCurrentUser();
         $names = MagnetProblem::getAvailable();
+        $review = MagnetProblem::getAttempted();
         $result = array();
 
         // Only occurs when no problems are available to the student
@@ -22,7 +23,7 @@ class GetMagnetExercises extends Command
         }
 
         // $names alternates id, name - starting with id
-        for($i = 0; $i < count($names) - 1; $i += 2){
+        for ($i = 0; $i < count($names) - 1; $i += 2) {
            // Creating new array with success values
            $result[] = $names[$i];  // The id
            $result[] = $names[$i + 1]; // The title
@@ -37,7 +38,13 @@ class GetMagnetExercises extends Command
                 $result[] = "0";
            }
         }
-
+        
+        for ($i = 0; $i < count($review) - 1; $i += 2) {
+        	$result[] = $review[$i];	// The id
+        	$result[] = $review[$i + 1]; // The title
+        	$result[] = "2"; // This will denote that it is a review problem
+        }
+ 
 
         return JSON::success($result);
     }
