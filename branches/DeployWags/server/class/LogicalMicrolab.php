@@ -71,6 +71,30 @@ class LogicalMicrolab
         }
 		return $values;
     }
+    
+    public static function getAttempted($exercise) {
+    	require_once("Database.php");
+    	$db = Database::getDb();
+    	$user = Auth::getCurrentUser();
+		array_shift($exercise);
+    	$exercises = implode("','", $exercise);
+
+    	$sth = $db->query('SELECT title, SUM(numAttempts) AS attempts
+    					FROM dstSubmission
+						WHERE title IN (\'' . $exercises . '\')
+    					AND sectionId = ' . $user->getSection() . '
+						GROUP BY dstSubmission.title
+						HAVING attempts > 1');
+						
+
+    	$sth->setFetchMode(PDO::FETCH_NUM);
+    	
+    	$result = $sth->fetchAll();
+    	foreach ($result as $entry) {
+    		$values[] = $entry[0];
+    	}
+    	return $values;
+    }
 
 }
 
