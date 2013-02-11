@@ -10,6 +10,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -19,28 +20,33 @@ import webEditor.client.Proxy;
 
 public class DataStructureTool  extends AbsolutePanel
 {	
+	public static int INCOMPLETE = 0;
+	public static int SUCCESS = 1;
+	public static int REVIEW = 2;
 	private ArrayList<Widget> widgets; //arraylist to hold widgets added to root panel
 
 	private static String[] problemList;	//array of problem names
-	private static boolean[] successList;	//array of success values
+	private static int[] statusList;	//array of success values
 
 	private String emailAddr;	//user's email address
 	final VerticalPanel problemPane = new VerticalPanel();
+	private HorizontalPanel topButtonPanel;
 
 	//widgets
 	private Label bannerLabel;
 	private Label selectLabel;
 	private ArrayList<Button> attemptButtons;
+	private ArrayList<Button> reviewButtons;
 
 	/**
 	 * This is the entry point method.
 	 */
-	public DataStructureTool(String[] problems, boolean[] success) 
+	public DataStructureTool(String[] problems, int[] status) 
 	{	
 		//initialize fields that will be used
 		widgets = new ArrayList<Widget>();
 		problemList = problems;
-		successList = success;
+		statusList = status;
 
 		//initialize widgets
 		bannerLabel = new Label("Logical Microlabs");
@@ -49,41 +55,42 @@ public class DataStructureTool  extends AbsolutePanel
 		} else {
 			selectLabel = new Label("No problems assigned!");
 		}
-		//problemLabels = new ArrayList<Label>();
-		attemptButtons = new ArrayList<Button>();
 
+		attemptButtons = new ArrayList<Button>();
+		reviewButtons = new ArrayList<Button>();
 
 		//set styles
 		this.setStyleName("main_background");
 		bannerLabel.setStyleName("banner");
 		selectLabel.setStyleName("welcome");
 
-		//Note: method calls to initialize and build the app have to be buried in the onSuccess methods
-		//of the asynchronous calls to ensure that everything is initialized in order
-		//start asynchronous calls
-		buildUI();
+		//create an attempt button for each problem
+		for (int i = 0; i < problemList.length; i++) {
+			//create button that allows a problem to be attempted
+			Button b = new Button(statusList[i] == SUCCESS ? "<font color=green>" + problemList[i] + "</font>" : problemList[i]);
+
+			if (statusList[i] == REVIEW) {
+				reviewButtons.add(b);
+			} else {
+				attemptButtons.add(b);
+			}
+		}
+		
+		topButtonPanel = buildButtonPanel();
+		buildUI(attemptButtons);
 	}
 
 	/**
 	 * Method used to build the user interface.
 	 */
-	private void buildUI()
+	private void buildUI(final ArrayList<Button> buttons)
 	{	
 		this.removeAllWidgets();
-		
-		//create an attempt button for each problem
-		for(int i = 0; i < problemList.length; i++)  //The explode php function results in one extra, empty index
-		{
-			//create button that allows a problem to be attempted
-			attemptButtons.add(new Button(successList[i] ? "<font color=green>" + problemList[i] + "</font>" : problemList[i]));
-			//create button that allows past attempts to be viewed if present
-			//viewResultButtons.add(new Button("View Attempts"));
-		}
-		
 		add(problemPane);
 		problemPane.clear();
 		problemPane.setSpacing(5);
 		problemPane.add(bannerLabel);
+		problemPane.add(topButtonPanel);
 		problemPane.add(selectLabel);
 		
 		//Wrap all this stuff in a timer so that
@@ -92,26 +99,48 @@ public class DataStructureTool  extends AbsolutePanel
 			public void run() {
 				int maxWidth = bannerLabel.getOffsetWidth();
 
-				for (int i = 0; i < problemList.length; i++) {
+				for (int i = 0; i < buttons.size(); i++) {
 					// add button to attempt problem, Note: handlers are added later
-					Button b = attemptButtons.get(i);
+					Button b = buttons.get(i);
 					addClickHandling(b, b.getText());
 					b.setStyleName("problem");
 					problemPane.add(b);
 
 					// find the maximum width of buttons
-					int width = attemptButtons.get(i).getOffsetWidth();
+					int width = buttons.get(i).getOffsetWidth();
 					maxWidth = (width > maxWidth) ? width : maxWidth;
 				}
 
-				for (int i = 0; i < problemList.length; i++) {
-					Button b = attemptButtons.get(i);
+				for (int i = 0; i < buttons.size(); i++) {
+					Button b = buttons.get(i);
 					b.setWidth(maxWidth + "px");
 					b.setHeight("50px");
 				}
 			}
 		};
 		timer.schedule(1);
+	}
+	
+	private HorizontalPanel buildButtonPanel() {
+		Button assigned = new Button("Assigned Problems");
+		assigned.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				buildUI(attemptButtons);
+			}
+		});
+		
+		Button review = new Button("Review Past Problems");
+		review.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				buildUI(reviewButtons);
+			}
+		});
+		
+		HorizontalPanel hp = new HorizontalPanel();
+		hp.add(assigned);
+		hp.add(review);
+		
+		return hp;
 	}
 	
 	private void addClickHandling(Button button, final String problem){
