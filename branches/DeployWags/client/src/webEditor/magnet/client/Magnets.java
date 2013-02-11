@@ -75,12 +75,6 @@ public class Magnets extends AbsolutePanel {
 		
 		banner = new Label("Code Magnet Microlabs");
 		
-		if(problems.length > 0){
-			selectLabel = new Label(""); 
-		} else {
-			selectLabel = new Label(EMPTY_LABEL);
-		}
-		
 		attemptButtons = new ArrayList<ProblemButton>();
 		reviewButtons = new ArrayList<ProblemButton>();
 		
@@ -117,6 +111,13 @@ public class Magnets extends AbsolutePanel {
 		problemPane.setSpacing(5);
 		problemPane.add(banner);
 		problemPane.add(topButtonPanel);
+		
+		if (buttons.size() > 0) {
+			selectLabel = new Label(""); 
+		} else {
+			selectLabel = new Label(EMPTY_LABEL);
+		}
+		
 		problemPane.add(selectLabel);
 		
 		/*

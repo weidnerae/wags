@@ -50,11 +50,6 @@ public class DataStructureTool  extends AbsolutePanel
 
 		//initialize widgets
 		bannerLabel = new Label("Logical Microlabs");
-		if(problems.length > 0){
-			selectLabel = new Label(""); 
-		} else {
-			selectLabel = new Label("No problems assigned!");
-		}
 
 		attemptButtons = new ArrayList<Button>();
 		reviewButtons = new ArrayList<Button>();
@@ -91,6 +86,13 @@ public class DataStructureTool  extends AbsolutePanel
 		problemPane.setSpacing(5);
 		problemPane.add(bannerLabel);
 		problemPane.add(topButtonPanel);
+		
+		if (buttons.size() > 0) {
+			selectLabel = new Label(""); 
+		} else {
+			selectLabel = new Label("No problems assigned!");
+		}
+		
 		problemPane.add(selectLabel);
 		
 		//Wrap all this stuff in a timer so that
