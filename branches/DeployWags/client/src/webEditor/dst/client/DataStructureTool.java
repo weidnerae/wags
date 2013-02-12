@@ -23,18 +23,20 @@ public class DataStructureTool  extends AbsolutePanel
 	public static int INCOMPLETE = 0;
 	public static int SUCCESS = 1;
 	public static int REVIEW = 2;
-	private ArrayList<Widget> widgets; //arraylist to hold widgets added to root panel
 
 	private static String[] problemList;	//array of problem names
 	private static int[] statusList;	//array of success values
-
 	private String emailAddr;	//user's email address
+	
 	final VerticalPanel problemPane = new VerticalPanel();
-	private HorizontalPanel topButtonPanel;
+	private HorizontalPanel topButtonPanel; // Hold "Switch to X" Buttons
 
 	//widgets
+	private ArrayList<Widget> widgets; //arraylist to hold widgets added to root panel
 	private Label bannerLabel;
 	private Label selectLabel;
+	private Button assigned;
+	private Button review;
 	private ArrayList<Button> attemptButtons;
 	private ArrayList<Button> reviewButtons;
 
@@ -50,15 +52,20 @@ public class DataStructureTool  extends AbsolutePanel
 
 		//initialize widgets
 		bannerLabel = new Label("Logical Microlabs");
-
 		attemptButtons = new ArrayList<Button>();
 		reviewButtons = new ArrayList<Button>();
-
+		createButtons();
+		topButtonPanel = buildButtonPanel();
+		
+		buildUI(attemptButtons);
+		
 		//set styles
-		this.setStyleName("main_background");
+		setStyleName("main_background");
 		bannerLabel.setStyleName("banner");
 		selectLabel.setStyleName("welcome");
-
+	}
+	
+	private void createButtons() {
 		//create an attempt button for each problem
 		for (int i = 0; i < problemList.length; i++) {
 			//create button that allows a problem to be attempted
@@ -70,9 +77,6 @@ public class DataStructureTool  extends AbsolutePanel
 				attemptButtons.add(b);
 			}
 		}
-		
-		topButtonPanel = buildButtonPanel();
-		buildUI(attemptButtons);
 	}
 
 	/**
@@ -124,17 +128,23 @@ public class DataStructureTool  extends AbsolutePanel
 	}
 	
 	private HorizontalPanel buildButtonPanel() {
-		Button assigned = new Button("Assigned Problems");
+		assigned = new Button("Switch to Assigned");
+		review = new Button("Switch to Review");
+		
+		assigned.setVisible(false);
 		assigned.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				buildUI(attemptButtons);
+				assigned.setVisible(false);
+				review.setVisible(true);
 			}
 		});
 		
-		Button review = new Button("Review Past Problems");
 		review.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				buildUI(reviewButtons);
+				review.setVisible(false);
+				assigned.setVisible(true);
 			}
 		});
 		

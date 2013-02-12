@@ -43,10 +43,12 @@ public class Magnets extends AbsolutePanel {
 	public int idAssignor = 0;
 
 	final VerticalPanel problemPane = new VerticalPanel();
-	private HorizontalPanel topButtonPanel;
+	private HorizontalPanel topButtonPanel; // Hold "Switch to X" Buttons
 
 	private Label banner;
 	private Label selectLabel;
+	private Button assigned;
+	private Button review;
 	private ArrayList<ProblemButton> attemptButtons;
 	private ArrayList<ProblemButton> reviewButtons;
 	
@@ -69,19 +71,24 @@ public class Magnets extends AbsolutePanel {
 		problemList = problems;
 		statusList = status;
 		this.wags = wags;
-		
+
 		dc = new PickupDragController(RootPanel.get(), false);
 		dc.setBehaviorDragProxy(true);
-		
+
 		banner = new Label("Code Magnet Microlabs");
-		
 		attemptButtons = new ArrayList<ProblemButton>();
 		reviewButtons = new ArrayList<ProblemButton>();
+		createButtons();	
+		topButtonPanel = buildButtonPanel();
 		
-		this.setStyleName("main_background");
+		buildUI(attemptButtons);
+		
+		setStyleName("main_background");
 		banner.setStyleName("banner");
 		selectLabel.setStyleName("welcome");
-		
+	}
+	
+	private void createButtons() {
 		// create an attempt button for each problem
 		// buttons text is green if they have completed the problem successfully
 		for (int i = 0; i < problemList.length; i++) {
@@ -95,9 +102,6 @@ public class Magnets extends AbsolutePanel {
 				attemptButtons.add(b);
 			}
 		}
-		
-		topButtonPanel = buildButtonPanel();
-		buildUI(attemptButtons);
 	}
 	
 	/**
@@ -154,17 +158,23 @@ public class Magnets extends AbsolutePanel {
 	}
 	
 	private HorizontalPanel buildButtonPanel() {
-		Button assigned = new Button("Assigned Problems");
+		assigned = new Button("Switch to Assigned");
+		review = new Button("Switch to Review");
+		
+		assigned.setVisible(false);
 		assigned.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				buildUI(attemptButtons);
+				assigned.setVisible(false);
+				review.setVisible(true);
 			}
 		});
 		
-		Button review = new Button("Review Past Problems");
 		review.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				buildUI(reviewButtons);
+				review.setVisible(false);
+				assigned.setVisible(true);
 			}
 		});
 		
