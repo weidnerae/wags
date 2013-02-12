@@ -76,8 +76,14 @@ class LogicalMicrolab
     	require_once("Database.php");
     	$db = Database::getDb();
     	$user = Auth::getCurrentUser();
-		array_shift($exercise);
-    	$exercises = implode("','", $exercise);
+		
+		$exercise = str_replace("'", "\\'", $exercise);
+		
+		if (count($exercise) > 1) { //$exercise has a blank element at [0]
+			array_shift($exercise);
+		}
+			
+		$exercises = implode("','", $exercise);
 
     	$sth = $db->query('SELECT title, SUM(numAttempts) AS attempts
     					FROM dstSubmission
