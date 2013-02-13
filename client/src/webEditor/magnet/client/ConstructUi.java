@@ -27,11 +27,10 @@ public class ConstructUi extends Composite {
 	private StackableContainer[] premade; //field to store premade segments passed in
 	private boolean initial = false; //a dragon's boolean
 	private String problemType; //differentiates between algo, basic, and advanced
-	private AbsolutePanel contentPanel; //nest panel to hold creation station and segments content
-	private AbsolutePanel csContent;    //nest panel to hold creationStation
-	private CreationStation creationStation;
+	private AbsolutePanel contentPanel; //nest panel to hold mgnet maker and segments content
+	private AbsolutePanel mmContent;    //nest panel to hold magnet maker
+	private CreationStation magnetMaker;
 	private AbsolutePanel segmentsContent;
-	private AbsolutePositionDropController csDropControl;
 	private AbsolutePositionDropController segmentDropControl; 
 	
 	@UiField
@@ -78,7 +77,7 @@ public class ConstructUi extends Composite {
 			String[] for2List, String[] for3List, String[] booleanList,
 			PickupDragController dc) {
 		initWidget(uiBinder.createAndBindUi(this));
-		// add directions
+		
 		directionsContent.add(
 			new HTML(
 				"<h4><center>" 
@@ -92,22 +91,19 @@ public class ConstructUi extends Composite {
 		
 		this.problemType = problemType;
 
-
 		if (problemType.equals(Consts.ADVANCED_PROBLEM)) {
 			//create the creation station panel, 
 			//then create a content panel to nest that and the segments panel.
-			//create and reg necesary drop controllers
+			//create and register necessary drop controller
 			//add it to center
-			csContent = new AbsolutePanel();
-			csDropControl = new AbsolutePositionDropController(csContent);
-			dc.registerDropController(csDropControl);
-			creationStation = new CreationStation(structuresList, for1List,
+			mmContent = new AbsolutePanel();
+			magnetMaker = new CreationStation(structuresList, for1List,
 					for2List, for3List, booleanList, this, dc);
-			csContent.add(creationStation);
-			csContent.setStyleName("creation_station");
+			mmContent.add(magnetMaker);
+			mmContent.setStyleName("creation_station");
 			
 			contentPanel = new AbsolutePanel();
-			contentPanel.add(csContent);
+			contentPanel.add(mmContent);
 
 			segmentsContent = new AbsolutePanel();
 			segmentDropControl = new AbsolutePositionDropController(segmentsContent);
@@ -128,7 +124,7 @@ public class ConstructUi extends Composite {
 			Timer t = new Timer (){
 				@Override
 				public void run() {
-					segmentsContent.setHeight("" + (getOffsetHeight() - (140 + csContent.getOffsetHeight())) + "px");
+					segmentsContent.setHeight("" + (getOffsetHeight() - (140 + mmContent.getOffsetHeight())) + "px");
 					contentPanel.setHeight("" + (getOffsetHeight() - 140) + "px");
 				}
 			};
@@ -192,7 +188,7 @@ public class ConstructUi extends Composite {
                 int baseX = 10;
                 int baseY = 10;
                 if(problemType.equals(Consts.ADVANCED_PROBLEM)) 
-                	baseY = 10 + creationStation.getOffsetHeight();
+                	baseY = 10 + magnetMaker.getOffsetHeight();
       
                                             
                 if (widgetCount == 0) {
@@ -209,7 +205,7 @@ public class ConstructUi extends Composite {
                         if (initial) {
                                 baseY -= segmentsContent.getAbsoluteTop() - getAbsoluteTop();
                         } else if (problemType.equals(Consts.ADVANCED_PROBLEM)) {       
-                                baseY -= creationStation.getOffsetHeight();
+                                baseY -= magnetMaker.getOffsetHeight();
                         }
 
                         segmentsContent.add(segment, baseX, baseY);
