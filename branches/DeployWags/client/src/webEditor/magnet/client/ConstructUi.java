@@ -112,6 +112,7 @@ public class ConstructUi extends Composite {
 			segmentsContent = new AbsolutePanel();
 			segmentDropControl = new AbsolutePositionDropController(segmentsContent);
 			dc.registerDropController(segmentDropControl);
+			segmentsContent.getElement().getStyle().setOverflowY(Overflow.AUTO);  //enables scrolling
 			contentPanel.add(segmentsContent);
 			
 			layout.add(contentPanel);
@@ -140,6 +141,8 @@ public class ConstructUi extends Composite {
 			segmentsContent.setHeight("100%");
 			segmentDropControl = new AbsolutePositionDropController(segmentsContent);
 			dc.registerDropController(segmentDropControl);
+			segmentsContent.getElement().getStyle().setOverflowY(Overflow.AUTO);
+			layout.add(segmentsContent);
 		}
 
 		premade = premadeSegments;		
@@ -158,8 +161,7 @@ public class ConstructUi extends Composite {
 			}
 		}
 		
-		segmentsContent.getElement().getStyle().setOverflowY(Overflow.AUTO);
-		layout.add(segmentsContent);
+
 		initial = true;
 	}
 	
