@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class QuickSortDisplayManager extends DisplayManager implements
 		IsSerializable {
 	private QuickSortProblem problem;
+	private TextArea cp;
 
 	public QuickSortDisplayManager(DrawingArea canvas, AbsolutePanel panel,
 			NodeCollection nc, QuickSortProblem problem) {
@@ -29,6 +30,7 @@ public class QuickSortDisplayManager extends DisplayManager implements
 		this.problem = problem;
 		super.problem = problem;
 		this.itemsInPanel = new ArrayList<Widget>();
+		cp = new TextArea();
 	}
 
 	public void displayProblem() {
@@ -78,7 +80,9 @@ public class QuickSortDisplayManager extends DisplayManager implements
 				}
 
 				nodeCollection.emptyNodes();
+				((Evaluation_Quicksort) problem.getEval()).setPass(1);
 				insertNodesAndEdges();
+				cp.setText("Current Pass: 1");
 			}
 		});
 		resetButton.setStyleName("control_button");
@@ -165,7 +169,7 @@ public class QuickSortDisplayManager extends DisplayManager implements
 				panel.add(label, xPositions[i], yPositions[i]);
 				if (i <= splitNodes.length
 						- ((Evaluation_Quicksort) problem.getEval())
-						.getCurrentStep()) {
+						.getPass()) {
 					NodeDragController.getInstance().makeDraggable(label);
 				} 
 				if (i == ((Evaluation_Quicksort) problem.getEval()).
@@ -198,7 +202,6 @@ public class QuickSortDisplayManager extends DisplayManager implements
 	}
 
 	private void addCounterPanel() {
-		TextArea cp = new TextArea();
 		cp.setStyleName("problem_statement");
 		cp.setPixelSize(195, 90);
 		cp.setReadOnly(true);
