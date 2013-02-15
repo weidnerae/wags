@@ -1389,6 +1389,62 @@ public class ProblemServiceImpl
 					true,
 					true,
 					DSTConstants.NODE_STRING_DRAGGABLE);
+			case 95: return new QuickSortProblem("Quicksort Partition 1",
+					"Quicksort Partition: Using the quicksort partition algorithm, put nodes in order " +
+					"around the green pivot for each step of the partition.",
+					"94 21 3 70 64 22 52 53",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges,
+					new String[]{"94 21 3 70 64 22 52 53"},
+					quicksort,
+					rules,
+					false,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 96: return new QuickSortProblem("Quicksort Partition 2",
+					"Quicksort Partition: Using the quicksort partition algorithm, put nodes in order " +
+					"around the green pivot for each step of the partition.",
+					"12 0 82 44 31 99 75 36",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges,
+					new String[]{"12 0 82 44 31 99 75 36"},
+					quicksort,
+					rules,
+					false,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 97: return new QuickSortProblem("Quicksort Partition 3",
+					"Quicksort Partition: Using the quicksort partition algorithm, put nodes in order " +
+					"around the green pivot for each step of the partition.",
+					"2 7 1 6 3 4 5 9",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges,
+					new String[]{"2 7 1 6 3 4 5 9"},
+					quicksort,
+					rules,
+					false,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
+			case 98: return new QuickSortProblem("Quicksort Partition 4",
+					"Quicksort Partition: Using the quicksort partition algorithm, put nodes in order " +
+					"around the green pivot for each step of the partition.",
+					"3 1 3 5 9 2 7 4",
+					DSTConstants.INSERT_METHOD_VALUE,
+					noLocs,
+					noLocs,
+					noEdges,
+					new String[]{"3 1 3 5 9 2 7 4"},
+					quicksort,
+					rules,
+					false,
+					true,
+					DSTConstants.NODE_DRAGGABLE);
 
 		default:
 			return new TreeProblem("Binary Search Tree from Postorder Traversal 1",
@@ -1487,7 +1543,7 @@ public class ProblemServiceImpl
 		if(problem.equals("Hashing 4 - Quadratic")) return 74;
 		if(problem.equals("Hashing 5 - Quadratic")) return 75;
 		if(problem.equals("Hashing 6 - Quadratic")) return 76;
-		if(problem.equals("Quicksort Partition")) return 77;
+		
 		if(problem.equals("Selection Sort Test")) return 78;
 		//SWAGS Cases
 		if(problem.equals("Create Infix Expression 1")) return 79;
@@ -1508,6 +1564,13 @@ public class ProblemServiceImpl
 		if (problem.equals("Binary Search Tree Deletion 2")) return 92;
 		if (problem.equals("Binary Search Tree Deletion 3")) return 93;
 		if (problem.equals("Binary Search Tree Deletion 4")) return 94;
+		
+		if(problem.equals("Quicksort Partition")) return 77;
+		if(problem.equals("Quicksort Partition 1")) return 95;
+		if(problem.equals("Quicksort Partition 2")) return 96;
+		if(problem.equals("Quicksort Partition 3")) return 97;
+		if(problem.equals("Quicksort Partition 4")) return 98;
+
 		return 0;
 	}
 	public static int[] getHeapXLocations(boolean insert, String nodes){
