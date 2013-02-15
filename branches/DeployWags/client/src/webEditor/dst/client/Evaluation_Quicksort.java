@@ -12,20 +12,17 @@ import com.google.gwt.user.client.ui.TextArea;
 
 public class Evaluation_Quicksort extends Evaluation implements IsSerializable {
 
-	int PASS = 1;
-	int[] intArray;
-	String[] stringArray;
-	ArrayList<int[]> partitionSteps;
-	ArrayList<Integer> pivots;
+	private int PASS = 1;
+	private int[] intArray;
+	private ArrayList<int[]> partitionSteps;
+	private ArrayList<Integer> pivots;
 
-	// TODO Fix this for the quicksort partition
 	public String evaluate(String problemName, String[] arguments,
 			ArrayList<Node> nodes, ArrayList<EdgeParent> edges) {
 	
 		intArray = getIntArrayFromString(arguments[0]);
         pivots = new ArrayList<Integer>();
 		partitionSteps = quick(intArray, 0, intArray.length-1, pivots);
-//		Window.alert(printSteps());
 		
 		String solution = getNodeOrder(nodes);
 		String cSolution = getStringFromIntArray(partitionSteps.get(PASS));
@@ -93,14 +90,6 @@ public class Evaluation_Quicksort extends Evaluation implements IsSerializable {
 		return solution.trim();
 	}
 	
-	public String getStringFromNodes(ArrayList<Node> nodes) {
-		String solution = "";
-		for (Node n : nodes) {
-			solution += n.getValue();
-		}
-		return solution.trim();
-	}
-
 	public String getNodeOrder(ArrayList<Node> nodes) {
 		/* Copy nodes into a copy array so we leave original untouched */
 		ArrayList<Node> copy = new ArrayList<Node>();
@@ -128,10 +117,7 @@ public class Evaluation_Quicksort extends Evaluation implements IsSerializable {
 		return solution.trim();
 	}
 
-	/**
-	 * no idea if this works, but it should highlight the pivot node for the student
-	 */
-	public void highlightPivotNode(ArrayList<Node> nodes) {
+	private void highlightPivotNode(ArrayList<Node> nodes) {
 		for (Node x : nodes) {
 			x.getLabel().setStyleName("node");
 		}
@@ -147,7 +133,7 @@ public class Evaluation_Quicksort extends Evaluation implements IsSerializable {
 			.getLabel().setStyleName("immobilized_node");
 	}
 	
-	public boolean solutionInOrder(int[] solution){
+	private boolean solutionInOrder(int[] solution){
 		boolean inOrder=true;
 		for(int i=1;i<solution.length-1;i++){
 			if(solution[i]>solution[i+1]){
@@ -157,29 +143,13 @@ public class Evaluation_Quicksort extends Evaluation implements IsSerializable {
 		return inOrder;
 	}
 	
-	public void updateCounterPanel() {
+	private void updateCounterPanel() {
 		if (Proxy.getDST().getWidget(3) instanceof TextArea) {
 			((TextArea) Proxy.getDST().getWidget(3)).setText("Current Pass: "
 					+ (PASS));
 		}
 	}
 	
-	public String getCurrentNodeString(String arg0, int left, int right) {
-		intArray = getIntArrayFromString(arg0);
-		if (PASS == 1) {
-			return arg0;
-		}
-		else if(PASS >= 1){
-			int[] tempArr = getIntArrayFromString(arg0);
-			left = partition(tempArr, left, right);
-			String currentString = getStringFromIntArray(tempArr);
-			return currentString;
-		}
-		String currentString = getStringFromIntArray(intArray);
-		intArray = getIntArrayFromString(arg0);
-		return currentString;
-	}
-
 	/**
 	 * partition method that splits an array to be sorted and swaps values
 	 * to be on the proper side of the pivot, where the pivot is always
@@ -189,7 +159,7 @@ public class Evaluation_Quicksort extends Evaluation implements IsSerializable {
 	 * @param ub
 	 * @return The pivot
 	 */
-    public int partition(int x[], int lb, int ub)
+    private int partition(int x[], int lb, int ub)
     {
         int a, down, temp, up,pj;
         a=x[lb];
@@ -224,7 +194,7 @@ public class Evaluation_Quicksort extends Evaluation implements IsSerializable {
      * @param ub Upper bound of the array
      * @return An ArrayList of steps
      */
-    public ArrayList<int[]> quick(int[] a, int lb, int ub, ArrayList<Integer> pivots)
+    private ArrayList<int[]> quick(int[] a, int lb, int ub, ArrayList<Integer> pivots)
     {
     	ArrayList<int[]> j = new ArrayList<int[]>();
         Stack<Integer> S = new Stack<Integer>();
@@ -266,20 +236,15 @@ public class Evaluation_Quicksort extends Evaluation implements IsSerializable {
     public int getInitialPivot(String arg0) {
     	int x[] = getIntArrayFromString(arg0);
     	int pivot = partition(x, 0, x.length-1);
-//    	Window.alert("InitialPivot: " + pivot);
 
     	return pivot;
     }
     
-    private String printSteps() {
-    	StringBuffer s = new StringBuffer();
-    	for (int i=0; i<partitionSteps.size(); i++) {
-    		s.append(getStringFromIntArray(partitionSteps.get(i)) + "\n");
-    	}
-    	return s.toString();
-    }
-    
-    public int getCurrentStep() {
+    public int getPass() {
     	return PASS;
     } 
+    
+    public void setPass(int pass) {
+    	PASS = pass;
+    }
 }
