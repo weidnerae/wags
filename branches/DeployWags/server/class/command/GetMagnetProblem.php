@@ -18,6 +18,7 @@ class getMagnetProblem extends Command
         }
 
         $objArray = $magProb->toArray();
+        $id = $magProb->getId(); // necessary for getting state
         
         if(!Auth::getCurrentUser()->isAdmin()){
             $state = MagnetProblemState::getEntryByProblemId($id);
