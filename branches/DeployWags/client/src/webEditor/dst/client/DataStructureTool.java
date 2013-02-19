@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -26,7 +27,6 @@ public class DataStructureTool  extends AbsolutePanel
 
 	private static String[] problemList;	//array of problem names
 	private static int[] statusList;	//array of success values
-	private String emailAddr;	//user's email address
 	
 	final VerticalPanel problemPane = new VerticalPanel();
 	private HorizontalPanel topButtonPanel; // Hold "Switch to X" Buttons
@@ -161,10 +161,9 @@ public class DataStructureTool  extends AbsolutePanel
 			@Override
 			public void onClick(ClickEvent event) {
 				removeAllWidgets();
-				emailAddr = "TestUser";
 				Timer timer = new Timer(){
 					 public void run() {
-						 getProblem(emailAddr, problem);
+						 getProblem(problem);
 						 History.newItem("?loc=dstproblem");
 					 }
 				};
@@ -200,18 +199,22 @@ public class DataStructureTool  extends AbsolutePanel
 
 	/**
 	 * Gets the problem associated probId and initializes it to be attempted
-	 * @param userEmail
 	 * @param probId
 	 */
-	private void getProblem(final String userEmail, String problem)
+	private void getProblem(String problem)
 	{
+		/* This is the 'switch' between DB LogicalMicrolabs and
+		 * ProblemServiceImpl
+		 */
+		//Proxy.getLogicalMicrolab(problem, this);
 		Problem prob = ProblemServiceImpl.getProblem(problem);
 
-		initialize(userEmail, prob);
+		initialize(prob);
 	}
 
-	private void initialize(String userEmail, Problem p)
+	public void initialize(Problem p)
 	{
+		Window.alert("ok");
 		// Hide the buttons and stuff
 		problemPane.setVisible(false);
 		
