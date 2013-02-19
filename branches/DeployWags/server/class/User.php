@@ -133,7 +133,7 @@ class User extends Model
     {
         require_once('Database.php');
 
-        $sql = 'SELECT count(*) FROM user WHERE username LIKE :username';
+        $sql = 'SELECT count(*) FROM user WHERE username = :username';
 
         $db = Database::getDb();
         $sth = $db->prepare($sql);
@@ -229,4 +229,3 @@ class User extends Model
 		return $vals;
 	}
 }
-?>

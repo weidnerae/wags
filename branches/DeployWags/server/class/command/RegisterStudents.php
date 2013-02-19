@@ -86,11 +86,10 @@ class RegisterStudents extends Command
             // Go through the file, checking and creating list
             // of names
             while(($line = fgetcsv($csvFile, 1000)) != FALSE){
-
-                // If any line has more than 2 entries, report error
+                // If any line has more than 3 entries, report error
                 if(count($line) > 3) {
                     return JSON::error("Too many fields!");
-
+                   
                 // Add entries to $names, which will be used
                 // to create accounts if there are no errors
                 } else {
