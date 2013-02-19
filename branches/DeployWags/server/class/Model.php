@@ -107,11 +107,9 @@ abstract class Model
                                 fclose($file);*/
                             
                                 $sth = $db->prepare($sqlComplete);
-        echo("after prepared in SAVE");
                                 if($sth == FALSE){
                                         throw new PDOException("Database Error1: ".$db->errorCode()." ".$db->errorInfo());
                                 }
-                                echo($sqlComplete);
                                 if(!$sth->execute()){
                                         // Throw exception. Something bad happened.
                                         throw new PDOException("Database Error2: $sqlComplete\nCode: ".$sth->errorCode()."\nInfo: ". $sth->errorInfo());
@@ -203,5 +201,3 @@ abstract class Model
         }
     }
 }
-
-?>
