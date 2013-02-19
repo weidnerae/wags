@@ -1,6 +1,6 @@
 package webEditor.dst.client;
 
-public interface DSTConstants {
+public class DSTConstants {
 	
 	public static String CORRECT = "CORRECT";
 		
@@ -29,4 +29,34 @@ public interface DSTConstants {
 	public static String INSERT_METHOD_VALUE = "byvalue";
 	public static String INSERT_METHOD_VALUE_AND_LOCATION = "byvalueandlocation";
 	public static String INSERT_METHOD_VALUE_LOCATION_COLOR = "byvaluelocationcolor";
+	
+	public static String TREE_MODE = "treemode";
+	public static String NO_EDGE = "noedges";
+	
+	public static AddEdgeRules getEdgeRules(String edgeRules){
+		if(edgeRules.equals("treemode")) return new AddEdgeRules_TreeMode();
+		if(edgeRules.equals("noedges")) return new AddEdgeRules();
+		
+		return null;
+	}
+	
+	// Correspond to enum values in LogicalMicrolabs table, evaluation column
+	public static Evaluation getEvaluation(String eval){
+		if(eval.equals("BST_postorder")) return new Evaluation_PostOrderBST();
+		if(eval.equals("BST_preorder")) return new Evaluation_Preorder();
+		if(eval.equals("Maxheap_level")) return new Evaluation_MaxHeap_Level();
+		if(eval.equals("Minheap_level")) return new Evaluation_MinHeap_Level();
+		if(eval.equals("Heapsort")) return new Evaluation_HeapSort();
+		if(eval.equals("BST_level")) return new Evaluation_Level();
+		if(eval.equals("Hashing")) return new Evaluation_Hashing();
+		if(eval.equals("Quicksort")) return new Evaluation_Quicksort();
+		if(eval.equals("Selectionsort")) return new Evaluation_SelectionSort();
+		if(eval.equals("BST_redblack")) return new Evaluation_RedBlackTree();
+		if(eval.equals("BST_traversal")) return new Evaluation_BSTTraversal();
+		if(eval.equals("BST_traversal_help")) return new Evaluation_BSTTraversalWithHelp();
+		if(eval.equals("MST")) return new Evaluation_MSTTraversal();
+		if(eval.equals("Radix")) return new Evaluation_RadixSortWithHelp();
+	
+		return null;
+	}
 }

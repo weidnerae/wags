@@ -8,7 +8,7 @@ package webEditor.magnet.client;
  * 
  */
 
-public interface Consts {
+public class Consts {
 	
 	public static String ALGORITHM_PROBLEM = "algorithm_problem";
 	public static String BASIC_PROBLEM = "basic_problem";

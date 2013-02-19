@@ -15,6 +15,7 @@ import webEditor.client.view.Notification;
 import webEditor.client.view.OutputReview;
 import webEditor.client.view.Wags;
 import webEditor.dst.client.DataStructureTool;
+import webEditor.dst.client.Problem;
 import webEditor.magnet.client.RefrigeratorMagnet;
 import webEditor.magnet.client.ResultsPanelUi;
 import webEditor.magnet.client.Magnets;
@@ -823,6 +824,28 @@ public class Proxy
 				@Override
 				public void onError(Request request, Throwable exception) {
 					Window.alert("Logical Exercise Error");
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
+	
+	public static void getLogicalMicrolab(String title, final DataStructureTool DST){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetLogicalMicrolab&title=" + title);
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus status = new WEStatus(response);
+					LogicalMicrolab logMicro = (LogicalMicrolab) status.getObject();
+					DST.initialize(logMicro.getProblem());
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					 Window.alert("Failed to grab Logical Microlab!");
 				}
 			});
 		} catch (RequestException e){
