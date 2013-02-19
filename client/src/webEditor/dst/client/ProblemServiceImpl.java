@@ -378,8 +378,8 @@ public class ProblemServiceImpl
 					"MaxHeap Insertion 1: Use the bubble up technique to insert the node 78 into the heap.",
 					"98 80 63 48 39 32 22 19 78",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
-					new int[]{250,150,350,75,225,275,425,15,20},
-					new int[]{75,175,175,275,275,275,275,350,20},
+					getHeapXLocations(true, "98 80 63 48 39 32 22 19 78"),
+					getHeapYLocations(true, "98 80 63 48 39 32 22 19 78"),
 					new String[]{"98 80","98 63","80 48","80 39","63 22","63 32","48 19"},
 					new String[]{"98 80 63 78 39 32 22 19 48"},
 					levelHeap,
@@ -431,8 +431,8 @@ public class ProblemServiceImpl
 					" You can simply place 97 out of the way in a corner after removing the connecting edges.",
 					"97 80 63 48 39 32 22 19",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
-					new int[]{250,150,350,75,225,275,425,15},
-					new int[]{75,175,175,275,275,275,275,350},
+					getHeapXLocations(false, "97 80 63 48 39 32 22 19"),
+					getHeapYLocations(false, "97 80 63 48 39 32 22 19"),
 					new String[]{"97 80","97 63","80 48","80 39","63 22","63 32","48 19"},
 					new String[]{"80 48 63 19 39 32 22"},
 					levelHeap,
@@ -650,8 +650,8 @@ public class ProblemServiceImpl
 					"MinHeap Insertion 1: Use the bubble up technique to insert the node 11 into the heap.",
 					"19 22 32 39 48 63 80 98 11",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
-					new int[]{250,150,350,75,225,275,425,15,20},
-					new int[]{75,175,175,275,275,275,275,350,20},
+					getHeapXLocations(true, "19 22 32 39 48 63 80 98 11"),
+					getHeapYLocations(true, "19 22 32 39 48 63 80 98 11"),
 					new String[]{"19 22", "19 32", "22 39", "22 48", "32 63", "32 80", "39 98"},
 					new String[]{"11 19 32 22 48 63 80 98 39"},
 					minLevelHeap,
@@ -707,8 +707,8 @@ public class ProblemServiceImpl
 					"removing the connecting edges.",
 					"19 39 22 80 48 32 63 97",
 					DSTConstants.INSERT_METHOD_VALUE_AND_LOCATION,
-					new int[]{250,150,350,75,225,275,425,15},
-					new int[]{75,175,175,275,275,275,275,350},
+					getHeapXLocations(false, "19 39 22 80 48 32 63 97"),
+					getHeapYLocations(false, "19 39 22 80 48 32 63 97"),
 					new String[]{"19 39","19 22","39 80","39 48","22 32","22 63","80 97"},
 					new String[]{"22 39 32 80 48 97 63"},
 					minLevelHeap,
@@ -1571,7 +1571,7 @@ public class ProblemServiceImpl
 		if(problem.equals("Quicksort Partition 3")) return 97;
 		if(problem.equals("Quicksort Partition 4")) return 98;
 
-		return 0;
+		return -1;
 	}
 	public static int[] getHeapXLocations(boolean insert, String nodes){
 		final int[] xMaster = {275,125,425,55,195,355,495,25,85,165,225,325,385,465,525};

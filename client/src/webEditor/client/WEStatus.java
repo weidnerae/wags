@@ -99,8 +99,6 @@ public class WEStatus
 		}
 	}
 	
-	//So, this will be cleaned up later - No reason
-	//WEStatus shouldn't also accept text as a parameter
 	public WEStatus(String JSONtext)
 	{
 		JSONValue vals = JSONParser.parseStrict(JSONtext);
@@ -194,9 +192,7 @@ public class WEStatus
 	
 	private void createObject(HashMap<String, String> messageMap){
 		String objType = messageMap.get("Object");
-		if(objType == "MagnetProblem"){
-			
-			// Grab ints
+		if(objType == "MagnetProblem"){		
 			int id = Integer.parseInt(messageMap.get("id"));
 			
 			// This is a stopgap to see if we can get it working correctly - Jon
@@ -215,6 +211,25 @@ public class WEStatus
 			myObject = new MagnetProblem(id, messageMap.get("title"), messageMap.get("directions"), 
 						messageMap.get("type"), mainFunction, innerFunctions, forLeft, forMid, forRight, bools,
 						statements, messageMap.get("solution"), messageMap.get("state"));
+		} else if (objType == "LogicalMicrolab"){
+			// Pretty much just passes the database information into the LogicalMicrolab constructor.
+			// The real "parsing" of information happens in LogicalMicrolab.getProblem, which uses
+			// the 'genre' of the LogicalMicrolab to determine what sort of problem should be returned
+			myObject = new LogicalMicrolab(messageMap.get("title"), 
+					messageMap.get("problemText"),
+					messageMap.get("nodes"), 
+					messageMap.get("xPositions"), 
+					messageMap.get("yPositions"),
+					messageMap.get("insertMethod"), 
+					messageMap.get("edges"), 
+					messageMap.get("evaluation"), 
+					messageMap.get("edgeRules"),
+					messageMap.get("arguments"),
+					Integer.parseInt(messageMap.get("edgesRemovable")),
+					Integer.parseInt(messageMap.get("nodesDraggable")), 
+					messageMap.get("nodeType"), 
+					Integer.parseInt(messageMap.get("group")), 
+					messageMap.get("genre"));
 		}
 	}
 	
@@ -230,27 +245,9 @@ public class WEStatus
 			
 	}
 	
-	// Takes strings delimited by ',' with elements surrounded by " <- standard
-	// JSON encoding, and turns them into arrays with their respective elements
-	
-	/*
-	 * No longer does what above says, but we might revert to that.
-	 * This just returns an array from a string that was delimited by .:|:.
-	 */
 	private String[] parseArray(String parseText){
 		
 		return parseText.split(".:\\|:.");
-		/*
-		String[] strArray = parseText.split("],");
-		for(int i = 0; i < strArray.length; i++){
-			if(i<strArray.length-1)
-				strArray[i] = strArray[i].substring(2, strArray[i].length() - 1); // Strip quotes // not last item
-			else
-				strArray[i] = strArray[i].substring(2, strArray[i].length() - 2); // Strip quotes // last item
-			
-			//NOTE:  All " must be stored as &quot; (the HTML encoding) in the DATABASE
-		}
-		return strArray;
-		*/
+		
 	}
 }
