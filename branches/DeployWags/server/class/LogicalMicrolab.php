@@ -3,16 +3,71 @@
 /**
 * LogicalMicrolab.php
 *
-* This is simply a utility class that provides some static methods for
+* This used to be simply a utility class that provided some static methods for
 * pulling data out of the database.
 * 
-* As it spans multiple tables, it does not extend model, and cannot be "saved"
+* Now, it also replicates the LogicalMicrolabs table within the DB
 *
 * Author:  Philip Meznar '12
 */
 
-class LogicalMicrolab 
+class LogicalMicrolab extends Model
 {
+    protected $title;
+    protected $problemText;
+    protected $nodes;
+    protected $xPositions;
+    protected $yPositions;
+    protected $insertMethod;
+    protected $edges;
+    protected $evaluation;
+    protected $edgeRules;
+    protected $arguments;
+    protected $edgesRemovable;
+    protected $nodesDraggable;
+    protected $nodeType;
+    protected $genre;
+    protected $group;
+
+    public function getTable(){
+        return 'LogicalMicrolabs';
+    }
+
+    public function toArray(){
+        $objArray = array(
+            "Object" => "LogicalMicrolab",
+            "id" => $this->getId(),
+            "title" => $this->title,
+            "problemText" => $this->problemText,
+            "nodes" => $this->nodes,
+            "xPositions" => $this->xPositions,
+            "yPositions" => $this->yPositions,
+            "insertMethod" => $this->insertMethod,
+            "edges" => $this->edges,
+            "arguments" => $this->arguments,
+            "evaluation" => $this->evaluation,
+            "edgeRules" => $this->edgeRules,
+            "edgesRemovable" => $this->edgesRemovable,
+            "nodesDraggable" => $this->nodesDraggable,
+            "nodeType" => $this->nodeType,
+            "genre" => $this->genre,
+            "group" => $this->group,
+        ); 
+        return $objArray;
+    }
+
+    public static function getLogicalMicrolabByTitle($title){
+        require_once('Database.php');
+        $db = Database::getDb();
+
+        $sth = $db->prepare('SELECT * FROM LogicalMicrolabs
+            WHERE title = :title');
+        $sth->execute(array(':title' => $title));
+
+        return $sth->fetchObject('LogicalMicrolab');
+
+    }
+
     // Returns all implemented Logical Microlab subjects in alphabetical order
 	public static function getSubjects(){
 		require_once('Database.php');
