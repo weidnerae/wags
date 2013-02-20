@@ -12,6 +12,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -245,15 +246,15 @@ public class ProblemCreationPanel extends Composite{
 		decisionStructures.addItem("else if");
 		decisionStructures.addChangeHandler(new StructuresHandler());
 		dropdown.add(decisionStructures);  //handler will create input panel
-		dropdown.setStyleName("problem_creation_left_dropdown");
+		dropdown.setStyleName("problem_creation_mm_dropdown");
 		options.add(dropdown);
 		
-		magnetMakerOptions.add(options);
-		
 		input = new HorizontalPanel();
-		input.setStyleName("problem_creation_left_aligned");
+		input.setStyleName("problem_creation_mm_input");
 		
-		magnetMakerOptions.add(input);
+		options.add(input);
+		
+		magnetMakerOptions.add(options);
 		
 		addMMOptionButton = new Button("Add");
 		addMMOptionButton.setStyleName("problem_creation_float_right");
@@ -314,13 +315,13 @@ public class ProblemCreationPanel extends Composite{
 
 	
 	@UiHandler("btnBasicProblem")
-	void onBasicProblemClick(ClickEvent event)
+	void onBasicProblemClick(ValueChangeEvent<Boolean> event)
 	{
 		clearMagnetMakerOptions();
 	}
 	
 	@UiHandler("btnAdvancedProblem")
-	void onAdvancedProblemClick(ClickEvent event)
+	void onAdvancedProblemClick(ValueChangeEvent<Boolean> event)
 	{
 		setupMagnetMakerOptions();
 	}
