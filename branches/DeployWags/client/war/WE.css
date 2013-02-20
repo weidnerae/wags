@@ -351,6 +351,25 @@ body {
         width:100%;
         padding-right:20px;
 }
+
+/**magnet problem creation misc css */
+
+
+.problem_creation_float_right {
+	float: right;
+	padding-right: 10px;
+}
+
+
+.problem_creation_magnetmaker {
+		border: 1px solid;
+		background: #dbdbdb;
+		width: 100%;
+		margin: 5px 0px 10px 0px;
+		padding: 10px;
+		border-radius: 5px;
+}
+
 /** misc css */
 .trash_label{
         margin: 5px;
