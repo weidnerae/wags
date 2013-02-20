@@ -24,9 +24,7 @@
 			padding-left: 5px;
 		}
 		.centeredLabel {
-			padding-bottom: 5px;
 			text-align: center;
-			
 		}
 		.titleDescPanel {
 			border: 1px solid;
@@ -49,17 +47,17 @@
 			margin: 5px 0px 10px 0px;
 			padding: 5px;
 		}	
-		.addCommentPanel {
-			padding: 3px 0px 3px 0px;
-			margin: 3px;
-			border-radius: 3px;
-		}
-		.addCommentSubPanel {
-			margin: 3px;
-			padding: 3px;
-		}
 		.halfCell {
 			width: 50%;
+			padding-right: 5px;
+			padding-left: 5px;
+		}
+		.quarterCell {
+			width: 25%;
+			float: left;
+		}
+		.3quarterCell {
+			width: 75%;
 			padding-right: 5px;
 			padding-left: 5px;
 		}
@@ -88,22 +86,38 @@
 					</g:Grid>
 					<g:HorizontalPanel styleName='{style.magnetCreationPanel}' width="100%">
 						<g:Label text="LOAD:" width="100px"/>
-						<g:Label text="Group: " />
-						<g:ListBox name="lstLoadGroup" ui:field="lstLoadGroup" width="160px" styleName='{style.floatLeft}'/>
-						<g:Label text="Exercise: " />
-						<g:ListBox name="lstLoadExercise" ui:field="lstLoadExercise" width="160px" styleName='{style.floatLeft}'/>
-						<g:Button ui:field="btnLoadExercise">Load</g:Button>
-						<g:Button ui:field="btnDeleteExercise">Delete</g:Button>
+						<g:VerticalPanel>
+							<g:Label text="Group: " />
+							<g:ListBox name="lstLoadGroup" ui:field="lstLoadGroup" width="160px" styleName='{style.floatLeft}'/>
+						</g:VerticalPanel>
+						<g:VerticalPanel>
+							<g:Label text="Exercise: " />
+							<g:ListBox name="lstLoadExercise" ui:field="lstLoadExercise" width="160px" styleName='{style.floatLeft}'/>
+						</g:VerticalPanel>
+						<g:VerticalPanel>
+							<g:Button ui:field="btnLoadExercise" width="100px">Load</g:Button>
+							<g:Button ui:field="btnDeleteExercise" width="100px">Delete</g:Button>
+						</g:VerticalPanel>
 					</g:HorizontalPanel>
 				    <g:VerticalPanel styleName="{style.titleDescPanel}">
-						<g:VerticalPanel width="98%">
-							<g:Label styleName="{style.centeredLabel}" text="Title:" width="50px"/>
-							<g:TextBox styleName="{style.fillingTextBox}" ui:field="titleTxtBox"/>
-						</g:VerticalPanel>
-						<g:VerticalPanel width="98%">
-							<g:Label styleName="{style.centeredLabel}" text="Desc:" width="50px"/>
-							<g:TextArea visibleLines="5" styleName="{style.fillingTextArea}" ui:field="descriptionTxtArea"/>
-						</g:VerticalPanel>
+						<g:Grid width="100%">
+							<g:row>
+								<g:customCell styleName="{style.quarterCell}">
+									<g:Label styleName="{style.centeredLabel}" text="Title:" width="50px"/>
+								</g:customCell>
+								<g:customCell styleName="{style.3quarterCell}">
+									<g:TextBox styleName="{style.fillingTextBox}" ui:field="titleTxtBox"/>
+								</g:customCell>
+							</g:row>
+							<g:row>
+								<g:customCell styleName="{style.quarterCell}">
+									<g:Label styleName="{style.centeredLabel}" text="Desc:" width="50px"/>
+								</g:customCell>
+								<g:customCell styleName="{style.3quarterCell}">
+									<g:TextArea visibleLines="5" styleName="{style.fillingTextArea}" ui:field="descriptionTxtArea"/>
+								</g:customCell>
+							</g:row>
+						</g:Grid>
 					</g:VerticalPanel>
 				    <g:VerticalPanel ui:field="magnetMakerOptions">
 				        <!-- This is intentionally left blank because choosing advanced problem type will 
@@ -149,13 +163,19 @@
 								</g:row>
 							</g:Grid>
 						<g:VerticalPanel width="100%">
-						    <g:AbsolutePanel styleName='{style.addCommentPanel}' width="100%">
-								<g:Label text="Comment:" styleName='{style.addCommentSubPanel}' width="50px"/>
-								<g:VerticalPanel styleName='{style.addCommentSubPanel}' width="100%">
-									<g:TextBox styleName='{style.fillingTextBox}' ui:field="commentsTxtBox"/>
+						    <g:Grid width="100%">
+						    	<g:row>
+						    		<g:customCell styleName="{style.quarterCell}">
+						    			<g:Label text="Comment:" width="50px"/>
+						    		</g:customCell>
+						    		<g:customCell styleName="{style.3quarterCell}">
+						    			<g:TextBox styleName='{style.fillingTextBox}' ui:field="commentsTxtBox"/>
+						    		</g:customCell>
+						    	</g:row>
+							</g:Grid>
+							<g:VerticalPanel width="100%">
 									<g:Button styleName="{style.floatRight}" ui:field="createCommentsButton">Add Comment</g:Button>
-								</g:VerticalPanel>
-							</g:AbsolutePanel>
+							</g:VerticalPanel>
 						</g:VerticalPanel>
 						<g:Label text="Current Comments:"/>
 						<g:TextArea width="98%" enabled="false" ui:field="commentsStagingArea"/>
