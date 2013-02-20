@@ -5,6 +5,7 @@ import webEditor.client.WEStatus;
 import webEditor.client.view.Notification;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -15,6 +16,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
@@ -24,6 +26,7 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
@@ -47,15 +50,23 @@ public class ProblemCreationPanel extends Composite{
 	@UiField TextArea finalTitleTxtBox, descriptionTxtArea, finalDescriptionTxtArea,
 		classDeclarationTxtArea, innerFunctionsTxtArea, statementsTxtArea, commentsStagingArea,
 		hiddenFunctionsArea;
-	//	@UiField MagnetCreation magnetCreator;
+	@UiField VerticalPanel magnetMakerOptions, magnetReviewPanel;
 	@UiField SubmitButton createProblemSubmitButton;
 	@UiField Button createCommentsButton, classDeclarationButton, innerFunctionsButton,
 		statementsButton, clearDataButton, createHidFunctionButton, btnLoadExercise,
 		btnDeleteExercise;
+	@UiField RadioButton btnBasicProblem, btnAdvancedProblem;
 	@UiField FileUpload solutionUpload, helperUpload;
 	@UiField ListBox lstGroup, lstLoadGroup, lstLoadExercise;
 	@UiField Label lblGroup;
 	@UiField CheckBox overwrite;
+	
+	//Global variables that are needed so the ChangeHandler can see them
+	//or because they must be added conditionally 
+	//Looking for a better way to organize it so that global variables are not needed
+	ListBox decisionStructures;
+	HorizontalPanel input;
+	Button addMMOptionButton;
 		
 	public ProblemCreationPanel(RefrigeratorMagnet magnet, boolean magnetAdmin){
 		initWidget(uiBinder.createAndBindUi(this));
@@ -116,6 +127,7 @@ public class ProblemCreationPanel extends Composite{
 				verifyDelete(title);
 			}
 		});
+		
 	}	
 	
 	void verifyDelete(final String title){
@@ -205,6 +217,112 @@ public class ProblemCreationPanel extends Composite{
 		});
 		
 		overwriteBox.center();
+	}
+	
+	void clearMagnetMakerOptions()
+	{
+		magnetMakerOptions.clear();
+		magnetMakerOptions.setStyleName("");  //clear CSS
+	}
+	
+	void setupMagnetMakerOptions()
+	{
+		//first make title label and add it in
+		Label title = new Label("Magnet Maker Options");
+		magnetMakerOptions.add(title);
+		magnetMakerOptions.setStyleName("problem_creation_magnetmaker");
+		
+		HorizontalPanel options = new HorizontalPanel();
+		
+		//decision structure dropdown for options
+		AbsolutePanel dropdown = new AbsolutePanel();
+		decisionStructures = new ListBox();
+		decisionStructures.addItem("choose type of decision structure...");
+		decisionStructures.addItem("if");
+		decisionStructures.addItem("for");
+		decisionStructures.addItem("while");
+		decisionStructures.addItem("else");
+		decisionStructures.addItem("else if");
+		decisionStructures.addChangeHandler(new StructuresHandler());
+		dropdown.add(decisionStructures);  //handler will create input panel
+		dropdown.setStyleName("problem_creation_left_dropdown");
+		options.add(dropdown);
+		
+		magnetMakerOptions.add(options);
+		
+		input = new HorizontalPanel();
+		input.setStyleName("problem_creation_left_aligned");
+		
+		magnetMakerOptions.add(input);
+		
+		addMMOptionButton = new Button("Add");
+		addMMOptionButton.setStyleName("problem_creation_float_right");
+		magnetMakerOptions.add(addMMOptionButton);
+		
+	}
+	
+	private class StructuresHandler implements ChangeHandler{
+		@Override
+		public void onChange(ChangeEvent event) {
+			int index = decisionStructures.getSelectedIndex();
+			String value = decisionStructures.getValue(index);
+        	if(value.equals("choose type of decision structure..."))  // Default Text
+        	{
+        		//clear the input panel
+        		input.clear();
+        	} else if(value.equals("while"))
+        	{
+        		//set up input panel for while conditions
+       			input.clear();
+       			input.add(new Label("while ( "));
+       			input.add(new TextBox());
+       			input.add(new Label(" ) {}"));
+        	} else if(value.equals("for")) {
+        		//set up input panel for for loop arguments
+        		input.clear();
+        		input.add(new Label("for ("));
+        		input.add(new TextBox());
+        		input.add(new Label(" ; "));
+        		input.add(new TextBox());
+        		input.add(new Label(" ; "));
+        		input.add(new TextBox());
+        		input.add(new Label(" ) "));
+        	} else if(value.equals("if"))
+        	{
+        		//set up input panel for if conditions
+       			input.clear();
+       			input.add(new Label("if ( "));
+       			input.add(new TextBox());
+       			input.add(new Label(" ) {}"));
+        	} else if(value.equals("else"))
+        	{
+        		//set up input panel for else magnet
+       			input.clear();
+       			input.add(new Label("else { "));
+       			input.add(new TextBox());
+       			input.add(new Label(" }"));
+        	} else if(value.equals("else if"))
+        	{
+        		//set up input panel for else if conditions
+       			input.clear();
+       			input.add(new Label("else if ( "));
+       			input.add(new TextBox());
+       			input.add(new Label(" ) {}"));
+        	}
+		}
+	}
+
+	
+	@UiHandler("btnBasicProblem")
+	void onBasicProblemClick(ClickEvent event)
+	{
+		clearMagnetMakerOptions();
+	}
+	
+	@UiHandler("btnAdvancedProblem")
+	void onAdvancedProblemClick(ClickEvent event)
+	{
+		setupMagnetMakerOptions();
 	}
 	
 	@UiHandler("createCommentsButton")
