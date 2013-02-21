@@ -50,8 +50,8 @@ public class ProblemCreationPanel extends Composite{
 		commentsTxtBox, bottomLabelTxtBox, bottomRealCodeTxtBox, forAllowed, whileAllowed, ifAllowed, elseAllowed, elseIfAllowed;
 	@UiField TextArea finalTitleTxtBox, descriptionTxtArea, finalDescriptionTxtArea,
 		classDeclarationTxtArea, innerFunctionsTxtArea, statementsTxtArea, commentsStagingArea,
-		hiddenFunctionsArea;
-	@UiField VerticalPanel magnetMakerOptions, magnetReviewPanel;
+		hiddenFunctionsArea, forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, booleansTextArea;
+	@UiField VerticalPanel magnetMakerOptions, magnetReviewPanel, numberAllowedReviewPanel;
 	@UiField SubmitButton createProblemSubmitButton;
 	@UiField Button createCommentsButton, classDeclarationButton, innerFunctionsButton,
 		statementsButton, clearDataButton, createHidFunctionButton, btnLoadExercise,
@@ -59,7 +59,7 @@ public class ProblemCreationPanel extends Composite{
 	@UiField RadioButton btnBasicProblem, btnAdvancedProblem;
 	@UiField FileUpload solutionUpload, helperUpload;
 	@UiField ListBox lstGroup, lstLoadGroup, lstLoadExercise;
-	@UiField Label lblGroup;
+	@UiField Label lblGroup, forLoop1Label, forLoop2Label, forLoop3Label, booleansLabel;
 	@UiField CheckBox overwrite;
 	
 	//Global variables that are needed so the ChangeHandler can see them
@@ -161,7 +161,41 @@ public class ProblemCreationPanel extends Composite{
 		
 		addMMOptionButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-		
+				//get which type of magnet maker you'll be inputting
+				int index = decisionStructures.getSelectedIndex();
+				String selected = decisionStructures.getValue(index);
+				
+				if (selected.equals("for"))
+				{
+					if (forLoop1TextArea.getText().equals("")) {
+						forLoop1TextArea.setText(forCond1.getText());
+					} else forLoop1TextArea.setText(forLoop1TextArea.getText() + "," + forCond1.getText());
+					if (forLoop2TextArea.getText().equals("")) {
+						forLoop2TextArea.setText(forCond2.getText());
+					} else forLoop2TextArea.setText(forLoop2TextArea.getText() + "," + forCond2.getText());
+					if (forLoop3TextArea.getText().equals("")) {
+						forLoop3TextArea.setText(forCond3.getText());
+					} else forLoop3TextArea.setText(forLoop3TextArea.getText() + "," + forCond3.getText());
+					
+					forAllowed.setText(numberAllowedText.getText());
+				} else if (selected.equals("if")) {
+					if (booleansTextArea.getText().equals("")) {
+						booleansTextArea.setText(boolCond.getText());
+					} else booleansTextArea.setText(booleansTextArea.getText() + "," + boolCond.getText());				
+					ifAllowed.setText(numberAllowedText.getText());
+				} else if (selected.equals("while")) {
+					if (booleansTextArea.getText().equals("")) {
+						booleansTextArea.setText(boolCond.getText());
+					} else booleansTextArea.setText(booleansTextArea.getText() + "," + boolCond.getText());
+					whileAllowed.setText(numberAllowedText.getText());
+				} else if (selected.equals("else")) {
+					elseAllowed.setText(numberAllowedText.getText());
+				} else if (selected.equals("else if")) {
+					if (booleansTextArea.getText().equals("")) {
+						booleansTextArea.setText(boolCond.getText());
+					} else booleansTextArea.setText(booleansTextArea.getText() + "," + boolCond.getText());
+					elseIfAllowed.setText(numberAllowedText.getText());
+				}
 			}
 		});
 	}	
@@ -259,8 +293,19 @@ public class ProblemCreationPanel extends Composite{
 	/** Removes the Magnet Maker Options panel from Problem Creation */
 	void clearMagnetMakerOptions()
 	{
+		//left side of screen
 		magnetMakerOptions.clear();
 		magnetMakerOptions.setStyleName("");  //clear CSS
+		//right side of screen
+		numberAllowedReviewPanel.setVisible(false);
+		forLoop1TextArea.setVisible(false);
+		forLoop2TextArea.setVisible(false);
+		forLoop3TextArea.setVisible(false);
+		booleansTextArea.setVisible(false);
+		forLoop1Label.setVisible(false);
+		forLoop2Label.setVisible(false);
+		forLoop3Label.setVisible(false);
+		booleansLabel.setVisible(false);
 	}
 	
 	/** Sets up the Magnet Maker Options panel and makes it visible in Problem Creation 
@@ -268,6 +313,7 @@ public class ProblemCreationPanel extends Composite{
 	 * 	Adds decisionStructures ListBox to magnet maker options panel, adds appropriate listeners to "Set Number" and "Add" buttons*/
 	void setupMagnetMakerOptions()
 	{
+		//left side of the screen
 		//first make title label and add it in
 		Label title = new Label("Magnet Maker Options");
 		magnetMakerOptions.add(title);
@@ -302,6 +348,16 @@ public class ProblemCreationPanel extends Composite{
 		addMMOptionButton.setStyleName("problem_creation_float_right");
 		magnetMakerOptions.add(addMMOptionButton);
 		
+		//right side of screen (problem review)
+		numberAllowedReviewPanel.setVisible(true);
+		forLoop1TextArea.setVisible(true);
+		forLoop2TextArea.setVisible(true);
+		forLoop3TextArea.setVisible(true);
+		booleansTextArea.setVisible(true);
+		forLoop1Label.setVisible(true);
+		forLoop2Label.setVisible(true);
+		forLoop3Label.setVisible(true);
+		booleansLabel.setVisible(true);
 	}
 	
 	private class StructuresHandler implements ChangeHandler{
@@ -319,7 +375,7 @@ public class ProblemCreationPanel extends Composite{
         		//set up input panel for while conditions
        			input.clear();
        			input.add(new Label("while ( "));
-       			input.add(new TextBox());
+       			input.add(boolCond);
        			input.add(new Label(" ) {}"));
         		//set up input panel for number of loops allowed to be created
        			numberAllowedPanel.clear();

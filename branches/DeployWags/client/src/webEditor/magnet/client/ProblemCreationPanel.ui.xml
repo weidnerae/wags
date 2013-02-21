@@ -216,15 +216,22 @@
 						<g:TextArea name="functions" ui:field="innerFunctionsTxtArea" width="100%" visibleLines="5" />
 						<g:Label text="Statements:"/>
 						<g:TextArea name="statements" ui:field="statementsTxtArea" width="100%" visibleLines="5" />
-						<g:Label text="Magnet Maker"/>
-						<g:TextArea name="magnetmaker" ui:field="magnetMakerTxtArea" width="100%" visibleLines="5" />
+						<!-- All magnet maker options default to hidden -->
+						<g:Label text="for Loop Initializers" ui:field="forLoop1Label" visible="false"/>
+						<g:TextArea name="forloop1" ui:field="forLoop1TextArea" width="100%" visibleLines="5" visible="false" />
+						<g:Label text="for Loop Arguments" ui:field="forLoop2Label" visible="false"/>
+						<g:TextArea name="forloop2" ui:field="forLoop2TextArea" width="100%" visibleLines="5" visible="false" />
+						<g:Label text="for Loop After" ui:field="forLoop3Label" visible="false"/>
+						<g:TextArea name="forloop3" ui:field="forLoop3TextArea" width="100%" visibleLines="5" visible="false" />
+						<g:Label text="boolean Conditions" ui:field="booleansLabel" visible="false"/>
+						<g:TextArea ui:field="booleansTextArea" width="100%" visibleLines="5" visible="false" />
 						<!--  ListBox for privileged admin only, defaults to hidden -->
 						<g:HorizontalPanel>
 						    <g:Label ui:field="lblGroup" text="Group:" width="150px" visible="false"/>
 								<g:ListBox ui:field="lstGroup" name="lstGroup" enabled="false" visible="false"></g:ListBox>
 						</g:HorizontalPanel>
 						<!--  -->
-						<g:VerticalPanel width="100%">
+						<g:VerticalPanel width="100%" ui:field="numberAllowedReviewPanel" visible="false">
 						    <g:Label styleName='{style.leftAlignLabel}' text="Number of Decision Structures Allowed"></g:Label>
 							<g:Grid width="100%">
 							    <g:row>
