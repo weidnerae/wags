@@ -47,7 +47,7 @@ public class ProblemCreationPanel extends Composite{
 	
 	@UiField FormPanel problemCreateFormPanel;
 	@UiField TextBox titleTxtBox, topLabelTxtBox, topRealCodeTxtBox, 
-		commentsTxtBox, bottomLabelTxtBox, bottomRealCodeTxtBox;
+		commentsTxtBox, bottomLabelTxtBox, bottomRealCodeTxtBox, forAllowed, whileAllowed, ifAllowed, elseAllowed, elseIfAllowed;
 	@UiField TextArea finalTitleTxtBox, descriptionTxtArea, finalDescriptionTxtArea,
 		classDeclarationTxtArea, innerFunctionsTxtArea, statementsTxtArea, commentsStagingArea,
 		hiddenFunctionsArea;
@@ -66,8 +66,15 @@ public class ProblemCreationPanel extends Composite{
 	//or because they must be added conditionally 
 	//Looking for a better way to organize it so that global variables are not needed
 	ListBox decisionStructures;
-	HorizontalPanel input;
-	Button addMMOptionButton;
+	HorizontalPanel input, options, numberAllowedPanel;
+	Button addMMOptionButton = new Button("Add");
+	Button numberAllowedButton = new Button("Set Number");
+	TextBox numberAllowedText = new TextBox();
+	TextBox forCond1 = new TextBox();  //magnet maker option inputs
+	TextBox forCond2 = new TextBox();
+	TextBox forCond3 = new TextBox();
+	TextBox boolCond = new TextBox();
+
 		
 	public ProblemCreationPanel(RefrigeratorMagnet magnet, boolean magnetAdmin){
 		initWidget(uiBinder.createAndBindUi(this));
@@ -129,6 +136,34 @@ public class ProblemCreationPanel extends Composite{
 			}
 		});
 		
+		numberAllowedButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				String value = numberAllowedText.getText();  //get value from text box
+				
+				int index = decisionStructures.getSelectedIndex();
+				String indexValue = decisionStructures.getValue(index);  //find out the selected decision structure
+				
+				//update the selected decision structures corresponding textbox on the right side
+				//of the screen with the current value
+				if(indexValue.equals("while")) {
+					whileAllowed.setText(value);
+	        	} else if(indexValue.equals("for")) {
+	        		forAllowed.setText(value);
+	        	} else if(indexValue.equals("if")) {
+	        		ifAllowed.setText(value);
+	        	} else if(indexValue.equals("else")) {
+	        		elseAllowed.setText(value);
+	        	} else if(indexValue.equals("else if")) {
+	        		elseIfAllowed.setText(value);
+	        	}
+			}
+		});
+		
+		addMMOptionButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+		
+			}
+		});
 	}	
 	
 	void verifyDelete(final String title){
@@ -220,12 +255,17 @@ public class ProblemCreationPanel extends Composite{
 		overwriteBox.center();
 	}
 	
+	
+	/** Removes the Magnet Maker Options panel from Problem Creation */
 	void clearMagnetMakerOptions()
 	{
 		magnetMakerOptions.clear();
 		magnetMakerOptions.setStyleName("");  //clear CSS
 	}
 	
+	/** Sets up the Magnet Maker Options panel and makes it visible in Problem Creation 
+	 * 
+	 * 	Adds decisionStructures ListBox to magnet maker options panel, adds appropriate listeners to "Set Number" and "Add" buttons*/
 	void setupMagnetMakerOptions()
 	{
 		//first make title label and add it in
@@ -233,7 +273,7 @@ public class ProblemCreationPanel extends Composite{
 		magnetMakerOptions.add(title);
 		magnetMakerOptions.setStyleName("problem_creation_magnetmaker");
 		
-		HorizontalPanel options = new HorizontalPanel();
+		options = new HorizontalPanel();
 		
 		//decision structure dropdown for options
 		AbsolutePanel dropdown = new AbsolutePanel();
@@ -249,14 +289,16 @@ public class ProblemCreationPanel extends Composite{
 		dropdown.setStyleName("problem_creation_mm_dropdown");
 		options.add(dropdown);
 		
+		numberAllowedPanel = new HorizontalPanel();
+		options.add(numberAllowedPanel);
+		
+		magnetMakerOptions.add(options);
+
 		input = new HorizontalPanel();
 		input.setStyleName("problem_creation_mm_input");
 		
-		options.add(input);
+		magnetMakerOptions.add(input);
 		
-		magnetMakerOptions.add(options);
-		
-		addMMOptionButton = new Button("Add");
 		addMMOptionButton.setStyleName("problem_creation_float_right");
 		magnetMakerOptions.add(addMMOptionButton);
 		
@@ -271,6 +313,7 @@ public class ProblemCreationPanel extends Composite{
         	{
         		//clear the input panel
         		input.clear();
+        		numberAllowedPanel.clear();
         	} else if(value.equals("while"))
         	{
         		//set up input panel for while conditions
@@ -278,37 +321,66 @@ public class ProblemCreationPanel extends Composite{
        			input.add(new Label("while ( "));
        			input.add(new TextBox());
        			input.add(new Label(" ) {}"));
+        		//set up input panel for number of loops allowed to be created
+       			numberAllowedPanel.clear();
+        		numberAllowedPanel.add(new Label("Number Allowed: "));
+        		numberAllowedPanel.add(numberAllowedText);
+        		numberAllowedPanel.add(new Label("  "));
+        		numberAllowedPanel.add(numberAllowedButton);
         	} else if(value.equals("for")) {
         		//set up input panel for for loop arguments
         		input.clear();
-        		input.add(new Label("for ("));
-        		input.add(new TextBox());
+        		input.add(new Label("for ( "));
+        		input.add(forCond1);
         		input.add(new Label(" ; "));
-        		input.add(new TextBox());
+        		input.add(forCond2);
         		input.add(new Label(" ; "));
-        		input.add(new TextBox());
+        		input.add(forCond3);
         		input.add(new Label(" ) "));
+        		//set up input panel for number of loops allowed to be created
+        		numberAllowedPanel.clear();
+        		numberAllowedPanel.add(new Label("Number Allowed: "));
+        		numberAllowedPanel.add(numberAllowedText);
+        		numberAllowedPanel.add(new Label("  "));
+        		numberAllowedPanel.add(numberAllowedButton);
         	} else if(value.equals("if"))
         	{
         		//set up input panel for if conditions
        			input.clear();
        			input.add(new Label("if ( "));
-       			input.add(new TextBox());
+       			input.add(boolCond);
        			input.add(new Label(" ) {}"));
+        		//set up input panel for number of loops allowed to be created
+       			numberAllowedPanel.clear();
+       			numberAllowedPanel.add(new Label("Number Allowed: "));
+       			numberAllowedPanel.add(numberAllowedText);
+       			numberAllowedPanel.add(new Label("  "));
+       			numberAllowedPanel.add(numberAllowedButton);
         	} else if(value.equals("else"))
         	{
         		//set up input panel for else magnet
        			input.clear();
        			input.add(new Label("else { "));
-       			input.add(new TextBox());
        			input.add(new Label(" }"));
+        		//set up input panel for number of loops allowed to be created
+       			numberAllowedPanel.clear();
+       			numberAllowedPanel.add(new Label("Number Allowed: "));
+       			numberAllowedPanel.add(numberAllowedText);
+       			numberAllowedPanel.add(new Label("  "));
+       			numberAllowedPanel.add(numberAllowedButton);
         	} else if(value.equals("else if"))
         	{
         		//set up input panel for else if conditions
        			input.clear();
        			input.add(new Label("else if ( "));
-       			input.add(new TextBox());
+       			input.add(boolCond);
        			input.add(new Label(" ) {}"));
+        		//set up input panel for number of loops allowed to be created
+       			numberAllowedPanel.clear();
+       			numberAllowedPanel.add(new Label("Number Allowed: "));
+       			numberAllowedPanel.add(numberAllowedText);
+       			numberAllowedPanel.add(new Label("  "));
+       			numberAllowedPanel.add(numberAllowedButton);
         	}
 		}
 	}
