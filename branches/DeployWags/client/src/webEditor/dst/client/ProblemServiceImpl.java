@@ -14,6 +14,7 @@ public class ProblemServiceImpl
 		Evaluation_Quicksort quicksort = new Evaluation_Quicksort();
 		Evaluation_SelectionSort select = new Evaluation_SelectionSort();
 		Evaluation_RedBlackTree redBlack = new Evaluation_RedBlackTree();
+		Evaluation_SimplePartition simplePartition = new Evaluation_SimplePartition();
 		
 		AddEdgeRules noEdgeAddition = new AddEdgeRules();
 		Evaluation_BSTTraversal trav = new Evaluation_BSTTraversal();
@@ -1445,6 +1446,17 @@ public class ProblemServiceImpl
 					false,
 					true,
 					DSTConstants.NODE_DRAGGABLE);
+			case 99: return new SimplePartitionProblem("Simple Partition Test",
+					"Partition the data into negative and positive values with 0 being non-negative." +
+							" In order to do this, click the red node to advance it and click \"Swap\" when the" +
+							" proper nodes are selected.",
+					"87 -31 -5 12 34 3 -76 64 -88 47",
+					DSTConstants.INSERT_METHOD_VALUE,
+					new String[]{"87 -31 -5 12 34 3 -76 64 -88 47"},
+					simplePartition,
+					rules,
+					false,
+					DSTConstants.NODE);
 
 		default:
 			return new TreeProblem("Binary Search Tree from Postorder Traversal 1",
@@ -1570,6 +1582,8 @@ public class ProblemServiceImpl
 		if(problem.equals("Quicksort Partition 2")) return 96;
 		if(problem.equals("Quicksort Partition 3")) return 97;
 		if(problem.equals("Quicksort Partition 4")) return 98;
+		
+		if(problem.equals("Simple Partition Test")) return 99;
 
 		return -1;
 	}
