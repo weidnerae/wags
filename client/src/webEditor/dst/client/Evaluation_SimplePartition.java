@@ -1,14 +1,22 @@
+/*
+ * Reed Phillips - 2013
+ * 
+ * This class is used for the evaluation of a Negative-Positive Partition microlab.
+ * This works by swapping negative and positive numbers (with zero as positive) so that
+ * all negatives are on the left and all positives are on the right.
+ * 
+ * This version allows students to only finalize once they have the complete answer 
+ * he/she believes is correct, it does not handle force evaluation.
+ */
 package webEditor.dst.client;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 import webEditor.client.Proxy;
 
 public class Evaluation_SimplePartition extends Evaluation implements IsSerializable {
-	int PASS = 0;
 	static int lb = 0;
 	static int ub = 9;
 
@@ -17,15 +25,11 @@ public class Evaluation_SimplePartition extends Evaluation implements IsSerializ
 		
 		int[] student = getIntArrayFromString(getNodeOrder(nodes));		
 		int[] solution = getSolution(getIntArrayFromString(arguments[0].trim()));
-		
-		Window.alert("Student:" + printArray(student));
-		Window.alert("Solution:" + printArray(solution));
+
 		if (equalArrays(student, solution)) {
 			// They were right
-			PASS++;
-			
-				Proxy.submitDST(problemName, 1);
-				return "Congratulations! You have completed this exercise.";
+			Proxy.submitDST(problemName, 1);
+			return "Congratulations! You have completed this exercise.";
 		} else {
 			// They were wrong
 			Proxy.submitDST(problemName, 0);
@@ -33,29 +37,6 @@ public class Evaluation_SimplePartition extends Evaluation implements IsSerializ
 		}
 	}
 
-	/**
-	 * Simply switches two nodes if the one on the left is positive and the one
-	 * on the right is negative
-	 * @param arr the argument array
-	 * @return
-	 */
-	private int[] getCurrentStep(int[] arr) {
-		int temp;
-		for (int i = 0; i < PASS; i++) {
-			while (arr[lb] < 0 && lb < ub)
-				lb++;
-			while (arr[ub] >= 0)
-				ub--;
-			if (lb < ub) {
-                temp=arr[lb]; 
-                arr[lb]=arr[ub];
-                arr[ub]=temp;
-			}
-		}
-		
-		return arr;
-	}
-	
 	private int[] getIntArrayFromString(String nodes) {
 		String[] splitNodes = nodes.split(" ");
 		int[] intArray = new int[splitNodes.length];
@@ -92,8 +73,14 @@ public class Evaluation_SimplePartition extends Evaluation implements IsSerializ
 		return solution.trim();
 	}
 	
+	/**
+	 * getSolution - Simply switches nodes to the left side if negative and
+	 * the right side if positive.
+	 * @param arr The array to partition
+	 * @return solution
+	 */
 	private int[] getSolution(int[] arr) {
-		int temp, lb = 0, ub = 9;
+		int temp;
 		while (lb <= ub) {
 			while (arr[lb] < 0 && lb < ub)
 				lb++;
@@ -118,13 +105,4 @@ public class Evaluation_SimplePartition extends Evaluation implements IsSerializ
 		}
 		return true;
 	}
-	
-	private String printArray(int[] x){
-		String arr = "";
-		for (int y : x) {
-			arr += " " + y;
-		}
-		return arr;
-	}
-	
 }
