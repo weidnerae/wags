@@ -37,36 +37,22 @@ class AutoLogin extends Command
                 // To show up to a certain screen of WAGS
                 if(isset($_REQUEST['loc'])){
                     $location = $_REQUEST['loc'];
-<<<<<<< .mine
                     header("Location: http://www.cs.appstate.edu/wags/Test_Version/?loc=$location");
-=======
-                    header("Location: http://www.cs.appstate.edu/wags/?loc=$location");
->>>>>>> .r647
                     return;
                 }
 
                 // Exercise::getVisibleExercises() returns all exercises
                 // Set all invisible except one with given title...
-<<<<<<< .mine
                 header("Location: http://www.cs.appstate.edu/wags/Test_Version/");
-=======
-                header("Location: http://www.cs.appstate.edu/wags/");
->>>>>>> .r647
                 return;
             }
        
         return JSON::error('Login failed. Check username and password.');
         }
 
-<<<<<<< .mine
         // No username/password provided
         Auth::logout();
         header("Location: http://www.cs.appstate.edu/wags/Test_Version/");
-=======
-        // No username/password provided
-        Auth::logout();
-        header("Location: http://www.cs.appstate.edu/wags/");
->>>>>>> .r647
     }
 }
 ?>
