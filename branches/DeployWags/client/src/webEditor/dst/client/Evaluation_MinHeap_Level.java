@@ -224,5 +224,10 @@ public class Evaluation_MinHeap_Level extends Evaluation  implements IsSerializa
      	}
 		return solution.trim();
 	}
+
+	@Override
+	public int returnKeyValue() {
+		return DSTConstants.MINHEAP_LEVEL_KEY;
+	}
 	
 }

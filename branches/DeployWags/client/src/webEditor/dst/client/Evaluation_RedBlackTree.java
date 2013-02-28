@@ -298,4 +298,9 @@ public class Evaluation_RedBlackTree extends Evaluation  implements IsSerializab
 			this.visited = false;
 		}
 	}
+
+	@Override
+	public int returnKeyValue() {
+		return DSTConstants.BST_REDBLACK_KEY;
+	}
 }

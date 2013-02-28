@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
+import webEditor.dst.client.Evaluation;
+
 import com.google.gwt.http.client.Response;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONBoolean;
@@ -215,6 +217,10 @@ public class WEStatus
 			// Pretty much just passes the database information into the LogicalMicrolab constructor.
 			// The real "parsing" of information happens in LogicalMicrolab.getProblem, which uses
 			// the 'genre' of the LogicalMicrolab to determine what sort of problem should be returned
+			
+			int edgeRul = handleInt(messageMap, "edgeRul");
+			int edgeRem = handleInt(messageMap, "edgesRem");
+			
 			myObject = new LogicalMicrolab(messageMap.get("title"), 
 					messageMap.get("problemText"),
 					messageMap.get("nodes"), 
@@ -222,15 +228,23 @@ public class WEStatus
 					messageMap.get("yPositions"),
 					messageMap.get("insertMethod"), 
 					messageMap.get("edges"), 
-					messageMap.get("evaluation"), 
-					messageMap.get("edgeRules"),
+					Integer.parseInt(messageMap.get("evaluation")), 
+					edgeRul,
 					messageMap.get("arguments"),
-					Integer.parseInt(messageMap.get("edgesRemovable")),
+					edgeRem,
 					Integer.parseInt(messageMap.get("nodesDraggable")), 
 					messageMap.get("nodeType"), 
 					Integer.parseInt(messageMap.get("group")), 
 					messageMap.get("genre"));
 		}
+	}
+	
+	private int handleInt(HashMap<String, String> map, String key){
+		if(map.containsKey(key)){
+			return Integer.parseInt(map.get(key));
+		}
+		
+		return 0;
 	}
 	
 	// If an object was created, return it.  Otherwise, return a String saying

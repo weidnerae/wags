@@ -841,6 +841,7 @@ public class Proxy
 					WEStatus status = new WEStatus(response);
 					LogicalMicrolab logMicro = (LogicalMicrolab) status.getObject();
 					DST.initialize(logMicro.getProblem());
+					Notification.notify(WEStatus.STATUS_SUCCESS, "Loaded from server");
 				}
 				
 				@Override
@@ -1346,6 +1347,29 @@ public class Proxy
 		      Window.alert("Failed to send the request: " + e.getMessage());
 		    }
 	}
+	
+	public static void loadLogicalMicrolab(String details){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, baseURL+"?cmd=LoadLogicalMicrolab" + details);
+		
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus status = new WEStatus(response);
+					Notification.notify(status.getStat(), status.getMessage());
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("loadLogical error");	
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
+	
 	public static void linkNewSection(String section, String admin, String guest){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, baseURL+"?cmd=LinkNewSection" + 
 				"&sect=" + section + "&admin=" + admin + "&guest=" + guest);

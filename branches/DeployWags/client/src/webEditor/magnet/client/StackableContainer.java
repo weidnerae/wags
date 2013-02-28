@@ -117,7 +117,7 @@ public class StackableContainer extends FocusPanel {
 				break;
 			case Consts.COMMENT:
 				stackable = false;
-				this.content = this.content.substring(2);
+				this.content = "//" + this.content;
 				this.getStyleElement().getStyle().setProperty("border","none");
 				break;
 			default:

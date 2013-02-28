@@ -227,4 +227,9 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
     public void setDisplayManager(SearchDisplayManager dm){
     	this.dm = dm;
     }
+
+	@Override
+	public int returnKeyValue() {
+		return DSTConstants.RADIX_KEY;
+	}
 }

@@ -2,6 +2,8 @@ package webEditor.dst.client;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
 
+import webEditor.client.Proxy;
+
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -58,6 +60,45 @@ public class RedBlackProblem extends TreeTypeProblem implements IsSerializable {
 		dm = new RedBlackDisplayManager(canvas, panel, nc, ec, this);
 		ec.setDisplayManager(dm);
 		return dm;
+	}
+	
+	public String printDetails(){
+		String str = "";
+		str = "&title=" + this.name + "&problemText=" + this.problemText + "&nodes=" + this.nodes;
+		String xPos = "";
+		String yPos = "";
+		for(int i = 0; i < xPositions.length; i++){
+			xPos += xPositions[i] + ",";
+			yPos += yPositions[i] + ",";
+		}
+		xPos = xPos.substring(0, xPos.length()-1);
+		yPos = yPos.substring(0, yPos.length()-1);
+		
+		str += "&xPositions=" + xPos + "&yPositions=" + yPos + "&insertMethod=" + this.insertMethod;
+		
+		String edgStr = "";
+		for(int i = 0; i < edges.length; i++){
+			edgStr += edges[i] + ",";
+		}
+		edgStr = edgStr.substring(0, edgStr.length() - 1);
+		
+		String args = "";
+		for(int i = 0; i < arguments.length; i++){
+			args += arguments[i] + ",";
+		}
+		args = args.substring(0, args.length() - 1);
+		
+		int edgeRem = 0, nodesDrag = 0;
+		if(this.edgesRemovable) edgeRem = 1;
+		if(this.nodesDraggable) nodesDrag = 1;
+		str += "&edges=" + edgStr + "&evaluation=" + this.eval.returnKeyValue() + "&edgeRules=" + this.rules.returnKeyValue() 
+				+ "&arguments=" + args + "&edgesRemovable=" + edgeRem
+				+ "&nodesDraggable=" + nodesDrag + "&nodeType=" + this.nodeType + "&genre=redblack" + 
+				"&group=15";
+		
+		Proxy.loadLogicalMicrolab(str);
+		return str;
+		
 	}
 
 }

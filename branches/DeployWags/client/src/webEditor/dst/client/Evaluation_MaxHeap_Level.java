@@ -214,4 +214,8 @@ public class Evaluation_MaxHeap_Level extends Evaluation  implements IsSerializa
      	}
 		return solution.trim();
 	}
+	@Override
+	public int returnKeyValue() {
+		return DSTConstants.MAXHEAP_LEVEL_KEY;
+	}
 }

@@ -457,7 +457,7 @@ public class ProblemCreationPanel extends Composite{
 	@UiHandler("createCommentsButton")
 	void onCreateCommentClick(ClickEvent event)
 	{
-		commentsStagingArea.setText(commentsStagingArea.getText()+Consts.COMMENT_DELIMITER + "\\\\" + commentsTxtBox.getText());
+		commentsStagingArea.setText(commentsStagingArea.getText()+Consts.COMMENT_DELIMITER + commentsTxtBox.getText());
     }
 	
 	@UiHandler("createHidFunctionButton")

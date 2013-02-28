@@ -33,30 +33,76 @@ public class DSTConstants {
 	public static String TREE_MODE = "treemode";
 	public static String NO_EDGE = "noedges";
 	
-	public static AddEdgeRules getEdgeRules(String edgeRules){
-		if(edgeRules.equals("treemode")) return new AddEdgeRules_TreeMode();
-		if(edgeRules.equals("noedges")) return new AddEdgeRules();
-		
-		return null;
+	// AddEdgeRules
+	public final static int TREE_MODE_KEY = 1;
+	public final static int NO_EDGES_KEY = 2;
+	
+	// Evaluations
+	public final static int BST_POSTORDER_KEY = 1;
+	public final static int BST_PREORDER_KEY = 2;
+	public final static int MAXHEAP_LEVEL_KEY = 3;
+	public final static int MINHEAP_LEVEL_KEY = 4;
+	public final static int HEAPSORT_KEY = 5;
+	public final static int BST_LEVEL_KEY = 6;
+	public final static int HASHING_KEY = 7;
+	public final static int QUICKSORT_KEY = 8;
+	public final static int SELECTIONSORT_KEY = 9;
+	public final static int BST_REDBLACK_KEY = 10;
+	public final static int BST_TRAVERSAL_KEY = 11;
+	public final static int BST_TRAVERSAL_HELP_KEY = 12;
+	public final static int MST_KEY = 13;
+	public final static int RADIX_KEY = 14;
+	public final static int MAXHEAP_PREORDER_KEY = 15;
+	public final static int SIMPLEPARTITION_KEY = 16;
+	
+	public static AddEdgeRules getEdgeRules(int edgeRules){
+		switch(edgeRules){
+		case TREE_MODE_KEY:
+			return new AddEdgeRules_TreeMode();
+		case NO_EDGES_KEY:
+			return new AddEdgeRules();
+		default:
+			return null;
+		}
 	}
 	
 	// Correspond to enum values in LogicalMicrolabs table, evaluation column
-	public static Evaluation getEvaluation(String eval){
-		if(eval.equals("BST_postorder")) return new Evaluation_PostOrderBST();
-		if(eval.equals("BST_preorder")) return new Evaluation_Preorder();
-		if(eval.equals("Maxheap_level")) return new Evaluation_MaxHeap_Level();
-		if(eval.equals("Minheap_level")) return new Evaluation_MinHeap_Level();
-		if(eval.equals("Heapsort")) return new Evaluation_HeapSort();
-		if(eval.equals("BST_level")) return new Evaluation_Level();
-		if(eval.equals("Hashing")) return new Evaluation_Hashing();
-		if(eval.equals("Quicksort")) return new Evaluation_Quicksort();
-		if(eval.equals("Selectionsort")) return new Evaluation_SelectionSort();
-		if(eval.equals("BST_redblack")) return new Evaluation_RedBlackTree();
-		if(eval.equals("BST_traversal")) return new Evaluation_BSTTraversal();
-		if(eval.equals("BST_traversal_help")) return new Evaluation_BSTTraversalWithHelp();
-		if(eval.equals("MST")) return new Evaluation_MSTTraversal();
-		if(eval.equals("Radix")) return new Evaluation_RadixSortWithHelp();
-	
-		return null;
+	public static Evaluation getEvaluation(int eval){
+		switch(eval){
+		case BST_POSTORDER_KEY:
+			return new Evaluation_PostOrderBST();
+		case BST_PREORDER_KEY:
+			return new Evaluation_Preorder();
+		case MAXHEAP_LEVEL_KEY:
+			return new Evaluation_MaxHeap_Level();
+		case MINHEAP_LEVEL_KEY:
+			return new Evaluation_MinHeap_Level();
+		case HEAPSORT_KEY:
+			return new Evaluation_HeapSort();
+		case BST_LEVEL_KEY:
+			return new Evaluation_Level();
+		case HASHING_KEY:
+			return new Evaluation_Hashing();
+		case QUICKSORT_KEY:
+			return new Evaluation_Quicksort();
+		case SELECTIONSORT_KEY:
+			return new Evaluation_SelectionSort();
+		case BST_REDBLACK_KEY:
+			return new Evaluation_RedBlackTree();
+		case BST_TRAVERSAL_KEY:
+			return new Evaluation_BSTTraversal();
+		case BST_TRAVERSAL_HELP_KEY:
+			return new Evaluation_BSTTraversalWithHelp();
+		case MST_KEY:
+			return new Evaluation_MSTTraversal();
+		case RADIX_KEY:
+			return new Evaluation_RadixSortWithHelp();
+		case MAXHEAP_PREORDER_KEY:
+			return new Evaluation_MaxHeap_Preorder();
+		case SIMPLEPARTITION_KEY:
+			return new Evaluation_SimplePartition();
+		default:
+			return null;	
+		}
 	}
 }

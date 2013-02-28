@@ -256,4 +256,9 @@ public class Evaluation_Preorder extends Evaluation  implements IsSerializable
 			this.visited = false;
 		}
 	}
+
+	@Override
+	public int returnKeyValue() {
+		return DSTConstants.BST_PREORDER_KEY;
+	}
 }

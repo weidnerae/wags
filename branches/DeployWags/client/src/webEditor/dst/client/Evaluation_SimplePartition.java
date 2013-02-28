@@ -105,4 +105,9 @@ public class Evaluation_SimplePartition extends Evaluation implements IsSerializ
 		}
 		return true;
 	}
+	
+	public int returnKeyValue(){
+		return 0;
+	}
+
 }

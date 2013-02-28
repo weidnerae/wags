@@ -195,4 +195,8 @@ public class Evaluation_Level extends Evaluation  implements IsSerializable
      	}
 		return solution;
 	}
+	@Override
+	public int returnKeyValue() {
+		return DSTConstants.BST_LEVEL_KEY;
+	}
 }
