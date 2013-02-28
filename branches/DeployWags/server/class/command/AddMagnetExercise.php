@@ -9,7 +9,6 @@ class AddMagnetExercise extends Command
         $functions = $_POST['functions'];
         $statements = $_POST['statements'];
         $overwrite = false;
-
         $mpGroup = Auth::getCurrentUser()->getMagnetProblemGroup();
 
         // Make sure there is no magnet exercises that already

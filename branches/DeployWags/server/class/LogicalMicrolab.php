@@ -27,10 +27,70 @@ class LogicalMicrolab extends Model
     protected $nodesDraggable;
     protected $nodeType;
     protected $genre;
-    protected $group;
+    protected $groupID;
 
     public function getTable(){
         return 'LogicalMicrolabs';
+    }
+
+    public function setTitle($title){
+        $this->title = $title;
+    }
+
+    public function setProblemText($problemText){
+        $this->problemText = $problemText;
+    }
+
+    public function setNodes($nodes){
+        $this->nodes = $nodes;
+    }
+
+    public function setxPositions($xPositions){
+        $this->xPositions = $xPositions;
+    }
+
+    public function setyPositions($yPositions){
+        $this->yPositions = $yPositions;
+    }
+
+    public function setInsertMethod($insertMethod){
+        $this->insertMethod = $insertMethod;
+    }
+
+    public function setEdges($edges){
+        $this->edges = $edges;
+    }
+
+    public function setEvaluation($evaluation){
+        $this->evaluation = $evaluation;
+    }
+
+    public function setEdgeRules($edgeRules){
+        $this->edgeRules = $edgeRules;
+    }
+
+    public function setArguments($arguments){
+        $this->arguments = $arguments;
+    }
+
+    public function setEdgesRemovable($edgesRemovable){
+        $this->edgesRemovable = $edgesRemovable;
+    }
+
+    public function setNodesDraggable($nodesDraggable){
+        $this->nodesDraggable = $nodesDraggable;
+    }
+
+    public function setNodeType($nodeType){
+        $this->nodeType = $nodeType;
+    }
+
+    public function setGenre($genre){
+        $this->genre = $genre;
+    }
+
+    public function setGroupID($group){
+        $this->groupID = $group;
     }
 
     public function toArray(){
@@ -51,7 +111,7 @@ class LogicalMicrolab extends Model
             "nodesDraggable" => $this->nodesDraggable,
             "nodeType" => $this->nodeType,
             "genre" => $this->genre,
-            "group" => $this->group,
+            "group" => $this->groupID,
         ); 
         return $objArray;
     }
@@ -127,28 +187,21 @@ class LogicalMicrolab extends Model
 		return $values;
     }
     
-    public static function getAttempted($exercise) {
+    public static function getAttempted() {
     	require_once("Database.php");
     	$db = Database::getDb();
     	$user = Auth::getCurrentUser();
 		
-		$exercise = str_replace("'", "\\'", $exercise);
-		
-		if (count($exercise) > 1) { //$exercise has a blank element at [0]
-			array_shift($exercise);
-		}
-			
-		$exercises = implode("','", $exercise);
-
-    	$sth = $db->query('SELECT title, SUM(numAttempts) AS attempts
-    					FROM dstSubmission
-						WHERE title IN (\'' . $exercises . '\')
-    					AND sectionId = ' . $user->getSection() . '
+    	$sth = $db->prepare('SELECT title, SUM(numAttempts) AS attempts
+    					FROM dstSubmission, user
+                        WHERE dstSubmission.sectionId = :section
+    					AND user.admin = 0
+                        AND user.id = dstSubmission.userId
 						GROUP BY dstSubmission.title
-						HAVING attempts > 1');
-						
+						HAVING attempts > 0');
 
     	$sth->setFetchMode(PDO::FETCH_NUM);
+        $sth->execute(array(':section' => $user->getSection()));
     	
     	$result = $sth->fetchAll();
     	foreach ($result as $entry) {

@@ -65,7 +65,11 @@ class MagnetReview extends Command
             $chkNonce = (FALSE !== $noncePos); // Basically, make 0 = true
 
             // Generates a submission using the chkNonce for success
-            $this->generateSubmission($chkNonce, $magnetProblem->getId());
+            // makes sure problem is assigned first, so "Review" problems won't
+            // allow students to finish assignments late
+            if($magnetProblem->isAssigned()){
+                $this->generateSubmission($chkNonce, $magnetProblem->getId());
+            }
 
             if($chkNonce){
                 // Don't print nonce
