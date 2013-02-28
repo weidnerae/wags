@@ -48,4 +48,9 @@ public class Evaluation_SelectionSort extends Evaluation implements IsSerializab
 		
 		return min;
 	}
+
+	@Override
+	public int returnKeyValue() {
+		return DSTConstants.SELECTIONSORT_KEY;
+	}
 }

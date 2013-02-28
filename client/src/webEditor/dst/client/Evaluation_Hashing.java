@@ -202,4 +202,10 @@ public class Evaluation_Hashing extends Evaluation implements IsSerializable {
 		}
 		return newArgs;
 	}
+
+
+	@Override
+	public int returnKeyValue() {
+		return DSTConstants.HASHING_KEY;
+	}
 }

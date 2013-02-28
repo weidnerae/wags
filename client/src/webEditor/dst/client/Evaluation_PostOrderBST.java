@@ -257,4 +257,8 @@ public class Evaluation_PostOrderBST extends Evaluation  implements IsSerializab
 			this.visited = false;
 		}
 	}
+	
+	public int returnKeyValue(){
+		return DSTConstants.BST_POSTORDER_KEY;
+	}
 }

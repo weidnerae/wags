@@ -2,6 +2,8 @@ package webEditor.dst.client;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
 
+import webEditor.client.Proxy;
+
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
@@ -127,5 +129,38 @@ public class QuickSortProblem extends Problem implements IsSerializable {
 
 	public String getNodeType() {
 		return nodeType;
+	}
+	
+	public String printDetails(){
+		String str = "";
+		str = "&title=" + this.name + "&problemText=" + this.problemText + "&nodes=" + this.nodes;
+		String xPos = "";
+		String yPos = "";
+		for(int i = 0; i < xPositions.length; i++){
+			xPos += xPositions[i] + ",";
+			yPos += yPositions[i] + ",";
+		}
+		xPos = xPos.substring(0, xPos.length()-1);
+		yPos = yPos.substring(0, yPos.length()-1);
+		
+		str += "&xPositions=" + xPos + "&yPositions=" + yPos + "&insertMethod=" + this.insertMethod;
+		
+		
+		String args = "";
+		for(int i = 0; i < arguments.length; i++){
+			args += arguments[i] + ",";
+		}
+		args = args.substring(0, args.length() - 1);
+		
+		int nodesDrag = 0;
+		if(this.nodesDraggable) nodesDrag = 1;
+		str += "&evaluation=" + this.eval.returnKeyValue() + "&edgeRules=" + this.rules.returnKeyValue() 
+				+ "&arguments=" + args
+				+ "&nodesDraggable=" + nodesDrag + "&nodeType=" + this.nodeType + "&genre=qsort" + 
+				"&group=14";
+		
+		Proxy.loadLogicalMicrolab(str);
+		return str;
+		
 	}
 }

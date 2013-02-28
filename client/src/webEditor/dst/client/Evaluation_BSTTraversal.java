@@ -44,4 +44,9 @@ public class Evaluation_BSTTraversal extends Evaluation implements IsSerializabl
 			
 		}
 	}
+
+	@Override
+	public int returnKeyValue() {
+		return DSTConstants.BST_TRAVERSAL_KEY;
+	}
 }

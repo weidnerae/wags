@@ -47,4 +47,9 @@ public class Evaluation_BSTTraversalWithHelp extends Evaluation implements IsSer
 			return "Feedback: Your traversal: " + theTrav + "\nThe nodes in your traversal are out of order.  Click highlighted" +
 					" nodes to remove them from the traversal and try a different ordering.";
 	}
+
+	@Override
+	public int returnKeyValue() {
+		return DSTConstants.BST_TRAVERSAL_HELP_KEY;
+	}
 }

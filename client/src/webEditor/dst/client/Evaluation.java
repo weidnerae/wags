@@ -13,4 +13,6 @@ public abstract class Evaluation
 	
 	public abstract String evaluate(String problemName, String[] arguments, ArrayList<Node> nodes, ArrayList<EdgeParent> edges);
 	
+	public abstract int returnKeyValue();
+	
 }

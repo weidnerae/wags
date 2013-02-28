@@ -91,4 +91,8 @@ public class AddEdgeRules_TreeMode extends AddEdgeRules implements IsSerializabl
 		}
 		return DSTConstants.CORRECT;
 	}
+	
+	public int returnKeyValue(){
+		return DSTConstants.TREE_MODE_KEY;
+	}
 }

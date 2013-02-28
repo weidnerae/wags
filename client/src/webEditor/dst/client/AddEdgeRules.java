@@ -18,4 +18,8 @@ public class AddEdgeRules implements IsSerializable
 	{
 		return DSTConstants.CORRECT;
 	}
+	
+	public int returnKeyValue(){
+		return DSTConstants.NO_EDGES_KEY;
+	}
 }
