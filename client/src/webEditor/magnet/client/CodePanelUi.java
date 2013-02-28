@@ -70,9 +70,6 @@ public class CodePanelUi extends Composite {
 		setupPopupPanel();
 		setupResetPopupPanel();
 		
-//		popupPanel.setVisible(false);
-		
-		
 		addInsideFunctions(insideFunctions);
 		mainPanel.add(mainFunction);
 	}
