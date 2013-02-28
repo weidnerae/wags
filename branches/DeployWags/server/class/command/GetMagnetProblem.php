@@ -20,14 +20,18 @@ class getMagnetProblem extends Command
         $objArray = $magProb->toArray();
         $id = $magProb->getId(); // necessary for getting state
         
-        if(!Auth::getCurrentUser()->isAdmin()){
+ //       if(!Auth::getCurrentUser()->isAdmin()){
             $state = MagnetProblemState::getEntryByProblemId($id);
-        } else {
-            $state = false;
-        }
-        
+ //       } else {
+ //           $state = false;
+  //      }
         if($state){
             $objArray['state'] = $state->getState();
+            $createdMagnets = CreatedMagnet::getCreatedMagnetsByProblem($id);
+                if($createdMagnets != 0){
+                $createdMagnets = implode($createdMagnets);
+                $objArray['statements'] .= $createdMagnets;
+            }
         } else {
             $objArray[] = "";
         }

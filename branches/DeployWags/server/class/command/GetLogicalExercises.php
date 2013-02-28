@@ -11,7 +11,7 @@ class GetLogicalExercises extends Command
         $exerciseArray = explode("|", $exercises);
 		sort($exerciseArray);
         $submissions = DSTSubmission::getAllSubmissionsByUserID();
-		$review = LogicalMicrolab::getAttempted($exerciseArray);
+		$review = LogicalMicrolab::getAttempted();
 		
 		$result = array();
 		
@@ -48,7 +48,7 @@ class GetLogicalExercises extends Command
 		}
 		
 		// tack the review exercises on at the end
-		foreach ($review as $r) {
+		foreach($review as $r) {
 			if ($r) {
 				$returnArray[] = $r;
 				$returnArray[] = "2";
