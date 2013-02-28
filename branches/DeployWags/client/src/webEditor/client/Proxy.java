@@ -902,7 +902,11 @@ public class Proxy
 					String[] problemList = status.getMessageArray();
 
 					for (int i = 1; i < problemList.length; i+=3) {
-						result.add(problemList[i]);
+						// Anything with the next element being "2" is a "Review" exercise,
+						// not a currently assigned one
+						if(!problemList[i+1].equals("2")){
+							result.add(problemList[i]);
+						}
 					}
 					
 					Admin.checkCurrentMagnetExercises();
