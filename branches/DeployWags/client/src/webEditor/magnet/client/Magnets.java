@@ -93,7 +93,7 @@ public class Magnets extends AbsolutePanel {
 		// buttons text is green if they have completed the problem successfully
 		for (int i = 0; i < problemList.length; i++) {
 			int id = idList[i];
-			String title = statusList[i] == SUCCESS ? "<font color=green>" + problemList[i] + "</font>" : problemList[i];
+			String title = (statusList[i] == SUCCESS) ? "<font color=green>" + problemList[i] + "</font>" : problemList[i];
 			ProblemButton b = new ProblemButton(title, id);
 			
 			if (statusList[i] == REVIEW) {
