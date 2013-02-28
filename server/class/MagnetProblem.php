@@ -75,6 +75,26 @@ class MagnetProblem extends Model
         return $this->solution;
     }
 
+    public function isAssigned(){
+        require_once('Database.php');
+        $user = Auth::getCurrentUser();
+        $db = Database::getDb();
+
+        $sth = $db->prepare('SELECT status FROM SectionMP
+            WHERE section = :section 
+            AND magnetP = :id');
+
+        $sth->setFetchMode(PDO::FETCH_ASSOC);
+        $sth->execute(array(':section' => $user->getSection(),
+            ':id' => $this->getId()));
+        $result = $sth->fetch();
+
+        if($result['status'] == 1) return true; 
+
+        return false;
+        
+    }
+
     #############
     # SETTERS   #
     #############
@@ -130,7 +150,7 @@ class MagnetProblem extends Model
     // and casting it to an array/get_object_vars() wasn't
     // working, so I cheat.
     //
-    // Note: Some fields aren't send, because they are not
+    // Note: Some fields aren't sent, because they are not
     // used by the client
     public function toArray(){
         $objArray = array(
@@ -277,7 +297,6 @@ class MagnetProblem extends Model
     }
     
     // Returns all the magnetProblems for a group that are currently
-    // assigned to the students (status = 1) in an array of id's and names
     public static function getAvailable(){
         require_once('Database.php');
         $db = Database::getDb();
@@ -318,12 +337,14 @@ class MagnetProblem extends Model
         $user = Auth::getCurrentUser();
 
         $sth = $db->prepare('SELECT DISTINCT magnetProblem.title, magnetProblem.id, SUM(numAttempts) as attempts
-            FROM magnetProblem, SectionMP, MagnetSubmission
+            FROM magnetProblem, SectionMP, MagnetSubmission, user
             WHERE SectionMP.section = :section
             AND SectionMP.magnetP = magnetProblem.id
 			AND MagnetSubmission.magnetProblemId = magnetProblem.id
+            AND user.admin = 0
+            AND user.id = MagnetSubmission.userId
 			GROUP BY magnetProblem.id
-    		HAVING attempts > 1');
+    		HAVING attempts > 0');
 
         $sth->setFetchMode(PDO::FETCH_ASSOC);
         $sth->execute(array(':section' => $user->getSection()));
