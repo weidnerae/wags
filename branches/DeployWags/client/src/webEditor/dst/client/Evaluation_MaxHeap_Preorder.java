@@ -195,4 +195,9 @@ public class Evaluation_MaxHeap_Preorder extends Evaluation  implements IsSerial
 			this.visited = false;
 		}
 	}
+
+	@Override
+	public int returnKeyValue() {
+		return DSTConstants.MAXHEAP_PREORDER_KEY;
+	}
 }

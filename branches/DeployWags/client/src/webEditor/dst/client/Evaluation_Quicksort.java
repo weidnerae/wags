@@ -247,4 +247,9 @@ public class Evaluation_Quicksort extends Evaluation implements IsSerializable {
     public void setPass(int pass) {
     	PASS = pass;
     }
+
+	@Override
+	public int returnKeyValue() {
+		return DSTConstants.QUICKSORT_KEY;
+	}
 }

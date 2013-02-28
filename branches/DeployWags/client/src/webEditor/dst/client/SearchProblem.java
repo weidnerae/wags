@@ -1,6 +1,9 @@
 package webEditor.dst.client;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
+
+import webEditor.client.Proxy;
+
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
@@ -224,5 +227,24 @@ public class SearchProblem extends Problem implements IsSerializable {
 		}
 		
 		return result;
+	}
+	
+	public String printDetails(){
+		String args = "";
+		for(int i = 0; i < arguments.length; i++){
+			args += arguments[i] + ",";
+			
+		}
+		args = args.substring(0, args.length()-1);
+		
+		String details = "";
+		details += "&title=" + name + "&problemText=" + problemText +
+				"&nodes=" + nodes + "&insertMethod=" + insertMethod +
+				"&arguments=" + args + "&evaluation=" + eval.returnKeyValue() +
+				"&nodesDraggable=" + nodesDraggable + "&nodeType=" +
+				nodeType + "&group=9" + "&genre=radix";
+		
+		Proxy.loadLogicalMicrolab(details);
+		return details;
 	}
 }

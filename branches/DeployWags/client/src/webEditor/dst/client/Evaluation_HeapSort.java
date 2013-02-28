@@ -338,4 +338,9 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 		return inOrder;
 	}
 
+	@Override
+	public int returnKeyValue() {
+		return DSTConstants.HEAPSORT_KEY;
+	}
+
 }

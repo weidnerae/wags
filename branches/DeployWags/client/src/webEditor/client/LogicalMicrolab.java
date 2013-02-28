@@ -16,12 +16,19 @@
 
 package webEditor.client;
 
-import com.google.gwt.user.client.Window;
-
 import webEditor.dst.client.AddEdgeRules;
 import webEditor.dst.client.DSTConstants;
 import webEditor.dst.client.Evaluation;
+import webEditor.dst.client.Evaluation_RadixSortWithHelp;
+import webEditor.dst.client.HashingProblem;
+import webEditor.dst.client.MSTProblem;
 import webEditor.dst.client.Problem;
+import webEditor.dst.client.ProblemServiceImpl;
+import webEditor.dst.client.QuickSortProblem;
+import webEditor.dst.client.RedBlackProblem;
+import webEditor.dst.client.SearchProblem;
+import webEditor.dst.client.SelectionSortProblem;
+import webEditor.dst.client.SimplePartitionProblem;
 import webEditor.dst.client.TreeProblem;
 
 public class LogicalMicrolab {
@@ -34,7 +41,7 @@ public class LogicalMicrolab {
 	
 	public LogicalMicrolab(String title, String problemText, String nodes,
 			String xPositions, String yPositions, String insertMethod,
-			String edges, String evaluation, String edgeRules, String arguments,
+			String edges, int evaluation, int edgeRules, String arguments,
 			int edgesRemovable, int nodesDraggable, String nodeType, int group, String genre){
 		
 		this.title = title;
@@ -55,17 +62,80 @@ public class LogicalMicrolab {
 	}
 	
 	public Problem getProblem(){
-		if(genre.equals("traversal")){
-			
-			String[] args = new String[1];
-			args[0] = arguments;
-			
+		// Everything requires "args"
+		String[] args = getArguments(arguments);
+		
+		if(genre.equals("radix")){
+			return new SearchProblem(title, problemText, nodes, insertMethod,
+					args, new Evaluation_RadixSortWithHelp(), nodesDraggable, nodeType);
+		}
+		if(genre.equals("selectionsort")){
+			return new SelectionSortProblem(title, problemText, nodes, insertMethod,
+					args, evaluation, edgeRules, nodesDraggable, nodeType);
+		}
+		if(genre.equals("simplepartition")){
+			return new SimplePartitionProblem(title, problemText, nodes, insertMethod,
+					args, evaluation, edgeRules, nodesDraggable, nodeType);
+		}
+		
+		// Everything from here on requires edgeList
+		String[] edgeList = getEdges(edges);
+		
+		// Only difference from heapDelete is status of boolean getting passed
+		// to "getHeap_Location" methods
+		if(genre.equals("heapInsert")){
 			return new TreeProblem(title, problemText, nodes,
-					insertMethod, convertToIntArray(xPositions, ","),
-					convertToIntArray(yPositions, ","), edges.split(","),
+					insertMethod, ProblemServiceImpl.getHeapXLocations(true, nodes),
+					ProblemServiceImpl.getHeapYLocations(true, nodes), edgeList, args,
+					evaluation, edgeRules, edgesRemovable, nodesDraggable, nodeType);
+		}
+		if(genre.equals("heapDelete")){
+			return new TreeProblem(title, problemText, nodes,
+					insertMethod, ProblemServiceImpl.getHeapXLocations(false, nodes),
+					ProblemServiceImpl.getHeapYLocations(false, nodes), edgeList, args,
+					evaluation, edgeRules, edgesRemovable, nodesDraggable, nodeType);
+		}
+		
+		// Everything form here on requires positions
+		int[] xPos = getLocations(xPositions);
+		int[] yPos = getLocations(yPositions);
+		
+		if(genre.equals("traversal")){	
+			return new TreeProblem(title, problemText, nodes,
+					insertMethod, xPos,
+					yPos, edgeList,
 					args, evaluation, edgeRules, edgesRemovable,
 					nodesDraggable, nodeType);
 		}
+				
+		if(genre.equals("mst")){
+			return new MSTProblem(title, problemText, nodes, insertMethod,
+					xPos, yPos, edgeList, args, evaluation, 
+					edgeRules, edgesRemovable, nodesDraggable, nodeType);
+		}
+		
+		if(genre.equals("hashing")){
+			return new HashingProblem(title, problemText, nodes, insertMethod,
+					xPos, yPos, edgeList, args, evaluation, edgeRules,
+					edgesRemovable, nodesDraggable, nodeType);
+		
+		}
+		
+		if(genre.equals("qsort")){
+			String[] qEdges = new String[0];
+			return new QuickSortProblem(title, problemText, nodes, insertMethod,
+					xPos, yPos, qEdges, args, evaluation, edgeRules,
+					edgesRemovable, nodesDraggable, nodeType);
+		}
+		
+		if(genre.equals("redblack")){
+			return new RedBlackProblem(title, problemText, nodes, insertMethod,
+					xPos, yPos, edgeList, args, evaluation, edgeRules, 
+					edgesRemovable, nodesDraggable, nodeType);
+		}
+		
+		
+		
 		
 		return null;
 	}
@@ -79,6 +149,37 @@ public class LogicalMicrolab {
 		}
 		
 		return intArray;
+	}
+	
+	private String[] getEdges(String edges){
+		String[] edgeList;
+		if(edges.length() == 0){
+			edgeList = new String[0];
+		} else {
+			edgeList = edges.split(",");
+		}
+		
+		return edgeList;
+	}
+	
+	private int[] getLocations(String pos){
+		if(pos.length() > 0){
+			return convertToIntArray(pos, ",");
+		} else {
+			return new int[0];
+		}
+	}
+	
+	private String[] getArguments(String arguments){
+		String[] args;
+		if(!arguments.contains(",")){
+			args = new String[1];
+			args[0] = arguments;
+		} else {
+			args = arguments.split(",");
+		}
+		
+		return args;
 	}
 	
 }

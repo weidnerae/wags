@@ -45,4 +45,9 @@ public class Evaluation_MSTTraversal extends Evaluation implements IsSerializabl
 			
 		}
 	}
+
+	@Override
+	public int returnKeyValue() {
+		return DSTConstants.MST_KEY;
+	}
 }
