@@ -144,6 +144,28 @@ class LogicalMicrolab extends Model
 		return $values;
 	}
 
+    // Organizes Logical Microlabs by id number
+    // Used in SetLogicalExercises
+    public static function sortById($exercises){
+        require_once('Database.php');
+        $db = Database::getDb();
+
+        for($i = 0; $i < count($exercises); $i++){
+            $tmp = $exercises[$i];
+            $exercises[$i] = "'$tmp'";
+        }
+
+        $exercises = implode(",", $exercises);
+        
+        $sth = $db->query('SELECT title FROM LogicalMicrolabs
+            WHERE title IN ('.$exercises.')
+            ORDER BY id');
+
+        $result = $sth->fetchAll(PDO::FETCH_COLUMN, 0);
+
+        return $result;
+    }
+
     // Returns all groups for a subject in the order stored in the database -
     // this should roughly estimate order of assignment in a classroom
 	public static function getGroups($subject){
