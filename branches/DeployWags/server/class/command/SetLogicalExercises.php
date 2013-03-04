@@ -22,6 +22,12 @@ class SetLogicalExercises extends Command
         $sectionNumber = Auth::getCurrentUser()->getSection();
         $section = Section::getSectionById($sectionNumber);
 
+        $exercises = explode("|", $exercises);
+        array_pop($exercises); // remove empty last element due to ending |
+        $exercises = LogicalMicrolab::sortById($exercises);
+        $exercises = implode("|", $exercises);
+        $exercises = "$exercises|";
+        
         $section->setLogicalExercises($exercises);
         $section->save();
 
