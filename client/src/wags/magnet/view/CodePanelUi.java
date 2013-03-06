@@ -37,6 +37,7 @@ public class CodePanelUi extends Composite {
 	private RefrigeratorMagnet magnet;
 	private PopupPanel popupPanel;
 	private PopupPanel resetPopupPanel;
+	private int numMagnets;
 	
 	@UiField ScrollPanel nestPanel;   //takes up the entirety of the CodePanel, used to let mainPanel scroll
 	@UiField AbsolutePanel mainPanel;  //nested inside nestPanel, this is where mainFunction lives
@@ -62,13 +63,17 @@ public class CodePanelUi extends Composite {
 	 * @param insideFunctions Possible inner functions nested into the function to be built.
 	 */
 	public CodePanelUi(RefrigeratorMagnet magnet, StackableContainer main,
-			StackableContainer[] insideFunctions, PickupDragController dc, String title) {
+			StackableContainer[] insideFunctions, int numMagnets, PickupDragController dc, String title) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.magnet = magnet;
 		this.mainFunction = main;
 		this.title = title;
+		this.numMagnets = numMagnets;
 		setupPopupPanel();
 		setupResetPopupPanel();
+		
+//		popupPanel.setVisible(false);
+		
 		
 		addInsideFunctions(insideFunctions);
 		mainPanel.add(mainFunction);
@@ -156,7 +161,8 @@ public class CodePanelUi extends Composite {
 	 }
 	@UiHandler("stateButton")
 	void handleStateClick(ClickEvent e){
-	   	Proxy.saveMagnetState(getSaveState(), magnet.getID(),0);
+		Proxy.cleanOutOldCreatedMagnets(magnet.getID());
+	   	Proxy.saveMagnetState(getSaveState(), magnet.getID(),0, false);
 	}
     
 	private class yesResetHandler implements ClickHandler{
@@ -250,6 +256,9 @@ public class CodePanelUi extends Composite {
 		else
 			idChain+="[";
 		    idChain+=sc.getID();
+		    if(Integer.parseInt(sc.getID()) > numMagnets){  // If this is a created magnet, save it in the database.
+		    	Proxy.saveCreatedMagnet(sc, magnet.getID());
+		    }
 		for (int i = 0; i < sc.getInsidePanel().getWidgetCount(); i++) {
 			idChain=buildIDString((StackableContainer) sc.getInsidePanel().getWidget(i),idChain);
 		}
@@ -266,6 +275,8 @@ public class CodePanelUi extends Composite {
 	
 	
 	public void evaluateAlgorithmProblem(){
+		boolean done = false;
+		String userSolution = getSaveState();  // getSaveState is new name for getAlgoSolution
 		String givenSolution = magnet.getSolution();
 		for(int i=0;i<givenSolution.length();i++){
 			

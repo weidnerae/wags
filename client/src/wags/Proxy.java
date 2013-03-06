@@ -16,6 +16,7 @@ import wags.programming.view.Exercises;
 import wags.programming.view.FileBrowser;
 import wags.programming.view.Login;
 import wags.programming.view.OutputReview;
+import wags.magnet.view.StackableContainer;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -405,6 +406,25 @@ public class Proxy
 
 	public static void checkTimedExercises(){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=CheckOpenExercises");
+		
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("Failed");
+		}
+	}
+	
+	public static void cleanOutOldCreatedMagnets(int magnetProblemID){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=CleanOutOldCreatedMagnets&magnetProblemID="+magnetProblemID);
 		
 		try{
 			builder.sendRequest(null, new RequestCallback() {
@@ -1515,6 +1535,32 @@ public class Proxy
 			e.printStackTrace();
 		}
 	}
+	
+	public static void saveCreatedMagnet(StackableContainer magnet, int magnetProblemId){
+		String url = getBaseURL()+"?cmd=SaveCreatedMagnet&magnetContent="+magnet.getContent()+"&magnetID="+magnet.getID()+"&magnetProblemID="+magnetProblemId;
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
+		try{
+			@SuppressWarnings("unused")
+			Request r = builder.sendRequest(null, new RequestCallback() {
+				@Override
+				public void onResponseReceived(Request request, Response response)
+				{
+					// Quietly rebuild the file browser on success.
+					WEStatus stat = new WEStatus(response);
+					if(stat.getStat() == WEStatus.STATUS_SUCCESS){
+						
+					}else{
+						Notification.notify(WEStatus.STATUS_WARNING, "Submission Processed Correctly - Magnet could not be saved");
+					}
+				}
+				@Override
+				public void onError(Request request, Throwable exception)
+				{}
+			});
+		}catch(RequestException e){
+			e.printStackTrace();
+		}
+	}
 
 	public static void magnetReview(final String saveState, final int id, String code, String title){
 		code = URL.encodePathSegment(code);  // Escapes things like "+", etc.
@@ -1531,7 +1577,7 @@ public class Proxy
 					switch (stat.getStat()){
 						case WEStatus.STATUS_SUCCESS:
 							note = "Success!";
-							saveMagnetState(saveState,id,1);   // Save Correct Magnet State
+							saveMagnetState(saveState,id,1, true);   // Save Correct Magnet State
 							break;
 						case WEStatus.STATUS_ERROR:
 							note = "Syntax Error - Incorrect";
@@ -1695,6 +1741,7 @@ public class Proxy
 		      submit.setEnabled(true);
 			}
 	}
+	
 
 	public static boolean saveFile(String fileName, String contents, final FileBrowser browser, final boolean notify)
 	{
@@ -1733,7 +1780,7 @@ public class Proxy
 		return true;
 	}
 	
-	public static void saveMagnetState(String state, int magnetId, int success){
+	public static void saveMagnetState(String state, int magnetId, int success, final boolean fromSuccess){
 		String url = getBaseURL()+"?cmd=SaveMagnetState&state="+state+"&magnetId="+magnetId+"&success="+success;
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
 		try{
@@ -1745,7 +1792,8 @@ public class Proxy
 					// Quietly rebuild the file browser on success.
 					WEStatus stat = new WEStatus(response);
 					if(stat.getStat() == WEStatus.STATUS_SUCCESS){
-						
+						if(!fromSuccess)
+							Notification.notify(WEStatus.STATUS_SUCCESS, stat.getMessage());
 					}else{
 						Notification.notify(WEStatus.STATUS_WARNING, "Submission Processed Correctly - State not saved");
 					}

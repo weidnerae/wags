@@ -35,9 +35,10 @@ public class RefrigeratorMagnet extends AbsolutePanel{
 	public StackableContainer mainFunction;
 	public StackableContainer[] insideFunctions;
 	public StackableContainer[] premadeFunctions;
+	public int numStatements;
 	
 	
-	public RefrigeratorMagnet(int id, String title, String description, StackableContainer mainFunction, StackableContainer[] insideFunctions, String problemType, StackableContainer[] premadeSegments, String[] structuresList, String[] for1List, String[] for2List, String[] for3List, String[] booleanList, String solution, String[] premadeIDs, PickupDragController newDC, final String state) {
+	public RefrigeratorMagnet(int id, String title, String description, StackableContainer mainFunction, StackableContainer[] insideFunctions, String problemType, StackableContainer[] premadeSegments, String[] createdIDs, int numStatements, String[] structuresList, String[] for1List, String[] for2List, String[] for3List, String[] booleanList, String solution, String[] premadeIDs, PickupDragController newDC, final String state) {
 		dc=newDC;
 		setHeight("99%");
 		this.problemType = problemType;
@@ -47,12 +48,13 @@ public class RefrigeratorMagnet extends AbsolutePanel{
 		this.mainFunction = mainFunction;
 		this.insideFunctions = insideFunctions;
 		this.premadeFunctions = premadeSegments;
+		this.numStatements = numStatements;
 		
 		add(tabPanel);
 	    tabPanel.setSize("100%", "100%");
 	    int tabPanelHeight = tabPanel.getOffsetHeight();
 	    tabPanelHeight = tabPanel.getOffsetHeight();
-	    editingPanel = new EditingPanelUi(this, tabPanelHeight,title,description,mainFunction,insideFunctions,problemType,premadeSegments, structuresList,for1List,for2List,for3List,booleanList, solution, premadeIDs, dc);
+	    editingPanel = new EditingPanelUi(this, tabPanelHeight,title,description,mainFunction,insideFunctions,problemType,premadeSegments, createdIDs.length, numStatements, structuresList,for1List,for2List,for3List,booleanList, solution, premadeIDs, dc);
 		tabPanel.add(editingPanel, "Editing Mode", false);
 		tabPanel.selectTab(0);
 
@@ -152,42 +154,51 @@ public class RefrigeratorMagnet extends AbsolutePanel{
 	}
 	
 	public void addMagnetsByID(String childID, String parentID){
-		boolean premadeParent = false;
-		int parentIndex = -1;
-		int childIndex = -1;
-		for(int i=0;i < premadeFunctions.length; i++){
-			if(premadeFunctions[i].getID().equals(parentID)){
-				premadeParent = true;
-				parentIndex = i;
-			}
+//		Window.alert("adding "+childID + " to "+ parentID);
+		boolean isValid = true;
+		try{
+			int child = Integer.parseInt(childID);
+			int parent = Integer.parseInt(parentID);
+		} catch(NumberFormatException ex){
+			isValid = false;
 		}
-		for(int k = 0; k< insideFunctions.length; k++){
-					if(insideFunctions[k].getID().equals(parentID)){
-						parentIndex = k;
-					}
+		if(isValid){
+			boolean premadeParent = false;
+			int parentIndex = -1;
+			int childIndex = -1;
+			for(int i=0;i < premadeFunctions.length; i++){
+				if(premadeFunctions[i].getID().equals(parentID)){
+					premadeParent = true;
+					parentIndex = i;
+				}
 			}
-		for(int j=0;j < premadeFunctions.length; j++){
-			if(premadeFunctions[j].getID().equals(childID)){
-				childIndex = j;
-			}
-		}
-		
-//			Window.alert(childIndex +" : " + parentIndex);
-		if(parentID.equals(mainFunction.getID()) && childIndex != -1){
-			mainFunction.addInsideContainer(premadeFunctions[childIndex]);
-		} else if(childIndex != -1 && parentIndex != -1){
-			if(premadeParent){
-//				Window.alert("adding to premade");
-				if(!premadeFunctions[parentIndex].hasChild(premadeFunctions[childIndex].getID()))
-					premadeFunctions[parentIndex].addInsideContainer(premadeFunctions[childIndex]);
-			}else{
-//				Window.alert("adding to inside");
-				if(!insideFunctions[parentIndex].hasChild(premadeFunctions[childIndex].getID()))
-					insideFunctions[parentIndex].addInsideContainer(premadeFunctions[childIndex]);
+			for(int k = 0; k< insideFunctions.length; k++){
+						if(insideFunctions[k].getID().equals(parentID)){
+							parentIndex = k;
+						}
+				}
+			for(int j=0;j < premadeFunctions.length; j++){
+				if(premadeFunctions[j].getID().equals(childID)){
+					childIndex = j;
+				}
 			}
 			
+//			Window.alert(childIndex +" : " + parentIndex);
+			if(parentID.equals(mainFunction.getID()) && childIndex != -1){
+				mainFunction.addInsideContainer(premadeFunctions[childIndex]);
+			} else if(childIndex != -1 && parentIndex != -1){
+				if(premadeParent){
+	//				Window.alert("adding to premade");
+					if(!premadeFunctions[parentIndex].hasChild(premadeFunctions[childIndex].getID()))
+						premadeFunctions[parentIndex].addInsideContainer(premadeFunctions[childIndex]);
+				}else{
+	//				Window.alert("adding to inside");
+					if(!insideFunctions[parentIndex].hasChild(premadeFunctions[childIndex].getID()))
+						insideFunctions[parentIndex].addInsideContainer(premadeFunctions[childIndex]);
+				}
+				
+			}
 		}
-		
 		
 	}
 	

@@ -219,6 +219,7 @@ public class Magnets extends AbsolutePanel {
 	 * that was grabbed from the server using Proxy.getMagnetProblem()
 	 */
 	public RefrigeratorMagnet makeProblem(MagnetProblem magnet) {
+		idAssignor = 0;
 		return new RefrigeratorMagnet(
 				magnet.id,
 				magnet.title,
@@ -226,7 +227,9 @@ public class Magnets extends AbsolutePanel {
 				getMainContainer(magnet.mainFunction),
 				buildFunctions(magnet.innerFunctions),
 				magnet.type,
-				decodePremade(magnet.statements), 
+				decodePremade(magnet.statements,magnet.createdIDs, magnet.numStatements), 
+				magnet.createdIDs,
+				magnet.numStatements,
 				structuresList,
 				magnet.forLeft,
 				magnet.forMid,
@@ -248,7 +251,7 @@ public class Magnets extends AbsolutePanel {
 	 * @return An array of StackableContainers. Will return null 
 	 * if segments is null.
 	 */
-	private StackableContainer[] decodePremade(String[] segments) {
+	private StackableContainer[] decodePremade(String[] segments, String[] createdIDs, int numStatements) {
 		if (segments == null) {
 			return null;
 		}
@@ -257,10 +260,14 @@ public class Magnets extends AbsolutePanel {
 		
 		for (int i = 0; i < segments.length; i++) {
 			StackableContainer sc = new StackableContainer(segments[i], dc, Consts.STATEMENT);
-			sc.setID(getID());
+			if(idAssignor > numStatements){
+				sc.setID(createdIDs[idAssignor-numStatements-1]);
+				idAssignor++;
+			} else{
+				sc.setID(getID());
+			}
 			preMadeList[i] = sc;
 		}
-			
 		return preMadeList;
 	}
 	
