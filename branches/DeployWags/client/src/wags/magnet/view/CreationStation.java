@@ -47,7 +47,9 @@ public class CreationStation extends VerticalPanel{
 	
 	final PickupDragController dc;
 	
-	public CreationStation(String[] structuresList, String[] for1List,String[] for2List,String[] for3List, String[] booleanList, ConstructUi constructPanel, PickupDragController dc){		
+	private int nextID;
+	
+	public CreationStation(String[] structuresList, String[] for1List,String[] for2List,String[] for3List, String[] booleanList, ConstructUi constructPanel, PickupDragController dc, int nextID){		
 		setStyleName("dropdown_panel");
 		this.dc = dc;
 		this.structuresList=structuresList;
@@ -56,6 +58,7 @@ public class CreationStation extends VerticalPanel{
 		this.for3List = for3List;
 		this.booleanList = booleanList;
 		this.constructPanel = constructPanel;
+		this.nextID = nextID;
 		
 		//set up main listbox
 		structures = setupStructuresBox(structuresList);
@@ -200,6 +203,8 @@ public class CreationStation extends VerticalPanel{
 	        		createdContainer = new StackableContainer(Consts.ELSE,dc, Consts.STATEMENT);
 
 	        	
+	        	// Set/ increment the ID for the container
+	        	createdContainer.setID(""+nextID++);
 	        	// add that sucker to the construct panel
 	        	if(structures.getSelectedIndex()!=0);
 	        		constructPanel.addSegment(createdContainer);

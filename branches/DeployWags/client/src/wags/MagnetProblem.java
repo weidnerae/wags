@@ -1,14 +1,14 @@
 package wags;
 
 public class MagnetProblem {
-	public int id;
+	public int id, numStatements;
 	public String title, directions, mainFunction, solution, type, state;
 	public boolean creationStation;
-	public String[] innerFunctions, forLeft, forMid, forRight, bools, statements;
+	public String[] innerFunctions, forLeft, forMid, forRight, bools, statements, createdIDs;
 	
 	public MagnetProblem(int id, String title, String directions, String type, String mainFunction,
-			String[] innerFunctions, String[] forLeft, String[] forMid, String[] forRight, String[] bools, String[] statements,
-			String solution, String state){
+			String[] innerFunctions, String[] forLeft, String[] forMid, String[] forRight, String[] bools, String[] statements, 
+			String[] createdIDs, int numStatements, String solution, String state){
 		this.id = id;
 		this.title = title;
 		this.directions = directions;
@@ -22,5 +22,8 @@ public class MagnetProblem {
 		this.statements = statements;
 		this.solution = solution;
 		this.state = state;
+		this.numStatements = numStatements;
+		this.createdIDs = createdIDs;
 	}
 }
+
