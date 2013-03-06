@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
+import webEditor.client.MagnetProblem;
+
 import com.google.gwt.http.client.Response;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONBoolean;
@@ -199,18 +201,30 @@ public class WEStatus
 			String mainFunction = messageMap.get("solution");
 						
 			// Get arrays
-			String[] innerFunctions, forLeft, forMid, forRight, bools, statements;
+			String[] innerFunctions, forLeft, forMid, forRight, bools, statements, allStatements, oldStatements, newStatements, createdIDs;
+			int numStatements;
 			innerFunctions = parseArray(messageMap.get("innerFunctions"));
 			forLeft = parseArray(messageMap.get("forLeft"));
 			forMid = parseArray(messageMap.get("forMid"));
 			forRight = parseArray(messageMap.get("forRight"));
 			bools = parseArray(messageMap.get("bools"));
-			statements = parseArray(messageMap.get("statements"));
-			
+			allStatements = messageMap.get("statements").split(".:3:.");
+			oldStatements = parseArray(allStatements[0]);
+			numStatements = oldStatements.length+(innerFunctions.length);
+			if(allStatements.length >1){
+				String[][] createdStatementsAndIDs = parseCreated(allStatements);
+				newStatements = createdStatementsAndIDs[1];
+				createdIDs = createdStatementsAndIDs[0];
+				statements = concatenateArrays(oldStatements,newStatements);
+			} else{
+				createdIDs = new String[0];
+				statements = oldStatements;
+				newStatements = new String[0];
+			}
 			// Create the object
 			myObject = new MagnetProblem(id, messageMap.get("title"), messageMap.get("directions"), 
-						messageMap.get("type"), mainFunction, innerFunctions, forLeft, forMid, forRight, bools,
-						statements, messageMap.get("solution"), messageMap.get("state"));
+					messageMap.get("type"), mainFunction, innerFunctions, forLeft, forMid, forRight, bools,
+					statements, createdIDs, numStatements, messageMap.get("solution"), messageMap.get("state"));
 		} else if (objType == "LogicalMicrolab"){
 			// Pretty much just passes the database information into the LogicalMicrolab constructor.
 			// The real "parsing" of information happens in LogicalMicrolab.getProblem, which uses
@@ -261,5 +275,29 @@ public class WEStatus
 		
 		return parseText.split(".:\\|:.");
 		
+	}
+	
+	private String[] concatenateArrays(String[] arr1, String[] arr2){
+		String[] arr = new String[arr1.length+arr2.length-1];
+		
+		for(int i=0;i < arr1.length;i++){
+			arr[i] = arr1[i];
+		}
+		for(int i=0;i < arr2.length;i++){
+			arr[(arr1.length)+i] = arr2[i];
+		}
+		
+		return arr;
+	
+	}
+	
+	private String[][] parseCreated(String[] allStatements){
+		String[][] result = new String[2][allStatements.length-1];
+		for(int i=1;i<allStatements.length;i++){
+			String[] splitCreated = allStatements[i].split(".:\\|:.");
+			result[1][i-1] = splitCreated[1];
+			result[0][i-1] = splitCreated[0];
+		}
+		return result;
 	}
 }

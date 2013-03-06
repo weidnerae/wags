@@ -1,6 +1,5 @@
 package wags.magnet.view;
 
-
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
 
@@ -30,6 +29,7 @@ public class ConstructUi extends Composite {
 	private CreationStation magnetMaker;
 	private AbsolutePanel segmentsContent;
 	private AbsolutePositionDropController segmentDropControl; 
+	private int nextID; // used for assigning created magnets ID's
 	
 	@UiField
 	AbsolutePanel directionsContent;  //place for directions
@@ -70,7 +70,7 @@ public class ConstructUi extends Composite {
 	 *            DragController the drag controller passed from rootpanel.
 	 */
 	public ConstructUi(String problemType,
-			StackableContainer[] premadeSegments, String title,
+			StackableContainer[] premadeSegments, int numMagnets,String title,
 			String description, String[] structuresList, String[] for1List,
 			String[] for2List, String[] for3List, String[] booleanList,
 			PickupDragController dc) {
@@ -83,11 +83,11 @@ public class ConstructUi extends Composite {
 				+ "</center></h4>" 
 				+ description.replace("\\r\\n", "<br/>").replace("\\\"", "\"") 
 				+ "<br/>"
-			)
-				
+			)	
 		);
 		
 		this.problemType = problemType;
+		this.nextID = numMagnets+1;
 
 		if (problemType.equals(Consts.ADVANCED_PROBLEM)) {
 			//create the creation station panel, 
@@ -96,7 +96,7 @@ public class ConstructUi extends Composite {
 			//add it to center
 			mmContent = new AbsolutePanel();
 			magnetMaker = new CreationStation(structuresList, for1List,
-					for2List, for3List, booleanList, this, dc);
+					for2List, for3List, booleanList, this, dc, nextID);
 			mmContent.add(magnetMaker);
 			mmContent.setStyleName("creation_station");
 			
@@ -145,6 +145,7 @@ public class ConstructUi extends Composite {
 	//this method is called after the constructor because there is a delay between instantiating the panel
 	//and placing all the segments to the segmentsContent panel
 	public void start() {
+		initial = false;            // Just added this to check 2/26/13
 		addSegments(premade);
 	}
 
@@ -154,8 +155,6 @@ public class ConstructUi extends Composite {
 				addSegment(segment);
 			}
 		}
-		
-
 		initial = true;
 	}
 	
@@ -190,7 +189,7 @@ public class ConstructUi extends Composite {
       
                                             
                 if (widgetCount == 0) {
-                        // we add the first widget at an offset of 10, 10
+                        // we add the first widget at an offset of 10, 10"
                         segmentsContent.add(segment, baseX, baseY);
                 } else {
                         // after the first, we calculate where the next widget should go based on the last widget in the panel
@@ -198,17 +197,16 @@ public class ConstructUi extends Composite {
                              
                         baseY = lastWidget.getTop() + lastWidget.getHeight() - getAbsoluteTop();
                         
-                        // for the first set of magnets (i.e. before the user adds any they created), we have to have a special
+  //    }   ADD THIS BACK.
+//                                  // for the first set of magnets (i.e. before the user adds any they created), we have to have a special
                         // flag and treat them differently
                         if (initial) {
                                 baseY -= segmentsContent.getAbsoluteTop() - getAbsoluteTop();
-                        } else if (problemType.equals(Consts.ADVANCED_PROBLEM)) {       
-                                baseY -= magnetMaker.getOffsetHeight();
+                        } else if (problemType.equals(Consts.ADVANCED_PROBLEM)) { 
+                   //             baseY -= magnetMaker.getOffsetHeight();
                         }
-
+                } // get rid of this.
                         segmentsContent.add(segment, baseX, baseY);
-                }
-//            	Window.alert("CU- ID:"+segment.getID()+" Count: "+widgetCount+" X: "+baseX+" Y:"+baseY);
             }  
         };
         
