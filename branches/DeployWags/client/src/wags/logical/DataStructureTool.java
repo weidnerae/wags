@@ -38,6 +38,7 @@ public class DataStructureTool  extends AbsolutePanel
 	private Button review;
 	private ArrayList<Button> attemptButtons;
 	private ArrayList<Button> reviewButtons;
+	boolean initialLoad = true;
 
 	/**
 	 * This is the entry point method.
@@ -121,6 +122,13 @@ public class DataStructureTool  extends AbsolutePanel
 					b.setWidth(maxWidth + "px");
 					b.setHeight("50px");
 				}
+				
+				assigned.setWidth(maxWidth + "px");
+				review.setWidth(maxWidth + "px");
+				if(initialLoad){
+					review.setVisible(true);
+					initialLoad = false;
+				}
 			}
 		};
 		timer.schedule(1);
@@ -131,6 +139,7 @@ public class DataStructureTool  extends AbsolutePanel
 		review = new Button("Switch to Review");
 		
 		assigned.setVisible(false);
+		review.setVisible(false);
 		assigned.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				buildUI(attemptButtons);
@@ -205,13 +214,13 @@ public class DataStructureTool  extends AbsolutePanel
 		/* This is the 'switch' between DB LogicalMicrolabs and
 		 * ProblemServiceImpl
 		 */
-		Proxy.getLogicalMicrolab(problem, this);
-		/*Problem prob = ProblemServiceImpl.getProblem(problem);
-		if(prob instanceof RedBlackProblem){
+		//Proxy.getLogicalMicrolab(problem, this);
+		Problem prob = ProblemServiceImpl.getProblem(problem);
+		/*if(prob instanceof RedBlackProblem){
 			((RedBlackProblem) prob).printDetails();
 		}*/
 
-		//initialize(prob);
+		initialize(prob);
 	}
 
 	public void initialize(Problem p)

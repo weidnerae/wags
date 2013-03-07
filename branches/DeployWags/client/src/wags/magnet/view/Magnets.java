@@ -51,6 +51,7 @@ public class Magnets extends AbsolutePanel {
 	private Button review;
 	private ArrayList<ProblemButton> attemptButtons;
 	private ArrayList<ProblemButton> reviewButtons;
+	private boolean initialLoad = true;
 	
 	private Wags wags;
 	
@@ -156,7 +157,10 @@ public class Magnets extends AbsolutePanel {
 				// Set assigned/review button to same width
 				assigned.setWidth(maxWidth + "px");
 				review.setWidth(maxWidth + "px");
-				review.setVisible(true);
+				if(initialLoad){
+					review.setVisible(true);
+					initialLoad = false;
+				}
 			}
 		};
 		timer.schedule(1);
