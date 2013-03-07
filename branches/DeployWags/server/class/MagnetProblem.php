@@ -468,9 +468,12 @@ class MagnetProblem extends Model
         // Find out if section can already view group
         // $group = id, $groups = array of names
         $groups = MagnetProblem::getMagnetProblemGroups();
-        foreach($groups as $entry){
-            if($group == MagnetProblem::getGroupIdByName($entry)){
-                $hasGroup = TRUE;
+
+        if($groups != NULL){
+            foreach($groups as $entry){
+                if($group == MagnetProblem::getGroupIdByName($entry)){
+                    $hasGroup = TRUE;
+                }
             }
         }
         
