@@ -152,6 +152,11 @@ public class Magnets extends AbsolutePanel {
 					b.setWidth(maxWidth + "px");
 					b.setHeight("50px");
 				}
+				
+				// Set assigned/review button to same width
+				assigned.setWidth(maxWidth + "px");
+				review.setWidth(maxWidth + "px");
+				review.setVisible(true);
 			}
 		};
 		timer.schedule(1);
@@ -162,6 +167,7 @@ public class Magnets extends AbsolutePanel {
 		review = new Button("Switch to Review");
 		
 		assigned.setVisible(false);
+		review.setVisible(false);
 		assigned.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				buildUI(attemptButtons);
