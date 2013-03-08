@@ -362,8 +362,7 @@ class MagnetProblem extends Model
         // Used to indicate to GetMagnetExercises.php that no 
         // exercises are assigned
         if($results == null){
-            $values[] = "0";
-            $values[] = "No Code Magnets Assigned!";
+            return null;
         }
 
         return $values;
