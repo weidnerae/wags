@@ -336,11 +336,13 @@ class MagnetProblem extends Model
         $db = Database::getDb();
         $user = Auth::getCurrentUser();
 
-        $sth = $db->prepare('SELECT DISTINCT magnetProblem.title, magnetProblem.id, SUM(numAttempts) as attempts
+        $sth = $db->prepare('SELECT DISTINCT magnetProblem.title,
+             magnetProblem.id, SUM(numAttempts) as attempts
             FROM magnetProblem, SectionMP, MagnetSubmission, user
             WHERE SectionMP.section = :section
             AND SectionMP.magnetP = magnetProblem.id
 			AND MagnetSubmission.magnetProblemId = magnetProblem.id
+            AND MagnetSubmission.sectionId = :section
             AND user.admin = 0
             AND user.id = MagnetSubmission.userId
 			GROUP BY magnetProblem.id
