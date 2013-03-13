@@ -62,9 +62,10 @@ public class SectionTab extends Composite implements HasText {
 			
 			
 			if(stat.getStat() == WEStatus.STATUS_SUCCESS){
+				String[] data = stat.getMessage().split(" ");
 				// This call links the section and accounts together
 				// linkNewSections provides its own notification of success/failure
-				Proxy.linkNewSection(txtSectName.getText(), txtAdminName.getText(), txtGuestName.getText());
+				Proxy.linkNewSection(data[0], data[1], data[2]);
 				
 				Proxy.getSections(lstCurSections);
 				
