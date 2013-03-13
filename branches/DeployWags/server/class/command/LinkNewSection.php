@@ -26,8 +26,7 @@ class LinkNewSection extends Command{
         $admin = User::getUserByUsername($adminName);
 
         # Get the gust
-        $guest = User::getUserByusername($guestName);
-
+        $guest = User::getUserByUsername($guestName);
 
         # Add administrator and guest to the section
         $admin->setSection($id);
