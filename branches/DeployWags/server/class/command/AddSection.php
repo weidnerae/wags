@@ -63,7 +63,7 @@ class AddSection extends Command
         # Create the administrator
         $this->createUser($adminName, $adminPass, 1);
         # Create the guest
-        if($guestName = "") $guestName = "$sectName"."_Guest";
+        if($guestName == "") $guestName = "$sectName"."_Guest";
         $this->createUser($guestName, "guest", 2);
 
         return JSON::success("$sectName $adminName $guestName");
