@@ -15,6 +15,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -43,14 +44,14 @@ public class ProblemCreationPanel extends Composite{
 	interface ProblemCreationPanelUiBinder extends UiBinder<Widget, ProblemCreationPanel> {
 	}
 	
-	@UiField FormPanel problemCreateFormPanel;
+	@UiField FormPanel problemCreateFormPanel, fileParseFormPanel;
 	@UiField TextBox titleTxtBox, topLabelTxtBox, topRealCodeTxtBox, 
 		commentsTxtBox, bottomLabelTxtBox, bottomRealCodeTxtBox, forAllowed, whileAllowed, ifAllowed, elseAllowed, elseIfAllowed;
 	@UiField TextArea finalTitleTxtBox, descriptionTxtArea, finalDescriptionTxtArea,
 		classDeclarationTxtArea, innerFunctionsTxtArea, statementsTxtArea, commentsStagingArea,
 		hiddenFunctionsArea, forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, booleansTextArea;
 	@UiField VerticalPanel magnetMakerOptions, magnetReviewPanel, numberAllowedReviewPanel;
-	@UiField SubmitButton createProblemSubmitButton;
+	@UiField SubmitButton createProblemSubmitButton, fileParseSbt;
 	@UiField Button createCommentsButton, classDeclarationButton, innerFunctionsButton,
 		statementsButton, clearDataButton, createHidFunctionButton, btnLoadExercise,
 		btnDeleteExercise;
@@ -99,6 +100,21 @@ public class ProblemCreationPanel extends Composite{
 				} else {
 					Notification.notify(stat.getStat(), stat.getMessage());
 				}
+			}
+		});
+		
+		fileParseFormPanel.setAction(Proxy.getBaseURL() + "?cmd=JavaToMagnets");
+		fileParseFormPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
+		fileParseFormPanel.setMethod(FormPanel.METHOD_POST);
+		fileParseFormPanel.addSubmitCompleteHandler(new SubmitCompleteHandler() {
+			
+			@Override
+			public void onSubmitComplete(SubmitCompleteEvent event) {
+				Window.alert(event.getResults());
+				String[] magnets = event.getResults().split("\n");
+				classDeclarationTxtArea.setText(magnets[0]);
+				innerFunctionsTxtArea.setText(magnets[1]);
+				statementsTxtArea.setText(magnets[2]);
 			}
 		});
 		
