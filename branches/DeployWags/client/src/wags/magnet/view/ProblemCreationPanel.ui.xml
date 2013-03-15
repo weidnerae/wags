@@ -91,7 +91,7 @@
 						</g:row>
 					</g:Grid>
 					<g:HorizontalPanel styleName='{style.magnetCreationPanel}' width="100%">
-						<g:Label text="LOAD:" width="100px"/>
+						<g:Label text="Load Exercise:" width="100px"/>
 						<g:VerticalPanel>
 							<g:Label text="Group: " />
 							<g:ListBox name="lstLoadGroup" ui:field="lstLoadGroup" width="160px" styleName='{style.floatLeft}'/>
@@ -279,6 +279,13 @@
 						<g:CheckBox ui:field="overwrite" name="overwrite" formValue="1" visible="false"></g:CheckBox>
 						<g:SubmitButton ui:field="createProblemSubmitButton">Create</g:SubmitButton>
 					</g:VerticalPanel>
+				</g:FormPanel>
+				<g:FormPanel ui:field="fileParseFormPanel">
+					<g:HorizontalPanel styleName='{style.problemTypePanel}'>
+						<g:Label text="Parse File:" width="100px"/>
+						<g:FileUpload name="toParse" ui:field="toParse"></g:FileUpload>
+						<g:SubmitButton ui:field="fileParseSbt">Parse</g:SubmitButton>
+					</g:HorizontalPanel>
 				</g:FormPanel>
 			</g:VerticalPanel>
 		</g:ScrollPanel>
