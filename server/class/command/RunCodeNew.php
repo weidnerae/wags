@@ -129,8 +129,6 @@ if (is_resource($process))
         {
 			// have to use '<br />' because it gets transmitted incorrectly back to client,
 			//  but the client will replace with '\n' characters
-			//  - this needs to be cleaned up eventually so that we can just keep the '\n'
-			//     to begin with
             print("$output<br />");
         }   
 
