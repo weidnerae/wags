@@ -36,11 +36,11 @@
         			<g:AbsolutePanel ui:field='mainPanel' styleName='{style.main}'></g:AbsolutePanel>
         		</g:ScrollPanel>
         </g:layer>
-        <g:layer bottom='0%' height='35px'>
+        <g:layer bottom='0%' height='30px'>
             <g:AbsolutePanel>
-        		<g:Button ui:field="button" styleName='{style.finalize_button}' height="30px">Finalize</g:Button>
-        		<g:Button ui:field = "stateButton" styleName='{style.finalize_button}' height="30px">Save State</g:Button>
-        		<g:Button ui:field="resetButton" styleName='{style.reset_button}' height="30px">Reset</g:Button>
+        		<g:Button ui:field="button" styleName='{style.finalize_button}' height="28px">Finalize</g:Button>
+        		<g:Button ui:field = "stateButton" styleName='{style.finalize_button}' height="28px">Save State</g:Button>
+        		<g:Button ui:field="resetButton" styleName='{style.reset_button}' height="28px">Reset</g:Button>
         	</g:AbsolutePanel>
         </g:layer>
     </g:LayoutPanel>
