@@ -103,7 +103,7 @@ public class DataStructureTool  extends AbsolutePanel
 		//getOffsetWidth() works correctly (I am ashamed)
 		Timer timer = new Timer() {
 			public void run() {
-				int maxWidth = bannerLabel.getOffsetWidth();
+				int maxWidth = 250;
 
 				for (int i = 0; i < buttons.size(); i++) {
 					// add button to attempt problem, Note: handlers are added later
