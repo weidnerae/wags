@@ -555,13 +555,16 @@ public class Proxy
 			  		grid.setHTML(0, 1, "<b> Correct </b>");
 			  		grid.setHTML(0, 2, "<b> NumAttempts </b>");
 			  		
-			  		int k = 0;
-			  		//Fills table with results
-			  	    for (int row = 1; row < subInfo.length/3+1; ++row) {
+			  		int k = 0, row = 1;
+			  		//Fills table with results - stops before last row (the summary)
+			  	    for (row = 1; row < subInfo.length/3; ++row) {
 			  	      for (int col = 0; col < 3; ++col)
 			  	        grid.setText(row, col, subInfo[k++]);
 			  	    }
-					
+			  	    // Last row
+			  	    grid.setHTML(row, 0, "<b> " + subInfo[subInfo.length - 3] + " </b>");
+			  	    grid.setHTML(row, 1, "<b> " + subInfo[subInfo.length - 2] + " </b>");
+			  	    grid.setHTML(row, 2, "<b> " + subInfo[subInfo.length - 1] + " </b>");
 				}
 				
 			});
