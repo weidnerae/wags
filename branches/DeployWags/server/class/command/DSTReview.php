@@ -15,6 +15,7 @@ class DSTReview extends Command
                 $submissions = MagnetSubmission::getSubmissionsById($id);
             }
             $maxSubs = count($submissions);
+            $totalCorrect = 0;
             $subCount = 0;
             $users = User::getUserNames();  // Returns in alphabetical order
             $result = array();
@@ -36,22 +37,30 @@ class DSTReview extends Command
                 # Only works because both submissions and users are returned
                 # alphabetically by username
                 if($subCount < $maxSubs && $user == $submissions[$subCount]['username']){
-                    $this->addRow($submissions[$subCount], $result);
+                    $this->addRow($submissions[$subCount], $result, $totalCorrect);
                     $subCount = $subCount + 1;
                 } else {
                     $tmpRow = $emptyRow;
                     $tmpRow['username'] = $user;
-                    $this->addRow($tmpRow, $result);
+                    $this->addRow($tmpRow, $result, $totalCorrect);
                 }
             }
+
+            // Summary
+            $percentFinished = number_format(($totalCorrect * 100)/$subCount, 2);
+            $result[] = "% finished: ";
+            $result[] = " ";
+            $result[] = "$percentFinished";
+
             return JSON::success($result);    
     }
 
-    private function addRow($row, &$result){
+    private function addRow($row, &$result, &$totalCorrect){
         $result[] = $row['username'];
         $result[] = $row['success'];
         $result[] = $row['numAttempts'];
+
+        if($row['success'] == 1) $totalCorrect++;
     }
 }
-
 ?>
