@@ -226,6 +226,11 @@ class LogicalMicrolab extends Model
         $sth->execute(array(':section' => $user->getSection()));
     	
     	$result = $sth->fetchAll();
+
+        if(empty($result)){
+            return null;
+        }
+
     	foreach ($result as $entry) {
     		$values[] = $entry[0];
     	}

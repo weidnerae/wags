@@ -48,12 +48,14 @@ class GetLogicalExercises extends Command
 		}
 		
 		// tack the review exercises on at the end
-		foreach($review as $r) {
-			if ($r) {
-				$returnArray[] = $r;
-				$returnArray[] = "2";
-			}
-		}
+        if(!empty($review)){
+            foreach($review as $r) {
+                if ($r) {
+                    $returnArray[] = $r;
+                    $returnArray[] = "2";
+                }
+            }
+        }
 		
         return JSON::success($returnArray);
     }
