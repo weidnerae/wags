@@ -1,7 +1,6 @@
 package wags;
 
 import wags.programming.view.Login;
-import wags.programming.view.Registration;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.http.client.Request;
@@ -13,7 +12,6 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 
 
 /**
@@ -45,17 +43,7 @@ public class WagsEntry implements EntryPoint
 					WEStatus status = new WEStatus(response);
 					
 					if(status.getStat() == WEStatus.STATUS_ERROR){
-						// No one is logged in. Redirect based on location variable.
-						String loc = Location.getParameter("loc");
-						if(loc.equals("register")){
-							register();
-						}
-						else if(loc.equals("login")){
-							login();
-						}
-						else{
-							login();
-						}
+						login();
 					}
 					else if(status.getStat() == WEStatus.STATUS_SUCCESS){
 						RootLayoutPanel root = RootLayoutPanel.get();
@@ -79,11 +67,6 @@ public class WagsEntry implements EntryPoint
 			Window.alert(e.getMessage());
 			e.printStackTrace();
 		}
-	}
-	
-	private static void register(){
-		RootPanel root = RootPanel.get("main-content");
-		root.add(new Registration());		
 	}
 	
 	@SuppressWarnings("unused")
