@@ -16,6 +16,8 @@ import com.google.gwt.json.client.JSONValue;
 
 public class WEStatus 
 {
+	// Just some edit
+	public static final int NOTHING = -1;
 	public static final int STATUS_ERROR   = 0;
 	public static final int STATUS_SUCCESS = 1;
 	public static final int STATUS_WARNING = 2;

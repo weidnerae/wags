@@ -259,7 +259,6 @@ public class Proxy
 							statusList);
 					DST.getElement().getStyle().setOverflowY(Overflow.AUTO);
 					wags.replaceCenterContent(DST);
-					
 				}
 		        
 		        public void onError(Request request, Throwable exception) {
@@ -347,34 +346,6 @@ public class Proxy
 			builder.sendRequest(null, callback);
 		} catch (RequestException e) {
 			e.printStackTrace();
-		}
-	}
-
-	public static void checkMultiUser(final Wags wags){
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=CheckMultiUser");
-		try{
-			builder.sendRequest(null, new RequestCallback(){
-	
-				@Override
-				public void onError(Request request, Throwable exception) {
-					Window.alert("Error in checkMultiUser request");
-				}
-	
-				@Override
-				public void onResponseReceived(Request request,
-						Response response) {
-					WEStatus status = new WEStatus(response);  
-					
-					if(status.getStat() == WEStatus.STATUS_ERROR){
-						String title = status.getMessage();
-						
-						wags.assignPartner(title);
-					}
-				}
-				
-			});
-		} catch (RequestException e) {
-			Window.alert("Failed to send the request: " + e.getMessage());
 		}
 	}
 
@@ -1270,7 +1241,7 @@ public class Proxy
 	 * 
 	 * Also, hides Anchors for guests
 	 */
-	public static void getUsersName(final Label label, final Anchor Editor, final Anchor DST, final Anchor Magnets, final String startingPlace)
+	public static void getUsersName(final Label label, final Anchor Editor, final Anchor DST, final Anchor Magnets, final Anchor Admin, final String startingPlace)
 	{
 		WagsCallback c = new WagsCallback() {
 			@Override
@@ -1279,12 +1250,17 @@ public class Proxy
 				Editor.setVisible(false);
 				// Leave the anchor for the starting place for quicker logical navigation, 
 				// any magnet navigation
+				Admin.setVisible(false);
 				if(!startingPlace.equals("dst")) DST.setVisible(false);
 				if(!startingPlace.equals("magnets")) Magnets.setVisible(false);
 			}
 			
 			@Override
 			void success(WEStatus status) {
+				if(Integer.parseInt(status.getMessageMapVal("admin")) != 1){
+					Admin.setVisible(false);
+				}
+				
 				String first = status.getMessageMapVal("firstName");
 				if(first == null){
 					// Use email address in greeting.
