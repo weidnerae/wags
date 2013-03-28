@@ -16,6 +16,7 @@ class SetLogicalExercises extends Command
 {
     public function execute(){
         $exercises = $_GET['list'];
+        $exercises = str_replace("'", "\'", $exercises);
 
         if($exercises == "none") $exercises = "";
 
