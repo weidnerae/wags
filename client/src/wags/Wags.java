@@ -20,7 +20,6 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -37,11 +36,13 @@ public class Wags extends View
 	@UiField Anchor Editor;
 	@UiField Anchor DST;
 	@UiField Anchor Magnets;
+	@UiField Anchor AdminPage;
 	@UiField Anchor logout;
 	@UiField Label hello;
 
 	public Magnets splashPage;
 	private Editor editor;
+	private AdminPage adminPage;
 	
 	private String startingPlace;
 	
@@ -53,13 +54,13 @@ public class Wags extends View
 	public Wags(String startingPlace)
 	{
 		initWidget(uiBinder.createAndBindUi(this));
-		Proxy.getUsersName(hello, Editor, DST, Magnets, startingPlace);
+		Proxy.getUsersName(hello, Editor, DST, Magnets, AdminPage, startingPlace);
 		Proxy.checkPassword(this);
-		Proxy.checkMultiUser(this);
 		Proxy.setWags(this);
 		
 		this.startingPlace = startingPlace;
 		editor = new Editor();
+		adminPage = new AdminPage();
 		
 		// Load the correct initial page
 		if (startingPlace.equals("magnets")) {
@@ -92,6 +93,8 @@ public class Wags extends View
 					loadMagnets();
 				} else if (url.endsWith("login")) {
 					Proxy.logout();
+				} else if (url.endsWith("admin")){
+					replaceCenterContent(adminPage);
 				}
 			}
 			
@@ -115,6 +118,11 @@ public class Wags extends View
 	{
 		loadMagnets();
 	}
+	
+	@UiHandler("AdminPage")
+	void onAdminClick(ClickEvent event){
+		History.newItem("?loc=admin");
+	}
 
 	@UiHandler("logout")
 	void onLogoutClick(ClickEvent event)
@@ -135,32 +143,6 @@ public class Wags extends View
 	public void loadMagnets() {
 		Proxy.buildMagnets(this);
 		History.newItem("?loc=magnets");
-	}
-	
-
-	public void assignPartner(final String exercise){
-		final DialogBox pickPartner = new DialogBox(false);
-		final ListBox partners = new ListBox();
-		Button close = new Button("Set Partner");
-		
-		HorizontalPanel DialogBoxContents = new HorizontalPanel();
-		pickPartner.setText("Choose a partner for exercise: " + exercise);
-		Proxy.getUsernames(partners);
-		
-		close.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				pickPartner.hide();
-				Proxy.assignPartner(exercise, partners.getValue(partners.getSelectedIndex()));
-			}
-		});
-		
-		DialogBoxContents.add(partners);
-		DialogBoxContents.add(close);
-		pickPartner.add(DialogBoxContents);
-		
-		pickPartner.center();
 	}
 
 	public void assignPassword(){

@@ -103,22 +103,6 @@ public class Editor extends Composite implements IsWidget{
 						!itemName.contains("_Versions") && !fileName.getText().contains("_Versions"))
 					saveCurrentCode();
 				
-				// If clicked item is directory then just open it
-				if(i.getChildCount() > 0)
-				{
-					// Philip, this is the idea for setting up the browser
-					//  so that the user can click on the exercise name
-					//  as well as the plus sign to open up an exercise,
-					//  rather than always having to use the plus sign.
-					//  -Would help with difficulty of pressing plus signs on
-					//    mobile devices
-					//  -Unfortunately, the following doesn't work yet, but I left
-					//   it because it seemed like the right track
-//					if (!i.getState())
-//						i.setState(true, false);
-//					else
-//						i.setState(false, false);
-				}
 				else
 				{
 					// If clicked item is a leaf TreeItem then open it in editor
