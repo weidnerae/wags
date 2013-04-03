@@ -1,0 +1,70 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:my="urn:import:wags.programming.view">
+	<ui:style>
+		.button {
+			font-weight: bold;
+			margin-left:5px;
+			margin-right:5px;
+			margin-top: 10px;
+			position: relative;
+			height: 40px;
+			width: 115px;
+			padding: 12px;
+			text-align: center;
+		}
+		
+		.columns {
+			padding:0.2em;
+		}
+		
+		.label {
+			width: 5em;
+			display: block;
+			float: left;
+			margin-right: 0.5em;
+			text-align: left;
+		}
+		
+		.title1 { 
+			font-size: 14em; 
+			font-weight: light;
+			font-style: italic;
+			font-family: console;
+			color: #325C74;
+			vertical-align: top;
+		}
+		
+		.title2 { 
+			font-size: 3em;
+			font-weight: light;
+			font-family: console;
+			color: #325C74;
+			vertical-align: top;
+			padding-bottom:0.5em;
+		}
+
+	</ui:style>
+	
+ 	<g:VerticalPanel horizontalAlignment='ALIGN_CENTER' height="1%" width="100%">
+		<g:Label styleName="{style.title1}">Wags</g:Label>
+		<g:Label styleName="{style.title2}">Web Automatic Grading System</g:Label>
+		
+		<g:HorizontalPanel styleName="{style.columns}">
+			<g:Label styleName="{style.label}">Account: </g:Label>
+			<g:TextBox ui:field="username" />
+		</g:HorizontalPanel>
+		
+		<g:HorizontalPanel styleName="{style.columns}">
+			<g:Label styleName="{style.label}">Password: </g:Label>
+			<g:PasswordTextBox ui:field="password" />
+		</g:HorizontalPanel>
+		
+		<g:HorizontalPanel styleName="{style.columns}">	
+			<g:Button styleName="{style.button}" ui:field="loginButton" />
+		</g:HorizontalPanel>
+		
+	</g:VerticalPanel>
+	
+</ui:UiBinder> 
