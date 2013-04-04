@@ -1,7 +1,7 @@
 
 package webEditor;
 
-import webEditor.Admin.AdminPage;
+import webEditor.admin.AdminPage;
 import webEditor.magnet.view.Magnets;
 import webEditor.magnet.view.RefrigeratorMagnet;
 import webEditor.programming.view.Editor;
