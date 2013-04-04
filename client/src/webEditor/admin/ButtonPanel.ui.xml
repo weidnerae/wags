@@ -2,11 +2,18 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
-		
+		.title {
+			padding-bottom: 8px;
+			padding-top: 8px;
+			font-size: x-large;
+			font-family: helvetica;	
+			text-align: center;
+		}
 	</ui:style>
 	<g:HTMLPanel>
 	<g:VerticalPanel>
-		<g:Label>Show up</g:Label>
+		<g:Label ui:field="title" styleName="{style.title}"/>
+		<g:VerticalPanel ui:field="btnHolder"/>
 	</g:VerticalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 
