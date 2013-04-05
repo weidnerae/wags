@@ -3,7 +3,12 @@ package webEditor.logical.SimplePartitionProblems;
 import java.util.ArrayList;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
+import org.vaadin.gwtgraphics.client.Group;
 import org.vaadin.gwtgraphics.client.Line;
+import org.vaadin.gwtgraphics.client.animation.Animate;
+import org.vaadin.gwtgraphics.client.shape.Path;
+import org.vaadin.gwtgraphics.client.shape.Rectangle;
+import org.vaadin.gwtgraphics.client.shape.Text;
 
 import webEditor.Proxy;
 import webEditor.logical.DSTConstants;
@@ -17,6 +22,8 @@ import webEditor.logical.NodeDragController;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
@@ -29,11 +36,11 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 	private SimplePartitionProblem problem;
 	private EdgeCollection edgeCollection;
 	
-	protected Button swapButton;
+	protected Group swapButton;
+	private Path leftUpArrow, rightUpArrow;
 
 	private int lb = 0; // Used for swapping
 	private int ub = 9;
-	private HandlerRegistration lowReg, highReg;
 
 	public SimplePartitionDisplayManager(DrawingArea canvas, AbsolutePanel panel,
 			NodeCollection nc, EdgeCollection ec, SimplePartitionProblem problem) {
@@ -55,8 +62,9 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 		addBackButton();
 		addResetButton();
 		addEvaluateButton();
-		addSwapButton();
 		drawBoxes();
+		addSwapButton();
+		drawAllArrows();
 		
 		insertNodesAndEdges();
 	}
@@ -79,23 +87,14 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 
 		for (int i = 0; i < splitNodes.length; i++) {
 			label = new Label(splitNodes[i]);
-			if (i < lb || i > ub) {
-				label.setStyleName("immobilized_node");
-			} else {
-				label.setStyleName("node");
-			}
-			label.setStyleName("node");
+			label.setStyleName("swap_node");
 			panel.add(label, xPositions[i], yPositions[i]);
 
 			nodeCollection.addNode(new Node(splitNodes[i], label));
 		}
 		
-		nodeCollection.getNode(lb).getLabel().setStylePrimaryName("selected_red_node");
-		lowReg = nodeCollection.getNode(lb).getLabel().
-				addClickHandler(new PartitionLowNodeClickHandler());
-		nodeCollection.getNode(ub).getLabel().setStylePrimaryName("selected_red_node");
-		highReg = nodeCollection.getNode(ub).getLabel().
-				addClickHandler(new PartitionHighNodeClickHandler());
+		nodeCollection.getNode(lb).getLabel().setStylePrimaryName("selected_swap_node");
+		nodeCollection.getNode(ub).getLabel().setStylePrimaryName("selected_swap_node");
 		
 		makeNodesNotDraggable();
 	}
@@ -103,13 +102,18 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 	private class PartitionLowNodeClickHandler implements ClickHandler {
 		public void onClick(ClickEvent event) {
 			Label low = nodeCollection.getNode(lb).getLabel();
+			
 			if (low.getStylePrimaryName().contains("selected") && (lb + 1) < ub) {
-				lowReg.removeHandler();
-				low.setStylePrimaryName("immobilized_node");
+				low.setStylePrimaryName("swap_node");
 				lb++;
 				low = nodeCollection.getNode(lb).getLabel();
-				low.setStylePrimaryName("selected_red_node");
-				lowReg = low.addClickHandler(new PartitionLowNodeClickHandler());
+				low.setStylePrimaryName("selected_swap_node");
+				new Animate(leftUpArrow, "x", leftUpArrow.getX(), 
+						leftUpArrow.getX() + 60, 150).start();
+			} else if ((leftUpArrow.getX() + 60 <= rightUpArrow.getX()) && (lb == ub - 1)) {
+				// last arrow movement, we want the two arrows to point at the same node
+				new Animate(leftUpArrow, "x", leftUpArrow.getX(), leftUpArrow.getX() + 45, 150).start();
+				new Animate(rightUpArrow, "x", rightUpArrow.getX(), rightUpArrow.getX() + 15, 150).start();
 			}
 		}
 	}
@@ -117,13 +121,18 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 	private class PartitionHighNodeClickHandler implements ClickHandler {
 		public void onClick(ClickEvent event) {
 			Label high = nodeCollection.getNode(ub).getLabel();
+			
 			if (high.getStylePrimaryName().contains("selected") && lb < (ub - 1)) {
-				highReg.removeHandler();
-				high.setStylePrimaryName("immobilized_node");
+				high.setStylePrimaryName("swap_node");
 				ub--;
 				high = nodeCollection.getNode(ub).getLabel();
-				high.setStylePrimaryName("selected_red_node");
-				highReg = high.addClickHandler(new PartitionHighNodeClickHandler());
+				high.setStylePrimaryName("selected_swap_node");
+				new Animate(rightUpArrow, "x", rightUpArrow.getX(), 
+					    rightUpArrow.getX() - 60, 150).start();
+			} else if ((leftUpArrow.getX() + 60 <= rightUpArrow.getX()) && (lb == ub - 1)) {
+				// last arrow movement, we want the two arrows to point at the same node
+				new Animate(rightUpArrow, "x", rightUpArrow.getX(), rightUpArrow.getX() - 45, 150).start();
+				new Animate(leftUpArrow, "x", leftUpArrow.getX(), leftUpArrow.getX() - 15, 150).start();
 			}
 		}
 		
@@ -142,10 +151,14 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 				for (int i = 0; i < getNodes().size(); i++) {
 					panel.remove(getNodes().get(i).getLabel());
 				}
+				
+				leftUpArrow.setX(30);
+				rightUpArrow.setX(canvas.getWidth() - 30);
 
 				nodeCollection.emptyNodes();
 				insertNodesAndEdges();
-				resetNodeStylesAndHandlers();
+				nodeCollection.getNode(lb).getLabel().setStylePrimaryName("selected_swap_node");
+				nodeCollection.getNode(ub).getLabel().setStylePrimaryName("selected_swap_node");
 			}
 		});
 		resetButton.setStyleName("control_button");
@@ -205,17 +218,29 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 	}
 	
 	private void addSwapButton() {
-		swapButton = new Button("Swap highlighted nodes");
-		swapButton.setWidth("175px");
+		int startX = (canvas.getWidth() / 4) + 30;
+		int startY = 210;
+		Rectangle swapBox = new Rectangle (startX, startY,
+										  ((canvas.getWidth() / 4) * 3) - startX - 30, 50);
+		swapBox.setRoundedCorners(5);
+		swapBox.setFillColor("Yellow");
+		Text swapText = new Text(startX + 65, startY + 33, "Swap Nodes");
+		swapText.setFillColor("Black");
+		Group swapButton = new Group();
+		
+		swapButton.add(swapBox);
+		swapButton.add(swapText);
+		swapButton.bringToFront(swapText);
 		
 		swapButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				swapNodes();
+				if (leftUpArrow.getX() + 60 <= rightUpArrow.getX()) {
+					swapNodes();
+				}
 			}
 		});
-		
-		swapButton.setStyleName("control_button");
-		rightButtonPanel.add(swapButton, 56, 2);
+
+		canvas.add(swapButton);
 	}
 	
 	/**
@@ -283,6 +308,73 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 	}
 	
 	/**
+	 * drawUpArrow
+	 * Description: This method draws an upward facing arrow.
+	 * @param xStart The starting x-coordinate for the tip of the arrow
+	 */
+	private Path drawUpArrow(int xStart) {
+		int ARROW_TIP_Y = 85;
+		
+		Path arrow = new Path(xStart, ARROW_TIP_Y);
+		arrow.lineRelativelyTo(15, 22);
+		arrow.lineRelativelyTo(-7, 0);
+		arrow.lineRelativelyTo(0, 35);
+		arrow.lineRelativelyTo(-16, 0);
+		arrow.lineRelativelyTo(0, -35);
+		arrow.lineRelativelyTo(-7, 0);
+		arrow.close();
+		
+		return arrow;
+	}
+	
+	private Path drawRightArrow() {
+		Path arrow = new Path((canvas.getWidth() / 4), 235);
+		arrow.lineRelativelyTo(-32, -25);
+		arrow.lineRelativelyTo(0, 12);
+		arrow.lineRelativelyTo(-100, 0);
+		arrow.lineRelativelyTo(0, 26);
+		arrow.lineRelativelyTo(100, 0);
+		arrow.lineRelativelyTo(0, 12);
+		arrow.close();
+		
+		arrow.addClickHandler(new PartitionLowNodeClickHandler());
+		
+		return arrow;
+	}
+	
+	private Path drawLeftArrow() {
+		Path arrow = new Path(((canvas.getWidth() / 4) * 3), 235);
+		arrow.lineRelativelyTo(32, -25);
+		arrow.lineRelativelyTo(0, 12);
+		arrow.lineRelativelyTo(100, 0);
+		arrow.lineRelativelyTo(0, 26);
+		arrow.lineRelativelyTo(-100, 0);
+		arrow.lineRelativelyTo(0, 12);
+		arrow.close();
+		
+		arrow.addClickHandler(new PartitionHighNodeClickHandler());
+
+		return arrow;
+	}
+	
+	private void drawAllArrows() {
+		leftUpArrow = drawUpArrow(30);
+		rightUpArrow = drawUpArrow(canvas.getWidth() - 30);
+		Path rightFacingArrow = drawRightArrow();
+		Path leftFacingArrow = drawLeftArrow();
+		
+		leftUpArrow.setFillColor("blue");
+		rightUpArrow.setFillColor("red");
+		rightFacingArrow.setFillColor("blue");
+		leftFacingArrow.setFillColor("red");
+		
+		canvas.add(leftUpArrow);
+		canvas.add(rightUpArrow);
+		canvas.add(rightFacingArrow);
+		canvas.add(leftFacingArrow);
+	}
+	
+	/**
 	 * Swap the left selected node with the right selected node.
 	 * 
 	 * @param eval String returned by Evaluation_SelectionSort.java
@@ -292,21 +384,12 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 		Node upper = getUpperSelectedNode();
 		int lowIndex = getNodes().indexOf(lower);
 		int upperIndex = getNodes().indexOf(upper);
+		
+		// do the actual swap
 		getNodes().add(upperIndex, lower);
 		getNodes().remove(upperIndex + 1);
-		highReg.removeHandler();
-		highReg = getNodes().get(upperIndex-1).getLabel().
-				addClickHandler(new PartitionHighNodeClickHandler());
 		getNodes().add(lowIndex, upper);
 		getNodes().remove(lowIndex + 1);
-		lowReg.removeHandler();
-		lowReg = getNodes().get(lowIndex+1).getLabel().
-				addClickHandler(new PartitionLowNodeClickHandler());
-		
-		// we just swapped the nodes, so the upper and lower bounds
-		// should be updated for the next swap
-		lb++;
-		ub--;
 		
 		// Redraw the nodes in the correct order
 		removeWidgetsFromPanel();
@@ -322,20 +405,23 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 		int[] xPositions = getSortXLocations(problem.getNodes());
 		int[] yPositions = getSortYLocations(problem.getNodes());
 		
+		Label label;
+		
 		for (int i = 0; i < getNodes().size(); i++) {
-			Label label = getNodes().get(i).getLabel();
-			
-			if (i < lb || i > ub) {
-				label.setStyleName("immobilized_node");
-			} else {
-				label.setStyleName("node");
-			}
-			
+			label = getNodes().get(i).getLabel();
+			label.setStyleName("swap_node");
 			panel.add(label, xPositions[i], yPositions[i]);
 		}
 		
-		nodeCollection.getNode(lb).getLabel().setStylePrimaryName("selected_red_node");
-		nodeCollection.getNode(ub).getLabel().setStylePrimaryName("selected_red_node");
+		// the upper and lower bounds can't move anymore and have already been swapped
+		// the exercise if effectively done and the user can't do anything else
+		if (lb >= ub) {
+			nodeCollection.getNode(lb).getLabel().setStylePrimaryName("swap_node");
+			nodeCollection.getNode(ub).getLabel().setStylePrimaryName("swap_node");
+		} else {
+			nodeCollection.getNode(lb).getLabel().setStylePrimaryName("selected_swap_node");
+			nodeCollection.getNode(ub).getLabel().setStylePrimaryName("selected_swap_node");
+		}
 
 		makeNodesNotDraggable();
 	}
@@ -380,16 +466,5 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 
 	public void makeNodesNotDraggable() {
 		nodeCollection.makeNodesNotDraggable(NodeDragController.getInstance());
-	}
-
-	public void resetNodeStylesAndHandlers() {
-		nodeCollection.getNode(lb).getLabel().setStylePrimaryName("selected_red_node");
-		lowReg.removeHandler();
-		lowReg = nodeCollection.getNode(lb).getLabel().
-				addClickHandler(new PartitionLowNodeClickHandler());
-		nodeCollection.getNode(ub).getLabel().setStylePrimaryName("selected_red_node");
-		highReg.removeHandler();
-		highReg = nodeCollection.getNode(ub).getLabel().
-				addClickHandler(new PartitionHighNodeClickHandler());
 	}
 }
