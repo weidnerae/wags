@@ -10,12 +10,10 @@ package webEditor.admin;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
@@ -39,6 +37,7 @@ public class ButtonPanel extends Composite {
 
 	public ButtonPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
+		this.getElement().getStyle().setOverflowY(Overflow.AUTO);
 	}
 	
 	public void setTitle(String title){
@@ -46,25 +45,16 @@ public class ButtonPanel extends Composite {
 	}
 	
 	public void addButtons(String[] buttons){
-		for(String button: buttons){
-			this.btnHolder.add(new Button(button));
-		}
+		btnHolder.clear();
+		myButtons.clear();
+		Button tmpBtn;
 		
-		this.addClickHandlers();
-	}
-	
-	private void addClickHandlers(){
-		for(int i = 0; i < btnHolder.getWidgetCount(); i++){
-			// If some non-button snuck into btnHolder, bail
-			if(!(btnHolder.getWidget(i) instanceof Button)){
-				Window.alert("That's not a button!!");
-				break;
-			}
-			
-			// Add click handlers to the button
-			Button tmpButton = (Button) btnHolder.getWidget(i);
-			myButtons.add(tmpButton);
-			tmpButton.addClickHandler(new myClickHandler(tmpButton.getText()));
+		for(String button: buttons){
+			tmpBtn = new Button(button);
+			tmpBtn.setStyleName("problem");
+			tmpBtn.setVisible(false);
+			this.btnHolder.add(tmpBtn);
+			myButtons.add(tmpBtn);
 		}
 		
 		// Attaching stuff to the DOM takes too long.....
@@ -77,12 +67,12 @@ public class ButtonPanel extends Composite {
 		timer.schedule(1);
 	}
 	
-	private void sizeButtons(){
+	public void sizeButtons(){
 		this.btnHolder.setSpacing(CELL_SPACING);
 		
 		for(int i = 0; i < myButtons.size(); i++){
 			Button tmpButton = myButtons.get(i);
-			tmpButton.setStyleName("problem");
+			tmpButton.setVisible(true);
 			
 			// make btnWidth & btnHeight larger if necessary
 			if(tmpButton.getOffsetWidth() > btnWidth){
@@ -93,6 +83,9 @@ public class ButtonPanel extends Composite {
 		// See if buttons need to be longer to align with title
 		if(btnWidth < this.title.getOffsetWidth()){
 			btnWidth = this.title.getOffsetWidth();
+		} else {
+			// To stop split second "shrinking" when changing buttons
+			this.title.setWidth(btnWidth+"px");
 		}
 		
 		// Set proportions to something that looks nice
@@ -112,18 +105,12 @@ public class ButtonPanel extends Composite {
 		return btnHeight;
 	}
 	
-	private class myClickHandler implements ClickHandler{
-		String name;
-		
-		public myClickHandler(String name){
-			this.name = name;
-		}
-		
-		@Override
-		public void onClick(ClickEvent event) {
-			Window.alert(name + " has default clickhandler!");
-		}
-		
+	public void setButtonWidth(int pixels){
+		btnWidth = pixels;
+	}
+	
+	public void setButtonHeight(int pixels){
+		btnHeight = pixels;
 	}
 
 }
