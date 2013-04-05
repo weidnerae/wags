@@ -20,11 +20,13 @@ import webEditor.logical.Evaluation;
 import webEditor.logical.Node;
 
 public class Evaluation_SimplePartition extends Evaluation implements IsSerializable {
-	static int lb = 0;
-	static int ub = 9;
+	private int lb;
+	private int ub;
 
 	public String evaluate(String problemName, String[] arguments,
 			ArrayList<Node> nodes, ArrayList<EdgeParent> edges) {
+		lb = 0;
+		ub = 9;
 		
 		int[] student = getIntArrayFromString(getNodeOrder(nodes));		
 		int[] solution = getSolution(getIntArrayFromString(arguments[0].trim()));
