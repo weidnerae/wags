@@ -3,13 +3,16 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:my="urn:import:webEditor.admin">
 	<ui:style>
-		
+		.spaced{
+			border-spacing: 40px;		
+		}
 	</ui:style>
 	<g:HTMLPanel>
-		<g:HorizontalPanel>
-			<my:ButtonPanel ui:field="btnPanelSubjects"/>
-			<my:ButtonPanel ui:field="btnPanelGroups"/>
-			<my:CheckBoxPanel ui:field="chkPanelExercises"/>
+		<g:HorizontalPanel styleName="{style.spaced}">
+			<my:ButtonPanel ui:field="btnPanelSubjects" />
+			<my:ButtonPanel ui:field="btnPanelGroups" />
+			<my:CheckBoxPanel ui:field="chkPanelExercises" />
+			<my:AssignedPanel ui:field="asPanel" />
 		</g:HorizontalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

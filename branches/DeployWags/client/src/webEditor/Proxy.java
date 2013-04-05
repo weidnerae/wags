@@ -850,6 +850,74 @@ public class Proxy
 		}
 	}
 	
+	public static void getLMSubjects(final ProxyFacilitator pf){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=LogicalExercises&request=subjects");
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus stat = new WEStatus(response);
+					
+					pf.handleSubjects(stat.getMessageArray());
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					 Window.alert("getLMSubjects error");
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
+	
+	public static void getLMGroups(String subject, final ProxyFacilitator pf){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + 
+				"?cmd=LogicalExercises&request=groups&subject=" + subject);
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus stat = new WEStatus(response);
+					
+					pf.handleGroups(stat.getMessageArray());
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					 Window.alert("getLMGroups error");
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
+	
+	public static void getLMExercises(String group, final ProxyFacilitator pf){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + 
+				"?cmd=LogicalExercises&request=exercises&group=" + group);
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus stat = new WEStatus(response);
+					
+					pf.handleExercises(stat.getMessageArray());
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					 Window.alert("getLMExercises error");
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
+	
 	/**
 	 * This will check to see which exercises are curently assigned, then call 
 	 * Admin.checkCurrentLogicalExercises() to make them checked by default.
