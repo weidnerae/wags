@@ -6,6 +6,10 @@
 		
 	</ui:style>
 	<g:HTMLPanel>
-		<my:ButtonPanel ui:field="btnPanelSubjects"></my:ButtonPanel>
+		<g:HorizontalPanel>
+			<my:ButtonPanel ui:field="btnPanelSubjects"/>
+			<my:ButtonPanel ui:field="btnPanelGroups"/>
+			<my:CheckBoxPanel ui:field="chkPanelExercises"/>
+		</g:HorizontalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 
