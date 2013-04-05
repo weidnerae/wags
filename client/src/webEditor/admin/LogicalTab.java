@@ -15,14 +15,23 @@ public class LogicalTab extends Composite {
 	}
 	
 	@UiField ButtonPanel btnPanelSubjects;
+	@UiField ButtonPanel btnPanelGroups;
+	@UiField CheckBoxPanel chkPanelExercises;
 
 	public LogicalTab() {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		String[] testButtons = {"Test Button 1", "Test Button 2", "Test Button 3",
 									"Test Button 4", "Test Button 5"};
-		btnPanelSubjects.setTitle("TEST TITLE");
+		String[] testChecks = {"Checkbox 1", "Checkbox 2", "Checkbox 3", "Checkbox 4"};
+		btnPanelSubjects.setTitle("SUBJECTS");
 		btnPanelSubjects.addButtons(testButtons);
+		
+		btnPanelGroups.setTitle("GROUPS");
+		btnPanelGroups.addButtons(testButtons);
+		
+		chkPanelExercises.setTitle("Exercises");
+		chkPanelExercises.addCheckBoxes(testChecks);
 	}
 
 }
