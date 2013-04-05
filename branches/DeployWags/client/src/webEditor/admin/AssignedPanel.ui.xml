@@ -9,12 +9,17 @@
 			font-family: helvetica;	
 			text-align: center;
 		}
+		.assignedTxt{
+			height: 250px;
+			width: 99%;
+			white-space: nowrap;
+		}
 	</ui:style>
 	<g:HTMLPanel>
-	<g:VerticalPanel>
-		<g:Label ui:field="title" styleName="{style.title}"/>
-		<g:VerticalPanel ui:field="chkBoxHolder"/>
-		<g:Button ui:field="btnUnsetAll" width="100%"/>
-	</g:VerticalPanel>
+		<g:VerticalPanel width="100%">
+			<g:Label styleName="{style.title}"> SELECTED </g:Label>
+			<g:TextArea height="250px" ui:field="txtAreaAssigned" readOnly="true" width="100%"/>
+			<g:Button ui:field="btnAssign" width="100%">Assign</g:Button>
+		</g:VerticalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 
