@@ -5,18 +5,20 @@
 	<ui:style>
 		.button {
 			font-weight: bold;
-			margin-left:5px;
-			margin-right:5px;
 			margin-top: 10px;
-			position: relative;
 			height: 40px;
-			width: 115px;
+			width: 100%;
 			padding: 12px;
 			text-align: center;
 		}
 		
 		.columns {
 			padding:0.2em;
+		}
+		
+		.sub_columns {
+			padding:0.2em;
+			width: 100%;
 		}
 		
 		.label {
@@ -51,19 +53,21 @@
 		<g:Label styleName="{style.title1}">Wags</g:Label>
 		<g:Label styleName="{style.title2}">Web Automatic Grading System</g:Label>
 		
-		<g:HorizontalPanel styleName="{style.columns}">
-			<g:Label styleName="{style.label}">Account: </g:Label>
-			<g:TextBox ui:field="username" />
-		</g:HorizontalPanel>
-		
-		<g:HorizontalPanel styleName="{style.columns}">
-			<g:Label styleName="{style.label}">Password: </g:Label>
-			<g:PasswordTextBox ui:field="password" />
-		</g:HorizontalPanel>
-		
-		<g:HorizontalPanel styleName="{style.columns}">	
-			<g:Button styleName="{style.button}" ui:field="loginButton" />
-		</g:HorizontalPanel>
+		<g:VerticalPanel styleName="{style.columns}">
+			<g:HorizontalPanel styleName="{style.sub_columns}">
+				<g:Label styleName="{style.label}">Account: </g:Label>
+				<g:TextBox ui:field="username" />
+			</g:HorizontalPanel>
+			
+			<g:HorizontalPanel styleName="{style.sub_columns}">
+				<g:Label styleName="{style.label}">Password: </g:Label>
+				<g:PasswordTextBox ui:field="password" />
+			</g:HorizontalPanel>
+			
+			<g:HorizontalPanel styleName="{style.sub_columns}">	
+				<g:Button styleName="{style.button}" ui:field="loginButton" />
+			</g:HorizontalPanel>
+		</g:VerticalPanel>
 		
 	</g:VerticalPanel>
 	
