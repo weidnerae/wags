@@ -10,10 +10,9 @@
 			text-align: center;
 		}
 	</ui:style>
-	<g:HTMLPanel>
+	
 	<g:VerticalPanel>
 		<g:Label ui:field="title" styleName="{style.title}"/>
 		<g:VerticalPanel ui:field="btnHolder"/>
 	</g:VerticalPanel>
-	</g:HTMLPanel>
 </ui:UiBinder> 
