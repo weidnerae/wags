@@ -1,5 +1,7 @@
 package webEditor;
 
+import webEditor.admin.AdminPage;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -24,11 +26,13 @@ public class DefaultPage extends Composite {
 	@UiField Button logicalButton;
 	@UiField Button magnetButton;
 	@UiField Button adminButton;
+	@UiField Button magnetPCButton;
+	@UiField Button logicalPCButton;
 	@UiField Button logoutButton;
 	
 	public DefaultPage() {
 		initWidget(uiBinder.createAndBindUi(this));
-		Proxy.isAdmin(adminButton);
+		Proxy.isAdmin(adminButton, magnetPCButton, logicalPCButton);
 	}
 	
 	@UiHandler("editorButton")
@@ -57,6 +61,23 @@ public class DefaultPage extends Composite {
 	{
 		Wags e = new Wags("admin");
 		e.go();
+	}
+	
+	@UiHandler("magnetPCButton")
+	void onMagnetPCClick(ClickEvent event)
+	{
+		Wags e = new Wags("admin");
+		e.go();
+		e.goToMagnetCreation();
+	}
+	
+	@UiHandler("logicalPCButton")
+	void onLogicalPCClick(ClickEvent event)
+	{
+		Wags e = new Wags("admin");
+		e.go();
+		e.goToLogicalCreation();
+		
 	}
 	
 	@UiHandler("logoutButton")

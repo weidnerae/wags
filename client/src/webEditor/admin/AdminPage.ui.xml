@@ -32,10 +32,12 @@
 					</g:ScrollPanel>
 				</g:tab>
 				<g:tab>
-					<g:header> Problem Creation </g:header>
-					<g:ScrollPanel>
-						<g:Label> Problem Creation </g:Label>
-					</g:ScrollPanel>
+					<g:header> Magnet Problem Creation </g:header>
+					<my:ProblemCreationPanel ui:field="magnetPC"/>
+				</g:tab>
+				<g:tab>
+					<g:header> Logical Problem Creation </g:header>
+					<g:Label> Logical Problem Creation </g:Label>
 				</g:tab>
 			</g:TabLayoutPanel>
 	</g:HTMLPanel>
