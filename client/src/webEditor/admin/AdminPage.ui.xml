@@ -10,7 +10,7 @@
 				<g:tab>
 					<g:header> Logical </g:header>
 					<g:ScrollPanel>
-						<my:LogicalTab ui:field="logical"/>
+						<my:LogicalTab height="100%" ui:field="logical"/>
 					</g:ScrollPanel>
 				</g:tab>
 				<g:tab>

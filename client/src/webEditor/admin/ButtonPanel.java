@@ -31,8 +31,8 @@ public class ButtonPanel extends Composite {
 	@UiField Label title;
 	@UiField VerticalPanel btnHolder;
 	ArrayList<Button> myButtons = new ArrayList<Button>();
-	private int btnWidth = 0;
-	private int btnHeight = 0;
+	private int btnWidth = 175;
+	private int btnHeight = 45;
 	private int CELL_SPACING = 5;
 
 	public ButtonPanel() {
@@ -52,11 +52,13 @@ public class ButtonPanel extends Composite {
 		for(String button: buttons){
 			tmpBtn = new Button(button);
 			tmpBtn.setStyleName("problem");
-			tmpBtn.setVisible(false);
+			tmpBtn.setVisible(true);
+			tmpBtn.setPixelSize(btnWidth, btnHeight);
 			this.btnHolder.add(tmpBtn);
 			myButtons.add(tmpBtn);
 		}
 		
+		/*
 		// Attaching stuff to the DOM takes too long.....
 		Timer timer = new Timer(){
 			public void run(){
@@ -65,6 +67,7 @@ public class ButtonPanel extends Composite {
 		};
 		
 		timer.schedule(1);
+		*/
 	}
 	
 	public void sizeButtons(){

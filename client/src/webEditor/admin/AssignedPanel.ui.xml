@@ -17,8 +17,8 @@
 	</ui:style>
 	<g:HTMLPanel>
 		<g:VerticalPanel width="100%">
-			<g:Label styleName="{style.title}"> SELECTED </g:Label>
-			<g:TextArea height="250px" ui:field="txtAreaAssigned" readOnly="true" width="100%"/>
+			<g:Label styleName="{style.title}">SELECTED</g:Label>
+			<g:TextArea styleName="{style.assignedTxt}" ui:field="txtAreaAssigned" readOnly="true" width="100%"/>
 			<g:Button ui:field="btnAssign" width="100%">Assign</g:Button>
 		</g:VerticalPanel>
 	</g:HTMLPanel>
