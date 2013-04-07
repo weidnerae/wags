@@ -111,9 +111,9 @@ public class Proxy
 		          // If administrator or root
 		          if(status.getStat() == WEStatus.STATUS_WARNING || root){
 		        	  if(status.getMessage().equals("magnet")){
-		        		  magnet.addProblemCreation(true);
+		        		  //magnet.addProblemCreation(true);
 		        	  } else {
-		        		  magnet.addProblemCreation(false);
+		        		  //magnet.addProblemCreation(false);
 		        	  }
 		          }
 		          
@@ -1485,7 +1485,7 @@ public class Proxy
 		    }
 	}
 	
-	public static void isAdmin(final Widget admin){	
+	public static void isAdmin(final Widget admin, final Widget magnet, final Widget logical){	
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=IsAdmin");
 		try {
 		      @SuppressWarnings("unused")
@@ -1497,6 +1497,8 @@ public class Proxy
 		          // If not root, no section tab
 		          if(status.getStat() == WEStatus.STATUS_SUCCESS || status.getStat() == WEStatus.STATUS_WARNING){
 		        	  admin.setVisible(true);
+		        	  magnet.setVisible(true);
+		        	  logical.setVisible(true);
 		          }
 		        }
 		        

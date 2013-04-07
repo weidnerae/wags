@@ -1,8 +1,10 @@
-package webEditor.magnet.view;
+package webEditor.admin;
 
 import webEditor.Notification;
 import webEditor.Proxy;
 import webEditor.WEStatus;
+import webEditor.magnet.view.Consts;
+import webEditor.magnet.view.RefrigeratorMagnet;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -75,7 +77,7 @@ public class ProblemCreationPanel extends Composite{
 	TextBox boolCond = new TextBox();
 
 		
-	public ProblemCreationPanel(RefrigeratorMagnet magnet, boolean magnetAdmin){
+	public ProblemCreationPanel(){
 		initWidget(uiBinder.createAndBindUi(this));
 		Proxy.getMagnetGroups(lstLoadGroup);
 		Proxy.getMagnetsByGroup("Arrays/ArrayLists", lstLoadExercise);		

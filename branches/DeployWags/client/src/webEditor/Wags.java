@@ -22,6 +22,8 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.TabLayoutPanel;
+import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -236,5 +238,19 @@ public class Wags extends View
 	{
 		return new WEAnchor("Wags", this, startingPlace);
 	}
+	
+	public AdminPage getAdmin()
+	{
+		return adminPage;
+	}
 
+	public void goToMagnetCreation() {
+		TabLayoutPanel t = adminPage.getLayoutPanel();
+		t.selectTab(4);
+	}
+
+	public void goToLogicalCreation() {
+		TabLayoutPanel t = adminPage.getLayoutPanel();
+		t.selectTab(5);
+	}
 }
