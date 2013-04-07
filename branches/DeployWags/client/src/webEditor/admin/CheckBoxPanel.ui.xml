@@ -10,11 +10,11 @@
 			text-align: center;
 		}
 	</ui:style>
-	<g:HTMLPanel>
+
 	<g:VerticalPanel>
 		<g:Label ui:field="title" styleName="{style.title}"/>
 		<g:VerticalPanel ui:field="chkBoxHolder"/>
 		<g:Button ui:field="btnUnsetAll" width="100%"/>
 	</g:VerticalPanel>
-	</g:HTMLPanel>
+
 </ui:UiBinder> 
