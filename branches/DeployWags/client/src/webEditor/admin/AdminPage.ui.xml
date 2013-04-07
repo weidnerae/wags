@@ -16,7 +16,7 @@
 				<g:tab>
 					<g:header> Magnet </g:header>
 					<g:ScrollPanel>
-						<g:Label> Magnet </g:Label>
+						<my:MagnetTab height="100%" ui:field="magnet"/>
 					</g:ScrollPanel>	
 				</g:tab>
 				<g:tab>

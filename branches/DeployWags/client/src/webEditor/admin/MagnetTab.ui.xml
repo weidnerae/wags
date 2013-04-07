@@ -1,0 +1,45 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:my="urn:import:webEditor.admin">
+	<ui:style>
+		
+		.btns_panel {
+			width: 30%;
+			margin-top: auto;
+			margin-bottom: auto;
+		}
+		
+		.check_panel {
+			width: 40%;
+			margin: auto;
+			padding: auto;
+		}
+		
+		.assigned_panel {
+			width: 30%;
+			padding-right: 30px;
+		}
+		
+		.spaced_panel {
+			margin: 10px;
+		}
+		
+	</ui:style>
+	
+	<g:AbsolutePanel height="100%" width="100%">
+		<g:Grid height="100%" width="100%">
+			<g:row>
+				<g:customCell styleName="{style.btns_panel}">
+					<my:ButtonPanel ui:field="btnPanelGroups" />
+				</g:customCell>
+				<g:customCell styleName="{style.check_panel}">
+					<my:CheckBoxPanel ui:field="chkPanelExercises"/>
+				</g:customCell>
+				<g:customCell styleName="{style.assigned_panel}">
+					<my:AssignedPanel ui:field="asPanel"/>
+				</g:customCell>
+			</g:row>
+		</g:Grid>
+	</g:AbsolutePanel>
+</ui:UiBinder> 

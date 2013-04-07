@@ -918,6 +918,70 @@ public class Proxy
 		}
 	}
 	
+	/*
+	 *  Unfinished/untested method to get the magnet problem groups
+	 *  for the admin page.
+	 */
+	
+	public static void getMMGroups(final ProxyFacilitator pf){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + 
+				"?cmd=GetMagnetGroups");
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus stat = new WEStatus(response);
+					
+					pf.handleGroups(stat.getMessageArray());
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					 Window.alert("getMMGroups error");
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
+	
+	/*
+	 *  Unfinished/untested method to get the exercises for each magnet problem group
+	 *  for the admin page.
+	 */
+	
+	public static void getMMExercises(String group, final ProxyFacilitator pf){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + 
+				"?cmd=GetMagnetsByGroup&group=" + group);
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus stat = new WEStatus(response);
+					String[] tmp = stat.getMessageArray();
+					
+					//strip quotations
+					for (int i = 0; i < tmp.length; i++) {
+						String name = tmp[i].substring(1, tmp[i].length() - 1);
+						tmp[i] = name;
+					}
+					
+					pf.handleExercises(tmp);
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					 Window.alert("getMMExercises error");
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
+	
+	
 	/**
 	 * This will check to see which exercises are curently assigned, then call 
 	 * Admin.checkCurrentLogicalExercises() to make them checked by default.
