@@ -3,16 +3,46 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:my="urn:import:webEditor.admin">
 	<ui:style>
-		.spaced{
-			border-spacing: 40px;		
+		
+		.btns_panel {
+			width: 20%;
+			margin-top: auto;
+			margin-bottom: auto;
 		}
+		
+		.check_panel {
+			width: 30%;
+			margin: auto;
+			padding: auto;
+		}
+		
+		.assigned_panel {
+			width: 30%;
+			padding-right: 30px;
+		}
+		
+		.spaced_panel {
+			margin: 10px;
+		}
+		
 	</ui:style>
-	<g:HTMLPanel>
-		<g:HorizontalPanel styleName="{style.spaced}">
-			<my:ButtonPanel ui:field="btnPanelSubjects" />
-			<my:ButtonPanel ui:field="btnPanelGroups" />
-			<my:CheckBoxPanel ui:field="chkPanelExercises" />
-			<my:AssignedPanel ui:field="asPanel" />
-		</g:HorizontalPanel>
-	</g:HTMLPanel>
+	
+	<g:AbsolutePanel height="100%" width="100%">
+		<g:Grid height="100%" width="100%">
+			<g:row>
+				<g:customCell styleName="{style.btns_panel}">
+					<my:ButtonPanel styleName="{style.spaced_panel}" ui:field="btnPanelSubjects" />
+				</g:customCell>
+				<g:customCell styleName="{style.btns_panel}">
+					<my:ButtonPanel styleName="{style.spaced_panel}" ui:field="btnPanelGroups" />
+				</g:customCell>
+				<g:customCell styleName="{style.check_panel}">
+					<my:CheckBoxPanel ui:field="chkPanelExercises" />
+				</g:customCell>
+				<g:customCell styleName="{style.assigned_panel}">
+					<my:AssignedPanel ui:field="asPanel"/>
+				</g:customCell>
+			</g:row>
+		</g:Grid>
+	</g:AbsolutePanel>
 </ui:UiBinder> 
