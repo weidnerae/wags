@@ -15,6 +15,7 @@ public class AdminPage extends Composite {
 	}
 	
 	@UiField LogicalTab logical;
+	@UiField MagnetTab magnet;
 
 	public AdminPage() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -23,5 +24,8 @@ public class AdminPage extends Composite {
 	public LogicalTab getLogical(){
 		return logical;
 	}
-
+	
+	public MagnetTab getMagnet() {
+		return magnet;
+	}
 }
