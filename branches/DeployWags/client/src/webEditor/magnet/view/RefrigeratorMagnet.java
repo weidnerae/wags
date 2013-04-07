@@ -3,6 +3,7 @@ package webEditor.magnet.view;
 import java.util.ArrayList;
 
 import webEditor.Proxy;
+import webEditor.admin.ProblemCreationPanel;
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -61,9 +62,8 @@ public class RefrigeratorMagnet extends AbsolutePanel{
 	    resultsPanel = new ResultsPanelUi(tabPanelHeight);
 	    tabPanel.add(resultsPanel, "Results", false);
 	    
-	    Proxy.addProblemCreation(this);
 	    editingPanel.start();
-	//    Window.alert("after editingpanel starts");
+	    
 	    if(state!=""){
 	        Timer timer = new Timer() {
 	            @Override
@@ -74,14 +74,6 @@ public class RefrigeratorMagnet extends AbsolutePanel{
 	        
 	        timer.schedule(1);
 	    }
-	}
-	
-	public void addProblemCreation(){
-		tabPanel.add(new ProblemCreationPanel(this, false), "Problem Creation", false);
-	}
-	
-	public void addProblemCreation(boolean magnetAdmin){
-		tabPanel.add(new ProblemCreationPanel(this, magnetAdmin), "Problem Creation Plus", false);
 	}
 	
 	public String getProblemType(){
