@@ -94,6 +94,7 @@ class DSTSubmission extends Model
             dstSubmission.success FROM dstSubmission JOIN user
             ON dstSubmission.userId = user.id WHERE sectionId = :section
             AND title = :title
+            AND user.admin = 0
             ORDER BY username');
         $sth->execute(array(':section' => $section, ':title' => $title));
         $sth->setFetchMode(PDO::FETCH_ASSOC);
