@@ -5,42 +5,42 @@
 	<ui:style>
 		
 		.btns_panel {
-			width: 20%;
 			margin-top: auto;
 			margin-bottom: auto;
 		}
 		
-		.check_panel {
-			width: 30%;
-			margin: auto;
-			padding: auto;
-		}
-		
 		.assigned_panel {
-			width: 30%;
 			padding-right: 30px;
+			width: 300px;
 		}
 		
 		.spaced_panel {
 			margin: 10px;
 		}
 		
+		.alignTop{
+			vertical-align: top;
+		}
+		
 	</ui:style>
 	
 	<g:AbsolutePanel height="100%" width="100%">
-		<g:Grid height="100%" width="100%">
-			<g:row>
+		<g:Grid height="100%">
+			<g:row styleName="{style.alignTop}">
 				<g:customCell styleName="{style.btns_panel}">
 					<my:ButtonPanel styleName="{style.spaced_panel}" ui:field="btnPanelSubjects" />
 				</g:customCell>
 				<g:customCell styleName="{style.btns_panel}">
 					<my:ButtonPanel styleName="{style.spaced_panel}" ui:field="btnPanelGroups" />
 				</g:customCell>
-				<g:customCell styleName="{style.check_panel}">
-					<my:CheckBoxPanel ui:field="chkPanelExercises" />
+				<g:customCell>
+					<my:CheckBoxPanel styleName="{style.spaced_panel}" ui:field="chkPanelExercises" />
 				</g:customCell>
 				<g:customCell styleName="{style.assigned_panel}">
-					<my:AssignedPanel ui:field="asPanel"/>
+					<my:AssignedPanel styleName="{style.spaced_panel}" ui:field="asPanel"/>
+				</g:customCell>
+				<g:customCell styleName="{style.assigned_panel}">
+					<my:AssignedPanel styleName="{style.spaced_panel}" ui:field="asAlreadyPanel"/>
 				</g:customCell>
 			</g:row>
 		</g:Grid>

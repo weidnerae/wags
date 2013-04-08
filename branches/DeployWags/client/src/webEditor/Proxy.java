@@ -850,6 +850,38 @@ public class Proxy
 		}
 	}
 	
+	public static void getLMAssigned(final ProxyFacilitator pf){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetLogicalExercises");
+		try {
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus status = new WEStatus(response);
+					
+					String[] problemList = status.getMessageArray();
+					String[] problems = new String[problemList.length / 3];
+					
+					int k = 0;
+					for(int i = 0; i < problemList.length; i+=2){
+						if(!problemList[i+1].equals("2")){
+		        		  problems[k++] = problemList[i];
+						}
+		        	}
+					
+					pf.getCallback(problems, status.getStat());
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Logical Exercise Error");
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
+	
 	public static void getLMSubjects(final ProxyFacilitator pf){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=LogicalExercises&request=subjects");
 		try{
@@ -1949,6 +1981,31 @@ public class Proxy
 	
 	public static Wags getWags() {
 		return wags;
+	}
+	
+	public static void SetLMExercises(String toAssign, final ProxyFacilitator pf) {
+		if(toAssign.equals("")) toAssign = "none";
+		final String forCallback = toAssign;
+		
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=SetLogicalExercises&list=" + toAssign);
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus stat = new WEStatus(response);
+					Notification.notify(stat.getStat(), stat.getMessage());
+					pf.setCallback(forCallback.substring(0, forCallback.length()-1).split("\\|"), stat.getStat());
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("SetLMExercises error");					
+				}
+			});
+		} catch (RequestException e) {
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
 	}
 	
 	public static void SetLogicalExercises(String assignedExercises, final ListBox logicalExercises) {
