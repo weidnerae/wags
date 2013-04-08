@@ -28,6 +28,7 @@ public class LogicalTab extends Composite implements ProxyFacilitator{
 	@UiField ButtonPanel btnPanelGroups;
 	@UiField CheckBoxPanel chkPanelExercises;
 	@UiField AssignedPanel asPanel, asAlreadyPanel;
+	@UiField ReviewPanel rvPanel;
 
 	public LogicalTab() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -37,6 +38,7 @@ public class LogicalTab extends Composite implements ProxyFacilitator{
 		Proxy.getLMGroups("Binary Trees", this);
 		Proxy.getLMExercises("Traversals", this);
 		Proxy.getLMAssigned(this);
+		Proxy.getLMAssigned(this, GET_REVIEW);
 		
 		// Initial set up
 		btnPanelSubjects.setTitle("SUBJECTS");
@@ -51,6 +53,7 @@ public class LogicalTab extends Composite implements ProxyFacilitator{
 		addSubjectClickHandlers();
 		addGroupClickHandlers();
 		asPanel.setParent(this);
+		rvPanel.setParent(this);
 	}
 	
 	//-------------------------------
@@ -142,22 +145,41 @@ public class LogicalTab extends Composite implements ProxyFacilitator{
 	}
 
 	@Override
-	public void getCallback(String[] exercises, int status) {
-		HashMap<String, CheckBox> chkBoxes = chkPanelExercises.getAssignments();
-		for(int i = 0; i < exercises.length; i++){
-			asAlreadyPanel.add(exercises[i]);
-			asPanel.add(exercises[i]);
-			
-			// Handles checking assigned exercises
-			if(chkBoxes.containsKey(exercises[i])){
-				chkBoxes.get(exercises[i]).setValue(true);
-			} else {
-				CheckBox tmpCheck = new CheckBox(exercises[i]);
-				chkPanelExercises.addClickHandler(tmpCheck);
-				tmpCheck.setValue(true);
-				chkBoxes.put(exercises[i], tmpCheck);
+	public void getCallback(String[] exercises, int status, String request) {
+		// Currently assigned
+		if(request.equals("")){
+			HashMap<String, CheckBox> chkBoxes = chkPanelExercises.getAssignments();
+			for(int i = 0; i < exercises.length; i++){
+				asAlreadyPanel.add(exercises[i]);
+				asPanel.add(exercises[i]);
+				
+				// Handles checking assigned exercises
+				if(chkBoxes.containsKey(exercises[i])){
+					chkBoxes.get(exercises[i]).setValue(true);
+				} else {
+					CheckBox tmpCheck = new CheckBox(exercises[i]);
+					chkPanelExercises.addClickHandler(tmpCheck);
+					tmpCheck.setValue(true);
+					chkBoxes.put(exercises[i], tmpCheck);
+				}
 			}
+			
+			rvPanel.setCurrent(exercises);
 		}
+		
+		// Review
+		if(request.equals(GET_REVIEW)){
+			rvPanel.setReview(exercises);
+		}
+	}
+
+	@Override
+	public void reviewExercise(String exercise) {
+		Proxy.reviewExercise(exercise, LOGICAL, this);
+	}
+	
+	public void reviewCallback(String[] data){
+		rvPanel.fillGrid(data);
 	}
 
 }
