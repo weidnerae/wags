@@ -1,43 +1,42 @@
 package webEditor.admin;
 
-/*  
- * ButtonPanel
- * 
- * Parent class that automates adding buttons to a panel and assigning
- * clickhandlers to each button
- */
-
 import java.util.ArrayList;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ButtonPanel extends Composite {
+public class ManyButtonPanel extends Composite
+{
 
-	private static ButtonPanelUiBinder uiBinder = GWT
-			.create(ButtonPanelUiBinder.class);
+	private static ManyButtonPanelUiBinder uiBinder = GWT.create( ManyButtonPanelUiBinder.class );
 
-	interface ButtonPanelUiBinder extends UiBinder<Widget, ButtonPanel> {
-	}
+	interface ManyButtonPanelUiBinder extends UiBinder< Widget, ManyButtonPanel >
+	{}
+
 	
 	@UiField Label title;
 	@UiField VerticalPanel btnHolder;
+	@UiField VerticalPanel btnHolder2;
+	@UiField VerticalPanel btnHolder3;
+	@UiField HorizontalPanel btnHolderHolder;
 	ArrayList<Button> myButtons = new ArrayList<Button>();
 	private int btnWidth = 175;
 	private int btnHeight = 45;
 	private int CELL_SPACING = 3;
 
-	public ButtonPanel() {
+	public ManyButtonPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.getElement().getStyle().setOverflowY(Overflow.AUTO);
 		btnHolder.setSpacing(CELL_SPACING);
+		btnHolder2.setSpacing(CELL_SPACING);
+		btnHolder3.setSpacing(CELL_SPACING);
 	}
 	
 	public void setTitle(String title){
@@ -46,6 +45,8 @@ public class ButtonPanel extends Composite {
 	
 	public void addButtons(String[] buttons){
 		btnHolder.clear();
+		btnHolder2.clear();
+		btnHolder3.clear();
 		myButtons.clear();
 		Button tmpBtn;
 		
@@ -54,8 +55,20 @@ public class ButtonPanel extends Composite {
 			tmpBtn.setStyleName("problem");
 			tmpBtn.setVisible(true);
 			tmpBtn.setPixelSize(btnWidth, btnHeight);
-			this.btnHolder.add(tmpBtn);
 			myButtons.add(tmpBtn);
+			addButton(tmpBtn);
+		}
+	}
+	
+	private void addButton( Button tmpBtn )
+	{
+		int numberOfButtons = myButtons.size();
+		if (numberOfButtons <= 10) {
+			this.btnHolder.add(tmpBtn);
+		} else if (numberOfButtons <= 20) {
+			this.btnHolder2.add(tmpBtn);
+		} else if (numberOfButtons <= 30) {
+			this.btnHolder3.add(tmpBtn);
 		}
 	}
 	
@@ -74,5 +87,6 @@ public class ButtonPanel extends Composite {
 	public void setButtonHeight(int pixels){
 		btnHeight = pixels;
 	}
+
 
 }
