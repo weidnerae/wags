@@ -94,7 +94,19 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 	}
 
 	@Override
-	public void getCallback(String[] exercises, int status) {
+	public void getCallback(String[] exercises, int status, String args) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void reviewExercise(String exercise) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void reviewCallback(String[] data) {
 		// TODO Auto-generated method stub
 		
 	}
