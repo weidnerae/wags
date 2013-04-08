@@ -100,7 +100,19 @@ class RegisterStudents extends Command
                     // Make sure username doesn't exist
                     $username = $line[2];
                     if(User::isUsername($username)){
-                        return JSON::error("Account $username is taken");
+                        /*$tmp_user = User::getUserByUsername($username);
+                        // Only section currently being used
+                        if($tmp_user->getSection() == 33){
+                            return JSON::error("Student in two wags sections");
+                        }
+                        // Rename old accounts
+                        $tmp_user->setUsername($tmp_user->getUsername()."_1");
+                        try{
+                            $tmp_user->save();
+                        } catch(Exception $e){
+                            return JSON::error("Couldn't rename duplicate account");
+                        }*/
+                        return JSON::error("Account $username already exists");
                     }
 
                     $nameIndex++;

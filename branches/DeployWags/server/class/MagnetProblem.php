@@ -492,6 +492,7 @@ class MagnetProblem extends Model
                 MagnetProblem::addExercise($magnet[0]);
             }
         }
+        return "ok";
     }
 
     // Creates a new MagetProblemGroup - called from 
