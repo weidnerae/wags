@@ -14,6 +14,7 @@ class DSTReview extends Command
                 $id = MagnetProblem::getMagnetProblemByTitle($title)->getId();
                 $submissions = MagnetSubmission::getSubmissionsById($id);
             }
+
             $maxSubs = count($submissions);
             $totalCorrect = 0;
             $subCount = 0;
@@ -47,10 +48,14 @@ class DSTReview extends Command
             }
 
             // Summary
-            $percentFinished = number_format(($totalCorrect * 100)/$subCount, 2);
-            $result[] = "% finished: ";
-            $result[] = " ";
-            $result[] = "$percentFinished";
+            if($subCount > 0){
+                $percentFinished = number_format(($totalCorrect * 100)/$subCount, 2);
+                $result[] = "% finished: ";
+                $result[] = " ";
+                $result[] = "$percentFinished";
+            } else {
+                $result[] = "No"; $result[] = "Submissions"; $result[] = "Entered";
+            }
 
             return JSON::success($result);    
     }
