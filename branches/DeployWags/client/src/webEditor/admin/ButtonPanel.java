@@ -13,7 +13,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
@@ -33,11 +32,12 @@ public class ButtonPanel extends Composite {
 	ArrayList<Button> myButtons = new ArrayList<Button>();
 	private int btnWidth = 175;
 	private int btnHeight = 45;
-	private int CELL_SPACING = 5;
+	private int CELL_SPACING = 3;
 
 	public ButtonPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.getElement().getStyle().setOverflowY(Overflow.AUTO);
+		btnHolder.setSpacing(CELL_SPACING);
 	}
 	
 	public void setTitle(String title){
@@ -57,17 +57,6 @@ public class ButtonPanel extends Composite {
 			this.btnHolder.add(tmpBtn);
 			myButtons.add(tmpBtn);
 		}
-		
-		/*
-		// Attaching stuff to the DOM takes too long.....
-		Timer timer = new Timer(){
-			public void run(){
-				sizeButtons();
-			}
-		};
-		
-		timer.schedule(1);
-		*/
 	}
 	
 	public void sizeButtons(){

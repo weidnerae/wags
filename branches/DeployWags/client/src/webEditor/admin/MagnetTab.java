@@ -53,6 +53,10 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 	public void handleExercises(String[] exercises) {
 		chkPanelExercises.addCheckBoxes(exercises);
 	}
+	
+	public void setExercises(String[] exercises){
+		
+	}
 
 	//-------------------------------
 	// Group panel click handling
@@ -76,6 +80,18 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 		public void onClick(ClickEvent event) {
 			Proxy.getMMExercises(title, pf);
 		}
+		
+	}
+
+	@Override
+	public void setCallback(String[] exercises, int status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void getCallback(String[] exercises, int status) {
+		// TODO Auto-generated method stub
 		
 	}
 	

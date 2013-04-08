@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -34,6 +35,7 @@ public class CheckBoxPanel extends Composite {
 
 	public CheckBoxPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
+		this.getElement().getStyle().setWidth(95, Unit.PCT); // needs to go away via CSS
 		btnUnsetAll.addClickHandler(new unsetExercisesClick());
 		btnUnsetAll.setText("Unset All");
 	}
@@ -47,10 +49,7 @@ public class CheckBoxPanel extends Composite {
 	}
 	
 	public void clearCheckBoxes(){
-		for(int i = 0; i < currentExercises.size(); i++){
-			currentExercises.get(i).setVisible(false);
-		}
-		currentExercises.clear();
+		chkBoxHolder.clear();
 	}
 	
 	public void addCheckBoxes(String[] chkBoxes){
@@ -59,13 +58,12 @@ public class CheckBoxPanel extends Composite {
 		for(String chkBox: chkBoxes){
 			// If the chkBox has been created already
 			if(allExercises.containsKey(chkBox)){
-				allExercises.get(chkBox).setVisible(true);
+				chkBoxHolder.add(allExercises.get(chkBox));
 			} else {
 				CheckBox tmpChk = new CheckBox(chkBox);	// create
 				tmpChk.addClickHandler(new checkBoxClick(tmpChk));	// Bind to assigned panel
 				allExercises.put(chkBox, tmpChk);		// record
 				chkBoxHolder.add(tmpChk);				// place
-				tmpChk.setVisible(true);				// show
 			}
 			
 			currentExercises.add(allExercises.get(chkBox));	// in use
@@ -117,6 +115,10 @@ public class CheckBoxPanel extends Composite {
 			}
 		}
 		
+	}
+	
+	public void addClickHandler(CheckBox box){
+		box.addClickHandler(new checkBoxClick(box));
 	}
 
 }
