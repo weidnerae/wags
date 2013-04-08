@@ -44,5 +44,6 @@
 				</g:customCell>
 			</g:row>
 		</g:Grid>
+		<my:ReviewPanel styleName="{style.spaced_panel}" ui:field="rvPanel"/>
 	</g:AbsolutePanel>
 </ui:UiBinder> 

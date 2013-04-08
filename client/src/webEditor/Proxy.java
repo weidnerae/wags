@@ -491,6 +491,39 @@ public class Proxy
 	public static DataStructureTool getDST(){
 		return DST;
 	}
+	
+	public static void reviewExercise(String title, final String type, final ProxyFacilitator pf){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=DSTReview&title="+title+"&type="+type);
+		
+		try{
+			builder.sendRequest(null, new RequestCallback(){
+	
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("error");					
+				}
+	
+				@Override
+				public void onResponseReceived(Request request,
+						Response response) {
+					
+					WEStatus status = new WEStatus(response);
+					
+			        String subInfo[] = new String[status.getMessageArray().length];
+			        subInfo = status.getMessageArray();
+					
+			        for (int i = 1; i < subInfo.length; i+=3){
+			        	if(subInfo[i] == "1") subInfo[i] = "Yes";
+			        	else if (subInfo[i] == "0") subInfo[i] = "No";
+			        }
+					
+			        pf.reviewCallback(subInfo);
+				}
+			}); 
+		} catch (RequestException e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
 
 	public static void getDSTSubmissions(String title, final Grid grid, String type){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=DSTReview&title="+title+"&type="+type);
@@ -851,25 +884,18 @@ public class Proxy
 	}
 	
 	public static void getLMAssigned(final ProxyFacilitator pf){
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetLogicalExercises");
+		getLMAssigned(pf, "");
+	}
+	
+	public static void getLMAssigned(final ProxyFacilitator pf, final String args){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetLMAssigned&args=" + args);
 		try {
 			builder.sendRequest(null, new RequestCallback() {
 				
 				@Override
 				public void onResponseReceived(Request request, Response response) {
 					WEStatus status = new WEStatus(response);
-					
-					String[] problemList = status.getMessageArray();
-					String[] problems = new String[problemList.length / 3];
-					
-					int k = 0;
-					for(int i = 0; i < problemList.length; i+=2){
-						if(!problemList[i+1].equals("2")){
-		        		  problems[k++] = problemList[i];
-						}
-		        	}
-					
-					pf.getCallback(problems, status.getStat());
+					pf.getCallback(status.getMessageArray(), status.getStat(), args);
 				}
 				
 				@Override
