@@ -75,7 +75,6 @@ public class DefaultPage extends Composite {
 	void onLogicalPCClick(ClickEvent event)
 	{
 		Wags e = new Wags("admin");
-		e.go();
 		e.goToLogicalCreation();
 		
 	}

@@ -245,11 +245,13 @@ public class Wags extends View
 	}
 
 	public void goToMagnetCreation() {
+		this.go();
 		TabLayoutPanel t = adminPage.getLayoutPanel();
 		t.selectTab(4);
 	}
 
 	public void goToLogicalCreation() {
+		this.go();
 		TabLayoutPanel t = adminPage.getLayoutPanel();
 		t.selectTab(5);
 	}

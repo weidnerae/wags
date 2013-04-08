@@ -20,9 +20,10 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 	interface MagnetTabUiBinder extends UiBinder<Widget, MagnetTab> {
 	}
 	
-	@UiField ButtonPanel btnPanelGroups;
+	@UiField ManyButtonPanel btnPanelGroups;
 	@UiField CheckBoxPanel chkPanelExercises;
 	@UiField AssignedPanel asPanel;
+	@UiField AssignedPanel asAlreadyPanel;
 
 	public MagnetTab() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -30,8 +31,11 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 		Proxy.getMMGroups(this);
 		Proxy.getMMExercises("Default", this);
 		
-		btnPanelGroups.setTitle("GROUPS");
-		chkPanelExercises.setTitle("EXERCISES");
+		btnPanelGroups.setTitle("GROUPS"); //groups
+		chkPanelExercises.setTitle("EXERCISES"); //exercises in each group
+		asPanel.setTitle("SELECTED"); //ones youre picking
+		asAlreadyPanel.setTitle("ASSIGNED"); //ones already selected
+		asAlreadyPanel.btnAssign.setVisible(false); //hide button for assigned section because it is read only
 		chkPanelExercises.setAssignedPanel(asPanel);
 
 		addGroupClickHandlers();
