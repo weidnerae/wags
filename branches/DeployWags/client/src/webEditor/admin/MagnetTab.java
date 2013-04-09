@@ -50,10 +50,7 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 	}
 
 	@Override
-	public void handleSubjects(String[] subjects) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleSubjects(String[] subjects) {	}
 
 	@Override
 	public void handleGroups(String[] groups) {

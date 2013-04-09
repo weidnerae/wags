@@ -10,6 +10,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ReviewPanel extends Composite {
@@ -23,6 +24,7 @@ public class ReviewPanel extends Composite {
 	@UiField Button btnExTypes;
 	@UiField ButtonPanel btnPnlCurrent, btnPnlReview;
 	@UiField Grid grdGrades;
+	@UiField Label title;
 	
 	ProxyFacilitator parent;
 	boolean currentSet = true;  // keeps track of "Assign/Review" state
@@ -38,6 +40,10 @@ public class ReviewPanel extends Composite {
 	
 	public void setParent(ProxyFacilitator parent){
 		this.parent = parent;
+	}
+	
+	public void setTitle(String title){
+		this.title.setText(title);
 	}
 	
 	public void fillGrid(String[] data){
