@@ -25,7 +25,7 @@
 	</ui:style>
 	
 	<g:AbsolutePanel height="100%" width="100%">
-		<g:Grid height="100%" width="100%">
+		<g:Grid height="100%">
 			<g:row styleName="{style.alignTop}">
 				<g:customCell styleName="{style.btns_panel}">
 					<my:ManyButtonPanel styleName="{style.spaced_panel}" ui:field="btnPanelGroups" />
@@ -41,5 +41,7 @@
 				</g:customCell>
 			</g:row>
 		</g:Grid>
+		<my:ReviewPanel styleName="{style.spaced_panel}" ui:field="rvPanel"/>
+		
 	</g:AbsolutePanel>
 </ui:UiBinder> 

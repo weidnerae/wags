@@ -1,7 +1,10 @@
 package webEditor.admin;
 
+import java.util.HashMap;
+
 import webEditor.Proxy;
 import webEditor.ProxyFacilitator;
+import webEditor.WEStatus;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -9,6 +12,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -24,12 +28,16 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 	@UiField CheckBoxPanel chkPanelExercises;
 	@UiField AssignedPanel asPanel;
 	@UiField AssignedPanel asAlreadyPanel;
+	@UiField ReviewPanel rvPanel;
 
 	public MagnetTab() {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		Proxy.getMMGroups(this);
 		Proxy.getMMExercises("Default", this);
+		Proxy.getMMAssigned(this);
+		asPanel.setParent(this);
+		rvPanel.setParent(this);
 		
 		btnPanelGroups.setTitle("GROUPS"); //groups
 		chkPanelExercises.setTitle("EXERCISES"); //exercises in each group
@@ -59,7 +67,15 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 	}
 	
 	public void setExercises(String[] exercises){
+		String exerciseList = "";
+		for(int i = 0; i < exercises.length; i++){
+			exerciseList += exercises[i] + ",";
+		}
 		
+		if(exerciseList.length() > 0)  // a comma was added
+			exerciseList = exerciseList.substring(0, exerciseList.length()-1);
+		
+		Proxy.SetMMExercises(exerciseList, this);
 	}
 
 	//-------------------------------
@@ -88,27 +104,49 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 	}
 
 	@Override
-	public void setCallback(String[] exercises, int status) {
-		// TODO Auto-generated method stub
+	public void setCallback(String[] exercises, WEStatus status) {
+		if(status.getStat() == WEStatus.STATUS_SUCCESS){
+			asAlreadyPanel.clear();
+			
+			for(int i = 0; i < exercises.length; i++){
+				asAlreadyPanel.add(exercises[i]);
+			}
+		}
 		
+		rvPanel.setCurrent(exercises);
 	}
 
 	@Override
-	public void getCallback(String[] exercises, int status, String args) {
-		// TODO Auto-generated method stub
-		
+	public void getCallback(String[] exercises, WEStatus status, String args) {
+		if(args.equals("")){
+			HashMap<String, CheckBox> chkBoxes = chkPanelExercises.getAssignments();
+			for(int i = 0; i < exercises.length; i++){
+				asAlreadyPanel.add(exercises[i]);
+				asPanel.add(exercises[i]);
+				
+				// Handles checking assigned exercises
+				if(chkBoxes.containsKey(exercises[i])){
+					chkBoxes.get(exercises[i]).setValue(true);
+				} else {
+					CheckBox tmpCheck = new CheckBox(exercises[i]);
+					chkPanelExercises.addClickHandler(tmpCheck);
+					tmpCheck.setValue(true);
+					chkBoxes.put(exercises[i], tmpCheck);
+				}
+			}
+			
+			rvPanel.setCurrent(exercises);
+		}
 	}
 
 	@Override
 	public void reviewExercise(String exercise) {
-		// TODO Auto-generated method stub
-		
+		Proxy.reviewExercise(exercise, MAGNET, this);		
 	}
 
 	@Override
 	public void reviewCallback(String[] data) {
-		// TODO Auto-generated method stub
-		
+		rvPanel.fillGrid(data);
 	}
 	
 }
