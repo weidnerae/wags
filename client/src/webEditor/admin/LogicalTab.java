@@ -132,20 +132,23 @@ public class LogicalTab extends Composite implements ProxyFacilitator{
 			toAssign += exercises[i] + "|";
 		}
 		Proxy.SetLMExercises(toAssign, this);
+		
 	}
 
-	public void setCallback(String[] exercises, int status) {
-		if(status == WEStatus.STATUS_SUCCESS){
+	public void setCallback(String[] exercises, WEStatus status) {
+		if(status.getStat() == WEStatus.STATUS_SUCCESS){
 			asAlreadyPanel.clear();
 			
 			for(int i = 0; i < exercises.length; i++){
 				asAlreadyPanel.add(exercises[i]);
 			}
 		}
+		
+		rvPanel.setCurrent(exercises);
 	}
 
 	@Override
-	public void getCallback(String[] exercises, int status, String request) {
+	public void getCallback(String[] exercises, WEStatus status, String request) {
 		// Currently assigned
 		if(request.equals("")){
 			HashMap<String, CheckBox> chkBoxes = chkPanelExercises.getAssignments();

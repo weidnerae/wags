@@ -895,7 +895,7 @@ public class Proxy
 				@Override
 				public void onResponseReceived(Request request, Response response) {
 					WEStatus status = new WEStatus(response);
-					pf.getCallback(status.getMessageArray(), status.getStat(), args);
+					pf.getCallback(status.getMessageArray(), status, args);
 				}
 				
 				@Override
@@ -907,6 +907,32 @@ public class Proxy
 			Window.alert("Failed to send the request: " + e.getMessage());
 		}
 	}
+	
+	public static void getMMAssigned(final ProxyFacilitator pf){
+		getMMAssigned(pf, "");
+	}
+	
+	public static void getMMAssigned(final ProxyFacilitator pf, final String args){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMMAssigned&args=" + args);
+		try {
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus status = new WEStatus(response);
+					pf.getCallback(status.getMessageArray(), status, args);
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Logical Exercise Error");
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
+	
 	
 	public static void getLMSubjects(final ProxyFacilitator pf){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=LogicalExercises&request=subjects");
@@ -2009,6 +2035,9 @@ public class Proxy
 		return wags;
 	}
 	
+	/*
+	 *Should merge with SetMMExercises, only difference is the "cmd" and "split" 
+	 */
 	public static void SetLMExercises(String toAssign, final ProxyFacilitator pf) {
 		if(toAssign.equals("")) toAssign = "none";
 		final String forCallback = toAssign;
@@ -2021,7 +2050,7 @@ public class Proxy
 				public void onResponseReceived(Request request, Response response) {
 					WEStatus stat = new WEStatus(response);
 					Notification.notify(stat.getStat(), stat.getMessage());
-					pf.setCallback(forCallback.substring(0, forCallback.length()-1).split("\\|"), stat.getStat());
+					pf.setCallback(forCallback.substring(0, forCallback.length()-1).split("\\|"), stat);
 				}
 				
 				@Override
@@ -2032,6 +2061,31 @@ public class Proxy
 		} catch (RequestException e) {
 			Window.alert("Failed to send the request: " + e.getMessage());
 		}
+	}
+	
+	public static void SetMMExercises(String assignedMagnets, final ProxyFacilitator pf) {
+		if(assignedMagnets.equals("")) assignedMagnets = "none";
+		final String forCallback = assignedMagnets;
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=SetMagnetExercises&list=" + assignedMagnets);
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus stat = new WEStatus(response);
+					Notification.notify(stat.getStat(), stat.getMessage());
+					pf.setCallback(forCallback.split(","), stat);
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Set magnet error");					
+				}
+			});
+		} catch (RequestException e) {
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+		
 	}
 	
 	public static void SetLogicalExercises(String assignedExercises, final ListBox logicalExercises) {

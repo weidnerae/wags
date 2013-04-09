@@ -11,8 +11,8 @@ public interface ProxyFacilitator {
 	public void handleExercises(String[] exercises);
 	
 	public void setExercises(String[] exercises);
-	public void setCallback(String[] exercises, int status);
-	public void getCallback(String[] exercises, int status, String request);
+	public void setCallback(String[] exercises, WEStatus status);
+	public void getCallback(String[] exercises, WEStatus status, String request);
 	
 	public void reviewExercise(String exercise);
 	public void reviewCallback(String[] data);
