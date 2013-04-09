@@ -28,7 +28,7 @@
 				<g:tab>
 					<g:header> Review </g:header>
 					<g:ScrollPanel>
-						<g:Label> Review </g:Label>
+						<my:ReviewTab height="100%"/>
 					</g:ScrollPanel>
 				</g:tab>
 				<g:tab>
