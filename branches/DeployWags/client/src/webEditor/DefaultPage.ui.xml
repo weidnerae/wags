@@ -10,7 +10,6 @@
 			position: relative;
 			height: 50px;
 			width: 140px;
-			padding: 12px;
 			text-align: center;
 		}
 		
@@ -19,7 +18,6 @@
 			margin-top: 10px;
 			height: 40px;
 			width: 100%;
-			padding: 12px;
 			text-align: center;
 		}
 		
