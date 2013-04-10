@@ -5,9 +5,12 @@ import webEditor.ProxyFacilitator;
 import webEditor.WEStatus;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ReviewTab extends Composite {
@@ -19,6 +22,8 @@ public class ReviewTab extends Composite {
 	}
 	
 	@UiField ReviewPanel rvLogPanel, rvMagPanel;
+	@UiField SubmitButton btnCompReview;
+	@UiField FormPanel formCompReview;
 	ProxyFacilitator logHandler, magHandler;
 
 	public ReviewTab() {
@@ -34,6 +39,14 @@ public class ReviewTab extends Composite {
 		Proxy.getMMAssigned(magHandler);
 		Proxy.getLMAssigned(logHandler, ProxyFacilitator.GET_REVIEW);
 		Proxy.getMMAssigned(magHandler, ProxyFacilitator.GET_REVIEW);
+		
+		btnCompReview.addStyleName("problem");
+		btnCompReview.setWidth(175 + "px");  // Same as buttonPanel buttons
+		btnCompReview.setHeight(45 + "px");  // Should we make those fields static?
+		
+		formCompReview.setAction(Proxy.getBaseURL()+"?cmd=ComprehensiveReview");
+		formCompReview.setEncoding(FormPanel.ENCODING_MULTIPART);
+		formCompReview.setMethod(FormPanel.METHOD_POST);
 	}
 	
 	private class LogicalReviewHandler implements ProxyFacilitator{
