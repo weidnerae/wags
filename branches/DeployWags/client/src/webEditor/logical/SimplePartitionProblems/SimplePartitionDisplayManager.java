@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
 import org.vaadin.gwtgraphics.client.Group;
-import org.vaadin.gwtgraphics.client.Line;
 import org.vaadin.gwtgraphics.client.animation.Animate;
 import org.vaadin.gwtgraphics.client.shape.Path;
 import org.vaadin.gwtgraphics.client.shape.Rectangle;
@@ -21,9 +20,8 @@ import webEditor.logical.NodeDragController;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
@@ -39,8 +37,8 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 	protected Group swapButton;
 	private Path leftUpArrow, rightUpArrow;
 
-	private int lb = 0; // Used for swapping
-	private int ub = 9;
+	protected int lb = 0; // Used for swapping
+	protected int ub = 9;
 
 	public SimplePartitionDisplayManager(DrawingArea canvas, AbsolutePanel panel,
 			NodeCollection nc, EdgeCollection ec, SimplePartitionProblem problem) {
@@ -112,8 +110,11 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 						leftUpArrow.getX() + 60, 150).start();
 			} else if ((leftUpArrow.getX() + 60 <= rightUpArrow.getX()) && (lb == ub - 1)) {
 				// last arrow movement, we want the two arrows to point at the same node
-				new Animate(leftUpArrow, "x", leftUpArrow.getX(), leftUpArrow.getX() + 45, 150).start();
-				new Animate(rightUpArrow, "x", rightUpArrow.getX(), rightUpArrow.getX() + 15, 150).start();
+				new Animate(leftUpArrow, "x", leftUpArrow.getX(), 
+						leftUpArrow.getX() + 45, 150).start();
+				new Animate(rightUpArrow, "x", rightUpArrow.getX(), 
+						rightUpArrow.getX() + 15, 150).start();
+				lb++; // lb now equals ub
 			}
 		}
 	}
@@ -133,6 +134,7 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 				// last arrow movement, we want the two arrows to point at the same node
 				new Animate(rightUpArrow, "x", rightUpArrow.getX(), rightUpArrow.getX() - 45, 150).start();
 				new Animate(leftUpArrow, "x", leftUpArrow.getX(), leftUpArrow.getX() - 15, 150).start();
+				ub--; // ub now equals lb
 			}
 		}
 		
@@ -170,25 +172,26 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 		evaluateButton.setWidth("100px");
 		evaluateButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				String evalResult = "Please select a node.";
-				
-				// Make sure they have something selected
-				if (getLowerSelectedNode() != null && getUpperSelectedNode() != null) {
-					evalResult = problem.getEval().evaluate(
-							problem.getName(), problem.getArguments(), getNodes(),
-							getEdges());
+				String evalResult = "";
+
+				if (lb == ub) {
+					evalResult = problem.getEval().evaluate(problem.getName(),
+							problem.getArguments(), getNodes(), getEdges());
+				} else {
+					evalResult = "Remember that partitioning is not done until the pointers \"cross-over\" " +
+									   "or become equal.";
 				}
-				
+
 				if (showingSubMess) {
 					Proxy.getDST().remove(submitText);
 					Proxy.getDST().remove(submitOkButton);
 				}
-				
+
 				// If they got it right, we just return an empty string
 				// and we don't want to display that
 				if (evalResult.equals(""))
 					return;
-				
+
 				submitText.setText(evalResult);
 				addToPanel(submitText, DSTConstants.SUBMIT_X,
 						DSTConstants.SUBMIT_MESS_Y);
@@ -282,27 +285,21 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 	 */
 	public void drawBoxes() {
 		int YTOP = 25;
-		int YBOTTOM = 75;
 		int xStart = 5;
 		int labelY = 140;
+		Rectangle box;
 		for (int i = 0; i < problem.getNodes().split(" ").length; i++) {
 			if (xStart + 50 >= 600) {
 				YTOP += 100;
-				YBOTTOM += 100;
 				xStart = 5;
 				labelY += 100;
 			}
 			
-			Line top = new Line(xStart, YTOP, (xStart + 50), YTOP);
-			Line right = new Line((xStart + 50), YTOP, (xStart + 50), YBOTTOM);
-			Line bottom = new Line(xStart, YBOTTOM, (xStart + 50), YBOTTOM);
-			Line left = new Line(xStart, YTOP, xStart, YBOTTOM);
+			box = new Rectangle(xStart, YTOP, 50, 50);
+			box.setFillColor("lightgray");
 			Label label = new Label((i) + "");
 			Proxy.getDST().add(label, xStart + 22, labelY);
-			drawEdge(top);
-			drawEdge(right);
-			drawEdge(bottom);
-			drawEdge(left);
+			canvas.add(box);
 			xStart += 60;
 		}
 	}
@@ -317,18 +314,18 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 		
 		Path arrow = new Path(xStart, ARROW_TIP_Y);
 		arrow.lineRelativelyTo(15, 22);
-		arrow.lineRelativelyTo(-7, 0);
+		arrow.lineRelativelyTo(-9, 0);
 		arrow.lineRelativelyTo(0, 35);
-		arrow.lineRelativelyTo(-16, 0);
+		arrow.lineRelativelyTo(-12, 0);
 		arrow.lineRelativelyTo(0, -35);
-		arrow.lineRelativelyTo(-7, 0);
+		arrow.lineRelativelyTo(-9, 0);
 		arrow.close();
 		
 		return arrow;
 	}
 	
 	private Path drawRightArrow() {
-		Path arrow = new Path((canvas.getWidth() / 4), 235);
+		Path arrow = new Path((canvas.getWidth() / 4), 235);	// right facing tip
 		arrow.lineRelativelyTo(-32, -25);
 		arrow.lineRelativelyTo(0, 12);
 		arrow.lineRelativelyTo(-100, 0);
@@ -343,7 +340,7 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 	}
 	
 	private Path drawLeftArrow() {
-		Path arrow = new Path(((canvas.getWidth() / 4) * 3), 235);
+		Path arrow = new Path(((canvas.getWidth() / 4) * 3), 235);	// left facing tip
 		arrow.lineRelativelyTo(32, -25);
 		arrow.lineRelativelyTo(0, 12);
 		arrow.lineRelativelyTo(100, 0);

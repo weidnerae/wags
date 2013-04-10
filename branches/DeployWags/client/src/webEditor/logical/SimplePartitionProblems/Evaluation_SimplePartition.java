@@ -6,7 +6,7 @@
  * all negatives are on the left and all positives are on the right.
  * 
  * This version allows students to only finalize once they have the complete answer 
- * he/she believes is correct, it does not handle force evaluation.
+ * he/she believes is correct, it does not check the student's answer after each swap.
  */
 package webEditor.logical.SimplePartitionProblems;
 
@@ -20,13 +20,13 @@ import webEditor.logical.Evaluation;
 import webEditor.logical.Node;
 
 public class Evaluation_SimplePartition extends Evaluation implements IsSerializable {
-	private int lb;
-	private int ub;
+	private int evalLB;
+	private int evalUB;
 
 	public String evaluate(String problemName, String[] arguments,
 			ArrayList<Node> nodes, ArrayList<EdgeParent> edges) {
-		lb = 0;
-		ub = 9;
+		evalLB = 0;
+		evalUB = 9;
 		
 		int[] student = getIntArrayFromString(getNodeOrder(nodes));		
 		int[] solution = getSolution(getIntArrayFromString(arguments[0].trim()));
@@ -38,7 +38,7 @@ public class Evaluation_SimplePartition extends Evaluation implements IsSerializ
 		} else {
 			// They were wrong
 			Proxy.submitDST(problemName, 0);
-			return "Sorry, try again.";
+			return "Incorrect. Remember that all negatives should be to the left of all positives";
 		}
 	}
 
@@ -86,21 +86,27 @@ public class Evaluation_SimplePartition extends Evaluation implements IsSerializ
 	 */
 	private int[] getSolution(int[] arr) {
 		int temp;
-		while (lb <= ub) {
-			while (arr[lb] < 0 && lb < ub)
-				lb++;
-			while (arr[ub] >= 0)
-				ub--;
-			if (lb < ub) {
-                temp=arr[lb]; 
-                arr[lb]=arr[ub];
-                arr[ub]=temp;
+		while (evalLB <= evalUB) {
+			while (arr[evalLB] < 0 && evalLB < evalUB)
+				evalLB++;
+			while (arr[evalUB] >= 0)
+				evalUB--;
+			if (evalLB < evalUB) {
+                temp=arr[evalLB]; 
+                arr[evalLB]=arr[evalUB];
+                arr[evalUB]=temp;
 			}
 		}
 		
 		return arr;
 	}
 	
+	/**
+	 * This just checks to see if two arrays contain all equal elements
+	 * @param a1
+	 * @param a2
+	 * @return
+	 */
 	private boolean equalArrays(int[] a1, int[] a2) {
 		if (a1.length != a2.length)
 			return false;
@@ -110,9 +116,10 @@ public class Evaluation_SimplePartition extends Evaluation implements IsSerializ
 		}
 		return true;
 	}
-	
-	public int returnKeyValue(){
+
+	@Override
+	public int returnKeyValue() {
+		// TODO Auto-generated method stub
 		return 0;
 	}
-
 }
