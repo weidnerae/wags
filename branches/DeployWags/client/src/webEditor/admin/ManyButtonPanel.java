@@ -98,15 +98,15 @@ public class ManyButtonPanel extends Composite
 		}
 		
 		public void onClick(ClickEvent event) {
-			enableAll();
-			btn.setEnabled(false);
+			colorBlack();
+			btn.getElement().getStyle().setColor("blue");
 		}
 		
 	}
 	
-	private void enableAll(){
+	private void colorBlack(){
 		for(Button btn: myButtons){
-			btn.setEnabled(true);
+			btn.getElement().getStyle().setColor("black");
 		}
 	}
 	
