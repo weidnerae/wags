@@ -112,6 +112,9 @@ public class ReviewPanel extends Composite {
 		}
 		@Override
 		public void onClick(ClickEvent event) {
+			btnPnlCurrent.colorBlack();
+			btnPnlReview.colorBlack();
+			btn.getElement().getStyle().setColor("blue");
 			parent.reviewExercise(btn.getText());			
 		}
 		

@@ -77,7 +77,7 @@ public class ButtonPanel extends Composite {
 		btnHeight = pixels;
 	}
 	
-	private void colorBlack(){
+	public void colorBlack(){
 		for(Button btn: myButtons){
 			btn.getElement().getStyle().setColor("black");
 		}
