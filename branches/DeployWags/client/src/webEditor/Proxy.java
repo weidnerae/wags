@@ -10,7 +10,6 @@ import webEditor.magnet.view.Magnets;
 import webEditor.magnet.view.RefrigeratorMagnet;
 import webEditor.magnet.view.ResultsPanelUi;
 import webEditor.magnet.view.StackableContainer;
-import webEditor.programming.view.Admin;
 import webEditor.programming.view.CodeEditor;
 import webEditor.programming.view.Editor;
 import webEditor.programming.view.Exercises;
@@ -1065,75 +1064,6 @@ public class Proxy
 		}
 	}
 	
-	
-	/**
-	 * This will check to see which exercises are curently assigned, then call 
-	 * Admin.checkCurrentLogicalExercises() to make them checked by default.
-	 * 
-	 * @param result ArrayList for storing the result.
-	 */
-	public static void getAssignedLogicalExercises(final ArrayList<String> result) {
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetLogicalExercises");
-		try {
-			builder.sendRequest(null, new RequestCallback() {
-				@Override
-				public void onResponseReceived(Request request, Response response) {
-					WEStatus status = new WEStatus(response);
-					String[] problemList = status.getMessageArray();
-					
-					for (int i = 0; i < problemList.length; i+=2) { 
-						result.add(problemList[i]);
-					}
-					
-					Admin.checkCurrentLogicalExercises();
-				}
-				
-				@Override
-				public void onError(Request request, Throwable exception) {
-					Window.alert("Logical Exercise Error");
-				}
-			});
-		} catch (RequestException e) {
-			Window.alert("Failed to send the request: " + e.getMessage());
-		}
-	}
-	
-	/**
-	 * This will check to see which magnets are currently assigned, then call 
-	 * Admin.checkCurrentMagnetExercises() to make them checked by default.
-	 * 
-	 * @param result ArrayList for storing the result.
-	 */
-	public static void getAssignedMagnetExercises(final ArrayList<String> result) {
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetExercises");
-		try {
-			builder.sendRequest(null, new RequestCallback() {
-				@Override
-				public void onResponseReceived(Request request, Response response) {
-					WEStatus status = new WEStatus(response);
-					String[] problemList = status.getMessageArray();
-
-					for (int i = 1; i < problemList.length; i+=3) {
-						// Anything with the next element being "2" is a "Review" exercise,
-						// not a currently assigned one
-						if(!problemList[i+1].equals("2")){
-							result.add(problemList[i]);
-						}
-					}
-					
-					Admin.checkCurrentMagnetExercises();
-				}
-				
-				@Override
-				public void onError(Request request, Throwable exception) {
-					Window.alert("Magnet Exercise Error");
-				}
-			});
-		} catch (RequestException e) {
-			Window.alert("Failed to send the request: " + e.getMessage());
-		}
-	}
-	
 	/* Simplified getMagnetsByGroup, just fills a listbox */
 	public static void getMagnetsByGroup(String groupName, final ListBox lstMagnetExercises){
 		getMagnetsByGroup(groupName, null, null, null, lstMagnetExercises);
@@ -1525,7 +1455,7 @@ public class Proxy
 		    }
 	}
 
-	public static void isAdmin(final TabLayoutPanel tabPanel, final Widget sections, final Widget students, final Widget admin){	
+	public static void isAdmin(final TabLayoutPanel tabPanel, final Widget sections, final Widget students){	
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=IsAdmin");
 		try {
 		      @SuppressWarnings("unused")
@@ -1541,10 +1471,6 @@ public class Proxy
 		          
 		          // If Admin or Root
 		          if(status.getStat() == WEStatus.STATUS_WARNING || root){
-		        	  ScrollPanel scroll = new ScrollPanel();
-		        	  scroll.add(admin);
-		        	  scroll.addStyleName("administration");
-		        	  
 		        	  ScrollPanel scroll2 = new ScrollPanel();
 		        	  scroll2.add(students);
 		        	  scroll2.addStyleName("administration");
@@ -1553,7 +1479,6 @@ public class Proxy
 		        	  scroll3.add(sections);
 		        	  scroll3.addStyleName("administration");
 		        	  
-		        	  tabPanel.add(scroll, "Exercises");
 		        	  tabPanel.add(scroll2, "Students");
 		        	  if(root) tabPanel.add(scroll3, "Sections");
 		          }
@@ -1569,7 +1494,7 @@ public class Proxy
 		    }
 	}
 	
-	public static void isAdmin(final Widget admin, final Widget magnet, final Widget logical){	
+	public static void isAdmin(final Widget magnet, final Widget logical, final Widget admin){	
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=IsAdmin");
 		try {
 		      @SuppressWarnings("unused")
