@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
@@ -73,6 +75,32 @@ public class ButtonPanel extends Composite {
 	
 	public void setButtonHeight(int pixels){
 		btnHeight = pixels;
+	}
+	
+	private void enableAll(){
+		for(Button btn: myButtons){
+			btn.setEnabled(true);
+		}
+	}
+	
+	public void setClickHandlers(){
+		for(Button btn: myButtons){
+			btn.addClickHandler(new btnPanelClickHandler(btn));
+		}
+	}
+	
+	private class btnPanelClickHandler implements ClickHandler{
+		Button btn;
+		
+		public btnPanelClickHandler(Button btn){
+			this.btn = btn;
+		}
+		
+		public void onClick(ClickEvent event) {
+			enableAll();
+			btn.setEnabled(false);
+		}
+	
 	}
 
 }
