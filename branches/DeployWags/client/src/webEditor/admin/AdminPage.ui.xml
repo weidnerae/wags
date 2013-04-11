@@ -22,7 +22,7 @@
 				<g:tab>
 					<g:header> Programming </g:header>
 					<g:ScrollPanel>
-						<g:Label> Programming </g:Label>
+						<my:ProgrammingTab/>
 					</g:ScrollPanel>
 				</g:tab>
 				<g:tab>
