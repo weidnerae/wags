@@ -34,7 +34,6 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		Proxy.getMMGroups(this);
-		Proxy.getMMExercises("Default", this);
 		Proxy.getMMAssigned(this);
 		asPanel.setParent(this);
 		rvPanel.setParent(this);
@@ -56,6 +55,7 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 	public void handleGroups(String[] groups) {
 		btnPanelGroups.addButtons(groups);
 		addGroupClickHandlers();
+		btnPanelGroups.myButtons.get(0).click();
 	}
 
 	@Override
@@ -83,6 +83,7 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 			Button tmpBtn = btnPanelGroups.myButtons.get(i);
 			tmpBtn.addClickHandler(new groupClickHandler(tmpBtn.getText(), this));
 		}
+		btnPanelGroups.setClickHandlers();
 	}
 	
 	private class groupClickHandler implements ClickHandler{

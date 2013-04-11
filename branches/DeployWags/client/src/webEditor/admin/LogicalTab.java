@@ -35,8 +35,6 @@ public class LogicalTab extends Composite implements ProxyFacilitator{
 
 		// Proxy calls
 		Proxy.getLMSubjects(this);
-		Proxy.getLMGroups("Binary Trees", this);
-		Proxy.getLMExercises("Traversals", this);
 		Proxy.getLMAssigned(this);
 		Proxy.getLMAssigned(this, GET_REVIEW);
 		
@@ -64,6 +62,8 @@ public class LogicalTab extends Composite implements ProxyFacilitator{
 			Button tmpBtn = btnPanelSubjects.myButtons.get(i);
 			tmpBtn.addClickHandler(new subjectClickHandler(tmpBtn.getText(), this));
 		}
+		
+		btnPanelSubjects.setClickHandlers();
 	}
 	
 	private class subjectClickHandler implements ClickHandler{
@@ -89,6 +89,8 @@ public class LogicalTab extends Composite implements ProxyFacilitator{
 			Button tmpBtn = btnPanelGroups.myButtons.get(i);
 			tmpBtn.addClickHandler(new groupClickHandler(tmpBtn.getText(), this));
 		}
+		
+		btnPanelGroups.setClickHandlers();
 	}
 	
 	private class groupClickHandler implements ClickHandler{
@@ -113,12 +115,15 @@ public class LogicalTab extends Composite implements ProxyFacilitator{
 	public void handleSubjects(String[] subjects) {
 		btnPanelSubjects.addButtons(subjects);
 		addSubjectClickHandlers();
+		btnPanelSubjects.myButtons.get(0).click();
 	}
 
 	@Override
 	public void handleGroups(String[] groups) {
 		btnPanelGroups.addButtons(groups);
 		addGroupClickHandlers();
+		// Load exercises for top group
+		btnPanelGroups.myButtons.get(0).click();
 	}
 
 	@Override
