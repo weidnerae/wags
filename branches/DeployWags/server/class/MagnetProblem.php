@@ -21,6 +21,7 @@ class MagnetProblem extends Model
 	protected $forRight;
     protected $booleans;
     protected $statements;
+    protected $limits;
     protected $solution;
     protected $groupID;
 
@@ -67,6 +68,10 @@ class MagnetProblem extends Model
         return $this->statements;
     }
 
+    public function getLimits(){
+        return $this->limits;
+    }
+    
     public function getGroup(){
         return $this->groupID;
     }
@@ -138,6 +143,10 @@ class MagnetProblem extends Model
          $this->statements = $var;
     }
 
+    public function setLimits($var){
+        $this->limits = $var;
+    }
+
     public function setGroup($var){
          $this->groupID = $var;
     }
@@ -166,6 +175,7 @@ class MagnetProblem extends Model
             "forRight" => $this->forRight,
             "bools" => $this->booleans,
             "statements" => $this->statements,
+            "limits" => $this->limits,
             "solution" => $this->solution,
         );
         return $objArray;
