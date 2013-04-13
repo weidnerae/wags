@@ -224,7 +224,7 @@ public class WEStatus
 			// Create the object
 			myObject = new MagnetProblem(id, messageMap.get("title"), messageMap.get("directions"), 
 					messageMap.get("type"), mainFunction, innerFunctions, forLeft, forMid, forRight, bools,
-					statements, createdIDs, numStatements, messageMap.get("solution"), messageMap.get("state"));
+					statements, messageMap.get("limits"), createdIDs, numStatements, messageMap.get("solution"), messageMap.get("state"));
 		} else if (objType == "LogicalMicrolab"){
 			// Pretty much just passes the database information into the LogicalMicrolab constructor.
 			// The real "parsing" of information happens in LogicalMicrolab.getProblem, which uses
