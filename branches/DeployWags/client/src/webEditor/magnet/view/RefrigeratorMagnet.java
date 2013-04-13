@@ -36,10 +36,11 @@ public class RefrigeratorMagnet extends AbsolutePanel{
 	public StackableContainer mainFunction;
 	public StackableContainer[] insideFunctions;
 	public StackableContainer[] premadeFunctions;
+	public int[] limits;
 	public int numStatements;
 	
 	
-	public RefrigeratorMagnet(int id, String title, String description, StackableContainer mainFunction, StackableContainer[] insideFunctions, String problemType, StackableContainer[] premadeSegments, String[] createdIDs, int numStatements, String[] structuresList, String[] for1List, String[] for2List, String[] for3List, String[] booleanList, String solution, String[] premadeIDs, PickupDragController newDC, final String state) {
+	public RefrigeratorMagnet(int id, String title, String description, StackableContainer mainFunction, StackableContainer[] insideFunctions, String problemType, StackableContainer[] premadeSegments, String[] createdIDs, int numStatements, String[] structuresList, String[] for1List, String[] for2List, String[] for3List, String[] booleanList, String solution, String[] premadeIDs, String limits, PickupDragController newDC, final String state) {
 		dc=newDC;
 		setHeight("99%");
 		this.problemType = problemType;
@@ -50,12 +51,20 @@ public class RefrigeratorMagnet extends AbsolutePanel{
 		this.insideFunctions = insideFunctions;
 		this.premadeFunctions = premadeSegments;
 		this.numStatements = numStatements;
+		if(problemType.equals(Consts.ADVANCED_PROBLEM)){
+			String[] sLimits = limits.split(",");
+			this.limits = new int[sLimits.length];
+			int k = 0;
+			for(String limit: sLimits){
+				this.limits[k++] = Integer.parseInt(limit);
+			}
+		}
 		
 		add(tabPanel);
 	    tabPanel.setSize("100%", "100%");
 	    int tabPanelHeight = tabPanel.getOffsetHeight();
 	    tabPanelHeight = tabPanel.getOffsetHeight();
-	    editingPanel = new EditingPanelUi(this, tabPanelHeight,title,description,mainFunction,insideFunctions,problemType,premadeSegments, createdIDs.length, numStatements, structuresList,for1List,for2List,for3List,booleanList, solution, premadeIDs, dc);
+	    editingPanel = new EditingPanelUi(this, tabPanelHeight,title,description,mainFunction,insideFunctions,problemType,premadeSegments, createdIDs.length, numStatements, structuresList,for1List,for2List,for3List,booleanList, this.limits, solution, premadeIDs, dc);
 		tabPanel.add(editingPanel, "Editing Mode", false);
 		tabPanel.selectTab(0);
 

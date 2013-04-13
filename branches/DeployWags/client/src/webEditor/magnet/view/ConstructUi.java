@@ -74,7 +74,7 @@ public class ConstructUi extends Composite {
 	public ConstructUi(String problemType,
 			StackableContainer[] premadeSegments, int numMagnets,String title,
 			String description, String[] structuresList, String[] for1List,
-			String[] for2List, String[] for3List, String[] booleanList,
+			String[] for2List, String[] for3List, String[] booleanList, int[] limits,
 			PickupDragController dc) {
 		initWidget(uiBinder.createAndBindUi(this));
 		
@@ -90,7 +90,7 @@ public class ConstructUi extends Composite {
 		
 		this.problemType = problemType;
 		this.nextID = numMagnets+1;
-
+		
 		if (problemType.equals(Consts.ADVANCED_PROBLEM)) {
 			//create the creation station panel, 
 			//then create a content panel to nest that and the segments panel.
@@ -98,7 +98,7 @@ public class ConstructUi extends Composite {
 			//add it to center
 			mmContent = new AbsolutePanel();
 			magnetMaker = new CreationStation(structuresList, for1List,
-					for2List, for3List, booleanList, this, dc, nextID);
+					for2List, for3List, booleanList, limits, this, dc, nextID);
 			mmContent.add(magnetMaker);
 			mmContent.setStyleName("creation_station");
 			
@@ -113,7 +113,7 @@ public class ConstructUi extends Composite {
 			
 			layout.add(contentPanel);
 			
-			bin = new TrashBin();
+			bin = new TrashBin(magnetMaker);
 			BinDropController binController = new BinDropController(bin);
 			dc.registerDropController(binController);
 			trashbin.add(bin);

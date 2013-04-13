@@ -492,3 +492,13 @@ BODY,HTML{height:100%;}
 	text-align: center;
 	cursor: default;
 }
+.structureLimitAvailable{
+	padding:5px;
+	margin-left:20px;
+	background-color:#90ee90;
+}
+.structureLimitUnvailable{
+	padding:5px;
+	margin-left:20px;
+	background-color:#cd5c5c;
+}
