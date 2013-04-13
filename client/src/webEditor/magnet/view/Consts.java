@@ -44,7 +44,7 @@ public class Consts {
 
 	// *** STANDARDS ***//
 	//default structures list
-	public static String[] STRUCTURES_LIST = {"choose structure...","for","while","if","else if", "else"};
+	public static String[] STRUCTURES_LIST = {"Choose Structure","for","while","if","else if", "else"};
 	//default modified structures list used for inner Functions
 	public static String[] INNER_FUNCTIONS_STRUCTURES_LIST = {"choose structure...","for","while","if","else if", "else","statement","function"};
 	//default modified structures list used for premade segments

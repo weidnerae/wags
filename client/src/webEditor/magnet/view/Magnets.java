@@ -32,7 +32,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class Magnets extends AbsolutePanel {
 	
 	public static final String EMPTY_LABEL = "No Magnet Exercises Assigned!";
-	static String[] structuresList = {"choose structure...","for","while","if","else if", "else"};
+	static String[] structuresList = Consts.STRUCTURES_LIST;
 	public static int INCOMPLETE = 0;
 	public static int SUCCESS = 1;
 	public static int REVIEW = 2;
@@ -247,6 +247,7 @@ public class Magnets extends AbsolutePanel {
 				magnet.bools,
 				magnet.solution,
 				magnet.statements,
+				magnet.limits,
 				dc,
 				magnet.state
 		);
