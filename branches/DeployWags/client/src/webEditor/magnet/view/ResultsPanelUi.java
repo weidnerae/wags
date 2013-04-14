@@ -61,7 +61,7 @@ public class ResultsPanelUi extends Composite {
 	 * 
 	 * GWT can't do String.format, so I'm not sure how to 
 	 * properly make the line numbers right-aligned. Thus, 
-	 * I just have to if-statements to add spaces as necessary.
+	 * I just have to add spaces as necessary.
 	 * 
 	 * @param s the code
 	 */
@@ -72,24 +72,24 @@ public class ResultsPanelUi extends Composite {
 		for (int i = 0; i < linedCode.length; i++) {
 			String spaces = "";
 			
-			//if ((i + 1) / 100 == 0) {
 			if ((i + 1) < 100) {
 				spaces += " ";
 			}
 			
-			//if ((i + 1) / 10 == 0) {
 			if ((i + 1) < 10) {
 				spaces += " ";
 			}
 			sb.append(spaces);
 			sb.append(i + 1);
 			sb.append("  ");
-			if(linedCode[i].contains(Consts.HC_DELIMITER)){
-				String tabs = linedCode[i].substring(0,linedCode[i].indexOf(Consts.HC_DELIMITER));
-				sb.append(tabs+"== Hidden Code ==");
-			}
-			else
+			
+			if (linedCode[i].contains(Consts.HC_DELIMITER)){
+				String tabs = linedCode[i].substring(0, linedCode[i].indexOf(Consts.HC_DELIMITER));
+				sb.append(tabs + "== Hidden Code ==");
+			} else {
 				sb.append(linedCode[i]);
+			}
+			
 			sb.append("\n");
 		}
 		

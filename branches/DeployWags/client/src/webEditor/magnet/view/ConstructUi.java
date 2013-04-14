@@ -69,10 +69,9 @@ public class ConstructUi extends Composite {
 	 *            DragController the drag controller passed from rootpanel.
 	 */
 	public ConstructUi(String problemType,
-			StackableContainer[] premadeSegments, int numMagnets,String title,
-			String description, String[] structuresList, String[] for1List,
-			String[] for2List, String[] for3List, String[] booleanList, int[] limits,
-			PickupDragController dc) {
+			StackableContainer[] premadeSegments, int numMagnets, String title,
+			String description, String[][] forLists, String[] booleanList, 
+			int[] limits, PickupDragController dc) {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		directionsContent.add(
@@ -85,7 +84,7 @@ public class ConstructUi extends Composite {
 			)	
 		);
 		
-		this.nextID = numMagnets+1;
+		this.nextID = numMagnets + 1;
 		
 		if (problemType.equals(Consts.ADVANCED_PROBLEM)) {
 			//create the creation station panel, 
@@ -93,8 +92,7 @@ public class ConstructUi extends Composite {
 			//create and register necessary drop controller
 			//add it to center
 			mmContent = new AbsolutePanel();
-			magnetMaker = new CreationStation(structuresList, for1List,
-					for2List, for3List, booleanList, limits, this, dc, nextID);
+			magnetMaker = new CreationStation(forLists, booleanList, limits, this, dc, nextID);
 			mmContent.add(magnetMaker);
 			mmContent.setStyleName("creation_station");
 			
@@ -114,7 +112,7 @@ public class ConstructUi extends Composite {
 			dc.registerDropController(binController);
 			trashbin.add(bin);
 			
-			//timer fix: sets the height a milisecond after the panel is created so that it returns correct
+			//timer fix: sets the height a millisecond after the panel is created so that it returns correct
 			//getOffsetHeight() values
 			
 			Timer t = new Timer (){
@@ -163,10 +161,6 @@ public class ConstructUi extends Composite {
      */
     public void addSegment(final StackableContainer segment) {
         /*
-         * In order for getOffsetWidth(), getAbsoluteTop(), etc. to return the correct values, we have to wrap the calls in a Timer object.
-         * I don't fully understand why this works, but it results in functional code. Current theory is that adding it to the timer allows 
-         * everything to be added to the DOM before we try to call the methods.
-         * 
          * This is ugly, and I don't like it, but after hours and hours of agonizing over the code, this is my only solution.
          * 
          * @author Jon Johnson

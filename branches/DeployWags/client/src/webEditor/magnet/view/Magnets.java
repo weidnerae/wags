@@ -32,7 +32,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class Magnets extends AbsolutePanel {
 	
 	public static final String EMPTY_LABEL = "No Magnet Exercises Assigned!";
-	static String[] structuresList = Consts.STRUCTURES_LIST;
 	public static int INCOMPLETE = 0;
 	public static int SUCCESS = 1;
 	public static int REVIEW = 2;
@@ -240,10 +239,7 @@ public class Magnets extends AbsolutePanel {
 				decodePremade(magnet.statements,magnet.createdIDs, magnet.numStatements), 
 				magnet.createdIDs,
 				magnet.numStatements,
-				structuresList,
-				magnet.forLeft,
-				magnet.forMid,
-				magnet.forRight,
+				new String[][] { magnet.forLeft, magnet.forMid, magnet.forRight },
 				magnet.bools,
 				magnet.solution,
 				magnet.statements,
