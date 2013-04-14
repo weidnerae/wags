@@ -4,7 +4,6 @@ import webEditor.Notification;
 import webEditor.Proxy;
 import webEditor.WEStatus;
 import webEditor.magnet.view.Consts;
-import webEditor.magnet.view.RefrigeratorMagnet;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;

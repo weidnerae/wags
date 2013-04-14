@@ -33,17 +33,19 @@ import webEditor.logical.TreeProblems.RedBlackProblems.RedBlackProblem;
 
 public class LogicalMicrolab {
 	private String title, problemText, nodes, xPositions, yPositions,
-		insertMethod, edges, nodeType, genre, arguments;
+			insertMethod, edges, nodeType, genre, arguments;
 	private Evaluation evaluation;
 	private AddEdgeRules edgeRules;
 	private boolean edgesRemovable, nodesDraggable;
+	@SuppressWarnings("unused")
 	private int group;
-	
+
 	public LogicalMicrolab(String title, String problemText, String nodes,
 			String xPositions, String yPositions, String insertMethod,
 			String edges, int evaluation, int edgeRules, String arguments,
-			int edgesRemovable, int nodesDraggable, String nodeType, int group, String genre){
-		
+			int edgesRemovable, int nodesDraggable, String nodeType, int group,
+			String genre) {
+
 		this.title = title;
 		this.problemText = problemText;
 		this.nodes = nodes;
@@ -54,131 +56,131 @@ public class LogicalMicrolab {
 		this.evaluation = DSTConstants.getEvaluation(evaluation);
 		this.edgeRules = DSTConstants.getEdgeRules(edgeRules);
 		this.arguments = arguments;
-		this.edgesRemovable = (edgesRemovable == 1)? true : false;
-		this.nodesDraggable = (nodesDraggable == 1)? true : false;
+		this.edgesRemovable = (edgesRemovable == 1) ? true : false;
+		this.nodesDraggable = (nodesDraggable == 1) ? true : false;
 		this.nodeType = nodeType;
 		this.group = group;
 		this.genre = genre;
 	}
-	
-	public Problem getProblem(){
+
+	public Problem getProblem() {
 		// Everything requires "args"
 		String[] args = getArguments(arguments);
-		
-		if(genre.equals("radix")){
+
+		if (genre.equals("radix")) {
 			return new SearchProblem(title, problemText, nodes, insertMethod,
-					args, new Evaluation_RadixSortWithHelp(), nodesDraggable, nodeType);
+					args, new Evaluation_RadixSortWithHelp(), nodesDraggable,
+					nodeType);
 		}
-		if(genre.equals("selectionsort")){
-			return new SelectionSortProblem(title, problemText, nodes, insertMethod,
-					args, evaluation, edgeRules, nodesDraggable, nodeType);
+		if (genre.equals("selectionsort")) {
+			return new SelectionSortProblem(title, problemText, nodes,
+					insertMethod, args, evaluation, edgeRules, nodesDraggable,
+					nodeType);
 		}
-		if(genre.equals("simplepartition")){
-			return new SimplePartitionProblem(title, problemText, nodes, insertMethod,
-					args, evaluation, edgeRules, nodesDraggable, nodeType);
+		if (genre.equals("simplepartition")) {
+			return new SimplePartitionProblem(title, problemText, nodes,
+					insertMethod, args, evaluation, edgeRules, nodesDraggable,
+					nodeType);
 		}
-		
+
 		// Everything from here on requires edgeList
 		String[] edgeList = getEdges(edges);
-		
+
 		// Only difference from heapDelete is status of boolean getting passed
 		// to "getHeap_Location" methods
-		if(genre.equals("heapInsert")){
-			return new TreeProblem(title, problemText, nodes,
-					insertMethod, ProblemServiceImpl.getHeapXLocations(true, nodes),
-					ProblemServiceImpl.getHeapYLocations(true, nodes), edgeList, args,
-					evaluation, edgeRules, edgesRemovable, nodesDraggable, nodeType);
-		}
-		if(genre.equals("heapDelete")){
-			return new TreeProblem(title, problemText, nodes,
-					insertMethod, ProblemServiceImpl.getHeapXLocations(false, nodes),
-					ProblemServiceImpl.getHeapYLocations(false, nodes), edgeList, args,
-					evaluation, edgeRules, edgesRemovable, nodesDraggable, nodeType);
-		}
-		
-		// Everything form here on requires positions
-		int[] xPos = getLocations(xPositions);
-		int[] yPos = getLocations(yPositions);
-		
-		if(genre.equals("traversal")){	
-			return new TreeProblem(title, problemText, nodes,
-					insertMethod, xPos,
-					yPos, edgeList,
-					args, evaluation, edgeRules, edgesRemovable,
+		if (genre.equals("heapInsert")) {
+			return new TreeProblem(title, problemText, nodes, insertMethod,
+					ProblemServiceImpl.getHeapXLocations(true, nodes),
+					ProblemServiceImpl.getHeapYLocations(true, nodes),
+					edgeList, args, evaluation, edgeRules, edgesRemovable,
 					nodesDraggable, nodeType);
 		}
-				
-		if(genre.equals("mst")){
-			return new MSTProblem(title, problemText, nodes, insertMethod,
-					xPos, yPos, edgeList, args, evaluation, 
-					edgeRules, edgesRemovable, nodesDraggable, nodeType);
+		if (genre.equals("heapDelete")) {
+			return new TreeProblem(title, problemText, nodes, insertMethod,
+					ProblemServiceImpl.getHeapXLocations(false, nodes),
+					ProblemServiceImpl.getHeapYLocations(false, nodes),
+					edgeList, args, evaluation, edgeRules, edgesRemovable,
+					nodesDraggable, nodeType);
 		}
-		
-		if(genre.equals("hashing")){
+
+		// Everything from here on requires positions
+		int[] xPos = getLocations(xPositions);
+		int[] yPos = getLocations(yPositions);
+
+		if (genre.equals("traversal")) {
+			return new TreeProblem(title, problemText, nodes, insertMethod,
+					xPos, yPos, edgeList, args, evaluation, edgeRules,
+					edgesRemovable, nodesDraggable, nodeType);
+		}
+
+		if (genre.equals("mst")) {
+			return new MSTProblem(title, problemText, nodes, insertMethod,
+					xPos, yPos, edgeList, args, evaluation, edgeRules,
+					edgesRemovable, nodesDraggable, nodeType);
+		}
+
+		if (genre.equals("hashing")) {
 			return new HashingProblem(title, problemText, nodes, insertMethod,
 					xPos, yPos, edgeList, args, evaluation, edgeRules,
 					edgesRemovable, nodesDraggable, nodeType);
 		}
-		
-		if(genre.equals("qsort")){
+
+		if (genre.equals("qsort")) {
 			String[] qEdges = new String[0];
-			return new QuickSortProblem(title, problemText, nodes, insertMethod,
-					xPos, yPos, qEdges, args, evaluation, edgeRules,
-					edgesRemovable, nodesDraggable, nodeType);
+			return new QuickSortProblem(title, problemText, nodes,
+					insertMethod, xPos, yPos, qEdges, args, evaluation,
+					edgeRules, edgesRemovable, nodesDraggable, nodeType);
 		}
-		
-		if(genre.equals("redblack")){
+
+		if (genre.equals("redblack")) {
 			return new RedBlackProblem(title, problemText, nodes, insertMethod,
-					xPos, yPos, edgeList, args, evaluation, edgeRules, 
+					xPos, yPos, edgeList, args, evaluation, edgeRules,
 					edgesRemovable, nodesDraggable, nodeType);
 		}
-		
-		
-		
-		
+
 		return null;
 	}
-	
-	private int[] convertToIntArray(String list, String delim){
+
+	private int[] convertToIntArray(String list, String delim) {
 		String[] tmp = list.split(delim);
 		int[] intArray = new int[tmp.length];
-		
-		for(int i = 0; i < tmp.length; i++){
+
+		for (int i = 0; i < tmp.length; i++) {
 			intArray[i] = Integer.parseInt(tmp[i]);
 		}
-		
+
 		return intArray;
 	}
-	
-	private String[] getEdges(String edges){
+
+	private String[] getEdges(String edges) {
 		String[] edgeList;
-		if(edges.length() == 0){
+		if (edges.length() == 0) {
 			edgeList = new String[0];
 		} else {
 			edgeList = edges.split(",");
 		}
-		
+
 		return edgeList;
 	}
-	
-	private int[] getLocations(String pos){
-		if(pos.length() > 0){
+
+	private int[] getLocations(String pos) {
+		if (pos.length() > 0) {
 			return convertToIntArray(pos, ",");
 		} else {
 			return new int[0];
 		}
 	}
-	
-	private String[] getArguments(String arguments){
+
+	private String[] getArguments(String arguments) {
 		String[] args;
-		if(!arguments.contains(",")){
+		if (!arguments.contains(",")) {
 			args = new String[1];
 			args[0] = arguments;
 		} else {
 			args = arguments.split(",");
 		}
-		
+
 		return args;
 	}
-	
+
 }
