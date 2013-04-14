@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.Window;
 
 /**
  * 
@@ -23,8 +22,6 @@ import com.google.gwt.user.client.Window;
 public class ConstructUi extends Composite {
 	private TrashBin bin;
 	private StackableContainer[] premade; //field to store premade segments passed in
-	private boolean initial = false; //a dragon's boolean
-	private String problemType; //differentiates between algo, basic, and advanced
 	private AbsolutePanel contentPanel; //nest panel to hold mgnet maker and segments content
 	private AbsolutePanel mmContent;    //nest panel to hold magnet maker
 	private CreationStation magnetMaker;
@@ -88,7 +85,6 @@ public class ConstructUi extends Composite {
 			)	
 		);
 		
-		this.problemType = problemType;
 		this.nextID = numMagnets+1;
 		
 		if (problemType.equals(Consts.ADVANCED_PROBLEM)) {
@@ -147,7 +143,6 @@ public class ConstructUi extends Composite {
 	//this method is called after the constructor because there is a delay between instantiating the panel
 	//and placing all the segments to the segmentsContent panel
 	public void start() {
-		initial = false;            // Just added this to check 2/26/13
 		addSegments(premade);
 	}
 
@@ -157,7 +152,6 @@ public class ConstructUi extends Composite {
 				addSegment(segment);
 			}
 		}
-		initial = true;
 	}
 	
 	/**
@@ -188,52 +182,34 @@ public class ConstructUi extends Composite {
                 int baseY = 10;
                                               
                 if (widgetCount == 0) {
-                        // we add the first widget at an offset of 10, 10
-                        segmentsContent.add(segment, baseX, baseY);
+                    // we add the first widget at an offset of 10, 10
+                    segmentsContent.add(segment, baseX, baseY);
                 } else {
-                        // after the first, we calculate where the next widget should go based on the last widget in the panel
-                        StackableContainer lastWidget = (StackableContainer) segmentsContent.getWidget(segmentsContent.getWidgetCount() - 1);
-                        
-                        //Window.alert("lastWidget.getTop(): " + lastWidget.getTop() + "\nlast.Widget.getHeight():  " + lastWidget.getHeight() + "\ngetAbsoluteTop(): " + getAbsoluteTop() + "\ncalculated baseY: " + ((lastWidget.getTop() + lastWidget.getHeight() - getAbsoluteTop()) - (segmentsContent.getAbsoluteTop() - getAbsoluteTop())));
-                        
-                        //get raw position information for last widget placed in segmentscontent
-                        //subtract it from absolute top of constructUI to account for tabs and anchor
-                        baseY = lastWidget.getTop() + lastWidget.getHeight() - getAbsoluteTop();
-                        //subtract the length from the top of segments content up to the top of the UI
-                        baseY -= segmentsContent.getAbsoluteTop() - getAbsoluteTop();
-                        
-                        //store the calculated baseY in case it is needed after scrolling
-                        segmentTops[widgetCount - 1] = baseY;
-                        
-                        //check the current baseY against the relative top (baseY) 
-                        //of the widget before the last one.  if the current one is smaller
-                        //replace it with the one before hand and calculate the correct baseY
-                        //by adding the height of the last widget added + 10 to the old baseY
-                        if (widgetCount != 1 && baseY < segmentTops[widgetCount - 2]) {
-                        	baseY = segmentTops[widgetCount - 2];
-                        	baseY += lastWidget.getHeight() + 10;
-                        	segmentTops[widgetCount -1] = baseY;
-                        }
-                        
-                        /**
-                         * I removed this because I noticed no change between this and simply removing
-                         * length of everything above segmentsContent for every piece, regardless of if
-                         * it was the initial pieces or the created pieces.  If whoever wrote the code
-                         * (Daniel I think) has a reason for an edge case or something that I didn't find
-                         * I'll uncomment, otherwise I'll delete this - Alex 3/20/13
-                        // for the first set of magnets (i.e. before the user adds any they created), we have to have a special
-                        // flag and treat them differently
-                        //if (initial) {
-                        //        baseY -= segmentsContent.getAbsoluteTop() - getAbsoluteTop();
-                        //		Window.alert("initial flag: true\nbaseY: " + baseY);
-                        //} else if (problemType.equals(Consts.ADVANCED_PROBLEM)) { 
-                        //        baseY -= magnetMaker.getOffsetHeight();
-                        //        Window.alert("initial flag: false\nbaeY: " + baseY);
-                        //}
-                         * 
-                         */
+                    // after the first, we calculate where the next widget should go based on the last widget in the panel
+                    StackableContainer lastWidget = (StackableContainer) segmentsContent.getWidget(segmentsContent.getWidgetCount() - 1);
+                                      
+                    //get raw position information for last widget placed in segmentscontent
+                    //subtract it from absolute top of constructUI to account for tabs and anchor
+                    baseY = lastWidget.getTop() + lastWidget.getHeight() - getAbsoluteTop();
+                    
+                    //subtract the length from the top of segments content up to the top of the UI
+                    baseY -= segmentsContent.getAbsoluteTop() - getAbsoluteTop();
+                    
+                    //store the calculated baseY in case it is needed after scrolling
+                    segmentTops[widgetCount - 1] = baseY;
+                    
+                    //check the current baseY against the relative top (baseY) 
+                    //of the widget before the last one.  if the current one is smaller
+                    //replace it with the one before hand and calculate the correct baseY
+                    //by adding the height of the last widget added + 10 to the old baseY
+                    if (widgetCount != 1 && baseY < segmentTops[widgetCount - 2]) {
+                    	baseY = segmentTops[widgetCount - 2];
+                    	baseY += lastWidget.getHeight() + 10;
+                    	segmentTops[widgetCount -1] = baseY;
+                    }
                 }
-                        segmentsContent.add(segment, baseX, baseY);
+                
+                segmentsContent.add(segment, baseX, baseY);
             }  
         };
         
