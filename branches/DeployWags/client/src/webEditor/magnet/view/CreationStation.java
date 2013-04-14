@@ -1,14 +1,10 @@
 package webEditor.magnet.view;
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -39,14 +35,14 @@ public class CreationStation extends VerticalPanel{
 										//under the directions content
 	
 	private Button createButton = new Button("Create"); //the button that will be tasked with creating the desired magnet
-	//a series of list boxes that will store the lists from above
+	/* a series of list boxes that will store the lists from above */
 	private MenuBar structures;
 	private ListBox forConditions1;
 	private ListBox forConditions2;
 	private ListBox forConditions3;
 	private ListBox booleanConditions;
 	
-	//different use cases are represented by panels, each for the type of decision structure
+	/* different use cases are represented by panels, each for the type of decision structure */
 	private HorizontalPanel elsePanel = new HorizontalPanel();
 	private HorizontalPanel forPanel = new HorizontalPanel();
 	private HorizontalPanel booleanPanel = new HorizontalPanel();
@@ -54,13 +50,14 @@ public class CreationStation extends VerticalPanel{
 	
 	private MenuBar structureOptions;
 	private int selectedStructureIndex = 0;
+	@SuppressWarnings("unused")
 	private Label selectedStructureCounter;
 	
 	final PickupDragController dc;
 	
 	private int nextID;
 	
-	public CreationStation(String[] structuresList, String[] for1List,String[] for2List,String[] for3List, String[] booleanList, int[] limits, ConstructUi constructPanel, PickupDragController dc, int nextID){		
+	public CreationStation(String[] structuresList, String[] for1List,String[] for2List,String[] for3List, String[] booleanList, int[] limits, ConstructUi constructPanel, PickupDragController dc, int nextID) {		
 		setStyleName("dropdown_panel");
 		this.dc = dc;
 		this.structuresList=structuresList;
@@ -71,8 +68,6 @@ public class CreationStation extends VerticalPanel{
 		this.limits = limits;
 		this.constructPanel = constructPanel;
 		this.nextID = nextID;
-
-		
 		
 		//set up Structures MenuBar(used as a ListBox but we can set html for the elements)
 		structures = new MenuBar(true);
@@ -151,7 +146,7 @@ public class CreationStation extends VerticalPanel{
 	public void updateStructureOptions(){
 		structureOptions.clearItems();
 		String menuItemHTML;
-		for(int i=1; i< structuresList.length; i++){
+		for(int i = 1; i < structuresList.length; i++) {
 			if(limits[i-1]>0){
 				menuItemHTML = "<div><p style = \"margin:0px\">"+structuresList[i]+"<span style = \"float:right;\" class = \"structureLimitAvailable\">"+limits[i-1]+"</span></div>";
 			} else{
