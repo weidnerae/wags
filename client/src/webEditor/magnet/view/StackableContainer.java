@@ -81,7 +81,7 @@ public class StackableContainer extends FocusPanel {
 		String[] splitContent = new String[0]; // Used to hold comment magnets
 		
 		boolean containsComment = this.content.contains(".:2:.");
-		if(containsComment){
+		if (containsComment) {
 			splitContent = this.content.split(".:2:.");
 			this.content = splitContent[0];
 		}
