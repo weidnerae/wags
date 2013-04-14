@@ -36,8 +36,7 @@ public class RefrigeratorMagnet extends AbsolutePanel {
 			StackableContainer mainFunction,
 			StackableContainer[] insideFunctions, String problemType,
 			StackableContainer[] premadeSegments, String[] createdIDs,
-			int numStatements, String[] structuresList, String[] for1List,
-			String[] for2List, String[] for3List, String[] booleanList,
+			int numStatements, String[][] forLists, String[] booleanList,
 			String solution, String[] premadeIDs, String limits,
 			PickupDragController newDC, final String state) {
 		
@@ -68,7 +67,7 @@ public class RefrigeratorMagnet extends AbsolutePanel {
 		editingPanel = new EditingPanelUi(this, tabPanelHeight, title,
 				description, mainFunction, insideFunctions, problemType,
 				premadeSegments, createdIDs.length, numStatements,
-				structuresList, for1List, for2List, for3List, booleanList,
+				forLists, booleanList,
 				this.limits, solution, premadeIDs, dc);
 		tabPanel.add(editingPanel, "Editing Mode", false);
 		tabPanel.selectTab(0);
@@ -169,21 +168,7 @@ public class RefrigeratorMagnet extends AbsolutePanel {
 	}
 
 	public void addMagnetsByID(String childID, String parentID) {
-		boolean isValid = true;
-		
-		/*
-		 * Daniel: This is super janky.
-		 */
-		try {
-			@SuppressWarnings("unused")
-			int child = Integer.parseInt(childID);
-			@SuppressWarnings("unused")
-			int parent = Integer.parseInt(parentID);
-		} catch (NumberFormatException ex) {
-			isValid = false;
-		}
-		
-		if (isValid) {
+		if (isInteger(childID) && isInteger(parentID)) {
 			boolean premadeParent = false;
 			int parentIndex = -1;
 			int childIndex = -1;
@@ -229,4 +214,12 @@ public class RefrigeratorMagnet extends AbsolutePanel {
 		editingPanel.resetProblem();
 	}
 
+	private boolean isInteger(String s) {
+	    try {
+	        Integer.parseInt(s);
+	        return true;
+	    } catch(NumberFormatException e) {
+	        return false;
+	    }
+	}
 }

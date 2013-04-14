@@ -211,7 +211,7 @@ public class WEStatus
 			allStatements = messageMap.get("statements").split(".:3:.");
 			oldStatements = parseArray(allStatements[0]);
 			numStatements = oldStatements.length+(innerFunctions.length);
-			if(allStatements.length >1){
+			if(allStatements.length > 1){
 				String[][] createdStatementsAndIDs = parseCreated(allStatements);
 				newStatements = createdStatementsAndIDs[1];
 				createdIDs = createdStatementsAndIDs[0];
