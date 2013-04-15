@@ -22,11 +22,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 
 public class CreationStation extends VerticalPanel {
-	private static final int FOR = 1;
-	private static final int WHILE = 2;
-	private static final int IF = 3;
-	private static final int ELSE_IF = 4;
-	private static final int ELSE = 5;
+	public static final int FOR = 1;
+	public static final int WHILE = 2;
+	public static final int IF = 3;
+	public static final int ELSE_IF = 4;
+	public static final int ELSE = 5;
 	private String[] structuresList = Consts.STRUCTURES_LIST;
 	private int[] limits;
 	private ConstructUi constructPanel; // the left hand side of the magnets UI
