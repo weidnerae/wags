@@ -49,6 +49,7 @@ public class CreationStation extends VerticalPanel {
 	final PickupDragController dc;
 
 	private int nextID;
+	private int startOfCreatedIds;
 
 	public CreationStation(String[][] forLists, String[] booleanList,
 			int[] limits, ConstructUi constructPanel, PickupDragController dc,
@@ -58,6 +59,7 @@ public class CreationStation extends VerticalPanel {
 		this.limits = limits;
 		this.constructPanel = constructPanel;
 		this.nextID = nextID;
+		this.startOfCreatedIds = nextID;
 
 		// set up Structures MenuBar(used as a ListBox but we can set html for the elements)
 		structures = new MenuBar(true);
@@ -198,13 +200,12 @@ public class CreationStation extends VerticalPanel {
 	}
 
 	public void incrementLimitCounter(int i) {
-		limits[i]++;
+		limits[i-1]++;
 		updateStructureOptions();
 	}
  
 	/**
 	 * Create a stackable container and add it to the Construct Panel
-	 *
 	 */
 	private class CreateHandler implements ClickHandler {
 		public void onClick(ClickEvent event) {
@@ -255,5 +256,8 @@ public class CreationStation extends VerticalPanel {
 			limits[selectedStructureIndex - 1]--;
 			updateStructureOptions();
 		}
+	}
+	public int getStartOfCreatedIds(){
+		return startOfCreatedIds;
 	}
 }

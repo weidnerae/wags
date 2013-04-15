@@ -4,6 +4,7 @@ package webEditor.magnet.view;
  * Standard trash bin behavior, eats any stackablecontainer that is dropped into its drop area
  */
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
@@ -29,21 +30,18 @@ final class TrashBin extends AbsolutePanel {
 	public void eatWidget(StackableContainer sc) {
 		String content = sc.getContent();
 		
-		/*
-		 * I don't think this is correct. It will increase limits in the 
-		 * magnet maker even if the magnet wasn't created with the magnet 
-		 * maker. Am I wrong?
-		 */
-		if (content.startsWith("for")) {
-			magnetMaker.incrementLimitCounter(CreationStation.FOR);
-		} else if (content.startsWith("while")) {
-			magnetMaker.incrementLimitCounter(CreationStation.WHILE);
-		} else if (content.startsWith("if")) {
-			magnetMaker.incrementLimitCounter(CreationStation.IF);
-		} else if (content.startsWith("else if")) {
-			magnetMaker.incrementLimitCounter(CreationStation.ELSE_IF);
-		} else if (content.startsWith("else")) {
-			magnetMaker.incrementLimitCounter(CreationStation.ELSE);
+		if(Integer.parseInt(sc.getID())>= magnetMaker.getStartOfCreatedIds()){
+			if (content.startsWith("for")) {
+				magnetMaker.incrementLimitCounter(CreationStation.FOR);
+			} else if (content.startsWith("while")) {
+				magnetMaker.incrementLimitCounter(CreationStation.WHILE);
+			} else if (content.startsWith("if")) {
+				magnetMaker.incrementLimitCounter(CreationStation.IF);
+			} else if (content.startsWith("else if")) {
+				magnetMaker.incrementLimitCounter(CreationStation.ELSE_IF);
+			} else if (content.startsWith("else")) {
+				magnetMaker.incrementLimitCounter(CreationStation.ELSE);
+			}
 		}
 		
 		sc.removeFromParent();
