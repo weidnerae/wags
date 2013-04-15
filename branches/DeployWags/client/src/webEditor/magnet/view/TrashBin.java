@@ -28,24 +28,23 @@ final class TrashBin extends AbsolutePanel {
 
 	public void eatWidget(StackableContainer sc) {
 		String content = sc.getContent();
-		int index = content.indexOf(' ');
-		String firstWord = content.substring(0, index);
 		
-		if(firstWord.equals("for")){
-			magnetMaker.incrementLimitCounter(0);
-		} else if(firstWord.equals("while")){
-			magnetMaker.incrementLimitCounter(1);
-		} else if(firstWord.equals("if")){
-			magnetMaker.incrementLimitCounter(2);
-		} else if(firstWord.equals("else")){
-			if(content.substring(index+1,content.indexOf(' ',index+1)).equals("if")){ // "else if"
-				magnetMaker.incrementLimitCounter(3);
-			} else{
-				magnetMaker.incrementLimitCounter(4);
-			}
+		/*
+		 * I don't think this is correct. It will increase limits in the 
+		 * magnet maker even if the magnet wasn't created with the magnet 
+		 * maker. Am I wrong?
+		 */
+		if (content.startsWith("for")) {
+			magnetMaker.incrementLimitCounter(CreationStation.FOR);
+		} else if (content.startsWith("while")) {
+			magnetMaker.incrementLimitCounter(CreationStation.WHILE);
+		} else if (content.startsWith("if")) {
+			magnetMaker.incrementLimitCounter(CreationStation.IF);
+		} else if (content.startsWith("else if")) {
+			magnetMaker.incrementLimitCounter(CreationStation.ELSE_IF);
+		} else if (content.startsWith("else")) {
+			magnetMaker.incrementLimitCounter(CreationStation.ELSE);
 		}
-		
-			
 		
 		sc.removeFromParent();
 	}
