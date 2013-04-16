@@ -14,9 +14,7 @@ import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
 
 
-public class WEStatus 
-{
-	// Just some edit
+public class WEStatus {
 	public static final int NOTHING = -1;
 	public static final int STATUS_ERROR   = 0;
 	public static final int STATUS_SUCCESS = 1;
@@ -211,16 +209,19 @@ public class WEStatus
 			allStatements = messageMap.get("statements").split(".:3:.");
 			oldStatements = parseArray(allStatements[0]);
 			numStatements = oldStatements.length+(innerFunctions.length);
-			if(allStatements.length > 1){
+			
+			if (allStatements.length > 1) {
 				String[][] createdStatementsAndIDs = parseCreated(allStatements);
 				newStatements = createdStatementsAndIDs[1];
 				createdIDs = createdStatementsAndIDs[0];
 				statements = concatenateArrays(oldStatements,newStatements);
-			} else{
+			} else {
 				createdIDs = new String[0];
 				statements = oldStatements;
 				newStatements = new String[0];
 			}
+			//BUG: Magnet Maker problems can't get to here on Test_version!!!
+			
 			// Create the object
 			myObject = new MagnetProblem(id, messageMap.get("title"), messageMap.get("directions"), 
 					messageMap.get("type"), mainFunction, innerFunctions, forLeft, forMid, forRight, bools,
