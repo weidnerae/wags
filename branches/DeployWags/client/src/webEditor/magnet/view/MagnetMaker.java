@@ -9,52 +9,46 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
- * The creation station is a panel that consists of a series of dropdowns, and
+ * The magnet maker is a panel that consists of a series of dropdowns, and
  * from those dropdowns the students can select options to create their own
  * custom magnets.
  * 
  */
 
-public class CreationStation extends VerticalPanel {
+public class MagnetMaker extends VerticalPanel {
 	public static final int FOR = 1;
 	public static final int WHILE = 2;
 	public static final int IF = 3;
 	public static final int ELSE_IF = 4;
 	public static final int ELSE = 5;
 	private String[] structuresList = Consts.STRUCTURES_LIST;
-	private int[] limits;
+	
 	private ConstructUi constructPanel; // the left hand side of the magnets UI
 	private Button createButton = new Button("Create");
 	private MenuBar structures;
+	private MenuBar structureOptions;
 	private ListBox[] forConditions;
 	private ListBox booleanConditions;
 
 	/* different use cases are represented by panels, each for the type of decision structure */
-	private HorizontalPanel elsePanel = new HorizontalPanel();
 	private HorizontalPanel forPanel = new HorizontalPanel();
 	private HorizontalPanel booleanPanel = new HorizontalPanel();
 	private HorizontalPanel topAlignPanel = new HorizontalPanel();
 
-	private MenuBar structureOptions;
-	private int selectedStructureIndex = 0;
-	@SuppressWarnings("unused")
-	private Label selectedStructureCounter;
-
 	final PickupDragController dc;
-
 	private int nextID;
+	private int[] limits;
 	private int startOfCreatedIds;
+	private int selectedStructureIndex = 0;
 
-	public CreationStation(String[][] forLists, String[] booleanList,
-			int[] limits, ConstructUi constructPanel, PickupDragController dc,
-			int nextID) {
-		setStyleName("dropdown_panel");
+	public MagnetMaker(String[][] forLists, String[] booleanList, int[] limits,
+			ConstructUi constructPanel, PickupDragController dc, int nextID) {
+		this.setStyleName("dropdown_panel");
 		this.dc = dc;
 		this.limits = limits;
 		this.constructPanel = constructPanel;
@@ -64,7 +58,8 @@ public class CreationStation extends VerticalPanel {
 		// set up Structures MenuBar(used as a ListBox but we can set html for the elements)
 		structures = new MenuBar(true);
 		setupStructures(structures, structuresList);
-		selectedStructureCounter = new Label();
+		topAlignPanel.add(structures);
+		add(topAlignPanel);
 
 		// do the leg work of turning string arrays into list boxes
 		forConditions = new ListBox[3];
@@ -72,10 +67,6 @@ public class CreationStation extends VerticalPanel {
 		forConditions[1] = setupListBox(forLists[1]);
 		forConditions[2] = setupListBox(forLists[2]);
 		booleanConditions = setupListBox(booleanList);
-
-		// add the topAlignPanel because it contains the structures listbox
-		topAlignPanel.add(structures);
-		add(topAlignPanel);
 
 		/* set up panels for each decision structure so they can be ready to swap to */
 		forPanel.add(new HTML("&nbsp ( &nbsp"));
@@ -87,27 +78,24 @@ public class CreationStation extends VerticalPanel {
 		forPanel.add(new HTML("&nbsp ) &nbsp"));
 
 		booleanPanel.addStyleName("boolean_conditions");
-
 		booleanPanel.add(new HTML("&nbsp ( &nbsp"));
 		booleanPanel.add(booleanConditions);
 		booleanPanel.add(new HTML("&nbsp ) &nbsp"));
 
-		// finally make the create button and add it to the bottom of the panel
 		createButton.addClickHandler(new CreateHandler());
 		createButton.addStyleName("create_button");
-
 		add(createButton);
-		setCellHorizontalAlignment(createButton,HasHorizontalAlignment.ALIGN_RIGHT);
+		setCellHorizontalAlignment(createButton, HasHorizontalAlignment.ALIGN_RIGHT);
 	}
 	
-	public void updateStructureOptions() {
-		structureOptions.clearItems();
+	private void updateStructureOptions() {
 		String menuItemHTML;
+		structureOptions.clearItems();
+		
 		for (int i = 1; i < structuresList.length; i++) {
 			String css = null;
 			if (limits[i - 1] > 0) {
 				css = "structureLimitAvailable";
-				
 			} else {
 				css = "structureLimitUnvailable";
 			}
@@ -132,7 +120,7 @@ public class CreationStation extends VerticalPanel {
 		}
 	}
 
-	public void updateStructure() {
+	private void updateStructure() {
 		structures.clearItems();
 		if (selectedStructureIndex == 0) {
 			structures.addItem("<div style=\"display:inline-block;min-width:110px;\" >" + structuresList[selectedStructureIndex] + "</div>", true, structureOptions);
@@ -157,16 +145,15 @@ public class CreationStation extends VerticalPanel {
 	}
 
 	// takes the string array and turns it into a usable listbox for the decision structures
-	public void setupStructures(MenuBar structures, String[] structuresList) {
+	private void setupStructures(MenuBar structures, String[] structuresList) {
 		structureOptions = new MenuBar(true);
 		structures.setAnimationEnabled(true);
-
 		updateStructureOptions();
 	}
 
 	// takes the string array and turns it into a usable listbox for the
 	// arguments used in decision structures
-	public ListBox setupListBox(String[] listOptions) {
+	private ListBox setupListBox(String[] listOptions) {
 		if (listOptions == null) {
 			return null;
 		}
@@ -178,14 +165,7 @@ public class CreationStation extends VerticalPanel {
 		return listBox;
 	}
 
-	// utility methods used to change what dropdowns are available to the
-	// student using the creation station
-	public void clearDropdowns() {
-		topAlignPanel.clear();
-		topAlignPanel.add(structures);
-	}
-
-	public void showDropdowns(int structure) {
+	private void showDropdowns(int structure) {
 		topAlignPanel.clear();
 		topAlignPanel.add(structures);
 		
@@ -193,15 +173,8 @@ public class CreationStation extends VerticalPanel {
 		case FOR:		topAlignPanel.add(forPanel); break;
 		case WHILE:		
 		case IF:		
-		case ELSE_IF: 	topAlignPanel.add(booleanPanel); break;
-		case ELSE: 		topAlignPanel.add(elsePanel); break;
-		default: break;
+		case ELSE_IF:	topAlignPanel.add(booleanPanel); break;
 		}
-	}
-
-	public void incrementLimitCounter(int i) {
-		limits[i-1]++;
-		updateStructureOptions();
 	}
  
 	/**
@@ -217,11 +190,10 @@ public class CreationStation extends VerticalPanel {
 			}
 			
 			// start with a null SC and add the necessary parts to it as we go
-			StackableContainer createdContainer = null;
+			StackableContainer createdContainer = new StackableContainer(Consts.STRUCTURE_CODE[selectedStructureIndex], dc, Consts.STATEMENT);
 
 			switch (selectedStructureIndex) {
 			case FOR:
-				createdContainer = new StackableContainer(Consts.FOR, dc, Consts.STATEMENT);
 				String left =  forConditions[0].getItemText(forConditions[0].getSelectedIndex());
 				String mid =   forConditions[1].getItemText(forConditions[1].getSelectedIndex());
 				String right = forConditions[2].getItemText(forConditions[2].getSelectedIndex());
@@ -230,24 +202,9 @@ public class CreationStation extends VerticalPanel {
 				break;
 
 			case WHILE:
-				createdContainer = new StackableContainer(Consts.WHILE, dc, Consts.STATEMENT);
-				createdContainer.addConditionContent((booleanConditions.getItemText(booleanConditions.getSelectedIndex())));
-				break;
-
 			case IF:
-				createdContainer = new StackableContainer(Consts.IF, dc, Consts.STATEMENT);
-				createdContainer.addConditionContent(booleanConditions.getItemText(booleanConditions.getSelectedIndex()));
-
 			case ELSE_IF:
-				createdContainer = new StackableContainer(Consts.ELSEIF, dc, Consts.STATEMENT);
 				createdContainer.addConditionContent(booleanConditions.getItemText(booleanConditions.getSelectedIndex()));
-				break;
-				
-			case ELSE:
-				createdContainer = new StackableContainer(Consts.ELSE, dc, Consts.STATEMENT);
-				break;
-				
-			default:
 				break;
 			}
 
@@ -257,7 +214,13 @@ public class CreationStation extends VerticalPanel {
 			updateStructureOptions();
 		}
 	}
-	public int getStartOfCreatedIds(){
+	
+	public void incrementLimitCounter(int i) {
+		limits[i - 1]++;
+		updateStructureOptions();
+	}
+	
+	public int getStartOfCreatedIds() {
 		return startOfCreatedIds;
 	}
 }

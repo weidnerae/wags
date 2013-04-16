@@ -56,20 +56,21 @@ public class Consts {
 
 	// Blocks of Code
 	public static String FUNCTION = "{<br /><span id=\"inside_of_block\">" + Consts.PANEL_TAG +  "</span><br />}";
-	public static String WHILE = "while (" + Consts.CONDITION
-			+ ") {<br /><span id=\"inside_of_block\">" + Consts.PANEL_TAG + "</span><br />}";
 	public static String FOR = "for (" + Consts.CONDITION
+			+ ") {<br /><span id=\"inside_of_block\">" + Consts.PANEL_TAG + "</span><br />}";
+	public static String WHILE = "while (" + Consts.CONDITION
 			+ ") {<br /><span id=\"inside_of_block\">" + Consts.PANEL_TAG + "</span><br />}";
 	public static String IF = "if (" + Consts.CONDITION
 			+ ") {<br /><span id=\"inside_of_block\">" + Consts.PANEL_TAG + "</span><br />}";
-
-	// ELSE doesn't have conditions associated with it
-	public static String ELSE = "else {<br /><span id=\"inside_of_block\">"
-			+ Consts.PANEL_TAG+ "</span><br />}";
 	public static String ELSEIF = "else if (" + Consts.CONDITION
 			+ ") {<br /><span id=\"inside_of_block\">" + Consts.PANEL_TAG + "</span><br />}";
+	public static String ELSE = "else {<br /><span id=\"inside_of_block\">"
+			+ Consts.PANEL_TAG+ "</span><br />}";
+	
+	public static String[] STRUCTURE_CODE = { FUNCTION, FOR, WHILE, IF, ELSEIF, ELSE };
+	
 	
 	// Box to designate that the containers within will be valid in any order in an Algritm problem
-	public static String ANYORDERBOX = "The containers contained within this box can be submitted in any vertical order to be considered correct in an Algoritm Problem."+Consts.TOPANYORDER+"<br /><span id=\"inside_of_block\">"
+	public static String ANYORDERBOX = "The containers contained within this box can be submitted in any vertical order to be considered correct in an Algorithm Problem."+Consts.TOPANYORDER+"<br /><span id=\"inside_of_block\">"
 			+ Consts.PANEL_TAG + "</span>"+Consts.BOTTOMANYORDER+"<br />}";
 }
