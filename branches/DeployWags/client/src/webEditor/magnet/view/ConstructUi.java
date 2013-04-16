@@ -24,7 +24,7 @@ public class ConstructUi extends Composite {
 	private StackableContainer[] premade; //field to store premade segments passed in
 	private AbsolutePanel contentPanel; //nest panel to hold mgnet maker and segments content
 	private AbsolutePanel mmContent;    //nest panel to hold magnet maker
-	private CreationStation magnetMaker;
+	private MagnetMaker magnetMaker;
 	private AbsolutePanel segmentsContent;
 	private AbsolutePositionDropController segmentDropControl;
 	private int[] segmentTops = new int[50];  //used to keep track of coordinates for added segments
@@ -92,7 +92,7 @@ public class ConstructUi extends Composite {
 			//create and register necessary drop controller
 			//add it to center
 			mmContent = new AbsolutePanel();
-			magnetMaker = new CreationStation(forLists, booleanList, limits, this, dc, nextID);
+			magnetMaker = new MagnetMaker(forLists, booleanList, limits, this, dc, nextID);
 			mmContent.add(magnetMaker);
 			mmContent.setStyleName("creation_station");
 			

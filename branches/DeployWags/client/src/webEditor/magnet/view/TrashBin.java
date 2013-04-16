@@ -4,7 +4,6 @@ package webEditor.magnet.view;
  * Standard trash bin behavior, eats any stackablecontainer that is dropped into its drop area
  */
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
@@ -12,14 +11,11 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
  * Panel that removes StackableContainers that are dragged onto it.
  */
 final class TrashBin extends AbsolutePanel {
-
 	private static final String CSS_TRASHBIN = "trash_bin";
-
 	private static final String CSS_TRASHBIN_ENGAGE = "trash_bin-engage";
-	
-	private CreationStation magnetMaker;
+	private MagnetMaker magnetMaker;
 
-	public TrashBin(CreationStation magnetMaker) {
+	public TrashBin(MagnetMaker magnetMaker) {
 		this.magnetMaker = magnetMaker;
 		HTML text = new HTML("<b>Trash Bin</b>");
 		text.setStyleName("trash_label");
@@ -29,18 +25,19 @@ final class TrashBin extends AbsolutePanel {
 
 	public void eatWidget(StackableContainer sc) {
 		String content = sc.getContent();
+		boolean wasCreated = Integer.parseInt(sc.getID()) >= magnetMaker.getStartOfCreatedIds();
 		
-		if(Integer.parseInt(sc.getID())>= magnetMaker.getStartOfCreatedIds()){
+		if (wasCreated) {
 			if (content.startsWith("for")) {
-				magnetMaker.incrementLimitCounter(CreationStation.FOR);
+				magnetMaker.incrementLimitCounter(MagnetMaker.FOR);
 			} else if (content.startsWith("while")) {
-				magnetMaker.incrementLimitCounter(CreationStation.WHILE);
+				magnetMaker.incrementLimitCounter(MagnetMaker.WHILE);
 			} else if (content.startsWith("if")) {
-				magnetMaker.incrementLimitCounter(CreationStation.IF);
+				magnetMaker.incrementLimitCounter(MagnetMaker.IF);
 			} else if (content.startsWith("else if")) {
-				magnetMaker.incrementLimitCounter(CreationStation.ELSE_IF);
+				magnetMaker.incrementLimitCounter(MagnetMaker.ELSE_IF);
 			} else if (content.startsWith("else")) {
-				magnetMaker.incrementLimitCounter(CreationStation.ELSE);
+				magnetMaker.incrementLimitCounter(MagnetMaker.ELSE);
 			}
 		}
 		
