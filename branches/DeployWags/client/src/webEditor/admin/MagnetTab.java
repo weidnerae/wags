@@ -35,6 +35,7 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 		
 		Proxy.getMMGroups(this);
 		Proxy.getMMAssigned(this);
+		Proxy.getMMAssigned(this, GET_REVIEW);
 		asPanel.setParent(this);
 		rvPanel.setParent(this);
 		
@@ -47,7 +48,7 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 
 		addGroupClickHandlers();
 	}
-
+	
 	@Override
 	public void handleSubjects(String[] subjects) {	}
 
@@ -132,9 +133,12 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 					chkBoxes.put(exercises[i], tmpCheck);
 				}
 			}
-			
 			rvPanel.setCurrent(exercises);
+		} else if (args.equals(GET_REVIEW)){
+			rvPanel.setReview(exercises);
 		}
+		
+		
 	}
 
 	@Override
@@ -145,6 +149,14 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 	@Override
 	public void reviewCallback(String[] data) {
 		rvPanel.fillGrid(data);
+	}
+
+	public void update(){
+		Proxy.getMMGroups(this);
+		Proxy.getMMAssigned(this);
+		Proxy.getMMAssigned(this, GET_REVIEW);
+		
+		addGroupClickHandlers();
 	}
 	
 }

@@ -86,6 +86,10 @@ public class ProgrammingTab extends Composite {
 		});
 	}
 	
+	public void update(){
+		Proxy.getVisibleExercises(exercises); 
+	}
+	
 	@UiHandler("btnAdminReview")
 	void onReviewClick(ClickEvent event)
 	{

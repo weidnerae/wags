@@ -612,5 +612,10 @@ public class ProblemCreationPanel extends Composite{
 		commentsStagingArea.setText("");
 		commentsTxtBox.setText("");
 	}
+	
+	public void update(){
+		Proxy.getMagnetGroups(lstLoadGroup);
+		Proxy.getMagnetsByGroup("Arrays/ArrayLists", lstLoadExercise);
+	}
 }
 

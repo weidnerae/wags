@@ -64,5 +64,9 @@ public class StudentTab extends Composite {
 			}
 		});
 	}
+	
+	public void update(){
+		Proxy.getUsernames(users);
+	}
 
 }

@@ -22,19 +22,19 @@
 				<g:tab>
 					<g:header> Programming </g:header>
 					<g:ScrollPanel>
-						<my:ProgrammingTab/>
+						<my:ProgrammingTab ui:field="programming"/>
 					</g:ScrollPanel>
 				</g:tab>
 				<g:tab>
 					<g:header> Students </g:header>
 					<g:ScrollPanel>
-						<my:StudentTab/>
+						<my:StudentTab ui:field="students"/>
 					</g:ScrollPanel>
 				</g:tab>
 				<g:tab>
 					<g:header> Review </g:header>
 					<g:ScrollPanel>
-						<my:ReviewTab height="100%"/>
+						<my:ReviewTab height="100%" ui:field="review"/>
 					</g:ScrollPanel>
 				</g:tab>
 				<g:tab>
