@@ -1,4 +1,4 @@
-package webEditor.programming.view;
+package webEditor.admin;
 
 import webEditor.Notification;
 import webEditor.Proxy;
@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -23,6 +24,8 @@ public class SectionTab extends Composite implements HasText {
 	@UiField TextBox txtAdminName, txtGuestName, txtSectName;
 	@UiField PasswordTextBox checkPassword, check2Password;
 	@UiField ListBox lstCurSections;
+	@UiField Label lblCurrentSection;
+	AdminPage admin;
 	
 	private static SectionTabUiBinder uiBinder = GWT
 			.create(SectionTabUiBinder.class);
@@ -47,8 +50,10 @@ public class SectionTab extends Composite implements HasText {
 		formChangeSection.setEncoding(FormPanel.ENCODING_MULTIPART);
 		formChangeSection.setMethod(FormPanel.METHOD_POST);
 		formChangeSection.addSubmitCompleteHandler(new ChangeCompleteHandler());
-		
-		
+	}
+	
+	public void setAdmin(AdminPage admin){
+		this.admin = admin;
 	}
 	
 	// Handler for adding a new section
@@ -91,7 +96,9 @@ public class SectionTab extends Composite implements HasText {
 			WEStatus stat = new WEStatus(event.getResults());
 			Notification.notify(stat.getStat(), stat.getMessage());
 			if(stat.getStat() == WEStatus.STATUS_SUCCESS){
-				//Students.updateStudents();
+				// Change current section label
+				lblCurrentSection.setText(lstCurSections.getItemText(lstCurSections.getSelectedIndex()));
+				admin.update();
 			}
 			
 		}

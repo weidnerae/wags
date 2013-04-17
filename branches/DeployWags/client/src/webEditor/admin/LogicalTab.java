@@ -190,4 +190,15 @@ public class LogicalTab extends Composite implements ProxyFacilitator{
 		rvPanel.fillGrid(data);
 	}
 
+	// For section changes
+	public void update(){
+		// Proxy calls
+		Proxy.getLMSubjects(this);
+		Proxy.getLMAssigned(this);
+		Proxy.getLMAssigned(this, GET_REVIEW);
+		
+		addSubjectClickHandlers();
+		addGroupClickHandlers();
+	}
+
 }
