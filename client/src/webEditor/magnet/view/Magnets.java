@@ -33,38 +33,36 @@ public class Magnets extends AbsolutePanel {
 	public static int SUCCESS = 1;
 	public static int REVIEW = 2;
 
-	private static int[] idList;			//array of problem id numbers
-	private static String[] problemList;	//array of problem names
-	private static int[] statusList;	//array of success values
-	public int idAssignor = 0;
+	private int[] ids;				//array of problem id numbers
+	private String[] titles;		//array of problem names
+	private int[] statuses;			//array of success values
+	private int idAssignor = 0;
+	private boolean initialLoad = true;
+	private Wags wags;
 
 	final VerticalPanel problemPane = new VerticalPanel();
 	private HorizontalPanel topButtonPanel; // Hold "Switch to X" Buttons
-
 	private Label banner;
 	private Label selectLabel;
 	private Button assigned;
 	private Button review;
 	private ArrayList<ProblemButton> attemptButtons;
 	private ArrayList<ProblemButton> reviewButtons;
-	private boolean initialLoad = true;
-	
-	private Wags wags;
 	
 	/**
 	 * This will generate a list of ProblemButtons corresponding to the ids and problems 
 	 * passed in.
 	 * 
 	 * @param ids		id numbers for magnet problems
-	 * @param problems	title text of magnet problems
+	 * @param titles	title text of magnet problems
 	 * @param success	boolean for if magnet problem was completed successfully by the user
 	 * @param wags		reference to Wags so that Wags can switch between different pages
 	 * 					while retaining the top bar
 	 */
-	public Magnets(int[] ids, String[] problems, int[] status, Wags wags) {
-		idList = ids;
-		problemList = problems;
-		statusList = status;
+	public Magnets(int[] ids, String[] titles, int[] statuses, Wags wags) {
+		this.ids = ids;
+		this.titles = titles;
+		this.statuses = statuses;
 		this.wags = wags;
 
 		banner = new Label("Code Magnet Microlabs");
@@ -83,12 +81,12 @@ public class Magnets extends AbsolutePanel {
 	private void createButtons() {
 		// create an attempt button for each problem
 		// buttons text is green if they have completed the problem successfully
-		for (int i = 0; i < problemList.length; i++) {
-			int id = idList[i];
-			String title = (statusList[i] == SUCCESS) ? "<font color=green>" + problemList[i] + "</font>" : problemList[i];
+		for (int i = 0; i < titles.length; i++) {
+			int id = ids[i];
+			String title = (statuses[i] == SUCCESS) ? "<font color=green>" + titles[i] + "</font>" : titles[i];
 			ProblemButton b = new ProblemButton(title, id);
 			
-			if (statusList[i] == REVIEW) {
+			if (statuses[i] == REVIEW) {
 				reviewButtons.add(b);
 			} else {
 				attemptButtons.add(b);
@@ -99,8 +97,7 @@ public class Magnets extends AbsolutePanel {
 	/**
 	 * Method used to build the user interface.
 	 */
-	private void buildUI(final ArrayList<ProblemButton> buttons)
-	{	
+	private void buildUI(final ArrayList<ProblemButton> buttons) {	
 		this.removeAllWidgets();
 		add(problemPane);
 		problemPane.clear();
@@ -303,7 +300,7 @@ public class Magnets extends AbsolutePanel {
 	 * Returns the next unused id and increments the global varaible idAssignor
 	 * @return String of the next id number
 	 */
-	private String getID(){
+	private String getID() {
 		idAssignor++;
 		return "" + (idAssignor - 1);
 	}
