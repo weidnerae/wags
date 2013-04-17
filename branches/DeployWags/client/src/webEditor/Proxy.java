@@ -1492,7 +1492,7 @@ public class Proxy
 		    }
 	}
 
-	public static void isAdmin(final TabLayoutPanel tabPanel, final Widget sections, final Widget students){	
+	public static void isAdmin(final TabLayoutPanel tabPanel, final Widget sections){	
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=IsAdmin");
 		try {
 		      @SuppressWarnings("unused")
@@ -1503,23 +1503,13 @@ public class Proxy
 		          
 		          // If not root, no section tab
 		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
-		        	  root = true;
-		          }
-		          
-		          // If Admin or Root
-		          if(status.getStat() == WEStatus.STATUS_WARNING || root){
-		        	  ScrollPanel scroll2 = new ScrollPanel();
-		        	  scroll2.add(students);
-		        	  scroll2.addStyleName("administration");
-		        	  
 		        	  ScrollPanel scroll3 = new ScrollPanel();
 		        	  scroll3.add(sections);
 		        	  scroll3.addStyleName("administration");
 		        	  
-		        	  tabPanel.add(scroll2, "Students");
-		        	  if(root) tabPanel.add(scroll3, "Sections");
+		        	  tabPanel.add(scroll3, "Sections");
 		          }
-		          
+
 		        }
 		        
 		        public void onError(Request request, Throwable exception) {

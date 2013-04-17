@@ -1,0 +1,60 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.label {
+			text-align: left;
+			width:170px;
+			padding-top: 4px;
+		}
+		.filePanel {
+			padding: 3px;
+			text-align: center;	
+		}
+		.button{
+			padding: 12px;
+			width: 140px;
+		}
+		.title {
+			padding-bottom: 8px;
+			padding-top: 8px;
+			font-size: x-large;
+			font-family: helvetica;	
+			text-align: left;
+		}
+	</ui:style>
+	
+	<g:VerticalPanel spacing="10">
+	<g:FormPanel ui:field="registerForm">
+		<g:VerticalPanel>
+			<g:Label styleName="{style.title}"> Register Students </g:Label>
+			<g:HorizontalPanel styleName="{style.filePanel}">
+				<g:Label styleName="{style.label}"> CSV (Last, First, E-mail): </g:Label>
+				<g:FileUpload ui:field="csvReg" name="csvReg"></g:FileUpload>
+			</g:HorizontalPanel>
+			
+			<g:SubmitButton styleName="{style.button}" ui:field="sbtRegister">Register</g:SubmitButton>
+		</g:VerticalPanel>
+	</g:FormPanel>
+	
+	<g:FormPanel ui:field="passwordForm">
+			<g:VerticalPanel>
+				<g:Label styleName="{style.title}">Password Reset</g:Label>
+				<g:ListBox ui:field="users" name="users"></g:ListBox>
+				
+				<g:HorizontalPanel styleName="{style.filePanel}">
+					<g:Label styleName="{style.label}">New Password:</g:Label>
+					<g:PasswordTextBox ui:field="newPassword" name="newPassword"></g:PasswordTextBox>
+				</g:HorizontalPanel>
+				
+				<g:HorizontalPanel styleName="{style.filePanel}">
+					<g:Label styleName="{style.label}">Re-Enter Password:</g:Label>
+					<g:PasswordTextBox ui:field="checkPassword" name="checkPassword"></g:PasswordTextBox>
+				</g:HorizontalPanel>
+				
+				<g:SubmitButton ui:field="btnChgPassword" styleName="{style.button}">Change Password</g:SubmitButton>
+				
+			</g:VerticalPanel>
+		</g:FormPanel>
+	</g:VerticalPanel>
+</ui:UiBinder> 
