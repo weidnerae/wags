@@ -269,6 +269,7 @@ public class Magnets extends AbsolutePanel {
 			StackableContainer sc = new StackableContainer(segments[i], dc, Consts.STATEMENT);
 			if(idAssignor > numStatements){
 				sc.setID(createdIDs[idAssignor-numStatements-1]);
+				sc.setCreated(true);
 				idAssignor++;
 			} else{
 				sc.setID(getID());

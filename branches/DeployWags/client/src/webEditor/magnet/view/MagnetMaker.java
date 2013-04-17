@@ -1,5 +1,7 @@
 package webEditor.magnet.view;
 
+import java.util.Arrays;
+
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -43,6 +45,7 @@ public class MagnetMaker extends VerticalPanel {
 	final PickupDragController dc;
 	private int nextID;
 	private int[] limits;
+	private int[] initialLimits;
 	private int startOfCreatedIds;
 	private int selectedStructureIndex = 0;
 
@@ -51,6 +54,10 @@ public class MagnetMaker extends VerticalPanel {
 		this.setStyleName("dropdown_panel");
 		this.dc = dc;
 		this.limits = limits;
+		this.initialLimits = new int[limits.length];
+		for(int i=0; i < limits.length; i++)
+			this.initialLimits[i] = limits[i];
+			
 		this.constructPanel = constructPanel;
 		this.nextID = nextID;
 		this.startOfCreatedIds = nextID;
@@ -219,8 +226,18 @@ public class MagnetMaker extends VerticalPanel {
 		limits[i - 1]++;
 		updateStructureOptions();
 	}
+	public void decrementLimitCounter(int i) {
+		limits[i - 1]--;
+		updateStructureOptions();
+	}
 	
 	public int getStartOfCreatedIds() {
 		return startOfCreatedIds;
+	}
+	
+	public void resetLimits(){
+		for(int i=0; i < limits.length; i++)
+			this.limits[i] = initialLimits[i];
+		updateStructureOptions();
 	}
 }

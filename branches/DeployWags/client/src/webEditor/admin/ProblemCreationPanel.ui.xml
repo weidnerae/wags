@@ -210,6 +210,8 @@
 						<g:TextArea name="title" ui:field="finalTitleTxtBox" width="100%" />
 						<g:Label text="Description:"/>
 						<g:TextArea name="desc" ui:field="finalDescriptionTxtArea" width="100%" visibleLines="5" />
+						<g:Label text="Problem Type: "/>
+						<g:TextArea name="type" ui:field="finalTypeTxtArea" width="100%" visibleLines="1" />
 						<g:Label text="Class:"/>
 						<g:TextArea name="class" ui:field="classDeclarationTxtArea" width="100%" visibleLines="5" />
 						<g:Label text="Functions:"/>

@@ -38,6 +38,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -1212,7 +1213,9 @@ public class Proxy
 	
 	/* Loads editor page */
 	public static void getMagnetProblemForEdit(final TextArea titleArea, final TextArea desc, final TextArea classArea,
-			final TextArea functions, final TextArea statements, String title){
+			final TextArea functions, final TextArea statements, String title, final TextArea finalTypeTxtArea, final TextArea forLoop1TextArea, final TextArea forLoop2TextArea, 
+			final TextArea forLoop3TextArea, final TextArea booleansTextArea, final TextBox ifAllowed, final TextBox elseAllowed,
+			final TextBox elseIfAllowed, final TextBox forAllowed, final TextBox whileAllowed){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetMagnetProblem&title=" + title);
 		try{
 			builder.sendRequest("", new RequestCallback() {
@@ -1223,7 +1226,41 @@ public class Proxy
 					MagnetProblem magProblem = (MagnetProblem) status.getObject();
 					titleArea.setText(magProblem.title);
 					desc.setText(magProblem.directions);
+					finalTypeTxtArea.setText(magProblem.type);
 					classArea.setText(magProblem.solution);
+					
+					if(magProblem.type.equals("advanced_problem")){
+						String fors = "";
+						// fors
+						for(String s: magProblem.forLeft)
+							fors+=s+".:|:.";
+						forLoop1TextArea.setText(fors);
+						
+						fors = "";
+						for(String s: magProblem.forMid)
+							fors+=s+".:|:.";
+						forLoop2TextArea.setText(fors);
+						
+						fors = "";
+						for(String s: magProblem.forRight)
+							fors+=s+".:|:.";
+						forLoop3TextArea.setText(fors);
+						
+						// booleans
+						fors = "";
+						for(String s: magProblem.bools)
+							fors+=s+".:|:.";
+						booleansTextArea.setText(fors);
+						
+						// limits
+						String[] limits = magProblem.limits.split(",");
+						forAllowed.setText(""+Integer.parseInt(limits[0]));
+						whileAllowed.setText(""+Integer.parseInt(limits[1]));
+						ifAllowed.setText(""+Integer.parseInt(limits[2]));
+						elseIfAllowed.setText(""+Integer.parseInt(limits[3]));
+						elseAllowed.setText(""+Integer.parseInt(limits[4]));
+						
+					}
 					
 					String innerFunctions = "";
 					if(magProblem.innerFunctions.length > 0){
