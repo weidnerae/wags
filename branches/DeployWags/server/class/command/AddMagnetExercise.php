@@ -5,9 +5,19 @@ class AddMagnetExercise extends Command
 	public function execute(){
         $title = $_POST['title'];
         $desc = $_POST['desc'];
+        $type = $_POST['type'];
         $className = $_POST['class'];
         $functions = $_POST['functions'];
         $statements = $_POST['statements'];
+        $forLeft = $_POST['forloop1'];
+        $forMid = $_POST['forloop2'];
+        $forRight = $_POST['forloop3'];
+        $booleans = $_POST['bools'];
+        $limits = $_POST['forallowed']    . "," . 
+                  $_POST['whileallowed']  . "," . 
+                  $_POST['ifallowed']     . "," . 
+                  $_POST['elseifallowed'] . "," . 
+                  $_POST['elseallowed'];
         $overwrite = false;
         $mpGroup = Auth::getCurrentUser()->getMagnetProblemGroup();
 
@@ -21,17 +31,18 @@ class AddMagnetExercise extends Command
             to exist, then we'll work on moving everything over
             to ids... */
         $checkEx = MagnetProblem::getMagnetProblemByTitle($title);
-        if(!empty($checkEx)){
+
+        if (!empty($checkEx)) {
             // If they already decided to overwrite
-            if(!empty($_POST['overwrite'])){
-                if($_POST['overwrite'] == 1){
+            if (!empty($_POST['overwrite'])) {
+                if ($_POST['overwrite'] == 1) {
                     $overwrite = true;
                 }
             } else {
                 // See if the problem is in this administrators group
                 $magnetGroupId = $checkEx->getGroup();
                 $magnetGroupName = MagnetProblem::getGroupNameById($magnetGroupId);
-                if($magnetGroupName == $mpGroup){
+                if ($magnetGroupName == $mpGroup) {
                     return JSON::warn("Overwrite problem?");
                 }
 
@@ -42,7 +53,7 @@ class AddMagnetExercise extends Command
         // If the magnet group for this section doesn't exist, 
         // then create it
         $groupNames = MagnetProblem::getMagnetProblemGroups();
-        if(!in_array($mpGroup, $groupNames)){
+        if (!in_array($mpGroup, $groupNames)) {
             MagnetProblem::createGroup($mpGroup);
         }
 
@@ -51,7 +62,7 @@ class AddMagnetExercise extends Command
 
 
         // Create the magnet problem
-        if($overwrite) { 
+        if ($overwrite) { 
             $newMP = MagnetProblem::getMagnetProblemByTitle($title);
         } else {
             $newMP = new MagnetProblem();
@@ -59,15 +70,16 @@ class AddMagnetExercise extends Command
         $newMP->setTimestamp($mysqlDate); // when working, remove
         $newMP->setTitle($title);
         $newMP->setDirections($desc);
-        $newMP->setProblemType("text"); // Placeholder
+        $newMP->setProblemType($type); // Placeholder
         $newMP->setInnerFunctions($functions);
-        $newMP->setForLeft("text");     // These lines are for
-        $newMP->setForMid("text");      // creationStation
-        $newMP->setForRight("text");    // problems, currently
-        $newMP->setBooleans("text");    // unused
+        $newMP->setForLeft($forLeft);      // These lines are for
+        $newMP->setForMid($forMid);        // creationStation
+        $newMP->setForRight($forRight);    // problems, currently
+        $newMP->setBooleans($booleans);    // unused
         $newMP->setStatements($statements);
-        $newMP->setSolution($className); // Still badly named...
-        if(!$overwrite) $newMP->setGroup(1); // A temporary value, replaced in AddMagnetLinkage.php
+        $newMP->setLimits($limits);
+        $newMP->setSolution($className);   // Still badly named...
+        if (!$overwrite) $newMP->setGroup(1); // A temporary value, replaced in AddMagnetLinkage.php
         $newMP->setAdded(time());
         $newMP->setUpdated(time());
 
@@ -82,31 +94,31 @@ class AddMagnetExercise extends Command
         fclose($file);*/
 
         // Attempt to save the new problem
-        try{
+        try {
             $newMP->save();
-        } catch(Exception $e){
+        } catch(Exception $e) {
             logError($e);
             return JSON::error("MP: ".$e->getMessage());
         }
 
         // Now, save uploaded files into database, linkage
         // will map them correctly
-        if($_FILES['testClass']['size'] != 0){
+        if ($_FILES['testClass']['size'] != 0) {
             // If we have files AND we are overwriting the exercise
             // then we want to delete the old files
-            if($overwrite){
+            if ($overwrite) {
                 $files = SimpleFile::deleteFilesForMP($newMP->getId());
             }
 
             $result = $this->addSimpleFile($_FILES['testClass'], 1);
-            if($result != 1){
+            if ($result != 1) {
                 return JSON::error("TC: ".$result);
             }
         }
 
-        if($_FILES['helperClass']['size'] != 0){
+        if ($_FILES['helperClass']['size'] != 0) {
             $result = $this->addSimpleFile($_FILES['helperClass'], 0);
-            if($result != 1){
+            if ($result != 1) {
                 return JSON::error("HC: ".$result);
             }
         }
@@ -120,14 +132,14 @@ class AddMagnetExercise extends Command
         return JSON::success($title);
 	}
 
-    function addSimpleFile($file, $testValue){
+    function addSimpleFile($file, $testValue) {
         $fileName = pathinfo($file["name"], PATHINFO_FILENAME);
         $fileExtension = pathinfo($file["name"], PATHINFO_EXTENSION);
 
         // Get file contents
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $type = finfo_file($finfo, $file['tmp_name']);
-        if(strpos($type, 'text') === FALSE){
+        if (strpos($type, 'text') === FALSE) {
             return "Please only upload plain text or source files";
         }
         $fileContents = file_get_contents($file['tmp_name']);
@@ -141,9 +153,9 @@ class AddMagnetExercise extends Command
         $newSF->setAdded();
         $newSF->setUpdated();
 
-        try{
+        try {
             $newSF->save();
-        } catch(Exception $e){
+        } catch(Exception $e) {
             logError($e);
             return $e->getMessage();
         }
