@@ -2,7 +2,6 @@ package webEditor.magnet.view;
 
 import webEditor.Proxy;
 
-import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
 
 import com.google.gwt.core.client.GWT;
@@ -61,8 +60,7 @@ public class CodePanelUi extends Composite {
 	 *            Possible inner functions nested into the function to be built.
 	 */
 	public CodePanelUi(RefrigeratorMagnet magnet, StackableContainer main,
-			StackableContainer[] insideFunctions, int numMagnets,
-			PickupDragController dc, String title) {
+			StackableContainer[] insideFunctions, int numMagnets, String title) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.magnet = magnet;
 		this.mainFunction = main;
