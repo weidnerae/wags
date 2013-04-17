@@ -68,10 +68,9 @@ public class Editor extends Composite implements IsWidget{
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		SectionTab sections = new SectionTab();
-		Students students = new Students();
 				
 		initializeAutosaving();				// Initialize timer used in code autosaving
-		Proxy.isAdmin(tabPanel, sections, students);
+		Proxy.isAdmin(tabPanel, sections);
 		commandBarVisible(false);
 		
 		selectedItem = browser.getTree().getItem(0); // initialize selected item to root
