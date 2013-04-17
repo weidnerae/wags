@@ -1,6 +1,5 @@
 package webEditor.magnet.view;
 
-import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
 
 import com.google.gwt.core.client.GWT;
@@ -43,10 +42,7 @@ public class ConstructUi extends Composite {
 
 	/**
 	 * Creates ConstructUi. Adds appropriate content to UiFields
-	 * 
-	 * @param creationStation
-	 *            boolean determines if problem needs creation station (and
-	 *            trash bin)
+
 	 * @param premadeSegments
 	 *            sc[] lines of code given
 	 * @param title
@@ -59,13 +55,11 @@ public class ConstructUi extends Composite {
 	 *            String[][] for each for loop dropdown
 	 * @param booleanList
 	 *            String[] boolean condition choices
-	 * @param dc
-	 *            DragController the drag controller passed from rootpanel.
 	 */
 	public ConstructUi(String problemType,
 			StackableContainer[] premadeSegments, int numMagnets, String title,
 			String description, String[][] forLists, String[] booleanList, 
-			int[] limits, PickupDragController dc) {
+			int[] limits) {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		directionsContent.add(
@@ -87,7 +81,7 @@ public class ConstructUi extends Composite {
 			//create and register necessary drop controller
 			//add it to center
 			mmContent = new AbsolutePanel();
-			magnetMaker = new MagnetMaker(forLists, booleanList, limits, this, dc, nextID);
+			magnetMaker = new MagnetMaker(forLists, booleanList, limits, this, nextID);
 			mmContent.add(magnetMaker);
 			mmContent.setStyleName("creation_station");
 			
@@ -96,7 +90,7 @@ public class ConstructUi extends Composite {
 
 			segmentsContent = new AbsolutePanel();
 			segmentDropControl = new AbsolutePositionDropController(segmentsContent);
-			dc.registerDropController(segmentDropControl);
+			DragController.INSTANCE.registerDropController(segmentDropControl);
 			segmentsContent.getElement().getStyle().setOverflowY(Overflow.AUTO);  //enables scrolling
 			contentPanel.add(segmentsContent);
 			
@@ -104,7 +98,7 @@ public class ConstructUi extends Composite {
 			
 			bin = new TrashBin(magnetMaker);
 			BinDropController binController = new BinDropController(bin);
-			dc.registerDropController(binController);
+			DragController.INSTANCE.registerDropController(binController);
 			trashbin.add(bin);
 			
 			//timer fix: sets the height a millisecond after the panel is created so that it returns correct
@@ -124,7 +118,7 @@ public class ConstructUi extends Composite {
 			segmentsContent.setWidth("100%");
 			segmentsContent.setHeight("100%");
 			segmentDropControl = new AbsolutePositionDropController(segmentsContent);
-			dc.registerDropController(segmentDropControl);
+			DragController.INSTANCE.registerDropController(segmentDropControl);
 			segmentsContent.getElement().getStyle().setOverflowY(Overflow.AUTO);
 			layout.add(segmentsContent);
 		}
@@ -143,12 +137,12 @@ public class ConstructUi extends Composite {
 			return;
 		}
 		
-		if (problemType.equals("advanced_problem")) {
+		if (problemType.equals(Consts.ADVANCED_PROBLEM)) {
 			magnetMaker.resetLimits();
 		}
 			
 		for (StackableContainer segment : segments) {
-			if (problemType.equals("advanced_problem")) {
+			if (problemType.equals(Consts.ADVANCED_PROBLEM)) {
 				String content = segment.getContent();
 				if (content.startsWith("for")) {
 					magnetMaker.decrementLimitCounter(MagnetMaker.FOR);

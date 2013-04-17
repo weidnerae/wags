@@ -1229,7 +1229,7 @@ public class Proxy
 					finalTypeTxtArea.setText(magProblem.type);
 					classArea.setText(magProblem.solution);
 					
-					if(magProblem.type.equals("advanced_problem")){
+					if (magProblem.type.equals(webEditor.magnet.view.Consts.ADVANCED_PROBLEM)) {
 						String fors = "";
 						// fors
 						for(String s: magProblem.forLeft)

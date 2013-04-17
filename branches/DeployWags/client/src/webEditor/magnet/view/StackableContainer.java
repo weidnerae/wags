@@ -5,7 +5,6 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
 
 import com.allen_sauer.gwt.dnd.client.DragContext;
-import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
 
 import java.util.ArrayList;
@@ -28,7 +27,6 @@ public class StackableContainer extends FocusPanel {
 	private String topJavaCode;
 	private String bottomJavaCode;
 	
-	private final PickupDragController dragController;
 	private DropController dropController = new PanelDropController(this);
 
 	private boolean stackable = true;
@@ -45,13 +43,11 @@ public class StackableContainer extends FocusPanel {
 	 * 
 	 * @param content
 	 *            the HTML formatted string
-	 * @param dc
-	 *            the drag controller
+	 *            
 	 * @param specialCondition
 	 *            usually main
 	 */
-	public StackableContainer(String content, PickupDragController dc,
-			int specialCondition) { // For mains, non draggable
+	public StackableContainer(String content, int specialCondition) { // For mains, non draggable
 		this.content = content;
 		
 		// pulling out the java code
@@ -78,7 +74,6 @@ public class StackableContainer extends FocusPanel {
 		
 		add(primaryPanel);  // primaryPanel holds everything else, because the focusPanel can only hold one widget
 		setStyleName("stackable_container");
-		this.dragController = dc;
 		String[] splitContent = new String[0]; // Used to hold comment magnets
 		
 		boolean containsComment = this.content.contains(".:2:.");
@@ -114,7 +109,7 @@ public class StackableContainer extends FocusPanel {
 				} else {
 					stackable = false;
 				}
-				dragController.makeDraggable(this);
+				DragController.INSTANCE.makeDraggable(this);
 				break;
 			case Consts.COMMENT:
 				stackable = false;
@@ -150,13 +145,12 @@ public class StackableContainer extends FocusPanel {
 		// NOTE:  Comments can only be added to stackable containers
 		if(containsComment){
 			for(int i=1; i<splitContent.length;i++){
-				addInsideContainer(new StackableContainer(splitContent[i], dc, Consts.COMMENT));
+				addInsideContainer(new StackableContainer(splitContent[i], Consts.COMMENT));
 			}
 		}
 		
 		this.content = content.split(".:2:.")[0]; // Reverts back to actual code - hidden stuff and all.
 	}
-
 	
 	public void setEngaged(boolean engaged) {
 		if (engaged) {
@@ -251,10 +245,6 @@ public class StackableContainer extends FocusPanel {
 		return false;
 	}
 
-	public boolean isStackable() {
-		return stackable;
-	}
-
 	public HTML getTopLabel() {
 		if(hasCode){
 			return new HTML(topJavaCode);
@@ -276,58 +266,32 @@ public class StackableContainer extends FocusPanel {
 		}
 		return bottomLabel;
 	}
-
-	public AbsolutePanel getInsidePanel() {
-		return insidePanel;
-	}
-	public String getContent(){
-		return content;
-	}
 	
-	public int getLeft() {
-		return this.getAbsoluteLeft();
-	}
+	public AbsolutePanel getInsidePanel() { return insidePanel; }
+	public String getContent() { return content; }
+	public String getID() { return containerID; }
+	public boolean isStackable() { return stackable; }
+	public boolean isCreated() { return isCreated; }
+	public int getLeft() { return this.getAbsoluteLeft(); }
+	public int getWidth() { return this.getOffsetWidth(); }
+	public int getTop() { return this.getAbsoluteTop(); }
+	public int getHeight() { return this.getOffsetHeight(); }
 	
-	public int getWidth() {
-		return this.getOffsetWidth();
-	}
-	
-	public int getTop() {
-		return this.getAbsoluteTop();
-	}
-	
-	public int getHeight() {
-		return this.getOffsetHeight();
-	}
-	public String getID(){
-		return containerID;
-	}
-	public boolean isCreated(){
-		return isCreated;
-	}
-	public void setID(String id){
-		containerID = id;
-	}
-	public void setMain(boolean main){
-		this.isMain = main;
-	}
-	public void setStackable(boolean stack){
-		stackable = stack;
-	}
-	public void setCreated(boolean created){
-		this.isCreated = created;
-	}
+	public void setID(String id) { containerID = id; }
+	public void setMain(boolean main) { this.isMain = main; }
+	public void setStackable(boolean stack) { stackable = stack; }
+	public void setCreated(boolean created) { this.isCreated = created; }
 	
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		dragController.registerDropController(dropController);
+		DragController.INSTANCE.registerDropController(dropController);
 	}
 
 	@Override
 	protected void onUnload() {
 		super.onUnload();
-		dragController.unregisterDropController(dropController);
+		DragController.INSTANCE.unregisterDropController(dropController);
 	}
 
 }
