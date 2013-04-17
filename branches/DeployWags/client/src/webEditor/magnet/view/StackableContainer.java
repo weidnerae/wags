@@ -34,6 +34,7 @@ public class StackableContainer extends FocusPanel {
 	private boolean stackable = true;
 	private boolean isMain = false;
 	private boolean hasCode = false;
+	private boolean isCreated = false;
 	private String containerID;
 	
 	String content = "";
@@ -301,6 +302,9 @@ public class StackableContainer extends FocusPanel {
 	public String getID(){
 		return containerID;
 	}
+	public boolean isCreated(){
+		return isCreated;
+	}
 	public void setID(String id){
 		containerID = id;
 	}
@@ -309,6 +313,9 @@ public class StackableContainer extends FocusPanel {
 	}
 	public void setStackable(boolean stack){
 		stackable = stack;
+	}
+	public void setCreated(boolean created){
+		this.isCreated = created;
 	}
 	
 	@Override

@@ -16,7 +16,6 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -45,10 +44,13 @@ public class ProblemCreationPanel extends Composite{
 	interface ProblemCreationPanelUiBinder extends UiBinder<Widget, ProblemCreationPanel> {
 	}
 	
+	final String ADVANCED_PROBLEM = "advanced_problem";
+	final String BASIC_PROBLEM = "basic_problem";
+	
 	@UiField FormPanel problemCreateFormPanel, fileParseFormPanel;
 	@UiField TextBox titleTxtBox, topLabelTxtBox, topRealCodeTxtBox, 
 		commentsTxtBox, bottomLabelTxtBox, bottomRealCodeTxtBox, forAllowed, whileAllowed, ifAllowed, elseAllowed, elseIfAllowed;
-	@UiField TextArea finalTitleTxtBox, descriptionTxtArea, finalDescriptionTxtArea,
+	@UiField TextArea finalTitleTxtBox, descriptionTxtArea, finalDescriptionTxtArea, finalTypeTxtArea,
 		classDeclarationTxtArea, innerFunctionsTxtArea, statementsTxtArea, commentsStagingArea,
 		hiddenFunctionsArea, forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, booleansTextArea;
 	@UiField VerticalPanel magnetMakerOptions, magnetReviewPanel, numberAllowedReviewPanel;
@@ -91,7 +93,6 @@ public class ProblemCreationPanel extends Composite{
 			public void onSubmitComplete(SubmitCompleteEvent event) {
 				// Should have to verify overwrite each time
 				overwrite.setValue(false);
-				
 				WEStatus stat = new WEStatus(event.getResults());
 				if(stat.getStat() == WEStatus.STATUS_SUCCESS){
 					Proxy.addMagnetLinkage(stat.getMessage()); // The title of the problem
@@ -111,7 +112,6 @@ public class ProblemCreationPanel extends Composite{
 			
 			@Override
 			public void onSubmitComplete(SubmitCompleteEvent event) {
-				Window.alert(event.getResults());
 				String[] magnets = event.getResults().split("\n");
 				classDeclarationTxtArea.setText(magnets[0]);
 				innerFunctionsTxtArea.setText(magnets[1]);
@@ -140,7 +140,9 @@ public class ProblemCreationPanel extends Composite{
 		btnLoadExercise.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				Proxy.getMagnetProblemForEdit(finalTitleTxtBox, finalDescriptionTxtArea, classDeclarationTxtArea, 
-						innerFunctionsTxtArea, statementsTxtArea, lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()));
+						innerFunctionsTxtArea, statementsTxtArea, lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()),
+						finalTypeTxtArea,forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, booleansTextArea, ifAllowed, elseAllowed,
+						elseIfAllowed,forAllowed, whileAllowed);
 			}
 		});
 		
@@ -184,31 +186,31 @@ public class ProblemCreationPanel extends Composite{
 				{
 					if (forLoop1TextArea.getText().equals("")) {
 						forLoop1TextArea.setText(forCond1.getText());
-					} else forLoop1TextArea.setText(forLoop1TextArea.getText() + "," + forCond1.getText());
+					} else forLoop1TextArea.setText(forLoop1TextArea.getText() + ".:|:." + forCond1.getText());
 					if (forLoop2TextArea.getText().equals("")) {
 						forLoop2TextArea.setText(forCond2.getText());
-					} else forLoop2TextArea.setText(forLoop2TextArea.getText() + "," + forCond2.getText());
+					} else forLoop2TextArea.setText(forLoop2TextArea.getText() + ".:|:." + forCond2.getText());
 					if (forLoop3TextArea.getText().equals("")) {
 						forLoop3TextArea.setText(forCond3.getText());
-					} else forLoop3TextArea.setText(forLoop3TextArea.getText() + "," + forCond3.getText());
+					} else forLoop3TextArea.setText(forLoop3TextArea.getText() + ".:|:." + forCond3.getText());
 					
 					forAllowed.setText(numberAllowedText.getText());
 				} else if (selected.equals("if")) {
 					if (booleansTextArea.getText().equals("")) {
 						booleansTextArea.setText(boolCond.getText());
-					} else booleansTextArea.setText(booleansTextArea.getText() + "," + boolCond.getText());				
+					} else booleansTextArea.setText(booleansTextArea.getText() + ".:|:." + boolCond.getText());				
 					ifAllowed.setText(numberAllowedText.getText());
 				} else if (selected.equals("while")) {
 					if (booleansTextArea.getText().equals("")) {
 						booleansTextArea.setText(boolCond.getText());
-					} else booleansTextArea.setText(booleansTextArea.getText() + "," + boolCond.getText());
+					} else booleansTextArea.setText(booleansTextArea.getText() + ".:|:." + boolCond.getText());
 					whileAllowed.setText(numberAllowedText.getText());
 				} else if (selected.equals("else")) {
 					elseAllowed.setText(numberAllowedText.getText());
 				} else if (selected.equals("else if")) {
 					if (booleansTextArea.getText().equals("")) {
 						booleansTextArea.setText(boolCond.getText());
-					} else booleansTextArea.setText(booleansTextArea.getText() + "," + boolCond.getText());
+					} else booleansTextArea.setText(booleansTextArea.getText() + ".:|:." + boolCond.getText());
 					elseIfAllowed.setText(numberAllowedText.getText());
 				}
 			}
@@ -461,12 +463,15 @@ public class ProblemCreationPanel extends Composite{
 	void onBasicProblemClick(ValueChangeEvent<Boolean> event)
 	{
 		clearMagnetMakerOptions();
+		finalTypeTxtArea.setText(BASIC_PROBLEM);
 	}
 	
 	@UiHandler("btnAdvancedProblem")
 	void onAdvancedProblemClick(ValueChangeEvent<Boolean> event)
 	{
 		setupMagnetMakerOptions();
+		finalTypeTxtArea.setText(ADVANCED_PROBLEM);
+		
 	}
 	
 	@UiHandler("createCommentsButton")

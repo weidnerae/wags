@@ -8,6 +8,7 @@ import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
@@ -30,6 +31,7 @@ public class ConstructUi extends Composite {
 	private int[] segmentTops = new int[50];  //used to keep track of coordinates for added segments
 	private int nextID; // used for assigning created magnets ID's
 	
+	private String problemType;
 	@UiField
 	AbsolutePanel directionsContent;  //place for directions
 	@UiField
@@ -73,6 +75,8 @@ public class ConstructUi extends Composite {
 			String description, String[][] forLists, String[] booleanList, 
 			int[] limits, PickupDragController dc) {
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		this.problemType = problemType;
 		
 		directionsContent.add(
 			new HTML(
@@ -145,8 +149,24 @@ public class ConstructUi extends Composite {
 	}
 
 	public void addSegments(StackableContainer[] segments) {
+		if(problemType.equals("advanced_problem"))
+			magnetMaker.resetLimits();
 		if (segments != null) {
 			for (StackableContainer segment : segments) {
+				if(problemType.equals("advanced_problem")){
+					String content = segment.getContent();
+					if (content.startsWith("for")) {
+						magnetMaker.decrementLimitCounter(MagnetMaker.FOR);
+					} else if (content.startsWith("while")) {
+						magnetMaker.decrementLimitCounter(MagnetMaker.WHILE);
+					} else if (content.startsWith("if")) {
+						magnetMaker.decrementLimitCounter(MagnetMaker.IF);
+					} else if (content.startsWith("else if")) {
+						magnetMaker.decrementLimitCounter(MagnetMaker.ELSE_IF);
+					} else if (content.startsWith("else")) {
+						magnetMaker.decrementLimitCounter(MagnetMaker.ELSE);
+					}
+				}
 				addSegment(segment);
 			}
 		}

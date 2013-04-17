@@ -77,7 +77,7 @@ public class RefrigeratorMagnet extends AbsolutePanel {
 
 		editingPanel.start();
 
-		if (state.length() != 0) {
+		if (state != null && state.length() != 0) {
 			Timer timer = new Timer() {
 				@Override
 				public void run() {

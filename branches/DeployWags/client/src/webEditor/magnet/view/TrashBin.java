@@ -25,9 +25,10 @@ final class TrashBin extends AbsolutePanel {
 
 	public void eatWidget(StackableContainer sc) {
 		String content = sc.getContent();
-		boolean wasCreated = Integer.parseInt(sc.getID()) >= magnetMaker.getStartOfCreatedIds();
-		
-		if (wasCreated) {
+		while (sc.getInsidePanel().getWidgetCount() > 0){
+			eatWidget((StackableContainer)sc.getInsidePanel().getWidget(0));
+		}
+		if (sc.isCreated()) {
 			if (content.startsWith("for")) {
 				magnetMaker.incrementLimitCounter(MagnetMaker.FOR);
 			} else if (content.startsWith("while")) {
