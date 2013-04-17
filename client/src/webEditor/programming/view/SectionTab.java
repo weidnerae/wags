@@ -91,7 +91,7 @@ public class SectionTab extends Composite implements HasText {
 			WEStatus stat = new WEStatus(event.getResults());
 			Notification.notify(stat.getStat(), stat.getMessage());
 			if(stat.getStat() == WEStatus.STATUS_SUCCESS){
-				Students.updateStudents();
+				//Students.updateStudents();
 			}
 			
 		}

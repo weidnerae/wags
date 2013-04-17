@@ -26,6 +26,12 @@
 					</g:ScrollPanel>
 				</g:tab>
 				<g:tab>
+					<g:header> Students </g:header>
+					<g:ScrollPanel>
+						<my:StudentTab/>
+					</g:ScrollPanel>
+				</g:tab>
+				<g:tab>
 					<g:header> Review </g:header>
 					<g:ScrollPanel>
 						<my:ReviewTab height="100%"/>
