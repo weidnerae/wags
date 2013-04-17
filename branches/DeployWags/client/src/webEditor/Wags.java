@@ -112,31 +112,27 @@ public class Wags extends View
 	}
 
 	@UiHandler("Editor")
-	void onEditorClick(ClickEvent event)
-	{
+	void onEditorClick(ClickEvent event) {
 		loadEditor();
 	}
 	
 	@UiHandler("DST")
-	void onDSTClick(ClickEvent event)
-	{
+	void onDSTClick(ClickEvent event) {
 		loadDST();
 	}
 	
 	@UiHandler("Magnets")
-	void onMagnetsClick(ClickEvent event)
-	{
+	void onMagnetsClick(ClickEvent event) {
 		loadMagnets();
 	}
 	
 	@UiHandler("AdminPage")
-	void onAdminClick(ClickEvent event){
+	void onAdminClick(ClickEvent event) {
 		History.newItem("?loc=admin");
 	}
 
-	@UiHandler("logout")
-	void onLogoutClick(ClickEvent event)
-	{
+	@UiHandler("logout") 
+	void onLogoutClick(ClickEvent event) {
 		Proxy.logout();
 	}
 	
@@ -233,13 +229,11 @@ public class Wags extends View
 	}
 	
 	@Override
-	public WEAnchor getLink()
-	{
+	public WEAnchor getLink() {
 		return new WEAnchor("Wags", this, startingPlace);
 	}
 	
-	public AdminPage getAdmin()
-	{
+	public AdminPage getAdmin() {
 		return adminPage;
 	}
 

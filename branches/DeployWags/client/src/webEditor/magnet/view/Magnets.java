@@ -222,21 +222,11 @@ public class Magnets extends AbsolutePanel {
 	public RefrigeratorMagnet makeProblem(MagnetProblem magnet) {
 		idAssignor = 0;
 		return new RefrigeratorMagnet(
-				magnet.id,
-				magnet.title,
-				magnet.directions,
+				magnet,
 				getMainContainer(magnet.mainFunction),
 				buildFunctions(magnet.innerFunctions),
-				magnet.type,
 				decodePremade(magnet.statements, magnet.createdIDs, magnet.numStatements), 
-				magnet.createdIDs,
-				magnet.numStatements,
-				new String[][] { magnet.forLeft, magnet.forMid, magnet.forRight },
-				magnet.bools,
-				magnet.solution,
-				magnet.statements,
-				magnet.limits,
-				magnet.state
+				new String[][] { magnet.forLeft, magnet.forMid, magnet.forRight }
 		);
 	}
 	
@@ -280,7 +270,6 @@ public class Magnets extends AbsolutePanel {
 	 * @return The main StackableContainer
 	 */
 	private StackableContainer getMainContainer(String str) {
-		// If stuff breaks, this also may be the culprit
 		StackableContainer sc = new StackableContainer(str, Consts.MAIN);
 		sc.setID(getID());
 		return sc;
@@ -316,6 +305,6 @@ public class Magnets extends AbsolutePanel {
 	 */
 	private String getID(){
 		idAssignor++;
-		return ""+(idAssignor-1);
+		return "" + (idAssignor - 1);
 	}
 }
