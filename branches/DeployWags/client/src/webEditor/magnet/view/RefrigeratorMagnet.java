@@ -2,7 +2,6 @@ package webEditor.magnet.view;
 
 import java.util.ArrayList;
 
-import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.Timer;
@@ -25,7 +24,6 @@ public class RefrigeratorMagnet extends AbsolutePanel {
 	public String solution;
 	public String state;
 	public int id;
-	public PickupDragController dc;
 	public StackableContainer mainFunction;
 	public StackableContainer[] insideFunctions;
 	public StackableContainer[] premadeFunctions;
@@ -38,10 +36,8 @@ public class RefrigeratorMagnet extends AbsolutePanel {
 			StackableContainer[] premadeSegments, String[] createdIDs,
 			int numStatements, String[][] forLists, String[] booleanList,
 			String solution, String[] premadeIDs, String limits,
-			PickupDragController newDC, final String state) {
-		
-		dc = newDC;
-		setHeight("99%");
+			final String state) {
+		this.setHeight("99%");
 		this.problemType = problemType;
 		this.solution = solution;
 		this.id = id;
@@ -50,6 +46,8 @@ public class RefrigeratorMagnet extends AbsolutePanel {
 		this.insideFunctions = insideFunctions;
 		this.premadeFunctions = premadeSegments;
 		this.numStatements = numStatements;
+		
+		DragController.INSTANCE.unregisterDropControllers();
 		
 		if (problemType.equals(Consts.ADVANCED_PROBLEM)) {
 			String[] sLimits = limits.split(",");
@@ -68,7 +66,7 @@ public class RefrigeratorMagnet extends AbsolutePanel {
 				description, mainFunction, insideFunctions, problemType,
 				premadeSegments, createdIDs.length, numStatements,
 				forLists, booleanList,
-				this.limits, solution, premadeIDs, dc);
+				this.limits, solution, premadeIDs);
 		tabPanel.add(editingPanel, "Editing Mode", false);
 		tabPanel.selectTab(0);
 

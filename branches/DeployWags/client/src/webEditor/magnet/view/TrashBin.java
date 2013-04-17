@@ -25,7 +25,7 @@ final class TrashBin extends AbsolutePanel {
 
 	public void eatWidget(StackableContainer sc) {
 		String content = sc.getContent();
-		while (sc.getInsidePanel().getWidgetCount() > 0){
+		while (sc.getInsidePanel().getWidgetCount() > 0) {
 			eatWidget((StackableContainer)sc.getInsidePanel().getWidget(0));
 		}
 		if (sc.isCreated()) {

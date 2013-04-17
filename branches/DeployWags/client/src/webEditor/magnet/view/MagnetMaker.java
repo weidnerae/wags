@@ -1,6 +1,5 @@
 package webEditor.magnet.view;
 
-import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
@@ -40,7 +39,6 @@ public class MagnetMaker extends VerticalPanel {
 	private HorizontalPanel booleanPanel = new HorizontalPanel();
 	private HorizontalPanel topAlignPanel = new HorizontalPanel();
 
-	final PickupDragController dc;
 	private int nextID;
 	private int[] limits;
 	private int[] initialLimits;
@@ -48,9 +46,8 @@ public class MagnetMaker extends VerticalPanel {
 	private int selectedStructureIndex = 0;
 
 	public MagnetMaker(String[][] forLists, String[] booleanList, int[] limits,
-			ConstructUi constructPanel, PickupDragController dc, int nextID) {
+			ConstructUi constructPanel, int nextID) {
 		this.setStyleName("dropdown_panel");
-		this.dc = dc;
 		this.limits = limits;
 		this.initialLimits = new int[limits.length];
 		for (int i = 0; i < limits.length; i++) {
@@ -195,7 +192,7 @@ public class MagnetMaker extends VerticalPanel {
 				return;
 			}
 			
-			StackableContainer createdContainer = new StackableContainer(Consts.STRUCTURE_CODE[selectedStructureIndex], dc, Consts.STATEMENT);
+			StackableContainer createdContainer = new StackableContainer(Consts.STRUCTURE_CODE[selectedStructureIndex], Consts.STATEMENT);
 
 			switch (selectedStructureIndex) {
 			case FOR:

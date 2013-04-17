@@ -6,8 +6,6 @@ import webEditor.Wags;
 
 import java.util.ArrayList;
 
-import com.allen_sauer.gwt.dnd.client.PickupDragController;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
@@ -16,7 +14,6 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -54,8 +51,6 @@ public class Magnets extends AbsolutePanel {
 	
 	private Wags wags;
 	
-	PickupDragController dc;
-	
 	/**
 	 * This will generate a list of ProblemButtons corresponding to the ids and problems 
 	 * passed in.
@@ -71,9 +66,6 @@ public class Magnets extends AbsolutePanel {
 		problemList = problems;
 		statusList = status;
 		this.wags = wags;
-
-		dc = new PickupDragController(RootPanel.get(), false);
-		dc.setBehaviorDragProxy(true);
 
 		banner = new Label("Code Magnet Microlabs");
 		attemptButtons = new ArrayList<ProblemButton>();
@@ -244,7 +236,6 @@ public class Magnets extends AbsolutePanel {
 				magnet.solution,
 				magnet.statements,
 				magnet.limits,
-				dc,
 				magnet.state
 		);
 	}
@@ -266,7 +257,7 @@ public class Magnets extends AbsolutePanel {
 		StackableContainer[] preMadeList = new StackableContainer[segments.length]; //should never need this many
 		
 		for (int i = 0; i < segments.length; i++) {
-			StackableContainer sc = new StackableContainer(segments[i], dc, Consts.STATEMENT);
+			StackableContainer sc = new StackableContainer(segments[i], Consts.STATEMENT);
 			if (idAssignor > numStatements) {
 				sc.setID(createdIDs[idAssignor - numStatements - 1]);
 				sc.setCreated(true);
@@ -290,7 +281,7 @@ public class Magnets extends AbsolutePanel {
 	 */
 	private StackableContainer getMainContainer(String str) {
 		// If stuff breaks, this also may be the culprit
-		StackableContainer sc = new StackableContainer(str,dc,Consts.MAIN);
+		StackableContainer sc = new StackableContainer(str, Consts.MAIN);
 		sc.setID(getID());
 		return sc;
 	}
@@ -311,7 +302,7 @@ public class Magnets extends AbsolutePanel {
 		StackableContainer[] insideFunctionsList = new StackableContainer[insideFunctions.length]; //should never need this many
 		
 		for (int i = 0; i < insideFunctions.length; i++) {
-			StackableContainer sc = new StackableContainer(insideFunctions[i], dc, Consts.INNER);
+			StackableContainer sc = new StackableContainer(insideFunctions[i], Consts.INNER);
 			sc.setID(getID());
 			insideFunctionsList[i] = sc;
 		}
