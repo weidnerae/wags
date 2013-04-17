@@ -2,6 +2,8 @@ package webEditor.magnet.view;
 
 import java.util.ArrayList;
 
+import webEditor.MagnetProblem;
+
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.Timer;
@@ -28,52 +30,31 @@ public class RefrigeratorMagnet extends AbsolutePanel {
 	public StackableContainer[] insideFunctions;
 	public StackableContainer[] premadeFunctions;
 	public int[] limits;
-	public int numStatements;
 
-	public RefrigeratorMagnet(int id, String title, String description,
-			StackableContainer mainFunction,
-			StackableContainer[] insideFunctions, String problemType,
-			StackableContainer[] premadeSegments, String[] createdIDs,
-			int numStatements, String[][] forLists, String[] booleanList,
-			String solution, String[] premadeIDs, String limits,
-			final String state) {
+	public RefrigeratorMagnet(MagnetProblem magnet, StackableContainer mainFunction,
+			StackableContainer[] insideFunctions, StackableContainer[] premadeSegments, 
+			String[][] forLists) {
 		this.setHeight("99%");
-		this.problemType = problemType;
-		this.solution = solution;
-		this.id = id;
-		this.state = state;
+		this.problemType = magnet.type;
+		this.solution = magnet.solution;
+		this.id = magnet.id;
+		this.state = magnet.state;
 		this.mainFunction = mainFunction;
 		this.insideFunctions = insideFunctions;
 		this.premadeFunctions = premadeSegments;
-		this.numStatements = numStatements;
 		
 		DragController.INSTANCE.unregisterDropControllers();
-		
-		if (problemType.equals(Consts.ADVANCED_PROBLEM)) {
-			String[] sLimits = limits.split(",");
-			this.limits = new int[sLimits.length];
-			int k = 0;
-			for (String limit : sLimits) {
-				this.limits[k++] = Integer.parseInt(limit);
-			}
-		}
 
 		add(tabPanel);
 		tabPanel.setSize("100%", "100%");
 		int tabPanelHeight = tabPanel.getOffsetHeight();
 		tabPanelHeight = tabPanel.getOffsetHeight();
-		editingPanel = new EditingPanelUi(this, tabPanelHeight, title,
-				description, mainFunction, insideFunctions, problemType,
-				premadeSegments, createdIDs.length, numStatements,
-				forLists, booleanList,
-				this.limits, solution, premadeIDs);
+		editingPanel = new EditingPanelUi(this, tabPanelHeight, magnet, mainFunction, insideFunctions, premadeSegments, forLists);
 		tabPanel.add(editingPanel, "Editing Mode", false);
 		tabPanel.selectTab(0);
 
 		resultsPanel = new ResultsPanelUi(tabPanelHeight);
 		tabPanel.add(resultsPanel, "Results", false);
-
-		editingPanel.start();
 
 		if (state != null && state.length() != 0) {
 			Timer timer = new Timer() {
