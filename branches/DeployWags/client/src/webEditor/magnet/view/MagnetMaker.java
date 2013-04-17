@@ -1,7 +1,5 @@
 package webEditor.magnet.view;
 
-import java.util.Arrays;
-
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -55,8 +53,9 @@ public class MagnetMaker extends VerticalPanel {
 		this.dc = dc;
 		this.limits = limits;
 		this.initialLimits = new int[limits.length];
-		for(int i=0; i < limits.length; i++)
+		for (int i = 0; i < limits.length; i++) {
 			this.initialLimits[i] = limits[i];
+		}
 			
 		this.constructPanel = constructPanel;
 		this.nextID = nextID;
@@ -196,7 +195,6 @@ public class MagnetMaker extends VerticalPanel {
 				return;
 			}
 			
-			// start with a null SC and add the necessary parts to it as we go
 			StackableContainer createdContainer = new StackableContainer(Consts.STRUCTURE_CODE[selectedStructureIndex], dc, Consts.STATEMENT);
 
 			switch (selectedStructureIndex) {
@@ -236,8 +234,9 @@ public class MagnetMaker extends VerticalPanel {
 	}
 	
 	public void resetLimits(){
-		for(int i=0; i < limits.length; i++)
+		for (int i = 0; i < limits.length; i++) {
 			this.limits[i] = initialLimits[i];
+		}
 		updateStructureOptions();
 	}
 }
