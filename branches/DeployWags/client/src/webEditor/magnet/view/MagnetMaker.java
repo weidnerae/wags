@@ -214,6 +214,7 @@ public class MagnetMaker extends VerticalPanel {
 			}
 
 			createdContainer.setID("" + nextID++);
+			createdContainer.setCreated(true);
 			constructPanel.addSegment(createdContainer);
 			limits[selectedStructureIndex - 1]--;
 			updateStructureOptions();
