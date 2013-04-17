@@ -108,5 +108,12 @@ public class ReviewTab extends Composite {
 			rvMagPanel.fillGrid(data);
 		}
 	}
+	
+	public void update(){
+		Proxy.getLMAssigned(logHandler);
+		Proxy.getMMAssigned(magHandler);
+		Proxy.getLMAssigned(logHandler, ProxyFacilitator.GET_REVIEW);
+		Proxy.getMMAssigned(magHandler, ProxyFacilitator.GET_REVIEW);
+	}
 
 }

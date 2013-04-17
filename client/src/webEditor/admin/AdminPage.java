@@ -1,5 +1,7 @@
 package webEditor.admin;
 
+import webEditor.Proxy;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -18,25 +20,28 @@ public class AdminPage extends Composite {
 	@UiField LogicalTab logical;
 	@UiField MagnetTab magnet;
 	@UiField ProblemCreationPanel magnetPC;
+	@UiField ProgrammingTab programming;
+	@UiField ReviewTab review;
+	@UiField StudentTab students;
 	@UiField TabLayoutPanel tabPanel;
 
 	public AdminPage() {
 		initWidget(uiBinder.createAndBindUi(this));		
-	}
-	
-	public LogicalTab getLogical(){
-		return logical;
-	}
-	
-	public MagnetTab getMagnet() {
-		return magnet;
-	}
-	
-	public ProblemCreationPanel getMagnetPC() {
-		return magnetPC;
+		SectionTab sections = new SectionTab();
+		sections.setAdmin(this);
+		Proxy.isAdmin(tabPanel, sections);
 	}
 	
 	public TabLayoutPanel getLayoutPanel() {
 		return tabPanel;
+	}
+	
+	public void update(){
+		logical.update();
+		magnet.update();
+		programming.update();
+		students.update();
+		review.update();
+		magnetPC.update();
 	}
 }
