@@ -8,7 +8,6 @@ import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
@@ -30,14 +29,11 @@ public class ConstructUi extends Composite {
 	private AbsolutePositionDropController segmentDropControl;
 	private int[] segmentTops = new int[50];  //used to keep track of coordinates for added segments
 	private int nextID; // used for assigning created magnets ID's
-	
 	private String problemType;
-	@UiField
-	AbsolutePanel directionsContent;  //place for directions
-	@UiField
-	AbsolutePanel trashbin;  
-	@UiField
-	DockLayoutPanel layout;  //panel that holds entire left hand side of UI
+	
+	@UiField AbsolutePanel directionsContent;  //place for directions
+	@UiField AbsolutePanel trashbin;  
+	@UiField DockLayoutPanel layout;  //panel that holds entire left hand side of UI
 
 	private static ConstructUiUiBinder uiBinder = GWT
 			.create(ConstructUiUiBinder.class);
@@ -59,12 +55,8 @@ public class ConstructUi extends Composite {
 	 *            String
 	 * @param structuresList
 	 *            String[] the necessary decision structures needed
-	 * @param for1List
-	 *            String[] first 'for' condition choices
-	 * @param for2List
-	 *            String[] second 'for' condition choices
-	 * @param for3List
-	 *            String[] third 'for' condition choices
+	 * @param forLists
+	 *            String[][] for each for loop dropdown
 	 * @param booleanList
 	 *            String[] boolean condition choices
 	 * @param dc
@@ -76,8 +68,6 @@ public class ConstructUi extends Composite {
 			int[] limits, PickupDragController dc) {
 		initWidget(uiBinder.createAndBindUi(this));
 		
-		this.problemType = problemType;
-		
 		directionsContent.add(
 			new HTML(
 				"<h4><center>" 
@@ -88,6 +78,7 @@ public class ConstructUi extends Composite {
 			)	
 		);
 		
+		this.problemType = problemType;
 		this.nextID = numMagnets + 1;
 		
 		if (problemType.equals(Consts.ADVANCED_PROBLEM)) {
@@ -118,12 +109,11 @@ public class ConstructUi extends Composite {
 			
 			//timer fix: sets the height a millisecond after the panel is created so that it returns correct
 			//getOffsetHeight() values
-			
 			Timer t = new Timer (){
 				@Override
 				public void run() {
-					segmentsContent.setHeight("" + (getOffsetHeight() - (140 + mmContent.getOffsetHeight())) + "px");
-					contentPanel.setHeight("" + (getOffsetHeight() - 140) + "px");
+					segmentsContent.setHeight((getOffsetHeight() - (140 + mmContent.getOffsetHeight())) + "px");
+					contentPanel.setHeight((getOffsetHeight() - 140) + "px");
 				}
 			};
 			t.schedule(1);
@@ -149,26 +139,31 @@ public class ConstructUi extends Composite {
 	}
 
 	public void addSegments(StackableContainer[] segments) {
-		if(problemType.equals("advanced_problem"))
+		if (segments == null) {
+			return;
+		}
+		
+		if (problemType.equals("advanced_problem")) {
 			magnetMaker.resetLimits();
-		if (segments != null) {
-			for (StackableContainer segment : segments) {
-				if(problemType.equals("advanced_problem")){
-					String content = segment.getContent();
-					if (content.startsWith("for")) {
-						magnetMaker.decrementLimitCounter(MagnetMaker.FOR);
-					} else if (content.startsWith("while")) {
-						magnetMaker.decrementLimitCounter(MagnetMaker.WHILE);
-					} else if (content.startsWith("if")) {
-						magnetMaker.decrementLimitCounter(MagnetMaker.IF);
-					} else if (content.startsWith("else if")) {
-						magnetMaker.decrementLimitCounter(MagnetMaker.ELSE_IF);
-					} else if (content.startsWith("else")) {
-						magnetMaker.decrementLimitCounter(MagnetMaker.ELSE);
-					}
+		}
+			
+		for (StackableContainer segment : segments) {
+			if (problemType.equals("advanced_problem")) {
+				String content = segment.getContent();
+				if (content.startsWith("for")) {
+					magnetMaker.decrementLimitCounter(MagnetMaker.FOR);
+				} else if (content.startsWith("while")) {
+					magnetMaker.decrementLimitCounter(MagnetMaker.WHILE);
+				} else if (content.startsWith("if")) {
+					magnetMaker.decrementLimitCounter(MagnetMaker.IF);
+				} else if (content.startsWith("else if")) {
+					magnetMaker.decrementLimitCounter(MagnetMaker.ELSE_IF);
+				} else if (content.startsWith("else")) {
+					magnetMaker.decrementLimitCounter(MagnetMaker.ELSE);
 				}
-				addSegment(segment);
 			}
+			
+			addSegment(segment);
 		}
 	}
 	
