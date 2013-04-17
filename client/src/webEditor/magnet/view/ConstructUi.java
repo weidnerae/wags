@@ -1,5 +1,7 @@
 package webEditor.magnet.view;
 
+import webEditor.MagnetProblem;
+
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
 
 import com.google.gwt.core.client.GWT;
@@ -34,8 +36,7 @@ public class ConstructUi extends Composite {
 	@UiField AbsolutePanel trashbin;  
 	@UiField DockLayoutPanel layout;  //panel that holds entire left hand side of UI
 
-	private static ConstructUiUiBinder uiBinder = GWT
-			.create(ConstructUiUiBinder.class);
+	private static ConstructUiUiBinder uiBinder = GWT.create(ConstructUiUiBinder.class);
 
 	interface ConstructUiUiBinder extends UiBinder<Widget, ConstructUi> {
 	}
@@ -45,43 +46,40 @@ public class ConstructUi extends Composite {
 
 	 * @param premadeSegments
 	 *            sc[] lines of code given
-	 * @param title
-	 *            String
-	 * @param description
-	 *            String
-	 * @param structuresList
-	 *            String[] the necessary decision structures needed
 	 * @param forLists
 	 *            String[][] for each for loop dropdown
-	 * @param booleanList
-	 *            String[] boolean condition choices
 	 */
-	public ConstructUi(String problemType,
-			StackableContainer[] premadeSegments, int numMagnets, String title,
-			String description, String[][] forLists, String[] booleanList, 
-			int[] limits) {
+	public ConstructUi(RefrigeratorMagnet refrigeratorMagnet, MagnetProblem magnet, StackableContainer[] premadeSegments, String[][] forLists, int numMagnets) {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		directionsContent.add(
 			new HTML(
 				"<h4><center>" 
-				+ title
+				+ magnet.title
 				+ "</center></h4>" 
-				+ description.replace("\\r\\n", "<br/>").replace("\\\"", "\"") 
+				+ magnet.directions.replace("\\r\\n", "<br/>").replace("\\\"", "\"") 
 				+ "<br/>"
 			)	
 		);
 		
-		this.problemType = problemType;
 		this.nextID = numMagnets + 1;
+		this.problemType = magnet.type;
+		this.premade = premadeSegments;
 		
 		if (problemType.equals(Consts.ADVANCED_PROBLEM)) {
+			String[] sLimits = magnet.limits.split(",");
+			int[] limits = new int[sLimits.length];
+			int k = 0;
+			for (String limit : sLimits) {
+				limits[k++] = Integer.parseInt(limit);
+			}
+			
 			//create the creation station panel, 
 			//then create a content panel to nest that and the segments panel.
 			//create and register necessary drop controller
 			//add it to center
 			mmContent = new AbsolutePanel();
-			magnetMaker = new MagnetMaker(forLists, booleanList, limits, this, nextID);
+			magnetMaker = new MagnetMaker(forLists, magnet.bools, limits, this, nextID);
 			mmContent.add(magnetMaker);
 			mmContent.setStyleName("creation_station");
 			
@@ -122,10 +120,16 @@ public class ConstructUi extends Composite {
 			segmentsContent.getElement().getStyle().setOverflowY(Overflow.AUTO);
 			layout.add(segmentsContent);
 		}
-
-		premade = premadeSegments;		
+		
+		start();
 	}
 	
+	public ConstructUi(String problemType,
+			StackableContainer[] premadeSegments, int numMagnets, String title,
+			String description, String[][] forLists, String[] booleanList, 
+			int[] limits) {	
+	}
+
 	//this method is called after the constructor because there is a delay between instantiating the panel
 	//and placing all the segments to the segmentsContent panel
 	public void start() {

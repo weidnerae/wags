@@ -1,5 +1,6 @@
 package webEditor.magnet.view;
 
+import webEditor.MagnetProblem;
 import webEditor.Proxy;
 
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
@@ -31,11 +32,11 @@ public class CodePanelUi extends Composite {
 	public AbsolutePositionDropController dropControl;
 	public StringBuilder plainText;
 	public StackableContainer mainFunction;
-	private String title;
 	private int tabNumber = -1; // So the initial increment will give 0 tabs
-	private RefrigeratorMagnet magnet;
+	private RefrigeratorMagnet refrigeratorMagnet;
 	private PopupPanel popupPanel;
 	private PopupPanel resetPopupPanel;
+	private String title;
 	private int numMagnets;
 
 	@UiField ScrollPanel nestPanel;   //takes up the entirety of the CodePanel, used to let mainPanel scroll
@@ -59,12 +60,12 @@ public class CodePanelUi extends Composite {
 	 * @param insideFunctions
 	 *            Possible inner functions nested into the function to be built.
 	 */
-	public CodePanelUi(RefrigeratorMagnet magnet, StackableContainer main,
-			StackableContainer[] insideFunctions, int numMagnets, String title) {
+
+	public CodePanelUi(RefrigeratorMagnet refrigeratorMagnet, MagnetProblem magnet, StackableContainer main, StackableContainer[] insideFunctions, int numMagnets) {
 		initWidget(uiBinder.createAndBindUi(this));
-		this.magnet = magnet;
+		this.refrigeratorMagnet = refrigeratorMagnet;
 		this.mainFunction = main;
-		this.title = title;
+		this.title = magnet.title;
 		this.numMagnets = numMagnets;
 		setupPopupPanel();
 		setupResetPopupPanel();
@@ -138,8 +139,8 @@ public class CodePanelUi extends Composite {
 			ResultsPanelUi.clearCodeArea();
 			ResultsPanelUi.setCodeText(code);
 			code = code.replaceAll(Consts.HC_DELIMITER, "");
-			Proxy.magnetReview(getSaveState(), magnet.getID(), code, title);
-			magnet.tabPanel.selectTab(1);
+			Proxy.magnetReview(getSaveState(), refrigeratorMagnet.getID(), code, title);
+			refrigeratorMagnet.tabPanel.selectTab(1);
 			tabNumber = -1;
 		}
 
@@ -157,13 +158,13 @@ public class CodePanelUi extends Composite {
 
 	@UiHandler("stateButton")
 	void handleStateClick(ClickEvent e) {
-		Proxy.cleanOutOldCreatedMagnets(magnet.getID());
-		Proxy.saveMagnetState(getSaveState(), magnet.getID(), 0, false);
+		Proxy.cleanOutOldCreatedMagnets(refrigeratorMagnet.getID());
+		Proxy.saveMagnetState(getSaveState(), refrigeratorMagnet.getID(), 0, false);
 	}
 
 	private class yesResetHandler implements ClickHandler {
 		public void onClick(ClickEvent event) {
-			magnet.resetProblem();
+			refrigeratorMagnet.resetProblem();
 			resetPopupPanel.setVisible(false);
 		}
 	}
@@ -271,7 +272,7 @@ public class CodePanelUi extends Composite {
 		idChain += sc.getID();
 		if (Integer.parseInt(sc.getID()) > numMagnets) { 
 			/* If this is a created magnet, save it in the database */
-			Proxy.saveCreatedMagnet(sc, magnet.getID());
+			Proxy.saveCreatedMagnet(sc, refrigeratorMagnet.getID());
 		}
 		
 		for (int i = 0; i < sc.getInsidePanel().getWidgetCount(); i++) {
