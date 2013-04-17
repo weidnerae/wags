@@ -236,7 +236,7 @@ public class Magnets extends AbsolutePanel {
 				getMainContainer(magnet.mainFunction),
 				buildFunctions(magnet.innerFunctions),
 				magnet.type,
-				decodePremade(magnet.statements,magnet.createdIDs, magnet.numStatements), 
+				decodePremade(magnet.statements, magnet.createdIDs, magnet.numStatements), 
 				magnet.createdIDs,
 				magnet.numStatements,
 				new String[][] { magnet.forLeft, magnet.forMid, magnet.forRight },
@@ -267,11 +267,11 @@ public class Magnets extends AbsolutePanel {
 		
 		for (int i = 0; i < segments.length; i++) {
 			StackableContainer sc = new StackableContainer(segments[i], dc, Consts.STATEMENT);
-			if(idAssignor > numStatements){
-				sc.setID(createdIDs[idAssignor-numStatements-1]);
+			if (idAssignor > numStatements) {
+				sc.setID(createdIDs[idAssignor - numStatements - 1]);
 				sc.setCreated(true);
 				idAssignor++;
-			} else{
+			} else {
 				sc.setID(getID());
 			}
 			preMadeList[i] = sc;
