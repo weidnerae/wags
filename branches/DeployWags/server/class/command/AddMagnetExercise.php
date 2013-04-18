@@ -116,11 +116,15 @@ class AddMagnetExercise extends Command
             }
         }
 
-        if ($_FILES['helperClass']['size'] != 0) {
-            $result = $this->addSimpleFile($_FILES['helperClass'], 0);
+        $helperId = 1;
+        $helperName = 'helperClass1';
+        while ($helperId < count($_FILES) && $_FILES[$helperName]['size'] != 0) {
+            $result = $this->addSimpleFile($_FILES[$helperName], 0);
             if ($result != 1) {
                 return JSON::error("HC: ".$result);
             }
+            $helperId++;
+            $helperName = "helperClass$helperId";
         }
 
         // Return to client - client will perform a callback,
