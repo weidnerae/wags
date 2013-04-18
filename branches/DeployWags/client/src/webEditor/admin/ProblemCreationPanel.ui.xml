@@ -274,12 +274,18 @@
 							<g:Label text="Testing Class:" width="150px"/>
 							<g:FileUpload name="testClass" ui:field="solutionUpload"/>
 						</g:HorizontalPanel>
-						<g:HorizontalPanel>
-							<g:Label text="Helper Class:" width="150px"/>
-							<g:FileUpload name="helperClass" ui:field="helperUpload"/>
-						</g:HorizontalPanel>
+						<!-- Vertical Panel exists so we add multiple helper classes -->
+						<g:VerticalPanel ui:field="vtPanelHelper">
+							<g:HorizontalPanel>
+								<g:Label text="Helper Class:" width="150px"/>
+								<g:FileUpload name="helperClass1" ui:field="helperUpload"/>
+							</g:HorizontalPanel>
+						</g:VerticalPanel>
 						<g:CheckBox ui:field="overwrite" name="overwrite" formValue="1" visible="false"></g:CheckBox>
-						<g:SubmitButton ui:field="createProblemSubmitButton">Create</g:SubmitButton>
+						<g:HorizontalPanel>
+							<g:SubmitButton ui:field="createProblemSubmitButton">Create</g:SubmitButton>
+							<g:Button ui:field="btnMoreHelpers">Add Helper Slot</g:Button>
+						</g:HorizontalPanel>
 					</g:VerticalPanel>
 				</g:FormPanel>
 				<g:FormPanel ui:field="fileParseFormPanel">
