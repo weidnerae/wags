@@ -57,11 +57,12 @@ public class ProblemCreationPanel extends Composite{
 	@UiField SubmitButton createProblemSubmitButton, fileParseSbt;
 	@UiField Button createCommentsButton, classDeclarationButton, innerFunctionsButton,
 		statementsButton, clearDataButton, createHidFunctionButton, btnLoadExercise,
-		btnDeleteExercise;
+		btnDeleteExercise, btnMoreHelpers;
 	@UiField RadioButton btnBasicProblem, btnAdvancedProblem;
 	@UiField FileUpload solutionUpload, helperUpload;
 	@UiField ListBox lstGroup, lstLoadGroup, lstLoadExercise;
 	@UiField Label lblGroup, forLoop1Label, forLoop2Label, forLoop3Label, booleansLabel;
+	@UiField VerticalPanel vtPanelHelper;
 	@UiField CheckBox overwrite;
 	
 	//Global variables that are needed so the ChangeHandler can see them
@@ -76,6 +77,7 @@ public class ProblemCreationPanel extends Composite{
 	TextBox forCond2 = new TextBox();
 	TextBox forCond3 = new TextBox();
 	TextBox boolCond = new TextBox();
+	int numHelpers = 1;
 
 		
 	public ProblemCreationPanel(){
@@ -96,6 +98,11 @@ public class ProblemCreationPanel extends Composite{
 				WEStatus stat = new WEStatus(event.getResults());
 				if(stat.getStat() == WEStatus.STATUS_SUCCESS){
 					Proxy.addMagnetLinkage(stat.getMessage()); // The title of the problem
+					// Remove added Helper Class widgets
+					for(int i = 1; i < vtPanelHelper.getWidgetCount(); i++){
+						vtPanelHelper.remove(i);
+					}
+					numHelpers = 1;
 				} else if (stat.getStat() == WEStatus.STATUS_WARNING){
 					Notification.notify(stat.getStat(), stat.getMessage());
 					verifyOverwrite();
@@ -215,7 +222,29 @@ public class ProblemCreationPanel extends Composite{
 				}
 			}
 		});
+		
+		btnMoreHelpers.addClickHandler(new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				addHelperUpload();				
+			}
+		});
 	}	
+	
+	private void addHelperUpload(){
+		numHelpers++;
+		HorizontalPanel newPanel = new HorizontalPanel();
+		Label newLabel = new Label("Helper Class " + numHelpers + ":");
+		newLabel.setWidth(150 + "px");
+		FileUpload newUpload = new FileUpload();
+		newUpload.setName("helperClass" + numHelpers);
+		
+		newPanel.add(newLabel);
+		newPanel.add(newUpload);
+		
+		vtPanelHelper.add(newPanel);
+		
+	}
 	
 	void verifyDelete(final String title){
 		// Construct a dialog box verify the overwrite
