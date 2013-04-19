@@ -43,7 +43,7 @@
 				</g:tab>
 				<g:tab>
 					<g:header> Logical Problem Creation </g:header>
-					<g:Label> Logical Problem Creation </g:Label>
+					<my:LMEditTab/>
 				</g:tab>
 			</g:TabLayoutPanel>
 	</g:HTMLPanel>
