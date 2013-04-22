@@ -1,4 +1,4 @@
-package webEditor;
+package webEditor.admin.builders;
 
 public enum InsertMethod {
 	BY_VALUE ("byvalue"), 
