@@ -46,6 +46,12 @@ class LogicalExercises extends Command
     }
 
     private function getGroups($subject){
+        if($subject == "Created"){
+            $sId = Auth::getCurrentUser()->getSection();
+            $section = Section::getSectionById($sId);
+            $result[] = $section->getName();
+            return $result;
+        }
         $result = LogicalMicrolab::getGroups($subject);
         return $result;
     }
