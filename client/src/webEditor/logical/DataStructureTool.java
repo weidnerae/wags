@@ -214,13 +214,10 @@ public class DataStructureTool  extends AbsolutePanel
 		/* This is the 'switch' between DB LogicalMicrolabs and
 		 * ProblemServiceImpl
 		 */
-		//Proxy.getLogicalMicrolab(problem, this);
-		Problem prob = ProblemServiceImpl.getProblem(problem);
-		/*if(prob instanceof RedBlackProblem){
-			((RedBlackProblem) prob).printDetails();
-		}*/
+		Proxy.getLogicalMicrolab(problem, this);
+		//Problem prob = ProblemServiceImpl.getProblem(problem);
 
-		initialize(prob);
+		//initialize(prob);
 	}
 
 	public void initialize(Problem p)
