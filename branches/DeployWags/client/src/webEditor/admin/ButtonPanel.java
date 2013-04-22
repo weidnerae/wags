@@ -50,9 +50,24 @@ public class ButtonPanel extends Composite {
 		btnHolder.clear();
 		myButtons.clear();
 		Button tmpBtn;
+		boolean createdButton = false;
 		
 		for(String button: buttons){
+			if(button == "Created"){
+				createdButton = true;
+				continue;  // we want "created" to be last
+			}
 			tmpBtn = new Button(button);
+			tmpBtn.setStyleName("problem");
+			tmpBtn.setVisible(true);
+			tmpBtn.setPixelSize(btnWidth, btnHeight);
+			this.btnHolder.add(tmpBtn);
+			myButtons.add(tmpBtn);
+		}
+		
+		// "Created" button last
+		if(createdButton){
+			tmpBtn = new Button("Created");
 			tmpBtn.setStyleName("problem");
 			tmpBtn.setVisible(true);
 			tmpBtn.setPixelSize(btnWidth, btnHeight);

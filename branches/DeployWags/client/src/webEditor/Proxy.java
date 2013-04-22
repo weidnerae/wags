@@ -494,7 +494,7 @@ public class Proxy
 		return DST;
 	}
 	
-	public static void reviewExercise(String title, final String type, final ProxyFacilitator pf){
+	public static void reviewExercise(String title, final String type, final Reviewer pf){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=DSTReview&title="+title+"&type="+type);
 		
 		try{
@@ -887,11 +887,11 @@ public class Proxy
 		}
 	}
 	
-	public static void getLMAssigned(final ProxyFacilitator pf){
+	public static void getLMAssigned(final Receiver pf){
 		getLMAssigned(pf, "");
 	}
 	
-	public static void getLMAssigned(final ProxyFacilitator pf, final String args){
+	public static void getLMAssigned(final Receiver pf, final String args){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetLMAssigned&args=" + args);
 		try {
 			builder.sendRequest(null, new RequestCallback() {
@@ -912,11 +912,11 @@ public class Proxy
 		}
 	}
 	
-	public static void getMMAssigned(final ProxyFacilitator pf){
+	public static void getMMAssigned(final Receiver pf){
 		getMMAssigned(pf, "");
 	}
 	
-	public static void getMMAssigned(final ProxyFacilitator pf, final String args){
+	public static void getMMAssigned(final Receiver pf, final String args){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMMAssigned&args=" + args);
 		try {
 			builder.sendRequest(null, new RequestCallback() {
