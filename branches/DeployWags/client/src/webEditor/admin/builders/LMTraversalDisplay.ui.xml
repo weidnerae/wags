@@ -1,10 +1,11 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:my="urn:import:webEditor.admin.builders">
 	<ui:style>
-		
 	</ui:style>
 	<g:VerticalPanel ui:field="basePanel">
 		<g:Label>Check</g:Label>
+		<my:BasicBuilder/>
 	</g:VerticalPanel>
 </ui:UiBinder> 

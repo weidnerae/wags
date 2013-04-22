@@ -1,9 +1,12 @@
 package webEditor.admin.builders;
 
+
 import webEditor.admin.LMDisplay;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class LMTraversalDisplay extends LMDisplay {
@@ -16,6 +19,7 @@ public class LMTraversalDisplay extends LMDisplay {
 	}
 
 	LMBuilder builder;
+	@UiField VerticalPanel basePanel;
 	
 	public LMTraversalDisplay() {
 		initWidget(uiBinder.createAndBindUi(this));

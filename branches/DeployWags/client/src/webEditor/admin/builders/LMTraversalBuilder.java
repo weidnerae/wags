@@ -1,8 +1,5 @@
 package webEditor.admin.builders;
 
-import webEditor.Genre;
-import webEditor.InsertMethod;
-import webEditor.NodeType;
 
 public class LMTraversalBuilder extends LMBuilder {
 

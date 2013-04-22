@@ -1,4 +1,4 @@
-package webEditor;
+package webEditor.admin.builders;
 
 public enum Genre {
 	TRAVERSAL ("traversal"),
