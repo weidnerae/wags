@@ -3,9 +3,20 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:my="urn:import:webEditor.admin.builders">
 	<ui:style>
+		.txtAlign{
+			padding-top: 5px;
+		}
 	</ui:style>
 	<g:VerticalPanel ui:field="basePanel">
-		<g:Label>Check</g:Label>
-		<my:BasicBuilder/>
+		<g:HorizontalPanel>
+			<my:BasicBuilder ui:field="canvas"/>
+			<g:VerticalPanel>
+				<g:HorizontalPanel width="100%">
+					<g:Label styleName="{style.txtAlign}">Add Node: </g:Label>
+					<g:TextBox ui:field="txtAddNode" width="20px" maxLength="1"/>
+				</g:HorizontalPanel>
+				<g:Button ui:field="btnAddNode">Add</g:Button>
+			</g:VerticalPanel>
+		</g:HorizontalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 
