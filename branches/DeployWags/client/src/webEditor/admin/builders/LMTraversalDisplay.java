@@ -25,20 +25,36 @@ public class LMTraversalDisplay extends LMDisplay {
 	LMBuilder builder;
 	@UiField VerticalPanel basePanel;
 	@UiField BasicBuilder canvas;
-	@UiField Button btnAddNode;
+	@UiField Button btnAddNode, btnDeleteNode;
 	@UiField TextBox txtAddNode;
+	@UiField TraversalPanel inorderPanel, preorderPanel, postorderPanel;
 	
 	public LMTraversalDisplay() {
 		initWidget(uiBinder.createAndBindUi(this));
-		
+		addNodeHandling();
+		deleteNodeHandling();
+		inorderPanel.setup("Inorder: ", "Assign Traversal");
+		preorderPanel.setup("Preorder: ", "Assign Traversal");
+		postorderPanel.setup("Postorder: ","Assign Traversal");
+	}
+	
+	private void addNodeHandling(){
+		// Add nodes
 		btnAddNode.addClickHandler(new ClickHandler() {
-			
 			public void onClick(ClickEvent event) {
 				String val = txtAddNode.getText();
 				if(val.length() > 0){
 					canvas.addNode(txtAddNode.getText());
 					txtAddNode.setText("");
 				}
+			}
+		});		
+	}
+	
+	private void deleteNodeHandling(){
+		btnDeleteNode.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				canvas.deleteNode(txtAddNode.getText());
 			}
 		});
 	}

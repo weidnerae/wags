@@ -45,6 +45,16 @@ public class BasicBuilder extends Composite {
 		positionNode(node);
 	}
 	
+	public void deleteNode(String value){
+		for(BasicNode node: nodes){
+			if(node.value.equals(value)){
+				node.deleteEdges();
+				node.setVisible(false);
+				nodes.remove(node);
+			}
+		}
+	}
+	
 	public void positionNode(BasicNode node){
 		// Have to make this real at some point
 		node.setPosition(nodeX, nodeY);

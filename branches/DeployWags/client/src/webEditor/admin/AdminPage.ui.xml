@@ -39,11 +39,13 @@
 				</g:tab>
 				<g:tab>
 					<g:header> Magnet Problem Creation </g:header>
-					<my:ProblemCreationPanel ui:field="magnetPC"/>
+						<my:ProblemCreationPanel ui:field="magnetPC"/>
 				</g:tab>
 				<g:tab>
 					<g:header> Logical Problem Creation </g:header>
-					<my:LMEditTab/>
+					<g:ScrollPanel>
+						<my:LMEditTab ui:field="lmEditTab"/>
+					</g:ScrollPanel>
 				</g:tab>
 			</g:TabLayoutPanel>
 	</g:HTMLPanel>

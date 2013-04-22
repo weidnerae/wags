@@ -5,16 +5,9 @@
 	<ui:style>
 		
 	</ui:style>
-	<g:DockLayoutPanel unit='PX'>
-		<g:west size='400'>
-			<g:HorizontalPanel>
-				<my:ButtonPanel ui:field="btnPanelSubjects"/>
-				<my:ButtonPanel ui:field="btnPanelGroups"/>
-			</g:HorizontalPanel>
-		</g:west>
-		<g:center>
-			<g:VerticalPanel ui:field="vtDisplayHolder">
-			</g:VerticalPanel>
-		</g:center>
-	</g:DockLayoutPanel>
+	<g:HorizontalPanel>
+		<my:ButtonPanel ui:field="btnPanelSubjects"/>
+		<my:ButtonPanel ui:field="btnPanelGroups"/>
+		<g:VerticalPanel ui:field="vtDisplayHolder" width="100%"/>	
+	</g:HorizontalPanel>
 </ui:UiBinder> 
