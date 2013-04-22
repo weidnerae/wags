@@ -270,7 +270,7 @@ public class CodePanelUi extends Composite {
 		}
 		
 		idChain += sc.getID();
-		if (Integer.parseInt(sc.getID()) > numMagnets) { 
+		if (sc.isCreated()) { 
 			/* If this is a created magnet, save it in the database */
 			Proxy.saveCreatedMagnet(sc, refrigeratorMagnet.getID());
 		}
