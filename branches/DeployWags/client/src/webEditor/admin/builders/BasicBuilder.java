@@ -21,6 +21,7 @@ public class BasicBuilder extends Composite {
 	
 	@UiField AbsolutePanel canvasPanel;
 	boolean firstClick = true;
+	final int NODE_WIDTH = 40;
 	BasicNode node1;
 	BasicDragController dragger;
 	ArrayList<BasicNode> nodes = new ArrayList<BasicNode>();
@@ -34,9 +35,6 @@ public class BasicBuilder extends Composite {
 		canvasPanel.add(canvas);
 		dragger =  new BasicDragController(canvasPanel, false, this);
 		dragger.registerDropController(new BasicDropController(canvasPanel));
-		addNode("A");
-		addNode("B");
-		addNode("C");
 	}
 	
 	public void addNode(String value){
@@ -51,8 +49,12 @@ public class BasicBuilder extends Composite {
 		// Have to make this real at some point
 		node.setPosition(nodeX, nodeY);
 		canvasPanel.add(node, node.xPos, node.yPos);
-		nodeX += 80;
-		nodeY += 80;
+		
+		// Find position for next node
+		nodeX += NODE_WIDTH * 1.5;
+		if(nodeX + NODE_WIDTH> canvas.getWidth()){
+			nodeX = 10;
+		}
 	}
 	
 	
