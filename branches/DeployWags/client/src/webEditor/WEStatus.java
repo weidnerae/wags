@@ -231,8 +231,8 @@ public class WEStatus {
 			// The real "parsing" of information happens in LogicalMicrolab.getProblem, which uses
 			// the 'genre' of the LogicalMicrolab to determine what sort of problem should be returned
 			
-			int edgeRul = handleInt(messageMap, "edgeRul");
-			int edgeRem = handleInt(messageMap, "edgesRem");
+			int edgeRul = handleInt(messageMap, "edgeRules");
+			int edgeRem = handleInt(messageMap, "edgesRemovable");
 			
 			myObject = new LogicalMicrolab(messageMap.get("title"), 
 					messageMap.get("problemText"),
