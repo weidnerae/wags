@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
+
 import webEditor.logical.DataStructureTool;
+
 import webEditor.magnet.view.Magnets;
 import webEditor.magnet.view.RefrigeratorMagnet;
 import webEditor.magnet.view.ResultsPanelUi;
@@ -870,7 +872,9 @@ public class Proxy
 					
 					LogicalMicrolab logMicro = (LogicalMicrolab) status.getObject();
 					DST.initialize(logMicro.getProblem());
-					Notification.notify(WEStatus.STATUS_SUCCESS, "Loaded from server");
+					Notification.notify(status.getStat(), "Loaded from server");
+
+
 				}
 				
 				@Override
