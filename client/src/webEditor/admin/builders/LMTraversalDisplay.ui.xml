@@ -5,18 +5,30 @@
 	<ui:style>
 		.txtAlign{
 			padding-top: 5px;
+			width: 80px;
+		}
+		.longBox{
+			width:200px;
 		}
 	</ui:style>
 	<g:VerticalPanel ui:field="basePanel">
+		<my:BasicBuilder ui:field="canvas"/>
 		<g:HorizontalPanel>
-			<my:BasicBuilder ui:field="canvas"/>
-			<g:VerticalPanel>
-				<g:HorizontalPanel width="100%">
-					<g:Label styleName="{style.txtAlign}">Add Node: </g:Label>
-					<g:TextBox ui:field="txtAddNode" width="20px" maxLength="1"/>
-				</g:HorizontalPanel>
-				<g:Button ui:field="btnAddNode">Add</g:Button>
-			</g:VerticalPanel>
+			<g:Label styleName="{style.txtAlign}">Add Node: </g:Label>
+			<g:TextBox ui:field="txtAddNode" width="20px" maxLength="1"/>
+			<g:Button ui:field="btnAddNode">Add</g:Button>
+			<g:Button ui:field="btnDeleteNode">Delete</g:Button>
 		</g:HorizontalPanel>
+		<g:HorizontalPanel>
+			<g:Label styleName="{style.txtAlign}">Title: </g:Label>
+			<g:TextBox ui:field="txtTitle" styleName="{style.longBox}"/>
+		</g:HorizontalPanel>
+		<g:HorizontalPanel>
+			<g:Label styleName="{style.txtAlign}">Instructions: </g:Label>
+			<g:TextArea visibleLines="5" width="515px" ui:field="txtDesc"/>
+		</g:HorizontalPanel>
+		<my:TraversalPanel ui:field="inorderPanel"/>
+		<my:TraversalPanel ui:field="preorderPanel"/>
+		<my:TraversalPanel ui:field="postorderPanel"/>
 	</g:VerticalPanel>
 </ui:UiBinder> 

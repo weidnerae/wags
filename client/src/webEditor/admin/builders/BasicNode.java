@@ -51,15 +51,19 @@ public class BasicNode extends Label{
 		}
 	}
 	
+	public void deleteEdges(){
+		for(BasicEdge edge: edges){
+			edge.delete();
+		}
+	}
+	
 	public void reDrawEdges(){
 		BasicNode tmpParent, tmpLeft, tmpRight;
 		tmpParent = parent;
 		tmpLeft = leftChild;
 		tmpRight = rightChild;
 		
-		for(BasicEdge edge: edges){
-			edge.delete();
-		}
+		deleteEdges();
 		
 		if(tmpParent != null){
 			parentPanel.addEdge(this, tmpParent);
