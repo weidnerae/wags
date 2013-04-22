@@ -2,9 +2,6 @@ package webEditor.admin.builders;
 
 import java.util.ArrayList;
 
-import webEditor.Genre;
-import webEditor.InsertMethod;
-import webEditor.NodeType;
 
 public abstract class LMBuilder {
 	private static final int XPOS = 0;

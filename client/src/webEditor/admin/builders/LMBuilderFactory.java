@@ -1,8 +1,5 @@
 package webEditor.admin.builders;
 
-import webEditor.Genre;
-import webEditor.InsertMethod;
-import webEditor.NodeType;
 import webEditor.logical.DSTConstants;
 
 public class LMBuilderFactory {
