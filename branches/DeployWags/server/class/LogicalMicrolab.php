@@ -203,9 +203,14 @@ class LogicalMicrolab extends Model
         $sth->execute(array(':group' => $group));
 
         $result = $sth->fetchAll();
-        foreach($result as $entry){
-            $values[] = $entry[0];
+        if(empty($result)){
+            $values[] = "No exercises";
+        } else {
+            foreach($result as $entry){
+                $values[] = $entry[0];
+            }
         }
+
 		return $values;
     }
     
