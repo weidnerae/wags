@@ -55,6 +55,11 @@ public class CheckBoxPanel extends Composite {
 	public void addCheckBoxes(String[] chkBoxes){
 		clearCheckBoxes();
 		
+		if(chkBoxes.length == 1 && chkBoxes[0].equals("No exercises")){
+			chkBoxHolder.add(new Label("No exercises"));
+			return;
+		}
+		
 		for(String chkBox: chkBoxes){
 			// If the chkBox has been created already
 			if(allExercises.containsKey(chkBox)){
