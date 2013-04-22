@@ -2,6 +2,7 @@ package webEditor.admin;
 
 import webEditor.Proxy;
 import webEditor.ProxyFacilitator;
+import webEditor.Reviewer;
 import webEditor.WEStatus;
 
 import com.google.gwt.core.client.GWT;
@@ -23,7 +24,7 @@ public class ReviewTab extends Composite {
 	@UiField ReviewPanel rvLogPanel, rvMagPanel;
 	@UiField SubmitButton btnCompReview;
 	@UiField FormPanel formCompReview;
-	ProxyFacilitator logHandler, magHandler;
+	Reviewer logHandler, magHandler;
 
 	public ReviewTab() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -36,8 +37,8 @@ public class ReviewTab extends Composite {
 		rvMagPanel.setTitle("Magnet Review");
 		Proxy.getLMAssigned(logHandler);
 		Proxy.getMMAssigned(magHandler);
-		Proxy.getLMAssigned(logHandler, ProxyFacilitator.GET_REVIEW);
-		Proxy.getMMAssigned(magHandler, ProxyFacilitator.GET_REVIEW);
+		Proxy.getLMAssigned(logHandler, Reviewer.GET_REVIEW);
+		Proxy.getMMAssigned(magHandler, Reviewer.GET_REVIEW);
 		
 		btnCompReview.addStyleName("problem");
 		btnCompReview.setWidth(175 + "px");  // Same as buttonPanel buttons
@@ -48,12 +49,7 @@ public class ReviewTab extends Composite {
 		formCompReview.setMethod(FormPanel.METHOD_POST);
 	}
 	
-	private class LogicalReviewHandler implements ProxyFacilitator{
-		public void handleSubjects(String[] subjects) {	}
-		public void handleGroups(String[] groups) {	}
-		public void handleExercises(String[] exercises) { }
-		public void setExercises(String[] exercises) { }
-		public void setCallback(String[] exercises, WEStatus status) { }
+	private class LogicalReviewHandler implements Reviewer{
 		public void getCallback(String[] exercises, WEStatus status,
 				String request) { 
 			// Currently assigned
@@ -68,7 +64,7 @@ public class ReviewTab extends Composite {
 		}
 
 		@Override
-		public void reviewExercise(String exercise) {
+		public void review(String exercise) {
 			Proxy.reviewExercise(exercise, LOGICAL, this);
 		}
 
@@ -79,12 +75,7 @@ public class ReviewTab extends Composite {
 		
 	}
 	
-	private class MagnetReviewHandler implements ProxyFacilitator{
-		public void handleSubjects(String[] subjects) {	}
-		public void handleGroups(String[] groups) {	}
-		public void handleExercises(String[] exercises) { }
-		public void setExercises(String[] exercises) { }
-		public void setCallback(String[] exercises, WEStatus status) { }
+	private class MagnetReviewHandler implements Reviewer{
 		public void getCallback(String[] exercises, WEStatus status,
 				String request) { 
 			// Currently assigned
@@ -99,7 +90,7 @@ public class ReviewTab extends Composite {
 		}
 
 		@Override
-		public void reviewExercise(String exercise) {
+		public void review(String exercise) {
 			Proxy.reviewExercise(exercise, MAGNET, this);
 		}
 
@@ -112,8 +103,8 @@ public class ReviewTab extends Composite {
 	public void update(){
 		Proxy.getLMAssigned(logHandler);
 		Proxy.getMMAssigned(magHandler);
-		Proxy.getLMAssigned(logHandler, ProxyFacilitator.GET_REVIEW);
-		Proxy.getMMAssigned(magHandler, ProxyFacilitator.GET_REVIEW);
+		Proxy.getLMAssigned(logHandler, Reviewer.GET_REVIEW);
+		Proxy.getMMAssigned(magHandler, Reviewer.GET_REVIEW);
 	}
 
 }

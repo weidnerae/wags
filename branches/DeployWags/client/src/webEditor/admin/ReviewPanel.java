@@ -1,6 +1,7 @@
 package webEditor.admin;
 
 import webEditor.ProxyFacilitator;
+import webEditor.Reviewer;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -26,7 +27,7 @@ public class ReviewPanel extends Composite {
 	@UiField Grid grdGrades;
 	@UiField Label title;
 	
-	ProxyFacilitator parent;
+	Reviewer parent;
 	boolean currentSet = true;  // keeps track of "Assign/Review" state
 
 	public ReviewPanel() {
@@ -38,7 +39,7 @@ public class ReviewPanel extends Composite {
 		btnExTypes.addClickHandler(new switchClickHandler());
 	}
 	
-	public void setParent(ProxyFacilitator parent){
+	public void setParent(Reviewer parent){
 		this.parent = parent;
 	}
 	
@@ -115,7 +116,7 @@ public class ReviewPanel extends Composite {
 			btnPnlCurrent.colorBlack();
 			btnPnlReview.colorBlack();
 			btn.getElement().getStyle().setColor("blue");
-			parent.reviewExercise(btn.getText());			
+			parent.review(btn.getText());			
 		}
 		
 	}

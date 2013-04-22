@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import webEditor.Proxy;
 import webEditor.ProxyFacilitator;
+import webEditor.Reviewer;
 import webEditor.WEStatus;
 
 import com.google.gwt.core.client.GWT;
@@ -16,7 +17,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MagnetTab extends Composite implements ProxyFacilitator {
+public class MagnetTab extends Composite implements ProxyFacilitator, Reviewer {
 
 	private static MagnetTabUiBinder uiBinder = GWT
 			.create(MagnetTabUiBinder.class);
@@ -142,7 +143,7 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 	}
 
 	@Override
-	public void reviewExercise(String exercise) {
+	public void review(String exercise) {
 		Proxy.reviewExercise(exercise, MAGNET, this);		
 	}
 
