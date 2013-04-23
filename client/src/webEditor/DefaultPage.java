@@ -62,17 +62,16 @@ public class DefaultPage extends Composite {
 	@UiHandler("magnetPCButton")
 	void onMagnetPCClick(ClickEvent event)
 	{
-		Wags e = new Wags("admin");
+		Wags e = new Wags("magnetpc");
 		e.go();
-		e.goToMagnetCreation();
+		
 	}
 	
 	@UiHandler("logicalPCButton")
 	void onLogicalPCClick(ClickEvent event)
 	{
-		Wags e = new Wags("admin");
-		e.goToLogicalCreation();
-		
+		Wags e = new Wags("logicalpc");
+		e.go();
 	}
 	
 	@UiHandler("logoutButton")
