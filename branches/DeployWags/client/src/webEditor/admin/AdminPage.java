@@ -33,9 +33,6 @@ public class AdminPage extends Composite {
 		Proxy.isAdmin(tabPanel, sections);		
 	}
 	
-	public TabLayoutPanel getLayoutPanel() {
-		return tabPanel;
-	}
 	
 	public void update(){
 		logical.update();
@@ -44,5 +41,9 @@ public class AdminPage extends Composite {
 		students.update();
 		review.update();
 		magnetPC.update();
+	}
+	
+	public void setSelectedTab(int tab) {
+		tabPanel.selectTab( tab );
 	}
 }

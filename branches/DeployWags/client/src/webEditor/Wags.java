@@ -80,11 +80,16 @@ public class Wags extends View
 			loadEditor();
 		} else if (startingPlace.equals("admin")){
 			loadAdmin();
+		} else if (startingPlace.equals("magnetpc")) {
+			loadMagnetProblemCreation();
+		} else if (startingPlace.equals("logicalpc")) {
+			loadLogicalProblemCreation();
 		} else {
 			Proxy.loadDefault();
 		}
 	}
 	
+
 	/**
 	 * This creates the ValueChangeHandler that makes clicking back/forward 
 	 * in the browser work correctly.
@@ -103,8 +108,12 @@ public class Wags extends View
 					loadMagnets();
 				} else if (url.endsWith("login")) {
 					Proxy.logout();
-				} else if (url.endsWith("admin")){
+				} else if (url.endsWith("admin")) {
 					loadAdmin();
+				} else if (url.endsWith("magnetpc")) {
+					loadMagnetProblemCreation();
+				} else if (url.endsWith("logicalpc")) {
+					loadLogicalProblemCreation();
 				}
 			}
 			
@@ -154,6 +163,20 @@ public class Wags extends View
 	public void loadMagnets() {
 		Proxy.buildMagnets(this);
 		History.newItem("?loc=magnets");
+	}
+	
+	private void loadLogicalProblemCreation()
+	{
+		replaceCenterContent(adminPage);
+		adminPage.setSelectedTab(6);
+		History.newItem("?loc=logicalpc");
+	}
+
+	private void loadMagnetProblemCreation()
+	{
+		replaceCenterContent(adminPage);
+		adminPage.setSelectedTab(5);
+		History.newItem("?loc=magnetpc");
 	}
 
 	public void assignPassword(){
@@ -235,17 +258,5 @@ public class Wags extends View
 	
 	public AdminPage getAdmin() {
 		return adminPage;
-	}
-
-	public void goToMagnetCreation() {
-		this.go();
-		TabLayoutPanel t = adminPage.getLayoutPanel();
-		t.selectTab(4);
-	}
-
-	public void goToLogicalCreation() {
-		this.go();
-		TabLayoutPanel t = adminPage.getLayoutPanel();
-		t.selectTab(5);
 	}
 }
