@@ -39,10 +39,7 @@ public class ReviewTab extends Composite {
 		Proxy.getLMAssigned(logHandler, Reviewer.GET_REVIEW);
 		Proxy.getMMAssigned(magHandler, Reviewer.GET_REVIEW);
 		
-		btnCompReview.addStyleName("problem");
-		btnCompReview.setWidth(175 + "px");  // Same as buttonPanel buttons
-		btnCompReview.setHeight(45 + "px");  // Should we make those fields static?
-														 // i think probably so, or jut add it to the CSS
+		btnCompReview.addStyleName("button");
 		
 		formCompReview.setAction(Proxy.getBaseURL()+"?cmd=ComprehensiveReview");
 		formCompReview.setEncoding(FormPanel.ENCODING_MULTIPART);
