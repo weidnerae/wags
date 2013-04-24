@@ -127,7 +127,7 @@ public class Magnets extends AbsolutePanel {
 				for (int i = 0; i < buttons.size(); i++) {
 					ProblemButton b = buttons.get(i);
 					addClickHandling(b, b.getID());
-					b.setStyleName("problem");
+					b.setStyleName("button");
 					problemPane.add(b);
 
 					// find the maximum width of buttons
