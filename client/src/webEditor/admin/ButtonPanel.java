@@ -58,9 +58,8 @@ public class ButtonPanel extends Composite {
 				continue;  // we want "created" to be last
 			}
 			tmpBtn = new Button(button);
-			tmpBtn.setStyleName("problem");
+			tmpBtn.setStyleName("button");
 			tmpBtn.setVisible(true);
-			tmpBtn.setPixelSize(btnWidth, btnHeight);
 			this.btnHolder.add(tmpBtn);
 			myButtons.add(tmpBtn);
 		}

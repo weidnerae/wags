@@ -80,9 +80,12 @@ body {
 	margin-bottom: 10px;
 }
 
-.problem {
+.button {
 	font-size: 10pt;
 	font-weight: bold;
+	overflow: auto;
+	height: 45px;
+	width: 175px;
 }
 
 .welcome {
