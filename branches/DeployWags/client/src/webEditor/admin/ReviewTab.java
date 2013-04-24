@@ -1,7 +1,6 @@
 package webEditor.admin;
 
 import webEditor.Proxy;
-import webEditor.ProxyFacilitator;
 import webEditor.Reviewer;
 import webEditor.WEStatus;
 
@@ -43,6 +42,7 @@ public class ReviewTab extends Composite {
 		btnCompReview.addStyleName("problem");
 		btnCompReview.setWidth(175 + "px");  // Same as buttonPanel buttons
 		btnCompReview.setHeight(45 + "px");  // Should we make those fields static?
+														 // i think probably so, or jut add it to the CSS
 		
 		formCompReview.setAction(Proxy.getBaseURL()+"?cmd=ComprehensiveReview");
 		formCompReview.setEncoding(FormPanel.ENCODING_MULTIPART);
