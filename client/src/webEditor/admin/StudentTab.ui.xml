@@ -1,6 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:my="urn:import:webEditor.admin">
 	<ui:style>
 		.label {
 			text-align: left;
@@ -54,6 +55,7 @@
 				
 				<g:SubmitButton ui:field="btnChgPassword" styleName="{style.button}">Change Password</g:SubmitButton>
 				
+				<my:ReviewPanel ui:field="studentReviewPnl"></my:ReviewPanel>
 			</g:VerticalPanel>
 		</g:FormPanel>
 	</g:VerticalPanel>

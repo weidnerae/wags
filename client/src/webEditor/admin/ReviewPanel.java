@@ -1,6 +1,5 @@
 package webEditor.admin;
 
-import webEditor.ProxyFacilitator;
 import webEditor.Reviewer;
 
 import com.google.gwt.core.client.GWT;
@@ -23,7 +22,7 @@ public class ReviewPanel extends Composite {
 	}
 	
 	@UiField Button btnExTypes;
-	@UiField ButtonPanel btnPnlCurrent, btnPnlReview;
+	@UiField ButtonPanel btnPnlCurrent, btnPnlReview, btnPnlStudent;
 	@UiField Grid grdGrades;
 	@UiField Label title;
 	
@@ -39,6 +38,35 @@ public class ReviewPanel extends Composite {
 		btnExTypes.addClickHandler(new switchClickHandler());
 	}
 	
+	
+	/**
+	 * Overloaded method so that you can create a review panel for review based on student
+	 * @param studentReview
+	 */
+
+	public ReviewPanel(boolean studentReview) {
+		initWidget(uiBinder.createAndBindUi( this ));
+		if (studentReview) {
+			btnExTypes.setVisible(false); //make current/review button invisible
+			btnPnlReview.setVisible( false ); //we will not use the review panel
+			btnPnlCurrent.setVisible( false ); //or the current panel
+			//make the labels invisible as well
+			btnPnlCurrent.title.setVisible(false);
+			btnPnlReview.title.setVisible(false);
+			
+			//finally, make student button panel visible
+			btnPnlStudent.setVisible( true );
+		} else {
+			//do what the normal constructor would do
+			btnPnlCurrent.title.setVisible(false);
+			btnPnlReview.title.setVisible(false);
+			btnPnlReview.setVisible(false);
+			
+			btnExTypes.addClickHandler(new switchClickHandler());
+		}
+	}
+
+	
 	public void setParent(Reviewer parent){
 		this.parent = parent;
 	}
@@ -47,8 +75,23 @@ public class ReviewPanel extends Composite {
 		this.title.setText(title);
 	}
 	
+
+	public void fillGrid(String[] data, boolean studentReview) {
+		if (studentReview) {
+			fillGrid(data);
+			
+			//adjust the titles to reflect student based review
+	  		grdGrades.setHTML(0, 0, "<b> Excercise </b>");
+	  		grdGrades.setHTML(0, 1, "<b> Correct </b>");
+	  		grdGrades.setHTML(0, 2, "<b> NumAttempts </b>");
+		} else {
+			fillGrid(data);
+		}
+	}
+
+	
 	public void fillGrid(String[] data){
-        grdGrades.resize(data.length/3+1, 3);
+      grdGrades.resize(data.length/3+1, 3);
   		grdGrades.setBorderWidth(1);
   		
   		//Sets the headers for the table
@@ -77,6 +120,18 @@ public class ReviewPanel extends Composite {
 			btn.addClickHandler(new reviewClickHandler(btn));
 		}
 	}
+	
+
+	public void setStudents(String[] exercises){
+		Button btn;
+		btnPnlStudent.addButtons(exercises);
+		
+		for(int i = 0; i < btnPnlStudent.myButtons.size(); i++){
+			btn = btnPnlStudent.myButtons.get(i);
+			btn.addClickHandler(new reviewClickHandler(btn));
+		}
+	}
+
 	
 	public void setReview(String[] exercises){
 		Button btn;
@@ -120,7 +175,4 @@ public class ReviewPanel extends Composite {
 		}
 		
 	}
-	
-	
-
 }

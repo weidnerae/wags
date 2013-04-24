@@ -24,6 +24,7 @@
 				<g:Button ui:field="btnExTypes" width="100%">Switch to Review</g:Button>
 				<my:ButtonPanel ui:field="btnPnlCurrent"/>
 				<my:ButtonPanel ui:field="btnPnlReview"/>
+				<my:ButtonPanel ui:field="btnPnlStudent" visible="false"/>
 			</g:VerticalPanel>
 			<g:Grid ui:field="grdGrades" styleName="{style.grid}"/>
 		</g:HorizontalPanel>
