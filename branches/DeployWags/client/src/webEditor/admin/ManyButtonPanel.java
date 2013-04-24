@@ -54,9 +54,8 @@ public class ManyButtonPanel extends Composite
 		
 		for(String button: buttons){
 			tmpBtn = new Button(button);
-			tmpBtn.setStyleName("problem");
+			tmpBtn.setStyleName("button");
 			tmpBtn.setVisible(true);
-			tmpBtn.setPixelSize(btnWidth, btnHeight);
 			myButtons.add(tmpBtn);
 			addButton(tmpBtn);
 		}
