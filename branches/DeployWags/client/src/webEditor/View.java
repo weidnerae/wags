@@ -1,10 +1,8 @@
 package webEditor;
 
 
-import webEditor.admin.AdminPage;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 /**
  * View
