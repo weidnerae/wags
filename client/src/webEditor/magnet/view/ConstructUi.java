@@ -81,7 +81,7 @@ public class ConstructUi extends Composite {
 			mmContent = new AbsolutePanel();
 			magnetMaker = new MagnetMaker(forLists, magnet.bools, limits, this, nextID);
 			mmContent.add(magnetMaker);
-			mmContent.setStyleName("creation_station");
+			mmContent.setStyleName("magnet_maker");
 			
 			contentPanel = new AbsolutePanel();
 			contentPanel.add(mmContent);

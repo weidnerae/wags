@@ -67,7 +67,7 @@ public class ButtonPanel extends Composite {
 		// "Created" button last
 		if(createdButton){
 			tmpBtn = new Button("Created");
-			tmpBtn.setStyleName("problem");
+			tmpBtn.setStyleName("button");
 			tmpBtn.setVisible(true);
 			tmpBtn.setPixelSize(btnWidth, btnHeight);
 			this.btnHolder.add(tmpBtn);
