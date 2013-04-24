@@ -2,10 +2,12 @@ package webEditor.admin;
 
 import webEditor.Notification;
 import webEditor.Proxy;
+import webEditor.Reviewer;
 import webEditor.WEStatus;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -28,7 +30,10 @@ public class StudentTab extends Composite {
 	@UiField Button btnChgPassword;
 	@UiField FormPanel registerForm, passwordForm;
 	@UiField ListBox users;
-
+	@UiField ReviewPanel studentReviewPnl;
+	
+	Reviewer studentReviewer;
+	
 	public StudentTab() {
 		initWidget(uiBinder.createAndBindUi(this));
 		
@@ -63,10 +68,44 @@ public class StudentTab extends Composite {
 				Proxy.getUsernames(users);
 			}
 		});
+		
+		//the student review panel
+		studentReviewer = new StudentReviewHandler();
+		studentReviewPnl.setParent(studentReviewer);
+		studentReviewPnl.setTitle( "Student Review" );
+		//THIS NEEDS TO BE FINISHED
 	}
 	
 	public void update(){
 		Proxy.getUsernames(users);
 	}
 
+
+	private class StudentReviewHandler implements Reviewer {
+		@Override
+		public void getCallback( String[] exercises, WEStatus status, String request )
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void review( String name )
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void reviewCallback( String[] list )
+		{
+			// TODO Auto-generated method stub
+			
+		}
+	}
+	
+	 /** Used by MyUiBinder to instantiate ReviewPanels */
+	  @UiFactory ReviewPanel makeCricketScores() { // method name is insignificant
+	    return new ReviewPanel(true);
+	  }
 }
