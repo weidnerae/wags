@@ -33,7 +33,7 @@ public class StackableContainer extends FocusPanel {
 	private boolean isMain = false;
 	private boolean hasCode = false;
 	private boolean isCreated = false;
-	private String containerID;
+	private int containerID;
 	
 	String content = "";
 
@@ -236,9 +236,10 @@ public class StackableContainer extends FocusPanel {
 		bottomPanel.add(bottomLabel);
 	}
 	
-	public boolean hasChild(String childID){
+	public boolean hasChild(int childID){
 		for (int i = 0; i < insidePanel.getWidgetCount(); i++) {
-			if(insidePanel.getWidget(i) instanceof StackableContainer && ((StackableContainer)insidePanel.getWidget(i)).getID().equals(childID)){
+			if (insidePanel.getWidget(i) instanceof StackableContainer 
+					&& ((StackableContainer) insidePanel.getWidget(i)).getID() == childID) {
 				return true;
 			}
 		}
@@ -269,7 +270,7 @@ public class StackableContainer extends FocusPanel {
 	
 	public AbsolutePanel getInsidePanel() { return insidePanel; }
 	public String getContent() { return content; }
-	public String getID() { return containerID; }
+	public int getID() { return containerID; }
 	public boolean isStackable() { return stackable; }
 	public boolean isCreated() { return isCreated; }
 	public int getLeft() { return this.getAbsoluteLeft(); }
@@ -277,7 +278,7 @@ public class StackableContainer extends FocusPanel {
 	public int getTop() { return this.getAbsoluteTop(); }
 	public int getHeight() { return this.getOffsetHeight(); }
 	
-	public void setID(String id) { containerID = id; }
+	public void setID(int id) { containerID = id; }
 	public void setMain(boolean main) { this.isMain = main; }
 	public void setStackable(boolean stack) { stackable = stack; }
 	public void setCreated(boolean created) { this.isCreated = created; }

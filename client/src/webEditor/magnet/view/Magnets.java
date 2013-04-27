@@ -246,7 +246,7 @@ public class Magnets extends AbsolutePanel {
 		for (int i = 0; i < segments.length; i++) {
 			StackableContainer sc = new StackableContainer(segments[i], Consts.STATEMENT);
 			if (idAssignor > numStatements) {
-				sc.setID(createdIDs[idAssignor - numStatements - 1]);
+				sc.setID(Integer.parseInt(createdIDs[idAssignor - numStatements - 1]));
 				sc.setCreated(true);
 				idAssignor++;
 			} else {
@@ -298,10 +298,10 @@ public class Magnets extends AbsolutePanel {
 	
 	/**
 	 * Returns the next unused id and increments the global varaible idAssignor
-	 * @return String of the next id number
+	 * @return the next id number
 	 */
-	private String getID() {
+	private int getID() {
 		idAssignor++;
-		return "" + (idAssignor - 1);
+		return idAssignor - 1;
 	}
 }
