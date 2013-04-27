@@ -29,7 +29,6 @@ package webEditor.magnet.view;
 import com.allen_sauer.gwt.dnd.client.DragContext;
 import com.allen_sauer.gwt.dnd.client.VetoDragException;
 import com.allen_sauer.gwt.dnd.client.drop.SimpleDropController;
-import com.google.gwt.user.client.Window;
 
 /**
  * Sample SimpleDropController which discards draggable widgets which are
@@ -46,8 +45,7 @@ final class BinDropController extends SimpleDropController {
 
 	@Override
 	public void onDrop(DragContext context) {
-		if(((StackableContainer) context.draggable).isCreated()){
-			Window.alert("created magnet");
+		if (((StackableContainer) context.draggable).isCreated()) {
 			bin.eatWidget((StackableContainer) context.draggable);
 			super.onDrop(context);
 		}
