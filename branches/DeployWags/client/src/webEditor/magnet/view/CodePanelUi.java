@@ -37,7 +37,6 @@ public class CodePanelUi extends Composite {
 	private PopupPanel popupPanel;
 	private PopupPanel resetPopupPanel;
 	private String title;
-	private int numMagnets;
 
 	@UiField ScrollPanel nestPanel;   //takes up the entirety of the CodePanel, used to let mainPanel scroll
 	@UiField AbsolutePanel mainPanel;  //nested inside nestPanel, this is where mainFunction lives
@@ -61,12 +60,11 @@ public class CodePanelUi extends Composite {
 	 *            Possible inner functions nested into the function to be built.
 	 */
 
-	public CodePanelUi(RefrigeratorMagnet refrigeratorMagnet, MagnetProblem magnet, StackableContainer main, StackableContainer[] insideFunctions, int numMagnets) {
+	public CodePanelUi(RefrigeratorMagnet refrigeratorMagnet, MagnetProblem magnet, StackableContainer main, StackableContainer[] insideFunctions) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.refrigeratorMagnet = refrigeratorMagnet;
 		this.mainFunction = main;
 		this.title = magnet.title;
-		this.numMagnets = numMagnets;
 		setupPopupPanel();
 		setupResetPopupPanel();
 		addInsideFunctions(insideFunctions);

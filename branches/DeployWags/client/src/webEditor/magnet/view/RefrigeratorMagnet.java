@@ -60,7 +60,7 @@ public class RefrigeratorMagnet extends AbsolutePanel {
 			Timer timer = new Timer() {
 				@Override
 				public void run() {
-					decode2("0", state);
+					decode2(0, state);
 				}
 			};
 
@@ -84,18 +84,19 @@ public class RefrigeratorMagnet extends AbsolutePanel {
 		return state;
 	}
 
-	public void decode(String parentID, String state) {
+	public void decode(int parentID, String state) {
 		int startIndex = state.indexOf("[");
 		int endIndex = state.indexOf("]");
 		if (state.indexOf("[", startIndex + 1) != -1 && state.indexOf("[", startIndex + 1) < endIndex) {
 			/* another open brace before close brace */
-			addMagnetsByID(state.substring(startIndex + 1, state.indexOf("[", startIndex + 1)), parentID);
+			int childID = Integer.parseInt(state.substring(startIndex + 1, state.indexOf("[", startIndex + 1)));
+			addMagnetsByID(childID, parentID);
 			
-			decode2(state.substring(startIndex + 1, 
-					state.indexOf("[", startIndex + 1)),
-					state.substring(state.indexOf("[", startIndex + 1)));
+			int parent = Integer.parseInt(state.substring(startIndex + 1, state.indexOf("[", startIndex + 1)));
+			decode2(parent, state.substring(state.indexOf("[", startIndex + 1)));
 		} else {
-			addMagnetsByID(state.substring(startIndex + 1, endIndex), parentID);
+			int childID = Integer.parseInt(state.substring(startIndex + 1, endIndex));
+			addMagnetsByID(childID, parentID);
 			
 			if (endIndex + 1 < state.length() && state.indexOf('[', endIndex) != -1) {
 				decode(parentID, state.substring(state.indexOf('[', endIndex)));
@@ -103,7 +104,7 @@ public class RefrigeratorMagnet extends AbsolutePanel {
 		}
 	}
 
-	public void decode2(String parentID, String state) {
+	public void decode2(int parentID, String state) {
 		int[][] segments = findSegments(state);
 
 		for (int i = 0; i < segments[0].length; i++) {
@@ -146,59 +147,47 @@ public class RefrigeratorMagnet extends AbsolutePanel {
 		return new int[][] { startArray, endArray };
 	}
 
-	public void addMagnetsByID(String childID, String parentID) {
-		if (isInteger(childID) && isInteger(parentID)) {
-			boolean premadeParent = false;
-			int parentIndex = -1;
-			int childIndex = -1;
-			
-			for (int i = 0; i < premadeFunctions.length; i++) {
-				if (premadeFunctions[i].getID().equals(parentID)) {
-					premadeParent = true;
-					parentIndex = i;
-				}
+	public void addMagnetsByID(int childID, int parentID) {
+		boolean premadeParent = false;
+		int parentIndex = -1;
+		int childIndex = -1;
+		
+		for (int i = 0; i < premadeFunctions.length; i++) {
+			if (premadeFunctions[i].getID() == parentID) {
+				premadeParent = true;
+				parentIndex = i;
 			}
-			
-			for (int k = 0; k < insideFunctions.length; k++) {
-				if (insideFunctions[k].getID().equals(parentID)) {
-					parentIndex = k;
-				}
+		}
+		
+		for (int k = 0; k < insideFunctions.length; k++) {
+			if (insideFunctions[k].getID() == parentID) {
+				parentIndex = k;
 			}
-			
-			for (int j = 0; j < premadeFunctions.length; j++) {
-				if (premadeFunctions[j].getID().equals(childID)) {
-					childIndex = j;
-				}
-			}
-
-			if (parentID.equals(mainFunction.getID()) && childIndex != -1) {
-				mainFunction.addInsideContainer(premadeFunctions[childIndex]);
-			} else if (childIndex != -1 && parentIndex != -1) {
-				if (premadeParent) {
-					if (!premadeFunctions[parentIndex].hasChild(premadeFunctions[childIndex].getID())) {
-						premadeFunctions[parentIndex].addInsideContainer(premadeFunctions[childIndex]);
-					}
-				} else {
-					if (!insideFunctions[parentIndex].hasChild(premadeFunctions[childIndex].getID())) {
-						insideFunctions[parentIndex].addInsideContainer(premadeFunctions[childIndex]);
-					}
-				}
-
+		}
+		
+		for (int j = 0; j < premadeFunctions.length; j++) {
+			if (premadeFunctions[j].getID() == childID) {
+				childIndex = j;
 			}
 		}
 
+		if (parentID == mainFunction.getID() && childIndex != -1) {
+			mainFunction.addInsideContainer(premadeFunctions[childIndex]);
+		} else if (childIndex != -1 && parentIndex != -1) {
+			if (premadeParent) {
+				if (!premadeFunctions[parentIndex].hasChild(premadeFunctions[childIndex].getID())) {
+					premadeFunctions[parentIndex].addInsideContainer(premadeFunctions[childIndex]);
+				}
+			} else {
+				if (!insideFunctions[parentIndex].hasChild(premadeFunctions[childIndex].getID())) {
+					insideFunctions[parentIndex].addInsideContainer(premadeFunctions[childIndex]);
+				}
+			}
+
+		}
 	}
 
 	public void resetProblem() {
 		editingPanel.resetProblem();
-	}
-
-	private boolean isInteger(String s) {
-	    try {
-	        Integer.parseInt(s);
-	        return true;
-	    } catch(NumberFormatException e) {
-	        return false;
-	    }
 	}
 }
