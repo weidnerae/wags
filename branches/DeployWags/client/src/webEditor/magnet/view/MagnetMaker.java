@@ -126,7 +126,7 @@ public class MagnetMaker extends VerticalPanel {
 	private void updateStructure() {
 		structures.clearItems();
 		if (selectedStructureIndex == 0) {
-			structures.addItem("<div style=\"display:inline-block;min-width:110px;\" >" + structuresList[selectedStructureIndex] + "</div>", true, structureOptions);
+			structures.addItem("<div style=\"display:inline-block;min-width:110px;padding:5px\" >" + structuresList[selectedStructureIndex] + "</div>", true, structureOptions);
 			return;
 		}
 		
@@ -137,7 +137,7 @@ public class MagnetMaker extends VerticalPanel {
 			css = "structureLimitUnvailable";
 		}
 		
-		String html = "<div style=\"display:inline-block;min-width:110px;\" >"
+		String html = "<div style=\"display:inline-block;min-width:110px\" >"
 					+ structuresList[selectedStructureIndex]
 					+ "<span style=\"float:right;\" class=\"" + css + "\">"
 					+ limits[selectedStructureIndex - 1]
