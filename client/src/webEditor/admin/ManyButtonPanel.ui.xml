@@ -17,6 +17,7 @@
 			<g:VerticalPanel ui:field="btnHolder"/>
 			<g:VerticalPanel ui:field="btnHolder2"/>
 			<g:VerticalPanel ui:field="btnHolder3"/>
+			<g:VerticalPanel ui:field="btnHolder4"/>
 		</g:HorizontalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 
