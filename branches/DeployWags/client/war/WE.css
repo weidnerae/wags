@@ -82,9 +82,8 @@ body {
 
 .button {
 	font-size: 10pt;
-	font-weight: bold;
 	overflow: auto;
-	height: 45px;
+	height: 55px;
 	width: 175px;
 }
 
