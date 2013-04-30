@@ -1,47 +1,27 @@
- /** Add css rules here for your application. */
-	/** Example rules used by the template application (remove for your app) */
-h1 {
-	font-size: 2em;
+/** GENERAL APP CSS **/
+.banner {
+	font-size: 16pt;
 	font-weight: bold;
-	color: #777777;
-	margin: 80px 0px 70px;
-	text-align: center;
+	margin-bottom: 10px;
 }
-
-textarea {
-	font-family: monospace;
-	padding: 0px;
-	resize: none;
+.welcome {
+	font-size: 12pt;
+	font-weight: bold;
+}
+.button {
+	font-size: 10pt;
 	overflow: auto;
+	height: 55px;
+	width: 175px;
 }
-
-/** Most GWT widgets already have a style name defined */
-.gwt-DialogBox {
-	width: 400px;
-}
-
-body {
-	background: #EAEAFF;
-	}
-
-.dialogVPanel {	
-	margin: 5px;
-}
-
-.serverResponseLabelError {
-	color: red;
-}
-
-/** Set ids using widget.getElement().setId("idOfElement") */
-#closeButton {
-	margin: 15px 6px 6px;
-}
-
 #login {
 	float: right;
 	margin-top: 5px;
 	border: 1px solid #E8E8E8;
 	background: #F8F8F8;	
+}
+.serverResponseLabelError {
+	color: red;
 }
 
 #notification-area {
@@ -59,39 +39,53 @@ body {
 .passwords-not-match {
 	color: red;
 }
-.problem_statement {
-	position: absolute;
-	top: 0px;
-	font-size: 12pt;
-	font-weight: bold;
+
+/** ADMIN PAGE CSS **/
+/**magnet problem creation css **/
+.problem_creation_float_right {
+	float: right;
+	padding-right: 10px;
+}
+.problem_creation_mm_dropdown {
+	padding-right: 5px;
+}
+.problem_creation_mm_input {
+	padding-left: 5px;
+}
+.problem_creation_magnetmaker {
+		border: 1px solid;
+		background: #dbdbdb;
+		width: 100%;
+		margin: 5px 0px 10px 0px;
+		padding: 10px;
+		border-radius: 5px;
 }
 
+
+/**LOGICAL CSS (some shared with admin) **/
+.node {
+	position: absolute;
+	font-size: 20pt;
+	width: 40px;
+	height: 40px;
+	background: #FFA500;
+	text-align: center;
+	cursor: pointer;
+}
+.selected_node {
+	position: absolute;
+	font-size: 20pt;
+	width: 35px;
+	height: 35px;
+	background: #FFA500;
+	text-align: center;
+	border-color: #FFFF00;
+	border-style: solid;
+	cursor: pointer;
+}
 .main_background {
 	background: #FFFFFF;
 }
-
-.prob_background {
-	background: #FFFFFF;
-}
-
-.banner {
-	font-size: 16pt;
-	font-weight: bold;
-	margin-bottom: 10px;
-}
-
-.button {
-	font-size: 10pt;
-	overflow: auto;
-	height: 55px;
-	width: 175px;
-}
-
-.welcome {
-	font-size: 12pt;
-	font-weight: bold;
-}
-
 .boundary_panel {
 	position: absolute;
 	opacity: 0.5;
@@ -99,27 +93,123 @@ body {
 	border-right: solid 1px #150517;
 	border-bottom: solid 1px #150517;
 }
-
 .canvas {
 	position: absolute;
 	background: #D3D3D3;
 	border-top: solid 1px #150517;
 }
-
+.problem_statement {
+	position: absolute;
+	top: 0px;
+	font-size: 12pt;
+	font-weight: bold;
+}
+.prob_background {
+	background: #FFFFFF;
+}
 .left_panel {
 	background: #A8A8A8;
 	position: absolute;
 }
-
 .middle_panel {
 	background: #A8A8A8;
 	opacity: 0.5;
 	position: absolute;
 }
-
 .right_panel {
 	background: #A8A8A8;
 	position: absolute;
+}
+.control_button {
+	font-weight: bold;
+}
+.string_node{
+	position: absolute;
+	font-size: 16pt;
+	width:40px;
+	height:30px;
+	background: #FFA500;
+	background-color: #FFA500;
+	text-align: center;
+	cursor: pointer;
+}
+.selected_string_node {
+	position: absolute;
+	font-size: 17pt;
+	width: 40px;
+	height: 30px;
+	background: #FFA500;
+	text-align: center;
+	border-color: #FFFF00;
+	border-style: solid;
+	cursor: pointer;
+}
+.selected_red_node{
+	position: absolute;
+	font-size: 20pt;
+	color: white;
+	width: 40px;
+	height: 40px;
+	background: red;
+	text-align: center;
+	border-color: #FFA500;
+	border-style: solid;
+	cursor: pointer;
+}
+.red_node{
+	position: absolute;
+	font-size: 20pt;
+	color: white;
+	width: 40px;
+	height: 40px;
+	background: red;
+	text-align: center;
+	border-color: #FFA500;
+	border-style: solid;
+	cursor: pointer;
+}
+
+.selected_black_node{
+	position: absolute;
+	font-size: 20pt;
+	color: white;
+	width: 40px;
+	height: 40px;
+	background: black;
+	text-align: center;
+	border-color: #FFA500;
+	border-style: solid;
+	cursor: pointer;
+}
+.black_node{
+	position: absolute;
+	font-size: 20pt;
+	color: white;
+	width: 40px;
+	height: 40px;
+	background: black;
+	text-align: center;
+	border-color: #FFA500;
+	border-style: solid;
+	cursor: pointer;
+}
+.swap_node {
+	position: absolute;
+	font-size: 20pt;
+	width: 40px;
+	height: 40px;
+	background: #FFA500;
+	text-align: center;
+	cursor: default;
+}
+.selected_swap_node {
+	position: absolute;
+	font-size: 20pt;
+	width: 40px;
+	height: 40px;
+	background: #FFA500;
+	text-align: center;
+	cursor: default;
 }
 .bucket_panel{
 	padding-top: 5px;
@@ -134,40 +224,22 @@ body {
 	position: absolute;
 	text-align:center;
 }
-
 .edge_addition_panel
 {
 	background: #F8F8F8;
 	position: absolute;
 }
-
-.control_button {
-	font-weight: bold;
-}
-
 .edge_instructions {
 	font-size: 12pt;
 	font-weight: bold;
 }
-
 .edge_remove {
 	font-size: 12pt;
 	font-weight: bold;
 }
-
 .edge_addition_error {
 	font-size: 12pt;
 	font-weight: bold;
-}
-
-.node {
-	position: absolute;
-	font-size: 20pt;
-	width: 40px;
-	height: 40px;
-	background: #FFA500;
-	text-align: center;
-	cursor: pointer;
 }
 .edge_weight{
 	position: absolute;
@@ -200,19 +272,6 @@ body {
 	border-style: solid;
 	cursor: pointer;
 }
-
-.selected_node {
-	position: absolute;
-	font-size: 20pt;
-	width: 35px;
-	height: 35px;
-	background: #FFA500;
-	text-align: center;
-	border-color: #FFFF00;
-	border-style: solid;
-	cursor: pointer;
-}
-
 .red_selected_node {
 	position: absolute;
 	font-size: 20pt;
@@ -224,7 +283,6 @@ body {
 	border-style: solid;
 	cursor: pointer;
 }
-
 .red_node {
 	position: absolute;
 	font-size: 20pt;
@@ -235,28 +293,7 @@ body {
 	cursor: pointer;
 }
 
-.absolute_scroll{
-	height: 100%;
-	width: 100%;
-	position: absolute;	
-}
-.administration {
-	height: 100%;
-	width: 100%;
-	background-color: #C2C2FF;
-}
-
-/** MAGNETS CSS **/
-
-#closeButton {
-  margin: 15px 6px 6px;
-}
-
-/** panel css */
-.base_panel{
-        height:100%;
-        width:100%;
-}
+/** MAGNET CSS **/
 .magnet_maker {
         padding-right: 5px;
         padding-left: 5px;
@@ -266,8 +303,26 @@ body {
         background: #E6E6E6;
         border: 1px solid AliceBlue;
 }
-.interior_panel{
-        border: 1px solid #BCBCBC;
+.dropdown_panel{
+        padding-top: 5px;
+        width:100%;
+        padding-right:20px;
+}
+
+
+h1 {
+	font-size: 2em;
+	font-weight: bold;
+	color: #777777;
+	margin: 80px 0px 70px;
+	text-align: center;
+}
+
+textarea {
+	font-family: monospace;
+	padding: 0px;
+	resize: none;
+	overflow: auto;
 }
 .trash_bin{
         background-color: #FF4A4A;
@@ -344,155 +399,8 @@ body {
         border: 1px solid AliceBlue;
         font-family: "courier new";     
 }
-#inside_of_block{
-        position:relative;
-        left:20px;
-}
-.dropdown_panel{
-        padding-top: 5px;
-        width:100%;
-        padding-right:20px;
-}
-
-/**magnet problem creation misc css */
-
-
-.problem_creation_float_right {
-	float: right;
-	padding-right: 10px;
-}
-
-.problem_creation_mm_dropdown {
-	padding-right: 5px;
-}
-
-.problem_creation_mm_input {
-	padding-left: 5px;
-}
-
-.problem_creation_magnetmaker {
-		border: 1px solid;
-		background: #dbdbdb;
-		width: 100%;
-		margin: 5px 0px 10px 0px;
-		padding: 10px;
-		border-radius: 5px;
-}
-
-/** misc css */
 .trash_label{
         margin: 5px;
-}
-.create_button{
-        margin-right:20px;
-}
-
-BODY,HTML{height:100%;}
-
-.string_node{
-	position: absolute;
-	font-size: 16pt;
-	width:40px;
-	height:30px;
-	background: #FFA500;
-	background-color: #FFA500;
-	text-align: center;
-	cursor: pointer;
-}
-.selected_string_node {
-	position: absolute;
-	font-size: 17pt;
-	width: 40px;
-	height: 30px;
-	background: #FFA500;
-	text-align: center;
-	border-color: #FFFF00;
-	border-style: solid;
-	cursor: pointer;
-}
-.gwt-TabPanelBottom {
-  height:98%;
-  border-color: #92c1f0;
-  border-style: solid;
-  border-width: 3px 2px 2px;
-  overflow: hidden;
-  padding: 6px;
-}
-.invisible{
-	width:0px;
-	height:0px;
-	visibility: hidden;
-}
-.big_popup_button{
-	height:100%;
-	width:100%;
-}
-.selected_red_node{
-	position: absolute;
-	font-size: 20pt;
-	color: white;
-	width: 40px;
-	height: 40px;
-	background: red;
-	text-align: center;
-	border-color: #FFA500;
-	border-style: solid;
-	cursor: pointer;
-}
-.red_node{
-	position: absolute;
-	font-size: 20pt;
-	color: white;
-	width: 40px;
-	height: 40px;
-	background: red;
-	text-align: center;
-	border-color: #FFA500;
-	border-style: solid;
-	cursor: pointer;
-}
-
-.selected_black_node{
-	position: absolute;
-	font-size: 20pt;
-	color: white;
-	width: 40px;
-	height: 40px;
-	background: black;
-	text-align: center;
-	border-color: #FFA500;
-	border-style: solid;
-	cursor: pointer;
-}
-.black_node{
-	position: absolute;
-	font-size: 20pt;
-	color: white;
-	width: 40px;
-	height: 40px;
-	background: black;
-	text-align: center;
-	border-color: #FFA500;
-	border-style: solid;
-	cursor: pointer;
-}
-.swap_node {
-	position: absolute;
-	font-size: 20pt;
-	width: 40px;
-	height: 40px;
-	background: #FFA500;
-	text-align: center;
-	cursor: default;
-}
-.selected_swap_node {
-	position: absolute;
-	font-size: 20pt;
-	width: 40px;
-	height: 40px;
-	background: #FFA500;
-	text-align: center;
-	cursor: default;
 }
 .structureLimitAvailable{
 	padding:5px;
@@ -504,3 +412,33 @@ BODY,HTML{height:100%;}
 	margin-left:20px;
 	background-color:#cd5c5c;
 }
+.structureLimitAvailable{
+	padding:5px;
+	margin-left:20px;
+	background-color:#90ee90;
+}
+.structureLimitUnvailable{
+	padding:5px;
+	margin-left:20px;
+	background-color:#cd5c5c;
+}
+.big_popup_button{
+	height: 100%;
+	width: 100%;
+}
+
+/** GWT CSS CHANGES */
+
+BODY,HTML{height:100%;}
+
+
+.gwt-TabPanelBottom {
+  height:98%;
+  border-color: #92c1f0;
+  border-style: solid;
+  border-width: 3px 2px 2px;
+  overflow: hidden;
+  padding: 6px;
+}
+
+
