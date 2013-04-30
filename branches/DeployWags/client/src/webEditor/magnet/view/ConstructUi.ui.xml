@@ -4,8 +4,8 @@
 	xmlns:us='urn:import:webEditor.magnet.view'>
 	<ui:style>
 	.directions_panel{
-		-moz-border-radius: 15px;
-		border-radius: 15px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
 		font-family: "arial";
 		background: #E6E6E6;
 		padding-right: 1%;
