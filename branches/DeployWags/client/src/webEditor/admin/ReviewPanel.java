@@ -22,7 +22,7 @@ public class ReviewPanel extends Composite {
 	}
 	
 	@UiField Button btnExTypes;
-	@UiField ButtonPanel btnPnlCurrent, btnPnlReview, btnPnlStudent;
+	@UiField ManyButtonPanel btnPnlCurrent, btnPnlReview, btnPnlStudent;
 	@UiField Grid grdGrades;
 	@UiField Label title;
 	
