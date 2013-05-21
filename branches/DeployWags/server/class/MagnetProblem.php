@@ -240,6 +240,9 @@ class MagnetProblem extends Model
         $sth->execute(array(':section' => $user->getSection()));
 
         $results = $sth->fetchAll();
+
+        if(empty($results)) return null;
+
         foreach($results as $result){
             $values[] = $result['name'];
         }
@@ -410,7 +413,26 @@ class MagnetProblem extends Model
     # get concerning MagnetProblems.  This should probably be used in 
     # conjunction with AddGroupAndExercises as seen below.
     public static function addDefaults($sectionId){
+        $curUser = Auth::getCurrentUser();
+        $origSection = $curUser->getSection();
 
+        $curUser->setSection($sectionId);
+        $curUser->save();
+
+        MagnetProblem::addGroupAndExercises(3);
+        MagnetProblem::addGroupAndExercises(5);
+        MagnetProblem::addGroupAndExercises(6);
+        MagnetProblem::addGroupAndExercises(7);
+        MagnetProblem::addGroupAndExercises(8);
+        MagnetProblem::addGroupAndExercises(9);
+        MagnetProblem::addGroupAndExercises(10);
+        MagnetProblem::addGroupAndExercises(11);
+        MagnetProblem::addGroupAndExercises(12);
+        MagnetProblem::addGroupAndExercises(13);
+        MagnetProblem::addGroupAndExercises(51);
+        
+        $curUser->setSection($origSection);
+        $curUser->save();
     }
 
     // Returns all magnet exerciseIds that exist in some group
