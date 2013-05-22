@@ -253,7 +253,7 @@ public class WEStatus {
 	}
 	
 	private int handleInt(HashMap<String, String> map, String key){
-		if(map.containsKey(key)){
+		if(map.containsKey(key) && (map.get(key) != null)){
 			return Integer.parseInt(map.get(key));
 		}
 		
