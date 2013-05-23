@@ -90,5 +90,10 @@ public class BasicNode extends Label{
 			parentPanel.wasClicked(node);
 		}
 	}
+	
+	public void delete(){
+		this.deleteEdges();
+		this.removeFromParent();
+	}
 
 }
