@@ -6,9 +6,13 @@ import webEditor.admin.LMDisplay;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -26,7 +30,8 @@ public class LMTraversalDisplay extends LMDisplay {
 	@UiField VerticalPanel basePanel;
 	@UiField BasicBuilder canvas;
 	@UiField Button btnAddNode, btnDeleteNode;
-	@UiField TextBox txtAddNode;
+	@UiField TextBox txtAddNode, txtTitle;
+	@UiField TextArea txtDesc;
 	@UiField TraversalPanel inorderPanel, preorderPanel, postorderPanel;
 	
 	public LMTraversalDisplay() {
@@ -36,6 +41,66 @@ public class LMTraversalDisplay extends LMDisplay {
 		inorderPanel.setup("Inorder: ", "Assign Traversal");
 		preorderPanel.setup("Preorder: ", "Assign Traversal");
 		postorderPanel.setup("Postorder: ","Assign Traversal");
+	}
+	
+	@UiHandler("txtAddNode")
+	void onEnterPress(KeyPressEvent event){
+		if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER)
+		{
+			btnAddNode.click();
+		}
+	}
+	
+	@UiHandler("btnReset")
+	void onResetClick(ClickEvent event){
+		canvas.clear();
+		preorderPanel.fillText("");
+		inorderPanel.fillText("");
+		postorderPanel.fillText("");
+		txtTitle.setText("");
+		txtDesc.setText("");
+	}
+	
+	@UiHandler("btnGetTraversals")
+	void onTraversalClick(ClickEvent event){
+		BasicNode root = canvas.getRoot();
+		
+		preorderPanel.fillText(preorder(root));
+		inorderPanel.fillText(inorder(root));
+		postorderPanel.fillText(postorder(root));
+	}
+	
+	private String preorder(BasicNode tree){
+		String traversal = "";
+		if(tree != null){
+			traversal += tree.value;
+			traversal += preorder(tree.leftChild);
+			traversal += preorder(tree.rightChild);
+		}
+		
+		return traversal;
+	}
+	
+	private String inorder(BasicNode tree){
+		String traversal = "";
+		if(tree != null){
+			traversal += inorder(tree.leftChild);
+			traversal += tree.value;
+			traversal += inorder(tree.rightChild);
+		}
+		
+		return traversal;
+	}
+	
+	private String postorder(BasicNode tree){
+		String traversal = "";
+		if(tree != null){
+			traversal += postorder(tree.leftChild);
+			traversal += postorder(tree.rightChild);
+			traversal += tree.value;
+		}
+		
+		return traversal;
 	}
 	
 	private void addNodeHandling(){

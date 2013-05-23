@@ -7,6 +7,7 @@ import org.vaadin.gwtgraphics.client.DrawingArea;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -88,6 +89,27 @@ public class BasicBuilder extends Composite {
 		}
 	}
 	
+	public BasicNode getRoot(){
+		BasicNode root;
+		if(nodes.size() == 0){
+			Window.alert("Empty tree!\nReturning null value");
+			return null;
+		}
+		
+		// Start with first node as root
+		int topHeight = nodes.get(0).getAbsoluteTop();
+		root = nodes.get(0);
+		
+		for(BasicNode node:nodes){
+			if(node.getAbsoluteTop() < topHeight){
+				topHeight = node.getAbsoluteTop();
+				root = node;
+			}
+		}
+		
+		return root;
+	}
+	
 	public void addEdge(BasicNode node1, BasicNode node2){
 		BasicEdge edge = new BasicEdge(node1, node2);
 		if(edge.isValid()){
@@ -109,6 +131,14 @@ public class BasicBuilder extends Composite {
 		
 		canvas.add(line);
 		Window.alert(y + "\n" + x);*/
+	}
+	
+	public void clear(){
+		// Ooh, ran into that "removing from an ArrayList changes indices" issue
+		while(nodes.size() > 0){
+			nodes.get(0).delete();
+			nodes.remove(0);
+		}
 	}
 	
 }
