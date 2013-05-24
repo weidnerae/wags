@@ -2,6 +2,7 @@ package webEditor.admin.builders;
 
 
 import webEditor.admin.LMDisplay;
+import webEditor.logical.DSTConstants;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -11,6 +12,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
@@ -28,7 +30,7 @@ public class LMTraversalDisplay extends LMDisplay {
 
 	LMBuilder builder;
 	@UiField VerticalPanel basePanel;
-	@UiField BasicBuilder canvas;
+	@UiField BasicCanvas canvas;
 	@UiField Button btnAddNode, btnDeleteNode;
 	@UiField TextBox txtAddNode, txtTitle;
 	@UiField TextArea txtDesc;
@@ -38,9 +40,14 @@ public class LMTraversalDisplay extends LMDisplay {
 		initWidget(uiBinder.createAndBindUi(this));
 		addNodeHandling();
 		deleteNodeHandling();
-		inorderPanel.setup("Inorder: ", "Assign Traversal");
-		preorderPanel.setup("Preorder: ", "Assign Traversal");
-		postorderPanel.setup("Postorder: ","Assign Traversal");
+		
+		// Set up traversalpanels
+		inorderPanel.setup("Inorder: ", "Assign Traversal", this);
+		inorderPanel.btnTraversal.addClickHandler(new assignClickHandler(inorderPanel.parent, inorderPanel));
+		preorderPanel.setup("Preorder: ", "Assign Traversal", this);
+		preorderPanel.btnTraversal.addClickHandler(new assignClickHandler(preorderPanel.parent, preorderPanel));
+		postorderPanel.setup("Postorder: ","Assign Traversal", this);
+		postorderPanel.btnTraversal.addClickHandler(new assignClickHandler(postorderPanel.parent, postorderPanel));
 	}
 	
 	@UiHandler("txtAddNode")
@@ -80,7 +87,6 @@ public class LMTraversalDisplay extends LMDisplay {
 		
 		return traversal;
 	}
-	
 	private String inorder(BasicNode tree){
 		String traversal = "";
 		if(tree != null){
@@ -90,8 +96,7 @@ public class LMTraversalDisplay extends LMDisplay {
 		}
 		
 		return traversal;
-	}
-	
+	}	
 	private String postorder(BasicNode tree){
 		String traversal = "";
 		if(tree != null){
@@ -115,7 +120,6 @@ public class LMTraversalDisplay extends LMDisplay {
 			}
 		});		
 	}
-	
 	private void deleteNodeHandling(){
 		btnDeleteNode.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -126,6 +130,51 @@ public class LMTraversalDisplay extends LMDisplay {
 	
 	public void setBuilder(LMBuilder builder){
 		this.builder = builder;
+	}
+	
+	private class assignClickHandler implements ClickHandler{
+		LMDisplay parent;
+		TraversalPanel child;
+		
+		public assignClickHandler(LMDisplay parent, TraversalPanel child){
+			this.parent = parent;
+			this.child = child;
+		}
+		@Override
+		public void onClick(ClickEvent event) {
+			parent.fillBuilder(child);
+		}
+		
+	}
+
+	@Override
+	public void fillBuilder(ArgHolder child) {
+		// Ehh... how to handle unattached nodes
+		int[] xPos = new int[canvas.nodes.size()];
+		int[] yPos = new int[canvas.nodes.size()];
+		String edgeList = "";
+		
+		// Has to validate fields...
+		
+		builder.setTitle(txtTitle.getText());
+		builder.setProblemText(txtDesc.getText());
+		builder.setArgs(child.getArguments());
+		builder.setEval(DSTConstants.BST_TRAVERSAL_KEY);
+		
+		// Travel through nodes, adding child edges
+		int nodeCount = 0;
+		for(BasicNode node: canvas.nodes){
+			builder.addNode(node.value);
+			builder.addEdge(node.getLeftEdge());
+			edgeList += node.getLeftEdge() + ",";
+			builder.addEdge(node.getRightEdge());
+			edgeList += node.getRightEdge() + ",";
+			xPos[nodeCount] = node.getAbsoluteLeft();
+			yPos[nodeCount] = node.getAbsoluteTop();
+		}
+		
+		// Debugging
+		Window.alert(edgeList);
 	}
 	
 

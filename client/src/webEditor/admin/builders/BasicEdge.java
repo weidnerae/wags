@@ -9,10 +9,10 @@ import com.google.gwt.user.client.Window;
 public class BasicEdge extends Line {
 	private final static int NODE_HALF = 20;
 	private final int LINE_WIDTH = 10;
-	private final boolean DEBUG = true;
-	
+	private final boolean DEBUG = false;
 	private BasicNode parent, child;
 	private BasicNode n1, n2;
+	private String asString;
 	boolean connectLeftChild;
 	boolean validPositions;
 
@@ -88,6 +88,8 @@ public class BasicEdge extends Line {
 		child.addEdge(this);
 		parent.addEdge(this);
 		
+		asString = parent.value + " " + child.value;
+		
 		
 		if(DEBUG){
 			String tmp = parent.value + " is parent of " + child.value;
@@ -145,6 +147,14 @@ public class BasicEdge extends Line {
 			edge.delete();
 		}
 		
+	}
+	
+	public boolean isParent(BasicNode node){
+		return node.equals(parent);
+	}
+	
+	public String toString(){
+		return asString;
 	}
 
 }

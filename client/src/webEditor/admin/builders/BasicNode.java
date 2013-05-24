@@ -15,10 +15,10 @@ public class BasicNode extends Label{
 	boolean clicked = false;
 	String value;
 	BasicNode parent, leftChild, rightChild;
-	BasicBuilder parentPanel;
+	BasicCanvas parentPanel;
 	private ArrayList<BasicEdge> edges = new ArrayList<BasicEdge>();
 	
-	public BasicNode(String value, BasicBuilder parentPanel){
+	public BasicNode(String value, BasicCanvas parentPanel){
 		this.value = value;
 		this.parentPanel = parentPanel;
 		this.setText(value);
@@ -94,6 +94,22 @@ public class BasicNode extends Label{
 	public void delete(){
 		this.deleteEdges();
 		this.removeFromParent();
+	}
+	
+	public String getLeftEdge(){
+		if(this.leftChild != null){
+			return this.value + " " + leftChild.value;
+		}
+		
+		return "";
+	}
+	
+	public String getRightEdge(){
+		if(this.rightChild != null){
+			return this.value + " " + rightChild.value;
+		}
+		
+		return "";
 	}
 
 }
