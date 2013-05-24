@@ -12,12 +12,12 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
-public class BasicBuilder extends Composite {
+public class BasicCanvas extends Composite {
 
 	private static BasicBuilderUiBinder uiBinder = GWT
 			.create(BasicBuilderUiBinder.class);
 
-	interface BasicBuilderUiBinder extends UiBinder<Widget, BasicBuilder> {
+	interface BasicBuilderUiBinder extends UiBinder<Widget, BasicCanvas> {
 	}
 	
 	@UiField AbsolutePanel canvasPanel;
@@ -29,7 +29,7 @@ public class BasicBuilder extends Composite {
 	int nodeX = 10, nodeY = 10;
 	DrawingArea canvas;
 
-	public BasicBuilder() {
+	public BasicCanvas() {
 		initWidget(uiBinder.createAndBindUi(this));
 		canvas = new DrawingArea(600, 450); // match logical programming
 		canvas.getElement().getStyle().setBackgroundColor("lightcyan");
@@ -115,22 +115,6 @@ public class BasicBuilder extends Composite {
 		if(edge.isValid()){
 			canvas.add(edge);
 		}
-		
-		/*String y = "Node 2 is higher!";
-		String x = "Node 2 is to the left!";
-		
-		if(node1.yPos < node2.yPos){
-			y = "Node 1 is higher!";
-		}
-		
-		if(node1.xPos < node2.xPos){
-			x = "Node 1 is to the left!";
-		}
-		
-		Line line = new Line(node1.xPos, node1.yPos, node2.xPos, node2.yPos);
-		
-		canvas.add(line);
-		Window.alert(y + "\n" + x);*/
 	}
 	
 	public void clear(){

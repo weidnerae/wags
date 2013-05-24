@@ -2,12 +2,14 @@ package webEditor.admin.builders;
 
 import java.util.ArrayList;
 
+import com.google.gwt.user.client.Window;
+
 
 public abstract class LMBuilder {
 	private static final int XPOS = 0;
 	private static final int YPOS = 1;
 	
-	private String title, problemText, arguments;
+	private String title, problemText, arguments = "";
 	private boolean edgesRemovable, nodesDraggable;
 	private int evaluation, edgeRules, groupId;
 	private ArrayList<String> nodes, edges;
@@ -45,11 +47,36 @@ public abstract class LMBuilder {
 	}
 	
 	public void addEdge(String edge){
-		edges.add(edge);
+		if(!edge.equals("")){
+			edges.add(edge);
+		}
 	}
 	
 	public void setEval(int eval){
 		this.evaluation = eval;
+	}
+	
+	public void setArgs(String[] args){
+		for(String arg: args){
+			arguments += arg + ",";
+		}
+		
+		// Remove final comma
+		arguments = arguments.substring(0, arguments.length() - 1);
+	}
+	
+	public void setPos(int[] xPos, int[] yPos){
+		if(xPos.length != yPos.length){
+			Window.alert("Position arrays are of different length.  Error!");
+			return;
+		}
+		
+		// Adds all positions as strings to positions[][]
+		positions = new String[2][xPos.length];
+		for(int i = 0; i < xPos.length; i++){
+			positions[XPOS][i] = xPos[i] + "";
+			positions[YPOS][i] = yPos[i] + ""; 
+		}
 	}
 	
 	public abstract void buildArgs();

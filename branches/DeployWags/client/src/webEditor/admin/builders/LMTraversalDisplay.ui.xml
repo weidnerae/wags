@@ -15,7 +15,7 @@
 		}
 	</ui:style>
 	<g:VerticalPanel ui:field="basePanel">
-		<my:BasicBuilder ui:field="canvas"/>
+		<my:BasicCanvas ui:field="canvas"/>
 		<g:HorizontalPanel width="100%">
 			<g:HorizontalPanel>
 				<g:Label styleName="{style.txtAlign}">Add Node: </g:Label>

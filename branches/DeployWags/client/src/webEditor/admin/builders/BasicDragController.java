@@ -4,7 +4,7 @@ import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public class BasicDragController extends PickupDragController {
-	BasicBuilder builder;
+	BasicCanvas builder;
 	
 	public BasicDragController(AbsolutePanel boundaryPanel,
 			boolean allowDroppingOnBoundaryPanel) {
@@ -13,7 +13,7 @@ public class BasicDragController extends PickupDragController {
 	}
 	
 	public BasicDragController(AbsolutePanel boundaryPanel,
-			boolean allowDroppingOnBoundaryPanel, BasicBuilder builder) {
+			boolean allowDroppingOnBoundaryPanel, BasicCanvas builder) {
 		super(boundaryPanel, allowDroppingOnBoundaryPanel);
 		this.builder = builder;
 		this.setBehaviorDragStartSensitivity(1);
