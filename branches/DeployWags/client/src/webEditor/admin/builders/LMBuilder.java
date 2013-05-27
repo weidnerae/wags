@@ -2,6 +2,8 @@ package webEditor.admin.builders;
 
 import java.util.ArrayList;
 
+import webEditor.Proxy;
+
 import com.google.gwt.user.client.Window;
 
 
@@ -81,5 +83,99 @@ public abstract class LMBuilder {
 	
 	public abstract void buildArgs();
 	public abstract void buildPos();
-	public abstract String uploadString();
+	
+	private String listToString(ArrayList<String> aList){
+		String str = "";
+		
+		for(int i = 0; i < aList.size(); i++){
+			str += aList.get(i) + ","; 
+		}
+		
+		// remove final ","
+		return str.substring(0, str.length()-1);
+	}
+	
+	private String listToString(String[] aList){
+		String str = "";
+		
+		for(int i = 0; i < aList.length; i++){
+			str += aList[i] + ",";
+		}
+		
+		// Again, remove final ","
+		return str.substring(0, str.length()-1);
+	}
+	
+	private boolean validateMe(){
+		if(this.title == ""){
+			Window.alert("Empty title!");
+			return false;
+		}
+		
+		if(this.problemText == ""){
+			Window.alert("Empty description!");
+			return false;
+		}
+		
+		if(this.nodes.size() == 0){
+			Window.alert("No nodes!");
+			return false;
+		}
+		
+		if(this.positions[XPOS].length != this.nodes.size()){
+			Window.alert("Positioning bug discovered!");
+			return false;
+		}
+		
+		if(this.edges.size() == 0){
+			Window.alert("No edges!");
+			return false;
+		}
+		
+		if(this.arguments.length() == 0){
+			Window.alert("No arguments given to check solution!");
+			return false;
+		}
+		
+		return true;
+	}
+	
+	private void reset(){
+		nodes.clear();
+		edges.clear();
+		arguments = "";
+	}
+	
+	public void uploadLM(){
+		if(!validateMe()){
+			reset();
+			return;
+		}
+		// Get title, description, nodes
+		String str = "";
+		
+		// Convert positions to strings
+		String nodes = listToString(this.nodes);
+		nodes = nodes.replace(',', ' ');
+		String xPos = listToString(positions[XPOS]);
+		String yPos = listToString(positions[YPOS]);
+		String edgStr = listToString(edges);
+		String args = this.arguments;
+		int edgeRem = (this.edgesRemovable) ? 1 : 0;
+		int nodesDrag = (this.nodesDraggable) ? 1 : 0;
+		
+		str = "&title=" + this.title + "&problemText=" + this.problemText 
+				+ "&nodes=" + nodes + "&edges=" + edgStr 
+				+ "&xPositions=" + xPos + "&yPositions=" + yPos + "&insertMethod="  
+				+ this.insertMethod + "&evaluation=" + this.evaluation
+				+ "&edgeRules=" + this.edgeRules + "&arguments=" 
+				+ args + "&edgesRemovable=" + edgeRem
+				+ "&nodesDraggable=" + nodesDrag + "&nodeType=" + this.nodeType
+				+ "&genre=" + this.genre + "&group=" + this.groupId;
+		
+		Window.alert(str);
+		reset();  // All info is stored in string, so can reset before Proxy call
+		
+		Proxy.loadLogicalMicrolab(str);
+	}
 }

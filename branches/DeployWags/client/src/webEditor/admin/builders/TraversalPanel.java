@@ -32,6 +32,7 @@ public class TraversalPanel extends Composite implements ArgHolder{
 	public void setup(String lblTxt, String btnTxt, LMDisplay parent){
 		lblTraversal.setText(lblTxt);
 		btnTraversal.setText(btnTxt);
+		txtTraversal.setReadOnly(true);
 		this.parent = parent;
 	}
 	
@@ -47,6 +48,10 @@ public class TraversalPanel extends Composite implements ArgHolder{
 		String[] args = new String[1];
 		args[0] = txtTraversal.getText();
 		return args;
+	}
+	
+	public void clear(){
+		txtTraversal.setText("");
 	}
 
 }
