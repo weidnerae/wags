@@ -13,6 +13,7 @@ public class BasicEdge extends Line {
 	private BasicNode parent, child;
 	private BasicNode n1, n2;
 	private String asString;
+	private BasicCanvas canvas;
 	boolean connectLeftChild;
 	boolean validPositions;
 
@@ -22,9 +23,11 @@ public class BasicEdge extends Line {
 	
 	// Takes two nodes, creates a line to connect them,
 	// and assigns the relationship between them
-	public BasicEdge(BasicNode n1, BasicNode n2){
+	public BasicEdge(BasicNode n1, BasicNode n2, BasicCanvas canvas){
 		super(n1.xPos + NODE_HALF, n1.yPos + NODE_HALF, 
 				n2.xPos + NODE_HALF, n2.yPos + NODE_HALF);
+		
+		this.canvas = canvas;
 		
 		this.n1 = n1;
 		this.n2 = n2;
@@ -130,6 +133,7 @@ public class BasicEdge extends Line {
 		}
 		
 		child.parent = null;
+		canvas.update();
 	}
 	
 	// When an edge gets clicked, it gets removed

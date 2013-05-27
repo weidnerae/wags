@@ -8,7 +8,7 @@ public class LMBuilderFactory {
 	public static LMBuilder getTraversalBuilder(){
 		LMBuilder builder = new LMTraversalBuilder(Genre.TRAVERSAL, 
 				InsertMethod.BY_VALUE_AND_LOC, NodeType.CLICKABLE,
-				false, false, DSTConstants.TREE_MODE_KEY, TRAVERSAL_GID);
+				false, false, DSTConstants.NO_EDGES_KEY, TRAVERSAL_GID);
 		
 		return builder;
 	}

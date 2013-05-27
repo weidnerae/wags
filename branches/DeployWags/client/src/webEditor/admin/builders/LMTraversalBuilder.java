@@ -22,10 +22,4 @@ public class LMTraversalBuilder extends LMBuilder {
 
 	}
 
-	@Override
-	public String uploadString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

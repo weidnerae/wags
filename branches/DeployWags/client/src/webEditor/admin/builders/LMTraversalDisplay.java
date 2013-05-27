@@ -40,6 +40,7 @@ public class LMTraversalDisplay extends LMDisplay {
 		initWidget(uiBinder.createAndBindUi(this));
 		addNodeHandling();
 		deleteNodeHandling();
+		canvas.setParent(this);
 		
 		// Set up traversalpanels
 		inorderPanel.setup("Inorder: ", "Assign Traversal", this);
@@ -48,6 +49,13 @@ public class LMTraversalDisplay extends LMDisplay {
 		preorderPanel.btnTraversal.addClickHandler(new assignClickHandler(preorderPanel.parent, preorderPanel));
 		postorderPanel.setup("Postorder: ","Assign Traversal", this);
 		postorderPanel.btnTraversal.addClickHandler(new assignClickHandler(postorderPanel.parent, postorderPanel));
+	}
+	
+	// For when nodes/edges are added/removed
+	public void onModify(){
+		inorderPanel.clear();
+		preorderPanel.clear();
+		postorderPanel.clear();
 	}
 	
 	@UiHandler("txtAddNode")
@@ -81,31 +89,31 @@ public class LMTraversalDisplay extends LMDisplay {
 		String traversal = "";
 		if(tree != null){
 			traversal += tree.value;
-			traversal += preorder(tree.leftChild);
-			traversal += preorder(tree.rightChild);
+			traversal += preorder(tree.leftChild) + " ";
+			traversal += preorder(tree.rightChild) + " ";
 		}
 		
-		return traversal;
+		return traversal.substring(0, traversal.length()-1);
 	}
 	private String inorder(BasicNode tree){
 		String traversal = "";
 		if(tree != null){
-			traversal += inorder(tree.leftChild);
+			traversal += inorder(tree.leftChild) + " ";
 			traversal += tree.value;
-			traversal += inorder(tree.rightChild);
+			traversal += inorder(tree.rightChild) + " ";
 		}
 		
-		return traversal;
+		return traversal.substring(0, traversal.length()-1);
 	}	
 	private String postorder(BasicNode tree){
 		String traversal = "";
 		if(tree != null){
-			traversal += postorder(tree.leftChild);
-			traversal += postorder(tree.rightChild);
+			traversal += postorder(tree.leftChild) + " ";
+			traversal += postorder(tree.rightChild) + " ";
 			traversal += tree.value;
 		}
 		
-		return traversal;
+		return traversal.substring(0, traversal.length()-1);
 	}
 	
 	private void addNodeHandling(){
@@ -142,6 +150,10 @@ public class LMTraversalDisplay extends LMDisplay {
 		}
 		@Override
 		public void onClick(ClickEvent event) {
+			if(child.getArguments()[0].length() == 0){
+				Window.alert("No traversal provided");
+				return;
+			}
 			parent.fillBuilder(child);
 		}
 		
@@ -152,10 +164,7 @@ public class LMTraversalDisplay extends LMDisplay {
 		// Ehh... how to handle unattached nodes
 		int[] xPos = new int[canvas.nodes.size()];
 		int[] yPos = new int[canvas.nodes.size()];
-		String edgeList = "";
-		
-		// Has to validate fields...
-		
+				
 		builder.setTitle(txtTitle.getText());
 		builder.setProblemText(txtDesc.getText());
 		builder.setArgs(child.getArguments());
@@ -166,15 +175,14 @@ public class LMTraversalDisplay extends LMDisplay {
 		for(BasicNode node: canvas.nodes){
 			builder.addNode(node.value);
 			builder.addEdge(node.getLeftEdge());
-			edgeList += node.getLeftEdge() + ",";
 			builder.addEdge(node.getRightEdge());
-			edgeList += node.getRightEdge() + ",";
-			xPos[nodeCount] = node.getAbsoluteLeft();
-			yPos[nodeCount] = node.getAbsoluteTop();
+			xPos[nodeCount] = (int) Math.floor((double)node.getAbsoluteLeft());
+			yPos[nodeCount] = (int) Math.floor((double)node.getAbsoluteTop());
+			nodeCount++;
 		}
 		
-		// Debugging
-		Window.alert(edgeList);
+		builder.setPos(xPos, yPos);
+		builder.uploadLM();
 	}
 	
 
