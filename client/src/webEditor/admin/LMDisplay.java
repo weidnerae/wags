@@ -13,5 +13,6 @@ public abstract class LMDisplay extends Composite{
 	}
 	
 	public abstract void fillBuilder(ArgHolder child);
+	public abstract void onModify();
 }
 

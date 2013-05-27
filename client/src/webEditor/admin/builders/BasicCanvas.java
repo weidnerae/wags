@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
 
+import webEditor.admin.LMDisplay;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -28,6 +30,7 @@ public class BasicCanvas extends Composite {
 	ArrayList<BasicNode> nodes = new ArrayList<BasicNode>();
 	int nodeX = 10, nodeY = 10;
 	DrawingArea canvas;
+	LMDisplay parent;
 
 	public BasicCanvas() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -38,12 +41,17 @@ public class BasicCanvas extends Composite {
 		dragger.registerDropController(new BasicDropController(canvasPanel));
 	}
 	
+	public void setParent(LMDisplay parent){
+		this.parent = parent;
+	}
+	
 	public void addNode(String value){
 		BasicNode node = new BasicNode(value, this);
 		dragger.makeDraggable(node);
 		nodes.add(node);
 		
 		positionNode(node);
+		update();
 	}
 	
 	public void deleteNode(String value){
@@ -54,6 +62,7 @@ public class BasicCanvas extends Composite {
 				nodes.remove(node);
 			}
 		}
+		update();
 	}
 	
 	public void positionNode(BasicNode node){
@@ -111,10 +120,15 @@ public class BasicCanvas extends Composite {
 	}
 	
 	public void addEdge(BasicNode node1, BasicNode node2){
-		BasicEdge edge = new BasicEdge(node1, node2);
+		BasicEdge edge = new BasicEdge(node1, node2, this);
 		if(edge.isValid()){
 			canvas.add(edge);
 		}
+		update();
+	}
+	
+	public void update(){
+		parent.onModify();
 	}
 	
 	public void clear(){
