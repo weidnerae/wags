@@ -192,7 +192,7 @@ public class TreeProblem extends TreeTypeProblem implements IsSerializable {
 				+ "&nodesDraggable=" + nodesDrag + "&nodeType=" + this.nodeType + "&genre=traversal" + 
 				"&group=15";
 		
-		Proxy.loadLogicalMicrolab(str);
+		Proxy.uploadLogicalMicrolab(str);
 		return str;
 		
 	}

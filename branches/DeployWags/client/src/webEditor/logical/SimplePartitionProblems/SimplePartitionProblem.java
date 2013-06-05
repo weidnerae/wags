@@ -150,7 +150,7 @@ public class SimplePartitionProblem extends Problem implements IsSerializable {
 				"&nodesDraggable=" + nodesDraggable + "&nodeType=" +
 				nodeType + "&group=14" + "&genre=simplepartition";
 		
-		Proxy.loadLogicalMicrolab(details);
+		Proxy.uploadLogicalMicrolab(details);
 		return details;
 	}
 }

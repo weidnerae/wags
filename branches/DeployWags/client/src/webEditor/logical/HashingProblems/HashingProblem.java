@@ -197,7 +197,7 @@ public class HashingProblem extends Problem implements IsSerializable {
 				+ "&nodesDraggable=" + nodesDrag + "&nodeType=" + this.nodeType + "&genre=mst" + 
 				"&group=11";
 		
-		Proxy.loadLogicalMicrolab(str);
+		Proxy.uploadLogicalMicrolab(str);
 		return str;
 	}
 }
