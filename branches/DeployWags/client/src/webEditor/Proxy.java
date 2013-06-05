@@ -1551,8 +1551,8 @@ public class Proxy
 		    }
 	}
 	
-	public static void loadLogicalMicrolab(String details){
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, baseURL+"?cmd=LoadLogicalMicrolab" + details);
+	public static void uploadLogicalMicrolab(String details){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, baseURL+"?cmd=UploadLogicalMicrolab" + details);
 		
 		try{
 			builder.sendRequest(null, new RequestCallback() {

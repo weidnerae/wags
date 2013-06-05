@@ -102,7 +102,7 @@ public class RedBlackProblem extends TreeTypeProblem implements IsSerializable {
 				+ "&nodesDraggable=" + nodesDrag + "&nodeType=" + this.nodeType + "&genre=redblack" + 
 				"&group=15";
 		
-		Proxy.loadLogicalMicrolab(str);
+		Proxy.uploadLogicalMicrolab(str);
 		return str;
 		
 	}

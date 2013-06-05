@@ -167,7 +167,7 @@ public class QuickSortProblem extends Problem implements IsSerializable {
 				+ "&nodesDraggable=" + nodesDrag + "&nodeType=" + this.nodeType + "&genre=qsort" + 
 				"&group=14";
 		
-		Proxy.loadLogicalMicrolab(str);
+		Proxy.uploadLogicalMicrolab(str);
 		return str;
 		
 	}

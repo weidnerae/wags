@@ -80,40 +80,41 @@ public class LMTraversalDisplay extends LMDisplay {
 	void onTraversalClick(ClickEvent event){
 		BasicNode root = canvas.getRoot();
 		
-		preorderPanel.fillText(preorder(root));
-		inorderPanel.fillText(inorder(root));
-		postorderPanel.fillText(postorder(root));
+		// Gets traversals and formats them for Binary Tree problems
+		preorderPanel.fillText(preorder(root).replace("", " ").trim());
+		inorderPanel.fillText(inorder(root).replace("", " ").trim());
+		postorderPanel.fillText(postorder(root).replace("", " ").trim());
 	}
 	
 	private String preorder(BasicNode tree){
 		String traversal = "";
 		if(tree != null){
-			traversal += tree.value;
-			traversal += preorder(tree.leftChild) + " ";
-			traversal += preorder(tree.rightChild) + " ";
+			traversal += tree.value ;
+			traversal += preorder(tree.leftChild);
+			traversal += preorder(tree.rightChild);
 		}
 		
-		return traversal.substring(0, traversal.length()-1);
+		return traversal;
 	}
 	private String inorder(BasicNode tree){
 		String traversal = "";
 		if(tree != null){
-			traversal += inorder(tree.leftChild) + " ";
+			traversal += inorder(tree.leftChild);
 			traversal += tree.value;
-			traversal += inorder(tree.rightChild) + " ";
+			traversal += inorder(tree.rightChild);
 		}
 		
-		return traversal.substring(0, traversal.length()-1);
+		return traversal;
 	}	
 	private String postorder(BasicNode tree){
 		String traversal = "";
 		if(tree != null){
-			traversal += postorder(tree.leftChild) + " ";
-			traversal += postorder(tree.rightChild) + " ";
+			traversal += postorder(tree.leftChild);
+			traversal += postorder(tree.rightChild);
 			traversal += tree.value;
 		}
 		
-		return traversal.substring(0, traversal.length()-1);
+		return traversal;
 	}
 	
 	private void addNodeHandling(){
@@ -161,6 +162,10 @@ public class LMTraversalDisplay extends LMDisplay {
 
 	@Override
 	public void fillBuilder(ArgHolder child) {
+		// Weird casting because ___.getAbsolute___ doesn't actually
+		// seem to be returning an int, although that is what it claims.
+		int canvasLeft = (int) Math.floor((double)canvas.getAbsoluteLeft());
+		int canvasTop = (int) Math.floor((double)canvas.getAbsoluteTop());
 		// Ehh... how to handle unattached nodes
 		int[] xPos = new int[canvas.nodes.size()];
 		int[] yPos = new int[canvas.nodes.size()];
@@ -176,8 +181,15 @@ public class LMTraversalDisplay extends LMDisplay {
 			builder.addNode(node.value);
 			builder.addEdge(node.getLeftEdge());
 			builder.addEdge(node.getRightEdge());
-			xPos[nodeCount] = (int) Math.floor((double)node.getAbsoluteLeft());
-			yPos[nodeCount] = (int) Math.floor((double)node.getAbsoluteTop());
+			
+			// We're not really interested in absolute values, but rather the
+			// position within the canvas.
+			xPos[nodeCount] = (int) Math.floor((double)node.getAbsoluteLeft())
+					- canvasLeft;
+			yPos[nodeCount] = (int) Math.floor((double)node.getAbsoluteTop())
+					- canvasTop;
+			
+			
 			nodeCount++;
 		}
 		
