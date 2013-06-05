@@ -150,7 +150,7 @@ public class SelectionSortProblem extends Problem implements IsSerializable {
 				"&nodesDraggable=" + nodesDraggable + "&nodeType=" +
 				nodeType + "&group=15" + "&genre=selectionsort";
 		
-		Proxy.loadLogicalMicrolab(details);
+		Proxy.uploadLogicalMicrolab(details);
 		return details;
 	}
 }

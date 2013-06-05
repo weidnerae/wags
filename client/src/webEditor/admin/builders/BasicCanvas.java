@@ -32,6 +32,8 @@ public class BasicCanvas extends Composite {
 	DrawingArea canvas;
 	LMDisplay parent;
 
+	// BasicCanvas Constructor
+	// Initializes canvas, adds coloring, and registers needed controllers
 	public BasicCanvas() {
 		initWidget(uiBinder.createAndBindUi(this));
 		canvas = new DrawingArea(600, 450); // match logical programming
@@ -45,6 +47,13 @@ public class BasicCanvas extends Composite {
 		this.parent = parent;
 	}
 	
+	/**
+	 * addNode
+	 * @param value - The value of the node that is displayed
+	 * Adds a node to the BasicCanvas and registers it with the BasicCanvas.
+	 * Relies on "positionNode(BasicNode)" to place node
+	 * Calls "update()" in case parent LMDisplay must be notified of change
+	 */
 	public void addNode(String value){
 		BasicNode node = new BasicNode(value, this);
 		dragger.makeDraggable(node);
@@ -54,6 +63,13 @@ public class BasicCanvas extends Composite {
 		update();
 	}
 	
+	/**
+	 * deleteNode
+	 * @param value - The value of the node to be deleted
+	 * Removes named node (and corresponding edges) from BasicCanvas, if node 
+	 * exists.  Calls "update" in case parent LMDisplay needs to be notified
+	 * of change.
+	 */
 	public void deleteNode(String value){
 		for(BasicNode node: nodes){
 			if(node.value.equals(value)){
@@ -65,19 +81,30 @@ public class BasicCanvas extends Composite {
 		update();
 	}
 	
-	public void positionNode(BasicNode node){
-		// Have to make this real at some point
+	/**
+	 * positionNode
+	 * @param node - Node to be added
+	 * Determines where the new node will be placed on the canvas. 
+	 */
+	private void positionNode(BasicNode node){
+		// May be modified in future
+		// Sets position of current node
 		node.setPosition(nodeX, nodeY);
 		canvasPanel.add(node, node.xPos, node.yPos);
 		
-		// Find position for next node
+		// Finds position for next node
 		nodeX += NODE_WIDTH * 1.5;
-		if(nodeX + NODE_WIDTH> canvas.getWidth()){
+		if(nodeX + NODE_WIDTH > canvas.getWidth()){
 			nodeX = 10;
 		}
 	}
 	
-	
+	/**
+	 * wasClicked
+	 * @param node - The node that was clicked
+	 * Handles clicking/declicking nodes and corresponding edge drawing
+	 * if necessary.
+	 */
 	public void wasClicked(BasicNode node){
 		if(firstClick){
 			node1 = node;
@@ -98,6 +125,13 @@ public class BasicCanvas extends Composite {
 		}
 	}
 	
+	/**
+	 * getRoot
+	 * @return	- The root node for the tree shown on the BasicCanvas
+	 * Returns the root node, determined by the node highest on the canvas
+	 * If multiple nodes are at the exact same height, returns the first at
+	 * that height.
+	 */
 	public BasicNode getRoot(){
 		BasicNode root;
 		if(nodes.size() == 0){
@@ -119,6 +153,14 @@ public class BasicCanvas extends Composite {
 		return root;
 	}
 	
+	/**
+	 * addEdge
+	 * @param node1 - An edge is drawn between this and node2
+	 * @param node2 - An edge is drawn between this and node1
+	 * Delegates creation of the edge to the edge class, and then adds the
+	 * resulting edge to the canvas.  Calls "update()" in case parent LMDisplay
+	 * needs to be aware of the modification.
+	 */
 	public void addEdge(BasicNode node1, BasicNode node2){
 		BasicEdge edge = new BasicEdge(node1, node2, this);
 		if(edge.isValid()){
@@ -127,16 +169,26 @@ public class BasicCanvas extends Composite {
 		update();
 	}
 	
+	/**
+	 * update
+	 * Calls parent.onModify().  Exists so that edges/nodes only interact with
+	 * the canvas, and then the canvas can communicate with the LMDisplay.
+	 */
 	public void update(){
 		parent.onModify();
 	}
 	
+	/**
+	 * Clear
+	 * Removes all nodes (and thus all edges) from the canvas.  Calls update()
+	 */
 	public void clear(){
 		// Ooh, ran into that "removing from an ArrayList changes indices" issue
 		while(nodes.size() > 0){
 			nodes.get(0).delete();
 			nodes.remove(0);
 		}
+		update();
 	}
 	
 }

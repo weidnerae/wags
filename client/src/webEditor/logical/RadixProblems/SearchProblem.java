@@ -251,7 +251,7 @@ public class SearchProblem extends Problem implements IsSerializable {
 				"&nodesDraggable=" + nodesDraggable + "&nodeType=" +
 				nodeType + "&group=9" + "&genre=radix";
 		
-		Proxy.loadLogicalMicrolab(details);
+		Proxy.uploadLogicalMicrolab(details);
 		return details;
 	}
 }

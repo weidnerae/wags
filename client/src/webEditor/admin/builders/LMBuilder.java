@@ -176,6 +176,6 @@ public abstract class LMBuilder {
 		Window.alert(str);
 		reset();  // All info is stored in string, so can reset before Proxy call
 		
-		Proxy.loadLogicalMicrolab(str);
+		Proxy.uploadLogicalMicrolab(str);
 	}
 }
