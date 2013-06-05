@@ -213,6 +213,16 @@ class LogicalMicrolab extends Model
 
 		return $values;
     }
+
+    public static function addToLMExercise($title, $group){
+        require_once("Database.php");
+        $db = Database::getDb();
+        $title = '"'.$title.'"';
+
+        $sth = $db->prepare("INSERT INTO LMExercise
+            VALUES ('',$title,$group)");
+        $sth->execute();
+    }
     
     public static function getAttempted() {
     	require_once("Database.php");
