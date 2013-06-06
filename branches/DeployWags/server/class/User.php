@@ -109,6 +109,7 @@ class User extends Model
     }
 
 	//Returns all DST problem results from that user
+    //There is no problemResult table in database anymore?  As far as I can tell - Alex
 	public function getProbResults(){
 		require_once('Database.php');
 		$db = Database::getDb();
@@ -119,6 +120,59 @@ class User extends Model
 
 		return $sth->fetchAll();
 	}
+
+    //Returns all submissions by a student based on the student's ID
+    public function getMagnetSubmissions($userId){
+         require_once('Database.php');
+         $db = Database::getDb();
+ 
+         $sth = $db->prepare('SELECT magnetProblemId, numAttempts, success
+                              FROM  MagnetSubmission
+                              WHERE userId = :userId;');
+         $sth->setFetchMode(PDO::FETCH_ASSOC);
+         $sth->execute(array(':userId' => $userId));
+ 
+         return $sth->fetchAll();
+     }
+
+     //Returns all dst submissions by a stuent based on the Student's ID
+     public function getDstSubmissions($userId) {
+        require_once('Database.php');
+        $db = Database::getDb();
+
+        $sth = $db->prepare('SELECT title, numAttempts, success
+                             FROM dstSubmission
+                             WHERE userId = :userId;');
+        $sth->setFetchMode(PDO::FETCH_ASSOC);
+        $sth->execute(array(':userId' => $userId));
+
+        return $sth->fetchAll();
+     }   
+
+     // Tries to return group id for this administrators created logical
+     // microlabs.  If that group doesn't exist, it creates it instead.
+     public function getCreatedLMGroup(){
+        if(!$this->isAdmin()) return -1;
+
+        $groupName = $this->getUsername()."_LMs";
+        $groupName = '"'.$groupName.'"';
+
+        $db = Database::getDb();
+        $sth = $db->prepare("SELECT id FROM LMGroup WHERE
+            LMGroup.Group = $groupName");
+        $sth->execute();
+        $result = $sth->fetch();
+
+        if(empty($result)){
+            // Create the group, 7 is the "created" subject
+            $insert = $db->prepare("INSERT INTO LMGroup
+                VALUES ('', $groupName, 7)");
+            $insert->execute();
+            return null;
+        } else {
+            return $result[0];
+        }
+     }
 
     /************
      * Static helpers
