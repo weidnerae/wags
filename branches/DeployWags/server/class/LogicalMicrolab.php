@@ -251,7 +251,6 @@ class LogicalMicrolab extends Model
     	}
     	return $values;
     }
-
 }
 
 ?>

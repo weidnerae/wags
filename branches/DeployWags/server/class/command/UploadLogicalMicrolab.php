@@ -10,6 +10,19 @@ class UploadLogicalMicrolab extends Command{
             return JSON::warn("Microlab already exists");
         }
 
+        // Find the correct group for this exercise
+        // Depends on Administrator...
+        $user = Auth::getCurrentUser();
+        $group = null;
+
+        // If it doesn't exist, it creates it and returns null.
+        // We busy wait as the database operation is asynchronous
+        // Probably a bad idea in case database fails.... maybe limit
+        // attempts
+        while($group === null){
+            $group = Auth::getCurrentUser()->getCreatedLMGroup();
+        }
+
         $lm = new LogicalMicrolab();
         $lm->setTitle($_GET['title']);
         $lm->setProblemText($_GET['problemText']);
@@ -25,13 +38,12 @@ class UploadLogicalMicrolab extends Command{
         $lm->setNodesDraggable($_GET['nodesDraggable']);
         $lm->setNodeType($_GET['nodeType']);
         $lm->setGenre($_GET['genre']);
-        $lm->setGroupID($_GET['group']);
+        $lm->setGroupID($group);
         $lm->setAdded(time());
 
         $lm->save();
 
-
-        LogicalMicrolab::addToLMExercise($_GET['title'], $_GET['group']);
+        LogicalMicrolab::addToLMExercise($_GET['title'], $group);
 
         $title = $_GET['title'];
         return JSON::success("Saved $title");
