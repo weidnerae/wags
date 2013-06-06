@@ -55,6 +55,14 @@ public class BasicCanvas extends Composite {
 	 * Calls "update()" in case parent LMDisplay must be notified of change
 	 */
 	public void addNode(String value){
+		// For traversals, we're going to force unique nodes
+		for(BasicNode node: nodes){
+			if(node.value.equals(value)){
+				Window.alert("Duplicate nodes not allowed!");
+				return;
+			}
+		}
+		
 		BasicNode node = new BasicNode(value, this);
 		dragger.makeDraggable(node);
 		nodes.add(node);

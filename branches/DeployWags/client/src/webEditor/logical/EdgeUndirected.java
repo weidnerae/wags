@@ -40,8 +40,8 @@ public class EdgeUndirected extends EdgeParent implements IsSerializable
 	
 	public void drawEdge()
 	{
-		int parentTopOffset = 105;
-		int childTopOffset = 120;
+		int parentTopOffset = 105; // I do not like these numbers
+		int childTopOffset = 115;  // I do not like them.
 		int leftOffset = 20;
 		int scrollOffset = 0;
 		
@@ -59,10 +59,11 @@ public class EdgeUndirected extends EdgeParent implements IsSerializable
 			leftOffset = 10;
 		}
 		
+		// What is this 30????
 		line = new Line(n1.getLeft()+leftOffset, 
-						n1.getTop()-parentTopOffset-30+scrollOffset,	//the n1.getTop()-105 used to be n1.getTop()-100   added -70
+						n1.getTop()-parentTopOffset-30+scrollOffset,
 						n2.getLeft()+leftOffset, 
-						n2.getTop()-childTopOffset-30+scrollOffset);	//n2.getTop()-120 used to be n2.getTop()-100    added -70
+						n2.getTop()-childTopOffset-30+scrollOffset);
 		if(removable)  
 			line.addClickHandler(handler);
 		line.setStrokeWidth(3);
