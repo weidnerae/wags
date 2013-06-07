@@ -526,6 +526,45 @@ public class Proxy
 			Window.alert("Failed to send the request: " + e.getMessage());
 		}
 	}
+	
+	/**
+	 * Partner to reviewExercise to review all the exercises that a student has done.
+	 * @param student's name
+	 * @param Reviewer 
+	 */
+	public static void reviewStudent( String name, final Reviewer pf )
+	{
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=StudentReview&name="+name);
+		try{
+			builder.sendRequest(null, new RequestCallback(){
+	
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("error");					
+				}
+	
+				@Override
+				public void onResponseReceived(Request request,
+						Response response) {
+					
+					  WEStatus status = new WEStatus(response);
+			        String subInfo[] = new String[status.getMessageArray().length];
+			        subInfo = status.getMessageArray();
+			        
+			        
+			        for (int i = 2; i < subInfo.length; i+=3){
+			        	if(subInfo[i] == "1") subInfo[i] = "Yes";
+			        	else if (subInfo[i] == "0") subInfo[i] = "No";
+			        }
+			        
+					
+			        pf.reviewCallback(subInfo);
+				}
+			}); 
+		} catch (RequestException e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
 
 	public static void getDSTSubmissions(String title, final Grid grid, String type){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=DSTReview&title="+title+"&type="+type);
@@ -929,7 +968,7 @@ public class Proxy
 				
 				@Override
 				public void onError(Request request, Throwable exception) {
-					Window.alert("Logical Exercise Error");
+					Window.alert("Magnet Exercise Error");
 				}
 			});
 		} catch (RequestException e){
@@ -1418,6 +1457,36 @@ public class Proxy
 		    } catch (RequestException e) {
 		      Window.alert("Failed to send the request: " + e.getMessage());
 		    }
+	}
+	
+	/**
+	 * Overloaded getUsernames for the Student Review Tab to get Users by Section of logged in Admin
+	 * @param studentReviewer
+	 */
+	public static void getUsernames(final Reviewer studentReviewer) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetAllUsers");
+		try {
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus status = new WEStatus(response);
+					String[] message = status.getMessageArray();
+					
+					for (int i = 0; i < message.length; i++) {
+						message[i] = message[i].substring(1, message[i].length()-1);
+					}
+					studentReviewer.getCallback(status.getMessageArray(), status, request.toString());
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Student Error");
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
 	}
 
 	/**
@@ -2108,5 +2177,9 @@ public class Proxy
 		      Window.alert("Failed to send the request: " + e.getMessage());	
 		    }
 	}
+
+
+	
+
 	
 }
