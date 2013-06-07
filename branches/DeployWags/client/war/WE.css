@@ -61,6 +61,13 @@
 		border-radius: 5px;
 }
 
+.student_button {
+	font-size: 10pt;
+	overflow: auto;
+	height: 55px;
+	width: 200px;
+}
+
 
 /**LOGICAL CSS (some shared with admin) **/
 .node {
