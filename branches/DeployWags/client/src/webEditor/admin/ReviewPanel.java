@@ -117,17 +117,20 @@ public class ReviewPanel extends Composite {
 		
 		for(int i = 0; i < btnPnlCurrent.myButtons.size(); i++){
 			btn = btnPnlCurrent.myButtons.get(i);
+			
 			btn.addClickHandler(new reviewClickHandler(btn));
 		}
 	}
 	
 
-	public void setStudents(String[] exercises){
+	public void setStudents(String[] students){
 		Button btn;
-		btnPnlStudent.addButtons(exercises);
+		btnPnlStudent.addButtons(students);
 		
 		for(int i = 0; i < btnPnlStudent.myButtons.size(); i++){
 			btn = btnPnlStudent.myButtons.get(i);
+			//change style because usernames tend to be longer
+			btn.setStyleName("student_button");
 			btn.addClickHandler(new reviewClickHandler(btn));
 		}
 	}
@@ -168,8 +171,11 @@ public class ReviewPanel extends Composite {
 		}
 		@Override
 		public void onClick(ClickEvent event) {
+			//clear all button panels of blue markings
 			btnPnlCurrent.colorBlack();
 			btnPnlReview.colorBlack();
+			btnPnlStudent.colorBlack();
+			//apply blue to clicked button
 			btn.getElement().getStyle().setColor("blue");
 			parent.review(btn.getText());			
 		}

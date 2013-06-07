@@ -9,6 +9,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -73,7 +74,7 @@ public class StudentTab extends Composite {
 		studentReviewer = new StudentReviewHandler();
 		studentReviewPnl.setParent(studentReviewer);
 		studentReviewPnl.setTitle( "Student Review" );
-		//THIS NEEDS TO BE FINISHED
+		Proxy.getUsernames(studentReviewer);
 	}
 	
 	public void update(){
@@ -85,27 +86,29 @@ public class StudentTab extends Composite {
 		@Override
 		public void getCallback( String[] exercises, WEStatus status, String request )
 		{
-			// TODO Auto-generated method stub
-			
+			//"" is success
+			if (exercises != null) { 
+				studentReviewPnl.setStudents(exercises);
+			} else {
+				Window.alert( "exercises is null" );
+			}
 		}
 
 		@Override
 		public void review( String name )
 		{
-			// TODO Auto-generated method stub
-			
+			Proxy.reviewStudent(name, this);
 		}
 
 		@Override
 		public void reviewCallback( String[] list )
 		{
-			// TODO Auto-generated method stub
-			
+			studentReviewPnl.fillGrid(list, true); //true because it is student review
 		}
 	}
 	
 	 /** Used by MyUiBinder to instantiate ReviewPanels */
-	  @UiFactory ReviewPanel makeCricketScores() { // method name is insignificant
+	  @UiFactory ReviewPanel makeCricketStores() { // method name is insignificant
 	    return new ReviewPanel(true);
 	  }
 }
