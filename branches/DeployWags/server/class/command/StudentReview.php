@@ -9,10 +9,12 @@ class StudentReview extends Command
             # fetch variable for user name
             $name = $_GET['name'];
             $user = User::getUserByUsername($name);
+            $admin = Auth::getCurrentUser();
+            $section = $admin->getSection();
             # fetch all submissions for that user
-            $pSubs = $user->getProgrammingSubmissions();
-            $lSubs = $user->getDstSubmissions();
-            $mSubs = $user->getMagnetSubmissions();
+            $pSubs = $user->getProgrammingSubmissions($section);
+            $lSubs = $user->getDstSubmissions($section);
+            $mSubs = $user->getMagnetSubmissions($section);
 
 
             $totalCorrect = 0; //used to calculate total completed

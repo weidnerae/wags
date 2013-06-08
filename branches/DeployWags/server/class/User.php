@@ -12,6 +12,7 @@ require_once("Model.php");
 
 class User extends Model
 {
+    protected $id;
     protected $username;
     protected $firstName;
     protected $lastName;
@@ -46,6 +47,9 @@ class User extends Model
     /**
      * Getters, Setters.
      */
+    public function getId(){
+        return $this->id;
+    }
     public function setUsername($username){
         $this->username = $username;
     }
@@ -122,30 +126,47 @@ class User extends Model
 	}
 
     //Returns all submissions by a student based on the student's ID
-    public function getMagnetSubmissions($userId){
+    public function getMagnetSubmissions($sectionId){
          require_once('Database.php');
          $db = Database::getDb();
- 
+
          $sth = $db->prepare('SELECT magnetProblemId, numAttempts, success
                               FROM  MagnetSubmission
-                              WHERE userId = :userId;');
+                              WHERE userId = :userId
+                              AND sectionId = :sectionId');
+         $sth->execute(array(':userId' => $this->getId(), ':sectionId' => $sectionId));
          $sth->setFetchMode(PDO::FETCH_ASSOC);
-         $sth->execute(array(':userId' => $userId));
- 
+         
          return $sth->fetchAll();
      }
 
      //Returns all dst submissions by a stuent based on the Student's ID
-     public function getDstSubmissions($userId) {
+     public function getDstSubmissions($sectionId) {
         require_once('Database.php');
         $db = Database::getDb();
 
         $sth = $db->prepare('SELECT title, numAttempts, success
                              FROM dstSubmission
-                             WHERE userId = :userId;');
+                             WHERE userId = :userId
+                             AND sectionId = :sectionId');
+        $sth->execute(array(':userId' => $this->getId(), ':sectionId' => $sectionId));
         $sth->setFetchMode(PDO::FETCH_ASSOC);
-        $sth->execute(array(':userId' => $userId));
-
+        
+        return $sth->fetchAll();
+     }
+     
+     //Returns all programming microlab submissions by a student based on Student's ID
+     public function getProgrammingSubmissions($sectionId) {
+        require_once('Database.php');
+        $db = Database::getDb();
+        
+        $sth = $db->prepare('SELECT exerciseId, numAttempts, success
+                             FROM submission
+                             WHERE userId = :userId
+                             AND sectionId = :sectionId');
+        $sth->execute(array(':userId' => $this->getId(), ':sectionId' => $sectionId));
+        $sth->setFetchMode(PDO::FETCH_ASSOC);
+        
         return $sth->fetchAll();
      }   
 
@@ -219,6 +240,7 @@ class User extends Model
 
         return NULL;
     }
+
 
     public static function getUserById($id){
         require_once('Database.php');
