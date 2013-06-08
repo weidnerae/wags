@@ -82,8 +82,8 @@ public class ReviewPanel extends Composite {
 			
 			//adjust the titles to reflect student based review
 	  		grdGrades.setHTML(0, 0, "<b> Excercise </b>");
-	  		grdGrades.setHTML(0, 1, "<b> Correct </b>");
-	  		grdGrades.setHTML(0, 2, "<b> NumAttempts </b>");
+	  		grdGrades.setHTML(0, 1, "<b> NumAttempts </b>");
+	  		grdGrades.setHTML(0, 2, "<b> Correct </b>");
 		} else {
 			fillGrid(data);
 		}
