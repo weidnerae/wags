@@ -96,40 +96,6 @@ public class Proxy
 					e.getMessage());
 		}
 	}
-	
-	public static void addProblemCreation(final RefrigeratorMagnet magnet){
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=IsAdmin");
-		try {
-		      @SuppressWarnings("unused")
-			Request req = builder.sendRequest(null, new RequestCallback() {
-		        public void onResponseReceived(Request request, Response response) {
-		          WEStatus status = new WEStatus(response);
-		          boolean root = false;
-		          
-		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
-		        	  root = true;
-		          }
-		          
-		          // If administrator or root
-		          if(status.getStat() == WEStatus.STATUS_WARNING || root){
-		        	  if(status.getMessage().equals("magnet")){
-		        		  //magnet.addProblemCreation(true);
-		        	  } else {
-		        		  //magnet.addProblemCreation(false);
-		        	  }
-		          }
-		          
-		        }
-		        
-		        public void onError(Request request, Throwable exception) {
-		        	Window.alert("error");
-		        }
-		      });
-		    } catch (RequestException e) {
-		      Window.alert("Failed to send the request: " + e.getMessage());
-		    }
-		
-	}
 
 	public static void addSkeletons(String exname){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=AddSkeletons&name=" + exname);

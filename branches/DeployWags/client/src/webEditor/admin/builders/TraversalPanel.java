@@ -1,7 +1,5 @@
 package webEditor.admin.builders;
 
-import webEditor.admin.LMDisplay;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -23,13 +21,13 @@ public class TraversalPanel extends Composite implements ArgHolder{
 	@UiField Label lblTraversal;
 	@UiField Button btnTraversal;
 	@UiField TextBox txtTraversal;
-	LMDisplay parent;
+	BasicDisplay parent;
 
 	public TraversalPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
-	public void setup(String lblTxt, String btnTxt, LMDisplay parent){
+	public void setup(String lblTxt, String btnTxt, BasicDisplay parent){
 		lblTraversal.setText(lblTxt);
 		btnTraversal.setText(btnTxt);
 		txtTraversal.setReadOnly(true);
