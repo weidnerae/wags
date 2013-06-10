@@ -24,7 +24,7 @@
 				<g:Button ui:field="btnDeleteNode">Delete</g:Button>
 			</g:HorizontalPanel>
 			<g:HorizontalPanel styleName="{style.toRight}">
-				<g:Button styleName="{style.toRight}" ui:field="btnGetTraversals">Calculate Traversals</g:Button>
+				<g:Button styleName="{style.toRight}" ui:field="btnCalculate">Calculate Results</g:Button>
 				<g:Button styleName="{style.toRight}" ui:field="btnReset">Reset</g:Button>
 			</g:HorizontalPanel>
 		</g:HorizontalPanel>
@@ -36,8 +36,5 @@
 			<g:Label styleName="{style.txtAlign}">Instructions: </g:Label>
 			<g:TextArea visibleLines="5" width="515px" ui:field="txtDesc"/>
 		</g:HorizontalPanel>
-		<my:TraversalPanel ui:field="inorderPanel"/>
-		<my:TraversalPanel ui:field="preorderPanel"/>
-		<my:TraversalPanel ui:field="postorderPanel"/>
 	</g:VerticalPanel>
 </ui:UiBinder> 

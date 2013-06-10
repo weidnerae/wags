@@ -3,8 +3,10 @@ package webEditor.admin;
 import webEditor.Proxy;
 import webEditor.ProxyFacilitator;
 import webEditor.WEStatus;
+import webEditor.admin.builders.BasicDisplay;
 import webEditor.admin.builders.LMBuilder;
 import webEditor.admin.builders.LMBuilderFactory;
+import webEditor.admin.builders.LMInsertNodeDisplay;
 import webEditor.admin.builders.LMTraversalDisplay;
 
 import com.google.gwt.core.client.GWT;
@@ -71,11 +73,12 @@ public class LMEditTab extends Composite implements ProxyFacilitator{
 	// Group panel click handling
 	//-------------------------------
 	private void addGroupClickHandlers(){
-		LMDisplay travDisplay = new LMTraversalDisplay();
 		btnPanelGroups.myButtons.get(0).addClickHandler(
-				new groupClickHandler(LMBuilderFactory.getTraversalBuilder(), travDisplay));
+				new checkClickHandler(new LMTraversalDisplay(), LMBuilderFactory.getTraversalBuilder()));
+		btnPanelGroups.myButtons.get(1).addClickHandler(
+				new checkClickHandler(new LMInsertNodeDisplay(), LMBuilderFactory.getInsertNodeBuilder()));
 		
-		for(int i = 1; i < btnPanelGroups.myButtons.size(); i++){
+		for(int i = 2; i < btnPanelGroups.myButtons.size(); i++){
 			Button tmpBtn = btnPanelGroups.myButtons.get(i);
 			tmpBtn.addClickHandler(new vanillaHandler());
 		}
@@ -83,26 +86,25 @@ public class LMEditTab extends Composite implements ProxyFacilitator{
 		btnPanelGroups.setClickHandlers();
 	}
 	
+	private class checkClickHandler implements ClickHandler{
+		BasicDisplay display;
+		LMBuilder builder;
+		
+		public checkClickHandler(BasicDisplay display, LMBuilder builder){
+			this.display = display;
+			this.builder = builder;
+		}
+		
+		public void onClick(ClickEvent event){
+			display.load(vtDisplayHolder, builder);
+		}
+	}
+	
 	// Stop gap for groups that don't have LMBuilders/Displays yet
 	private class vanillaHandler implements ClickHandler{
 		public void onClick(ClickEvent event) {
 			Window.alert("Not implemented yet!");
-		}
-	}
-	
-	private class groupClickHandler implements ClickHandler{
-		LMBuilder builder;
-		LMDisplay display;
-
-		public groupClickHandler(LMBuilder builder, LMDisplay display){
-			this.builder = builder;
-			this.display = display;
-			
-		}
-		@Override
-		public void onClick(ClickEvent event) {
-			display.setBuilder(builder);
-			setCurrentDisplay(display);
+			vtDisplayHolder.clear();
 		}
 	}
 	
@@ -110,11 +112,6 @@ public class LMEditTab extends Composite implements ProxyFacilitator{
 		btnPanelGroups.addButtons(groups);
 		addGroupClickHandlers();
 		btnPanelGroups.myButtons.get(0).click();
-	}
-	
-	private void setCurrentDisplay(LMDisplay display){
-		vtDisplayHolder.clear();
-		vtDisplayHolder.add(display);
 	}
 
 	public void handleExercises(String[] exercises) {}

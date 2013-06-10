@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
 
-import webEditor.admin.LMDisplay;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -30,7 +28,7 @@ public class BasicCanvas extends Composite {
 	ArrayList<BasicNode> nodes = new ArrayList<BasicNode>();
 	int nodeX = 10, nodeY = 10;
 	DrawingArea canvas;
-	LMDisplay parent;
+	BasicDisplay parent;
 
 	// BasicCanvas Constructor
 	// Initializes canvas, adds coloring, and registers needed controllers
@@ -43,7 +41,7 @@ public class BasicCanvas extends Composite {
 		dragger.registerDropController(new BasicDropController(canvasPanel));
 	}
 	
-	public void setParent(LMDisplay parent){
+	public void setParent(BasicDisplay parent){
 		this.parent = parent;
 	}
 	
