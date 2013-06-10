@@ -3,11 +3,12 @@ package webEditor.admin.builders;
 import java.util.ArrayList;
 
 import webEditor.Proxy;
+import webEditor.logical.DSTConstants;
 
 import com.google.gwt.user.client.Window;
 
 
-public abstract class LMBuilder {
+public class LMBuilder {
 	private static final int XPOS = 0;
 	private static final int YPOS = 1;
 	
@@ -34,6 +35,7 @@ public abstract class LMBuilder {
 		this.groupId = groupId;
 		nodes = new ArrayList<String>();
 		edges = new ArrayList<String>();
+		this.evaluation = -1;
 	}
 	
 	public void setTitle(String title){
@@ -81,9 +83,6 @@ public abstract class LMBuilder {
 		}
 	}
 	
-	public abstract void buildArgs();
-	public abstract void buildPos();
-	
 	private String listToString(ArrayList<String> aList){
 		String str = "";
 		
@@ -127,13 +126,19 @@ public abstract class LMBuilder {
 			return false;
 		}
 		
-		if(this.edges.size() == 0){
+		// NO_EDGES_KEY actually means "no edge addition"
+		if(this.edges.size() == 0 && this.edgeRules == DSTConstants.NO_EDGES_KEY){
 			Window.alert("No edges!");
 			return false;
 		}
 		
 		if(this.arguments.length() == 0){
 			Window.alert("No arguments given to check solution!");
+			return false;
+		}
+		
+		if(this.evaluation == -1){
+			Window.alert("No evaluation defined!");
 			return false;
 		}
 		
