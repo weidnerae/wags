@@ -64,17 +64,16 @@ public abstract class BasicDisplay extends Composite {
 	
 	public BasicDisplay() {
 		initWidget(uiBinder.createAndBindUi(this));
-		addNodeHandling();
-		deleteNodeHandling();
-		canvas.setParent(this);
 	}
-	
+
 	public void load(VerticalPanel panel, LMBuilder builder){
 		this.builder = builder;
 		panel.clear();
 		if(!built){
-			canvas.setParent(this);
 			this.construct();
+			addNodeHandling();
+			deleteNodeHandling();
+			canvas.setParent(this);
 			built = true;
 		}
 		panel.add(this);
@@ -99,6 +98,10 @@ public abstract class BasicDisplay extends Composite {
 				canvas.deleteNode(txtAddNode.getText());
 			}
 		});
+	}
+	
+	public void setCanvas(BasicCanvas canvas){
+		this.canvas = canvas;
 	}
 	
 	@UiHandler("txtAddNode")

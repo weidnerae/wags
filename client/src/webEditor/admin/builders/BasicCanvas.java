@@ -22,13 +22,14 @@ public class BasicCanvas extends Composite {
 	
 	@UiField AbsolutePanel canvasPanel;
 	boolean firstClick = true;
-	final int NODE_WIDTH = 40;
+
 	BasicNode node1;
 	BasicDragController dragger;
 	ArrayList<BasicNode> nodes = new ArrayList<BasicNode>();
-	int nodeX = 10, nodeY = 10;
 	DrawingArea canvas;
 	BasicDisplay parent;
+	NodeHandler nodeHandler;
+	boolean autoPos;
 
 	// BasicCanvas Constructor
 	// Initializes canvas, adds coloring, and registers needed controllers
@@ -39,72 +40,25 @@ public class BasicCanvas extends Composite {
 		canvasPanel.add(canvas);
 		dragger =  new BasicDragController(canvasPanel, false, this);
 		dragger.registerDropController(new BasicDropController(canvasPanel));
+		nodeHandler = new NH_Traversal(this);
 	}
 	
 	public void setParent(BasicDisplay parent){
 		this.parent = parent;
 	}
 	
-	/**
-	 * addNode
-	 * @param value - The value of the node that is displayed
-	 * Adds a node to the BasicCanvas and registers it with the BasicCanvas.
-	 * Relies on "positionNode(BasicNode)" to place node
-	 * Calls "update()" in case parent LMDisplay must be notified of change
-	 */
+	public void setNodeHandler(NodeHandler nh){
+		this.nodeHandler = nh;
+	}
+	
 	public void addNode(String value){
-		// For traversals, we're going to force unique nodes
-		for(BasicNode node: nodes){
-			if(node.value.equals(value)){
-				Window.alert("Duplicate nodes not allowed!");
-				return;
-			}
-		}
-		
-		BasicNode node = new BasicNode(value, this);
-		dragger.makeDraggable(node);
-		nodes.add(node);
-		
-		positionNode(node);
-		update();
+		nodeHandler.addNode(value);
 	}
 	
-	/**
-	 * deleteNode
-	 * @param value - The value of the node to be deleted
-	 * Removes named node (and corresponding edges) from BasicCanvas, if node 
-	 * exists.  Calls "update" in case parent LMDisplay needs to be notified
-	 * of change.
-	 */
 	public void deleteNode(String value){
-		for(BasicNode node: nodes){
-			if(node.value.equals(value)){
-				node.deleteEdges();
-				node.setVisible(false);
-				nodes.remove(node);
-			}
-		}
-		update();
+		nodeHandler.deleteNode(value);
 	}
-	
-	/**
-	 * positionNode
-	 * @param node - Node to be added
-	 * Determines where the new node will be placed on the canvas. 
-	 */
-	private void positionNode(BasicNode node){
-		// May be modified in future
-		// Sets position of current node
-		node.setPosition(nodeX, nodeY);
-		canvasPanel.add(node, node.xPos, node.yPos);
-		
-		// Finds position for next node
-		nodeX += NODE_WIDTH * 1.5;
-		if(nodeX + NODE_WIDTH > canvas.getWidth()){
-			nodeX = 10;
-		}
-	}
-	
+
 	/**
 	 * wasClicked
 	 * @param node - The node that was clicked
