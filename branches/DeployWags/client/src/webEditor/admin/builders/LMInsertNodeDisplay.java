@@ -5,7 +5,7 @@ import com.google.gwt.user.client.ui.Button;
 public class LMInsertNodeDisplay extends BasicDisplay {
 	
 	public void construct(){
-		this.canvas.setNodeHandler(new NH_Heaps(canvas));
+		this.canvas.setNodeHandler(new NH_InsertNode(canvas));
 		this.basePanel.add(new Button("Click Me"));
 	}
 	

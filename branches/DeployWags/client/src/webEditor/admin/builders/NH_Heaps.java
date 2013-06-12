@@ -81,4 +81,10 @@ public class NH_Heaps extends NodeHandler{
 		update();
 	}
 
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

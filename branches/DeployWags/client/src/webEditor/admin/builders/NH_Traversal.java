@@ -70,4 +70,10 @@ public class NH_Traversal extends NodeHandler {
 		}
 		update();
 	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
+	}
 }
