@@ -21,46 +21,15 @@ public class LMTraversalDisplay extends BasicDisplay {
 		BasicNode root = canvas.getRoot();
 		
 		// Gets traversals and formats them for Binary Tree problems
-		preorderPanel.fillText(preorder(root).replace("", " ").trim());
-		inorderPanel.fillText(inorder(root).replace("", " ").trim());
-		postorderPanel.fillText(postorder(root).replace("", " ").trim());
+		preorderPanel.fillText(Traversals.getPreorderTraversal(root));
+		inorderPanel.fillText(Traversals.getInorderTraversal(root));
+		postorderPanel.fillText(Traversals.getPostorderTraversal(root));
 	}
 	
 	public void clear(){
 		preorderPanel.fillText("");
 		inorderPanel.fillText("");
 		postorderPanel.fillText("");
-	}
-
-	private String preorder(BasicNode tree){
-		String traversal = "";
-		if(tree != null){
-			traversal += tree.value ;
-			traversal += preorder(tree.leftChild);
-			traversal += preorder(tree.rightChild);
-		}
-		
-		return traversal;
-	}
-	private String inorder(BasicNode tree){
-		String traversal = "";
-		if(tree != null){
-			traversal += inorder(tree.leftChild);
-			traversal += tree.value;
-			traversal += inorder(tree.rightChild);
-		}
-		
-		return traversal;
-	}	
-	private String postorder(BasicNode tree){
-		String traversal = "";
-		if(tree != null){
-			traversal += postorder(tree.leftChild);
-			traversal += postorder(tree.rightChild);
-			traversal += tree.value;
-		}
-		
-		return traversal;
 	}
 	
 	private class assignClickHandler implements ClickHandler{
