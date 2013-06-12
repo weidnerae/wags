@@ -121,7 +121,8 @@ public class LMBuilder {
 			return false;
 		}
 		
-		if(this.positions[XPOS].length != this.nodes.size()){
+		if(this.positions[XPOS].length != this.nodes.size() && 
+				this.insertMethod != InsertMethod.BY_VALUE){
 			Window.alert("Positioning bug discovered!");
 			return false;
 		}
@@ -151,7 +152,7 @@ public class LMBuilder {
 		arguments = "";
 	}
 	
-	public void uploadLM(){
+	public void uploadLM(boolean debug){
 		if(!validateMe()){
 			reset();
 			return;
@@ -178,9 +179,14 @@ public class LMBuilder {
 				+ "&nodesDraggable=" + nodesDrag + "&nodeType=" + this.nodeType
 				+ "&genre=" + this.genre + "&group=" + this.groupId;
 		
-		Window.alert(str);
-		reset();  // All info is stored in string, so can reset before Proxy call
-		
-		Proxy.uploadLogicalMicrolab(str);
+		if(debug) Window.alert(str);
+		else {
+			reset();  // All info is stored in string, so can reset before Proxy call
+			Proxy.uploadLogicalMicrolab(str);
+		}
+	}
+	
+	public void uploadLM(){
+		uploadLM(false);
 	}
 }
