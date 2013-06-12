@@ -3,7 +3,6 @@ package webEditor.admin.builders;
 import webEditor.logical.DSTConstants;
 
 public class LMBuilderFactory {
-	private static final int TRAVERSAL_GID = 1;
 	// Group currently overriden by admin's group
 	private static final int NOT_IMPORTANT = 0;
 	
@@ -20,6 +19,8 @@ public class LMBuilderFactory {
 				true, true, DSTConstants.TREE_MODE_KEY, 
 				NOT_IMPORTANT);
 		builder.setEval(DSTConstants.BST_PREORDER_KEY);
+		builder.addEdge("");
+		builder.setPos(new int[0], new int[0]);
 		
 		return builder;
 	}
