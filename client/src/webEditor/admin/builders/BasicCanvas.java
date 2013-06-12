@@ -95,7 +95,6 @@ public class BasicCanvas extends Composite {
 	public BasicNode getRoot(){
 		BasicNode root;
 		if(nodes.size() == 0){
-			Window.alert("Empty tree!\nReturning null value");
 			return null;
 		}
 		
@@ -148,6 +147,8 @@ public class BasicCanvas extends Composite {
 			nodes.get(0).delete();
 			nodes.remove(0);
 		}
+		
+		nodeHandler.clear();
 		update();
 	}
 	
