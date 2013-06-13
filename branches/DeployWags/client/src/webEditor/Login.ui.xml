@@ -51,7 +51,7 @@
 	
  	<g:VerticalPanel horizontalAlignment='ALIGN_CENTER' height="1%" width="100%">
 		<g:Label styleName="{style.title1}">Wags</g:Label>
-		<g:Label styleName="{style.title2}">Web Automatic Grading System</g:Label>
+		<g:Label styleName="{style.title2}">Web Automated Grading System</g:Label>
 		
 		<g:VerticalPanel styleName="{style.columns}">
 			<g:HorizontalPanel styleName="{style.sub_columns}">
