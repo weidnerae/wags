@@ -28,6 +28,7 @@ import webEditor.logical.RadixProblems.SearchProblem;
 import webEditor.logical.SelectionSortProblems.SelectionSortProblem;
 import webEditor.logical.SimplePartitionProblems.SimplePartitionProblem;
 import webEditor.logical.TreeProblems.TreeProblem;
+import webEditor.logical.TreeProblems.HeapProblems.SortProblem;
 import webEditor.logical.TreeProblems.MSTProblems.MSTProblem;
 import webEditor.logical.TreeProblems.RedBlackProblems.RedBlackProblem;
 
@@ -82,7 +83,7 @@ public class LogicalMicrolab {
 					insertMethod, args, evaluation, edgeRules, nodesDraggable,
 					nodeType);
 		}
-
+		
 		// Everything from here on requires edgeList
 		String[] edgeList = getEdges(edges);
 
@@ -123,6 +124,12 @@ public class LogicalMicrolab {
 			return new HashingProblem(title, problemText, nodes, insertMethod,
 					xPos, yPos, edgeList, args, evaluation, edgeRules,
 					edgesRemovable, nodesDraggable, nodeType);
+		}
+		
+		if (genre.equals("heapsort")) {
+			return new SortProblem(title, problemText, nodes, insertMethod, 
+					xPos, yPos, edgeList, args, evaluation, edgeRules, 
+					edgesRemovable, edgesRemovable, nodeType);
 		}
 
 		if (genre.equals("qsort")) {
