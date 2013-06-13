@@ -37,7 +37,7 @@
 			font-size: 22px;
 			font-weight: light;
 			font-style: italic;
-			color: #A0A0FF;
+			color: #325C74;
 			z-index: 101;
 			position: relative;
 			vertical-align: top;
