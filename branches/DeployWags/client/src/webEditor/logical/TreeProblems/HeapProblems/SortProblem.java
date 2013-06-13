@@ -2,6 +2,8 @@ package webEditor.logical.TreeProblems.HeapProblems;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
 
+import webEditor.Proxy;
+import webEditor.admin.builders.InsertMethod;
 import webEditor.logical.AddEdgeRules;
 import webEditor.logical.DisplayManager;
 import webEditor.logical.EdgeCollection;
@@ -153,5 +155,33 @@ public class SortProblem extends Problem implements IsSerializable {
 
 	public String getNodeType() {
 		return nodeType;
+	}
+	
+	public String printDetails(){
+		String str = "";
+		str = "&title=" + this.name + "&problemText=" + this.problemText + "&nodes=" + this.nodes;
+		String xPos = "";
+		String yPos = "";
+		
+		str += "&xPositions=" + xPos + "&yPositions=" + yPos + "&insertMethod=" + InsertMethod.BY_VALUE;
+		
+		String edgStr = "";
+		String args = "";
+		for(int i = 0; i < arguments.length; i++){
+			args += arguments[i] + ",";
+		}
+		args = args.substring(0, args.length() - 1);
+		
+		int edgeRem = 0, nodesDrag = 0;
+		if(this.edgesRemovable) edgeRem = 1;
+		if(this.nodesDraggable) nodesDrag = 1;
+		str += "&edges=" + edgStr + "&evaluation=" + this.eval.returnKeyValue() + "&edgeRules=" + this.rules.returnKeyValue() 
+				+ "&arguments=" + args + "&edgesRemovable=" + edgeRem
+				+ "&nodesDraggable=" + nodesDrag + "&nodeType=" + this.nodeType + "&genre=heapsort" + 
+				"&group=8";
+		
+		Proxy.uploadLogicalMicrolab(str);
+		return str;
+		
 	}
 }
