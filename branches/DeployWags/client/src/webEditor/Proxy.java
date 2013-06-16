@@ -9,7 +9,6 @@ import java.util.Set;
 import webEditor.logical.DataStructureTool;
 
 import webEditor.magnet.view.Magnets;
-import webEditor.magnet.view.RefrigeratorMagnet;
 import webEditor.magnet.view.ResultsPanelUi;
 import webEditor.magnet.view.StackableContainer;
 import webEditor.programming.view.CodeEditor;

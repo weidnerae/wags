@@ -119,7 +119,6 @@ public class Evaluation_SimplePartition extends Evaluation implements IsSerializ
 
 	@Override
 	public int returnKeyValue() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 }
