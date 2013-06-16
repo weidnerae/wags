@@ -9,7 +9,6 @@ public class BasicDragController extends PickupDragController {
 	public BasicDragController(AbsolutePanel boundaryPanel,
 			boolean allowDroppingOnBoundaryPanel) {
 		super(boundaryPanel, allowDroppingOnBoundaryPanel);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public BasicDragController(AbsolutePanel boundaryPanel,
