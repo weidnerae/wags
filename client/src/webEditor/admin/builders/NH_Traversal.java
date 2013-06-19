@@ -20,14 +20,14 @@ public class NH_Traversal extends NodeHandler {
 	 */
 	public void addNode(String value) {
 		// For traversals, we're going to force unique nodes
-		for(BasicNode node: parent.nodes){
+		for(Node_Basic node: parent.nodes){
 			if(node.value.equals(value)){
 				Window.alert("Duplicate nodes not allowed!");
 				return;
 			}
 		}
 		
-		BasicNode node = new BasicNode(value, parent);
+		Node_Basic node = new Node_Basic(value, parent);
 		parent.dragger.makeDraggable(node);
 		parent.nodes.add(node);
 		
@@ -40,7 +40,7 @@ public class NH_Traversal extends NodeHandler {
 	 * @param node - Node to be added
 	 * Determines where the new node will be placed on the canvas. 
 	 */
-	private void positionNode(BasicNode node){
+	private void positionNode(Node_Basic node){
 		// May be modified in future
 		// Sets position of current node
 		node.setPosition(nodeX, nodeY);
@@ -61,7 +61,7 @@ public class NH_Traversal extends NodeHandler {
 	 * of change.
 	 */
 	public void deleteNode(String value){
-		for(BasicNode node: parent.nodes){
+		for(Node_Basic node: parent.nodes){
 			if(node.value.equals(value)){
 				node.deleteEdges();
 				node.setVisible(false);

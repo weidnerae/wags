@@ -13,8 +13,8 @@ public class BasicDropController extends AbsolutePositionDropController {
 	}
 
 	public void onDrop(DragContext context){
-		if (context.draggable instanceof BasicNode){
-			BasicNode node = (BasicNode) context.draggable;
+		if (context.draggable instanceof Node_Basic){
+			Node_Basic node = (Node_Basic) context.draggable;
 			node.xPos = context.desiredDraggableX - dropTarget.getAbsoluteLeft();
 			node.yPos = context.desiredDraggableY - dropTarget.getAbsoluteTop();
 			

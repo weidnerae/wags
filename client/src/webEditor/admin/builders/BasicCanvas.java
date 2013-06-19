@@ -22,12 +22,13 @@ public class BasicCanvas extends Composite {
 	@UiField AbsolutePanel canvasPanel;
 	boolean firstClick = true;
 
-	BasicNode node1;
+	Node_Basic node1;
 	BasicDragController dragger;
-	ArrayList<BasicNode> nodes = new ArrayList<BasicNode>();
+	ArrayList<Node_Basic> nodes = new ArrayList<Node_Basic>();
 	DrawingArea canvas;
 	BasicDisplay parent;
 	NodeHandler nodeHandler;
+	EdgeHandler edgeHandler;
 	boolean autoPos;
 
 	// BasicCanvas Constructor
@@ -39,7 +40,9 @@ public class BasicCanvas extends Composite {
 		canvasPanel.add(canvas);
 		dragger =  new BasicDragController(canvasPanel, false, this);
 		dragger.registerDropController(new BasicDropController(canvasPanel));
+		
 		nodeHandler = new NH_Traversal(this);
+		edgeHandler = new EH_BinaryTree(this);
 	}
 	
 	public void setParent(BasicDisplay parent){
@@ -48,6 +51,10 @@ public class BasicCanvas extends Composite {
 	
 	public void setNodeHandler(NodeHandler nh){
 		this.nodeHandler = nh;
+	}
+	
+	public void setEdgeHandler(EdgeHandler eh){
+		this.edgeHandler = eh;
 	}
 	
 	public void addNode(String value){
@@ -64,7 +71,7 @@ public class BasicCanvas extends Composite {
 	 * Handles clicking/declicking nodes and corresponding edge drawing
 	 * if necessary.
 	 */
-	public void wasClicked(BasicNode node){
+	public void wasClicked(Node_Basic node){
 		if(firstClick){
 			node1 = node;
 		} else {
@@ -79,8 +86,8 @@ public class BasicCanvas extends Composite {
 	}
 	
 	private void unClickAll(){
-		for(BasicNode node: nodes){
-			node.setState(BasicNode.NOT_CLICKED);
+		for(Node_Basic node: nodes){
+			node.setState(Node_Basic.NOT_CLICKED);
 		}
 	}
 	
@@ -91,8 +98,8 @@ public class BasicCanvas extends Composite {
 	 * If multiple nodes are at the exact same height, returns the first at
 	 * that height.
 	 */
-	public BasicNode getRoot(){
-		BasicNode root;
+	public Node_Basic getRoot(){
+		Node_Basic root;
 		if(nodes.size() == 0){
 			return null;
 		}
@@ -101,7 +108,7 @@ public class BasicCanvas extends Composite {
 		int topHeight = nodes.get(0).getAbsoluteTop();
 		root = nodes.get(0);
 		
-		for(BasicNode node:nodes){
+		for(Node_Basic node:nodes){
 			if(node.getAbsoluteTop() < topHeight){
 				topHeight = node.getAbsoluteTop();
 				root = node;
@@ -113,18 +120,15 @@ public class BasicCanvas extends Composite {
 	
 	/**
 	 * addEdge
-	 * @param node1 - An edge is drawn between this and node2
-	 * @param node2 - An edge is drawn between this and node1
-	 * Delegates creation of the edge to the edge class, and then adds the
-	 * resulting edge to the canvas.  Calls "update()" in case parent LMDisplay
-	 * needs to be aware of the modification.
+	 * @param node1 - Node edge is drawn between
+	 * @param node2 - Other node edge is drawn between
+	 * @return Whether or not the edge was added successfully or not
+	 * Like addNode and deleteNode, this method delegates the actual
+	 * adding of the edge to another class.  This is a workaround for
+	 * the limitations of UiBinder (as I understand it).
 	 */
-	public void addEdge(BasicNode node1, BasicNode node2){
-		BasicEdge edge = new BasicEdge(node1, node2, this);
-		if(edge.isValid()){
-			canvas.add(edge);
-		}
-		update();
+	public boolean addEdge(Node_Basic node1, Node_Basic node2){
+		return edgeHandler.addEdge(node1, node2);
 	}
 	
 	/**

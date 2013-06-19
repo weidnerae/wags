@@ -31,14 +31,14 @@ public class LMInsertNodeDisplay extends BasicDisplay {
 	
 	@Override
 	public void fillBuilder(ArgHolder child) {
-		BasicNode root = canvas.getRoot();
+		Node_Basic root = canvas.getRoot();
 		String[] args = new String[2];
 		args[0] = Traversals.getPreorderTraversal(root);
 		args[1] = Traversals.getInorderTraversal(root);
 		builder.setArgs(args);
 		builder.setTitle(txtTitle.getText());
 		builder.setProblemText(txtDesc.getText());
-		for(BasicNode node: canvas.nodes){
+		for(Node_Basic node: canvas.nodes){
 			builder.addNode(node.value);
 		}
 		

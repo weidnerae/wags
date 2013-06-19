@@ -218,6 +218,7 @@ public class DataStructureTool  extends AbsolutePanel
 		Proxy.getLogicalMicrolab(problem, this);
 		//Problem prob = ProblemServiceImpl.getProblem(problem);
 
+
 		//initialize(prob);
 	}
 
