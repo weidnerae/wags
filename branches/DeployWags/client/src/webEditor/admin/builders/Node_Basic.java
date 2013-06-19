@@ -6,7 +6,7 @@ import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.user.client.ui.Label;
 
-public class BasicNode extends Label{
+public class Node_Basic extends Label{
 	static int idCount = 0;
 	final static int CLICKED = 1;
 	final static int NOT_CLICKED = 0;
@@ -14,11 +14,11 @@ public class BasicNode extends Label{
 	int id, state, xPos, yPos;
 	boolean clicked = false;
 	String value;
-	BasicNode parent, leftChild, rightChild;
+	Node_Basic parent, leftChild, rightChild;
 	BasicCanvas parentPanel;
-	private ArrayList<BasicEdge> edges = new ArrayList<BasicEdge>();
+	private ArrayList<Edge_Basic> edges = new ArrayList<Edge_Basic>();
 	
-	public BasicNode(String value, BasicCanvas parentPanel){
+	public Node_Basic(String value, BasicCanvas parentPanel){
 		this.value = value;
 		this.parentPanel = parentPanel;
 		this.setText(value);
@@ -34,11 +34,11 @@ public class BasicNode extends Label{
 		this.yPos = yPos;
 	}
 	
-	public void addEdge(BasicEdge edge){
+	public void addEdge(Edge_Basic edge){
 		edges.add(edge);
 	}
 	
-	public boolean equals(BasicNode node){
+	public boolean equals(Node_Basic node){
 		return node.id == this.id;
 	}
 	
@@ -52,13 +52,13 @@ public class BasicNode extends Label{
 	}
 	
 	public void deleteEdges(){
-		for(BasicEdge edge: edges){
+		for(Edge_Basic edge: edges){
 			edge.delete();
 		}
 	}
 	
 	public void reDrawEdges(){
-		BasicNode tmpParent, tmpLeft, tmpRight;
+		Node_Basic tmpParent, tmpLeft, tmpRight;
 		tmpParent = parent;
 		tmpLeft = leftChild;
 		tmpRight = rightChild;
@@ -77,9 +77,9 @@ public class BasicNode extends Label{
 	}
 	
 	private class stateClickHandler implements DoubleClickHandler{
-		BasicNode node;
+		Node_Basic node;
 		
-		public stateClickHandler(BasicNode node){
+		public stateClickHandler(Node_Basic node){
 			this.node = node;
 		}
 

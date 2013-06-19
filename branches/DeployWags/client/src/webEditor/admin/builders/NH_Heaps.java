@@ -24,14 +24,14 @@ public class NH_Heaps extends NodeHandler{
 	 */
 	public void addNode(String value) {
 		// For traversals, we're going to force unique nodes
-		for(BasicNode node: parent.nodes){
+		for(Node_Basic node: parent.nodes){
 			if(node.value.equals(value)){
 				Window.alert("Duplicate nodes not allowed!");
 				return;
 			}
 		}
 		
-		BasicNode node = new BasicNode(value, parent);
+		Node_Basic node = new Node_Basic(value, parent);
 		parent.dragger.makeDraggable(node);
 		parent.nodes.add(node);
 		nodes += value;
@@ -40,7 +40,7 @@ public class NH_Heaps extends NodeHandler{
 		update();
 	}
 	
-	public void positionNode(BasicNode node) {
+	public void positionNode(Node_Basic node) {
 		if(nodeYLevel >= MAX_LEVELS){
 			// Logic for when autoplacement no longer works
 		}

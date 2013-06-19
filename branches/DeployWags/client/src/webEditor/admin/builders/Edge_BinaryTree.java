@@ -1,44 +1,22 @@
 package webEditor.admin.builders;
 
-import org.vaadin.gwtgraphics.client.Line;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 
-public class BasicEdge extends Line {
-	private final static int NODE_HALF = 20;
-	private final int LINE_WIDTH = 10;
-	private final boolean DEBUG = false;
-	private BasicNode parent, child;
-	private BasicNode n1, n2;
-	private String asString;
-	private BasicCanvas canvas;
+public class Edge_BinaryTree extends Edge_Basic {
 	boolean connectLeftChild;
 	boolean validPositions;
+	private Node_Basic parent, child;
+	private final boolean DEBUG = false;
 
-	public BasicEdge(int x1, int y1, int x2, int y2) {
-		super(x1, y1, x2, y2);
-	}
-	
-	// Takes two nodes, creates a line to connect them,
-	// and assigns the relationship between them
-	public BasicEdge(BasicNode n1, BasicNode n2, BasicCanvas canvas){
-		super(n1.xPos + NODE_HALF, n1.yPos + NODE_HALF, 
-				n2.xPos + NODE_HALF, n2.yPos + NODE_HALF);
+	public Edge_BinaryTree(Node_Basic n1, Node_Basic n2, BasicCanvas canvas) {
+		super(n1, n2, canvas);
 		
-		this.canvas = canvas;
-		
-		this.n1 = n1;
-		this.n2 = n2;
-		this.setStrokeWidth(LINE_WIDTH);
 		validPositions = validPositions();
 		if(validPositions){
 			assignRelationship();
 		}
-		
-		this.addClickHandler(new edgeRemoveClick(this));
 	}
+	
 	
 	// Used to make sure we can tell which node is parent and which
 	// is child (and what child)
@@ -49,6 +27,21 @@ public class BasicEdge extends Line {
 		}
 		
 		return true;
+	}
+	
+	protected void onDelete(){
+		if(connectLeftChild){
+			parent.leftChild = null;
+		} else {
+			parent.rightChild = null;
+		}
+		
+		child.parent = null;
+	}
+	
+	
+	public boolean isParent(Node_Basic node){
+		return node.equals(parent);
 	}
 	
 	public boolean isValid(){
@@ -121,44 +114,6 @@ public class BasicEdge extends Line {
 		}
 		
 		return true;
-	}
-	
-	public void delete(){
-		this.removeFromParent();
-		this.setVisible(false);
-		if(connectLeftChild){
-			parent.leftChild = null;
-		} else {
-			parent.rightChild = null;
-		}
-		
-		child.parent = null;
-		canvas.update();
-	}
-	
-	// When an edge gets clicked, it gets removed
-	private class edgeRemoveClick implements ClickHandler{
-		BasicEdge edge;
-		
-		public edgeRemoveClick(BasicEdge edge){
-			this.edge = edge;
-		}
-		
-		// Edges get removed whenever they are clicked
-		public void onClick(ClickEvent event) {
-			if(DEBUG) Window.alert("Was clicked");
-			
-			edge.delete();
-		}
-		
-	}
-	
-	public boolean isParent(BasicNode node){
-		return node.equals(parent);
-	}
-	
-	public String toString(){
-		return asString;
 	}
 
 }

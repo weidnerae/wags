@@ -19,8 +19,8 @@ public class SimplePartitionProblem extends Problem implements IsSerializable {
 	protected String name;
 	protected String problemText;
 	protected String nodes;
-	protected int[] xPositions; // must be same size as nodes
-	protected int[] yPositions; // must be same size edges
+	protected int[] xPositions; 
+	protected int[] yPositions; 
 	protected String insertMethod;
 	protected Evaluation eval;
 	protected AddEdgeRules rules;

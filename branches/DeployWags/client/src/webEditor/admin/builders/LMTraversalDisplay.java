@@ -18,7 +18,7 @@ public class LMTraversalDisplay extends BasicDisplay {
 	}
 	
 	public void calculate(){
-		BasicNode root = canvas.getRoot();
+		Node_Basic root = canvas.getRoot();
 		
 		// Gets traversals and formats them for Binary Tree problems
 		preorderPanel.fillText(Traversals.getPreorderTraversal(root));
@@ -68,7 +68,7 @@ public class LMTraversalDisplay extends BasicDisplay {
 		
 		// Travel through nodes, adding child edges
 		int nodeCount = 0;
-		for(BasicNode node: canvas.nodes){
+		for(Node_Basic node: canvas.nodes){
 			builder.addNode(node.value);
 			builder.addEdge(node.getLeftEdge());
 			builder.addEdge(node.getRightEdge());

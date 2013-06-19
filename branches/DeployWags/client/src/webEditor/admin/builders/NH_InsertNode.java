@@ -7,9 +7,9 @@ import com.google.gwt.user.client.Window;
 public class NH_InsertNode extends NodeHandler {
 	boolean duplicates;
 	int curXLevel, curYLevel, listY, nodeNum = 0;
-	BasicNode curParent;
+	Node_Basic curParent;
 	String nodes = "";
-	ArrayList<BasicNode> listNodes;
+	ArrayList<Node_Basic> listNodes;
 	final int MAX_LEVELS = 4;
 	final int Y_OFFSET = 50;
 	final int HALF_NODE = 20;
@@ -19,14 +19,14 @@ public class NH_InsertNode extends NodeHandler {
 	public NH_InsertNode(BasicCanvas canvas) {
 		this.parent = canvas;
 		duplicates = false;
-		listNodes = new ArrayList<BasicNode>();
+		listNodes = new ArrayList<Node_Basic>();
 	}
 
 	@Override
 	public void addNode(String value) {
 		// For now, we'll say no duplicates
 		if(!duplicates){
-			for(BasicNode node: parent.nodes){
+			for(Node_Basic node: parent.nodes){
 				if(node.value.equals(value)){
 					Window.alert("Duplicate nodes not allowed!");
 					return;
@@ -37,16 +37,16 @@ public class NH_InsertNode extends NodeHandler {
 		nodes += value;
 		// Reset positioning for this node
 		curXLevel = 0; curYLevel = 0; curParent = null;
-		BasicNode node = new BasicNode(value, parent);
-		BasicNode root = parent.getRoot();
+		Node_Basic node = new Node_Basic(value, parent);
+		Node_Basic root = parent.getRoot();
 		// Places node in resulting tree
 		if(positionNode(node, root)){
 			// Places node on left side of screen to show order of inserts
-			listNode(new BasicNode(value, parent));
+			listNode(new Node_Basic(value, parent));
 		}
 	}
 	
-	private boolean positionNode(BasicNode node, BasicNode root){
+	private boolean positionNode(Node_Basic node, Node_Basic root){
 		if(root != null){
 			curYLevel++;
 			if(curYLevel >= MAX_LEVELS){
@@ -76,7 +76,7 @@ public class NH_InsertNode extends NodeHandler {
 		}
 	}
 	
-	private void listNode(BasicNode node){
+	private void listNode(Node_Basic node){
 		node.setPosition(LIST_X, LIST_Y_SPACE * (nodeNum + 1) + (HALF_NODE * 2) * nodeNum);
 		parent.canvasPanel.add(node, node.xPos, node.yPos);
 		listNodes.add(node);
@@ -89,7 +89,7 @@ public class NH_InsertNode extends NodeHandler {
 		parent.clear();  
 		
 		// remove list
-		for(BasicNode node:listNodes){
+		for(Node_Basic node:listNodes){
 			node.delete();
 		}
 		nodeNum = 0;
@@ -106,7 +106,7 @@ public class NH_InsertNode extends NodeHandler {
 
 	@Override
 	public void clear() {
-		for(BasicNode node:listNodes){
+		for(Node_Basic node:listNodes){
 			node.delete();
 		}
 	}
