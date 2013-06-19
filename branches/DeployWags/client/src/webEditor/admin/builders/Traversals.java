@@ -1,19 +1,19 @@
 package webEditor.admin.builders;
 
 public class Traversals {
-	public static String getPreorderTraversal(BasicNode root){
+	public static String getPreorderTraversal(Node_Basic root){
 		return 	preorder(root).replace("", " ").trim();
 	}
 	
-	public static String getInorderTraversal(BasicNode root){
+	public static String getInorderTraversal(Node_Basic root){
 		return inorder(root).replace("", " ").trim();
 	}
 	
-	public static String getPostorderTraversal(BasicNode root){
+	public static String getPostorderTraversal(Node_Basic root){
 		return postorder(root).replace(""," ").trim();
 	}
 	
-	private static String preorder(BasicNode tree){
+	private static String preorder(Node_Basic tree){
 		String traversal = "";
 		if(tree != null){
 			traversal += tree.value ;
@@ -23,7 +23,7 @@ public class Traversals {
 		
 		return traversal;
 	}
-	private static String inorder(BasicNode tree){
+	private static String inorder(Node_Basic tree){
 		String traversal = "";
 		if(tree != null){
 			traversal += inorder(tree.leftChild);
@@ -33,7 +33,7 @@ public class Traversals {
 		
 		return traversal;
 	}	
-	private static String postorder(BasicNode tree){
+	private static String postorder(Node_Basic tree){
 		String traversal = "";
 		if(tree != null){
 			traversal += postorder(tree.leftChild);
