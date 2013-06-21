@@ -42,6 +42,11 @@ public abstract class Edge_Basic extends Line {
 	
 	protected abstract void onDelete();
 	
+	public void redraw(BasicCanvas canvas){
+		delete();
+		canvas.addEdge(n1, n2);
+	}
+	
 	// When an edge gets clicked, it gets removed
 	private class edgeRemoveClick implements ClickHandler{
 		Edge_Basic edge;

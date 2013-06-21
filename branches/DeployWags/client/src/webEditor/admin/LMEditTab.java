@@ -6,6 +6,7 @@ import webEditor.WEStatus;
 import webEditor.admin.builders.BasicDisplay;
 import webEditor.admin.builders.LMBuilder;
 import webEditor.admin.builders.LMBuilderFactory;
+import webEditor.admin.builders.LMGraphsDisplay;
 import webEditor.admin.builders.LMInsertNodeDisplay;
 import webEditor.admin.builders.LMTraversalDisplay;
 
@@ -70,20 +71,36 @@ public class LMEditTab extends Composite implements ProxyFacilitator{
 	}
 	
 	//-------------------------------
-	// Group panel click handling
+	// Group panel click handling (WRONG WRONG WRONG)
 	//-------------------------------
 	private void addGroupClickHandlers(){
-		btnPanelGroups.myButtons.get(0).addClickHandler(
-				new checkClickHandler(new LMTraversalDisplay(), LMBuilderFactory.getTraversalBuilder()));
-		btnPanelGroups.myButtons.get(1).addClickHandler(
-				new checkClickHandler(new LMInsertNodeDisplay(), LMBuilderFactory.getInsertNodeBuilder()));
-		
-		for(int i = 2; i < btnPanelGroups.myButtons.size(); i++){
-			Button tmpBtn = btnPanelGroups.myButtons.get(i);
-			tmpBtn.addClickHandler(new vanillaHandler());
+		// Have to link to name in button
+		for(Button button:btnPanelGroups.myButtons){
+			assignGrpBtnClickHandler(button);
 		}
 		
 		btnPanelGroups.setClickHandlers();
+	}
+	
+	private void assignGrpBtnClickHandler(Button button){
+		if(button.getText().equals("Traversals")){
+			button.addClickHandler(new checkClickHandler(
+			new LMTraversalDisplay(), LMBuilderFactory.getTraversalBuilder()));
+		} else if (button.getText().equals("Insert Node")){
+			button.addClickHandler(new checkClickHandler(
+			new LMInsertNodeDisplay(), LMBuilderFactory.getInsertNodeBuilder()));
+		} else if (button.getText().equals("Kruskal")){
+			button.addClickHandler(new checkClickHandler(
+			new LMGraphsDisplay(), LMBuilderFactory.getGraphsBuilder()));
+		} else {
+			button.addClickHandler(new ClickHandler() {
+				
+				@Override
+				public void onClick(ClickEvent event) {
+					Window.alert("Not implemented yet!");
+				}
+			});
+		}
 	}
 	
 	private class checkClickHandler implements ClickHandler{
@@ -97,14 +114,6 @@ public class LMEditTab extends Composite implements ProxyFacilitator{
 		
 		public void onClick(ClickEvent event){
 			display.load(vtDisplayHolder, builder);
-		}
-	}
-	
-	// Stop gap for groups that don't have LMBuilders/Displays yet
-	private class vanillaHandler implements ClickHandler{
-		public void onClick(ClickEvent event) {
-			Window.alert("Not implemented yet!");
-			vtDisplayHolder.clear();
 		}
 	}
 	

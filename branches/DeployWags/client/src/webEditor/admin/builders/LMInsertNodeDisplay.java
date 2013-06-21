@@ -1,7 +1,5 @@
 package webEditor.admin.builders;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 
 public class LMInsertNodeDisplay extends BasicDisplay {
@@ -16,18 +14,7 @@ public class LMInsertNodeDisplay extends BasicDisplay {
 		this.basePanel.add(btnAssign);
 	}
 	
-	private class AssignClickHandler implements ClickHandler{
-		BasicDisplay display;
-		
-		public AssignClickHandler(BasicDisplay display){
-			this.display = display;
-		}
 
-		@Override
-		public void onClick(ClickEvent event) {
-			display.fillBuilder(null);
-		}
-	}
 	
 	@Override
 	public void fillBuilder(ArgHolder child) {
