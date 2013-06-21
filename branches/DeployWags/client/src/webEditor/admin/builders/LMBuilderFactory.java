@@ -24,4 +24,14 @@ public class LMBuilderFactory {
 		
 		return builder;
 	}
+	
+	public static LMBuilder getGraphsBuilder(){
+		LMBuilder builder = new LMBuilder(Genre.MST,
+				InsertMethod.BY_VALUE_AND_LOC, NodeType.DRAGGABLE,
+				false, false, DSTConstants.NO_EDGES_KEY,
+				NOT_IMPORTANT);
+		builder.setEval(DSTConstants.MST_KEY);
+		
+		return builder;
+	}
 }

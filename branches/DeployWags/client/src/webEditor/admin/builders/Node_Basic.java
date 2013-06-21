@@ -58,21 +58,13 @@ public class Node_Basic extends Label{
 	}
 	
 	public void reDrawEdges(){
-		Node_Basic tmpParent, tmpLeft, tmpRight;
-		tmpParent = parent;
-		tmpLeft = leftChild;
-		tmpRight = rightChild;
-		
-		deleteEdges();
-		
-		if(tmpParent != null){
-			parentPanel.addEdge(this, tmpParent);
-		}
-		if(tmpLeft != null){
-			parentPanel.addEdge(this, tmpLeft);
-		}
-		if(tmpRight != null){
-			parentPanel.addEdge(this, tmpRight);
+		int numEdges = edges.size();
+		// As we are literally adding a new edge, we don't
+		// want to go to the end of edges because that will
+		// never be reached
+		for(int i = 0; i < numEdges; i++){
+			edges.get(0).redraw(parentPanel);
+			edges.remove(0);
 		}
 	}
 	

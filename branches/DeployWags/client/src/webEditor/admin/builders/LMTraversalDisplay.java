@@ -3,13 +3,8 @@ package webEditor.admin.builders;
 
 import webEditor.logical.DSTConstants;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
-
-
 public class LMTraversalDisplay extends BasicDisplay {
-	TraversalPanel inorderPanel, preorderPanel, postorderPanel;
+	ArgPanel inorderPanel, preorderPanel, postorderPanel;
 	// For when nodes/edges are added/removed
 	public void onModify(){
 		inorderPanel.clear();
@@ -30,25 +25,6 @@ public class LMTraversalDisplay extends BasicDisplay {
 		preorderPanel.fillText("");
 		inorderPanel.fillText("");
 		postorderPanel.fillText("");
-	}
-	
-	private class assignClickHandler implements ClickHandler{
-		BasicDisplay parent;
-		TraversalPanel child;
-		
-		public assignClickHandler(BasicDisplay parent, TraversalPanel child){
-			this.parent = parent;
-			this.child = child;
-		}
-		@Override
-		public void onClick(ClickEvent event) {
-			if(child.getArguments()[0].length() == 0){
-				Window.alert("No traversal provided");
-				return;
-			}
-			parent.fillBuilder(child);
-		}
-		
 	}
 
 	@Override
@@ -90,17 +66,17 @@ public class LMTraversalDisplay extends BasicDisplay {
 
 	@Override
 	public void construct() {
-		inorderPanel = new TraversalPanel();
-		preorderPanel = new TraversalPanel();
-		postorderPanel = new TraversalPanel();
+		inorderPanel = new ArgPanel();
+		preorderPanel = new ArgPanel();
+		postorderPanel = new ArgPanel();
 		
 		// Set up traversalpanels
-		inorderPanel.setup("Inorder: ", "Assign Traversal", this);
-		inorderPanel.btnTraversal.addClickHandler(new assignClickHandler(inorderPanel.parent, inorderPanel));
-		preorderPanel.setup("Preorder: ", "Assign Traversal", this);
-		preorderPanel.btnTraversal.addClickHandler(new assignClickHandler(preorderPanel.parent, preorderPanel));
-		postorderPanel.setup("Postorder: ","Assign Traversal", this);
-		postorderPanel.btnTraversal.addClickHandler(new assignClickHandler(postorderPanel.parent, postorderPanel));
+		inorderPanel.setup("Inorder: ", "Assign Traversal");
+		inorderPanel.btnTraversal.addClickHandler(new AssignClickHandler(this, inorderPanel));
+		preorderPanel.setup("Preorder: ", "Assign Traversal");
+		preorderPanel.btnTraversal.addClickHandler(new AssignClickHandler(this, preorderPanel));
+		postorderPanel.setup("Postorder: ","Assign Traversal");
+		postorderPanel.btnTraversal.addClickHandler(new AssignClickHandler(this, postorderPanel));
 		
 		// Add them
 		basePanel.add(inorderPanel);

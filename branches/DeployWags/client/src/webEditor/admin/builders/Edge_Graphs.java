@@ -1,5 +1,7 @@
 package webEditor.admin.builders;
 
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -15,6 +17,10 @@ public class Edge_Graphs extends Edge_Basic {
 	Label weightLabel = new Label("");
 	final boolean DEBUG = true;
 	final int nodeWidth = 40;  // value found via css
+	int weight;
+	final static int NO_EDGE = 100;  // as weights are limited to 2 digits, this = max
+	private static int[][] adjMatrix;
+	private static ArrayList<Edge_Graphs> edges = new ArrayList<Edge_Graphs>();
 	
 	public Edge_Graphs(Node_Basic n1, Node_Basic n2, BasicCanvas canvas) {
 		super(n1, n2, canvas);
@@ -25,6 +31,7 @@ public class Edge_Graphs extends Edge_Basic {
 	}
 	
 	private void placeLabel(Label weightLabel){
+		/*  Series of workarounds for getOffSetWidth/Height not working */
 		// get width of edge
 		int width = (n1.getAbsoluteLeft() - n2.getAbsoluteLeft() >= 0) ?
 				n1.getAbsoluteLeft() - n2.getAbsoluteLeft() :
@@ -48,7 +55,6 @@ public class Edge_Graphs extends Edge_Basic {
 		int eMidY = (height + nodeWidth) / 2 + top;
 		
 		canvas.canvasPanel.add(weightLabel, eMidX, eMidY);
-		weightLabel.setStyleName("edge_weight");
 	}
 	
 	private DialogBox constructWeightBox(){
@@ -92,16 +98,95 @@ public class Edge_Graphs extends Edge_Basic {
 				return;
 			}
 			
+			edge.weight = weight;
 			edge.weightLabel.setText(weight + "");
+			weightLabel.setStyleName("edge_weight");
 			weightBox.hide();
+			
+			// Update static fields for later use
+			Edge_Graphs.updateMatrix(edge);
+			// Insert sorted
+			int i = 0;
+			while(i < Edge_Graphs.edges.size() 
+					&& Edge_Graphs.edges.get(i).weight < edge.weight){
+				i++;
+			}
+			Edge_Graphs.edges.add(i, edge);
+			
+			// Add edge to node list so edges can be redrawn correctly
+			n1.addEdge(edge);
+			n2.addEdge(edge);
 		}
 		
+	}
+	
+	// Not subclassing canvas forces us to save the adjacency matrix
+	// statically in Edge_Graphs, which is kind of annoying....
+	public static void updateMatrix(Edge_Graphs edge){
+		int numNodes = edge.canvas.nodes.size();
+
+		if(adjMatrix == null || numNodes > adjMatrix.length){
+			copyMatrix(numNodes);
+		}
+		
+		adjMatrix[edge.n1.id][edge.n2.id] = edge.weight;
+		adjMatrix[edge.n2.id][edge.n1.id] = edge.weight;
+		
+		edge.canvas.update();
+	}
+	
+	private static void copyMatrix(int numNodes){
+		int curLength;
+		if(adjMatrix != null) curLength = adjMatrix.length;   // sq matrix means row len works
+		else curLength = 0;
+		
+		int[][] newMatrix = new int[numNodes][numNodes];
+		
+		// Fill with invalids
+		for(int i = 0; i < numNodes; i++){
+			for(int j = 0; j < numNodes; j++){
+				newMatrix[i][j] = NO_EDGE;
+			}
+		}
+		
+		// Copy over correct weights
+		for(int i = 0; i < curLength; i++){
+			for(int j = 0; j < curLength; j++){
+				newMatrix[i][j] = adjMatrix[i][j];
+			}
+		}
+		
+		// Copy back into adjMatrix
+		adjMatrix = newMatrix;
+	}
+	
+	public static int[][] getMatrix(){
+		return adjMatrix;
+	}
+	
+	/**
+	 * getEdges
+	 * @return A sorted list by weight of all edges in graph
+	 */
+	public static ArrayList<Edge_Graphs> getEdges(){
+		return edges;
 	}
 
 	@Override
 	protected void onDelete() {
-		// TODO Auto-generated method stub
-
+		adjMatrix[n1.id][n2.id] = NO_EDGE;
+		adjMatrix[n2.id][n1.id] = NO_EDGE; 
+		
+		this.weightLabel.setVisible(false);
+		this.weightLabel.removeFromParent();
+		edges.remove(this);
+		
+		canvas.update();
+	}
+	
+	public static void reset(){
+		adjMatrix = new int[0][0];
+		edges.clear();
 	}
 
 }

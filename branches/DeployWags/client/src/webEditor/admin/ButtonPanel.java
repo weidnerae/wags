@@ -97,6 +97,9 @@ public class ButtonPanel extends Composite {
 		}
 	}
 	
+	/**
+	 * Adds clickhandlers for highlighting the currently selected button
+	 */
 	public void setClickHandlers(){
 		for(Button btn: myButtons){
 			btn.addClickHandler(new btnPanelClickHandler(btn));
