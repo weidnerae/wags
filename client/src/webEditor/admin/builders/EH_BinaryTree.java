@@ -19,4 +19,11 @@ public class EH_BinaryTree implements EdgeHandler {
 		return true;
 	}
 
+	@Override
+	public void clear() {
+		// Gets handled when nodes get cleared
+	}
+	
+	
+
 }
