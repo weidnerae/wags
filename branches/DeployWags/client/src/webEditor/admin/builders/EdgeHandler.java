@@ -10,4 +10,5 @@ public interface EdgeHandler {
 	 * needs to be aware of the modification.
 	 */
 	boolean addEdge(Node_Basic node1, Node_Basic node2);
+	public void clear();
 }
