@@ -151,7 +151,11 @@ public class BasicCanvas extends Composite {
 			nodes.remove(0);
 		}
 		
+		Node_Basic.idCount = 0;
+		
 		nodeHandler.clear();
+		edgeHandler.clear();
+		
 		update();
 	}
 	

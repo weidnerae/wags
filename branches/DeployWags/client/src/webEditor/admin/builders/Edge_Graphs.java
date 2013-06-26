@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -64,8 +67,10 @@ public class Edge_Graphs extends Edge_Basic {
 		
 		Label lblWeight = new Label("Edge weight: ");
 		TextBox txtWeight = new TextBox();
+		
+		
 		txtWeight.setMaxLength(2);
-		Button btnWeight = new Button("Set");
+		final Button btnWeight = new Button("Set");
 		btnWeight.addClickHandler(new btnWeightClickHandler(this, txtWeight));
 		
 		pnl.add(lblWeight);
@@ -73,6 +78,17 @@ public class Edge_Graphs extends Edge_Basic {
 		vpnl.add(pnl);
 		vpnl.add(btnWeight);
 		box.add(vpnl);
+		
+		txtWeight.addKeyPressHandler(new KeyPressHandler() {
+			
+			@Override
+			public void onKeyPress(KeyPressEvent event) {
+				if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER)
+				{
+					btnWeight.click();
+				}
+			}
+		});
 		
 		return box;
 	}
@@ -98,11 +114,12 @@ public class Edge_Graphs extends Edge_Basic {
 				return;
 			}
 			
+
 			edge.weight = weight;
 			edge.weightLabel.setText(weight + "");
 			weightLabel.setStyleName("edge_weight");
 			weightBox.hide();
-			
+
 			// Update static fields for later use
 			Edge_Graphs.updateMatrix(edge);
 			// Insert sorted
@@ -123,8 +140,8 @@ public class Edge_Graphs extends Edge_Basic {
 	// Not subclassing canvas forces us to save the adjacency matrix
 	// statically in Edge_Graphs, which is kind of annoying....
 	public static void updateMatrix(Edge_Graphs edge){
-		int numNodes = edge.canvas.nodes.size();
 
+		int numNodes = edge.canvas.nodes.size();
 		if(adjMatrix == null || numNodes > adjMatrix.length){
 			copyMatrix(numNodes);
 		}
@@ -185,7 +202,7 @@ public class Edge_Graphs extends Edge_Basic {
 	}
 	
 	public static void reset(){
-		adjMatrix = new int[0][0];
+		adjMatrix = null;
 		edges.clear();
 	}
 

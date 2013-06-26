@@ -15,5 +15,9 @@ public class EH_Graphs implements EdgeHandler {
 		
 		return true;
 	}
+	
+	public void clear(){
+		Edge_Graphs.reset();
+	}
 
 }
