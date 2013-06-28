@@ -38,6 +38,10 @@ public class Node_Basic extends Label{
 		edges.add(edge);
 	}
 	
+	public void removeEdge(Edge_Basic edge){
+		edges.remove(edge);
+	}
+	
 	public boolean equals(Node_Basic node){
 		return node.id == this.id;
 	}
@@ -59,12 +63,11 @@ public class Node_Basic extends Label{
 	
 	public void reDrawEdges(){
 		int numEdges = edges.size();
-		// As we are literally adding a new edge, we don't
-		// want to go to the end of edges because that will
-		// never be reached
+		
+		// "Edges" shrinks when each edge is deleted,
+		// which is called from redraw
 		for(int i = 0; i < numEdges; i++){
 			edges.get(0).redraw(parentPanel);
-			edges.remove(0);
 		}
 	}
 	
