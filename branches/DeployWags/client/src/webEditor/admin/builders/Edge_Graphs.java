@@ -30,7 +30,6 @@ public class Edge_Graphs extends Edge_Basic {
 		
 		weightBox = constructWeightBox();
 		placeLabel(weightLabel);
-		weightBox.center();
 	}
 	
 	private void placeLabel(Label weightLabel){
@@ -89,6 +88,9 @@ public class Edge_Graphs extends Edge_Basic {
 				}
 			}
 		});
+		
+		box.center();
+		txtWeight.setFocus(true);
 		
 		return box;
 	}
@@ -192,7 +194,7 @@ public class Edge_Graphs extends Edge_Basic {
 	@Override
 	protected void onDelete() {
 		adjMatrix[n1.id][n2.id] = NO_EDGE;
-		adjMatrix[n2.id][n1.id] = NO_EDGE; 
+		adjMatrix[n2.id][n1.id] = NO_EDGE;
 		
 		this.weightLabel.setVisible(false);
 		this.weightLabel.removeFromParent();

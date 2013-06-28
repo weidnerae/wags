@@ -37,6 +37,10 @@ public abstract class Edge_Basic extends Line {
 		this.setVisible(false);
 		this.onDelete();
 		
+		canvas.deleteEdge(n1, n2);
+		n1.removeEdge(this);
+		n2.removeEdge(this);
+		
 		canvas.update();
 	}
 	
