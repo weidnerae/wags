@@ -7,6 +7,7 @@ import org.vaadin.gwtgraphics.client.DrawingArea;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -25,6 +26,7 @@ public class BasicCanvas extends Composite {
 	Node_Basic node1;
 	BasicDragController dragger;
 	ArrayList<Node_Basic> nodes = new ArrayList<Node_Basic>();
+	ArrayList<PseudoEdge> edges = new ArrayList<PseudoEdge>();
 	DrawingArea canvas;
 	BasicDisplay parent;
 	NodeHandler nodeHandler;
@@ -63,6 +65,14 @@ public class BasicCanvas extends Composite {
 	
 	public void deleteNode(String value){
 		nodeHandler.deleteNode(value);
+	}
+	
+	public void deleteEdge(Node_Basic n1, Node_Basic n2){
+		for(PseudoEdge edge: edges){
+			if (edge.matches(n1, n2)){
+				edges.remove(edge);
+			}
+		}
 	}
 
 	/**
@@ -128,6 +138,16 @@ public class BasicCanvas extends Composite {
 	 * the limitations of UiBinder (as I understand it).
 	 */
 	public boolean addEdge(Node_Basic node1, Node_Basic node2){
+		// For now, you can't have multiple edges between nodes
+		PseudoEdge newEdge = new PseudoEdge(node1, node2);
+		for(PseudoEdge edge: edges){
+			if(edge.matches(newEdge)){
+				Window.alert("Cannot have multiple edges between paired nodes");
+				return false;
+			}
+		}
+		edges.add(newEdge);
+		
 		return edgeHandler.addEdge(node1, node2);
 	}
 	
@@ -157,6 +177,24 @@ public class BasicCanvas extends Composite {
 		edgeHandler.clear();
 		
 		update();
+	}
+	
+	private class PseudoEdge{
+		private Node_Basic n1, n2;
+		
+		public PseudoEdge(Node_Basic n1, Node_Basic n2){
+			this.n1 = n1;
+			this.n2 = n2;
+		}
+		
+		public boolean matches(PseudoEdge edge){
+			return ((n1 == edge.n1 && n2 == edge.n2) ||
+					(n1 == edge.n2 && n2 == edge.n1));
+		}
+		
+		public boolean matches(Node_Basic node1, Node_Basic node2){
+			return ((n1 == node1 && n2 == node2) || (n1 == node2 && n2 == node1));
+		}
 	}
 	
 }
