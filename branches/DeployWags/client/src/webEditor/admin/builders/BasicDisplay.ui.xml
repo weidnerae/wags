@@ -13,19 +13,31 @@
 		.toRight{
 			float: right;
 		}
+		.rightMargin{
+			margin-top: 5px;
+			margin-right: 5px;
+		}
+		.leftMargin{
+			margin-top: 5px;
+			margin-left: 5px;
+		}
+		.topMargin{
+			margin-top: 5px;
+		}
 	</ui:style>
 	<g:VerticalPanel ui:field="basePanel">
+		<g:TextArea ui:field="txtInstructions" visibleLines="10" width="99%"></g:TextArea>
 		<my:BasicCanvas ui:field="canvas"/>
 		<g:HorizontalPanel width="100%">
-			<g:HorizontalPanel>
+			<g:HorizontalPanel width="35%">
 				<g:Label styleName="{style.txtAlign}">Add Node: </g:Label>
-				<g:TextBox ui:field="txtAddNode" width="20px" maxLength="1"/>
-				<g:Button ui:field="btnAddNode">Add</g:Button>
-				<g:Button ui:field="btnDeleteNode">Delete</g:Button>
+				<g:TextBox ui:field="txtAddNode" width="30px" styleName="{style.rightMargin}" maxLength="1"/>
+				<g:Button ui:field="btnAddNode" width="50px" styleName="{style.rightMargin}">Add</g:Button>
+				<g:Button ui:field="btnDeleteNode" width="50px" styleName="{style.leftMargin}">Delete</g:Button>
 			</g:HorizontalPanel>
-			<g:HorizontalPanel styleName="{style.toRight}">
-				<g:Button styleName="{style.toRight}" ui:field="btnCalculate">Calculate Results</g:Button>
-				<g:Button styleName="{style.toRight}" ui:field="btnReset">Reset</g:Button>
+			<g:HorizontalPanel width="65%" styleName="{style.toRight}">
+				<g:Button styleName="{style.topMargin}" ui:field="btnCalculate">Calculate Results</g:Button>
+				<g:Button styleName="{style.topMargin}" ui:field="btnReset">Reset</g:Button>
 			</g:HorizontalPanel>
 		</g:HorizontalPanel>
 		<g:HorizontalPanel>
