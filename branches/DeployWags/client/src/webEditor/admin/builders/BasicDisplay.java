@@ -96,6 +96,7 @@ public abstract class BasicDisplay extends Composite {
 		btnDeleteNode.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				canvas.deleteNode(txtAddNode.getText());
+				txtAddNode.setText( "" );
 			}
 		});
 	}
@@ -106,9 +107,14 @@ public abstract class BasicDisplay extends Composite {
 	
 	@UiHandler("txtAddNode")
 	void onEnterPress(KeyPressEvent event){
+		//enter = add;  enter + shift = delete
 		if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER)
 		{
-			btnAddNode.click();
+			if (event.isShiftKeyDown()) {
+				btnDeleteNode.click();
+			} else {
+				btnAddNode.click();
+			}
 		}
 	}
 	
