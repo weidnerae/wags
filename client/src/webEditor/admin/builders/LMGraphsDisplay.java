@@ -14,6 +14,13 @@ public class LMGraphsDisplay extends BasicDisplay {
 	public void construct() {
 		canvas.setEdgeHandler(new EH_Graphs(this.canvas));
 		
+		txtInstructions.setText("Use this canvas to create a Graph problem.  Add nodes by filling in the appropriate text box " +
+				"with the number you'd like on the node and either press 'enter' or press 'Add'.  Create edges between nodes by " +
+				"double clicking on one node and double clicking on the node you'd like to be the child.  When edges are created " +
+				"you will be prompted to determine the weight to be added to the edge.  You can remove an edge by clicking on it. " +
+				"Clicking on 'Calculate' will determine the answer for the problem you have created and if you are happy with the " +
+				"results you can assign the problem to students.  If at any time you'd like to start the process over, press the " +
+				"'reset' button in order to return the canvas to it's initial state.");
 		pnlSolution = new ArgPanel();
 		pnlSolution.setup("Order: ", "Assign");
 		pnlSolution.btnTraversal.addClickHandler(new AssignClickHandler(this, pnlSolution));
@@ -177,7 +184,6 @@ public class LMGraphsDisplay extends BasicDisplay {
 
 	@Override
 	public void fillBuilder(ArgHolder child) {
-		// TODO Auto-generated method stub
 		Edge_Graphs.reset();
 	}
 

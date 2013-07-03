@@ -32,7 +32,7 @@ public class ArgPanel extends Composite implements ArgHolder{
 	/**
 	 * setup
 	 * @param lblTxt - String label will display
-	 * @param btnTxt - String ubtton will display
+	 * @param btnTxt - String button will display
 	 * Adds text to ArgPanel, disables button until argument added via fillText
 	 */
 	public void setup(String lblTxt, String btnTxt){
