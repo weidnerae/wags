@@ -58,7 +58,7 @@ public abstract class BasicDisplay extends Composite {
 	@UiField BasicCanvas canvas;
 	@UiField Button btnAddNode, btnDeleteNode, btnCalculate;
 	@UiField TextBox txtAddNode, txtTitle;
-	@UiField TextArea txtDesc;
+	@UiField TextArea txtDesc, txtInstructions;
 	private boolean built = false;
 	LMBuilder builder;
 	
