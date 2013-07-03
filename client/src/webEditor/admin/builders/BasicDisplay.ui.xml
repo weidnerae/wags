@@ -23,11 +23,14 @@
 		}
 		.topMargin{
 			margin-top: 5px;
+		}		
+		.border {
+			border: 2px solid #abadb3;
 		}
 	</ui:style>
 	<g:VerticalPanel ui:field="basePanel">
 		<g:TextArea ui:field="txtInstructions" visibleLines="10" width="99%"></g:TextArea>
-		<my:BasicCanvas ui:field="canvas"/>
+		<my:BasicCanvas styleName="{style.border}" ui:field="canvas"/>
 		<g:HorizontalPanel width="100%">
 			<g:HorizontalPanel width="35%">
 				<g:Label styleName="{style.txtAlign}">Add Node: </g:Label>

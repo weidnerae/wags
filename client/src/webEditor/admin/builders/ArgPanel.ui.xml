@@ -6,10 +6,15 @@
 			padding-top: 5px;
 			width: 80px;
 		}
+		.padding {
+			padding-top: 3px;
+			padding-right: 5px;
+			padding-left: 5px;
+		}
 	</ui:style>
 	<g:HorizontalPanel>
 		<g:Label styleName="{style.txtAlign}" ui:field="lblTraversal"/>
 		<g:TextBox ui:field="txtTraversal" width="200px"/>
-		<g:Button ui:field="btnTraversal"/>
+		<g:Button styleName="{style.padding}" ui:field="btnTraversal"/>
 	</g:HorizontalPanel>
 </ui:UiBinder> 
