@@ -60,13 +60,27 @@
 		padding: 10px;
 		border-radius: 5px;
 }
-
+.lmc_graph_popup_label{
+	margin-top: 5px;
+	margin-right: 5px;
+	margin-left: 5px;
+}
+.lmc_graph_popup_btn {
+	text-align: center;
+	width: 50px;
+	margin: auto auto auto auto;
+}
+.lmc_graph_popup_err {
+	color: red;
+	font-weight: bolder;
+}
 .student_button {
 	font-size: 10pt;
 	overflow: auto;
 	height: 55px;
 	width: 200px;
 }
+
 
 
 /**LOGICAL CSS (some shared with admin) **/
