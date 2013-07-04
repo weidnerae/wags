@@ -10,6 +10,7 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
@@ -63,19 +64,23 @@ public class Edge_Graphs extends Edge_Basic {
 		DialogBox box = new DialogBox();
 		HorizontalPanel pnl = new HorizontalPanel();
 		VerticalPanel vpnl = new VerticalPanel();
+		vpnl.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER); //center the button
 		
 		Label lblWeight = new Label("Edge weight: ");
+		lblWeight.setStyleName("lmc_graph_popup_label");
 		TextBox txtWeight = new TextBox();
 		
 		
 		txtWeight.setMaxLength(2);
 		final Button btnWeight = new Button("Set");
-		btnWeight.addClickHandler(new btnWeightClickHandler(this, txtWeight));
+		btnWeight.setStyleName("lmc_graph_popup_btn");
+		btnWeight.addClickHandler(new btnWeightClickHandler(this, txtWeight, vpnl));
 		
 		pnl.add(lblWeight);
 		pnl.add(txtWeight);
 		vpnl.add(pnl);
 		vpnl.add(btnWeight);
+		
 		box.add(vpnl);
 		
 		txtWeight.addKeyPressHandler(new KeyPressHandler() {
@@ -98,10 +103,12 @@ public class Edge_Graphs extends Edge_Basic {
 	private class btnWeightClickHandler implements ClickHandler{
 		private Edge_Graphs edge;
 		private TextBox txtWeight;
+		private VerticalPanel vpnl;
 		
-		public btnWeightClickHandler(Edge_Graphs edge, TextBox txt){
+		public btnWeightClickHandler(Edge_Graphs edge, TextBox txt, VerticalPanel vpnl){
 			this.edge = edge;
 			this.txtWeight = txt;
+			this.vpnl = vpnl;
 		}
 		
 		@Override
@@ -112,7 +119,9 @@ public class Edge_Graphs extends Edge_Basic {
 				weight = Integer.parseInt(txtWeight.getText());
 			} catch (NumberFormatException e){
 				txtWeight.setText("");
-				Window.alert("Invalid number!");
+				Label errorLabel = new Label("Invalid Number!");
+				errorLabel.setStyleName("lmc_graph_popup_err");
+				vpnl.add(errorLabel);
 				return;
 			}
 			
