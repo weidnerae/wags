@@ -40,11 +40,11 @@ public class Evaluation_MSTTraversal extends Evaluation implements IsSerializabl
 			
 			if(i > 1){
 				String correct = theTrav.substring(0, i);
-				return "Feedback: You selected the egdes: " + theTrav + "\nThe edges were incorrectly.  The portion " +
-				correct + " was correct. Please try to get the entire MST correct.";	
+				return "Feedback: You selected the egdes: " + theTrav + "\nThe edges were incorrect.  The portion " +
+				correct + " was correct. Retrace your steps to find your mistake.";	
 			}
 			
-			return "Feedback: Your selected the edges: " + theTrav + "\nYour selection was incorrect.  Be sure you are starting with the "+
+			return "Feedback: Your selected the edges: " + theTrav + "\nYour selection was incorrect.  No edges were in the correct order.  Be sure you are starting with the "+
 			"appropriate edge.";
 		
 			

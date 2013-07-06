@@ -73,7 +73,7 @@ public class Evaluation_MinHeap_Level extends Evaluation  implements IsSerializa
 		//returns null if more than one node is disconnected from the heap
 		if (unConnectedNodes.size() > 1)
 		{
-			errorMessage = "Your tree is incomplete go back and add " +
+			errorMessage = "Your tree is incomplete.  Go back and add " +
 					   	   " the necessary edges to complete the tree.";
 			return null;
 		}

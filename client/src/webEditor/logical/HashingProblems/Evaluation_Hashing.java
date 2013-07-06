@@ -168,16 +168,7 @@ public class Evaluation_Hashing extends Evaluation implements IsSerializable {
 		for(Node n: nodes){
 			userLocations.add(new Location(Integer.parseInt(n.getValue()), getPosition(n)));
 		}
-		
-		/*
-		 * Looks like debug code
-		 *
-		String solutions="";
-		for(Location l: userLocations){
-			solutions+=">"+l.getValue()+" "+l.getLocation()+"<";
-		}
-		Window.alert("User: "+solutions);
-		*/
+
 		return userLocations;
 	}
 	public ArrayList<Location> getSolutionLocations(String[] nodes){
@@ -187,15 +178,7 @@ public class Evaluation_Hashing extends Evaluation implements IsSerializable {
 			split = s.split(" ");
 			solutionLocations.add(new Location(Integer.parseInt(split[0]), Integer.parseInt(split[1])));
 		}
-		/*
-		 * Looks like debug code
-		 * 
-		String solutions="";
-		for(Location l: solutionLocations){
-			solutions+=">"+l.getValue()+" "+l.getLocation()+"<";
-		}
-		Window.alert("Solution "+solutions);
-		*/
+		
 		return solutionLocations;
 	}
 	

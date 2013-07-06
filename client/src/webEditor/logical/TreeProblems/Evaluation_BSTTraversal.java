@@ -41,7 +41,7 @@ public class Evaluation_BSTTraversal extends Evaluation implements IsSerializabl
 			if(i > 1){
 				String correct = theTrav.substring(0, i);
 				return "Feedback: Your traversal: " + theTrav + "\nThe nodes in your traversal are out of order.  The portion " +
-				correct + " was correct. Please try to get the entire traversal correct.";	
+				correct + " was correct. Retrace your steps to find your mistake.";	
 			}
 			
 			return "Feedback: Your traversal: " + theTrav + "\nYour traversal was incorrect.  For the given traversal, what " +
