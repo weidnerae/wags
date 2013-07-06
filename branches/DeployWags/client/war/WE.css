@@ -453,13 +453,5 @@ textarea {
 BODY,HTML{height:100%;}
 
 
-.gwt-TabPanelBottom {
-  height:98%;
-  border-color: #92c1f0;
-  border-style: solid;
-  border-width: 3px 2px 2px;
-  overflow: hidden;
-  padding: 6px;
-}
 
 

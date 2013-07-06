@@ -27,5 +27,7 @@
   	templates													  -->
   <set-configuration-property name="UiBinder.useSafeHtmlTemplates"
          value="true" />
+         
+  
 
 </module>
