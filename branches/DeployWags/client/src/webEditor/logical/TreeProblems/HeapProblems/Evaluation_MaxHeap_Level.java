@@ -29,7 +29,7 @@ public class Evaluation_MaxHeap_Level extends Evaluation  implements IsSerializa
 		EvaluationNode rootEvalNode = buildEvaluationTree(nodes, edges);
 		if(rootEvalNode == null){
 			Proxy.submitDST(problemName, 0);
-			return "Your tree is incomplete go back and add " +
+			return "Your tree is incomplete.  Go back and add " +
 				   " the necessary edges to complete the tree.";
 		}
 		String levelTraversal = getLevelTraversal(rootEvalNode, arguments[0]);
@@ -62,7 +62,7 @@ public class Evaluation_MaxHeap_Level extends Evaluation  implements IsSerializa
 		
 		//returns null if more than one node is disconnected from the heap
 		if(unConnectedNodes.size()>1){
-			errorMessage = "Your MaxHeap is incomplete go back and add " +
+			errorMessage = "Your MaxHeap is incomplete.  Go back and add " +
 					   " the necessary edges to complete the tree.";
 			return null;
 		}

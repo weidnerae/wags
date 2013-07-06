@@ -41,7 +41,7 @@ public class Evaluation_Level extends Evaluation  implements IsSerializable
 		}
 		if(levelTraversalPossibly.equals(arguments[0])){
 			Proxy.submitDST(problemName,1);
-			return "Feedback: Congratulations! Your treee is correct.";
+			return "Feedback: Congratulations! Your tree is correct.";
 		}
 		else{
 			Proxy.submitDST(problemName,0);
@@ -187,7 +187,7 @@ public class Evaluation_Level extends Evaluation  implements IsSerializable
 		}
      	if(solution.contains(".")){
      		errorMessage = "FeedBack: Your tree is incomplete, make sure that all " +
-     				"nodes are connected with edges.";
+     				"nodes are connected by an edge.";
      	}
      	else if(!solution.equals(correctTraversal)){
      		String correct="";
