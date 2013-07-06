@@ -8,12 +8,14 @@
 			margin-right:5px;
 			margin-top: 10px;
 			position: relative;
+			border-radius: 5px;
 			height: 50px;
 			width: 140px;
 			text-align: center;
 		}
 		
 		.logout_button {
+			border-radius: 5px;
 			font-weight: bold;
 			margin-top: 10px;
 			height: 40px;
@@ -31,49 +33,78 @@
 			float: left;
 			margin-right: 0.5em;
 			text-align: left;
-			padding-bottom: 10px;
+		    margin-top: 5px;
+		    color: white;
+		    font-weight: bolder;
 		}
 		
 		.title1 { 
-			font-size: 14em; 
-			font-weight: light;
-			font-style: italic;
-			font-family: console;
-			color: #325C74;
-			vertical-align: top;
+		    color: white;
+		    text-align: center;
+		    font-size: 14em;
+		    font-weight: lighter;
+		    font-style: italic;
+		    font-family: console;
+		    text-shadow:
+		    -1px -1px 0 #000,
+		    1px -1px 0 #000,
+		    -1px 1px 0 #000,
+		    1px 1px 0 #000;
 		}
 		
 		.title2 { 
-			font-size: 3em;
-			font-weight: light;
-			font-family: console;
-			color: #325C74;
-			vertical-align: top;
-			padding-bottom:0.5em;
+			padding-bottom: 30px;
+		    color: white;
+		    text-align: center;
+		    font-size: 3em;
+		    font-weight: lighter;
+		    font-style: italic;
+		    font-family: console;
+		    text-shadow:
+		     -1px -1px 0 #000,
+		     1px -1px 0 #000,
+		     -1px 1px 0 #000,
+		     1px 1px 0 #000;
+		}
+
+		.header
+		{
+		    margin-top: 20px;
+		    padding: 5px 0px 40px 0px;
+		    width: 920px;
+		    box-shadow: 5px 15px 10px rgba(0, 0, 0, .2);
+		    border-radius: 4px;
+		    background: rgb(50,92,116); 
+		    background: linear-gradient(to bottom, rgba(50,92,116,1) 1%,rgba(66,121,154,1) 99%); 
 		}
 
 	</ui:style>
 	
 	<g:ScrollPanel>
- 	<g:VerticalPanel horizontalAlignment='ALIGN_CENTER' height="1%" width="100%">
-		<g:Label styleName="{style.title1}">Wags</g:Label>
-		<g:Label styleName="{style.title2}">Web Automated Grading System</g:Label>
-		<g:VerticalPanel>
-			<g:HorizontalPanel>
+		<g:VerticalPanel horizontalAlignment='ALIGN_CENTER' width="100%">
+		<!-- two containers so that you can center the 920px content container -->
+		 	<g:VerticalPanel styleName="{style.header}" horizontalAlignment='ALIGN_CENTER' height="1%">
+		 		<g:VerticalPanel>
+		 				<g:Label styleName="{style.title1}">Wags</g:Label>
+					<g:Label styleName="{style.title2}">Web Automated Grading System</g:Label>
+		 		</g:VerticalPanel>
 				<g:VerticalPanel>
-					<g:Button styleName="{style.button}" ui:field='editorButton'>Web Editor</g:Button>
-					<g:Button styleName="{style.button}" ui:field='logicalButton'>Logical Microlabs</g:Button>
-					<g:Button styleName="{style.button}" ui:field='magnetButton'>Magnet Microlabs</g:Button>
+					<g:HorizontalPanel>
+						<g:VerticalPanel>
+							<g:Button styleName="{style.button}" ui:field='editorButton'>Web Editor</g:Button>
+							<g:Button styleName="{style.button}" ui:field='logicalButton'>Logical Microlabs</g:Button>
+							<g:Button styleName="{style.button}" ui:field='magnetButton'>Magnet Microlabs</g:Button>
+						</g:VerticalPanel>
+						<g:VerticalPanel>
+							<g:Button styleName="{style.button}" ui:field='adminButton' visible='false'>Admin Panel</g:Button>
+							<g:Button styleName="{style.button}" ui:field='magnetPCButton' visible='false'>Magnet Problem Creation</g:Button>
+							<g:Button styleName="{style.button}" ui:field='logicalPCButton' visible='false'>Logical Problem Creation</g:Button>
+						</g:VerticalPanel>
+					</g:HorizontalPanel>
+					<g:Button styleName="{style.logout_button}" ui:field='logoutButton'>Log out</g:Button>
 				</g:VerticalPanel>
-				<g:VerticalPanel>
-					<g:Button styleName="{style.button}" ui:field='adminButton' visible='false'>Admin Panel</g:Button>
-					<g:Button styleName="{style.button}" ui:field='magnetPCButton' visible='false'>Magnet Problem Creation</g:Button>
-					<g:Button styleName="{style.button}" ui:field='logicalPCButton' visible='false'>Logical Problem Creation</g:Button>
-				</g:VerticalPanel>
-			</g:HorizontalPanel>
-			<g:Button styleName="{style.logout_button}" ui:field='logoutButton'>Log out</g:Button>
+			</g:VerticalPanel>
 		</g:VerticalPanel>
-	</g:VerticalPanel>
 	</g:ScrollPanel>
 
 	
