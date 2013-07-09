@@ -34,4 +34,15 @@ public class LMBuilderFactory {
 		
 		return builder;
 	}
+	
+	public static LMBuilder getSimplePartitionBuilder(){
+		LMBuilder builder = new LMBuilder(Genre.SIMPLE_PARTITION,
+				InsertMethod.BY_VALUE, NodeType.NODE, false, false,
+				DSTConstants.TREE_MODE_KEY, NOT_IMPORTANT);
+		builder.addEdge("");
+		builder.setPos(new int[0], new int[0]);
+		builder.setEval(DSTConstants.SIMPLEPARTITION_KEY);
+		
+		return builder;
+	}
 }

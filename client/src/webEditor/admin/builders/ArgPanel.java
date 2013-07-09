@@ -19,9 +19,9 @@ public class ArgPanel extends Composite implements ArgHolder{
 	interface TraversalPanelUiBinder extends UiBinder<Widget, ArgPanel> {
 	}
 	
-	@UiField Label lblTraversal;
-	@UiField Button btnTraversal;
-	@UiField TextBox txtTraversal;
+	@UiField Label lblArg;
+	@UiField Button btnArg;
+	@UiField TextBox txtArg;
 
 	// Class renamed to "ArgPanel" as it really has nothing inherently to do
 	// with traversals.  Didn't rename widgets though
@@ -36,14 +36,14 @@ public class ArgPanel extends Composite implements ArgHolder{
 	 * Adds text to ArgPanel, disables button until argument added via fillText
 	 */
 	public void setup(String lblTxt, String btnTxt){
-		lblTraversal.setText(lblTxt);
-		btnTraversal.setText(btnTxt);
-		txtTraversal.setReadOnly(true);
-		btnTraversal.setEnabled(false);
+		lblArg.setText(lblTxt);
+		btnArg.setText(btnTxt);
+		txtArg.setReadOnly(true);
+		btnArg.setEnabled(false);
 	}
 	
 	public void setClickHandler(ClickHandler handler){
-		btnTraversal.addClickHandler(handler);
+		btnArg.addClickHandler(handler);
 	}
 	
 	/**
@@ -52,18 +52,18 @@ public class ArgPanel extends Composite implements ArgHolder{
 	 * Fills textBox with argument, enables button
 	 */
 	public void fillText(String text){
-		txtTraversal.setText(text);
-		btnTraversal.setEnabled(true);
+		txtArg.setText(text);
+		btnArg.setEnabled(true);
 	}
 	
 	public String[] getArguments(){
 		String[] args = new String[1];
-		args[0] = txtTraversal.getText();
+		args[0] = txtArg.getText();
 		return args;
 	}
 	
 	public void clear(){
-		txtTraversal.setText("");
+		txtArg.setText("");
 	}
 
 }

@@ -72,11 +72,11 @@ public class LMTraversalDisplay extends BasicDisplay {
 		
 		// Set up traversalpanels
 		inorderPanel.setup("Inorder: ", "Assign Traversal");
-		inorderPanel.btnTraversal.addClickHandler(new AssignClickHandler(this, inorderPanel));
+		inorderPanel.btnArg.addClickHandler(new AssignClickHandler(this, inorderPanel));
 		preorderPanel.setup("Preorder: ", "Assign Traversal");
-		preorderPanel.btnTraversal.addClickHandler(new AssignClickHandler(this, preorderPanel));
+		preorderPanel.btnArg.addClickHandler(new AssignClickHandler(this, preorderPanel));
 		postorderPanel.setup("Postorder: ","Assign Traversal");
-		postorderPanel.btnTraversal.addClickHandler(new AssignClickHandler(this, postorderPanel));
+		postorderPanel.btnArg.addClickHandler(new AssignClickHandler(this, postorderPanel));
 		
 		// Add them
 		basePanel.add(inorderPanel);
