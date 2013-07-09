@@ -24,7 +24,7 @@ public class LMGraphsDisplay extends BasicDisplay {
 				"'reset' button in order to return the canvas to it's initial state.");
 		pnlSolution = new ArgPanel();
 		pnlSolution.setup("Order: ", "Assign");
-		pnlSolution.btnTraversal.addClickHandler(new AssignClickHandler(this, pnlSolution));
+		pnlSolution.btnArg.addClickHandler(new AssignClickHandler(this, pnlSolution));
 		basePanel.add(pnlSolution);
 	}
 

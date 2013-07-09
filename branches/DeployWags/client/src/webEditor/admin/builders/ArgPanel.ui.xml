@@ -13,8 +13,8 @@
 		}
 	</ui:style>
 	<g:HorizontalPanel>
-		<g:Label styleName="{style.txtAlign}" ui:field="lblTraversal"/>
-		<g:TextBox ui:field="txtTraversal" width="200px"/>
-		<g:Button styleName="{style.padding}" ui:field="btnTraversal"/>
+		<g:Label styleName="{style.txtAlign}" ui:field="lblArg"/>
+		<g:TextBox ui:field="txtArg" width="200px"/>
+		<g:Button styleName="{style.padding}" ui:field="btnArg"/>
 	</g:HorizontalPanel>
 </ui:UiBinder> 
