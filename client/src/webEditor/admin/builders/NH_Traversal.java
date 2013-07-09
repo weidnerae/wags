@@ -73,7 +73,7 @@ public class NH_Traversal extends NodeHandler {
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		// Reset node positioning
+		nodeX = 10; nodeY = 10;	
 	}
 }

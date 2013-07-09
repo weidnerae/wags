@@ -195,7 +195,7 @@ public class LMGraphsDisplay extends BasicDisplay {
 
 	@Override
 	public void clear() {
-
+		
 	}
 
 }

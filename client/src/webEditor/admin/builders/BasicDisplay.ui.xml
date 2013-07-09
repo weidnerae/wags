@@ -29,8 +29,8 @@
 		}
 	</ui:style>
 	<g:VerticalPanel ui:field="basePanel">
-		<g:TextArea ui:field="txtInstructions" visibleLines="10" width="99%"></g:TextArea>
 		<my:BasicCanvas styleName="{style.border}" ui:field="canvas"/>
+		<g:TextArea ui:field="txtInstructions" visibleLines="6" width="99%"></g:TextArea>
 		<g:HorizontalPanel width="100%">
 			<g:HorizontalPanel width="35%">
 				<g:Label styleName="{style.txtAlign}">Add Node: </g:Label>
@@ -39,7 +39,7 @@
 				<g:Button ui:field="btnDeleteNode" width="50px" styleName="{style.leftMargin}">Delete</g:Button>
 			</g:HorizontalPanel>
 			<g:HorizontalPanel width="65%" styleName="{style.toRight}">
-				<g:Button styleName="{style.topMargin}" ui:field="btnCalculate">Calculate Results</g:Button>
+				<g:Button styleName="{style.topMargin}" ui:field="btnCalculate">Solve</g:Button>
 				<g:Button styleName="{style.topMargin}" ui:field="btnReset">Reset</g:Button>
 			</g:HorizontalPanel>
 		</g:HorizontalPanel>

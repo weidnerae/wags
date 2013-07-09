@@ -2,7 +2,6 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:my="urn:import:webEditor.programming.view">
-	<ui:with type="webEditor.Resources" field="res"></ui:with>
 	<ui:style>
 		.button {
 			font-weight: bold;

@@ -7,7 +7,6 @@ import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.user.client.ui.Label;
 
 public class Node_Basic extends Label{
-	static int idCount = 0;
 	final static int CLICKED = 1;
 	final static int NOT_CLICKED = 0;
 	
@@ -25,8 +24,11 @@ public class Node_Basic extends Label{
 		this.setStyleName("node");
 		this.addDoubleClickHandler(new stateClickHandler(this));
 		
-		id = idCount;
-		idCount++;
+		int newId = 0;
+		while(idClaimed(newId)){
+			newId++;
+		}
+		id = newId;
 	}
 	
 	public void setPosition(int xPos, int yPos){
@@ -56,8 +58,9 @@ public class Node_Basic extends Label{
 	}
 	
 	public void deleteEdges(){
-		for(Edge_Basic edge: edges){
-			edge.delete();
+		int numEdges = edges.size();
+		for(int i = 0; i < numEdges; i++){
+			edges.get(0).delete();
 		}
 	}
 	
@@ -105,6 +108,14 @@ public class Node_Basic extends Label{
 		}
 		
 		return "";
+	}
+	
+	public boolean idClaimed(int id){
+		for(Node_Basic node: parentPanel.nodes){
+			if(node.id == id) return true;
+		}
+		
+		return false;
 	}
 
 }
