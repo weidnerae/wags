@@ -5,8 +5,6 @@ import com.google.gwt.user.client.Window;
 public class NH_AlongTop extends NodeHandler {
 	int nodeX = 10, nodeY = 10;
 	final int NODE_WIDTH = 40;
-	boolean numbers = false;
-	boolean unique = true;
 	
 	public NH_AlongTop(BasicCanvas canvas) {
 		this.parent = canvas;

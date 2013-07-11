@@ -14,10 +14,20 @@
 					</g:ScrollPanel>
 				</g:tab>
 				<g:tab>
+					<g:header> Logical Problem Creation </g:header>
+					<g:ScrollPanel>
+						<my:LMEditTab ui:field="lmEditTab"/>
+					</g:ScrollPanel>
+				</g:tab>
+				<g:tab>
 					<g:header> Magnet </g:header>
 					<g:ScrollPanel>
 						<my:MagnetTab height="100%" ui:field="magnet"/>
 					</g:ScrollPanel>	
+				</g:tab>
+					<g:tab>
+					<g:header> Magnet Problem Creation </g:header>
+						<my:ProblemCreationPanel ui:field="magnetPC"/>
 				</g:tab>
 				<g:tab>
 					<g:header> Programming </g:header>
@@ -35,16 +45,6 @@
 					<g:header> Review </g:header>
 					<g:ScrollPanel>
 						<my:ReviewTab height="100%" ui:field="review"/>
-					</g:ScrollPanel>
-				</g:tab>
-				<g:tab>
-					<g:header> Magnet Problem Creation </g:header>
-						<my:ProblemCreationPanel ui:field="magnetPC"/>
-				</g:tab>
-				<g:tab>
-					<g:header> Logical Problem Creation </g:header>
-					<g:ScrollPanel>
-						<my:LMEditTab ui:field="lmEditTab"/>
 					</g:ScrollPanel>
 				</g:tab>
 			</g:TabLayoutPanel>

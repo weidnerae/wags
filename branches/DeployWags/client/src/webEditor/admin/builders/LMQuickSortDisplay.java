@@ -18,6 +18,8 @@ public class LMQuickSortDisplay extends BasicDisplay {
 	@Override
 	public void construct() {
 		canvas.setEdgeHandler(new EH_NoEdges());
+		canvas.nodeHandler.setUnique(false);
+		canvas.nodeHandler.setNumbers(true);
 		// As these will be numbers, we need to allow a greater range of digits
 		txtAddNode.setMaxLength(2);
 		
@@ -154,7 +156,7 @@ public class LMQuickSortDisplay extends BasicDisplay {
 			while(nodeVals[leftIndex] < pivot){
 				leftIndex++;
 			}
-			while(nodeVals[rightIndex] > pivot){
+			while(nodeVals[rightIndex] >= pivot){
 				rightIndex--;
 			}
 			if(leftIndex < rightIndex){
