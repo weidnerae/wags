@@ -172,8 +172,13 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 			public void onClick(ClickEvent event) {
 				String evalResult = "";
 
-				evalResult = problem.getEval().evaluate(problem.getName(),
+				if(lb == ub){
+					evalResult = problem.getEval().evaluate(problem.getName(),
 						problem.getArguments(), getNodes(), getEdges());
+				} else {
+					evalResult = "Remember that partitioning does not finish " +
+							"until the pointers 'cross-over' or become equal";
+				}
 
 				if (showingSubMess) {
 					Proxy.getDST().remove(submitText);
