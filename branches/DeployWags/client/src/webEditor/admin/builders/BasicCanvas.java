@@ -43,7 +43,7 @@ public class BasicCanvas extends Composite {
 		dragger =  new BasicDragController(canvasPanel, false, this);
 		dragger.registerDropController(new BasicDropController(canvasPanel));
 		
-		nodeHandler = new NH_Traversal(this);
+		nodeHandler = new NH_AlongTop(this);
 		edgeHandler = new EH_BinaryTree(this);
 	}
 	
@@ -146,7 +146,8 @@ public class BasicCanvas extends Composite {
 				return false;
 			}
 		}
-		edges.add(newEdge);
+		
+		if(!(edgeHandler instanceof EH_NoEdges)) edges.add(newEdge);
 		
 		return edgeHandler.addEdge(node1, node2);
 	}

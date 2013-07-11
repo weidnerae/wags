@@ -9,6 +9,12 @@ public class LMInsertNodeDisplay extends BasicDisplay {
 		btnCalculate.setVisible(false);
 		btnAssign = new Button("Assign");
 		btnAssign.addClickHandler(new AssignClickHandler(this));
+		
+		txtInstructions.setText("Add nodes in the order students would add" +
+				" them.  The resulting tree will automatically be built." + 
+				" removing a node rebuilds the tree in the same sequence," + 
+				" omitting the removed node.  When satisfied with the tree" +
+				" click 'Assign' to assign the problem");
 
 		this.canvas.setNodeHandler(new NH_InsertNode(canvas));
 		this.basePanel.add(btnAssign);

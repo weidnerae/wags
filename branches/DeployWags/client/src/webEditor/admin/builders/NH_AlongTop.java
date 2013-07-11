@@ -2,11 +2,13 @@ package webEditor.admin.builders;
 
 import com.google.gwt.user.client.Window;
 
-public class NH_Traversal extends NodeHandler {
+public class NH_AlongTop extends NodeHandler {
 	int nodeX = 10, nodeY = 10;
 	final int NODE_WIDTH = 40;
+	boolean numbers = false;
+	boolean unique = true;
 	
-	public NH_Traversal(BasicCanvas canvas) {
+	public NH_AlongTop(BasicCanvas canvas) {
 		this.parent = canvas;
 	}
 
@@ -20,9 +22,20 @@ public class NH_Traversal extends NodeHandler {
 	 */
 	public void addNode(String value) {
 		// For traversals, we're going to force unique nodes
-		for(Node_Basic node: parent.nodes){
-			if(node.value.equals(value)){
-				Window.alert("Duplicate nodes not allowed!");
+		if(unique){
+			for(Node_Basic node: parent.nodes){
+				if(node.value.equals(value)){
+					Window.alert("Duplicate nodes not allowed!");
+					return;
+				}
+			}
+		}
+		
+		if(numbers){
+			try{
+				Integer.parseInt(value);
+			} catch (NumberFormatException e){
+				Window.alert("Illegal number format!");
 				return;
 			}
 		}

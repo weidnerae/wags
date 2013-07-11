@@ -30,7 +30,7 @@
 	</ui:style>
 	<g:VerticalPanel ui:field="basePanel">
 		<my:BasicCanvas styleName="{style.border}" ui:field="canvas"/>
-		<g:TextArea ui:field="txtInstructions" visibleLines="6" width="99%"></g:TextArea>
+		<g:TextArea ui:field="txtInstructions" visibleLines="6" width="99%" readOnly="true"></g:TextArea>
 		<g:HorizontalPanel width="100%">
 			<g:HorizontalPanel width="35%">
 				<g:Label styleName="{style.txtAlign}">Add Node: </g:Label>
