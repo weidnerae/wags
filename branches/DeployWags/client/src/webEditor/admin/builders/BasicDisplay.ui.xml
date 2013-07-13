@@ -27,10 +27,15 @@
 		.border {
 			border: 2px solid #abadb3;
 		}
+		.instructions {
+			border-radius: 10px;
+			padding: 6px;
+			margin: 10px 0px 10px 0px;
+		}
 	</ui:style>
 	<g:VerticalPanel ui:field="basePanel">
 		<my:BasicCanvas styleName="{style.border}" ui:field="canvas"/>
-		<g:TextArea ui:field="txtInstructions" visibleLines="6" width="99%" readOnly="true"></g:TextArea>
+		<g:TextArea styleName="{style.instructions}" ui:field="txtInstructions" visibleLines="6" width="590px" readOnly="true"></g:TextArea>
 		<g:HorizontalPanel width="100%">
 			<g:HorizontalPanel width="35%">
 				<g:Label styleName="{style.txtAlign}">Add Node: </g:Label>
