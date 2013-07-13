@@ -5,11 +5,9 @@
 	<ui:style>
 		.button {
 			font-weight: bold;
-			font-size: 15px;
 			height: 25px;
 			width: 34%;
 			text-align: center;
-			border-radius: 5px;
 			margin: 10px auto auto auto;
 		}
 		
@@ -29,7 +27,7 @@
 			font-size: 15px;
 			margin-right: 0.5em;
 			text-align: left;
-		    margin-top: 5px;
+		    margin-top: 3px;
 		    color: white;
 		    font-weight: boldest;
 		    text-shadow:
