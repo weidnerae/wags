@@ -48,6 +48,7 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 		this.problem = problem;
 		super.problem = problem;
 		this.itemsInPanel = new ArrayList<Widget>();
+		ub = problem.nodes.split(" ").length - 1;
 	}
 
 	public void displayProblem() {
@@ -145,7 +146,7 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 		resetButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				lb = 0;
-				ub = 9;
+				ub = problem.getNodes().split(" ").length - 1;
 				removeWidgetsFromPanel();
 
 				for (int i = 0; i < getNodes().size(); i++) {
@@ -153,7 +154,8 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 				}
 				
 				leftUpArrow.setX(30);
-				rightUpArrow.setX(canvas.getWidth() - 30);
+				// Re-use 'ub' to get correct right arrow offset
+				rightUpArrow.setX(canvas.getWidth() - 30 - (10 - (ub + 1)) * 60);
 
 				nodeCollection.emptyNodes();
 				insertNodesAndEdges();
@@ -354,7 +356,9 @@ public class SimplePartitionDisplayManager extends DisplayManager implements
 	
 	private void drawAllArrows() {
 		leftUpArrow = drawUpArrow(30);
-		rightUpArrow = drawUpArrow(canvas.getWidth() - 30);
+		// Expects 10 nodes, must be altered for different numbers
+		int rightOffset = 30 + (10 - problem.getNodes().split(" ").length) * 60;
+		rightUpArrow = drawUpArrow(canvas.getWidth() - rightOffset);
 		Path rightFacingArrow = drawRightArrow();
 		Path leftFacingArrow = drawLeftArrow();
 		

@@ -26,7 +26,7 @@ public class Evaluation_SimplePartition extends Evaluation implements IsSerializ
 	public String evaluate(String problemName, String[] arguments,
 			ArrayList<Node> nodes, ArrayList<EdgeParent> edges) {
 		evalLB = 0;
-		evalUB = 9;
+		evalUB = nodes.size() - 1;
 		
 		int[] student = getIntArrayFromString(getNodeOrder(nodes));		
 		int[] solution = getSolution(getIntArrayFromString(arguments[0].trim()));

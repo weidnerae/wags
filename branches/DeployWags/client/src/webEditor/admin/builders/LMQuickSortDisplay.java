@@ -56,6 +56,14 @@ public class LMQuickSortDisplay extends BasicDisplay {
 		argSolution.setup("Solution", "Submit");
 		
 		basePanel.add(argSolution);
+		
+		argSolution.btnArg.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				fillBuilder(argSolution);
+				builder.uploadLM();
+			}
+		});
 	}
 	
 	private class SetPivotHandler implements ClickHandler{
@@ -90,14 +98,17 @@ public class LMQuickSortDisplay extends BasicDisplay {
 
 	@Override
 	public void fillBuilder(ArgHolder child) {
-		// TODO Auto-generated method stub
-
+		builder.setTitle(txtTitle.getText());
+		builder.setProblemText(txtDesc.getText());
+		for(Node_Basic node: canvas.nodes){
+			builder.addNode(node.value);
+		}
+		builder.setArgs(child.getArguments());
 	}
 
 	@Override
 	public void onModify() {
-		// TODO Auto-generated method stub
-
+		argSolution.clear();
 	}
 
 	@Override
@@ -153,10 +164,10 @@ public class LMQuickSortDisplay extends BasicDisplay {
 		
 		// Run the actual algorithm
 		while(leftIndex < rightIndex){
-			while(nodeVals[leftIndex] < pivot){
+			while(nodeVals[leftIndex] < pivot && leftIndex < nodeVals.length - 1){
 				leftIndex++;
 			}
-			while(nodeVals[rightIndex] >= pivot){
+			while(nodeVals[rightIndex] >= pivot && rightIndex > 0){
 				rightIndex--;
 			}
 			if(leftIndex < rightIndex){
