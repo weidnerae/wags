@@ -76,7 +76,7 @@ public class Editor extends Composite implements IsWidget{
 		lines.setVisibleLines(100);
 		final Editor thing = this;
 		
-		description.setUrl(""); // TODO: This needs to be filled with a default
+		description.setUrl("");
 
 		//For getting pdf descriptors
 		wrapperForm.setAction(Proxy.getBaseURL()+"?cmd=ReturnPDF");		

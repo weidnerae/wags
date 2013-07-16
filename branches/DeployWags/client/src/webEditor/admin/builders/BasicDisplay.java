@@ -67,7 +67,6 @@ public abstract class BasicDisplay extends Composite {
 	}
 
 	public void load(VerticalPanel panel, LMBuilder builder){
-		txtInstructions.getElement().setPropertyString("border-radius", "5px");
 		this.builder = builder;
 		panel.clear();
 		if(!built){

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
@@ -25,11 +27,47 @@ public class Edge_Graphs extends Edge_Basic {
 	private static int[][] adjMatrix;
 	private static ArrayList<Edge_Graphs> edges = new ArrayList<Edge_Graphs>();
 	
+	
+	/**
+	 * Creates and adds Edge between two Nodes
+	 * 
+	 * @param n1 first Node
+	 * @param n2 second Node
+	 * @param canvas the creation space for problems
+	 */
 	public Edge_Graphs(Node_Basic n1, Node_Basic n2, BasicCanvas canvas) {
 		super(n1, n2, canvas);
 		
 		weightBox = constructWeightBox();
 		placeLabel(weightLabel);
+		weightLabel.addClickHandler(new weightLabelClickHandler());
+		handler.removeHandler(); //remove original click handler
+		handler = this.addDoubleClickHandler(new edgeRemoveClick(this)); //add modified click handler to require double click
+	}
+	
+	/**
+	 * Overloaded constructor used to add weighted edges that already have a weight associated
+	 * with them.
+	 * 
+	 */
+	public Edge_Graphs(Node_Basic n1, Node_Basic n2, BasicCanvas canvas, int weight) {
+		super(n1, n2, canvas);
+		this.weight = weight;
+		this.
+		
+		weightLabel.setText("" + weight);
+		weightLabel.setStyleName("edge_weight");
+		placeLabel(weightLabel);
+		weightLabel.addClickHandler(new weightLabelClickHandler());
+	}
+	
+	/**
+	 * Overloaded redraw method to redraw edges that have weights already
+	 */
+	@Override
+	public void redraw(BasicCanvas canvas){
+		delete();
+		canvas.addEdge(n1, n2, weight);
 	}
 	
 	private void placeLabel(Label weightLabel){
@@ -59,6 +97,10 @@ public class Edge_Graphs extends Edge_Basic {
 		canvas.canvasPanel.add(weightLabel, eMidX, eMidY);
 	}
 	
+	/**
+	 * Creates the "Add Weight" dialog box box that appears when edges are created
+	 * @return DialogBox
+	 */
 	private DialogBox constructWeightBox(){
 		DialogBox box = new DialogBox();
 		HorizontalPanel pnl = new HorizontalPanel();
@@ -99,6 +141,10 @@ public class Edge_Graphs extends Edge_Basic {
 		return box;
 	}
 	
+	/**
+	 * Handles the "Set" button in DialogBox returned in constructWeightBox()
+	 * 
+	 */
 	private class btnWeightClickHandler implements ClickHandler{
 		private Edge_Graphs edge;
 		private TextBox txtWeight;
@@ -113,12 +159,17 @@ public class Edge_Graphs extends Edge_Basic {
 		@Override
 		public void onClick(ClickEvent event) {
 			int weight = -1;
+			Label errorLabel = new Label("Invalid Number!");
+			//check to make sure that an error label isn't already on the dialogbox
+			//if it is, remove it before try/catch
+			if (errorLabel.getParent() == vpnl) { 
+				vpnl.remove(errorLabel);
+			}
 			
 			try{
 				weight = Integer.parseInt(txtWeight.getText());
 			} catch (NumberFormatException e){
 				txtWeight.setText("");
-				Label errorLabel = new Label("Invalid Number!");
 				errorLabel.setStyleName("lmc_graph_popup_err");
 				vpnl.add(errorLabel);
 				return;
@@ -143,6 +194,128 @@ public class Edge_Graphs extends Edge_Basic {
 			// Add edge to node list so edges can be redrawn correctly
 			n1.addEdge(edge);
 			n2.addEdge(edge);
+		}
+		
+	}
+	
+	/**
+	 * Handler to allow user to change weights by clicking on existing
+	 * weight labels.
+	 */
+	private class weightLabelClickHandler implements ClickHandler{		
+		@Override
+		public void onClick(ClickEvent event) {
+			constructWeightChangeBox();
+		}
+	}
+	
+	/**
+	 * Based on constructWeightBox, this method provides a modified version
+	 * for changing an existing weight
+	 * @return DialogBox
+	 */
+	private DialogBox constructWeightChangeBox(){
+		DialogBox box = new DialogBox();
+		HorizontalPanel pnl = new HorizontalPanel();
+		VerticalPanel vpnl = new VerticalPanel();
+		vpnl.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER); //center the button
+		
+		Label lblWeight = new Label("Edge weight: ");
+		lblWeight.setStyleName("lmc_graph_popup_label");
+		TextBox txtWeight = new TextBox();
+		
+		
+		txtWeight.setMaxLength(2);
+		final Button btnWeight = new Button("Set");
+		btnWeight.setStyleName("lmc_graph_popup_btn");
+		btnWeight.addClickHandler(new btnWeightChangeClickHandler(this, txtWeight, vpnl, box));
+		
+		pnl.add(lblWeight);
+		pnl.add(txtWeight);
+		vpnl.add(pnl);
+		vpnl.add(btnWeight);
+		
+		box.add(vpnl);
+		
+		txtWeight.addKeyPressHandler(new KeyPressHandler() {
+			
+			@Override
+			public void onKeyPress(KeyPressEvent event) {
+				if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER)
+				{
+					btnWeight.click();
+				}
+			}
+		});
+		
+		box.center();
+		txtWeight.setFocus(true);
+		
+		return box;
+	}
+	
+	/**
+	 * Modified form of btnWeightClickHandler that changes current weights
+	 */
+	private class btnWeightChangeClickHandler implements ClickHandler{
+		private Edge_Graphs edge;
+		private TextBox txtWeight;
+		private VerticalPanel vpnl;
+		private DialogBox box;
+		
+		public btnWeightChangeClickHandler(Edge_Graphs edge, TextBox txt, VerticalPanel vpnl, DialogBox box){
+			this.edge = edge;
+			this.txtWeight = txt;
+			this.vpnl = vpnl;
+			this.box = box;
+		}
+		
+		@Override
+		public void onClick(ClickEvent event) {
+			int weight = -1;
+			Label errorLabel = new Label("Invalid Number!");
+			//check to make sure that an error label isn't already on the dialogbox
+			//if it is, remove it before try/catch
+			if (errorLabel.getParent() == vpnl) { 
+				vpnl.remove(errorLabel);
+			}
+			
+			try{
+				weight = Integer.parseInt(txtWeight.getText());
+			} catch (NumberFormatException e){
+				txtWeight.setText("");
+				errorLabel.setStyleName("lmc_graph_popup_err");
+				vpnl.add(errorLabel);
+				return;
+			}
+			
+
+			edge.weight = weight;
+			edge.weightLabel.setText(weight + "");
+			weightLabel.setStyleName("edge_weight");
+			box.hide();
+
+			// Update static fields for later use
+			Edge_Graphs.updateMatrix(edge);
+		}
+		
+	}
+	
+	/**
+	 * Overridden private class for Edge_Graph where user must
+	 * double click to delete an edge. Done to reduce user
+	 * error when attempting to change weighted label.
+	 */
+	private class edgeRemoveClick implements DoubleClickHandler{
+		Edge_Basic edge;
+		
+		public edgeRemoveClick(Edge_Basic edge){
+			this.edge = edge;
+		}
+		
+		@Override
+		public void onDoubleClick(DoubleClickEvent event) {
+			edge.delete();
 		}
 		
 	}

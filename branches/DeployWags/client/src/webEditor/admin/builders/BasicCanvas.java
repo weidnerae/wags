@@ -7,8 +7,8 @@ import org.vaadin.gwtgraphics.client.DrawingArea;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -150,6 +150,21 @@ public class BasicCanvas extends Composite {
 		if(!(edgeHandler instanceof EH_NoEdges)) edges.add(newEdge);
 		
 		return edgeHandler.addEdge(node1, node2);
+	}
+	
+	public boolean addEdge(Node_Basic node1, Node_Basic node2, int weight){
+		// For now, you can't have multiple edges between nodes
+		PseudoEdge newEdge = new PseudoEdge(node1, node2);
+		for(PseudoEdge edge: edges){
+			if(edge.matches(newEdge)){
+				Window.alert("Cannot have multiple edges between paired nodes");
+				return false;
+			}
+		}
+		
+		if(!(edgeHandler instanceof EH_NoEdges)) edges.add(newEdge);
+		
+		return ((EH_Weighted)edgeHandler).addEdge(node1, node2, weight);
 	}
 	
 	/**
