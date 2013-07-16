@@ -4,10 +4,12 @@ import org.vaadin.gwtgraphics.client.Line;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 
 public abstract class Edge_Basic extends Line {
 	private final static int NODE_HALF = 20;
 	private final int LINE_WIDTH = 10;
+	protected HandlerRegistration handler; //allows other types of Edges to change how clicks are handled.
 
 	protected Node_Basic n1, n2;
 	protected BasicCanvas canvas;
@@ -28,7 +30,9 @@ public abstract class Edge_Basic extends Line {
 		this.n1 = n1;
 		this.n2 = n2;
 		this.setStrokeWidth(LINE_WIDTH);
-		this.addClickHandler(new edgeRemoveClick(this));
+		//this allows classes that extend Edge_Basic to remove this click handler and
+		//implement their own 
+		handler = this.addClickHandler(new edgeRemoveClick(this));
 	}
 
 	
