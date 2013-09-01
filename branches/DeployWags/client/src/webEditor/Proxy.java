@@ -1222,7 +1222,7 @@ public class Proxy
 	/* Loads editor page */
 	public static void getMagnetProblemForEdit(final TextArea titleArea, final TextArea desc, final TextArea classArea,
 			final TextArea functions, final TextArea statements, String title, final TextArea finalTypeTxtArea, final TextArea forLoop1TextArea, final TextArea forLoop2TextArea, 
-			final TextArea forLoop3TextArea, final TextArea booleansTextArea, final TextBox ifAllowed, final TextBox elseAllowed,
+			final TextArea forLoop3TextArea, final TextArea ifsTextArea, final TextArea whilesTextArea, final TextBox ifAllowed, final TextBox elseAllowed,
 			final TextBox elseIfAllowed, final TextBox forAllowed, final TextBox whileAllowed){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetMagnetProblem&title=" + title);
 		try{
@@ -1240,25 +1240,46 @@ public class Proxy
 					if (magProblem.type.equals(webEditor.magnet.view.Consts.ADVANCED_PROBLEM)) {
 						String fors = "";
 						// fors
-						for(String s: magProblem.forLeft)
-							fors+=s+".:|:.";
+						for(String s: magProblem.forLeft) {
+							if (s != "") {
+								fors+=s+".:|:.";
+							}
+						}
 						forLoop1TextArea.setText(fors);
 						
 						fors = "";
-						for(String s: magProblem.forMid)
-							fors+=s+".:|:.";
+						for(String s: magProblem.forMid) {
+							if (s != "") {
+								fors+=s+".:|:.";
+							}
+						}
 						forLoop2TextArea.setText(fors);
 						
 						fors = "";
-						for(String s: magProblem.forRight)
-							fors+=s+".:|:.";
+						for(String s: magProblem.forRight) {
+							if (s != "") {
+								fors+=s+".:|:.";
+							}
+						}
 						forLoop3TextArea.setText(fors);
 						
 						// booleans
 						fors = "";
-						for(String s: magProblem.bools)
-							fors+=s+".:|:.";
-						booleansTextArea.setText(fors);
+						for(String s: magProblem.ifOptions) {
+							if (s != "") {
+								fors+=s+".:|:.";
+							}
+						}
+						ifsTextArea.setText(fors);
+						
+						fors = "";
+						for(String s: magProblem.whileOptions) {
+							if (s != "") { 
+								fors+=s+".:|:.";
+							}
+						}
+						whilesTextArea.setText(fors);
+							
 						
 						// limits
 						String[] limits = magProblem.limits.split(",");

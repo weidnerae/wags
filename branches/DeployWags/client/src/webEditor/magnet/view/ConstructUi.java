@@ -79,7 +79,7 @@ public class ConstructUi extends Composite {
 			//create and register necessary drop controller
 			//add it to center
 			mmContent = new AbsolutePanel();
-			magnetMaker = new MagnetMaker(forLists, magnet.bools, limits, this, nextID);
+			magnetMaker = new MagnetMaker(forLists, magnet.ifOptions, magnet.whileOptions, limits, this, nextID);
 			mmContent.add(magnetMaker);
 			mmContent.setStyleName("magnet_maker");
 			

@@ -32,19 +32,22 @@ public class MagnetMaker extends VerticalPanel {
 	private MenuBar structures;
 	private MenuBar structureOptions;
 	private ListBox[] forConditions;
-	private ListBox booleanConditions;
+	private ListBox ifConditions;
+	private ListBox whileConditions;
 
 	/* different use cases are represented by panels, each for the type of decision structure */
 	private HorizontalPanel forPanel = new HorizontalPanel();
-	private HorizontalPanel booleanPanel = new HorizontalPanel();
+	private HorizontalPanel whilePanel = new HorizontalPanel();
+	private HorizontalPanel ifPanel = new HorizontalPanel();
 	private HorizontalPanel topAlignPanel = new HorizontalPanel();
 
 	private int nextID;
 	private int[] limits;
 	private int[] initialLimits;
 	private int selectedStructureIndex = 0;
+	
 
-	public MagnetMaker(String[][] forLists, String[] booleanList, int[] limits,
+	public MagnetMaker(String[][] forLists, String[] ifList, String[] whileList, int[] limits,
 			ConstructUi constructPanel, int nextID) {
 		this.setStyleName("dropdown_panel");
 		this.limits = limits;
@@ -68,7 +71,8 @@ public class MagnetMaker extends VerticalPanel {
 		forConditions[0] = setupListBox(forLists[0]);
 		forConditions[1] = setupListBox(forLists[1]);
 		forConditions[2] = setupListBox(forLists[2]);
-		booleanConditions = setupListBox(booleanList);
+		ifConditions = setupListBox(ifList);
+		whileConditions = setupListBox(whileList);
 
 		/* set up panels for each decision structure so they can be ready to swap to */
 		forPanel.add(new HTML("&nbsp ( &nbsp"));
@@ -79,10 +83,15 @@ public class MagnetMaker extends VerticalPanel {
 		forPanel.add(forConditions[2]);
 		forPanel.add(new HTML("&nbsp ) &nbsp"));
 
-		booleanPanel.addStyleName("boolean_conditions");
-		booleanPanel.add(new HTML("&nbsp ( &nbsp"));
-		booleanPanel.add(booleanConditions);
-		booleanPanel.add(new HTML("&nbsp ) &nbsp"));
+		ifPanel.addStyleName("boolean_conditions");
+		ifPanel.add(new HTML("&nbsp ( &nbsp"));
+		ifPanel.add(ifConditions);
+		ifPanel.add(new HTML("&nbsp ) &nbsp"));
+		
+		whilePanel.addStyleName("boolean_conditions");
+		whilePanel.add(new HTML("&nbsp ( &nbsp"));
+		whilePanel.add(whileConditions);
+		whilePanel.add(new HTML("&nbsp ) &nbsp"));
 
 		createButton.addClickHandler(new CreateHandler());
 		createButton.addStyleName("create_button");
@@ -173,9 +182,9 @@ public class MagnetMaker extends VerticalPanel {
 		
 		switch (structure) {
 		case FOR:		topAlignPanel.add(forPanel); break;
-		case WHILE:		
-		case IF:		
-		case ELSE_IF:	topAlignPanel.add(booleanPanel); break;
+		case WHILE:		topAlignPanel.add(whilePanel); break;
+		case IF:			topAlignPanel.add(ifPanel); break;
+		case ELSE_IF:	topAlignPanel.add(ifPanel); break;
 		}
 	}
  
@@ -203,9 +212,13 @@ public class MagnetMaker extends VerticalPanel {
 				break;
 
 			case WHILE:
+				createdContainer.addConditionContent(whileConditions.getItemText(whileConditions.getSelectedIndex()));
+				break;
 			case IF:
+				createdContainer.addConditionContent(ifConditions.getItemText(ifConditions.getSelectedIndex()));
+				break;
 			case ELSE_IF:
-				createdContainer.addConditionContent(booleanConditions.getItemText(booleanConditions.getSelectedIndex()));
+				createdContainer.addConditionContent(ifConditions.getItemText(ifConditions.getSelectedIndex()));
 				break;
 			}
 

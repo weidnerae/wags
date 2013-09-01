@@ -52,7 +52,7 @@ public class ProblemCreationPanel extends Composite{
 		commentsTxtBox, bottomLabelTxtBox, bottomRealCodeTxtBox, forAllowed, whileAllowed, ifAllowed, elseAllowed, elseIfAllowed;
 	@UiField TextArea finalTitleTxtBox, descriptionTxtArea, finalDescriptionTxtArea, finalTypeTxtArea,
 		classDeclarationTxtArea, innerFunctionsTxtArea, statementsTxtArea, commentsStagingArea,
-		hiddenFunctionsArea, forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, booleansTextArea;
+		hiddenFunctionsArea, forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, whilesTextArea, ifsTextArea;
 	@UiField VerticalPanel magnetMakerOptions, magnetReviewPanel, numberAllowedReviewPanel;
 	@UiField SubmitButton createProblemSubmitButton, fileParseSbt;
 	@UiField Button createCommentsButton, classDeclarationButton, innerFunctionsButton,
@@ -61,7 +61,7 @@ public class ProblemCreationPanel extends Composite{
 	@UiField RadioButton btnBasicProblem, btnAdvancedProblem;
 	@UiField FileUpload solutionUpload, helperUpload;
 	@UiField ListBox lstGroup, lstLoadGroup, lstLoadExercise;
-	@UiField Label lblGroup, forLoop1Label, forLoop2Label, forLoop3Label, booleansLabel;
+	@UiField Label lblGroup, forLoop1Label, forLoop2Label, forLoop3Label, whileLabel, ifLabel;
 	@UiField VerticalPanel vtPanelHelper;
 	@UiField CheckBox overwrite;
 	
@@ -148,7 +148,7 @@ public class ProblemCreationPanel extends Composite{
 			public void onClick(ClickEvent event) {
 				Proxy.getMagnetProblemForEdit(finalTitleTxtBox, finalDescriptionTxtArea, classDeclarationTxtArea, 
 						innerFunctionsTxtArea, statementsTxtArea, lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()),
-						finalTypeTxtArea,forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, booleansTextArea, ifAllowed, elseAllowed,
+						finalTypeTxtArea,forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, ifsTextArea, whilesTextArea, ifAllowed, elseAllowed,
 						elseIfAllowed,forAllowed, whileAllowed);
 			}
 		});
@@ -203,21 +203,27 @@ public class ProblemCreationPanel extends Composite{
 					
 					forAllowed.setText(numberAllowedText.getText());
 				} else if (selected.equals("if")) {
-					if (booleansTextArea.getText().equals("")) {
-						booleansTextArea.setText(boolCond.getText());
-					} else booleansTextArea.setText(booleansTextArea.getText() + ".:|:." + boolCond.getText());				
+					//extra code because both "booleans" general field exists as well as 
+					//separated fields for if booleans and while booleans
+					if (ifsTextArea.getText().equals("")) {
+						ifsTextArea.setText(boolCond.getText());
+					} else ifsTextArea.setText(ifsTextArea.getText() + ".:|:." + boolCond.getText());	
 					ifAllowed.setText(numberAllowedText.getText());
 				} else if (selected.equals("while")) {
-					if (booleansTextArea.getText().equals("")) {
-						booleansTextArea.setText(boolCond.getText());
-					} else booleansTextArea.setText(booleansTextArea.getText() + ".:|:." + boolCond.getText());
+					//extra code because both "booleans" general field exists as well as 
+					//separated fields for if booleans and while booleans
+					if (whilesTextArea.getText().equals("")) {
+						whilesTextArea.setText(boolCond.getText());
+					} else whilesTextArea.setText(whilesTextArea.getText() + ".:|:." + boolCond.getText());
 					whileAllowed.setText(numberAllowedText.getText());
 				} else if (selected.equals("else")) {
 					elseAllowed.setText(numberAllowedText.getText());
 				} else if (selected.equals("else if")) {
-					if (booleansTextArea.getText().equals("")) {
-						booleansTextArea.setText(boolCond.getText());
-					} else booleansTextArea.setText(booleansTextArea.getText() + ".:|:." + boolCond.getText());
+					//extra code because both "booleans" general field exists as well as 
+					//separated fields for if booleans and while booleans
+					if (ifsTextArea.getText().equals("")) {
+						ifsTextArea.setText(boolCond.getText());
+					} else ifsTextArea.setText(ifsTextArea.getText() + ".:|:." + boolCond.getText());	
 					elseIfAllowed.setText(numberAllowedText.getText());
 				}
 			}
@@ -347,11 +353,13 @@ public class ProblemCreationPanel extends Composite{
 		forLoop1TextArea.setVisible(false);
 		forLoop2TextArea.setVisible(false);
 		forLoop3TextArea.setVisible(false);
-		booleansTextArea.setVisible(false);
+		whilesTextArea.setVisible(false);
+		ifsTextArea.setVisible(false);
 		forLoop1Label.setVisible(false);
 		forLoop2Label.setVisible(false);
 		forLoop3Label.setVisible(false);
-		booleansLabel.setVisible(false);
+		whileLabel.setVisible(false);
+		ifLabel.setVisible(false);
 	}
 	
 	/** Sets up the Magnet Maker Options panel and makes it visible in Problem Creation 
@@ -399,11 +407,13 @@ public class ProblemCreationPanel extends Composite{
 		forLoop1TextArea.setVisible(true);
 		forLoop2TextArea.setVisible(true);
 		forLoop3TextArea.setVisible(true);
-		booleansTextArea.setVisible(true);
 		forLoop1Label.setVisible(true);
 		forLoop2Label.setVisible(true);
 		forLoop3Label.setVisible(true);
-		booleansLabel.setVisible(true);
+		whileLabel.setVisible(true);
+		ifLabel.setVisible(true);
+		whilesTextArea.setVisible(true);
+		ifsTextArea.setVisible(true);
 	}
 	
 	private class StructuresHandler implements ChangeHandler{
