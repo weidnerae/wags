@@ -199,13 +199,14 @@ public class WEStatus {
 			String mainFunction = messageMap.get("solution");
 						
 			// Get arrays
-			String[] innerFunctions, forLeft, forMid, forRight, bools, statements, allStatements, oldStatements, newStatements, createdIDs;
+			String[] innerFunctions, forLeft, forMid, forRight, ifOptions, whileOptions, statements, allStatements, oldStatements, newStatements, createdIDs;
 			int numStatements;
 			innerFunctions = parseArray(messageMap.get("innerFunctions"));
 			forLeft = parseArray(messageMap.get("forLeft"));
 			forMid = parseArray(messageMap.get("forMid"));
 			forRight = parseArray(messageMap.get("forRight"));
-			bools = parseArray(messageMap.get("bools"));
+			ifOptions = parseArray(messageMap.get("ifOptions"));
+			whileOptions = parseArray(messageMap.get("whileOptions"));
 			allStatements = messageMap.get("statements").split(".:3:.");
 			oldStatements = parseArray(allStatements[0]);
 			numStatements = oldStatements.length+(innerFunctions.length);
@@ -224,7 +225,7 @@ public class WEStatus {
 			
 			// Create the object
 			myObject = new MagnetProblem(id, messageMap.get("title"), messageMap.get("directions"), 
-					messageMap.get("type"), mainFunction, innerFunctions, forLeft, forMid, forRight, bools,
+					messageMap.get("type"), mainFunction, innerFunctions, forLeft, forMid, forRight, ifOptions, whileOptions,
 					statements, messageMap.get("limits"), createdIDs, numStatements, messageMap.get("solution"), messageMap.get("state"));
 		} else if (objType == "LogicalMicrolab"){
 			// Pretty much just passes the database information into the LogicalMicrolab constructor.

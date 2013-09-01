@@ -73,6 +73,9 @@
 		.borderRight {
 			border-right: 1px solid black;
 		}
+		.left_pad {
+			padding-left: 3px;
+		}
 
 	</ui:style>
 	<g:LayoutPanel>
@@ -225,8 +228,10 @@
 						<g:TextArea name="forloop2" ui:field="forLoop2TextArea" width="100%" visibleLines="5" visible="false" />
 						<g:Label text="for Loop After" ui:field="forLoop3Label" visible="false"/>
 						<g:TextArea name="forloop3" ui:field="forLoop3TextArea" width="100%" visibleLines="5" visible="false" />
-						<g:Label text="boolean Conditions" ui:field="booleansLabel" visible="false"/>
-						<g:TextArea name="bools" ui:field="booleansTextArea" width="100%" visibleLines="5" visible="false" />
+						<g:Label text="while Conditions" ui:field="whileLabel" visible="false"/>
+						<g:TextArea name="whiles" ui:field="whilesTextArea" width="100%" visibleLines="5" visible="false"/>
+						<g:Label text="if/else-if Conditions" ui:field="ifLabel" visible="false"/>
+						<g:TextArea name="ifs" ui:field="ifsTextArea" width="100%" visibleLines="5" visible="false"/>
 						<!--  ListBox for privileged admin only, defaults to hidden -->
 						<g:HorizontalPanel>
 						    <g:Label ui:field="lblGroup" text="Group:" width="150px" visible="false"/>
@@ -240,31 +245,31 @@
 							        <g:customCell styleName="{style.oneFifthCell}">
 							            <g:HorizontalPanel>
 							                <g:Label text="if: "/>
-						    				<g:TextBox name="ifallowed" width="30px" ui:field="ifAllowed"/>
+						    				<g:TextBox styleName='{style.left_pad}' name="ifallowed" width="30px" ui:field="ifAllowed"/>
 							            </g:HorizontalPanel>
 							        </g:customCell>
 							        <g:customCell styleName="{style.oneFifthCell}">
 							            <g:HorizontalPanel>
 									    	<g:Label text=" while: "/>
-									    	<g:TextBox name="whileallowed" width="30px" ui:field="whileAllowed"/>
+									    	<g:TextBox styleName='{style.left_pad}' name="whileallowed" width="30px" ui:field="whileAllowed"/>
 							            </g:HorizontalPanel>
 							        </g:customCell>
 							        <g:customCell styleName="{style.oneFifthCell}">
 							            <g:HorizontalPanel>
 							                <g:Label text=" for: "/>
-						    				<g:TextBox name="forallowed" width="30px" ui:field="forAllowed"/>
+						    				<g:TextBox styleName='{style.left_pad}' name="forallowed" width="30px" ui:field="forAllowed"/>
 							            </g:HorizontalPanel>
 							        </g:customCell>
 							        <g:customCell styleName="{style.oneFifthCell}">
 							            <g:HorizontalPanel>
 						    				<g:Label text=" else: "/>
-						    				<g:TextBox name="elseallowed" width="30px" ui:field="elseAllowed"/>
+						    				<g:TextBox styleName='{style.left_pad}' name="elseallowed" width="30px" ui:field="elseAllowed"/>
 							            </g:HorizontalPanel>
 							        </g:customCell>
 							        <g:customCell styleName="{style.oneFifthCell}">
 							            <g:HorizontalPanel>
 							                <g:Label text="else if:"/>
-						    				<g:TextBox name="elseifallowed" width="30px" ui:field="elseIfAllowed"/>
+						    				<g:TextBox styleName='{style.left_pad}' name="elseifallowed" width="30px" ui:field="elseIfAllowed"/>
 							            </g:HorizontalPanel>
 							        </g:customCell>
 						    	</g:row>
