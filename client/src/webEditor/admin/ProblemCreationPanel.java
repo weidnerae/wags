@@ -150,7 +150,7 @@ public class ProblemCreationPanel extends Composite{
 				Proxy.getMagnetProblemForEdit(finalTitleTxtBox, finalDescriptionTxtArea, classDeclarationTxtArea, 
 						innerFunctionsTxtArea, statementsTxtArea, lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()),
 						finalTypeTxtArea,forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, ifsTextArea, whilesTextArea, ifAllowed, elseAllowed,
-						elseIfAllowed,forAllowed, whileAllowed);
+						elseIfAllowed,forAllowed, whileAllowed, btnBasicProblem, btnAdvancedProblem);
 			}
 		});
 		
