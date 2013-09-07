@@ -85,6 +85,7 @@ public class ProblemCreationPanel extends Composite{
 		Proxy.getMagnetGroups(lstLoadGroup);
 		Proxy.getMagnetsByGroup("Arrays/ArrayLists", lstLoadExercise);		
 		
+		btnBasicProblem.setChecked( true );
 		
 		problemCreateFormPanel.setAction(Proxy.getBaseURL() + "?cmd=AddMagnetExercise");
 		problemCreateFormPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
@@ -199,32 +200,26 @@ public class ProblemCreationPanel extends Composite{
 					} else forLoop2TextArea.setText(forLoop2TextArea.getText() + ".:|:." + forCond2.getText());
 					if (forLoop3TextArea.getText().equals("")) {
 						forLoop3TextArea.setText(forCond3.getText());
-					} else forLoop3TextArea.setText(forLoop3TextArea.getText() + ".:|:." + forCond3.getText());
-					
-					forAllowed.setText(numberAllowedText.getText());
+					} else forLoop3TextArea.setText(forLoop3TextArea.getText() + ".:|:." + forCond3.getText());	
 				} else if (selected.equals("if")) {
 					//extra code because both "booleans" general field exists as well as 
 					//separated fields for if booleans and while booleans
 					if (ifsTextArea.getText().equals("")) {
 						ifsTextArea.setText(boolCond.getText());
 					} else ifsTextArea.setText(ifsTextArea.getText() + ".:|:." + boolCond.getText());	
-					ifAllowed.setText(numberAllowedText.getText());
 				} else if (selected.equals("while")) {
 					//extra code because both "booleans" general field exists as well as 
 					//separated fields for if booleans and while booleans
 					if (whilesTextArea.getText().equals("")) {
 						whilesTextArea.setText(boolCond.getText());
 					} else whilesTextArea.setText(whilesTextArea.getText() + ".:|:." + boolCond.getText());
-					whileAllowed.setText(numberAllowedText.getText());
 				} else if (selected.equals("else")) {
-					elseAllowed.setText(numberAllowedText.getText());
 				} else if (selected.equals("else if")) {
 					//extra code because both "booleans" general field exists as well as 
 					//separated fields for if booleans and while booleans
 					if (ifsTextArea.getText().equals("")) {
 						ifsTextArea.setText(boolCond.getText());
 					} else ifsTextArea.setText(ifsTextArea.getText() + ".:|:." + boolCond.getText());	
-					elseIfAllowed.setText(numberAllowedText.getText());
 				}
 			}
 		});
@@ -235,6 +230,11 @@ public class ProblemCreationPanel extends Composite{
 				addHelperUpload();				
 			}
 		});
+		
+		numberAllowedButton.setTitle( "Adjusts the number of the selected decision structure that the student will be" +
+												" allowed to use at one time.");
+		addMMOptionButton.setTitle( "Adds the input conditions to the problem so that students can select from them" +
+											 " when creating the selected decision structure");
 	}	
 	
 	private void addHelperUpload(){
