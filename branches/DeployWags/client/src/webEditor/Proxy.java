@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
@@ -1223,7 +1224,7 @@ public class Proxy
 	public static void getMagnetProblemForEdit(final TextArea titleArea, final TextArea desc, final TextArea classArea,
 			final TextArea functions, final TextArea statements, String title, final TextArea finalTypeTxtArea, final TextArea forLoop1TextArea, final TextArea forLoop2TextArea, 
 			final TextArea forLoop3TextArea, final TextArea ifsTextArea, final TextArea whilesTextArea, final TextBox ifAllowed, final TextBox elseAllowed,
-			final TextBox elseIfAllowed, final TextBox forAllowed, final TextBox whileAllowed){
+			final TextBox elseIfAllowed, final TextBox forAllowed, final TextBox whileAllowed, final RadioButton btnBasicProblem, final RadioButton btnAdvancedProblem){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetMagnetProblem&title=" + title);
 		try{
 			builder.sendRequest("", new RequestCallback() {
@@ -1237,7 +1238,10 @@ public class Proxy
 					finalTypeTxtArea.setText(magProblem.type);
 					classArea.setText(magProblem.solution);
 					
+					
 					if (magProblem.type.equals(webEditor.magnet.view.Consts.ADVANCED_PROBLEM)) {
+						//set radio button
+						btnAdvancedProblem.setChecked( true );
 						String fors = "";
 						// fors
 						for(String s: magProblem.forLeft) {
@@ -1289,6 +1293,9 @@ public class Proxy
 						elseIfAllowed.setText(""+Integer.parseInt(limits[3]));
 						elseAllowed.setText(""+Integer.parseInt(limits[4]));
 						
+					} else {
+						//if its basic problem
+						btnBasicProblem.setChecked( true );
 					}
 					
 					String innerFunctions = "";
