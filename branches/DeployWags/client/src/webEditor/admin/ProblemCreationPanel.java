@@ -16,6 +16,8 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -85,7 +87,7 @@ public class ProblemCreationPanel extends Composite{
 		Proxy.getMagnetGroups(lstLoadGroup);
 		Proxy.getMagnetsByGroup("Arrays/ArrayLists", lstLoadExercise);		
 		
-		btnBasicProblem.setChecked( true );
+		btnBasicProblem.setValue( true );
 		
 		problemCreateFormPanel.setAction(Proxy.getBaseURL() + "?cmd=AddMagnetExercise");
 		problemCreateFormPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
@@ -151,6 +153,24 @@ public class ProblemCreationPanel extends Composite{
 						innerFunctionsTxtArea, statementsTxtArea, lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()),
 						finalTypeTxtArea,forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, ifsTextArea, whilesTextArea, ifAllowed, elseAllowed,
 						elseIfAllowed,forAllowed, whileAllowed, btnBasicProblem, btnAdvancedProblem);
+			    
+				// dear god help me please
+				Timer t = new Timer() {
+			      @Override
+			      public void run() {
+						if (btnBasicProblem.getValue() == true) {
+							btnBasicProblem.setValue(true);
+							clearMagnetMakerOptions();
+							finalTypeTxtArea.setText( BASIC_PROBLEM );
+						} else if (btnAdvancedProblem.getValue() == true) {
+							btnAdvancedProblem.setValue(true);
+							setupMagnetMakerOptions();
+							finalTypeTxtArea.setText( ADVANCED_PROBLEM );
+						}
+			      }
+			    };
+			    t.schedule(100);
+
 			}
 		});
 		

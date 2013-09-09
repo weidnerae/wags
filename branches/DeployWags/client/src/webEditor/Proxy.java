@@ -1241,7 +1241,7 @@ public class Proxy
 					
 					if (magProblem.type.equals(webEditor.magnet.view.Consts.ADVANCED_PROBLEM)) {
 						//set radio button
-						btnAdvancedProblem.setChecked( true );
+						btnAdvancedProblem.setValue( true );
 						String fors = "";
 						// fors
 						for(String s: magProblem.forLeft) {
@@ -1295,7 +1295,7 @@ public class Proxy
 						
 					} else {
 						//if its basic problem
-						btnBasicProblem.setChecked( true );
+						btnBasicProblem.setValue( true );
 					}
 					
 					String innerFunctions = "";
