@@ -1287,19 +1287,20 @@ public class Proxy
 						
 						// limits
 						String[] limits = magProblem.limits.split(",");
-						forAllowed.setText(""+Integer.parseInt(limits[0]));
-						whileAllowed.setText(""+Integer.parseInt(limits[1]));
-						ifAllowed.setText(""+Integer.parseInt(limits[2]));
-						elseIfAllowed.setText(""+Integer.parseInt(limits[3]));
-						elseAllowed.setText(""+Integer.parseInt(limits[4]));
-						
+						if(limits.length == 5){
+							forAllowed.setText(""+Integer.parseInt(limits[0]));
+							whileAllowed.setText(""+Integer.parseInt(limits[1]));
+							ifAllowed.setText(""+Integer.parseInt(limits[2]));
+							elseIfAllowed.setText(""+Integer.parseInt(limits[3]));
+							elseAllowed.setText(""+Integer.parseInt(limits[4]));
+						}
 					} else {
 						//if its basic problem
 						btnBasicProblem.setValue( true );
 					}
 					
 					String innerFunctions = "";
-					if(magProblem.innerFunctions.length > 0){
+					if(magProblem.innerFunctions != null && magProblem.innerFunctions.length > 0){
 						for(int i = 0; i < magProblem.innerFunctions.length; i++){
 							innerFunctions += magProblem.innerFunctions[i] + ".:|:.";
 						}
@@ -1307,7 +1308,7 @@ public class Proxy
 					functions.setText(innerFunctions);
 					
 					String statementList = "";
-					if(magProblem.statements.length > 0){
+					if(magProblem.statements != null && magProblem.statements.length > 0){
 						for(int i = 0; i < magProblem.statements.length; i++){
 							statementList += magProblem.statements[i] + ".:|:.";
 						}
@@ -1505,7 +1506,10 @@ public class Proxy
 			
 			@Override
 			void success(WEStatus status) {
-				if(Integer.parseInt(status.getMessageMapVal("admin")) != 1){
+				//HACK to make sure the admin nav link doesn't get taken away for out
+				// fake workshop admins...
+				if(Integer.parseInt(status.getMessageMapVal("admin")) != 1 &&
+						Integer.parseInt(status.getMessageMapVal("section")) != 55){
 					Admin.setVisible(false);
 				}
 				
