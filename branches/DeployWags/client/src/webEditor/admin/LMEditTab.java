@@ -93,7 +93,7 @@ public class LMEditTab extends Composite implements ProxyFacilitator{
 		} else if (button.getText().equals("Kruskal")){
 			button.addClickHandler(new checkClickHandler(
 			new LMGraphsDisplay(), LMBuilderFactory.getGraphsBuilder()));
-		} else if (button.getText().equals("Quicksort")){
+		} else if (button.getText().equals("Simple Partition")){
 			button.addClickHandler(new checkClickHandler(
 			new LMQuickSortDisplay(), LMBuilderFactory.getSimplePartitionBuilder()));
 		} else {
