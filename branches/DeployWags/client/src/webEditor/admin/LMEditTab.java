@@ -9,6 +9,7 @@ import webEditor.admin.builders.LMBuilderFactory;
 import webEditor.admin.builders.LMGraphsDisplay;
 import webEditor.admin.builders.LMInsertNodeDisplay;
 import webEditor.admin.builders.LMQuickSortDisplay;
+import webEditor.admin.builders.LMSimplePartitionDisplay;
 import webEditor.admin.builders.LMTraversalDisplay;
 
 import com.google.gwt.core.client.GWT;
@@ -95,7 +96,7 @@ public class LMEditTab extends Composite implements ProxyFacilitator{
 			new LMGraphsDisplay(), LMBuilderFactory.getGraphsBuilder()));
 		} else if (button.getText().equals("Simple Partition")){
 			button.addClickHandler(new checkClickHandler(
-			new LMQuickSortDisplay(), LMBuilderFactory.getSimplePartitionBuilder()));
+			new LMSimplePartitionDisplay(), LMBuilderFactory.getSimplePartitionBuilder()));
 		} else {
 			button.addClickHandler(new ClickHandler() {
 				
