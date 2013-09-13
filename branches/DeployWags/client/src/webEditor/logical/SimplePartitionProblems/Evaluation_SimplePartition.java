@@ -85,7 +85,7 @@ public class Evaluation_SimplePartition extends Evaluation implements IsSerializ
 	 * @return solution
 	 */
 	private int[] getSolution(int[] arr) {
-		int temp;
+		/**int temp;
 		while (evalLB <= evalUB) {
 			while (arr[evalLB] < 0 && evalLB < evalUB)
 				evalLB++;
@@ -96,7 +96,24 @@ public class Evaluation_SimplePartition extends Evaluation implements IsSerializ
                 arr[evalLB]=arr[evalUB];
                 arr[evalUB]=temp;
 			}
-		}
+		}**/
+		
+      while(evalLB < evalUB) {
+         while (evalLB < arr.length-1 && arr[evalLB] < 0)   
+         { 
+         	evalLB++;
+         }
+         while (evalUB > 0 && arr[evalUB] >= 0)   
+         {
+         	evalUB--;
+         }
+         if (evalLB < evalUB)
+         {
+           int temp = arr[evalLB];
+           arr[evalLB] = arr[evalUB];
+           arr[evalUB] = temp;
+         }
+      }
 		
 		return arr;
 	}
