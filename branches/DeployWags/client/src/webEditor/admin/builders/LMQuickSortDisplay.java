@@ -21,7 +21,7 @@ public class LMQuickSortDisplay extends BasicDisplay {
 		canvas.nodeHandler.setUnique(false);
 		canvas.nodeHandler.setNumbers(true);
 		// As these will be numbers, we need to allow a greater range of digits
-		txtAddNode.setMaxLength(2);
+		txtAddNode.setMaxLength(3);
 		
 		txtInstructions.setText("Create a SimplePartition problem by adding" +
 		" the nodes to be sorted.  Nodes are evaluated left to right, not" +
