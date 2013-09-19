@@ -191,7 +191,7 @@ public class Wags extends View
 		HorizontalPanel line1 = new HorizontalPanel();
 		HorizontalPanel line2 = new HorizontalPanel();
 		
-		setPassword.setText("Please change your password");
+		setPassword.setText("Please Enter a New Password");
 				
 		close.addClickHandler(new ClickHandler() {
 			
