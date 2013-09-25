@@ -224,10 +224,14 @@ public class MagnetMaker extends VerticalPanel {
 
 			createdContainer.setID(nextID++);
 			createdContainer.setCreated(true);
-			constructPanel.addSegment(createdContainer);
+			addToConstructPanel(createdContainer);
 			decrementLimitCounter(selectedStructureIndex);
 			updateStructureOptions();
 		}
+	}
+	
+	public void addToConstructPanel(StackableContainer segment){
+		constructPanel.addSegment(segment);
 	}
 	
 	public void incrementLimitCounter(int i) {

@@ -27,7 +27,8 @@ public class AdminPage extends Composite {
 	@UiField LMEditTab lmEditTab;
 
 	public AdminPage() {
-		initWidget(uiBinder.createAndBindUi(this));		
+		initWidget(uiBinder.createAndBindUi(this));	
+		magnetPC.setAdminPage(this);
 		SectionTab sections = new SectionTab();
 		sections.setAdmin(this);
 		Proxy.isAdmin(tabPanel, sections);		
@@ -45,5 +46,10 @@ public class AdminPage extends Composite {
 	
 	public void setSelectedTab(int tab) {
 		tabPanel.selectTab( tab );
+	}
+	
+	public void addWidgetInNewTab(Widget w, String tabTitle){
+		tabPanel.add(w, tabTitle);
+		w.setSize("100%", "100%");
 	}
 }

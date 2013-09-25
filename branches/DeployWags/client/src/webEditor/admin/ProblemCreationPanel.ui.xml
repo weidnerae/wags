@@ -84,6 +84,11 @@
 		    <g:AbsolutePanel>
 				<g:VerticalPanel width="98%">
 					<g:Grid width="100%" styleName='{style.problemTypePanel}'>
+					    <g:row>
+					        <g:customCell>
+					        	<g:Button ui:field="testProblemButton">Test Problem</g:Button>
+					        </g:customCell>
+					    </g:row>
 			    	    <g:row>
 							<g:customCell styleName='{style.halfCell}'>
 				            	<g:RadioButton ui:field="btnBasicProblem" name="problemTypes" text="BASIC"></g:RadioButton>
