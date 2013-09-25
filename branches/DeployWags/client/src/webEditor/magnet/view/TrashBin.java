@@ -40,9 +40,10 @@ final class TrashBin extends AbsolutePanel {
 			} else if (content.startsWith("else")) {
 				magnetMaker.incrementLimitCounter(MagnetMaker.ELSE);
 			}
+			sc.removeFromParent();
+		}else{
+			this.magnetMaker.addToConstructPanel(sc);
 		}
-		
-		sc.removeFromParent();
 	}
 
 	public boolean isWidgetEater() {

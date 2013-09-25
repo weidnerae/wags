@@ -1,9 +1,12 @@
 package webEditor.admin;
 
+import webEditor.MagnetProblem;
 import webEditor.Notification;
 import webEditor.Proxy;
 import webEditor.WEStatus;
 import webEditor.magnet.view.Consts;
+import webEditor.magnet.view.MagnetProblemCreator;
+import webEditor.magnet.view.RefrigeratorMagnet;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -17,7 +20,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -59,7 +61,7 @@ public class ProblemCreationPanel extends Composite{
 	@UiField SubmitButton createProblemSubmitButton, fileParseSbt;
 	@UiField Button createCommentsButton, classDeclarationButton, innerFunctionsButton,
 		statementsButton, clearDataButton, createHidFunctionButton, btnLoadExercise,
-		btnDeleteExercise, btnMoreHelpers;
+		btnDeleteExercise, btnMoreHelpers, testProblemButton;
 	@UiField RadioButton btnBasicProblem, btnAdvancedProblem;
 	@UiField FileUpload solutionUpload, helperUpload;
 	@UiField ListBox lstGroup, lstLoadGroup, lstLoadExercise;
@@ -80,10 +82,14 @@ public class ProblemCreationPanel extends Composite{
 	TextBox forCond3 = new TextBox();
 	TextBox boolCond = new TextBox();
 	int numHelpers = 1;
+	private MagnetProblemCreator magnetProblemCreator;
+	private AdminPage adminPage;
 
 		
 	public ProblemCreationPanel(){
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		this.magnetProblemCreator = new MagnetProblemCreator();
 		Proxy.getMagnetGroups(lstLoadGroup);
 		Proxy.getMagnetsByGroup("Arrays/ArrayLists", lstLoadExercise);		
 		
@@ -655,6 +661,38 @@ public class ProblemCreationPanel extends Composite{
 		}
 	
 	}
+	@UiHandler("testProblemButton")
+	void onTestProblemClick(ClickEvent event){
+		MagnetProblem problem;
+		if(finalTypeTxtArea.getText().equals(ADVANCED_PROBLEM)){			
+			// Advanced problem. Load all the fields;
+		 problem = new MagnetProblem(-1, finalTitleTxtBox.getText(), finalDescriptionTxtArea.getText(), 
+				finalTypeTxtArea.getText(), classDeclarationTxtArea.getText(), innerFunctionsTxtArea.getText().split(".:\\|:."), forLoop1TextArea.getText().split(".:\\|:."), forLoop2TextArea.getText().split(".:\\|:."), forLoop3TextArea.getText().split(".:\\|:."), ifsTextArea.getText().split(".:\\|:."), whilesTextArea.getText().split(".:\\|:."),
+				statementsTxtArea.getText().split(".:\\|:."), ifAllowed.getText()+","+elseAllowed.getText()+","+elseIfAllowed.getText()+forAllowed.getText()+","+whileAllowed.getText(), new String[0], statementsTxtArea.getText().split(".:\\|:.").length+innerFunctionsTxtArea.getText().split(".:\\|:.").length, "", "");
+		}else{
+			// Basic Problem. Some fields don't exist so only grab what we need.
+			String[] emptyArr = new String[0];
+			String emptyString = "";
+			problem = new MagnetProblem(-1, finalTitleTxtBox.getText(), finalDescriptionTxtArea.getText(), 
+					finalTypeTxtArea.getText(), classDeclarationTxtArea.getText(), innerFunctionsTxtArea.getText().split(".:\\|:."), emptyArr,emptyArr, emptyArr, emptyArr, emptyArr,
+					statementsTxtArea.getText().split(".:\\|:."), emptyString, emptyArr, statementsTxtArea.getText().split(".:\\|:.").length+innerFunctionsTxtArea.getText().split(".:\\|:.").length, "", "");
+		}
+		final AbsolutePanel dialogContents = new AbsolutePanel();
+		ClickHandler closeHandler = new ClickHandler(){
+			@Override
+			public void onClick(ClickEvent event) {
+				dialogContents.removeFromParent();
+			}
+		};	
+		Button closeButton = new Button("Close", closeHandler);
+		
+		dialogContents.add(closeButton);
+		RefrigeratorMagnet rProblem = this.magnetProblemCreator.makeProblem(problem);
+		dialogContents.add(rProblem);
+
+		this.adminPage.addWidgetInNewTab(dialogContents, "Problem Demo");
+		
+	}
 	
 	private String removeAngleBrackets(String text){
 		text = text.replaceAll("<", "&lt;");
@@ -675,6 +713,10 @@ public class ProblemCreationPanel extends Composite{
 	public void update(){
 		Proxy.getMagnetGroups(lstLoadGroup);
 		Proxy.getMagnetsByGroup("Arrays/ArrayLists", lstLoadExercise);
+	}
+
+	public void setAdminPage(AdminPage adminPage) {
+		this.adminPage = adminPage;
 	}
 }
 
