@@ -393,6 +393,7 @@ public class ProblemCreationPanel extends Composite{
 	 * 	Adds decisionStructures ListBox to magnet maker options panel, adds appropriate listeners to "Set Number" and "Add" buttons*/
 	void setupMagnetMakerOptions()
 	{
+		magnetMakerOptions.clear();
 		//left side of the screen
 		//first make title label and add it in
 		Label title = new Label("Magnet Maker Options");
