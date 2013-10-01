@@ -84,11 +84,6 @@
 		    <g:AbsolutePanel>
 				<g:VerticalPanel width="98%">
 					<g:Grid width="100%" styleName='{style.problemTypePanel}'>
-					    <g:row>
-					        <g:customCell>
-					        	<g:Button ui:field="testProblemButton">Test Problem</g:Button>
-					        </g:customCell>
-					    </g:row>
 			    	    <g:row>
 							<g:customCell styleName='{style.halfCell}'>
 				            	<g:RadioButton ui:field="btnBasicProblem" name="problemTypes" text="BASIC"></g:RadioButton>
@@ -291,10 +286,11 @@
 								<g:FileUpload name="helperClass1" ui:field="helperUpload"/>
 							</g:HorizontalPanel>
 						</g:VerticalPanel>
+						<g:Button ui:field="btnMoreHelpers">Add Helper Slot</g:Button>
 						<g:CheckBox ui:field="overwrite" name="overwrite" formValue="1" visible="false"></g:CheckBox>
 						<g:HorizontalPanel>
 							<g:SubmitButton ui:field="createProblemSubmitButton">Create</g:SubmitButton>
-							<g:Button ui:field="btnMoreHelpers">Add Helper Slot</g:Button>
+					        <g:Button ui:field="testProblemButton">Test Problem</g:Button>
 						</g:HorizontalPanel>
 					</g:VerticalPanel>
 				</g:FormPanel>
