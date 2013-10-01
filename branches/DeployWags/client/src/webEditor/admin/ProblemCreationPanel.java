@@ -678,21 +678,7 @@ public class ProblemCreationPanel extends Composite{
 					finalTypeTxtArea.getText(), classDeclarationTxtArea.getText(), innerFunctionsTxtArea.getText().split(".:\\|:."), emptyArr,emptyArr, emptyArr, emptyArr, emptyArr,
 					statementsTxtArea.getText().split(".:\\|:."), emptyString, emptyArr, statementsTxtArea.getText().split(".:\\|:.").length+innerFunctionsTxtArea.getText().split(".:\\|:.").length, "", "");
 		}
-		final AbsolutePanel dialogContents = new AbsolutePanel();
-		ClickHandler closeHandler = new ClickHandler(){
-			@Override
-			public void onClick(ClickEvent event) {
-				dialogContents.removeFromParent();
-			}
-		};	
-		Button closeButton = new Button("Close", closeHandler);
-		
-		dialogContents.add(closeButton);
-		RefrigeratorMagnet rProblem = this.magnetProblemCreator.makeProblem(problem);
-		dialogContents.add(rProblem);
-
-		this.adminPage.addWidgetInNewTab(dialogContents, "Problem Demo");
-		
+		adminPage.addWidgetInNewTab(this.magnetProblemCreator.makeProblem(problem), "Problem Demo");		
 	}
 	
 	private String removeAngleBrackets(String text){
