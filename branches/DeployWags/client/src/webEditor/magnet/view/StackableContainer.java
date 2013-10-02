@@ -26,6 +26,7 @@ public class StackableContainer extends FocusPanel {
 	private String hiddenCode;
 	private String topJavaCode;
 	private String bottomJavaCode;
+	private MagnetType magnetType;
 	
 	private DropController dropController = new PanelDropController(this);
 
@@ -149,26 +150,46 @@ public class StackableContainer extends FocusPanel {
 			}
 		}
 		
+		// Determining what type of magnet we're dealing with.
+		
+
+		String[] dataTypes = {"int","double","String","boolean", "float", "ArrayList", "byte", "char"};
+		String[] accessModifiers = {"public","private","protected"};
+		String low = topJavaCode != null ? topJavaCode : topLabel.getText();
+		low = low.toLowerCase();
+		if(isMain){
+			magnetType = MagnetType.MAIN;
+		}else if(low.matches("^(for|while).*")){
+			magnetType = MagnetType.LOOP;
+		}else if(low.matches("^if.*") || low.matches("^else")){
+			magnetType = MagnetType.CONDITIONAL;
+		}else if(low.matches("^return.*")){
+			magnetType = MagnetType.RETURN;
+		}else if(low.matches("^("+implode("|",dataTypes)+").*")){
+			magnetType = MagnetType.DECLARATION;
+		}else if(low.matches("^("+implode("|",accessModifiers)+").*")){
+			magnetType = MagnetType.FUNCTION;
+		}else{
+			magnetType = MagnetType.ASSORTED;
+		}
+		addStyleName(magnetType.toString());
+		
 		this.content = content.split(".:2:.")[0]; // Reverts back to actual code - hidden stuff and all.
 	}
 	
 	public void setEngaged(boolean engaged) {
 		if (engaged) {
-			if (isMain) {
-				setStyleName("main_code_over");
-			} else {
-				if(!stackable){
-					setStyleName("nonstackable_container_over");
-				} else{
-					setStyleName("stackable_container_over");
-				}
+			if(!stackable){
+				setStyleName("nonstackable_container_over");
+			}else {
+				this.removeStyleName(magnetType.toString());
+				this.addStyleName(magnetType.toString()+"_over");
 			}
 		} else {
-			if (isMain) {
-				setStyleName("main_code_container");
-			} else {
-				setStyleName("stackable_container");
+			if(stackable){
+				this.removeStyleName(magnetType.toString()+"_over");
 			}
+			this.addStyleName(magnetType.toString());
 		}
 	}
 	public void addConditionContent(String s) {
@@ -277,11 +298,13 @@ public class StackableContainer extends FocusPanel {
 	public int getWidth() { return this.getOffsetWidth(); }
 	public int getTop() { return this.getAbsoluteTop(); }
 	public int getHeight() { return this.getOffsetHeight(); }
+	public MagnetType getMagnetType() { return this.magnetType; }
 	
 	public void setID(int id) { containerID = id; }
 	public void setMain(boolean main) { this.isMain = main; }
 	public void setStackable(boolean stack) { stackable = stack; }
 	public void setCreated(boolean created) { this.isCreated = created; }
+	public void setMagnetType(MagnetType type){ this.magnetType = type;	}
 	
 	@Override
 	protected void onLoad() {
@@ -293,6 +316,16 @@ public class StackableContainer extends FocusPanel {
 	protected void onUnload() {
 		super.onUnload();
 		DragController.INSTANCE.unregisterDropController(dropController);
+	}
+	
+	public String implode(String glue, String[] strArray)
+	{
+	    String ret = "";
+	    for(int i=0;i<strArray.length;i++)
+	    {
+	        ret += (i == strArray.length - 1) ? strArray[i] : strArray[i] + glue;
+	    }
+	    return ret;
 	}
 
 }
