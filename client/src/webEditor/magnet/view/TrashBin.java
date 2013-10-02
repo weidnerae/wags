@@ -42,6 +42,7 @@ final class TrashBin extends AbsolutePanel {
 			}
 			sc.removeFromParent();
 		}else{
+			sc.removeFromParent();
 			this.magnetMaker.addToConstructPanel(sc);
 		}
 	}
