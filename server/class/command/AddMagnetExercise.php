@@ -12,12 +12,24 @@ class AddMagnetExercise extends Command
         $forLeft = $_POST['forloop1'];
         $forMid = $_POST['forloop2'];
         $forRight = $_POST['forloop3'];
-        $booleans = $_POST['bools'];
-        $limits = $_POST['forallowed']    . "," . 
-                  $_POST['whileallowed']  . "," . 
-                  $_POST['ifallowed']     . "," . 
-                  $_POST['elseifallowed'] . "," . 
-                  $_POST['elseallowed'];
+        $ifOptions = $_POST['ifs'];
+        $whileOptions = $_POST['whiles'];
+        $returnOptions = $_POST['returns'];
+        $assignmentVars = $_POST['assignmentVars'];
+        $assignmentVals = $_POST['assignmentVals'];
+        $limits = [$_POST['forallowed'], 
+                  $_POST['whileallowed'], 
+                  $_POST['ifallowed'], 
+                  $_POST['elseifallowed'], 
+                  $_POST['elseallowed'],
+                  $_POST['returnallowed'],
+                  $_POST['assignmentallowed']];
+        foreach($limits as $key => $value){
+            if($value == ''){
+                $limits[$key] = 10;
+            }
+        }
+        $limits = implode(",", $limits);
         $overwrite = false;
         $mpGroup = Auth::getCurrentUser()->getMagnetProblemGroup();
 
@@ -74,16 +86,19 @@ class AddMagnetExercise extends Command
         $newMP->setInnerFunctions($functions);
         $newMP->setForLeft($forLeft);      // These lines are for
         $newMP->setForMid($forMid);        // creationStation
-        $newMP->setForRight($forRight);    // problems, currently
-        $newMP->setBooleans($booleans);    // unused
+        $newMP->setForRight($forRight);
+        $newMP->setIfOptions($ifOptions);    // problems, currently
+        $newMP->setWhileOptions($whileOptions);    // unused
+        $newMP->setReturnOptions($returnOptions);
+        $newMP->setAssignmentVars($assignmentVars);
+        $newMP->setAssignmentVals($assignmentVals);
         $newMP->setStatements($statements);
         $newMP->setLimits($limits);
         $newMP->setSolution($className);   // Still badly named...
         if (!$overwrite) $newMP->setGroup(1); // A temporary value, replaced in AddMagnetLinkage.php
         $newMP->setAdded(time());
         $newMP->setUpdated(time());
-
-        /* Useful for debugging, but unneeded
+        /**
         $file = '/tmp/check.txt';
         $file = fopen($file, "w");
 
