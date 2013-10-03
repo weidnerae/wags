@@ -3,7 +3,6 @@ package webEditor.magnet.view;
 import webEditor.MagnetProblem;
 
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -79,7 +78,8 @@ public class ConstructUi extends Composite {
 			//create and register necessary drop controller
 			//add it to center
 			mmContent = new AbsolutePanel();
-			magnetMaker = new MagnetMaker(forLists, magnet.ifOptions, magnet.whileOptions, limits, this, nextID);
+			magnetMaker = new MagnetMaker(forLists, magnet.ifOptions, magnet.whileOptions, magnet.returnOptions,
+					magnet.assignmentVars, magnet.assignmentVals, limits, this, nextID);
 			mmContent.add(magnetMaker);
 			mmContent.setStyleName("magnet_maker");
 			
@@ -136,6 +136,11 @@ public class ConstructUi extends Composite {
 		addSegments(premade);
 	}
 
+	/**
+	 * creates and adds multiple stackable container objects to the UI. 
+	 *
+	 * @param segments An array of stackable containers
+	 */
 	public void addSegments(StackableContainer[] segments) {
 		if (segments == null) {
 			return;
@@ -147,7 +152,7 @@ public class ConstructUi extends Composite {
 			
 		for (StackableContainer segment : segments) {
 			if (problemType.equals(Consts.ADVANCED_PROBLEM)) {
-				String content = segment.getContent();
+	            String content = segment.getContent();
 				if (content.startsWith("for")) {
 					magnetMaker.decrementLimitCounter(MagnetMaker.FOR);
 				} else if (content.startsWith("while")) {
@@ -158,6 +163,10 @@ public class ConstructUi extends Composite {
 					magnetMaker.decrementLimitCounter(MagnetMaker.ELSE_IF);
 				} else if (content.startsWith("else")) {
 					magnetMaker.decrementLimitCounter(MagnetMaker.ELSE);
+				} else if(content.startsWith("return")) {
+					magnetMaker.decrementLimitCounter(MagnetMaker.RETURN);
+				} else {
+					magnetMaker.decrementLimitCounter(MagnetMaker.ASSIGN);
 				}
 			}
 			

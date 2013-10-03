@@ -39,6 +39,10 @@ final class TrashBin extends AbsolutePanel {
 				magnetMaker.incrementLimitCounter(MagnetMaker.ELSE_IF);
 			} else if (content.startsWith("else")) {
 				magnetMaker.incrementLimitCounter(MagnetMaker.ELSE);
+			} else if(content.startsWith("return")) {
+				magnetMaker.incrementLimitCounter(MagnetMaker.RETURN);
+			} else {
+				magnetMaker.incrementLimitCounter(MagnetMaker.ASSIGN);
 			}
 			sc.removeFromParent();
 		}else{

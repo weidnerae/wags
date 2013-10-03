@@ -16,7 +16,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * The magnet maker is a panel that consists of a series of dropdowns, and
  * from those dropdowns the students can select options to create their own
  * custom magnets.
- * 
  */
 
 public class MagnetMaker extends VerticalPanel {
@@ -25,6 +24,9 @@ public class MagnetMaker extends VerticalPanel {
 	public static final int IF = 3;
 	public static final int ELSE_IF = 4;
 	public static final int ELSE = 5;
+	public static final int RETURN = 6;
+	public static final int ASSIGN = 7;
+	
 	private String[] structuresList = Consts.STRUCTURES_LIST;
 	
 	private ConstructUi constructPanel; // the left hand side of the magnets UI
@@ -34,11 +36,16 @@ public class MagnetMaker extends VerticalPanel {
 	private ListBox[] forConditions;
 	private ListBox ifConditions;
 	private ListBox whileConditions;
+	private ListBox returnValues;
+	private ListBox assignmentVars;
+	private ListBox assignmentVals;
 
 	/* different use cases are represented by panels, each for the type of decision structure */
 	private HorizontalPanel forPanel = new HorizontalPanel();
 	private HorizontalPanel whilePanel = new HorizontalPanel();
 	private HorizontalPanel ifPanel = new HorizontalPanel();
+	private HorizontalPanel returnPanel = new HorizontalPanel();
+	private HorizontalPanel assignmentPanel = new HorizontalPanel();
 	private HorizontalPanel topAlignPanel = new HorizontalPanel();
 
 	private int nextID;
@@ -47,8 +54,8 @@ public class MagnetMaker extends VerticalPanel {
 	private int selectedStructureIndex = 0;
 	
 
-	public MagnetMaker(String[][] forLists, String[] ifList, String[] whileList, int[] limits,
-			ConstructUi constructPanel, int nextID) {
+	public MagnetMaker(String[][] forLists, String[] ifList, String[] whileList, String[] returnList, String[] assignmentVarList,
+			String[] assignmentValList, int[] limits, ConstructUi constructPanel, int nextID) {
 		this.setStyleName("dropdown_panel");
 		this.limits = limits;
 		this.initialLimits = new int[limits.length];
@@ -73,7 +80,10 @@ public class MagnetMaker extends VerticalPanel {
 		forConditions[2] = setupListBox(forLists[2]);
 		ifConditions = setupListBox(ifList);
 		whileConditions = setupListBox(whileList);
-
+		returnValues = setupListBox(returnList);
+		assignmentVars = setupListBox(assignmentVarList);
+		assignmentVals = setupListBox(assignmentValList);
+		
 		/* set up panels for each decision structure so they can be ready to swap to */
 		forPanel.add(new HTML("&nbsp ( &nbsp"));
 		forPanel.add(forConditions[0]);
@@ -93,6 +103,11 @@ public class MagnetMaker extends VerticalPanel {
 		whilePanel.add(whileConditions);
 		whilePanel.add(new HTML("&nbsp ) &nbsp"));
 
+		returnPanel.add(returnValues);
+		
+		assignmentPanel.add(assignmentVars);
+		assignmentPanel.add(assignmentVals);
+		
 		createButton.addClickHandler(new CreateHandler());
 		createButton.addStyleName("create_button");
 		add(createButton);
@@ -183,8 +198,10 @@ public class MagnetMaker extends VerticalPanel {
 		switch (structure) {
 		case FOR:		topAlignPanel.add(forPanel); break;
 		case WHILE:		topAlignPanel.add(whilePanel); break;
-		case IF:			topAlignPanel.add(ifPanel); break;
+		case IF:		topAlignPanel.add(ifPanel); break;
 		case ELSE_IF:	topAlignPanel.add(ifPanel); break;
+		case RETURN:	topAlignPanel.add(returnPanel); break;
+		case ASSIGN:	topAlignPanel.add(assignmentPanel); break;
 		}
 	}
  
@@ -220,8 +237,14 @@ public class MagnetMaker extends VerticalPanel {
 			case ELSE_IF:
 				createdContainer.addConditionContent(ifConditions.getItemText(ifConditions.getSelectedIndex()));
 				break;
-			}
-
+			case RETURN:
+				createdContainer.addReturnContent(returnValues.getItemText(returnValues.getSelectedIndex()));
+				break;
+			case ASSIGN:
+				createdContainer.addVariableContent(assignmentVars.getItemText(assignmentVars.getSelectedIndex()),
+													assignmentVals.getItemText(assignmentVals.getSelectedIndex()));
+				break;
+			} 
 			createdContainer.setID(nextID++);
 			createdContainer.setCreated(true);
 			addToConstructPanel(createdContainer);
@@ -230,20 +253,38 @@ public class MagnetMaker extends VerticalPanel {
 		}
 	}
 	
+	/** 
+	 * Takes the stackable container constructed by the magnet maker and adds it to the UI
+	 * 
+	 * @param segment the stackable container to add
+	 */
 	public void addToConstructPanel(StackableContainer segment){
 		constructPanel.addSegment(segment);
 	}
 	
+	/**
+	 * Increases the number allowed for a certain decision structure by one. 
+	 * 
+	 * @param i a value representing the decision structure to increment. See Consts.structureList for details
+	 */
 	public void incrementLimitCounter(int i) {
 		limits[i - 1]++;
 		updateStructureOptions();
 	}
 	
+	/**
+	 * Decreases the number allowed of a certain decision structure by one
+	 * 
+	 * @param i a value representing the decision structure to decrement. See Consts.structureList for details
+	 */
 	public void decrementLimitCounter(int i) {
 		limits[i - 1]--;
 		updateStructureOptions();
 	}
 	
+	/**
+	 * Resets the limits of each decision structure to the initial amounts
+	 */
 	public void resetLimits() {
 		for (int i = 0; i < limits.length; i++) {
 			this.limits[i] = initialLimits[i];

@@ -3,7 +3,6 @@ package webEditor.magnet.view;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
-
 import com.allen_sauer.gwt.dnd.client.DragContext;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
 
@@ -197,6 +196,35 @@ public class StackableContainer extends FocusPanel {
 		updateContent();
 	}
 	
+	/**
+	 * Currently used with return statements to replace the VALUE tag with
+	 * a provided return value
+	 * 
+	 * @param s the value to return
+	 */
+	public void addReturnContent(String s) {
+		content = content.replaceAll(Consts.VALUE, s);
+		updateStatementContent();
+	}
+		
+	/**
+	 * Used for creating assignment statements by replacing the VARIABLE and VALUE tags
+	 * in the string with provided values
+	 * 
+	 * @param var The name of the variable
+	 * @param val the name of the value to assign the var parameter to 
+	 */
+	public void addVariableContent(String var, String val) {
+		content = content.replaceAll(Consts.VARIABLE, var);
+		content = content.replaceAll(Consts.VALUE, val);
+		updateStatementContent();
+	}
+	
+	/**
+	 * Places another stackable container inside of this one
+	 * 
+	 * @param sc The stackable container to place 
+	 */
 	public void addInsideContainer(StackableContainer sc) {
 		insidePanel.add(sc);
 	}
@@ -241,10 +269,23 @@ public class StackableContainer extends FocusPanel {
 		}
 	}
 
-	public void updateContent() {
+	/**
+	 * Updates the contents of magnets containing statements, that is magnets
+	 * which do not a panel to stack more magnets in (returns, assigns, etc)
+	 */
+	public void updateStatementContent() {
+		topPanel.remove(topLabel);
+		topLabel = new HTML(content);
+		topPanel.add(topLabel);
+	}
+	
+	/**
+	 * Is used to update the contents of magnets which can have further magnets
+	 * stacked inside of them such as for loops, while loops, if statements, etc...
+	 */
+	public void updateContent() {		
 		topPanel.remove(topLabel);
 		bottomPanel.remove(bottomLabel);
-		
 		if (!content.contains(Consts.PANEL_TAG)) {
 			topLabel = new HTML(content);
 		} else {

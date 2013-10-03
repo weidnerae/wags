@@ -1223,8 +1223,9 @@ public class Proxy
 	/* Loads editor page */
 	public static void getMagnetProblemForEdit(final TextArea titleArea, final TextArea desc, final TextArea classArea,
 			final TextArea functions, final TextArea statements, String title, final TextArea finalTypeTxtArea, final TextArea forLoop1TextArea, final TextArea forLoop2TextArea, 
-			final TextArea forLoop3TextArea, final TextArea ifsTextArea, final TextArea whilesTextArea, final TextBox ifAllowed, final TextBox elseAllowed,
-			final TextBox elseIfAllowed, final TextBox forAllowed, final TextBox whileAllowed, final RadioButton btnBasicProblem, final RadioButton btnAdvancedProblem){
+			final TextArea forLoop3TextArea, final TextArea ifsTextArea, final TextArea whilesTextArea, final TextArea returnsTextArea, final TextArea assignmentsVarTextArea,
+			final TextArea assignmentValTextArea, final TextBox ifAllowed, final TextBox elseAllowed, final TextBox elseIfAllowed, final TextBox forAllowed, final TextBox whileAllowed,
+			final TextBox returnAllowed, final TextBox assignmentAllowed, final RadioButton btnBasicProblem, final RadioButton btnAdvancedProblem) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetMagnetProblem&title=" + title);
 		try{
 			builder.sendRequest("", new RequestCallback() {
@@ -1283,16 +1284,30 @@ public class Proxy
 							}
 						}
 						whilesTextArea.setText(fors);
-							
 						
+						fors = "";
+				        for(String s: magProblem.assignmentVars) {
+				        	if(s != "") {
+				        		fors += s + ".:|:.";
+				        	}
+				        }
+				        
+				        fors = "";
+				        for(String s: magProblem.assignmentVals) {
+				        	if(s != ""){
+				        		fors += s + ".:|:.";
+				        	}
+				        }
 						// limits
 						String[] limits = magProblem.limits.split(",");
-						if(limits.length == 5){
+						if(limits.length == 7){
 							forAllowed.setText(""+Integer.parseInt(limits[0]));
 							whileAllowed.setText(""+Integer.parseInt(limits[1]));
 							ifAllowed.setText(""+Integer.parseInt(limits[2]));
 							elseIfAllowed.setText(""+Integer.parseInt(limits[3]));
 							elseAllowed.setText(""+Integer.parseInt(limits[4]));
+							returnAllowed.setText("" + Integer.parseInt(limits[5]));
+							assignmentAllowed.setText("" + Integer.parseInt(limits[6]));
 						}
 					} else {
 						//if its basic problem
