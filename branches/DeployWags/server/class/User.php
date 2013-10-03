@@ -91,7 +91,8 @@ class User extends Model
         $this->lastLogin = $time;
     }
     public function isAdmin(){
-        return $this->admin == 1;
+        // HACK for workshops.
+        return ($this->admin == 1 || $this->section == 55);
     }
     public function setAdmin($admin=1){
         $this->admin = $admin;
@@ -175,8 +176,16 @@ class User extends Model
      public function getCreatedLMGroup(){
         if(!$this->isAdmin()) return -1;
 
-        $groupName = $this->getUsername()."_LMs";
-        $groupName = '"'.$groupName.'"';
+        //HACK - if user is in the workshop section then put all the problems
+        //       into the same group.   
+        if($this->section == 55){
+            $groupName = "9.14.13_Workshop_LMs";
+            $groupName = '"'.$groupName.'"';
+        }
+        else{
+            $groupName = $this->getUsername()."_LMs";
+            $groupName = '"'.$groupName.'"';
+        }
 
         $db = Database::getDb();
         $sth = $db->prepare("SELECT id FROM LMGroup WHERE

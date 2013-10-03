@@ -128,6 +128,17 @@ class LogicalMicrolab extends Model
 
     }
 
+    public static function getLogicalMicrolabById($problemId){
+        require_once('Database.php');
+        $db = Database::getDb();
+        
+        $sth = $db->prepare('SELECT * from LogicalMicrolabs
+                             WHERE id = :problemId;');
+        $sth->execute(array(':problemId' => $problemId));
+
+        return $sth->fetchObject('LogicalMicrolab');
+     }
+
     // Returns all implemented Logical Microlab subjects in alphabetical order
 	public static function getSubjects(){
 		require_once('Database.php');
