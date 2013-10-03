@@ -67,6 +67,12 @@
 		.oneFifthCell {
 			width: 20%;
 		}
+        .oneSixthCell {
+		    width: 16.5%;
+  		}
+		.oneSeventhCell {
+			width: 14%;
+		}
 		.rightPadding {
 			padding-left: 10px;
 		}
@@ -230,6 +236,12 @@
 						<g:TextArea name="forloop3" ui:field="forLoop3TextArea" width="100%" visibleLines="5" visible="false" />
 						<g:Label text="while Conditions" ui:field="whileLabel" visible="false"/>
 						<g:TextArea name="whiles" ui:field="whilesTextArea" width="100%" visibleLines="5" visible="false"/>
+						<g:Label text="return values" ui:field="returnLabel" visible="false"/>
+						<g:TextArea name="returns" ui:field="returnsTextArea" width="100%" visibleLines="5" visible="false"/>
+						<g:Label text="assignment variable" ui:field="assignmentVarLabel" visible="false"/>
+						<g:TextArea name="assignmentVars" ui:field="assignmentsVarTextArea" width="100%" visibleLines="5" visible="false"/>
+						<g:Label text="assignment to value" ui:field="assignmentValLabel" visible="false"/>
+						<g:TextArea name="assignmentVals" ui:field="assignmentsValTextArea" width="100%" visibleLines="5" visible="false"/>
 						<g:Label text="if/else-if Conditions" ui:field="ifLabel" visible="false"/>
 						<g:TextArea name="ifs" ui:field="ifsTextArea" width="100%" visibleLines="5" visible="false"/>
 						<!--  ListBox for privileged admin only, defaults to hidden -->
@@ -242,34 +254,46 @@
 						    <g:Label styleName='{style.leftAlignLabel}' text="Number of Decision Structures Allowed"></g:Label>
 							<g:Grid width="100%">
 							    <g:row>
-							        <g:customCell styleName="{style.oneFifthCell}">
+							        <g:customCell styleName="{style.oneSeventhCell}">
 							            <g:HorizontalPanel>
 							                <g:Label text="if: "/>
 						    				<g:TextBox styleName='{style.left_pad}' name="ifallowed" width="30px" ui:field="ifAllowed"/>
 							            </g:HorizontalPanel>
 							        </g:customCell>
-							        <g:customCell styleName="{style.oneFifthCell}">
+							        <g:customCell styleName="{style.oneSeventhCell}">
 							            <g:HorizontalPanel>
 									    	<g:Label text=" while: "/>
 									    	<g:TextBox styleName='{style.left_pad}' name="whileallowed" width="30px" ui:field="whileAllowed"/>
 							            </g:HorizontalPanel>
 							        </g:customCell>
-							        <g:customCell styleName="{style.oneFifthCell}">
+							        <g:customCell styleName="{style.oneSeventhCell}">
 							            <g:HorizontalPanel>
 							                <g:Label text=" for: "/>
 						    				<g:TextBox styleName='{style.left_pad}' name="forallowed" width="30px" ui:field="forAllowed"/>
 							            </g:HorizontalPanel>
 							        </g:customCell>
-							        <g:customCell styleName="{style.oneFifthCell}">
+							        <g:customCell styleName="{style.oneSeventhCell}">
 							            <g:HorizontalPanel>
 						    				<g:Label text=" else: "/>
 						    				<g:TextBox styleName='{style.left_pad}' name="elseallowed" width="30px" ui:field="elseAllowed"/>
 							            </g:HorizontalPanel>
 							        </g:customCell>
-							        <g:customCell styleName="{style.oneFifthCell}">
+							        <g:customCell styleName="{style.oneSeventhCell}">
 							            <g:HorizontalPanel>
 							                <g:Label text="else if:"/>
 						    				<g:TextBox styleName='{style.left_pad}' name="elseifallowed" width="30px" ui:field="elseIfAllowed"/>
+							            </g:HorizontalPanel>
+							        </g:customCell>
+							        <g:customCell styleName="{style.oneSeventhCell}">
+							            <g:HorizontalPanel>
+							                <g:Label text="return:"/>
+						    				<g:TextBox styleName='{style.left_pad}' name="returnallowed" width="30px" ui:field="returnAllowed"/>
+							            </g:HorizontalPanel>
+							        </g:customCell>
+							        <g:customCell styleName="{style.oneSeventhCell}">
+							            <g:HorizontalPanel>
+							                <g:Label text="assign:"/>
+						    				<g:TextBox styleName='{style.left_pad}' name="assignmentallowed" width="30px" ui:field="assignmentAllowed"/>
 							            </g:HorizontalPanel>
 							        </g:customCell>
 						    	</g:row>

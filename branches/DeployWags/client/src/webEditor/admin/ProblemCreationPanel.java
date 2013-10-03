@@ -6,7 +6,6 @@ import webEditor.Proxy;
 import webEditor.WEStatus;
 import webEditor.magnet.view.Consts;
 import webEditor.magnet.view.MagnetProblemCreator;
-import webEditor.magnet.view.RefrigeratorMagnet;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -20,6 +19,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -39,6 +39,11 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 
+/**
+ * This class creates, populates, and adds the functionality to the problem creation page
+ * of the admin control board. On this page users are allowed to load, modify, create, and delete
+ * exercises using a variety of tools. 
+ */
 
 public class ProblemCreationPanel extends Composite{
 
@@ -53,10 +58,10 @@ public class ProblemCreationPanel extends Composite{
 	
 	@UiField FormPanel problemCreateFormPanel, fileParseFormPanel;
 	@UiField TextBox titleTxtBox, topLabelTxtBox, topRealCodeTxtBox, 
-		commentsTxtBox, bottomLabelTxtBox, bottomRealCodeTxtBox, forAllowed, whileAllowed, ifAllowed, elseAllowed, elseIfAllowed;
+		commentsTxtBox, bottomLabelTxtBox, bottomRealCodeTxtBox, forAllowed, whileAllowed, ifAllowed, elseAllowed, elseIfAllowed, returnAllowed, assignmentAllowed;
 	@UiField TextArea finalTitleTxtBox, descriptionTxtArea, finalDescriptionTxtArea, finalTypeTxtArea,
 		classDeclarationTxtArea, innerFunctionsTxtArea, statementsTxtArea, commentsStagingArea,
-		hiddenFunctionsArea, forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, whilesTextArea, ifsTextArea;
+		hiddenFunctionsArea, forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, whilesTextArea, ifsTextArea, returnsTextArea, assignmentsVarTextArea, assignmentsValTextArea;
 	@UiField VerticalPanel magnetMakerOptions, magnetReviewPanel, numberAllowedReviewPanel;
 	@UiField SubmitButton createProblemSubmitButton, fileParseSbt;
 	@UiField Button createCommentsButton, classDeclarationButton, innerFunctionsButton,
@@ -65,7 +70,7 @@ public class ProblemCreationPanel extends Composite{
 	@UiField RadioButton btnBasicProblem, btnAdvancedProblem;
 	@UiField FileUpload solutionUpload, helperUpload;
 	@UiField ListBox lstGroup, lstLoadGroup, lstLoadExercise;
-	@UiField Label lblGroup, forLoop1Label, forLoop2Label, forLoop3Label, whileLabel, ifLabel;
+	@UiField Label lblGroup, forLoop1Label, forLoop2Label, forLoop3Label, whileLabel, ifLabel, returnLabel, assignmentVarLabel, assignmentValLabel;
 	@UiField VerticalPanel vtPanelHelper;
 	@UiField CheckBox overwrite;
 	
@@ -77,10 +82,14 @@ public class ProblemCreationPanel extends Composite{
 	Button addMMOptionButton = new Button("Add");
 	Button numberAllowedButton = new Button("Set Number");
 	TextBox numberAllowedText = new TextBox();
-	TextBox forCond1 = new TextBox();  //magnet maker option inputs
-	TextBox forCond2 = new TextBox();
-	TextBox forCond3 = new TextBox();
-	TextBox boolCond = new TextBox();
+	TextBox forCond1 	   = new TextBox();  //magnet maker option inputs
+	TextBox forCond2 	   = new TextBox();
+	TextBox forCond3	   = new TextBox();
+	TextBox boolCond 	   = new TextBox();
+	TextBox returnVal      = new TextBox();
+	TextBox assignVariable = new TextBox();
+	TextBox assignValue    = new TextBox();
+	
 	int numHelpers = 1;
 	private MagnetProblemCreator magnetProblemCreator;
 	private AdminPage adminPage;
@@ -95,6 +104,7 @@ public class ProblemCreationPanel extends Composite{
 		
 		btnBasicProblem.setValue( true );
 		
+		
 		problemCreateFormPanel.setAction(Proxy.getBaseURL() + "?cmd=AddMagnetExercise");
 		problemCreateFormPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
 		problemCreateFormPanel.setMethod(FormPanel.METHOD_POST);
@@ -104,7 +114,9 @@ public class ProblemCreationPanel extends Composite{
 			public void onSubmitComplete(SubmitCompleteEvent event) {
 				// Should have to verify overwrite each time
 				overwrite.setValue(false);
+				
 				WEStatus stat = new WEStatus(event.getResults());
+				
 				if(stat.getStat() == WEStatus.STATUS_SUCCESS){
 					Proxy.addMagnetLinkage(stat.getMessage()); // The title of the problem
 					// Remove added Helper Class widgets
@@ -135,12 +147,20 @@ public class ProblemCreationPanel extends Composite{
 			}
 		});
 		
+		/** 
+		 * Makes it so that when focused is shifted from the title input text area (on the left) the 
+		 * user input will automatically be placed in the final title text area (on the right)
+		 */
 		titleTxtBox.addBlurHandler(new BlurHandler() {
 			public void onBlur(BlurEvent event) {
 				finalTitleTxtBox.setText(titleTxtBox.getText());
 			}
 		});
 		
+		/** 
+		 * Makes it so that when focused is shifted from the description input text area (on the left) the 
+		 * user input will automatically be placed in the final description text area (on the right)
+		 */
 		descriptionTxtArea.addBlurHandler(new BlurHandler() {
 			public void onBlur(BlurEvent event) {
 				finalDescriptionTxtArea.setText(descriptionTxtArea.getText());
@@ -153,12 +173,17 @@ public class ProblemCreationPanel extends Composite{
 			}
 		});
 		
+		/** 
+		 * Creates a button which when clicked will load the details of a selected magnet problem from the
+		 * database and into the problem creation menu. 
+		 */
 		btnLoadExercise.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				Proxy.getMagnetProblemForEdit(finalTitleTxtBox, finalDescriptionTxtArea, classDeclarationTxtArea, 
 						innerFunctionsTxtArea, statementsTxtArea, lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()),
-						finalTypeTxtArea,forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, ifsTextArea, whilesTextArea, ifAllowed, elseAllowed,
-						elseIfAllowed,forAllowed, whileAllowed, btnBasicProblem, btnAdvancedProblem);
+						finalTypeTxtArea,forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, ifsTextArea, whilesTextArea, returnsTextArea,
+						assignmentsVarTextArea, assignmentsValTextArea, ifAllowed, elseAllowed, elseIfAllowed, forAllowed, whileAllowed, 
+						returnAllowed, assignmentAllowed, btnBasicProblem, btnAdvancedProblem);
 			    
 				// dear god help me please
 				Timer t = new Timer() {
@@ -180,6 +205,7 @@ public class ProblemCreationPanel extends Composite{
 			}
 		});
 		
+		/** Creates a button that when clicked will clear all exercise details */
 		btnDeleteExercise.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				String title = lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex());
@@ -187,13 +213,18 @@ public class ProblemCreationPanel extends Composite{
 			}
 		});
 		
+		/** 
+		 * Creates a button which when pushed will take the user input from the number allowed
+		 * text area of the advanced magnet creation drop down box and set the maximum number
+		 * of that type of magnet. 
+		 */
 		numberAllowedButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				String value = numberAllowedText.getText();  //get value from text box
 				
 				int index = decisionStructures.getSelectedIndex();
 				String indexValue = decisionStructures.getValue(index);  //find out the selected decision structure
-				
+	            		
 				//update the selected decision structures corresponding textbox on the right side
 				//of the screen with the current value
 				if(indexValue.equals("while")) {
@@ -206,10 +237,18 @@ public class ProblemCreationPanel extends Composite{
 	        		elseAllowed.setText(value);
 	        	} else if(indexValue.equals("else if")) {
 	        		elseIfAllowed.setText(value);
+	        	} else if(indexValue.equals("return")) {
+	        		returnAllowed.setText(value);
+	        	} else if(indexValue.equals("assignment")) {
+	        		assignmentAllowed.setText(value);
 	        	}
 			}
 		});
 		
+		/**
+		 * Adds a button which when clicked will add a user created decision structure to the appropriate 
+		 * textbox on the right hand side of the screen.
+		 */
 		addMMOptionButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				//get which type of magnet maker you'll be inputting
@@ -246,6 +285,20 @@ public class ProblemCreationPanel extends Composite{
 					if (ifsTextArea.getText().equals("")) {
 						ifsTextArea.setText(boolCond.getText());
 					} else ifsTextArea.setText(ifsTextArea.getText() + ".:|:." + boolCond.getText());	
+				} else if(selected.equals("return")) {
+					if(returnsTextArea.getText().equals("")){
+						returnsTextArea.setText(returnVal.getText());
+					} else 
+						returnsTextArea.setText(returnsTextArea.getText() + ".:|:." + returnVal.getText());
+				} else if(selected.equals("assignment")) {
+					if(assignmentsVarTextArea.getText().equals("")){
+						assignmentsVarTextArea.setText(assignVariable.getText());
+					} else
+						assignmentsVarTextArea.setText(assignmentsVarTextArea.getText() + ".:|:." + assignVariable.getText());
+				    if(assignmentsValTextArea.getText().equals("")) {
+				    	assignmentsValTextArea.setText(assignValue.getText());
+				    } else 
+				    	assignmentsValTextArea.setText(assignmentsValTextArea.getText() + ".:|:." + assignValue.getText());
 				}
 			}
 		});
@@ -278,6 +331,12 @@ public class ProblemCreationPanel extends Composite{
 		
 	}
 	
+	/**
+	 * creates a pop-up window which will open up once the user presses the delete button
+	 * and will verify with the user that they really want to delete the magnet exercise.
+	 *
+	 * @param title the title of the current exercise being created
+	 */
 	void verifyDelete(final String title){
 		// Construct a dialog box verify the overwrite
 		final DialogBox deleteBox = new DialogBox(false);
@@ -317,6 +376,10 @@ public class ProblemCreationPanel extends Composite{
 		deleteBox.center();
 	}
 	
+	/**
+	 * Creates a pop-up window when the user wishes to overwrite their current exercise which will
+	 * verify that the user really wants to overwrite. 
+	 */
 	void verifyOverwrite(){
 		// Construct a dialog box verify the overwrite
 		final DialogBox overwriteBox = new DialogBox(false);
@@ -346,7 +409,6 @@ public class ProblemCreationPanel extends Composite{
 			public void onClick(ClickEvent event) {
 				overwrite.setValue(true);
 				problemCreateFormPanel.submit();
-				
 				overwriteBox.hide();
 			}
 			
@@ -386,6 +448,9 @@ public class ProblemCreationPanel extends Composite{
 		forLoop3Label.setVisible(false);
 		whileLabel.setVisible(false);
 		ifLabel.setVisible(false);
+		returnLabel.setVisible(false);
+		assignmentValLabel.setVisible(false);
+		assignmentVarLabel.setVisible(false);
 	}
 	
 	/** Sets up the Magnet Maker Options panel and makes it visible in Problem Creation 
@@ -411,6 +476,8 @@ public class ProblemCreationPanel extends Composite{
 		decisionStructures.addItem("while");
 		decisionStructures.addItem("else");
 		decisionStructures.addItem("else if");
+		decisionStructures.addItem("return");
+		decisionStructures.addItem("assignment");
 		decisionStructures.addChangeHandler(new StructuresHandler());
 		dropdown.add(decisionStructures);  //handler will create input panel
 		dropdown.setStyleName("problem_creation_mm_dropdown");
@@ -439,10 +506,20 @@ public class ProblemCreationPanel extends Composite{
 		forLoop3Label.setVisible(true);
 		whileLabel.setVisible(true);
 		ifLabel.setVisible(true);
+		returnLabel.setVisible(true);
 		whilesTextArea.setVisible(true);
 		ifsTextArea.setVisible(true);
+		returnsTextArea.setVisible(true);
+		assignmentVarLabel.setVisible(true);
+		assignmentValLabel.setVisible(true);
+		assignmentsVarTextArea.setVisible(true);
+		assignmentsValTextArea.setVisible(true);
 	}
 	
+	/** 
+	 * THis method does most of the work for implementing the users choice of decision structure
+	 * when creating magnets through the advanced magnet creator.
+	 */
 	private class StructuresHandler implements ChangeHandler{
 		@Override
 		public void onChange(ChangeEvent event) {
@@ -475,7 +552,7 @@ public class ProblemCreationPanel extends Composite{
         		input.add(forCond2);
         		input.add(new Label(" ; "));
         		input.add(forCond3);
-        		input.add(new Label(" ) "));
+        		input.add(new Label(" ){} "));
         		//set up input panel for number of loops allowed to be created
         		numberAllowedPanel.clear();
         		numberAllowedPanel.add(new Label("Number Allowed: "));
@@ -520,11 +597,39 @@ public class ProblemCreationPanel extends Composite{
        			numberAllowedPanel.add(numberAllowedText);
        			numberAllowedPanel.add(new Label("  "));
        			numberAllowedPanel.add(numberAllowedButton);
+        	} else if(value.equals("return")){
+        		// set up input panel for return values
+        		input.clear();
+        		input.add(new Label("return "));
+        		input.add(returnVal);
+        		input.add(new Label(";"));
+        		//set up input panel for number of return values allowed
+        		numberAllowedPanel.clear();
+       			numberAllowedPanel.add(new Label("Number Allowed: "));
+       			numberAllowedPanel.add(numberAllowedText);
+       			numberAllowedPanel.add(new Label("  "));
+       			numberAllowedPanel.add(numberAllowedButton);
+        	} else if(value.equals("assignment")){
+        		input.clear();
+        		input.add(assignVariable);
+        		input.add(new Label(" = "));
+        		input.add(assignValue);
+        		input.add(new Label(";"));
+        		numberAllowedPanel.clear();
+       			numberAllowedPanel.add(new Label("Number Allowed: "));
+       			numberAllowedPanel.add(numberAllowedText);
+       			numberAllowedPanel.add(new Label("  "));
+       			numberAllowedPanel.add(numberAllowedButton);
         	}
 		}
 	}
 
-	
+	/**
+	 * Makes it so when the creation mode is changes to basic that the text in the box
+	 * labeled "Problem Type" on the right hand side of the screen is changes to say "basic problem"
+	 *
+	 * @param event the event caused when the user changes to the basic problem mode
+	 */
 	@UiHandler("btnBasicProblem")
 	void onBasicProblemClick(ValueChangeEvent<Boolean> event)
 	{
@@ -532,6 +637,12 @@ public class ProblemCreationPanel extends Composite{
 		finalTypeTxtArea.setText(BASIC_PROBLEM);
 	}
 	
+	/**
+	 * Makes it so when the creation mode is changes to advanced that the text in the box
+	 * labeled "Problem Type" on the right hand side of the screen is changes to say "advanced problem"
+	 *
+	 * @param event the event caused when the user changes to the advanced problem mode
+	 */
 	@UiHandler("btnAdvancedProblem")
 	void onAdvancedProblemClick(ValueChangeEvent<Boolean> event)
 	{
@@ -610,6 +721,12 @@ public class ProblemCreationPanel extends Composite{
 		clearLabels();
     }
 	
+	/**
+	 * Builds a string from the user entered code and psuedocode from the automatic statement/function/class
+	 * creator on the lower left side of the screen. 
+	 * 
+	 * @return a String build from the user entered label and real code text.
+	 */
 	private String buildString(){
 		boolean withPanel = false;
 		
@@ -665,20 +782,23 @@ public class ProblemCreationPanel extends Composite{
 	@UiHandler("testProblemButton")
 	void onTestProblemClick(ClickEvent event){
 		MagnetProblem problem;
-		if(finalTypeTxtArea.getText().equals(ADVANCED_PROBLEM)){			
+		if(finalTypeTxtArea.getText().equals(ADVANCED_PROBLEM)){	
 			// Advanced problem. Load all the fields;
-		 problem = new MagnetProblem(-1, finalTitleTxtBox.getText(), finalDescriptionTxtArea.getText(), 
+	      problem = new MagnetProblem(-1, finalTitleTxtBox.getText(), finalDescriptionTxtArea.getText(), 
 				finalTypeTxtArea.getText(), classDeclarationTxtArea.getText(), innerFunctionsTxtArea.getText().split(".:\\|:."), forLoop1TextArea.getText().split(".:\\|:."), forLoop2TextArea.getText().split(".:\\|:."), forLoop3TextArea.getText().split(".:\\|:."), ifsTextArea.getText().split(".:\\|:."), whilesTextArea.getText().split(".:\\|:."),
-				statementsTxtArea.getText().split(".:\\|:."), ifAllowed.getText()+","+elseAllowed.getText()+","+elseIfAllowed.getText()+forAllowed.getText()+","+whileAllowed.getText(), new String[0], statementsTxtArea.getText().split(".:\\|:.").length+innerFunctionsTxtArea.getText().split(".:\\|:.").length, "", "");
-		}else{
+				returnsTextArea.getText().split(".:\\|:."), assignmentsVarTextArea.getText().split(".:\\|:."), assignmentsValTextArea.getText().split(".:\\|:."), statementsTxtArea.getText().split(".:\\|:."), ifAllowed.getText()+","+elseAllowed.getText()+","+elseIfAllowed.getText()+","+forAllowed.getText()+","+whileAllowed.getText()+","+returnAllowed.getText()
+				+","+assignmentAllowed.getText(), new String[0], statementsTxtArea.getText().split(".:\\|:.").length+innerFunctionsTxtArea.getText().split(".:\\|:.").length, "", "");
+		} else {
 			// Basic Problem. Some fields don't exist so only grab what we need.
+			
 			String[] emptyArr = new String[0];
 			String emptyString = "";
 			problem = new MagnetProblem(-1, finalTitleTxtBox.getText(), finalDescriptionTxtArea.getText(), 
-					finalTypeTxtArea.getText(), classDeclarationTxtArea.getText(), innerFunctionsTxtArea.getText().split(".:\\|:."), emptyArr,emptyArr, emptyArr, emptyArr, emptyArr,
+					finalTypeTxtArea.getText(), classDeclarationTxtArea.getText(), innerFunctionsTxtArea.getText().split(".:\\|:."), emptyArr,emptyArr, emptyArr, emptyArr, emptyArr, emptyArr, emptyArr, emptyArr,
 					statementsTxtArea.getText().split(".:\\|:."), emptyString, emptyArr, statementsTxtArea.getText().split(".:\\|:.").length+innerFunctionsTxtArea.getText().split(".:\\|:.").length, "", "");
 		}
-		adminPage.addWidgetInNewTab(this.magnetProblemCreator.makeProblem(problem), "Problem Demo");		
+
+		adminPage.addWidgetInNewTab(this.magnetProblemCreator.makeProblem(problem), "Problem Demo");			
 	}
 	
 	private String removeAngleBrackets(String text){

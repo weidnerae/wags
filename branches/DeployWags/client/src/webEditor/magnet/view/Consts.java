@@ -17,6 +17,8 @@ public class Consts {
 	
 	// Position inside block
 	public static String CONDITION = "<!-- condition -->";
+	public static String VALUE     = "<!-- value -->";
+	public static String VARIABLE  = "<!-- variable -->";
 	public static String PANEL_TAG = "<!-- panel -->";
 	
 	// Types of Stackable Containers, used in constructor
@@ -44,7 +46,7 @@ public class Consts {
 
 	// *** STANDARDS ***//
 	//default structures list
-	public static String[] STRUCTURES_LIST = {"Choose Structure","for","while","if","else if", "else"};
+	public static String[] STRUCTURES_LIST = {"Choose Structure","for","while","if","else if", "else", "return", "assign"};
 	//default modified structures list used for inner Functions
 	public static String[] INNER_FUNCTIONS_STRUCTURES_LIST = {"choose structure...","for","while","if","else if", "else","statement","function"};
 	//default modified structures list used for premade segments
@@ -66,8 +68,10 @@ public class Consts {
 			+ ") {<br /><span id=\"inside_of_block\">" + Consts.PANEL_TAG + "</span><br />}";
 	public static String ELSE = "else {<br /><span id=\"inside_of_block\">"
 			+ Consts.PANEL_TAG+ "</span><br />}";
+	public static String RETURN = "return " + Consts.VALUE + ";";
+	public static String ASSIGN = Consts.VARIABLE + " = " + Consts.VALUE + ";";
 	
-	public static String[] STRUCTURE_CODE = { FUNCTION, FOR, WHILE, IF, ELSEIF, ELSE };
+	public static String[] STRUCTURE_CODE = { FUNCTION, FOR, WHILE, IF, ELSEIF, ELSE, RETURN, ASSIGN };
 	
 	
 	// Box to designate that the containers within will be valid in any order in an Algritm problem

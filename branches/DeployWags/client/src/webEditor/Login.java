@@ -41,6 +41,12 @@ public class Login extends View
 		loginButton.setText("Log in");
 	}
 	
+	/**
+	 * Changes the focus to the password field the the user currently
+	 * has the username field selected and presses enter. 
+	 * 
+	 * @param event an event caused when the user presses enter
+	 */
 	@UiHandler("username")
 	void onKeyPressForUsername(KeyPressEvent event)
 	{
@@ -51,6 +57,12 @@ public class Login extends View
 		}
 	}
 	
+	/**
+	 * Attempts to log the user in with provided username and password. This method
+	 * is called when the user has the password field selected and then presses enter
+	 * 
+	 * @param event the event caused by the user pressing enter
+	 */
 	@UiHandler("password")
 	void onKeyPressForPassword(KeyPressEvent event)
 	{
@@ -61,6 +73,12 @@ public class Login extends View
 		}
 	}
 
+	/** 
+	 * Attempts to log the user in with provided username and password. THis method
+	 * is called whenever the user clicks on the login button
+	 * 
+	 * @param event an event caused by the user clicking the login button
+	 */
 	@UiHandler("loginButton")
 	void onClick(ClickEvent event)
 	{
