@@ -19,7 +19,11 @@ class MagnetProblem extends Model
 	protected $forLeft;
 	protected $forMid;
 	protected $forRight;
-    protected $booleans;
+    protected $ifOptions;
+    protected $whileOptions;
+    protected $returnOptions;
+    protected $assignmentVars;
+    protected $assignmentVals;
     protected $statements;
     protected $limits;
     protected $solution;
@@ -60,12 +64,28 @@ class MagnetProblem extends Model
         return $this->forRight;
     }
 
-    public function getBooleans(){
-        return $this->booleans;
+    public function getIfOptions(){
+        return $this->ifOptions;
+    }
+
+    public function getWhileOptions(){
+        return $this->whileOptions;
     }
 
     public function getStatements(){
         return $this->statements;
+    }
+
+    public function getReturnOptions(){
+        return $this->returnOptions;
+    }
+
+    public function getAssignmentVars(){
+        return $this->assignmentVars;
+    }
+
+    public function getAssignmentVals(){
+        return $this->assignmentVals;
     }
 
     public function getLimits(){
@@ -135,8 +155,24 @@ class MagnetProblem extends Model
          $this->forRight = $var;
     }
 
-    public function setBooleans($var){
-         $this->booleans = $var;
+    public function setIfOptions($var){
+         $this->ifOptions = $var;
+    }
+
+    public function setWhileOptions($var){
+        $this->whileOptions = $var;
+    }
+
+    public function setReturnOptions($var){
+        $this->returnOptions = $var;
+    }
+
+    public function setAssignmentVars($var){
+        $this->assignmentVars = $var;
+    }
+
+    public function setAssignmentVals($var){
+        $this->assignmentVals = $var;
     }
 
     public function setStatements($var){
@@ -173,7 +209,11 @@ class MagnetProblem extends Model
             "forLeft" => $this->forLeft,
             "forMid" => $this->forMid,
             "forRight" => $this->forRight,
-            "bools" => $this->booleans,
+            "ifOptions" => $this->ifOptions,
+            "whileOptions" => $this->whileOptions,
+            "returnOptions" => $this->returnOptions,
+            "assignmentVars" => $this->assignmentVars,
+            "assignmentVals" => $this->assignmentVals,
             "statements" => $this->statements,
             "limits" => $this->limits,
             "solution" => $this->solution,
@@ -260,7 +300,7 @@ class MagnetProblem extends Model
         require_once('Database.php');
         $user = Auth::GetCurrentUser();
         $db = Database::getDb();
-
+        
         $sth = $db->prepare('SELECT DISTINCT magnetProblem.title 
             FROM magnetProblem, SectionMP
             WHERE SectionMP.status < 3
