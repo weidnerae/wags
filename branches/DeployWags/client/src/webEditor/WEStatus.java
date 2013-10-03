@@ -12,6 +12,7 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
+import com.google.gwt.user.client.Window;
 
 
 public class WEStatus {
@@ -102,7 +103,8 @@ public class WEStatus {
 	public WEStatus(String JSONtext)
 	{
 		JSONValue vals = JSONParser.parseStrict(JSONtext);
-		JSONObject obj = vals.isObject();
+	    JSONObject obj = vals.isObject();
+		
 		if(obj != null){
 			JSONNumber stat   = obj.get("stat").isNumber();
 			JSONString string = obj.get("msg").isString();
@@ -193,13 +195,14 @@ public class WEStatus {
 	private void createObject(HashMap<String, String> messageMap){
 		String objType = messageMap.get("Object");
 		if(objType == "MagnetProblem"){		
+			
 			int id = Integer.parseInt(messageMap.get("id"));
 			
 			// This is a stopgap to see if we can get it working correctly - Jon
 			String mainFunction = messageMap.get("solution");
 						
 			// Get arrays
-			String[] innerFunctions, forLeft, forMid, forRight, ifOptions, whileOptions, statements, allStatements, oldStatements, newStatements, createdIDs;
+			String[] innerFunctions, forLeft, forMid, forRight, ifOptions, whileOptions, returnOptions, assignmentVars, assignmentVals, statements, allStatements, oldStatements, newStatements, createdIDs;
 			int numStatements;
 			innerFunctions = parseArray(messageMap.get("innerFunctions"));
 			forLeft = parseArray(messageMap.get("forLeft"));
@@ -207,6 +210,9 @@ public class WEStatus {
 			forRight = parseArray(messageMap.get("forRight"));
 			ifOptions = parseArray(messageMap.get("ifOptions"));
 			whileOptions = parseArray(messageMap.get("whileOptions"));
+			returnOptions = parseArray(messageMap.get("returnOptions"));
+			assignmentVars = parseArray(messageMap.get("assignmentVars"));
+			assignmentVals = parseArray(messageMap.get("assignmentVals"));
 			allStatements = messageMap.get("statements").split(".:3:.");
 			oldStatements = parseArray(allStatements[0]);
 			numStatements = oldStatements.length+(innerFunctions.length);
@@ -226,7 +232,7 @@ public class WEStatus {
 			// Create the object
 			myObject = new MagnetProblem(id, messageMap.get("title"), messageMap.get("directions"), 
 					messageMap.get("type"), mainFunction, innerFunctions, forLeft, forMid, forRight, ifOptions, whileOptions,
-					statements, messageMap.get("limits"), createdIDs, numStatements, messageMap.get("solution"), messageMap.get("state"));
+					returnOptions, assignmentVars, assignmentVals, statements, messageMap.get("limits"), createdIDs, numStatements, messageMap.get("solution"), messageMap.get("state"));
 		} else if (objType == "LogicalMicrolab"){
 			// Pretty much just passes the database information into the LogicalMicrolab constructor.
 			// The real "parsing" of information happens in LogicalMicrolab.getProblem, which uses

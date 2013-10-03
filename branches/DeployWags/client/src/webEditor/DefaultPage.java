@@ -9,6 +9,12 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * This class generates the landing page for the WAGS web site. The user it taken here
+ * if he is logged in and is provided with a list of buttons taking them else-where in
+ * the site. 
+ */
+
 public class DefaultPage extends Composite {
 
 	private static DefaultPageUiBinder uiBinder = GWT
@@ -26,11 +32,16 @@ public class DefaultPage extends Composite {
 	@UiField Button logicalPCButton;
 	@UiField Button logoutButton;
 	
+	/** Basic constructor. creates the splash page and will load the admin, magnet
+	 *  problem creation, and logical problem creation buttons if the user has admin
+	 *  privileges.
+	 */
 	public DefaultPage() {
 		initWidget(uiBinder.createAndBindUi(this));
 		Proxy.isAdmin(adminButton, magnetPCButton, logicalPCButton);
 	}
 	
+	/** Takes the user to the editor tab */
 	@UiHandler("editorButton")
 	void onEditorClick(ClickEvent event)
 	{
@@ -38,6 +49,7 @@ public class DefaultPage extends Composite {
 		e.go();
 	}
 	
+	/** Takes te user to the logical problems page */
 	@UiHandler("logicalButton")
 	void onLogicalClick(ClickEvent event)
 	{
@@ -45,6 +57,7 @@ public class DefaultPage extends Composite {
 		e.go();
 	}
 	
+	/** Takes the user to the magnet problems page */
 	@UiHandler("magnetButton")
 	void onMagnetClick(ClickEvent event)
 	{
@@ -52,6 +65,7 @@ public class DefaultPage extends Composite {
 		e.go();
 	}
 	
+	/** Takes the user to the admin panel */
 	@UiHandler("adminButton")
 	void onAdminClick(ClickEvent event)
 	{
@@ -59,6 +73,7 @@ public class DefaultPage extends Composite {
 		e.go();
 	}
 	
+	/** Takes to user to the magnet problem creation */
 	@UiHandler("magnetPCButton")
 	void onMagnetPCClick(ClickEvent event)
 	{
@@ -67,6 +82,7 @@ public class DefaultPage extends Composite {
 		
 	}
 	
+	/** Takes the user to the logical problem creation */
 	@UiHandler("logicalPCButton")
 	void onLogicalPCClick(ClickEvent event)
 	{
@@ -74,6 +90,7 @@ public class DefaultPage extends Composite {
 		e.go();
 	}
 	
+	/** Logs the user out upon clicking the logout button*/
 	@UiHandler("logoutButton")
 	void onLogoutClick(ClickEvent event)
 	{

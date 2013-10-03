@@ -1,5 +1,7 @@
 package webEditor.magnet.view;
 
+import com.google.gwt.user.client.Window;
+
 import webEditor.MagnetProblem;
 
 public class MagnetProblemCreator {
@@ -15,7 +17,7 @@ public class MagnetProblemCreator {
 	 */
 	public RefrigeratorMagnet makeProblem(MagnetProblem magnet) {
 		idAssignor = 0;
-
+        Window.alert("Magnet Problem Created");
 		return new RefrigeratorMagnet(
 				magnet,
 				getMainContainer(magnet.mainFunction),
