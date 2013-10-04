@@ -25,7 +25,7 @@
 	</ui:style>
 
 	<g:SplitLayoutPanel ui:field="layout" styleName='{style.base_panel}'>
-		<g:east size="650">
+		<g:east size="550">
 			<g:LayoutPanel ui:field="codePanel"></g:LayoutPanel>
 		</g:east>
 		<g:center>
