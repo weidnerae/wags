@@ -24,9 +24,13 @@
 	margin-left: 10px;
 	}
 	
+	.margin-right{
+	margin-right: 10px;
+	}
+	
 	</ui:style>
 	
-	<g:DockLayoutPanel unit='PX' ui:field='layout'>
+	<g:DockLayoutPanel unit='PX' styleName='{style.margin-right}' ui:field='layout'>
 		<g:north size='110'>
 			<g:ScrollPanel styleName='{style.directions_panel}'>
         		<g:AbsolutePanel ui:field="directionsContent" styleName='{style.directions_content}'>
