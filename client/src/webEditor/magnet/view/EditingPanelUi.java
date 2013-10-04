@@ -6,6 +6,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.LayoutPanel;
 
@@ -27,7 +28,7 @@ public class EditingPanelUi extends Composite {
 	
 	@UiField LayoutPanel codePanel;  	  //the right hand side -> build code here
 	@UiField LayoutPanel constructPanel;  //the left hand side -> drag code segments from here
-	@UiField LayoutPanel layout; 		  //the panel holding it all together
+	@UiField SplitLayoutPanel layout; 		  //the panel holding it all together
 	
 	public EditingPanelUi(RefrigeratorMagnet refrigeratorMagnet, int tabPanelHeight, MagnetProblem magnet, StackableContainer mainFunction,
 						  StackableContainer[] insideFunctions, StackableContainer[] premadeSegments, String[][] forLists) {

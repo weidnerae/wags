@@ -6,15 +6,30 @@
 	min-height:100%;
 	min-width:100%;
 	}
+	
+	@external .gwt-SplitLayoutPanel-HDragger;
+
+	.gwt-SplitLayoutPanel-HDragger { 
+	width: 5px !important;
+	background: grey;
+	}
+		
+	@external .gwt-SplitLayoutPanel-VDragger;
+	
+	.gwt-SplitLayoutPanel-VDragger {
+    width: 5px !important;
+	background: grey;
+	}
+	
 		
 	</ui:style>
 
-	<g:LayoutPanel ui:field="layout" styleName='{style.base_panel}'>
-		<g:layer left='0%' right='45%'>
-			<g:LayoutPanel ui:field="constructPanel"></g:LayoutPanel>
-		</g:layer>
-		<g:layer right='0%' left='55%'>
+	<g:SplitLayoutPanel ui:field="layout" styleName='{style.base_panel}'>
+		<g:east size="650">
 			<g:LayoutPanel ui:field="codePanel"></g:LayoutPanel>
-		</g:layer>
-	</g:LayoutPanel>
+		</g:east>
+		<g:center>
+			<g:LayoutPanel ui:field="constructPanel"></g:LayoutPanel>
+		</g:center>
+	</g:SplitLayoutPanel>
 </ui:UiBinder> 
