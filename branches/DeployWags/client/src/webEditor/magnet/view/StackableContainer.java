@@ -156,11 +156,12 @@ public class StackableContainer extends FocusPanel {
 		String[] accessModifiers = {"public","private","protected"};
 		String low = topJavaCode != null ? topJavaCode : topLabel.getText();
 		low = low.toLowerCase();
+		
 		if(isMain){
 			magnetType = MagnetType.MAIN;
 		}else if(low.matches("^(for|while).*")){
 			magnetType = MagnetType.LOOP;
-		}else if(low.matches("^if.*") || low.matches("^else")){
+		}else if(low.matches("^if.*") || low.matches("^else.*")){
 			magnetType = MagnetType.CONDITIONAL;
 		}else if(low.matches("^return.*")){
 			magnetType = MagnetType.RETURN;
