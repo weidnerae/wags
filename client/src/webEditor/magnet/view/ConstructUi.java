@@ -169,25 +169,26 @@ public class ConstructUi extends Composite {
 		}
 			
 		for (StackableContainer segment : segments) {
-			if (problemType.equals(Consts.ADVANCED_PROBLEM)) {
+			/**
+			 * if (problemType.equals(Consts.ADVANCED_PROBLEM)) {
 	            String content = segment.getContent();
 				if (content.startsWith("for")) {
-					magnetMaker.decrementLimitCounter(MagnetMaker.FOR);
+					//magnetMaker.decrementLimitCounter(MagnetMaker.FOR);
 				} else if (content.startsWith("while")) {
-					magnetMaker.decrementLimitCounter(MagnetMaker.WHILE);
+					//magnetMaker.decrementLimitCounter(MagnetMaker.WHILE);
 				} else if (content.startsWith("if")) {
-					magnetMaker.decrementLimitCounter(MagnetMaker.IF);
+					//magnetMaker.decrementLimitCounter(MagnetMaker.IF);
 				} else if (content.startsWith("else if")) {
-					magnetMaker.decrementLimitCounter(MagnetMaker.ELSE_IF);
+					//magnetMaker.decrementLimitCounter(MagnetMaker.ELSE_IF);
 				} else if (content.startsWith("else")) {
-					magnetMaker.decrementLimitCounter(MagnetMaker.ELSE);
+					//magnetMaker.decrementLimitCounter(MagnetMaker.ELSE);
 				} else if(content.startsWith("return")) {
-					magnetMaker.decrementLimitCounter(MagnetMaker.RETURN);
+					//magnetMaker.decrementLimitCounter(MagnetMaker.RETURN);
 				} else {
-					magnetMaker.decrementLimitCounter(MagnetMaker.ASSIGN);
+					//magnetMaker.decrementLimitCounter(MagnetMaker.ASSIGN);
 				}
 			}
-			
+			*/
 			addSegment(segment);
 		}
 	}

@@ -97,5 +97,4 @@ public class AdminPage extends Composite {
 			tabPanel.remove(widgetToClose);			
 		}
 	}
-	
 }
