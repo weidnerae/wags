@@ -1,5 +1,6 @@
 package webEditor.magnet.view;
 
+
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -104,7 +105,7 @@ public class StackableContainer extends FocusPanel {
 				}
 				break;
 			case Consts.STATEMENT:
-				if(content.contains(Consts.PANEL_TAG)){
+				if(content.contains(Consts.PANEL_TAG)){	
 					stackable = true;
 				} else {
 					stackable = false;

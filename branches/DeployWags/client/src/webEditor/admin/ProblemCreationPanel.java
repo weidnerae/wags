@@ -19,7 +19,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -143,7 +142,7 @@ public class ProblemCreationPanel extends Composite{
 				String[] magnets = event.getResults().split("\n");
 				classDeclarationTxtArea.setText(magnets[0]);
 				innerFunctionsTxtArea.setText(magnets[1]);
-				statementsTxtArea.setText(magnets[2]);
+				statementsTxtArea.setText(removeAngleBrackets(magnets[2]));
 			}
 		});
 		
@@ -421,7 +420,6 @@ public class ProblemCreationPanel extends Composite{
 				titleTxtBox.setText("");
 				finalTitleTxtBox.setText("");
 				titleTxtBox.setFocus(true);
-				
 				overwriteBox.hide();
 			}
 		});
@@ -733,13 +731,13 @@ public class ProblemCreationPanel extends Composite{
 		String topLabel = "";
 		if(topLabelTxtBox.getText()!=""){
 			topLabel = topLabelTxtBox.getText();
-			topLabel = removeAngleBrackets(topLabel);
+			//topLabel = removeAngleBrackets(topLabel);
 		}
 		
 		String topRealCode = "";
 		if(topRealCodeTxtBox.getText()!=""){
 			topRealCode = topRealCodeTxtBox.getText();
-			topRealCode = removeAngleBrackets(topRealCode);
+			//topRealCode = removeAngleBrackets(topRealCode);
 			
 			// If this magnet nests.  Shouldn't be a case with topLabel and topReal
 			// but then only bottomLabel, so this should work.
@@ -760,14 +758,14 @@ public class ProblemCreationPanel extends Composite{
 		if(bottomLabelTxtBox.getText()!=""){
 			withPanel = true;
 			bottomLabel = bottomLabelTxtBox.getText();
-			bottomLabel = removeAngleBrackets(bottomLabel);
+			//bottomLabel = removeAngleBrackets(bottomLabel);
 		}
 		
 		String bottomRealCode = "";
 		if(bottomRealCodeTxtBox.getText()!=""){
 			withPanel = true;
 			bottomRealCode = bottomRealCodeTxtBox.getText();
-			bottomRealCode = removeAngleBrackets(bottomRealCode);
+			//bottomRealCode = removeAngleBrackets(bottomRealCode);
 			bottomRealCode = bottomRealCode+Consts.CODE_END;
 		}
 		
@@ -779,6 +777,7 @@ public class ProblemCreationPanel extends Composite{
 		}
 	
 	}
+	
 	@UiHandler("testProblemButton")
 	void onTestProblemClick(ClickEvent event){
 		MagnetProblem problem;
@@ -786,7 +785,7 @@ public class ProblemCreationPanel extends Composite{
 			// Advanced problem. Load all the fields;
 	      problem = new MagnetProblem(-1, finalTitleTxtBox.getText(), finalDescriptionTxtArea.getText(), 
 				finalTypeTxtArea.getText(), classDeclarationTxtArea.getText(), innerFunctionsTxtArea.getText().split(".:\\|:."), forLoop1TextArea.getText().split(".:\\|:."), forLoop2TextArea.getText().split(".:\\|:."), forLoop3TextArea.getText().split(".:\\|:."), ifsTextArea.getText().split(".:\\|:."), whilesTextArea.getText().split(".:\\|:."),
-				returnsTextArea.getText().split(".:\\|:."), assignmentsVarTextArea.getText().split(".:\\|:."), assignmentsValTextArea.getText().split(".:\\|:."), statementsTxtArea.getText().split(".:\\|:."), ifAllowed.getText()+","+elseAllowed.getText()+","+elseIfAllowed.getText()+","+forAllowed.getText()+","+whileAllowed.getText()+","+returnAllowed.getText()
+				returnsTextArea.getText().split(".:\\|:."), assignmentsVarTextArea.getText().split(".:\\|:."), assignmentsValTextArea.getText().split(".:\\|:."), removeAngleBrackets(statementsTxtArea.getText()).split(".:\\|:."), ifAllowed.getText()+","+elseAllowed.getText()+","+elseIfAllowed.getText()+","+forAllowed.getText()+","+whileAllowed.getText()+","+returnAllowed.getText()
 				+","+assignmentAllowed.getText(), new String[0], statementsTxtArea.getText().split(".:\\|:.").length+innerFunctionsTxtArea.getText().split(".:\\|:.").length, "", "");
 		} else {
 			// Basic Problem. Some fields don't exist so only grab what we need.
@@ -795,18 +794,34 @@ public class ProblemCreationPanel extends Composite{
 			String emptyString = "";
 			problem = new MagnetProblem(-1, finalTitleTxtBox.getText(), finalDescriptionTxtArea.getText(), 
 					finalTypeTxtArea.getText(), classDeclarationTxtArea.getText(), innerFunctionsTxtArea.getText().split(".:\\|:."), emptyArr,emptyArr, emptyArr, emptyArr, emptyArr, emptyArr, emptyArr, emptyArr,
-					statementsTxtArea.getText().split(".:\\|:."), emptyString, emptyArr, statementsTxtArea.getText().split(".:\\|:.").length+innerFunctionsTxtArea.getText().split(".:\\|:.").length, "", "");
+					removeAngleBrackets(statementsTxtArea.getText()).split(".:\\|:."), emptyString, emptyArr, statementsTxtArea.getText().split(".:\\|:.").length+innerFunctionsTxtArea.getText().split(".:\\|:.").length, "", "");
 		}
 
 		adminPage.addWidgetInNewTab(this.magnetProblemCreator.makeProblem(problem), "Problem Demo");			
 	}
 	
+	/**
+	 * Replaces all the '>' or '<' in a string with their corresponding HTML
+	 * representation. the regex pattern [^!?{} means that any character that occurs
+	 * in that position that is not a '!', '/', '{', or '}' will be accepted. 
+	 * 
+	 * note: I do not like calling replaceAll 4 times but I removed several calls
+	 * to the removeAngleBrackets function in above code so hopefully it evens out. 
+	 * 
+	 * @param text the string modify
+	 * @return a string in which all occurrences of a '>' or '<' have been replaced
+	 */
 	private String removeAngleBrackets(String text){
-		text = text.replaceAll("<", "&lt;");
-		text = text.replaceAll(">", "&gt;");
+		text = text.replaceAll("[^!/{}]<=[^!/{}]", " &lt;= ");
+		text = text.replaceAll("[^!/{}]>=[^!/{}]", " &gt;= ");
+		text = text.replaceAll("[^!/{}]<[^!/{}]", " &lt; ");
+		text = text.replaceAll("[^!/{}]>[^!/{}]", " &gt; ");
 		return text;
 	}
 	
+	/**
+	 * Clears the contents of all of the label boxes
+	 */
 	public void clearLabels(){
 		topLabelTxtBox.setText("");
 		topRealCodeTxtBox.setText("");
