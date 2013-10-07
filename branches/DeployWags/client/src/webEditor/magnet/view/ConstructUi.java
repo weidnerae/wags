@@ -1,8 +1,11 @@
 package webEditor.magnet.view;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
 import webEditor.MagnetProblem;
 
-import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -12,6 +15,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -26,10 +30,11 @@ public class ConstructUi extends Composite {
 	private AbsolutePanel mmContent;    //nest panel to hold magnet maker
 	private MagnetMaker magnetMaker;
 	private AbsolutePanel segmentsContent;
-	private AbsolutePositionDropController segmentDropControl;
-	private int[] segmentTops = new int[50];  //used to keep track of coordinates for added segments
+	private Map<MagnetType, VerticalPanel> panelMap = new HashMap<MagnetType, VerticalPanel>();
+	private MagnetTypeDropController segmentDropControl;
 	private int nextID; // used for assigning created magnets ID's
 	private String problemType;
+	private Random random = new Random();
 	
 	@UiField AbsolutePanel directionsContent;  //place for directions
 	@UiField AbsolutePanel trashbin;  
@@ -87,7 +92,7 @@ public class ConstructUi extends Composite {
 			contentPanel.add(mmContent);
 
 			segmentsContent = new AbsolutePanel();
-			segmentDropControl = new AbsolutePositionDropController(segmentsContent);
+			segmentDropControl = new MagnetTypeDropController(segmentsContent, this);
 			DragController.INSTANCE.registerDropController(segmentDropControl);
 			segmentsContent.getElement().getStyle().setOverflowY(Overflow.AUTO);  //enables scrolling
 			contentPanel.add(segmentsContent);
@@ -115,7 +120,7 @@ public class ConstructUi extends Composite {
 			segmentsContent = new AbsolutePanel();
 			segmentsContent.setWidth("100%");
 			segmentsContent.setHeight("100%");
-			segmentDropControl = new AbsolutePositionDropController(segmentsContent);
+			segmentDropControl = new MagnetTypeDropController(segmentsContent, this);
 			DragController.INSTANCE.registerDropController(segmentDropControl);
 			segmentsContent.getElement().getStyle().setOverflowY(Overflow.AUTO);
 			layout.add(segmentsContent);
@@ -133,8 +138,21 @@ public class ConstructUi extends Composite {
 	//this method is called after the constructor because there is a delay between instantiating the panel
 	//and placing all the segments to the segmentsContent panel
 	public void start() {
+		mixItUp(premade);
 		addSegments(premade);
 	}
+
+	private void mixItUp(StackableContainer[] arr) {
+		int limit = arr.length;
+		for(int i = 0; i < limit; i++){
+			swap(arr, i, random.nextInt(limit));
+		}
+	}
+	 private void swap(Object[] x, int a, int b) {
+		    Object t = x[a];
+		    x[a] = x[b];
+		    x[b] = t;
+		}
 
 	/**
 	 * creates and adds multiple stackable container objects to the UI. 
@@ -191,41 +209,16 @@ public class ConstructUi extends Composite {
         Timer timer = new Timer() {
             @Override
             public void run() {
-            	int widgetCount = segmentsContent.getWidgetCount();
+            	VerticalPanel panel;
+            	if((panel = panelMap.get(segment.getMagnetType())) != null){
+            		// do nothing right now. We'll add the segment down below
+            	}else{
+            		panel = new VerticalPanel();
+            		panelMap.put(segment.getMagnetType(), panel);
+            		segmentsContent.add(panel);
+            	}
+            	panel.add(segment);
             	
-            	//Spacing is 10 pixels
-                int baseX = 10;
-                int baseY = 10;
-                                              
-                if (widgetCount == 0) {
-                    // we add the first widget at an offset of 10, 10
-                    segmentsContent.add(segment, baseX, baseY);
-                } else {
-                    // after the first, we calculate where the next widget should go based on the last widget in the panel
-                    StackableContainer lastWidget = (StackableContainer) segmentsContent.getWidget(segmentsContent.getWidgetCount() - 1);
-                                      
-                    //get raw position information for last widget placed in segmentscontent
-                    //subtract it from absolute top of constructUI to account for tabs and anchor
-                    baseY = lastWidget.getTop() + lastWidget.getHeight() - getAbsoluteTop();
-                    
-                    //subtract the length from the top of segments content up to the top of the UI
-                    baseY -= segmentsContent.getAbsoluteTop() - getAbsoluteTop();
-                    
-                    //store the calculated baseY in case it is needed after scrolling
-                    segmentTops[widgetCount - 1] = baseY;
-                    
-                    //check the current baseY against the relative top (baseY) 
-                    //of the widget before the last one.  if the current one is smaller
-                    //replace it with the one before hand and calculate the correct baseY
-                    //by adding the height of the last widget added + 10 to the old baseY
-                    if (widgetCount != 1 && baseY < segmentTops[widgetCount - 2]) {
-                    	baseY = segmentTops[widgetCount - 2];
-                    	baseY += lastWidget.getHeight() + 10;
-                    	segmentTops[widgetCount -1] = baseY;
-                    }
-                }
-                
-                segmentsContent.add(segment, baseX, baseY);
             }  
         };
         
