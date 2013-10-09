@@ -362,7 +362,7 @@ textarea {
 .stackable_container{
         margin-top: 10px;
         margin-bottom: 5px;
-        padding: 7px;
+        padding: 12px;
         border-radius: 5px;
         -moz-border-radius: 5px;
         display: absolute;
@@ -375,7 +375,7 @@ textarea {
 .stackable_container_over{
         margin-top: 10px;
         margin-bottom: 5px;
-        padding: 7px;
+        padding: 12px;
         border-radius: 5px;
         -moz-border-radius: 5px;
         background: #329DAE;
@@ -387,7 +387,7 @@ textarea {
 .nonstackable_container_over{
 	    margin-top: 10px;
         margin-bottom: 5px;
-        padding: 7px;
+        padding: 12px;
         border-radius: 5px;
         -moz-border-radius: 5px;
         background: #B34B4B;
@@ -401,7 +401,7 @@ textarea {
         padding-right: 40px;
         border-radius: 5px;
         -moz-border-radius: 5px;
-        background: #E6E6E6;
+        background: #ACDEE6;
         min-height: 20px;
         font-size: 14px;
         color: black;
@@ -421,28 +421,29 @@ textarea {
         font-family: "courier new";     
 }
 .loop{
-	background: green;
+	background: #00CC00;
 }
 .loop_over{
-	background: darkgreen;
+	background: #00782d;
 }
 .conditional{
-	background: blue;
+	background: #FFFC00;
 }
 .conditional_over{
-	background: darkblue;
+	background: #FFB100;
 }
 .function{
-	background: orchid;
+	background: #a6a6a6;
 }
 .function_over{
-	background: purple;
+	background: #0772A1;
 }
 .return{
-	background: white;
+	background: #FF0700;
+    opacity: .95;
 }
 .declaration{
-	background: chocolate;
+	background: #AF3BD4;
 }
 .assorted{
 	background: cyan;
@@ -491,5 +492,4 @@ BODY,HTML{height:100%;}
   overflow: hidden;
   padding: 6px;
 }
-
 
