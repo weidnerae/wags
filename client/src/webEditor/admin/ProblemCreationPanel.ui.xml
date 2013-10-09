@@ -9,6 +9,24 @@
 		.roundedButton{
 			width: 98%;
 		}
+		.standardButton {
+			align-items: flex-start;
+			text-align: center;
+			cursor: default;
+			color: buttontext;
+			padding: 2px 6px 3px;
+			border: 2px outset buttonface;
+			border-image-source: initial;
+			border-image-slice: initial;
+			border-image-width: initial;
+			border-image-outset: initial;
+			border-image-repeat: initial;
+			background-color: buttonface;
+			box-sizing: border-box;
+		}
+		.narrowRoundedButton {
+			width: 150px;
+		}
 		.fillingTextBox{
 			width: 100%;
 		}
@@ -310,11 +328,11 @@
 								<g:FileUpload name="helperClass1" ui:field="helperUpload"/>
 							</g:HorizontalPanel>
 						</g:VerticalPanel>
-						<g:Button ui:field="btnMoreHelpers">Add Helper Slot</g:Button>
+						<g:Button styleName='{style.narrowRoundedButton}' ui:field="btnMoreHelpers">Add Helper Slot</g:Button>
 						<g:CheckBox ui:field="overwrite" name="overwrite" formValue="1" visible="false"></g:CheckBox>
 						<g:HorizontalPanel>
 							<g:SubmitButton ui:field="createProblemSubmitButton">Create</g:SubmitButton>
-					        <g:Button ui:field="testProblemButton">Test Problem</g:Button>
+					        <g:Button styleName='{style.standardButton}' ui:field="testProblemButton">Test Problem</g:Button>
 						</g:HorizontalPanel>
 					</g:VerticalPanel>
 				</g:FormPanel>
