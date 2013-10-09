@@ -2,6 +2,7 @@ package webEditor.magnet.view;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import webEditor.MagnetProblem;
@@ -15,7 +16,8 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.ProvidesResize;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -23,14 +25,14 @@ import com.google.gwt.user.client.ui.Widget;
  * This is effectively the left side of the screen in the editing mode tab.
  *
  */
-public class ConstructUi extends Composite {
+public class ConstructUi extends Composite implements ProvidesResize, RequiresResize{
 	private TrashBin bin;
 	private StackableContainer[] premade; //field to store premade segments passed in
 	private AbsolutePanel contentPanel; //nest panel to hold mgnet maker and segments content
 	private AbsolutePanel mmContent;    //nest panel to hold magnet maker
 	private MagnetMaker magnetMaker;
 	private AbsolutePanel segmentsContent;
-	private Map<MagnetType, VerticalPanel> panelMap = new HashMap<MagnetType, VerticalPanel>();
+	private Map<MagnetType, MagnetTypePanel> panelMap = new HashMap<MagnetType, MagnetTypePanel>();
 	private MagnetTypeDropController segmentDropControl;
 	private int nextID; // used for assigning created magnets ID's
 	private String problemType;
@@ -39,6 +41,7 @@ public class ConstructUi extends Composite {
 	@UiField AbsolutePanel directionsContent;  //place for directions
 	@UiField AbsolutePanel trashbin;  
 	@UiField DockLayoutPanel layout;  //panel that holds entire left hand side of UI
+	private int lastOffsetWidth;
 
 	private static ConstructUiUiBinder uiBinder = GWT.create(ConstructUiUiBinder.class);
 
@@ -125,7 +128,7 @@ public class ConstructUi extends Composite {
 			segmentsContent.getElement().getStyle().setOverflowY(Overflow.AUTO);
 			layout.add(segmentsContent);
 		}
-		
+		this.lastOffsetWidth = this.getOffsetWidth();
 		start();
 	}
 	
@@ -210,11 +213,11 @@ public class ConstructUi extends Composite {
         Timer timer = new Timer() {
             @Override
             public void run() {
-            	VerticalPanel panel;
+            	MagnetTypePanel panel;
             	if((panel = panelMap.get(segment.getMagnetType())) != null){
             		// do nothing right now. We'll add the segment down below
             	}else{
-            		panel = new VerticalPanel();
+            		panel = new MagnetTypePanel();
             		panelMap.put(segment.getMagnetType(), panel);
             		segmentsContent.add(panel);
             	}
@@ -222,12 +225,22 @@ public class ConstructUi extends Composite {
             	
             }  
         };
-        
+        if(this.getOffsetWidth() != lastOffsetWidth){
+        	onResize();
+        	this.lastOffsetWidth = this.getOffsetWidth();
+        }
         timer.schedule(1);
     }
     
 	public void reset(){
 		segmentsContent.clear();
 		start();
+	}
+
+	@Override
+	public void onResize() {
+		for(Entry<MagnetType, MagnetTypePanel> entry : panelMap.entrySet()) {
+		    entry.getValue().onResize(this.getOffsetWidth());
+		}
 	}
 }
