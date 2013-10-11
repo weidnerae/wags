@@ -362,20 +362,19 @@ textarea {
 .stackable_container{
         margin-top: 10px;
         margin-bottom: 5px;
-        padding: 12px;
+        padding: 7px 7px 7px 15px;
         border-radius: 5px;
         -moz-border-radius: 5px;
         display: absolute;
         font-size: 13px;
         border: 1px solid AliceBlue;
-        background-color: #ACDEE6;
         font-family: "courier new";   
         color: black;  
 }
 .stackable_container_over{
         margin-top: 10px;
         margin-bottom: 5px;
-        padding: 12px;
+        padding: 7px 7px 7px 15px;
         border-radius: 5px;
         -moz-border-radius: 5px;
         background: #329DAE;
@@ -387,8 +386,8 @@ textarea {
 .nonstackable_container_over{
 	    margin-top: 10px;
         margin-bottom: 5px;
-        padding: 12px;
-        border-radius: 5px;
+		padding: 7px 7px 7px 15px;
+		border-radius: 5px;
         -moz-border-radius: 5px;
         background: #B34B4B;
         font-size: 13px;
@@ -401,7 +400,7 @@ textarea {
         padding-right: 40px;
         border-radius: 5px;
         -moz-border-radius: 5px;
-        background: #ACDEE6;
+        background: #e6e6e6;
         min-height: 20px;
         font-size: 14px;
         color: black;
@@ -412,7 +411,7 @@ textarea {
         padding: 5px;
         border-radius: 5px;
         -moz-border-radius: 5px;
-        background: #cccccc;
+        background: #a6a6a6;
         display: absolute;
         min-height: 20px;
         font-size: 14px;
@@ -421,35 +420,35 @@ textarea {
         font-family: "courier new";     
 }
 .loop{
-	background: #00CC00;
+	background: #25CE77;
 }
 .loop_over{
-	background: #00782d;
+	background: #1A9053;
 }
 .conditional{
-	background: #FFFC00;
+	background: #FFFF66;
 }
 .conditional_over{
-	background: #FFB100;
+	background: #B2B247;
 }
 .function{
-	background: #a6a6a6;
+	background: #ffffff;
 }
 .function_over{
-	background: #0772A1;
+	background: #a6a6a6;
 }
 .return{
-	background: #FF0700;
+	background: #33CCCC;
     opacity: .95;
 }
 .declaration{
-	background: #AF3BD4;
+	background: #66FF33;
 }
 .assorted{
-	background: cyan;
+	background: #e6e6e6;
 }
 .assorted_over{
-	background: darkcyan;
+	background: #a6a6a6;
 }
 .trash_label{
         margin: 5px;
