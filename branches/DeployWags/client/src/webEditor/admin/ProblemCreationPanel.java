@@ -723,7 +723,7 @@ public class ProblemCreationPanel extends Composite{
 	 * Builds a string from the user entered code and psuedocode from the automatic statement/function/class
 	 * creator on the lower left side of the screen. 
 	 * 
-	 * @return a String build from the user entered label and real code text.
+	 * @return a String built from the user entered label and real code text.
 	 */
 	private String buildString(){
 		boolean withPanel = false;
@@ -737,7 +737,6 @@ public class ProblemCreationPanel extends Composite{
 		String topRealCode = "";
 		if(topRealCodeTxtBox.getText()!=""){
 			topRealCode = topRealCodeTxtBox.getText();
-			//topRealCode = removeAngleBrackets(topRealCode);
 			
 			// If this magnet nests.  Shouldn't be a case with topLabel and topReal
 			// but then only bottomLabel, so this should work.
@@ -758,14 +757,12 @@ public class ProblemCreationPanel extends Composite{
 		if(bottomLabelTxtBox.getText()!=""){
 			withPanel = true;
 			bottomLabel = bottomLabelTxtBox.getText();
-			//bottomLabel = removeAngleBrackets(bottomLabel);
 		}
 		
 		String bottomRealCode = "";
 		if(bottomRealCodeTxtBox.getText()!=""){
 			withPanel = true;
 			bottomRealCode = bottomRealCodeTxtBox.getText();
-			//bottomRealCode = removeAngleBrackets(bottomRealCode);
 			bottomRealCode = bottomRealCode+Consts.CODE_END;
 		}
 		
@@ -782,14 +779,15 @@ public class ProblemCreationPanel extends Composite{
 	void onTestProblemClick(ClickEvent event){
 		MagnetProblem problem;
 		if(finalTypeTxtArea.getText().equals(ADVANCED_PROBLEM)){	
-			// Advanced problem. Load all the fields;
+			
+		  // Advanced problem. Load all the fields;
 	      problem = new MagnetProblem(-1, finalTitleTxtBox.getText(), finalDescriptionTxtArea.getText(), 
 				finalTypeTxtArea.getText(), classDeclarationTxtArea.getText(), innerFunctionsTxtArea.getText().split(".:\\|:."), forLoop1TextArea.getText().split(".:\\|:."), forLoop2TextArea.getText().split(".:\\|:."), forLoop3TextArea.getText().split(".:\\|:."), ifsTextArea.getText().split(".:\\|:."), whilesTextArea.getText().split(".:\\|:."),
 				returnsTextArea.getText().split(".:\\|:."), assignmentsVarTextArea.getText().split(".:\\|:."), assignmentsValTextArea.getText().split(".:\\|:."), removeAngleBrackets(statementsTxtArea.getText()).split(".:\\|:."), ifAllowed.getText()+","+elseAllowed.getText()+","+elseIfAllowed.getText()+","+forAllowed.getText()+","+whileAllowed.getText()+","+returnAllowed.getText()
 				+","+assignmentAllowed.getText(), new String[0], statementsTxtArea.getText().split(".:\\|:.").length+innerFunctionsTxtArea.getText().split(".:\\|:.").length, "", "");
 		} else {
-			// Basic Problem. Some fields don't exist so only grab what we need.
 			
+			// Basic Problem. Some fields don't exist so only grab what we need.
 			String[] emptyArr = new String[0];
 			String emptyString = "";
 			problem = new MagnetProblem(-1, finalTitleTxtBox.getText(), finalDescriptionTxtArea.getText(), 

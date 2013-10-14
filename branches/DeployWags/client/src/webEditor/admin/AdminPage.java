@@ -5,9 +5,10 @@ import webEditor.Proxy;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
@@ -35,9 +36,13 @@ public class AdminPage extends Composite {
 	@UiField StudentTab students;
 	@UiField TabLayoutPanel tabPanel;
 	@UiField LMEditTab lmEditTab;
+	//@UiField HorizontalPanel testPanel;
 
 	public AdminPage() {
+		
 		initWidget(uiBinder.createAndBindUi(this));	
+		
+		
 		magnetPC.setAdminPage(this);
 		SectionTab sections = new SectionTab();
 		sections.setAdmin(this);
@@ -64,21 +69,20 @@ public class AdminPage extends Composite {
 	}
 	
 	public void addWidgetInNewTab(Widget w, String tabTitle){
-		// This is making me upset. If I use the FlowPanel then every tab except the Problem Demo tab is
-		// bumped by 4-5 pixels.  If I use the HorizontalPanel then only the Problem Demo tab is bumped up.
-		// All of this has something to do with the 2.0 panels being created to work only in standards mode.
-		// this link has some info: http://www.gwtproject.org/doc/latest/DevGuideUiPanels.html
-		// I could probably find a happy medium with the right concotion of panels but I need to take a break
-		// from this and move onto something else for a bit.
 		int currentTabIndex = tabPanel.getSelectedIndex();
-		// With this only the new tab with be messed up
+		
 		HorizontalPanel tabWidget = new HorizontalPanel();
-		// With this every tab except the new tab will be messed up.
-		//FlowPanel tabWidget = new FlowPanel();
-		tabWidget.add(new InlineLabel(tabTitle+" "));
-		Button tabCloseButton = new Button("[X]", new CloseTabClickHandler(w, currentTabIndex, tabPanel));
+		
+		tabWidget.add(new InlineLabel(tabTitle + " "));
+		InlineLabel tabCloseButton = new InlineLabel("X");
+		
+		tabCloseButton.addClickHandler(new CloseTabClickHandler(w, currentTabIndex, tabPanel));
+		tabCloseButton.addMouseOverHandler(new MouseOverCursorHandler(tabCloseButton));
+		tabCloseButton.addStyleName("problem_tab_close_button");
 		tabWidget.add(tabCloseButton);
+		
 		tabPanel.add(w, tabWidget);
+		tabWidget.getParent().addStyleName("format_problem_tab");
 		tabPanel.selectTab(w);
 	}
 	
@@ -97,4 +101,19 @@ public class AdminPage extends Composite {
 			tabPanel.remove(widgetToClose);			
 		}
 	}
+	
+	public class MouseOverCursorHandler implements MouseOverHandler{
+		InlineLabel closeButton;
+		
+		public MouseOverCursorHandler(InlineLabel closeButton) {
+			this.closeButton = closeButton;
+		}
+		
+		@Override
+		public void onMouseOver(MouseOverEvent event) {
+			closeButton.addStyleName("cursor_to_pointer");
+		}
+	}
+		
 }
+
