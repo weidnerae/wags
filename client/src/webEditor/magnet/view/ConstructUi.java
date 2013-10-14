@@ -172,26 +172,6 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 		}
 			
 		for (StackableContainer segment : segments) {
-			/**
-			 * if (problemType.equals(Consts.ADVANCED_PROBLEM)) {
-	            String content = segment.getContent();
-				if (content.startsWith("for")) {
-					//magnetMaker.decrementLimitCounter(MagnetMaker.FOR);
-				} else if (content.startsWith("while")) {
-					//magnetMaker.decrementLimitCounter(MagnetMaker.WHILE);
-				} else if (content.startsWith("if")) {
-					//magnetMaker.decrementLimitCounter(MagnetMaker.IF);
-				} else if (content.startsWith("else if")) {
-					//magnetMaker.decrementLimitCounter(MagnetMaker.ELSE_IF);
-				} else if (content.startsWith("else")) {
-					//magnetMaker.decrementLimitCounter(MagnetMaker.ELSE);
-				} else if(content.startsWith("return")) {
-					//magnetMaker.decrementLimitCounter(MagnetMaker.RETURN);
-				} else {
-					//magnetMaker.decrementLimitCounter(MagnetMaker.ASSIGN);
-				}
-			}
-			*/
 			addSegment(segment);
 		}
 	}
@@ -222,9 +202,9 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
             		segmentsContent.add(panel);
             	}
             	panel.add(segment);
-            	
             }  
         };
+
         if(this.getOffsetWidth() != lastOffsetWidth){
         	onResize();
         	this.lastOffsetWidth = this.getOffsetWidth();

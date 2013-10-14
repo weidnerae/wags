@@ -41,6 +41,22 @@
 }
 
 /** ADMIN PAGE CSS **/
+.format_problem_tab {
+    bottom: -6.5px;
+    z-index: 2;
+    background: #D0E4F6;
+}
+.problem_tab_close_button {
+    padding-left: 4px;
+    padding-bottom: 1px;
+    padding-right: 0px;
+    color: red;
+    font-size: 95%;
+    border: 1px;
+}
+.cursor_to_pointer{
+    cursor: pointer;
+}
 /**magnet problem creation css **/
 .problem_creation_float_right {
 	float: right;
@@ -491,4 +507,3 @@ BODY,HTML{height:100%;}
   overflow: hidden;
   padding: 6px;
 }
-

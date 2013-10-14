@@ -49,7 +49,7 @@ public class StackableContainer extends FocusPanel {
 	 *            usually main
 	 */
 	public StackableContainer(String content, int specialCondition) { // For mains, non draggable
-		this.content = content;
+		this.content = " " + content;
 		
 		// pulling out the java code
 		if(this.content.contains(Consts.CODE_START)){
