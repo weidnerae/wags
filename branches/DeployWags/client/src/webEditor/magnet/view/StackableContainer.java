@@ -160,15 +160,15 @@ public class StackableContainer extends FocusPanel {
 		
 		if(isMain){
 			magnetType = MagnetType.MAIN;
-		}else if(low.matches("^(for|while).*")){
+		}else if(low.matches("[ ]??(for|while).*")){
 			magnetType = MagnetType.LOOP;
-		}else if(low.matches("^if.*") || low.matches("^else.*")){
+		}else if(low.matches("[ ]??if.*") || low.matches(" ^else.*")){
 			magnetType = MagnetType.CONDITIONAL;
-		}else if(low.matches("^return.*")){
+		}else if(low.matches("[ ]??return.*")){
 			magnetType = MagnetType.RETURN;
-		}else if(low.matches("^("+implode("|",dataTypes)+").*")){
+		}else if(low.matches("[ ]??("+implode("|",dataTypes)+").*")){
 			magnetType = MagnetType.DECLARATION;
-		}else if(low.matches("^("+implode("|",accessModifiers)+").*")){
+		}else if(low.matches("[ ]??("+implode("|",accessModifiers)+").*")){
 			magnetType = MagnetType.FUNCTION;
 		}else{
 			magnetType = MagnetType.ASSORTED;
