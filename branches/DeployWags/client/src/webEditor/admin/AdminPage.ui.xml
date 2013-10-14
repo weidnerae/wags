@@ -9,43 +9,44 @@
 	<g:TabLayoutPanel width="100%" height="100%" barUnit="EM" barHeight="2" ui:field="tabPanel">
 				<g:tab>
 					<g:header> Logical </g:header>
-					<g:ScrollPanel>
+					<g:HorizontalPanel>
 						<my:LogicalTab height="100%" ui:field="logical"/>
-					</g:ScrollPanel>
+					</g:HorizontalPanel>
 				</g:tab>
 				<g:tab>
 					<g:header> Logical Problem Creation </g:header>
-					<g:ScrollPanel>
+					<g:HorizontalPanel>
 						<my:LMEditTab ui:field="lmEditTab"/>
-					</g:ScrollPanel>
+					</g:HorizontalPanel>
 				</g:tab>
 				<g:tab>
 					<g:header> Magnet </g:header>
-					<g:ScrollPanel>
+					<g:HorizontalPanel>
 						<my:MagnetTab height="100%" ui:field="magnet"/>
-					</g:ScrollPanel>	
+					</g:HorizontalPanel>	
 				</g:tab>
 					<g:tab>
+					
 					<g:header> Magnet Problem Creation </g:header>
 						<my:ProblemCreationPanel ui:field="magnetPC"/>
 				</g:tab>
 				<g:tab>
 					<g:header> Programming </g:header>
-					<g:ScrollPanel>
+					<g:HorizontalPanel>
 						<my:ProgrammingTab ui:field="programming"/>
-					</g:ScrollPanel>
+					</g:HorizontalPanel>
 				</g:tab>
 				<g:tab>
 					<g:header> Students </g:header>
-					<g:ScrollPanel>
+					<g:HorizontalPanel>
 						<my:StudentTab ui:field="students"/>
-					</g:ScrollPanel>
+					</g:HorizontalPanel>
 				</g:tab>
 				<g:tab>
 					<g:header> Review </g:header>
-					<g:ScrollPanel>
+					<g:HorizontalPanel>
 						<my:ReviewTab height="100%" ui:field="review"/>
-					</g:ScrollPanel>
+					</g:HorizontalPanel>
 				</g:tab>
 			</g:TabLayoutPanel>
 	</g:HTMLPanel>
