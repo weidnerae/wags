@@ -208,6 +208,18 @@ class User extends Model
      * Static helpers
      ************/
     
+    public static function deleteUser($id)
+    {
+        require_once('Database.php');
+        $user = User::getUserById($id);
+        $db = Database::getDb();
+
+        $sth = $db->prepare('DELETE FROM user WHERE id = :id');
+        $sth->execute(array('id' => $id));
+
+        return 1;
+    }
+
     /**
      * Check if a user exists in DB by their username.
      *
@@ -313,4 +325,20 @@ class User extends Model
 
 		return $vals;
 	}
+
+    public static function getUserIds(){
+      require_once('Database.php');
+      $user = Auth::getCurrentUser();
+
+      $db = Database::getDb();
+      $sth = $db->prepare('SELECT id FROM user WHERE id = :id AND admin = 0 ORDER BY username');
+      $sth->execute(array(':id' => $id->getSection()));
+
+      $results = $sth->fetchAll(PDO::FETCH_NUM);
+      $vals = array_values($results);
+
+      return $vals;
+    }
 }
+
+?>

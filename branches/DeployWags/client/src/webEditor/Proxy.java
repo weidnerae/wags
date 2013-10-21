@@ -52,6 +52,7 @@ public class Proxy
 	private static final String getFileContents = getBaseURL()+"?cmd=GetFileContents";
 	private static final String saveFileContents = getBaseURL()+"?cmd=SaveFileContents";
 	private static final String deleteExercise = getBaseURL()+"?cmd=DeleteExercise";
+	private static final String deleteUser = getBaseURL()+"?cmd.Deleteuser";
 	private static final String getSections = getBaseURL() + "?cmd=GetSections";
 	private static final String getFileListing = getBaseURL()+"?cmd=GetFileListing";
 	private static final String submitFile = getBaseURL()+"?cmd=Review";
@@ -403,6 +404,64 @@ public class Proxy
 		}
 	}
 	
+	/**
+	 * Called to permanently remove a user from the database 
+	 * 
+	 * @param username the username of the user to delete
+	 */
+	public static void deleteUser(final String username){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, getBaseURL() + "?cmd=DeleteUser&name=" + username);
+		try {
+			@SuppressWarnings("unused")
+			Request r = builder.sendRequest(null, new RequestCallback() {
+				@Override
+				public void onResponseReceived(Request request, Response response)
+				{
+					WEStatus status = new WEStatus(response);
+					Notification.notify(status.getStat(), status.getMessage());
+					//Proxy.getVisibleExercises(exercises);
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception)
+				{
+					Window.alert("Error in delete Exercise Request");
+				}
+			});
+		} catch (RequestException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Called to set the section of a specific user to 0, thus removing that user from whatever
+	 * section he was previously in
+	 * 
+	 * @param username the username of the user to modify
+	 */
+	public static void RemoveUserFromSection(final String username){
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, getBaseURL() + "?cmd=RemoveUserFromSection&name=" + username);
+		try {
+			@SuppressWarnings("unused")
+			Request r = builder.sendRequest(null, new RequestCallback() {
+				@Override
+				public void onResponseReceived(Request request, Response response)
+				{
+					WEStatus status = new WEStatus(response);
+					Notification.notify(status.getStat(), status.getMessage());
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception)
+				{
+					Window.alert("Error in delete Exercise Request");
+				}
+			});
+		} catch (RequestException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static void deleteMagnetExercise(String title){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, getBaseURL()+"?cmd=DeleteMagnetExercise&title=" + title);
 		try {
@@ -511,16 +570,16 @@ public class Proxy
 				public void onResponseReceived(Request request,
 						Response response) {
 					
-					  WEStatus status = new WEStatus(response);
+					WEStatus status = new WEStatus(response);
 			        String subInfo[] = new String[status.getMessageArray().length];
 			        subInfo = status.getMessageArray();
 			        
-			        
+			     
 			        for (int i = 2; i < subInfo.length; i+=3){
+			        	
 			        	if(subInfo[i] == "1") subInfo[i] = "Yes";
 			        	else if (subInfo[i] == "0") subInfo[i] = "No";
 			        }
-			        
 					
 			        pf.reviewCallback(subInfo);
 				}
@@ -1472,6 +1531,32 @@ public class Proxy
 	 */
 	public static void getUsernames(final Reviewer studentReviewer) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetAllUsers");
+		try {
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus status = new WEStatus(response);
+					String[] message = status.getMessageArray();
+					
+					for (int i = 0; i < message.length; i++) {
+						message[i] = message[i].substring(1, message[i].length()-1);
+					}
+					studentReviewer.getCallback(status.getMessageArray(), status, request.toString());
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Student Error");
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("Failed to send the request: " + e.getMessage());
+		}
+	}
+	
+	public static void getUserIds(final Reviewer studentReviewer) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetAllUserIds");
 		try {
 			builder.sendRequest(null, new RequestCallback() {
 				
