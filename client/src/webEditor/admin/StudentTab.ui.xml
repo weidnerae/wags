@@ -24,8 +24,8 @@
 			text-align: left;
 		}
 	</ui:style>
-	
 	<g:VerticalPanel spacing="10">
+	
 	<g:FormPanel ui:field="registerForm">
 		<g:VerticalPanel>
 			<g:Label styleName="{style.title}"> Register Students </g:Label>
