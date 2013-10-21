@@ -75,6 +75,7 @@ public class StudentTab extends Composite {
 		studentReviewPnl.setParent(studentReviewer);
 		studentReviewPnl.setTitle( "Student Review" );
 		Proxy.getUsernames(studentReviewer);
+		
 	}
 	
 	public void update(){
