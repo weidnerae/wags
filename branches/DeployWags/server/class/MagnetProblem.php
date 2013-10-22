@@ -266,10 +266,15 @@ class MagnetProblem extends Model
     #  on the administrative tab
     #
     #  Returns the names of all the magnetProblemGroups a section has access to
-    public static function getMagnetProblemGroups(){
+    public static function getMagnetProblemGroups($source = null){
         require_once('Database.php');
         $user = Auth::GetCurrentUser();
         $db = Database::getDb();
+
+        if(is_null($source) && strpos(Section::getSectionById($user->getSection())->getName(), "WorkshopUser") !== false){
+           MagnetProblem::addWorkshopGroups();
+        }
+
 
         $sth = $db->prepare('SELECT DISTINCT MagnetProblemGroups.name 
             FROM MagnetProblemGroups, SectionMPG
@@ -286,6 +291,7 @@ class MagnetProblem extends Model
         foreach($results as $result){
             $values[] = $result['name'];
         }
+
         return $values;
     }
 
@@ -475,6 +481,21 @@ class MagnetProblem extends Model
         $curUser->save();
     }
 
+    public static function addWorkshopGroups(){
+        require_once('Database.php');
+        $db = Database::getDb();
+
+        $sth = $db->prepare("SELECT magnetGroup from WorkshopMagnetGroups");
+        $sth->setFetchMode(PDO::FETCH_ASSOC);
+        $sth->execute();
+        $results = $sth->fetchAll();
+
+        foreach($results as $result){
+            $group = $result['magnetGroup'];
+            MagnetProblem::addGroupAndExercises($group, "notnull");
+        }
+    }
+
     // Returns all magnet exerciseIds that exist in some group
     public static function getMagnetIdsFromGroup($group){
         require_once('Database.php');
@@ -535,12 +556,16 @@ class MagnetProblem extends Model
   
     // Calls multiple smaller methods to add a group and all 
     // magnet exercises in that group to a certain section
-    public static function addGroupAndExercises($group){
+    public static function addGroupAndExercises($group, $source = null){
         $hasGroup = FALSE;
         
         // Find out if section can already view group
         // $group = id, $groups = array of names
-        $groups = MagnetProblem::getMagnetProblemGroups();
+        if($source != null){
+            $groups = MagnetProblem::getMagnetProblemGroups($source);
+        }else{
+            $groups = MagnetProblem::getMagnetProblemGroups();
+        }
 
         if($groups != NULL){
             foreach($groups as $entry){
@@ -577,6 +602,13 @@ class MagnetProblem extends Model
         $sth = $db->prepare('INSERT INTO MagnetProblemGroups
             VALUES(NULL, :name)');
         $sth->execute(array(':name' => $name));
+
+        if(strpos($name, "WorkshopUser") !== false){
+            $groupID = MagnetProblem::getGroupIdByName($name);
+            $sth = $db->prepare('INSERT INTO WorkshopMagnetGroups
+                                VALUES(null, :id)');
+            $sth->execute(array(':id' => $groupID));
+        }
     }
 
 }

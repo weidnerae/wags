@@ -1,0 +1,2 @@
+CREATE TABLE WorkshopMagnetGroups (id int(11) NOT NULL AUTO_INCREMENT, magnetGroup int(11) NOT NULL,
+PRIMARY KEY (id));
