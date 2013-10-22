@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItemSeparator;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -117,18 +118,35 @@ public class MagnetMaker extends VerticalPanel {
 	private void updateStructureOptions() {
 		String menuItemHTML;
 		structureOptions.clearItems();
+		MenuItemSeparator line;
 		
 		for (int i = 1; i < structuresList.length; i++) {
 			String css = null;
-			if (limits[i - 1] > 0) {
+			//doing a work around using temp variable to conditionally set a final variable
+			int calculatedTarget = i;
+			if (initialLimits[i - 1] == 0) {
+				boolean lastElement = false;
+				do{
+					calculatedTarget = i + 1;
+				
+					if (i == (structuresList.length - 1)) {
+						lastElement = true;
+					}
+					i++;
+				} while(initialLimits[i - 1] == 0);
+				if (lastElement) {
+					break;
+				}
+			}
+			if (limits[calculatedTarget - 1] > 0) {
 				css = "structureLimitAvailable";
 			} else {
 				css = "structureLimitUnvailable";
 			}
 			
-			menuItemHTML = "<div><p style=\"margin:0px\">" + structuresList[i] + "<span style=\"float:right;\" class=\"" + css + "\">" + limits[i - 1] + "</span></div>";
+			
 
-			final int target = i;
+			final int target = calculatedTarget;
 			Command command = new Command() {
 				public void execute() {
 					showDropdowns(target);
@@ -136,6 +154,8 @@ public class MagnetMaker extends VerticalPanel {
 					updateStructure();
 				}
 			};
+			menuItemHTML = "<div><p style=\"margin:0px\">" + structuresList[calculatedTarget] + "<span style=\"float:right;\" class=\"" + css + "\">" + limits[calculatedTarget - 1] + "</span></div>";
+
 			structureOptions.addItem(menuItemHTML, true, command);
 
 			if (i != structuresList.length - 1) {

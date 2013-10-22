@@ -73,6 +73,10 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 		this.problemType = magnet.type;
 		this.premade = premadeSegments;
 		
+		if (isEmpty(magnet.limits)) {
+			this.problemType = Consts.BASIC_PROBLEM;
+		}
+		
 		if (problemType.equals(Consts.ADVANCED_PROBLEM)) {
 			String[] sLimits = magnet.limits.split(",");
 			int[] limits = new int[sLimits.length];
@@ -84,13 +88,13 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 			//create the creation station panel, 
 			//then create a content panel to nest that and the segments panel.
 			//create and register necessary drop controller
-			//add it to center
+			//add it to center 
 			mmContent = new AbsolutePanel();
 			magnetMaker = new MagnetMaker(forLists, magnet.ifOptions, magnet.whileOptions, magnet.returnOptions,
 					magnet.assignmentVars, magnet.assignmentVals, limits, this, nextID);
 			mmContent.add(magnetMaker);
 			mmContent.setStyleName("magnet_maker");
-			
+				
 			contentPanel = new AbsolutePanel();
 			contentPanel.add(mmContent);
 
@@ -132,6 +136,7 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 		start();
 	}
 	
+	
 	public ConstructUi(String problemType,
 			StackableContainer[] premadeSegments, int numMagnets, String title,
 			String description, String[][] forLists, String[] booleanList, 
@@ -151,11 +156,16 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 			swap(arr, i, random.nextInt(limit));
 		}
 	}
-	 private void swap(Object[] x, int a, int b) {
+	
+	private void swap(Object[] x, int a, int b) {
 		    Object t = x[a];
 		    x[a] = x[b];
 		    x[b] = t;
-		}
+	}
+	
+	private boolean isEmpty(String limits) {
+			return limits == "0,0,0,0,0,0,0";
+	}
 
 	/**
 	 * creates and adds multiple stackable container objects to the UI. 
