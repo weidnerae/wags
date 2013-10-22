@@ -2,51 +2,50 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:my="urn:import:webEditor.admin">
-	<ui:style>
+	<ui:style> 
 		
 	</ui:style>
 	<g:HTMLPanel>
 	<g:TabLayoutPanel width="100%" height="100%" barUnit="EM" barHeight="2" ui:field="tabPanel">
 				<g:tab>
 					<g:header> Logical </g:header>
-					<g:HorizontalPanel>
+					<g:ScrollPanel>
 						<my:LogicalTab height="100%" ui:field="logical"/>
-					</g:HorizontalPanel>
+					</g:ScrollPanel>
 				</g:tab>
 				<g:tab>
 					<g:header> Logical Problem Creation </g:header>
-					<g:HorizontalPanel>
+					<g:ScrollPanel>
 						<my:LMEditTab ui:field="lmEditTab"/>
-					</g:HorizontalPanel>
+					</g:ScrollPanel>
 				</g:tab>
 				<g:tab>
 					<g:header> Magnet </g:header>
-					<g:HorizontalPanel>
+					<g:ScrollPanel>
 						<my:MagnetTab height="100%" ui:field="magnet"/>
-					</g:HorizontalPanel>	
+					</g:ScrollPanel>	
 				</g:tab>
 					<g:tab>
-					
 					<g:header> Magnet Problem Creation </g:header>
 						<my:ProblemCreationPanel ui:field="magnetPC"/>
 				</g:tab>
 				<g:tab>
 					<g:header> Programming </g:header>
-					<g:HorizontalPanel>
+					<g:ScrollPanel>
 						<my:ProgrammingTab ui:field="programming"/>
-					</g:HorizontalPanel>
+					</g:ScrollPanel>
 				</g:tab>
 				<g:tab>
 					<g:header> Students </g:header>
-					<g:HorizontalPanel>
+					<g:ScrollPanel>
 						<my:StudentTab ui:field="students"/>
-					</g:HorizontalPanel>
+					</g:ScrollPanel>
 				</g:tab>
 				<g:tab>
 					<g:header> Review </g:header>
-					<g:HorizontalPanel>
+					<g:ScrollPanel>
 						<my:ReviewTab height="100%" ui:field="review"/>
-					</g:HorizontalPanel>
+					</g:ScrollPanel>
 				</g:tab>
 			</g:TabLayoutPanel>
 	</g:HTMLPanel>
