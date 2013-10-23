@@ -26,7 +26,7 @@ class AddMagnetExercise extends Command
                   $_POST['assignmentallowed']];
         foreach($limits as $key => $value){
             if($value == ''){
-                $limits[$key] = 10;
+                $limits[$key] = 0;
             }
         }
         $limits = implode(",", $limits);
@@ -64,7 +64,7 @@ class AddMagnetExercise extends Command
 
         // If the magnet group for this section doesn't exist, 
         // then create it
-        $groupNames = MagnetProblem::getMagnetProblemGroups();
+        $groupNames = MagnetProblem::getMagnetProblemGroups(null);
         if (!in_array($mpGroup, $groupNames)) {
             MagnetProblem::createGroup($mpGroup);
         }
