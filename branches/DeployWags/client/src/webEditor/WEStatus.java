@@ -227,12 +227,20 @@ public class WEStatus {
 				statements = oldStatements;
 				newStatements = new String[0];
 			}
-			//BUG: Magnet Maker problems can't get to here on Test_version!!!
+			
+			// Quick fix for limits
+			String limits = messageMap.get("limits");
+			int limitLength;
+			if((limitLength = limits.split(",").length) <=5){
+				for(;limitLength<7; limitLength++){
+					limits +=",0";
+				}
+			}
 			
 			// Create the object
 			myObject = new MagnetProblem(id, messageMap.get("title"), messageMap.get("directions"), 
 					messageMap.get("type"), mainFunction, innerFunctions, forLeft, forMid, forRight, ifOptions, whileOptions,
-					returnOptions, assignmentVars, assignmentVals, statements, messageMap.get("limits"), createdIDs, numStatements, messageMap.get("solution"), messageMap.get("state"));
+					returnOptions, assignmentVars, assignmentVals, statements, limits, createdIDs, numStatements, messageMap.get("solution"), messageMap.get("state"));
 		} else if (objType == "LogicalMicrolab"){
 			// Pretty much just passes the database information into the LogicalMicrolab constructor.
 			// The real "parsing" of information happens in LogicalMicrolab.getProblem, which uses
