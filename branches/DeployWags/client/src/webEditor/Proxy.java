@@ -1357,14 +1357,19 @@ public class Proxy
 				        }
 						// limits
 						String[] limits = magProblem.limits.split(",");
-						if(limits.length == 7){
+						if(limits.length >=5){
 							forAllowed.setText(""+Integer.parseInt(limits[0]));
 							whileAllowed.setText(""+Integer.parseInt(limits[1]));
 							ifAllowed.setText(""+Integer.parseInt(limits[2]));
 							elseIfAllowed.setText(""+Integer.parseInt(limits[3]));
 							elseAllowed.setText(""+Integer.parseInt(limits[4]));
+						}
+						if(limits.length >= 7){
 							returnAllowed.setText("" + Integer.parseInt(limits[5]));
 							assignmentAllowed.setText("" + Integer.parseInt(limits[6]));
+						}else{
+							returnAllowed.setText("0");
+							assignmentAllowed.setText("0");
 						}
 					} else {
 						//if its basic problem
