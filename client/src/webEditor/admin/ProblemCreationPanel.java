@@ -790,7 +790,7 @@ public class ProblemCreationPanel extends Composite{
 			limits[6] = assignmentAllowed.getText();
 			
 			for(int i= 0; i < limits.length; i++){
-				if(limits[i] == null){
+				if(limits[i] == null || limits[i].equals("")){
 					limits[i] = "0";
 				}
 			}
