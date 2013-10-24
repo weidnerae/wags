@@ -780,16 +780,39 @@ public class ProblemCreationPanel extends Composite{
 		MagnetProblem problem;
 		if(finalTypeTxtArea.getText().equals(ADVANCED_PROBLEM)){	
 			
+			String[] limits = new String[7];
+			limits[0] = forAllowed.getText();
+			limits[1] = whileAllowed.getText();
+			limits[2] = ifAllowed.getText();
+			limits[3] = elseIfAllowed.getText();
+			limits[4] = elseAllowed.getText();
+			limits[5] = returnAllowed.getText();
+			limits[6] = assignmentAllowed.getText();
+			
+			for(int i= 0; i < limits.length; i++){
+				if(limits[i] == null){
+					limits[i] = "0";
+				}
+			}
+			
+			StringBuilder limit = new StringBuilder();
+			
+			for(int i=0; i < limits.length; i++){
+				limit.append(limits[i]);
+				if(i < limits.length -1){
+					limit.append(",");
+				}
+			}
+			
 		  // Advanced problem. Load all the fields;
 	      problem = new MagnetProblem(-1, finalTitleTxtBox.getText(), finalDescriptionTxtArea.getText(), 
 				finalTypeTxtArea.getText(), classDeclarationTxtArea.getText(), innerFunctionsTxtArea.getText().split(".:\\|:."), forLoop1TextArea.getText().split(".:\\|:."), forLoop2TextArea.getText().split(".:\\|:."), forLoop3TextArea.getText().split(".:\\|:."), ifsTextArea.getText().split(".:\\|:."), whilesTextArea.getText().split(".:\\|:."),
-				returnsTextArea.getText().split(".:\\|:."), assignmentsVarTextArea.getText().split(".:\\|:."), assignmentsValTextArea.getText().split(".:\\|:."), removeAngleBrackets(statementsTxtArea.getText()).split(".:\\|:."), ifAllowed.getText()+","+elseAllowed.getText()+","+elseIfAllowed.getText()+","+forAllowed.getText()+","+whileAllowed.getText()+","+returnAllowed.getText()
-				+","+assignmentAllowed.getText(), new String[0], statementsTxtArea.getText().split(".:\\|:.").length+innerFunctionsTxtArea.getText().split(".:\\|:.").length, "", "");
+				returnsTextArea.getText().split(".:\\|:."), assignmentsVarTextArea.getText().split(".:\\|:."), assignmentsValTextArea.getText().split(".:\\|:."), removeAngleBrackets(statementsTxtArea.getText()).split(".:\\|:."), limit.toString(), new String[0], statementsTxtArea.getText().split(".:\\|:.").length+innerFunctionsTxtArea.getText().split(".:\\|:.").length, "", "");
 		} else {
 			
 			// Basic Problem. Some fields don't exist so only grab what we need.
-			String[] emptyArr = new String[0];
 			String emptyString = "";
+			String[] emptyArr = new String[0];
 			problem = new MagnetProblem(-1, finalTitleTxtBox.getText(), finalDescriptionTxtArea.getText(), 
 					finalTypeTxtArea.getText(), classDeclarationTxtArea.getText(), innerFunctionsTxtArea.getText().split(".:\\|:."), emptyArr,emptyArr, emptyArr, emptyArr, emptyArr, emptyArr, emptyArr, emptyArr,
 					removeAngleBrackets(statementsTxtArea.getText()).split(".:\\|:."), emptyString, emptyArr, statementsTxtArea.getText().split(".:\\|:.").length+innerFunctionsTxtArea.getText().split(".:\\|:.").length, "", "");
