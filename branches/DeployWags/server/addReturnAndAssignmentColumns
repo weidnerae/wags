@@ -1,0 +1,3 @@
+ALTER TABLE magnetProblem ADD returnOptions text NOT NULL AFTER whileOptions,
+				          ADD assignmentVars text NOT NULL AFTER returnOptions,
+					      ADD assignmentVals text NOT NULL AFTER assignmentVars;
