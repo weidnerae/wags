@@ -1342,12 +1342,21 @@ public class Proxy
 						}
 						whilesTextArea.setText(fors);
 						
+				        fors = "";
+				        for(String s: magProblem.returnOptions) {
+				        	if(s != ""){
+				        		fors += s + ".:|:.";
+				        	}
+				        }
+				        returnsTextArea.setText(fors);
+						
 						fors = "";
 				        for(String s: magProblem.assignmentVars) {
 				        	if(s != "") {
 				        		fors += s + ".:|:.";
 				        	}
 				        }
+				        assignmentsVarTextArea.setText(fors);
 				        
 				        fors = "";
 				        for(String s: magProblem.assignmentVals) {
@@ -1355,6 +1364,8 @@ public class Proxy
 				        		fors += s + ".:|:.";
 				        	}
 				        }
+				        assignmentValTextArea.setText(fors);
+				        
 						// limits
 						String[] limits = magProblem.limits.split(",");
 						if(limits.length >=5){
