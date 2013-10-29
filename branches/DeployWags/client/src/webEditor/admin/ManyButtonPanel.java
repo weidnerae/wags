@@ -33,6 +33,7 @@ public class ManyButtonPanel extends Composite
 	private int btnWidth = 175;
 	private int btnHeight = 45;
 	private int CELL_SPACING = 3;
+	private int numButtons;
 
 	public ManyButtonPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -48,6 +49,7 @@ public class ManyButtonPanel extends Composite
 	}
 	
 	public void addButtons(String[] buttons){
+		this.numButtons = buttons.length/4 +1;
 		btnHolder.clear();
 		btnHolder2.clear();
 		btnHolder3.clear();
@@ -67,14 +69,26 @@ public class ManyButtonPanel extends Composite
 	private void addButton( Button tmpBtn )
 	{
 		int numberOfButtons = myButtons.size();
-		if (numberOfButtons <= 15) {
-			this.btnHolder.add(tmpBtn);
-		} else if (numberOfButtons <= 30) {
-			this.btnHolder2.add(tmpBtn);
-		} else if (numberOfButtons <= 45) {
-			this.btnHolder3.add(tmpBtn);
-		} else if (numberOfButtons <= 60) {
-			this.btnHolder4.add(tmpBtn);
+		if(numButtons*4 <=60){
+			if (numberOfButtons <= 15) {
+				this.btnHolder.add(tmpBtn);
+			} else if (numberOfButtons <= 30) {
+				this.btnHolder2.add(tmpBtn);
+			} else if (numberOfButtons <= 45) {
+				this.btnHolder3.add(tmpBtn);
+			} else if (numberOfButtons <= 60) {
+				this.btnHolder4.add(tmpBtn);
+			}
+		}else{
+			if (numberOfButtons <= numButtons) {
+				this.btnHolder.add(tmpBtn);
+			} else if (numberOfButtons <= numButtons * 2) {
+				this.btnHolder2.add(tmpBtn);
+			} else if (numberOfButtons <= numButtons * 3) {
+				this.btnHolder3.add(tmpBtn);
+			} else {
+				this.btnHolder4.add(tmpBtn);
+			}
 		}
 	}
 	
