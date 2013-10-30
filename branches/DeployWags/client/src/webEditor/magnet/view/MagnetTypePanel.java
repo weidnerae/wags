@@ -64,5 +64,12 @@ public class MagnetTypePanel extends HorizontalPanel{
 			}
 		}
 	}
+	
+	public void clear() {
+		leftPanel.clear();
+		rightPanel.clear();
+		longestLength = 0;
+		onePanelMode = false;
+	}
 
 }
