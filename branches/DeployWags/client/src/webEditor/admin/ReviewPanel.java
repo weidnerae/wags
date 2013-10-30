@@ -66,7 +66,6 @@ public class ReviewPanel extends Composite {
 			btnPnlReview.title.setVisible(false);
 			removeStudentButton.setVisible(false);
 			removeStudentButton.addClickHandler(new removeStudentClickHandler());
-			
 			//finally, make student button panel visible
 			btnPnlStudent.setVisible( true );
 		} else {
@@ -87,7 +86,16 @@ public class ReviewPanel extends Composite {
 		this.title.setText(title);
 	}
 	
-
+	/**
+	 * Called to populate the review grid. The method will use different
+	 * titles and information for the grid depending on what context the
+	 * review panel is being used in.
+	 *  
+	 * @param data	The string data to populate the grid with
+	 * @param studentReview if true, populates the grid with labels and 
+	 * 						information meaningful to a student review. If
+	 * 						False the same happens but for exercises. 
+	 */
 	public void fillGrid(String[] data, boolean studentReview) {
 		if (studentReview) {
 			fillGrid(data);
@@ -102,6 +110,12 @@ public class ReviewPanel extends Composite {
 		}
 	}
 
+	/**
+	 * Populates the reveiw grid with information and labels meaningful to 
+	 * reviewing exercises. 
+	 * 
+	 * @param data The string data to populate the grid with
+	 */
 	public void fillGrid(String[] data){
       grdGrades.resize(data.length/3+1, 3);
   		grdGrades.setBorderWidth(1);
@@ -124,6 +138,15 @@ public class ReviewPanel extends Composite {
   	    
 	}
 	
+	/**
+	 *  Adds buttons to the vertical panel on the left side of the screen (as of 30 Oct 2013).
+	 *  Each button corresponds to a exercise assinged by the admin. 
+	 *
+	 *  This method is called when the reviewPanel is being used in the context of 
+	 *  reviewing current exercises
+	 *         
+	 * @param exercises a String list of exercise titles to create the buttons with
+	 */
 	public void setCurrent(String[] exercises){
 		Button btn;
 		btnPnlCurrent.addButtons(exercises);
@@ -131,14 +154,17 @@ public class ReviewPanel extends Composite {
 		for(int i = 0; i < btnPnlCurrent.myButtons.size(); i++){
 			btn = btnPnlCurrent.myButtons.get(i);
 			
-			btn.addClickHandler(new reviewClickHandler(btn));
+			btn.addClickHandler(new reviewClickHandler(btn, false));
 		}
 	}
 
 	/**
-	 * Adds a button to the list on the left side of the screen. There is a button corresonding to
-	 * each student in the current admin's section
-	 * 
+	 *  Adds buttons to the vertical panel on the left side of the screen (as of 30 Oct 2013).
+	 *  Each button corresponds to a student in the current user's/admin's section. 
+	 *
+	 *  This method is called when the reviewPanel is being used in the context of 
+	 *  reviewing students.
+	 *  
 	 * @param students A list of student names to put on the buttons
 	 */
 	public void setStudents(String[] students){
@@ -149,21 +175,33 @@ public class ReviewPanel extends Composite {
 			btn = btnPnlStudent.myButtons.get(i);
 			//change style because usernames tend to be longer
 			btn.setStyleName("student_button");
-			btn.addClickHandler(new reviewClickHandler(btn));
+			btn.addClickHandler(new reviewClickHandler(btn, true));
 		}
 	}
 
-	
+	/**
+	 *  Adds buttons to the vertical panel on the left side of the screen (as of 30 Oct 2013).
+	 *  Each button corresponds to a exercise assinged by the admin. 
+	 *
+	 *  This method is called when the reviewPanel is being used in the context of 
+	 *  reviewing past exercises.
+	 *         
+	 * @param exercises a String list of exercise titles to create the buttons with
+	 */
 	public void setReview(String[] exercises){
 		Button btn;
 		btnPnlReview.addButtons(exercises);
 		
 		for(int i = 0; i < btnPnlReview.myButtons.size(); i++){
 			btn = btnPnlReview.myButtons.get(i);
-			btn.addClickHandler(new reviewClickHandler(btn));
+			btn.addClickHandler(new reviewClickHandler(btn, false));
 		}
 	}
 	
+	/**
+	 * Handles the button, when pressed, will switch between looking
+	 * at current exercises and reviewing past exercises.
+	 */
 	private class switchClickHandler implements ClickHandler{
 
 		public void onClick(ClickEvent event) {
@@ -180,13 +218,14 @@ public class ReviewPanel extends Composite {
 		}
 		
 	}
-	
 
 	private class reviewClickHandler implements ClickHandler{
 		Button btn;
-
-		public reviewClickHandler(Button btn){
+        boolean isStudent;
+        
+		public reviewClickHandler(Button btn, boolean studentReview){
 			this.btn = btn;
+			isStudent = studentReview;
 		}
 		@Override
 		public void onClick(ClickEvent event) {
@@ -197,8 +236,10 @@ public class ReviewPanel extends Composite {
 			//apply blue to clicked button
 			btn.getElement().getStyle().setColor("blue");
 			selectedUser = btn;
-			parent.review(btn.getText());			
-			removeStudentButton.setVisible(true);
+			parent.review(btn.getText());	
+			if(isStudent) {
+			  removeStudentButton.setVisible(true);
+			}
 		}
 		
 	}
