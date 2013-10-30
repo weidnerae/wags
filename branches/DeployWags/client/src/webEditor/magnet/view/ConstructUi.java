@@ -31,6 +31,7 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 	private AbsolutePanel contentPanel; //nest panel to hold mgnet maker and segments content
 	private AbsolutePanel mmContent;    //nest panel to hold magnet maker
 	private MagnetMaker magnetMaker;
+	private CodePanelUi codePanel;
 	private AbsolutePanel segmentsContent;
 	private Map<MagnetType, MagnetTypePanel> panelMap = new HashMap<MagnetType, MagnetTypePanel>();
 	private MagnetTypeDropController segmentDropControl;
@@ -51,14 +52,13 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 	/**
 	 * Creates ConstructUi. Adds appropriate content to UiFields
 
-	 * @param premadeSegments
-	 *            sc[] lines of code given
-	 * @param forLists
-	 *            String[][] for each for loop dropdown
+	 * @param premadeSegments | an array containing all of the premade magnets for the problem
+	 * @param forList         | String[][] for each for loop dropdown
+	 * @param numMagnets      | integer value representing the number of premade magnets
+	 * @param codePanel       | the CodePanelUi object which represents the right hand side of the screen
 	 */
-	public ConstructUi(RefrigeratorMagnet refrigeratorMagnet, MagnetProblem magnet, StackableContainer[] premadeSegments, String[][] forLists, int numMagnets) {
+	public ConstructUi(RefrigeratorMagnet refrigeratorMagnet, MagnetProblem magnet, StackableContainer[] premadeSegments, String[][] forLists, int numMagnets, CodePanelUi codePanel) {
 		initWidget(uiBinder.createAndBindUi(this));
-		
 		directionsContent.add(
 			new HTML(
 				"<h4><center>" 
@@ -84,7 +84,6 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 			for (String limit : sLimits) {
 				limits[k++] = Integer.parseInt(limit);
 			}
-			
 			//create the creation station panel, 
 			//then create a content panel to nest that and the segments panel.
 			//create and register necessary drop controller
@@ -133,20 +132,25 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 			layout.add(segmentsContent);
 		}
 		this.lastOffsetWidth = this.getOffsetWidth();
+		this.codePanel = codePanel;
 		start();
 	}
-	
-	
+
 	public ConstructUi(String problemType,
 			StackableContainer[] premadeSegments, int numMagnets, String title,
 			String description, String[][] forLists, String[] booleanList, 
 			int[] limits) {	
 	}
 
-	//this method is called after the constructor because there is a delay between instantiating the panel
-	//and placing all the segments to the segmentsContent panel
-	public void start() {
+
+	/**
+	 * Task: called to place the magnets onto the panel. Is called after the constructor because there
+	 * 		 is a delay between instantiating the panel and placing all the segments to the segmentsContent
+	 * 	     panel
+	 */
+ 	public void start() {
 		mixItUp(premade);
+		panelMap.clear();
 		addSegments(premade);
 	}
 
@@ -202,7 +206,7 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
          */
         Timer timer = new Timer() {
             @Override
-            public void run() {
+            public void run() { 
             	MagnetTypePanel panel;
             	if((panel = panelMap.get(segment.getMagnetType())) != null){
             		// do nothing right now. We'll add the segment down below
@@ -222,8 +226,23 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
         timer.schedule(1);
     }
     
+    /**
+     * Task: Called when the reset button is pressed and the user confirms their choice. This
+     *       method will reset the magnet problem to its starting state.
+     */
 	public void reset(){
-		segmentsContent.clear();
+		//if an advanced problem we need to clear the code panel and reset the limits
+		if(problemType.equals(Consts.ADVANCED_PROBLEM)){
+			StackableContainer sc = codePanel.mainFunction;
+			sc.removeAllDescendants();
+			
+			magnetMaker.resetLimits();
+		}
+		//reset all premade magnets
+		for(int i = 0; i < segmentsContent.getWidgetCount(); i++) {
+			((MagnetTypePanel) segmentsContent.getWidget(i)).clear();
+	    }
+		//reinitialize problem
 		start();
 	}
 

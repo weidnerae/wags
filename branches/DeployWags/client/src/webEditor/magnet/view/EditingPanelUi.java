@@ -34,8 +34,8 @@ public class EditingPanelUi extends Composite {
 						  StackableContainer[] insideFunctions, StackableContainer[] premadeSegments, String[][] forLists) {
 		initWidget(uiBinder.createAndBindUi(this));
 		int numMagnets = premadeSegments[premadeSegments.length-1].getID();
-		construct = new ConstructUi(refrigeratorMagnet, magnet, premadeSegments, forLists, numMagnets);
 		code = new CodePanelUi(refrigeratorMagnet, magnet, mainFunction, insideFunctions);
+		construct = new ConstructUi(refrigeratorMagnet, magnet, premadeSegments, forLists, numMagnets, code);
 		constructPanel.add(construct);
 		codePanel.add(code);
 		layout.setSize("100%", tabPanelHeight - 60 + "px");  //stupid magic number to make panel show correctly
@@ -49,4 +49,3 @@ public class EditingPanelUi extends Composite {
 		construct.reset();
 	}
 }
-

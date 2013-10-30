@@ -1,9 +1,9 @@
 package webEditor.magnet.view;
 
-
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Widget;
 import com.allen_sauer.gwt.dnd.client.DragContext;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
 
@@ -162,7 +162,7 @@ public class StackableContainer extends FocusPanel {
 			magnetType = MagnetType.MAIN;
 		}else if(low.matches("[ ]??(for|while).*")){
 			magnetType = MagnetType.LOOP;
-		}else if(low.matches("[ ]??if.*") || low.matches(" ^else.*")){
+		}else if(low.matches("[ ]??if.*") || low.matches("[ ]??else.*")){
 			magnetType = MagnetType.CONDITIONAL;
 		}else if(low.matches("[ ]??return.*")){
 			magnetType = MagnetType.RETURN;
@@ -310,6 +310,28 @@ public class StackableContainer extends FocusPanel {
 		return false;
 	}
 
+	/**
+	 * Task: Called to remove all of the created stackable containers which have been
+	 *       dragged into the code panel. Will Recursively traverse the main function of
+	 *       the code panel and remove the appropriate panels. 
+	 */
+	public void removeAllDescendants() {
+		Widget w;
+		int widgetCount = insidePanel.getWidgetCount();
+		for(int i = 0, pos = 0; i < widgetCount; i++){
+			if ( (w = insidePanel.getWidget(pos)) instanceof StackableContainer) {
+				StackableContainer sc = (StackableContainer) w;
+                sc.removeAllDescendants();
+				if(sc.isCreated()){
+				  insidePanel.remove(pos);
+				} else {
+					pos++;
+				}
+				
+			}
+		}
+	}
+	
 	public HTML getTopLabel() {
 		if(hasCode){
 			return new HTML(topJavaCode);
