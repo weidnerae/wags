@@ -154,6 +154,11 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 		addSegments(premade);
 	}
 
+ 	/**
+ 	 * Randomizes the order of the magnets 
+ 	 * 
+ 	 * @param arr the array of magnets
+ 	 */
 	private void mixItUp(StackableContainer[] arr) {
 		int limit = arr.length;
 		for(int i = 0; i < limit; i++){
@@ -161,12 +166,26 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 		}
 	}
 	
+	/**
+	 * helper method for mixItUp which swaps the values in two positions of
+	 * an array
+	 * 
+	 * @param x  the array whose values are being swapped
+	 * @param a  position of the array whose value will be swapped with b's
+	 * @param b  position of the array whose value will be swapped with a's
+	 */
 	private void swap(Object[] x, int a, int b) {
 		    Object t = x[a];
 		    x[a] = x[b];
 		    x[b] = t;
 	}
 	
+	/**
+	 * determines if the string of limits is empty or not
+	 * 
+	 * @param limits string representation of the magnet limits
+	 * @return true if limits are all 0, false otherwise
+	 */
 	private boolean isEmpty(String limits) {
 			return limits == "0,0,0,0,0,0,0";
 	}
@@ -227,20 +246,19 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
     }
     
     /**
-     * Task: Called when the reset button is pressed and the user confirms their choice. This
-     *       method will reset the magnet problem to its starting state.
+     * Resets the state of the magnet problem to the initial conditions. All created magnets
+     * are destroyed and all premade magnets are put back into thier origional positions. 
+     * 
+     * Called when the user presses the reset button and confimrs their choice
      */
+    
 	public void reset(){
-		//if an advanced problem we need to clear the code panel and reset the limits
-		if(problemType.equals(Consts.ADVANCED_PROBLEM)){
-			StackableContainer sc = codePanel.mainFunction;
-			sc.removeAllDescendants();
-			
-			magnetMaker.resetLimits();
-		}
-		//reset all premade magnets
+		
 		for(int i = 0; i < segmentsContent.getWidgetCount(); i++) {
+			//clear all panels in left side of screen
 			((MagnetTypePanel) segmentsContent.getWidget(i)).clear();
+			//clear the code panel on the right side of the screen
+			this.bin.eatWidget((StackableContainer) codePanel.mainFunction);
 	    }
 		//reinitialize problem
 		start();
