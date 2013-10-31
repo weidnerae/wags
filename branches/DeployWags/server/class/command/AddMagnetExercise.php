@@ -24,6 +24,8 @@ class AddMagnetExercise extends Command
                   $_POST['elseallowed'],
                   $_POST['returnallowed'],
                   $_POST['assignmentallowed']];
+        $lastProblemLoaded = $_POST['lastProblemLoaded'];
+                  
         foreach($limits as $key => $value){
             if($value == ''){
                 $limits[$key] = 0;
@@ -118,6 +120,8 @@ class AddMagnetExercise extends Command
 
         // Now, save uploaded files into database, linkage
         // will map them correctly
+
+        $hasFiles = false;
         if ($_FILES['testClass']['size'] != 0) {
             // If we have files AND we are overwriting the exercise
             // then we want to delete the old files
@@ -129,6 +133,8 @@ class AddMagnetExercise extends Command
             if ($result != 1) {
                 return JSON::error("TC: ".$result);
             }
+            
+            $hasFiles = true;
         }
 
         $helperId = 1;
@@ -140,6 +146,17 @@ class AddMagnetExercise extends Command
             }
             $helperId++;
             $helperName = "helperClass$helperId";
+
+            $hasFiles = true;
+        }
+
+        // If no files were uploaded with this problem then this will check
+        // to see if there are already files associated with this problem
+        // and if there aren't any then  we assign the files associated
+        // with the last exercise that was loaded.
+
+        if(!$hasFiles){
+          SimpleFile::assignFiles($title, $lastProblemLoaded);
         }
 
         // Return to client - client will perform a callback,

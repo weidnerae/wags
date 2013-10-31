@@ -38,6 +38,10 @@ class LinkNewSection extends Command{
         # Add the default magnetExercises for the section
         MagnetProblem::addDefaults($id);
 
+        if(strpos($sectName, "WorkshopUser") !== false){
+            MagnetProblem::addWorkshopGroups($id);
+        }
+
         # Save all the changes
         $admin->save();
         $guest->save();
