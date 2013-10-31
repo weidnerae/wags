@@ -45,10 +45,9 @@ final class BinDropController extends SimpleDropController {
 
 	@Override
 	public void onDrop(DragContext context) {
-		if (((StackableContainer) context.draggable).isCreated()) {
-			bin.eatWidget((StackableContainer) context.draggable);
-			super.onDrop(context);
-		}
+		bin.eatWidget((StackableContainer) context.draggable);
+		super.onDrop(context);
+
 	}
 
 	@Override
