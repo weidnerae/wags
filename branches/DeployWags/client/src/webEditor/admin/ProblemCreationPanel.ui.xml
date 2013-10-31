@@ -100,7 +100,10 @@
 		.left_pad {
 			padding-left: 3px;
 		}
-
+		.hidden{
+			visibility: hidden;
+			position: absolute;
+		}
 	</ui:style>
 	<g:LayoutPanel>
 	<g:layer left="0" right="45%">
@@ -334,6 +337,7 @@
 							<g:SubmitButton ui:field="createProblemSubmitButton">Create</g:SubmitButton>
 					        <g:Button styleName='{style.standardButton}' ui:field="testProblemButton">Test Problem</g:Button>
 						</g:HorizontalPanel>
+						<g:TextBox styleName='{style.hidden}' ui:field="lastProblemLoadedTxtBox" name="lastProblemLoaded"/>
 					</g:VerticalPanel>
 				</g:FormPanel>
 				<g:FormPanel ui:field="fileParseFormPanel">
