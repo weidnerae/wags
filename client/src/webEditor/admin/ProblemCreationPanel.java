@@ -57,7 +57,7 @@ public class ProblemCreationPanel extends Composite{
 	
 	@UiField FormPanel problemCreateFormPanel, fileParseFormPanel;
 	@UiField TextBox titleTxtBox, topLabelTxtBox, topRealCodeTxtBox, 
-		commentsTxtBox, bottomLabelTxtBox, bottomRealCodeTxtBox, forAllowed, whileAllowed, ifAllowed, elseAllowed, elseIfAllowed, returnAllowed, assignmentAllowed;
+		commentsTxtBox, bottomLabelTxtBox, bottomRealCodeTxtBox, forAllowed, whileAllowed, ifAllowed, elseAllowed, elseIfAllowed, returnAllowed, assignmentAllowed, lastProblemLoadedTxtBox;
 	@UiField TextArea finalTitleTxtBox, descriptionTxtArea, finalDescriptionTxtArea, finalTypeTxtArea,
 		classDeclarationTxtArea, innerFunctionsTxtArea, statementsTxtArea, commentsStagingArea,
 		hiddenFunctionsArea, forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, whilesTextArea, ifsTextArea, returnsTextArea, assignmentsVarTextArea, assignmentsValTextArea;
@@ -178,6 +178,7 @@ public class ProblemCreationPanel extends Composite{
 		 */
 		btnLoadExercise.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				lastProblemLoadedTxtBox.setText(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()));
 				Proxy.getMagnetProblemForEdit(finalTitleTxtBox, finalDescriptionTxtArea, classDeclarationTxtArea, 
 						innerFunctionsTxtArea, statementsTxtArea, lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()),
 						finalTypeTxtArea,forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, ifsTextArea, whilesTextArea, returnsTextArea,
