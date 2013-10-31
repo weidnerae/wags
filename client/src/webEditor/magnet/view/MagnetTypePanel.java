@@ -64,7 +64,10 @@ public class MagnetTypePanel extends HorizontalPanel{
 			}
 		}
 	}
-	
+    
+	/**
+	 * clears each portion of the MagnetTypePanel to their defualt values
+	 */
 	public void clear() {
 		leftPanel.clear();
 		rightPanel.clear();
