@@ -74,5 +74,30 @@ public class MagnetTypePanel extends HorizontalPanel{
 		longestLength = 0;
 		onePanelMode = false;
 	}
+	
+	/**
+	 * A secondary clear method which is called to reset each panel in the magnetTypePanel.
+	 * 
+	 * @param bin the TrashBin object used to delete the magnets
+	 */
+	public void clear(TrashBin bin) {
+		int lwc = leftPanel.getWidgetCount();
+		int rwc = rightPanel.getWidgetCount();
+		for(int i = 0; i < lwc; i++) {
+			bin.eatWidget((StackableContainer) leftPanel.getWidget(0));
+		}
+		for(int i = 0; i < rwc; i++) {
+			bin.eatWidget((StackableContainer) rightPanel.getWidget(0));
+		}
+		clear();
+	}
+		
+	public VerticalPanel getLeftPanel() {
+		return leftPanel;
+	}
+	
+	public VerticalPanel getRightPanel() {
+		return rightPanel;
+	}
 
 }

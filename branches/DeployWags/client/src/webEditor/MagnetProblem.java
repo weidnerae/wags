@@ -31,7 +31,11 @@ public class MagnetProblem {
 		this.returnOptions = returnOptions;
 		this.assignmentVars = assignmentVars;
 		this.assignmentVals = assignmentVals;
-		this.statements = statements;
+		if(statements.length == 1 && statements[0].length() == 0) {
+		  this.statements = null;
+		} else {
+		  this.statements = statements;
+		}
 		this.limits = limits;
 		this.solution = solution;
 		this.state = state;

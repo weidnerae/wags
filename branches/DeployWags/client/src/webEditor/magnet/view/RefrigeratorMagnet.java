@@ -151,7 +151,10 @@ public class RefrigeratorMagnet extends AbsolutePanel {
 		boolean premadeParent = false;
 		int parentIndex = -1;
 		int childIndex = -1;
-		
+		if(premadeFunctions == null) {
+			//do nothing
+			return;
+		}
 		for (int i = 0; i < premadeFunctions.length; i++) {
 			if (premadeFunctions[i].getID() == parentID) {
 				premadeParent = true;
