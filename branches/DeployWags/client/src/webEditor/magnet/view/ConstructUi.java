@@ -149,9 +149,11 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 	 * 	     panel
 	 */
  	public void start() {
-		mixItUp(premade);
-		panelMap.clear();
-		addSegments(premade);
+ 		panelMap.clear();
+ 		if(premade != null ) {
+ 		  mixItUp(premade);
+		  addSegments(premade);
+		}
 	}
 
  	/**
@@ -253,10 +255,9 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
      */
     
 	public void reset(){
-		
 		for(int i = 0; i < segmentsContent.getWidgetCount(); i++) {
 			//clear all panels in left side of screen
-			((MagnetTypePanel) segmentsContent.getWidget(i)).clear();
+			((MagnetTypePanel) segmentsContent.getWidget(i)).clear(this.bin);
 			//clear the code panel on the right side of the screen
 			this.bin.eatWidget((StackableContainer) codePanel.mainFunction);
 	    }
