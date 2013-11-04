@@ -33,7 +33,10 @@ public class EditingPanelUi extends Composite {
 	public EditingPanelUi(RefrigeratorMagnet refrigeratorMagnet, int tabPanelHeight, MagnetProblem magnet, StackableContainer mainFunction,
 						  StackableContainer[] insideFunctions, StackableContainer[] premadeSegments, String[][] forLists) {
 		initWidget(uiBinder.createAndBindUi(this));
-		int numMagnets = premadeSegments[premadeSegments.length-1].getID();
+		int numMagnets = 0;
+		if( premadeSegments != null){
+		  numMagnets = premadeSegments[premadeSegments.length-1].getID();
+		}
 		code = new CodePanelUi(refrigeratorMagnet, magnet, mainFunction, insideFunctions);
 		construct = new ConstructUi(refrigeratorMagnet, magnet, premadeSegments, forLists, numMagnets, code);
 		constructPanel.add(construct);
