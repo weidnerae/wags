@@ -142,7 +142,7 @@ public class ProblemCreationPanel extends Composite{
 				String[] magnets = event.getResults().split("\n");
 				classDeclarationTxtArea.setText(magnets[0]);
 				innerFunctionsTxtArea.setText(magnets[1]);
-				statementsTxtArea.setText(magnets[2]);
+				statementsTxtArea.setText(encodeString(magnets[2]));
 			}
 		});
 		
@@ -201,7 +201,6 @@ public class ProblemCreationPanel extends Composite{
 			      }
 			    };
 			    t.schedule(100);
-
 			}
 		});
 		
@@ -650,6 +649,12 @@ public class ProblemCreationPanel extends Composite{
 		
 	}
 	
+	/**
+	 * Adds functionality to the comment button so that when clicked, it will add a comment to a magnet created
+	 * via the magnet creater in problem creation
+	 * 
+	 * @param event the click event
+	 */
 	@UiHandler("createCommentsButton")
 	void onCreateCommentClick(ClickEvent event)
 	{
@@ -667,7 +672,7 @@ public class ProblemCreationPanel extends Composite{
 		// Convert hidden code to a better format for magnet problems
 		String hiddenCode = hiddenFunctionsArea.getText();
 		hiddenCode = hiddenCode.replaceAll("(\r\n|\n)", "<br>");
-		hiddenCode = removeAngleBrackets(hiddenCode);
+		hiddenCode = encodeString(hiddenCode);
 		hiddenCode = Consts.HIDE_START+"<br>"+hiddenCode+Consts.HIDE_END;
 		
 		// Remove the previous magnet delimiter
@@ -732,13 +737,13 @@ public class ProblemCreationPanel extends Composite{
 		String topLabel = "";
 		if(topLabelTxtBox.getText()!=""){
 			topLabel = topLabelTxtBox.getText();
-			topLabel = removeAngleBrackets(topLabel);
+			topLabel = encodeString(topLabel);
 		}
 		
 		String topRealCode = "";
 		if(topRealCodeTxtBox.getText()!=""){
 			topRealCode = topRealCodeTxtBox.getText();	
-			
+			topRealCode = encodeString(topRealCode);
 			// If this magnet nests.  Shouldn't be a case with topLabel and topReal
 			// but then only bottomLabel, so this should work.
 			if(bottomRealCodeTxtBox.getText() != ""){
@@ -758,16 +763,16 @@ public class ProblemCreationPanel extends Composite{
 		if(bottomLabelTxtBox.getText()!=""){
 			withPanel = true;
 			bottomLabel = bottomLabelTxtBox.getText();
-			bottomLabel = removeAngleBrackets(bottomLabel);
+			bottomLabel = encodeString(bottomLabel);
 		}
 		
 		String bottomRealCode = "";
 		if(bottomRealCodeTxtBox.getText()!=""){
 			withPanel = true;
 			bottomRealCode = bottomRealCodeTxtBox.getText();
+			bottomRealCode = encodeString(bottomRealCode);
 			bottomRealCode = bottomRealCode+Consts.CODE_END;
 		}
-		
 		
 		if(withPanel){
 			return topLabel+topRealCode+bottomRealCode+"<br/><!-- panel --><br/>"+bottomLabel+comments+Consts.MAGNET_DELIMITER;
@@ -780,6 +785,7 @@ public class ProblemCreationPanel extends Composite{
 	@UiHandler("testProblemButton")
 	void onTestProblemClick(ClickEvent event){
 		MagnetProblem problem;
+		statementsTxtArea.setText(encodeString(statementsTxtArea.getText()));
 		if(finalTypeTxtArea.getText().equals(ADVANCED_PROBLEM)){	
 			
 			String[] limits = new String[7];
@@ -824,21 +830,19 @@ public class ProblemCreationPanel extends Composite{
 	}
 	
 	/**
-	 * Replaces all the '>' or '<' in a string with their corresponding HTML
-	 * representation. the regex pattern [^!?{} means that any character that occurs
-	 * in that position that is not a '!', '/', '{', or '}' will be accepted. 
+	 * Replaces the '>', '<', and '"' characters with their HTML escape character
+	 * equivelant. The regular expressions used will also discriminate between 
+	 * the code itself and the text which makes up the panel
 	 * 
-	 * note: I do not like calling replaceAll 4 times but I removed several calls
-	 * to the removeAngleBrackets function in above code so hopefully it evens out. 
+	 * @author Dakota Murray
 	 * 
-	 * @param text the string modify
-	 * @return a string in which all occurrences of a '>' or '<' have been replaced
+	 * @param text the string to encode
+	 * @return a string with all necessary characters encoded
 	 */
-	private String removeAngleBrackets(String text){
-		text = text.replaceAll("[^!/{}]<=[^!/{}]", " &lt;= ");
-		text = text.replaceAll("[^!/{}]>=[^!/{}]", " &gt;= ");
-		text = text.replaceAll("[^!/{}]<[^!/{}]", " &lt; ");
-		text = text.replaceAll("[^!/{}]>[^!/{}]", " &gt; ");
+	private String encodeString(String text){
+		text = text.replaceAll("^[/-]<", "&lt;");
+		text = text.replaceAll(">^[!b]", "&gt;");
+		text = text.replaceAll("\"", "&quot;");
 		return text;
 	}
 	
