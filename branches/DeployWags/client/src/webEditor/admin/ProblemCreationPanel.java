@@ -142,7 +142,7 @@ public class ProblemCreationPanel extends Composite{
 				String[] magnets = event.getResults().split("\n");
 				classDeclarationTxtArea.setText(magnets[0]);
 				innerFunctionsTxtArea.setText(magnets[1]);
-				statementsTxtArea.setText(encodeString(magnets[2]));
+				statementsTxtArea.setText(magnets[2]);
 			}
 		});
 		
@@ -785,7 +785,6 @@ public class ProblemCreationPanel extends Composite{
 	@UiHandler("testProblemButton")
 	void onTestProblemClick(ClickEvent event){
 		MagnetProblem problem;
-		statementsTxtArea.setText(encodeString(statementsTxtArea.getText()));
 		if(finalTypeTxtArea.getText().equals(ADVANCED_PROBLEM)){	
 			
 			String[] limits = new String[7];
@@ -831,8 +830,7 @@ public class ProblemCreationPanel extends Composite{
 	
 	/**
 	 * Replaces the '>', '<', and '"' characters with their HTML escape character
-	 * equivelant. The regular expressions used will also discriminate between 
-	 * the code itself and the text which makes up the panel
+	 * equivelant. 
 	 * 
 	 * @author Dakota Murray
 	 * 
@@ -840,8 +838,9 @@ public class ProblemCreationPanel extends Composite{
 	 * @return a string with all necessary characters encoded
 	 */
 	private String encodeString(String text){
-		text = text.replaceAll("^[/-]<", "&lt;");
-		text = text.replaceAll(">^[!b]", "&gt;");
+		//^[/-]
+		text = text.replaceAll("<", "&lt;");
+		text = text.replaceAll(">", "&gt;");
 		text = text.replaceAll("\"", "&quot;");
 		return text;
 	}
@@ -864,6 +863,7 @@ public class ProblemCreationPanel extends Composite{
 		Proxy.getMagnetsByGroup("Arrays/ArrayLists", lstLoadExercise);
 	}
 
+	
 	public void setAdminPage(AdminPage adminPage) {
 		this.adminPage = adminPage;
 	}
