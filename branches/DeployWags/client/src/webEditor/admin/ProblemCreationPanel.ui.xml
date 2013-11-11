@@ -320,12 +320,21 @@
 						    	</g:row>
 							</g:Grid>
 						</g:VerticalPanel>
-						<g:HorizontalPanel>
-							<g:Label text="Testing Class:" width="150px"/>
-							<g:FileUpload name="testClass" ui:field="solutionUpload"/>
-						</g:HorizontalPanel>
+						<!--  Need a panel to update last file received info, makes sense to be associated with upload -->
+						<g:VerticalPanel ui:field="vtPanelUpload">
+							<g:HorizontalPanel>
+								<g:Label text="No test class received" width="300px" ui:field="uploadStamp"/>
+							</g:HorizontalPanel>
+							<g:HorizontalPanel>
+								<g:Label text="Testing Class:" width="150px"/>
+								<g:FileUpload name="testClass" ui:field="solutionUpload"/>
+							</g:HorizontalPanel>
+						</g:VerticalPanel>
 						<!-- Vertical Panel exists so we add multiple helper classes -->
 						<g:VerticalPanel ui:field="vtPanelHelper">
+							<g:HorizontalPanel>
+								<g:Label text="No helper class received" width="300px" ui:field="helperStamp"/>
+							</g:HorizontalPanel>
 							<g:HorizontalPanel>
 								<g:Label text="Helper Class:" width="150px"/>
 								<g:FileUpload name="helperClass1" ui:field="helperUpload"/>
