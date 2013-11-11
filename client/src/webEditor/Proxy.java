@@ -1,9 +1,12 @@
 package webEditor;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+
 
 import webEditor.logical.DataStructureTool;
 import webEditor.magnet.view.Magnets;
@@ -734,6 +737,68 @@ public class Proxy
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Simple method to set the uploaded time from a simple file
+	 */
+	public static void getFileTime(String title, final Label uploadStamp, final Label helperStamp)
+	{
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetFileTime&title=" + title);
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus stat = new WEStatus(response);
+					Notification.notify(stat.getStat(), stat.getMessage());
+					
+					String[] msgArray = stat.getMessageArray();
+					String fileTime = msgArray[0];
+					
+					if(fileTime.equals(0))
+					{
+						uploadStamp.setText("No test class received");
+					}
+					else
+					{
+						uploadStamp.setText("Last test class received: " + fileTime);
+					}
+					
+					String helperTime = "";
+					if(msgArray.length == 1)
+					{
+						helperTime = "0";
+					}
+					for(int i = 1; i < msgArray.length; i++)
+					{
+						String current = msgArray[i];
+						if(current.compareTo(helperTime) > 0)
+						{
+							helperTime = current;
+						}
+					}
+					
+					if(helperTime.equals("0"))
+					{
+						helperStamp.setText("No helper class received");
+					}
+					else
+					{
+						helperStamp.setText("Last helper class received: " + helperTime);
+					}
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Notification.notify(WEStatus.STATUS_ERROR, "Failure: Problem in GetFileTime");					
+				}
+			});
+		} catch(Exception e){
+			Window.alert("Error Occurred.  Please e-mail the following to pmeznar@gmail.com:\n" +
+					e.getMessage());
+		}
+	}
+	
 	/**
      * getLogicalForAssignment
      * 

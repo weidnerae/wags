@@ -69,6 +69,7 @@ public class ProblemCreationPanel extends Composite{
 		btnDeleteExercise, btnMoreHelpers, testProblemButton;
 	@UiField RadioButton btnBasicProblem, btnAdvancedProblem;
 	@UiField FileUpload solutionUpload, helperUpload;
+	@UiField Label uploadStamp, helperStamp;
 	@UiField ListBox lstGroup, lstLoadGroup, lstLoadExercise;
 	@UiField Label lblGroup, forLoop1Label, forLoop2Label, forLoop3Label, whileLabel, ifLabel, returnLabel, assignmentVarLabel, assignmentValLabel;
 	@UiField VerticalPanel vtPanelHelper;
@@ -100,10 +101,11 @@ public class ProblemCreationPanel extends Composite{
 		
 		this.magnetProblemCreator = new MagnetProblemCreator();
 		Proxy.getMagnetGroups(lstLoadGroup);
-		Proxy.getMagnetsByGroup("Arrays/ArrayLists", lstLoadExercise);		
+		Proxy.getMagnetsByGroup("Arrays/ArrayLists", lstLoadExercise);
 		
 		btnBasicProblem.setValue( true );
-		
+		//do a proxy call when loading problem to set a bar with times
+		//do same proxy call when on submit complete to update bar wtih times
 		downloadMagnetFilesForm.setAction(Proxy.getBaseURL() + "?cmd=DownloadMagnetFiles");
 		downloadMagnetFilesForm.setEncoding(FormPanel.ENCODING_MULTIPART);
 		downloadMagnetFilesForm.setMethod(FormPanel.METHOD_POST);
@@ -190,7 +192,7 @@ public class ProblemCreationPanel extends Composite{
 						finalTypeTxtArea,forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, ifsTextArea, whilesTextArea, returnsTextArea,
 						assignmentsVarTextArea, assignmentsValTextArea, ifAllowed, elseAllowed, elseIfAllowed, forAllowed, whileAllowed, 
 						returnAllowed, assignmentAllowed, btnBasicProblem, btnAdvancedProblem);
-			    
+			    Proxy.getFileTime(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()), uploadStamp, helperStamp);
 				// dear god help me please
 				Timer t = new Timer() {
 			      @Override
@@ -204,6 +206,7 @@ public class ProblemCreationPanel extends Composite{
 							setupMagnetMakerOptions();
 							finalTypeTxtArea.setText( ADVANCED_PROBLEM );
 						}
+						Proxy.getFileTime(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()), uploadStamp, helperStamp);
 			      }
 			    };
 			    t.schedule(100);
@@ -334,6 +337,7 @@ public class ProblemCreationPanel extends Composite{
 		
 		vtPanelHelper.add(newPanel);
 		
+		Proxy.getFileTime(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()), uploadStamp, helperStamp);
 	}
 	
 	/**
