@@ -340,6 +340,12 @@
 						<g:TextBox styleName='{style.hidden}' ui:field="lastProblemLoadedTxtBox" name="lastProblemLoaded"/>
 					</g:VerticalPanel>
 				</g:FormPanel>
+				<g:FormPanel ui:field="downloadMagnetFilesForm">
+					<g:HorizontalPanel>
+						<g:SubmitButton ui:field="downloadMagnetFilesButton">Download Test/Helper Files</g:SubmitButton>
+						<g:TextBox styleName='{style.hidden}' ui:field="lastProblemLoadedDownloadTxtBox" name="lastProblemLoadedDownload"/>
+					</g:HorizontalPanel>
+				</g:FormPanel>
 				<g:FormPanel ui:field="fileParseFormPanel">
 					<g:HorizontalPanel styleName='{style.problemTypePanel}'>
 						<g:Label text="Parse File:" width="100px"/>

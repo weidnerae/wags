@@ -55,14 +55,14 @@ public class ProblemCreationPanel extends Composite{
 	final String ADVANCED_PROBLEM = "advanced_problem";
 	final String BASIC_PROBLEM = "basic_problem";
 	
-	@UiField FormPanel problemCreateFormPanel, fileParseFormPanel;
+	@UiField FormPanel problemCreateFormPanel, fileParseFormPanel, downloadMagnetFilesForm;
 	@UiField TextBox titleTxtBox, topLabelTxtBox, topRealCodeTxtBox, 
-		commentsTxtBox, bottomLabelTxtBox, bottomRealCodeTxtBox, forAllowed, whileAllowed, ifAllowed, elseAllowed, elseIfAllowed, returnAllowed, assignmentAllowed, lastProblemLoadedTxtBox;
+		commentsTxtBox, bottomLabelTxtBox, bottomRealCodeTxtBox, forAllowed, whileAllowed, ifAllowed, elseAllowed, elseIfAllowed, returnAllowed, assignmentAllowed, lastProblemLoadedTxtBox, lastProblemLoadedDownloadTxtBox;
 	@UiField TextArea finalTitleTxtBox, descriptionTxtArea, finalDescriptionTxtArea, finalTypeTxtArea,
 		classDeclarationTxtArea, innerFunctionsTxtArea, statementsTxtArea, commentsStagingArea,
 		hiddenFunctionsArea, forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, whilesTextArea, ifsTextArea, returnsTextArea, assignmentsVarTextArea, assignmentsValTextArea;
 	@UiField VerticalPanel magnetMakerOptions, magnetReviewPanel, numberAllowedReviewPanel;
-	@UiField SubmitButton createProblemSubmitButton, fileParseSbt;
+	@UiField SubmitButton createProblemSubmitButton, fileParseSbt, downloadMagnetFilesButton;
 	@UiField Button createCommentsButton, classDeclarationButton, innerFunctionsButton,
 		statementsButton, clearDataButton, createHidFunctionButton, btnLoadExercise,
 		btnDeleteExercise, btnMoreHelpers, testProblemButton;
@@ -103,6 +103,9 @@ public class ProblemCreationPanel extends Composite{
 		
 		btnBasicProblem.setValue( true );
 		
+		downloadMagnetFilesForm.setAction(Proxy.getBaseURL() + "?cmd=DownloadMagnetFiles");
+		downloadMagnetFilesForm.setEncoding(FormPanel.ENCODING_MULTIPART);
+		downloadMagnetFilesForm.setMethod(FormPanel.METHOD_POST);
 		
 		problemCreateFormPanel.setAction(Proxy.getBaseURL() + "?cmd=AddMagnetExercise");
 		problemCreateFormPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
@@ -178,7 +181,9 @@ public class ProblemCreationPanel extends Composite{
 		 */
 		btnLoadExercise.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				lastProblemLoadedTxtBox.setText(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()));
+				String lastProblemLoaded = lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex());
+				lastProblemLoadedTxtBox.setText(lastProblemLoaded);
+				lastProblemLoadedDownloadTxtBox.setText(lastProblemLoaded);
 				Proxy.getMagnetProblemForEdit(finalTitleTxtBox, finalDescriptionTxtArea, classDeclarationTxtArea, 
 						innerFunctionsTxtArea, statementsTxtArea, lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()),
 						finalTypeTxtArea,forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, ifsTextArea, whilesTextArea, returnsTextArea,
@@ -827,7 +832,7 @@ public class ProblemCreationPanel extends Composite{
 
 		adminPage.addWidgetInNewTab(this.magnetProblemCreator.makeProblem(problem), "Problem Demo");			
 	}
-	
+		
 	/**
 	 * Replaces the '>', '<', and '"' characters with their HTML escape character
 	 * equivelant. 
