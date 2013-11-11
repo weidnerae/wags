@@ -186,8 +186,8 @@ class AddMagnetExercise extends Command
         $newSF->setContents($fileContents);
         $newSF->setMagnetProblemId(0); // 'holding' for linkage
         $newSF->setTest($testValue);
-        $newSF->setAdded();
-        $newSF->setUpdated();
+        $newSF->setAdded(time());
+        $newSF->setUpdated(time());
 
         try {
             $newSF->save();
