@@ -13,16 +13,16 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 final class TrashBin extends AbsolutePanel {
 	private static final String CSS_TRASHBIN = "trash_bin";
 	private static final String CSS_TRASHBIN_ENGAGE = "trash_bin-engage";
-	private MagnetMaker magnetMaker;
-
-	public TrashBin(MagnetMaker magnetMaker) {
-		this.magnetMaker = magnetMaker;
+    private ConstructUi construct;
+    
+	public TrashBin(ConstructUi construct) {
+		this.construct = construct;
 		HTML text = new HTML("<b>Trash Bin</b>");
 		text.setStyleName("trash_label");
 		add(text);
 		setStyleName(CSS_TRASHBIN);
 	}
-
+	
 	/**
 	 * resets any magnet fed to the bin. 
 	 * 
@@ -52,37 +52,15 @@ final class TrashBin extends AbsolutePanel {
 		    //do nothing
 		}
 		else if (sc.isCreated()) {
-			manageLimits(content);
+			construct.manageLimits(content);
 			sc.removeFromParent();
 		}else{
 			sc.removeFromParent();
-			this.magnetMaker.addToConstructPanel(sc);
+			this.construct.addSegment(sc);
 		}
 	}
 
-	/** 
-	 * If the magnet being thrown in the trash bin has been created by the magnet 
-	 * maker then this method will increment that magnet types limit by 1
-	 * 
-	 * @param content the string content of the magnet
-	 */
-	public void manageLimits(String content) {
-		if (content.startsWith("for")) {
-			magnetMaker.incrementLimitCounter(MagnetMaker.FOR);
-		} else if (content.startsWith("while")) {
-			magnetMaker.incrementLimitCounter(MagnetMaker.WHILE);
-		} else if (content.startsWith("if")) {
-			magnetMaker.incrementLimitCounter(MagnetMaker.IF);
-		} else if (content.startsWith("else if")) {
-			magnetMaker.incrementLimitCounter(MagnetMaker.ELSE_IF);
-		} else if (content.startsWith("else")) {
-			magnetMaker.incrementLimitCounter(MagnetMaker.ELSE);
-		} else if(content.startsWith("return")) {
-			magnetMaker.incrementLimitCounter(MagnetMaker.RETURN);
-		} else {
-			magnetMaker.incrementLimitCounter(MagnetMaker.ASSIGN);
-		}
-	}
+	
 	public boolean isWidgetEater() {
 		return true;
 	}

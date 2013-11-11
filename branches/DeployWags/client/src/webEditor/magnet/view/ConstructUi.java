@@ -105,7 +105,7 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 			
 			layout.add(contentPanel);
 			
-			bin = new TrashBin(magnetMaker);
+			bin = new TrashBin(this);
 			BinDropController binController = new BinDropController(bin);
 			DragController.INSTANCE.registerDropController(binController);
 			trashbin.add(bin);
@@ -130,6 +130,7 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 			DragController.INSTANCE.registerDropController(segmentDropControl);
 			segmentsContent.getElement().getStyle().setOverflowY(Overflow.AUTO);
 			layout.add(segmentsContent);
+			bin = new TrashBin(this);
 		}
 		this.lastOffsetWidth = this.getOffsetWidth();
 		this.codePanel = codePanel;
@@ -265,6 +266,18 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 		start();
 	}
 
+	/**
+	 * if an advanced problem (magnerMaker != null) then the limits will
+	 * be managed. otherwise no efect.
+	 * 
+	 * @param content the Stirng content to pass to the magnetmaker
+	 */
+	public void manageLimits(String content) {
+		if(magnetMaker != null) {
+			magnetMaker.incrementFromString(content);
+		}
+	}
+	
 	@Override
 	public void onResize() {
 		for(Entry<MagnetType, MagnetTypePanel> entry : panelMap.entrySet()) {
