@@ -15,6 +15,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -834,8 +835,7 @@ public class ProblemCreationPanel extends Composite{
 	}
 		
 	/**
-	 * Replaces the '>', '<', and '"' characters with their HTML escape character
-	 * equivelant. 
+	 * Encodes a string into escaped HTML
 	 * 
 	 * @author Dakota Murray
 	 * 
@@ -843,11 +843,7 @@ public class ProblemCreationPanel extends Composite{
 	 * @return a string with all necessary characters encoded
 	 */
 	private String encodeString(String text){
-		//^[/-]
-		text = text.replaceAll("<", "&lt;");
-		text = text.replaceAll(">", "&gt;");
-		text = text.replaceAll("\"", "&quot;");
-		return text;
+		return SafeHtmlUtils.htmlEscape(text);
 	}
 	
 	/**
@@ -856,7 +852,6 @@ public class ProblemCreationPanel extends Composite{
 	public void clearLabels(){
 		topLabelTxtBox.setText("");
 		topRealCodeTxtBox.setText("");
-		
 		bottomLabelTxtBox.setText("");
 		bottomRealCodeTxtBox.setText("");
 		commentsStagingArea.setText("");

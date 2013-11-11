@@ -283,6 +283,29 @@ public class MagnetMaker extends VerticalPanel {
 	}
 	
 	/**
+	 * Takes as input a string and imcrements the appropriate limit counter accordingly
+	 * 
+	 * @param content the string representation of the magnet
+	 */
+	public void incrementFromString(String content) {
+		if (content.startsWith("for")) {
+			incrementLimitCounter(MagnetMaker.FOR);
+		} else if (content.startsWith("while")) {
+			incrementLimitCounter(MagnetMaker.WHILE);
+		} else if (content.startsWith("if")) {
+			incrementLimitCounter(MagnetMaker.IF);
+		} else if (content.startsWith("else if")) {
+			incrementLimitCounter(MagnetMaker.ELSE_IF);
+		} else if (content.startsWith("else")) {
+			incrementLimitCounter(MagnetMaker.ELSE);
+		} else if(content.startsWith("return")) {
+			incrementLimitCounter(MagnetMaker.RETURN);
+		} else {
+			incrementLimitCounter(MagnetMaker.ASSIGN);
+		}
+	}
+	
+	/**
 	 * Increases the number allowed for a certain decision structure by one. 
 	 * 
 	 * @param i a value representing the decision structure to increment. See Consts.structureList for details
