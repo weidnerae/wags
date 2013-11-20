@@ -4,6 +4,7 @@ import webEditor.Proxy;
 import webEditor.ProxyFacilitator;
 import webEditor.WEStatus;
 import webEditor.admin.builders.BasicDisplay;
+import webEditor.admin.builders.LMBuildBSTDisplay;
 import webEditor.admin.builders.LMBuilder;
 import webEditor.admin.builders.LMBuilderFactory;
 import webEditor.admin.builders.LMGraphsDisplay;
@@ -97,9 +98,11 @@ public class LMEditTab extends Composite implements ProxyFacilitator{
 		} else if (button.getText().equals("Simple Partition")){
 			button.addClickHandler(new checkClickHandler(
 			new LMSimplePartitionDisplay(), LMBuilderFactory.getSimplePartitionBuilder()));
+		} else if (button.getText().equals("Build BST")){
+			button.addClickHandler(new checkClickHandler(
+			new LMBuildBSTDisplay(), LMBuilderFactory.getBuildBSTBuilder()));
 		} else {
 			button.addClickHandler(new ClickHandler() {
-				
 				@Override
 				public void onClick(ClickEvent event) {
 					Window.alert("Not implemented yet!");
