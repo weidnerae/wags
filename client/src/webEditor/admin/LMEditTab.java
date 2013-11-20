@@ -5,6 +5,7 @@ import webEditor.ProxyFacilitator;
 import webEditor.WEStatus;
 import webEditor.admin.builders.BasicDisplay;
 import webEditor.admin.builders.LMBuildBSTDisplay;
+import webEditor.admin.builders.LMBuildBTDisplay;
 import webEditor.admin.builders.LMBuilder;
 import webEditor.admin.builders.LMBuilderFactory;
 import webEditor.admin.builders.LMGraphsDisplay;
@@ -101,6 +102,9 @@ public class LMEditTab extends Composite implements ProxyFacilitator{
 		} else if (button.getText().equals("Build BST")){
 			button.addClickHandler(new checkClickHandler(
 			new LMBuildBSTDisplay(), LMBuilderFactory.getBuildBSTBuilder()));
+		} else if (button.getText().equals("Build BT")) {
+			button.addClickHandler(new checkClickHandler(
+					new LMBuildBTDisplay(), LMBuilderFactory.getBuildBTBuilder()));
 		} else {
 			button.addClickHandler(new ClickHandler() {
 				@Override
