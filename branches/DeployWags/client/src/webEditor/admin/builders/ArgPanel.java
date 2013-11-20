@@ -69,5 +69,18 @@ public class ArgPanel extends Composite implements ArgHolder{
 	public String getText() {
 		return txtArg.getText();
 	}
+	
+	/**
+	 * We may want to use the functionality of the arg panel without the use of the button. For
+	 * instance the Build BT problem creation will display both a preorder and inorder traversal
+	 * but there is no need to have two buttons.
+	 * 
+	 * @param isVisible boolean value, will set the button visible is true, invisible if false
+	 * 
+	 */
+	public void setButtonVisible(boolean isVisible) {
+		btnArg.setVisible(isVisible);
+		btnArg.setEnabled(isVisible);
+	}
 
 }

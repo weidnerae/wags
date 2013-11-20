@@ -16,12 +16,19 @@ public class LMBuilderFactory {
 	public static LMBuilder getBuildBSTBuilder(){
 		LMBuilder builder = new LMBuilder(Genre.TRAVERSAL, 
 				InsertMethod.BY_VALUE, NodeType.DRAGGABLE, true, true, DSTConstants.TREE_MODE_KEY, NOT_IMPORTANT);
-		builder.setEval(DSTConstants.BST_PREORDER_KEY);
+		builder.setEval(DSTConstants.BST_POSTORDER_KEY);
 		builder.addEdge("");
 		builder.setPos(new int[0], new int[0]);
 		return builder;
 	}
 	
+	public static LMBuilder getBuildBTBuilder() {
+		LMBuilder builder = new LMBuilder(Genre.TRAVERSAL,
+				InsertMethod.BY_VALUE, NodeType.DRAGGABLE, true, true, DSTConstants.TREE_MODE_KEY, NOT_IMPORTANT);
+		builder.setEval(DSTConstants.BST_PREORDER_KEY);
+		builder.setPos(new int[0], new int[0]);
+		return builder;
+	}
 	public static LMBuilder getInsertNodeBuilder(){
 		LMBuilder builder = new LMBuilder(Genre.TRAVERSAL, 
 				InsertMethod.BY_VALUE, NodeType.DRAGGABLE,
