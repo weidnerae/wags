@@ -65,5 +65,9 @@ public class ArgPanel extends Composite implements ArgHolder{
 	public void clear(){
 		txtArg.setText("");
 	}
+	
+	public String getText() {
+		return txtArg.getText();
+	}
 
 }
