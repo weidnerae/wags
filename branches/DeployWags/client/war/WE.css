@@ -11,8 +11,8 @@
 .button {
 	font-size: 10pt;
 	overflow: auto;
-	height: 55px;
-	width: 175px;
+	height: 50px;
+	width: 200px;
 }
 #login {
 	float: right;
@@ -41,6 +41,54 @@
 }
 
 /** ADMIN PAGE CSS **/
+legend {
+	font-size: x-large;
+	font-weight: bolder;	
+}
+.admin_menu_item_selected {
+	font-weight: bolder;
+	font-family: arial, verdana, san-serif;
+	font-size: 16px;
+	text-align: center;
+	background-color: white;
+	color: black;
+	width: 100%;
+	height: 100%;
+	-webkit-border-top-left-radius: 15px;
+	-webkit-border-bottom-left-radius: 15px;
+	-moz-border-radius-topleft: 15px;
+	-moz-border-radius-bottomleft: 15px;
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+	margin: 0;
+	border: none;
+	cursor: pointer;
+}
+.admin_menu_item_selected:focus {
+	outline: none;
+}
+.admin_menu_item {
+	font-weight: bolder;
+	font-family: arial, verdana, san-serif;
+	font-size: 16px;
+	text-align: center;
+	background-color: rgb(50,92,116);
+	color: white;
+	width: 100%;
+	height: 100%;
+	-webkit-border-top-left-radius: 15px;
+	-webkit-border-bottom-left-radius: 15px;
+	-moz-border-radius-topleft: 15px;
+	-moz-border-radius-bottomleft: 15px;
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+	margin: 0;
+	border: none;
+	cursor: pointer;
+}
+.admin_menu_item {
+	outline: none;
+}
 .format_problem_tab {
     bottom: -6.5px;
     z-index: 2;

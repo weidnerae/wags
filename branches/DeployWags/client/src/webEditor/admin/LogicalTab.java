@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import webEditor.Proxy;
 import webEditor.ProxyFacilitator;
-import webEditor.Reviewer;
 import webEditor.WEStatus;
 
 import com.google.gwt.core.client.GWT;
@@ -17,7 +16,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
-public class LogicalTab extends Composite implements ProxyFacilitator, Reviewer{
+public class LogicalTab extends Composite implements ProxyFacilitator {
 
 	private static LogicalTabUiBinder uiBinder = GWT
 			.create(LogicalTabUiBinder.class);
@@ -28,8 +27,7 @@ public class LogicalTab extends Composite implements ProxyFacilitator, Reviewer{
 	@UiField ButtonPanel btnPanelSubjects;
 	@UiField ButtonPanel btnPanelGroups;
 	@UiField CheckBoxPanel chkPanelExercises;
-	@UiField AssignedPanel asPanel, asAlreadyPanel;
-	@UiField ReviewPanel rvPanel;
+	@UiField AssignedPanel assigned, selected;
 
 	public LogicalTab() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -37,22 +35,29 @@ public class LogicalTab extends Composite implements ProxyFacilitator, Reviewer{
 		// Proxy calls
 		Proxy.getLMSubjects(this);
 		Proxy.getLMAssigned(this);
-		Proxy.getLMAssigned(this, GET_REVIEW);
 		
 		// Initial set up
+		// set up button panels
 		btnPanelSubjects.setTitle("SUBJECTS");
 		btnPanelGroups.setTitle("GROUPS");
+		// set up checkbox panel
 		chkPanelExercises.setTitle("EXERCISES");
-		chkPanelExercises.setAssignedPanel(asPanel);
+		chkPanelExercises.setAssignedPanel(selected);
 		
-		asPanel.setTitle("SELECTED");
-		asAlreadyPanel.setTitle("ASSIGNED");
-		asAlreadyPanel.btnAssign.setVisible(false);
+		//setup assigned panels
+		selected.setTitle("SELECTED");
+		selected.setAssigned(false);
+		selected.setPartner(assigned);
+		selected.setParent(this);
+		selected.setExercises(chkPanelExercises);
+		assigned.setTitle("ASSIGNED");
+		assigned.setAssigned(true);
+		assigned.setPartner(selected);
+		assigned.setParent(this);
+
 		
 		addSubjectClickHandlers();
 		addGroupClickHandlers();
-		asPanel.setParent(this);
-		rvPanel.setParent(this);
 	}
 	
 	//-------------------------------
@@ -116,15 +121,12 @@ public class LogicalTab extends Composite implements ProxyFacilitator, Reviewer{
 	public void handleSubjects(String[] subjects) {
 		btnPanelSubjects.addButtons(subjects);
 		addSubjectClickHandlers();
-		btnPanelSubjects.myButtons.get(0).click();
 	}
 
 	@Override
 	public void handleGroups(String[] groups) {
 		btnPanelGroups.addButtons(groups);
 		addGroupClickHandlers();
-		// Load exercises for top group
-		btnPanelGroups.myButtons.get(0).click();
 	}
 
 	@Override
@@ -132,25 +134,28 @@ public class LogicalTab extends Composite implements ProxyFacilitator, Reviewer{
 		chkPanelExercises.addCheckBoxes(exercises);
 	}
 	
+	/**
+	 * Assigning exercises
+	 */
 	public void setExercises(String[] exercises){
 		String toAssign = "";
 		for(int i = 0; i < exercises.length; i++){
 			toAssign += exercises[i] + "|";
 		}
 		Proxy.SetLMExercises(toAssign, this);
-		
 	}
 
+	/**
+	 * Initial callback to set up currently assigned problems
+	 */
 	public void setCallback(String[] exercises, WEStatus status) {
 		if(status.getStat() == WEStatus.STATUS_SUCCESS){
-			asAlreadyPanel.clear();
+			assigned.clear();
 			
 			for(int i = 0; i < exercises.length; i++){
-				asAlreadyPanel.add(exercises[i]);
+				assigned.add(exercises[i]);
 			}
 		}
-		
-		rvPanel.setCurrent(exercises);
 	}
 
 	@Override
@@ -159,46 +164,13 @@ public class LogicalTab extends Composite implements ProxyFacilitator, Reviewer{
 		if(request.equals("")){
 			HashMap<String, CheckBox> chkBoxes = chkPanelExercises.getAssignments();
 			for(int i = 0; i < exercises.length; i++){
-				asAlreadyPanel.add(exercises[i]);
-				asPanel.add(exercises[i]);
+				assigned.add(exercises[i]);
 				
-				// Handles checking assigned exercises
-				if(chkBoxes.containsKey(exercises[i])){
-					chkBoxes.get(exercises[i]).setValue(true);
-				} else {
-					CheckBox tmpCheck = new CheckBox(exercises[i]);
-					chkPanelExercises.addClickHandler(tmpCheck);
-					tmpCheck.setValue(true);
-					chkBoxes.put(exercises[i], tmpCheck);
-				}
-			}
-			
-			rvPanel.setCurrent(exercises);
-		}
-		
-		// Review
-		if(request.equals(GET_REVIEW)){
-			rvPanel.setReview(exercises);
+				CheckBox tmpCheck = new CheckBox(exercises[i]);
+				chkPanelExercises.addClickHandler(tmpCheck);
+				tmpCheck.setValue(true);
+				chkBoxes.put(exercises[i], tmpCheck);
+			}	
 		}
 	}
-
-	public void review(String exercise) {
-		Proxy.reviewExercise(exercise, LOGICAL, this);
-	}
-	
-	public void reviewCallback(String[] data){
-		rvPanel.fillGrid(data);
-	}
-
-	// For section changes
-	public void update(){
-		// Proxy calls
-		Proxy.getLMSubjects(this);
-		Proxy.getLMAssigned(this);
-		Proxy.getLMAssigned(this, GET_REVIEW);
-		
-		addSubjectClickHandlers();
-		addGroupClickHandlers();
-	}
-
 }

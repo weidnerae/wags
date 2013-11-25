@@ -1,8 +1,6 @@
 package webEditor;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -38,8 +36,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -1741,7 +1737,7 @@ public class Proxy
 		    }
 	}
 
-	public static void isAdmin(final TabLayoutPanel tabPanel, final Widget sections){	
+	public static void isAdmin(final Button section_btn){	
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=IsAdmin");
 		try {
 		      @SuppressWarnings("unused")
@@ -1752,13 +1748,8 @@ public class Proxy
 		          
 		          // If not root, no section tab
 		          if(status.getStat() == WEStatus.STATUS_SUCCESS){
-		        	  ScrollPanel scroll3 = new ScrollPanel();
-		        	  scroll3.add(sections);
-		        	  scroll3.addStyleName("administration");
-		        	  
-		        	  tabPanel.add(scroll3, "Sections");
+		         	 section_btn.setVisible( true );
 		          }
-
 		        }
 		        
 		        public void onError(Request request, Throwable exception) {

@@ -323,6 +323,7 @@ public class ProblemCreationPanel extends Composite{
 		addMMOptionButton.setTitle( "Adds the input conditions to the problem so that students can select from them" +
 											 " when creating the selected decision structure");
 	}	
+
 	
 	private void addHelperUpload(){
 		numHelpers++;
@@ -835,7 +836,7 @@ public class ProblemCreationPanel extends Composite{
 					statementsTxtArea.getText().split(".:\\|:."), emptyString, emptyArr, statementsTxtArea.getText().split(".:\\|:.").length+innerFunctionsTxtArea.getText().split(".:\\|:.").length, "", "");
 		}
 
-		adminPage.addWidgetInNewTab(this.magnetProblemCreator.makeProblem(problem), "Problem Demo");			
+		adminPage.setUpTestProblem( this.magnetProblemCreator.makeProblem( problem ));
 	}
 		
 	/**

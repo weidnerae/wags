@@ -11,7 +11,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
@@ -26,9 +25,11 @@ public class CheckBoxPanel extends Composite {
 	interface CheckBoxPanelUiBinder extends UiBinder<Widget, CheckBoxPanel> {
 	}
 	
-	@UiField Label title;
-	@UiField VerticalPanel chkBoxHolder;
-	@UiField Button btnUnsetAll;
+	@UiField 
+	Label title;
+	@UiField 
+	VerticalPanel chkBoxHolder;
+	
 	private HashMap<String, CheckBox> allExercises = new HashMap<String, CheckBox>();
 	private ArrayList<CheckBox> currentExercises = new ArrayList<CheckBox>();
 	private AssignedPanel assignedPanel;
@@ -36,8 +37,6 @@ public class CheckBoxPanel extends Composite {
 	public CheckBoxPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.getElement().getStyle().setWidth(95, Unit.PCT); // needs to go away via CSS
-		btnUnsetAll.addClickHandler(new unsetExercisesClick());
-		btnUnsetAll.setText("Unset All");
 	}
 	
 	public void setTitle(String title){
@@ -90,17 +89,6 @@ public class CheckBoxPanel extends Composite {
 			tmpChk = allExercises.get(keysItr.next());
 			tmpChk.setValue(false);
 		}
-	}
-	
-	private class unsetExercisesClick implements ClickHandler{
-
-		// Clears assigned panel, iterates through checkboxes,
-		// adds any checked ones back
-		public void onClick(ClickEvent event) {
-			assignedPanel.clear();
-			unsetAll();
-		}
-		
 	}
 	
 	// Adds or removes entry from assignedPanel when value of
