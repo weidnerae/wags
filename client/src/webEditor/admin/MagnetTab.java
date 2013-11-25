@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import webEditor.Proxy;
 import webEditor.ProxyFacilitator;
-import webEditor.Reviewer;
 import webEditor.WEStatus;
 
 import com.google.gwt.core.client.GWT;
@@ -17,7 +16,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MagnetTab extends Composite implements ProxyFacilitator, Reviewer {
+public class MagnetTab extends Composite implements ProxyFacilitator {
 
 	private static MagnetTabUiBinder uiBinder = GWT
 			.create(MagnetTabUiBinder.class);
@@ -25,28 +24,33 @@ public class MagnetTab extends Composite implements ProxyFacilitator, Reviewer {
 	interface MagnetTabUiBinder extends UiBinder<Widget, MagnetTab> {
 	}
 	
-	@UiField ManyButtonPanel btnPanelGroups;
+	@UiField ButtonPanel btnPanelGroups;
 	@UiField CheckBoxPanel chkPanelExercises;
-	@UiField AssignedPanel asPanel;
-	@UiField AssignedPanel asAlreadyPanel;
-	@UiField ReviewPanel rvPanel;
+	@UiField AssignedPanel selected;
+	@UiField AssignedPanel assigned;
 
 	public MagnetTab() {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		Proxy.getMMGroups(this);
 		Proxy.getMMAssigned(this);
-		Proxy.getMMAssigned(this, GET_REVIEW);
-		asPanel.setParent(this);
-		rvPanel.setParent(this);
 		
+		//set up button panel
 		btnPanelGroups.setTitle("GROUPS"); //groups
+		//set up checkbox panel
 		chkPanelExercises.setTitle("EXERCISES"); //exercises in each group
-		asPanel.setTitle("SELECTED"); //ones youre picking
-		asAlreadyPanel.setTitle("ASSIGNED"); //ones already selected
-		asAlreadyPanel.btnAssign.setVisible(false); //hide button for assigned section because it is read only
-		chkPanelExercises.setAssignedPanel(asPanel);
-
+		chkPanelExercises.setAssignedPanel(selected);
+		//set up assigned panels
+		selected.setTitle("SELECTED"); //ones youre picking
+		selected.setAssigned(false);
+		selected.setPartner(assigned);
+		selected.setExercises( chkPanelExercises );
+		selected.setParent(this);
+		assigned.setTitle("ASSIGNED"); //ones already selected
+		assigned.setAssigned(true);
+		assigned.setPartner(selected);
+		assigned.setParent(this);
+		
 		addGroupClickHandlers();
 	}
 	
@@ -106,14 +110,12 @@ public class MagnetTab extends Composite implements ProxyFacilitator, Reviewer {
 	@Override
 	public void setCallback(String[] exercises, WEStatus status) {
 		if(status.getStat() == WEStatus.STATUS_SUCCESS){
-			asAlreadyPanel.clear();
+			assigned.clear();
 			
 			for(int i = 0; i < exercises.length; i++){
-				asAlreadyPanel.add(exercises[i]);
+				assigned.add(exercises[i]);
 			}
 		}
-		
-		rvPanel.setCurrent(exercises);
 	}
 
 	@Override
@@ -121,43 +123,22 @@ public class MagnetTab extends Composite implements ProxyFacilitator, Reviewer {
 		if(args.equals("")){
 			HashMap<String, CheckBox> chkBoxes = chkPanelExercises.getAssignments();
 			for(int i = 0; i < exercises.length; i++){
-				asAlreadyPanel.add(exercises[i]);
-				asPanel.add(exercises[i]);
+				assigned.add(exercises[i]);
 				
-				// Handles checking assigned exercises
-				if(chkBoxes.containsKey(exercises[i])){
-					chkBoxes.get(exercises[i]).setValue(true);
-				} else {
-					CheckBox tmpCheck = new CheckBox(exercises[i]);
-					chkPanelExercises.addClickHandler(tmpCheck);
-					tmpCheck.setValue(true);
-					chkBoxes.put(exercises[i], tmpCheck);
-				}
+				CheckBox tmpCheck = new CheckBox(exercises[i]);
+				chkPanelExercises.addClickHandler(tmpCheck);
+				tmpCheck.setValue(true);
+				chkBoxes.put(exercises[i], tmpCheck);
 			}
-			rvPanel.setCurrent(exercises);
-		} else if (args.equals(GET_REVIEW)){
-			rvPanel.setReview(exercises);
 		}
-		
-		
-	}
-
-	@Override
-	public void review(String exercise) {
-		Proxy.reviewExercise(exercise, MAGNET, this);		
-	}
-
-	@Override
-	public void reviewCallback(String[] data) {
-		rvPanel.fillGrid(data);
 	}
 
 	public void update(){
 		Proxy.getMMGroups(this);
 		Proxy.getMMAssigned(this);
-		Proxy.getMMAssigned(this, GET_REVIEW);
 		
 		addGroupClickHandlers();
 	}
+
 	
 }

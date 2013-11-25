@@ -16,19 +16,28 @@
 			margin-top: 45px;
 			margin-left: 10px;
 		}
+		.info {
+			font-family: helvetica;
+			text-align: center;
+			font-size: 14px;
+		}
+		.top_adjust {
+			margin-top: 15px;
+		}
 	</ui:style>
 	<g:VerticalPanel>
 		<g:HorizontalPanel>
 			<g:VerticalPanel>
-				<g:Label styleName="{style.title}" ui:field="title">View Grades</g:Label> 
+				<g:Label styleName="{style.title}" ui:field="title">View Grades</g:Label>
+				<g:Label styleName="{style.info}" ui:field="info"></g:Label> 
 				<g:Button ui:field="btnExTypes" width="100%">Switch to Review</g:Button>
-				<my:ManyButtonPanel ui:field="btnPnlCurrent"/>
-				<my:ManyButtonPanel ui:field="btnPnlReview"/>
-				    <my:ManyButtonPanel ui:field="btnPnlStudent" visible="false"/>
+				<my:ButtonPanel ui:field="btnPnlCurrent"/>
+				<my:ButtonPanel ui:field="btnPnlReview"/>
+				    <my:ButtonPanel ui:field="btnPnlStudent" visible="false"/>
 			</g:VerticalPanel>
 			<g:VerticalPanel>
-				<g:cell horizontalAlignment = "ALIGN_CENTER" verticalAlignment = "ALIGN_BOTTOM">
-				    <g:Button visible="false" ui:field="removeStudentButton">Remove Student</g:Button>
+				<g:cell horizontalAlignment = "ALIGN_LEFT" verticalAlignment = "ALIGN_BOTTOM">
+				    <g:Button styleName="{style.top_adjust}" visible="false" ui:field="removeStudentButton">Remove Student</g:Button>
 				</g:cell>
 				<g:cell horizontalAlignment = "ALIGN_CENTER" verticalAlignment = "ALIGN_TOP">
 					<g:Grid ui:field="grdGrades" styleName="{style.grid}"/>

@@ -16,47 +16,49 @@
 			padding: 12px;
 			width: 140px;
 		}
-		.title {
-			padding-bottom: 8px;
-			padding-top: 8px;
+		.heading {
+			font-weight: bolder;
 			font-size: x-large;
-			font-family: helvetica;	
-			text-align: left;
 		}
 	</ui:style>
-	<g:VerticalPanel spacing="10">
 	
-	<g:FormPanel ui:field="registerForm">
-		<g:VerticalPanel>
-			<g:Label styleName="{style.title}"> Register Students </g:Label>
-			<g:HorizontalPanel styleName="{style.filePanel}">
-				<g:Label styleName="{style.label}"> CSV (Last, First, E-mail): </g:Label>
-				<g:FileUpload ui:field="csvReg" name="csvReg"></g:FileUpload>
-			</g:HorizontalPanel>
-			
-			<g:SubmitButton styleName="{style.button}" ui:field="sbtRegister">Register</g:SubmitButton>
-		</g:VerticalPanel>
-	</g:FormPanel>
-	
-	<g:FormPanel ui:field="passwordForm">
-			<g:VerticalPanel>
-				<g:Label styleName="{style.title}">Password Reset</g:Label>
-				<g:ListBox ui:field="users" name="users"></g:ListBox>
-				
-				<g:HorizontalPanel styleName="{style.filePanel}">
-					<g:Label styleName="{style.label}">New Password:</g:Label>
-					<g:PasswordTextBox ui:field="newPassword" name="newPassword"></g:PasswordTextBox>
-				</g:HorizontalPanel>
-				
-				<g:HorizontalPanel styleName="{style.filePanel}">
-					<g:Label styleName="{style.label}">Re-Enter Password:</g:Label>
-					<g:PasswordTextBox ui:field="checkPassword" name="checkPassword"></g:PasswordTextBox>
-				</g:HorizontalPanel>
-				
-				<g:SubmitButton ui:field="btnChgPassword" styleName="{style.button}">Change Password</g:SubmitButton>
-				
-				<my:ReviewPanel ui:field="studentReviewPnl"></my:ReviewPanel>
-			</g:VerticalPanel>
-		</g:FormPanel>
-	</g:VerticalPanel>
+	<g:DockLayoutPanel unit="PX" height="100%" width="100%">
+	    <g:west size="450">
+			<g:FormPanel ui:field="registerForm">
+				<g:VerticalPanel>
+				    <g:Label styleName="{style.heading}">Register Students</g:Label>
+					<g:HorizontalPanel styleName="{style.filePanel}">
+						<g:Label styleName="{style.label}"> CSV (Last, First, E-mail): </g:Label>
+						<g:FileUpload ui:field="csvReg" name="csvReg"></g:FileUpload>
+					</g:HorizontalPanel>
+					
+					<g:SubmitButton styleName="{style.button}" ui:field="sbtRegister">Register</g:SubmitButton>
+				</g:VerticalPanel>
+			</g:FormPanel>
+		</g:west>
+		<g:center>
+		<g:ScrollPanel>
+			<g:FormPanel ui:field="passwordForm">
+				<g:VerticalPanel>
+				    <g:Label styleName="{style.heading}">Password Reset</g:Label>
+					<g:ListBox ui:field="users" name="users"></g:ListBox>
+					
+					<g:HorizontalPanel styleName="{style.filePanel}">
+						<g:Label styleName="{style.label}">New Password:</g:Label>
+						<g:PasswordTextBox ui:field="newPassword" name="newPassword"></g:PasswordTextBox>
+					</g:HorizontalPanel>
+					
+					<g:HorizontalPanel styleName="{style.filePanel}">
+						<g:Label styleName="{style.label}">Re-Enter Password:</g:Label>
+						<g:PasswordTextBox ui:field="checkPassword" name="checkPassword"></g:PasswordTextBox>
+					</g:HorizontalPanel>
+					
+					<g:SubmitButton ui:field="btnChgPassword" styleName="{style.button}">Change Password</g:SubmitButton>
+					
+					<my:ReviewPanel ui:field="studentReviewPnl"></my:ReviewPanel>
+				</g:VerticalPanel>
+			</g:FormPanel>
+		</g:ScrollPanel>
+		</g:center>
+	</g:DockLayoutPanel>
 </ui:UiBinder> 

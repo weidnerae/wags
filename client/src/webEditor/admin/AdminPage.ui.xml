@@ -3,50 +3,55 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:my="urn:import:webEditor.admin">
 	<ui:style> 
+		.item {
+			font-family: arial, verdana, san-serif;
+			font-size: 16px;
+			text-align: center;
+			font-weight: bolder;
+			background-color: rgb(50,92,116);
+			color: white;
+			width: 100%;
+			height: 100%;
+			-webkit-border-top-left-radius: 15px;
+			-webkit-border-bottom-left-radius: 15px;
+			-moz-border-radius-topleft: 15px;
+			-moz-border-radius-bottomleft: 15px;
+			border-top-left-radius: 15px;
+			border-bottom-left-radius: 15px;
+			margin: 0;
+			border: none;
+			cursor: pointer;
+		}
 		
+		.item:focus {
+			outline: none;
+		}
+		
+		.layout {
+			margin: 10px auto 10px auto;
+		}
+		
+		.content {
+			overflow: auto;
+		}
 	</ui:style>
-	<g:HTMLPanel>
-	<g:TabLayoutPanel width="100%" height="100%" barUnit="EM" barHeight="2" ui:field="tabPanel">
-				<g:tab>
-					<g:header> Logical </g:header>
-					<g:ScrollPanel>
-						<my:LogicalTab height="100%" ui:field="logical"/>
-					</g:ScrollPanel>
-				</g:tab>
-				<g:tab>
-					<g:header> Logical Problem Creation </g:header>
-					<g:ScrollPanel>
-						<my:LMEditTab ui:field="lmEditTab"/>
-					</g:ScrollPanel>
-				</g:tab>
-				<g:tab>
-					<g:header> Magnet </g:header>
-					<g:ScrollPanel>
-						<my:MagnetTab height="100%" ui:field="magnet"/>
-					</g:ScrollPanel>	
-				</g:tab>
-					<g:tab>
-					<g:header> Magnet Problem Creation </g:header>
-						<my:ProblemCreationPanel ui:field="magnetPC"/>
-				</g:tab>
-				<g:tab>
-					<g:header> Programming </g:header>
-					<g:ScrollPanel>
-						<my:ProgrammingTab ui:field="programming"/>
-					</g:ScrollPanel>
-				</g:tab>
-				<g:tab>
-					<g:header> Students </g:header>
-					<g:ScrollPanel>
-						<my:StudentTab ui:field="students"/>
-					</g:ScrollPanel>
-				</g:tab>
-				<g:tab>
-					<g:header> Review </g:header>
-					<g:ScrollPanel>
-						<my:ReviewTab height="100%" ui:field="review"/>
-					</g:ScrollPanel>
-				</g:tab>
-			</g:TabLayoutPanel>
-	</g:HTMLPanel>
+	<g:LayoutPanel width="1280px" ui:field="layout" 
+		addStyleNames="{style.layout}">
+		<g:layer left="0px" right="1130px" top="0px" bottom="0px">
+			<g:VerticalPanel height="100%" ui:field="menu">
+				<g:Button ui:field="logic_m_btn" styleName="{style.item}">Logical Problem Management</g:Button>
+				<g:Button ui:field="logic_c_btn" styleName="{style.item}">Logical Problem Creation</g:Button>
+				<g:Button ui:field="magnet_m_btn" styleName="{style.item}">Magnet Problem Management</g:Button>
+				<g:Button ui:field="magnet_c_btn" styleName="{style.item}">Magnet Problem Creation</g:Button>
+				<g:Button ui:field="prog_btn" styleName="{style.item}">Programming Problem Management</g:Button>
+				<g:Button ui:field="student_btn" styleName="{style.item}">Student Management</g:Button>
+				<g:Button ui:field="review_btn" styleName="{style.item}">Review Problems</g:Button>
+				<g:Button ui:field="section_btn" styleName="{style.item}" visible="false">Section Management</g:Button>
+			</g:VerticalPanel>
+		</g:layer>
+		<g:layer left="150px" right="0px" top="0px" bottom="0px">
+		    <g:AbsolutePanel height="100%" width="100%" styleName="{style.content}" ui:field="content">
+			</g:AbsolutePanel>
+		</g:layer>
+	</g:LayoutPanel>
 </ui:UiBinder> 

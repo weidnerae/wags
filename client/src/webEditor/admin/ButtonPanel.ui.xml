@@ -8,10 +8,11 @@
 			font-size: x-large;
 			font-family: helvetica;	
 			text-align: center;
+			width: 100%;
 		}
 	</ui:style>
 	
-	<g:VerticalPanel>
+	<g:VerticalPanel horizontalAlignment="ALIGN_CENTER">
 		<g:Label ui:field="title" styleName="{style.title}"/>
 		<g:VerticalPanel ui:field="btnHolder"/>
 	</g:VerticalPanel>

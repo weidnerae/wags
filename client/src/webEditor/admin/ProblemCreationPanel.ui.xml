@@ -2,27 +2,8 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">   
 	<ui:style>
-		.creatorButton{
-			height: 50px;
-			width: 250px;
-		}
 		.roundedButton{
 			width: 98%;
-		}
-		.standardButton {
-			align-items: flex-start;
-			text-align: center;
-			cursor: default;
-			color: buttontext;
-			padding: 2px 6px 3px;
-			border: 2px outset buttonface;
-			border-image-source: initial;
-			border-image-slice: initial;
-			border-image-width: initial;
-			border-image-outset: initial;
-			border-image-repeat: initial;
-			background-color: buttonface;
-			box-sizing: border-box;
 		}
 		.narrowRoundedButton {
 			width: 150px;
@@ -105,7 +86,7 @@
 			position: absolute;
 		}
 	</ui:style>
-	<g:LayoutPanel>
+	<g:LayoutPanel height="100%" width="100%">
 	<g:layer left="0" right="45%">
 	    <g:ScrollPanel>
 		    <g:AbsolutePanel>
@@ -344,7 +325,7 @@
 						<g:CheckBox ui:field="overwrite" name="overwrite" formValue="1" visible="false"></g:CheckBox>
 						<g:HorizontalPanel>
 							<g:SubmitButton ui:field="createProblemSubmitButton">Create</g:SubmitButton>
-					        <g:Button styleName='{style.standardButton}' ui:field="testProblemButton">Test Problem</g:Button>
+					        <g:Button ui:field="testProblemButton">Test Problem</g:Button>
 						</g:HorizontalPanel>
 						<g:TextBox styleName='{style.hidden}' ui:field="lastProblemLoadedTxtBox" name="lastProblemLoaded"/>
 					</g:VerticalPanel>

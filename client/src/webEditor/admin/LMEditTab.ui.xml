@@ -3,11 +3,24 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:my="urn:import:webEditor.admin">
 	<ui:style>
-		
+		.button_panel {
+			width: 240px;
+		}
+		.display {
+			margin: 0 auto 0 auto;
+		}
 	</ui:style>
-	<g:HorizontalPanel>
-		<my:ButtonPanel ui:field="btnPanelSubjects"/>
-		<my:ButtonPanel ui:field="btnPanelGroups"/>
-		<g:VerticalPanel ui:field="vtDisplayHolder" width="100%"/>	
-	</g:HorizontalPanel>
+	<g:DockLayoutPanel unit="PX" width="100%" height="100%">
+	    <g:west size="480">
+	        <g:HorizontalPanel verticalAlignment="ALIGN_TOP" horizontalAlignment="ALIGN_CENTER">
+				<my:ButtonPanel styleName="{style.button_panel}" ui:field="btnPanelSubjects"/>
+				<my:ButtonPanel styleName="{style.button_panel}" ui:field="btnPanelGroups"/>
+			</g:HorizontalPanel>
+	    </g:west>
+		<g:center>
+		    <g:ScrollPanel>
+		        <g:VerticalPanel styleName="{style.display}" ui:field="vtDisplayHolder"/>
+		    </g:ScrollPanel>
+		</g:center>
+	</g:DockLayoutPanel>
 </ui:UiBinder> 

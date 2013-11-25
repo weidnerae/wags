@@ -31,14 +31,15 @@ public class ReviewPanel extends Composite {
 	}
 	
 	@UiField Button btnExTypes;
-	@UiField ManyButtonPanel btnPnlCurrent, btnPnlReview, btnPnlStudent;
+	@UiField ButtonPanel btnPnlCurrent, btnPnlReview, btnPnlStudent;
 	@UiField Grid grdGrades;
 	@UiField Label title;
+	@UiField Label info;
 	@UiField Button removeStudentButton;
 	
 	Reviewer parent;
 	boolean currentSet = true;  // keeps track of "Assign/Review" state
-    private Button selectedUser = new Button();
+   private Button selectedUser = new Button();
     
 	public ReviewPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -47,6 +48,9 @@ public class ReviewPanel extends Composite {
 		btnPnlReview.setVisible(false);
 		removeStudentButton.setVisible(false);
 		btnExTypes.addClickHandler(new switchClickHandler());
+		
+		//starts out currentSet = true
+		info.setText( "Currently Assigned Microlabs" );
 	}
 	
 	
@@ -207,10 +211,12 @@ public class ReviewPanel extends Composite {
 		public void onClick(ClickEvent event) {
 			currentSet = !currentSet;
 			if(currentSet){
+				info.setText( "Currently Assigned Microlabs" );
 				btnExTypes.setText("Switch to Review");
 				btnPnlReview.setVisible(false);
 				btnPnlCurrent.setVisible(true);
 			} else {
+				info.setText( "Previously Assigned Microlabs" );
 				btnExTypes.setText("Switch to Current");
 				btnPnlCurrent.setVisible(false);
 				btnPnlReview.setVisible(true);

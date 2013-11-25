@@ -11,15 +11,19 @@
 		}
 		.assignedTxt{
 			height: 250px;
-			width: 99%;
+			width: 100%;
 			white-space: nowrap;
 		}
+		.button {
+			width: 100%;
+			margin: 3px 0px 3px 0px;
+		}
 	</ui:style>
-	<g:HTMLPanel>
-		<g:VerticalPanel width="100%">
-			<g:Label styleName="{style.title}" ui:field="title"/>
-			<g:TextArea styleName="{style.assignedTxt}" ui:field="txtAreaAssigned" readOnly="true" width="100%"/>
-			<g:Button ui:field="btnAssign" width="100%">Assign</g:Button>
-		</g:VerticalPanel>
-	</g:HTMLPanel>
+	<g:VerticalPanel width="100%">
+		<g:Label styleName="{style.title}" ui:field="title"/>
+		<g:TextArea styleName="{style.assignedTxt}" ui:field="txtAreaAssigned" readOnly="true"/>
+		<g:Button ui:field="btnAssign" styleName="{style.button}" visible="false">Add to Assigned</g:Button>
+		<g:Button ui:field="btnClearAssign" styleName="{style.button}" visible="false">Clear Assigned</g:Button>
+		<g:Button ui:field="btnClearSel" styleName="{style.button}" visible="false">Clear Selected</g:Button>
+	</g:VerticalPanel>
 </ui:UiBinder> 

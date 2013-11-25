@@ -11,10 +11,9 @@
 		}
 	</ui:style>
 
-	<g:VerticalPanel>
+	<g:VerticalPanel horizontalAlignment="ALIGN_LEFT">
 		<g:Label ui:field="title" styleName="{style.title}"/>
 		<g:VerticalPanel ui:field="chkBoxHolder"/>
-		<g:Button ui:field="btnUnsetAll" width="100%"/>
 	</g:VerticalPanel>
 
 </ui:UiBinder> 
