@@ -32,8 +32,8 @@ public class ButtonPanel extends Composite {
 	@UiField Label title;
 	@UiField VerticalPanel btnHolder;
 	ArrayList<Button> myButtons = new ArrayList<Button>();
-	private int btnWidth = 175;
-	private int btnHeight = 45;
+	private int btnWidth = 200;
+	private int btnHeight = 50;
 	private int CELL_SPACING = 3;
 
 	public ButtonPanel() {
@@ -75,6 +75,9 @@ public class ButtonPanel extends Composite {
 		}
 	}
 	
+	/**
+	 * GETTERS AND SETTERS
+	 */
 	public int getButtonWidth(){
 		return btnWidth;
 	}
@@ -91,6 +94,9 @@ public class ButtonPanel extends Composite {
 		btnHeight = pixels;
 	}
 	
+	/**
+	 * Utility method for resetting buttons
+	 */
 	public void colorBlack(){
 		for(Button btn: myButtons){
 			btn.getElement().getStyle().setColor("black");

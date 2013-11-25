@@ -19,9 +19,6 @@
 			font-size: x-large;
 			font-family: helvetica;	
 		}
-		.administration{
-			background-color: #C2C2FF;	
-		}
 		.lbox{
 			width: 130px;
 			padding-left: 10px;	
@@ -35,7 +32,8 @@
 		}
 	</ui:style>
 	
-	<g:VerticalPanel styleName="{style.administration}" width="100%" height="100%">
+	<g:DockLayoutPanel unit="PX" width="100%" height="100%">
+	    <g:west size="560">
 		<g:FormPanel ui:field="formAddSection">
 			<g:VerticalPanel>
 				<g:Label styleName="{style.subheading}">Add Section</g:Label>
@@ -62,7 +60,8 @@
 				<g:SubmitButton ui:field="sbtCreateSection"> Create Section </g:SubmitButton>
 			</g:VerticalPanel>
 		</g:FormPanel>
-		
+		</g:west>
+		<g:center>
 		<g:FormPanel ui:field="formChangeSection">
 			<g:VerticalPanel>
 				<g:Label styleName="{style.subheading}">Change Section</g:Label>
@@ -77,6 +76,6 @@
 				<g:SubmitButton ui:field="sbtChangeSection"> Change Section </g:SubmitButton>
 			</g:VerticalPanel>
 		</g:FormPanel>
-		
-	</g:VerticalPanel>
+		</g:center>
+	</g:DockLayoutPanel>
 	</ui:UiBinder> 

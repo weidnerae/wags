@@ -167,14 +167,14 @@ public class Wags extends View
 	private void loadLogicalProblemCreation()
 	{
 		replaceCenterContent(adminPage);
-		adminPage.setSelectedTab(1);
+		adminPage.openLogicalPC();
 		History.newItem("?loc=logicalpc");
 	}
 
 	private void loadMagnetProblemCreation()
 	{
 		replaceCenterContent(adminPage);
-		adminPage.setSelectedTab(3);
+		adminPage.openMagnetPC();
 		History.newItem("?loc=magnetpc");
 	}
 

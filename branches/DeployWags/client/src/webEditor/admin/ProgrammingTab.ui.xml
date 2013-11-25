@@ -2,8 +2,11 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
-			.important {
+		.important {
 			font-weight: bold;
+		}
+		.form {
+			padding-top: 20px;
 		}
 		.label {
 			text-align: left;
@@ -35,12 +38,6 @@
 			font-family: sans-serif;
 			color: #444444;	
 		}
-		.subheading{
-			padding-bottom: 8px;
-			padding-top: 8px;
-			font-size: x-large;
-			font-family: helvetica;	
-		}
 		.button{
 			padding: 12px;
 		}
@@ -71,11 +68,9 @@
 		}
 	</ui:style>
 	<g:VerticalPanel>
-		<g:FormPanel ui:field="adminForm">
-			<g:VerticalPanel>
-					
-				<g:Label styleName="{style.subheading}"> Uploading </g:Label>
-				
+		<g:FormPanel styleName="{style.form}" ui:field="adminForm">
+			<g:CaptionPanel captionHTML="Uploading">
+				<g:VerticalPanel>
 				<g:HorizontalPanel styleName="{style.filePanel}">
 					<g:Label styleName="{style.label}"> Exercise Name: </g:Label>
 					<g:TextBox styleName="{style.tbox}" ui:field="fileName" name="fileName"> </g:TextBox>
@@ -108,24 +103,16 @@
 					<g:TextBox styleName="{style.tbox}" ui:field="closeDate" name="closeDate"> </g:TextBox>
 				</g:HorizontalPanel>
 				
-				<!-- <g:HorizontalPanel>
-					<g:CheckBox styleName="{style.chkbox}" ui:field="visible" name="visible">Make Visible</g:CheckBox>
-					<g:CheckBox styleName="{style.chkbox}" ui:field="multiUser" name="multiUser">Enable Partners</g:CheckBox>
-				</g:HorizontalPanel>  -->
-				
 				<g:HorizontalPanel styleName="{style.filePanel}">
 					<g:SubmitButton ui:field="addButton"> Add Exercise </g:SubmitButton>
-					<!-- <g:Label styleName="{style.lowlabel}">Click twice to add skeletons</g:Label>  -->
 				</g:HorizontalPanel>
-				
-			</g:VerticalPanel>
+				</g:VerticalPanel>
+			</g:CaptionPanel>
 		</g:FormPanel>
 		 
-		<g:FormPanel ui:field="helperForm">
-			<g:VerticalPanel>
-			
-				<g:Label styleName="{style.subheading}">Programming Microlab Actions</g:Label>
-				
+		<g:FormPanel styleName="{style.form}" ui:field="helperForm">
+			<g:CaptionPanel captionHTML="Programming Microlab Actions">
+				<g:VerticalPanel>
 				<g:ListBox ui:field="exercises" name="Exercises" styleName="{style.lbox}"></g:ListBox>
 					
 				<g:HorizontalPanel styleName="{style.filePanel}">
@@ -149,7 +136,8 @@
 				
 				<g:SubmitButton ui:field="sbtHelper"> Upload Class </g:SubmitButton>
 				
-			</g:VerticalPanel>
+				</g:VerticalPanel>
+			</g:CaptionPanel>
 		</g:FormPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 
