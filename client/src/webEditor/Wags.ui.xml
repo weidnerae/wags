@@ -6,10 +6,9 @@
 	<ui:style>
 	
 		.applicationBar {
-			border-bottom: 5px solid #E3E3E3; 
+			border-bottom: 5px solid rgb(50,92, 116); 
 			width: 100%;
-			text-align: right;
-		}
+			text-align: right; 
 
 		.anchor { 
 			cursor: pointer; 
