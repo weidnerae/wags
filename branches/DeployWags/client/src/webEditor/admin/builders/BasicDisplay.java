@@ -5,9 +5,11 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.TextArea;
@@ -131,6 +133,17 @@ public abstract class BasicDisplay extends Composite {
 	@UiHandler("btnCalculate")
 	void onCalculateClick(ClickEvent event){
 		this.calculate();
+	}
+	
+	@UiHandler("txtAddNode")
+	void onKeyPress(KeyUpEvent event) {
+		char[] arr = txtAddNode.getText().toCharArray();
+		for (char c : arr) {
+			if (!Character.isDigit(c) && c != '-') {
+				Window.alert("Sorry, you can only input numeric values (including a '-' to indicate negative values) for Node labels.");
+				txtAddNode.setText( "" );
+			}
+		}
 	}
 	
 	public abstract void construct();
