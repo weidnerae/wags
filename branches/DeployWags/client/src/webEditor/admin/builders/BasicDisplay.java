@@ -86,7 +86,23 @@ public abstract class BasicDisplay extends Composite {
 		btnAddNode.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				String val = txtAddNode.getText();
-				if(val.length() > 0){
+				//check if there is a negative sign in the input
+				//make sure that the only negative sign is at the beginning
+				boolean hasNeg = false;
+				boolean inputCorrect = true;
+				if (val.contains("-")) {
+					hasNeg = true;
+				}
+				if (hasNeg == true) {
+					char[] arr = val.toCharArray();
+					if (arr[0] != '-') {
+						inputCorrect = false;
+						Window.alert( "The '-' can only come at the start of your node label" );
+						txtAddNode.setText("");
+					}
+				}
+				//only add a node if the input is correct ('-' only comes at start)
+				if(val.length() > 0 && inputCorrect){
 					canvas.addNode(txtAddNode.getText());
 					txtAddNode.setText("");
 				}
