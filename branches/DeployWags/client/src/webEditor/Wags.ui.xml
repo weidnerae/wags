@@ -26,6 +26,7 @@
             display: inline;
             z-index: 102;
 			position: relative;
+			cursor:pointer;
 		}
 		
 		.std-txt { 
@@ -50,7 +51,7 @@
 	<g:DockLayoutPanel unit="EM" ui:field="dock">
 		<g:north size="2">
 			<g:HTMLPanel styleName="{style.applicationBar}">
-				<g:Label styleName="{style.title}">WAGS</g:Label>
+				<g:Label styleName="{style.title} ">WAGS</g:Label>
 				<g:Label styleName="{style.hello-logout}" ui:field="hello"></g:Label>
 				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="Editor">Editor</g:Anchor> 
 				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="Magnets">Magnets</g:Anchor> 
