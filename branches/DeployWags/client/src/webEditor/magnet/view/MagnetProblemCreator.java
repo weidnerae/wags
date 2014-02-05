@@ -18,9 +18,9 @@ public class MagnetProblemCreator {
 
 		return new RefrigeratorMagnet(
 				magnet,
-				getMainContainer(magnet.mainFunction),
-				buildFunctions(magnet.innerFunctions),
-				decodePremade(magnet.statements, magnet.createdIDs, magnet.numStatements), 
+				getMainContainer(magnet.mainFunction, magnet.problemType),
+				buildFunctions(magnet.innerFunctions, magnet.problemType),
+				decodePremade(magnet.statements, magnet.createdIDs, magnet.numStatements, magnet.problemType), 
 				new String[][] { magnet.forLeft, magnet.forMid, magnet.forRight }
 		);
 	}
@@ -34,7 +34,7 @@ public class MagnetProblemCreator {
 	 * @return An array of StackableContainers. Will return null 
 	 * if segments is null.
 	 */
-	private StackableContainer[] decodePremade(String[] segments, String[] createdIDs, int numStatements) {
+	private StackableContainer[] decodePremade(String[] segments, String[] createdIDs, int numStatements, ProblemType problemType) {
 		if (segments == null) {
 			return null;
 		}
@@ -42,7 +42,7 @@ public class MagnetProblemCreator {
 		StackableContainer[] preMadeList = new StackableContainer[segments.length]; //should never need this many
 		
 		for (int i = 0; i < segments.length; i++) {
-			StackableContainer sc = new StackableContainer(segments[i], Consts.STATEMENT);
+			StackableContainer sc = new StackableContainer(segments[i], Consts.STATEMENT, problemType);
 			if (idAssignor > numStatements) {
 				sc.setID(Integer.parseInt(createdIDs[idAssignor - numStatements - 1]));
 				sc.setCreated(true);
@@ -64,8 +64,8 @@ public class MagnetProblemCreator {
 	 * 
 	 * @return The main StackableContainer
 	 */
-	private StackableContainer getMainContainer(String str) {
-		StackableContainer sc = new StackableContainer(str, Consts.MAIN);
+	private StackableContainer getMainContainer(String str, ProblemType problemType) {
+		StackableContainer sc = new StackableContainer(str, Consts.MAIN, problemType);
 		sc.setID(getID());
 		return sc;
 	}
@@ -78,14 +78,14 @@ public class MagnetProblemCreator {
 	 * @return An array of StackableContainers. Will return null if 
 	 * insideFunctions is null.
 	 */
-	private StackableContainer[] buildFunctions(String[] insideFunctions) {
+	private StackableContainer[] buildFunctions(String[] insideFunctions, ProblemType problemType) {
 		if (insideFunctions == null) {
 			return null;
 		}
 		
 		StackableContainer[] insideFunctionsList = new StackableContainer[insideFunctions.length]; //should never need this many
 		for (int i = 0; i < insideFunctions.length; i++) {
-			StackableContainer sc = new StackableContainer(insideFunctions[i], Consts.INNER);
+			StackableContainer sc = new StackableContainer(insideFunctions[i], Consts.INNER, problemType);
 			sc.setID(getID());
 			insideFunctionsList[i] = sc;
 		}

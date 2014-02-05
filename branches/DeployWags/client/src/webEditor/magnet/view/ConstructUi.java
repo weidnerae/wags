@@ -43,6 +43,7 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 	@UiField AbsolutePanel trashbin;  
 	@UiField DockLayoutPanel layout;  //panel that holds entire left hand side of UI
 	private int lastOffsetWidth;
+	private MagnetProblem magnet;
 
 	private static ConstructUiUiBinder uiBinder = GWT.create(ConstructUiUiBinder.class);
 
@@ -68,7 +69,7 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 				+ "<br/>"
 			)	
 		);
-		
+		this.magnet = magnet;
 		this.nextID = numMagnets + 1;
 		this.problemType = magnet.type;
 		this.premade = premadeSegments;
@@ -90,7 +91,7 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 			//add it to center 
 			mmContent = new AbsolutePanel();
 			magnetMaker = new MagnetMaker(forLists, magnet.ifOptions, magnet.whileOptions, magnet.returnOptions,
-					magnet.assignmentVars, magnet.assignmentVals, limits, this, nextID);
+					magnet.assignmentVars, magnet.assignmentVals, limits, this, nextID, magnet.problemType);
 			mmContent.add(magnetMaker);
 			mmContent.setStyleName("magnet_maker");
 				
@@ -206,7 +207,12 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 		if (problemType.equals(Consts.ADVANCED_PROBLEM)) {
 			magnetMaker.resetLimits();
 		}
-			
+		
+		if(magnet.problemType == ProblemType.PROLOG){
+			for(StackableContainer segment: segments){
+				segment.removeComma();
+			}
+		}
 		for (StackableContainer segment : segments) {
 			addSegment(segment);
 		}

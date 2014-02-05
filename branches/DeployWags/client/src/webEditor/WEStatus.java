@@ -204,7 +204,8 @@ public class WEStatus {
 			// Get arrays
 			String[] innerFunctions, forLeft, forMid, forRight, ifOptions, whileOptions, returnOptions, assignmentVars, assignmentVals, statements, allStatements, oldStatements, newStatements, createdIDs;
 			int numStatements;
-			innerFunctions = parseArray(messageMap.get("innerFunctions"));
+			String InFun = messageMap.get("innerFunctions");
+			innerFunctions = parseArray(messageMap.get("innerFunctions").replaceAll("\\\\r\\\\n", "<br/>"));
 			forLeft = parseArray(messageMap.get("forLeft"));
 			forMid = parseArray(messageMap.get("forMid"));
 			forRight = parseArray(messageMap.get("forRight"));
@@ -213,7 +214,7 @@ public class WEStatus {
 			returnOptions = parseArray(messageMap.get("returnOptions"));
 			assignmentVars = parseArray(messageMap.get("assignmentVars"));
 			assignmentVals = parseArray(messageMap.get("assignmentVals"));
-			allStatements = messageMap.get("statements").split(".:3:.");
+			allStatements = messageMap.get("statements").replaceAll("\\\\\\\\", "\\\\").replaceAll("\\\\r\\\\n", "<br/>").split(".:3:.");
 			oldStatements = parseArray(allStatements[0]);
 			numStatements = oldStatements.length+(innerFunctions.length);
 			
@@ -227,6 +228,7 @@ public class WEStatus {
 				statements = oldStatements;
 				newStatements = new String[0];
 			}
+			//
 			
 			// Quick fix for limits
 			String limits = messageMap.get("limits");

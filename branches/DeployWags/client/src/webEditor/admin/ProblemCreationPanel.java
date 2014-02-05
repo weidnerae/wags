@@ -6,6 +6,7 @@ import webEditor.Proxy;
 import webEditor.WEStatus;
 import webEditor.magnet.view.Consts;
 import webEditor.magnet.view.MagnetProblemCreator;
+import webEditor.magnet.view.MagnetType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -55,23 +56,31 @@ public class ProblemCreationPanel extends Composite{
 	
 	final String ADVANCED_PROBLEM = "advanced_problem";
 	final String BASIC_PROBLEM = "basic_problem";
+	final String PROLOG_BASIC_PROBLEM = "prolog_basic_problem";
 	
 	@UiField FormPanel problemCreateFormPanel, fileParseFormPanel, downloadMagnetFilesForm;
 	@UiField TextBox titleTxtBox, topLabelTxtBox, topRealCodeTxtBox, 
-		commentsTxtBox, bottomLabelTxtBox, bottomRealCodeTxtBox, forAllowed, whileAllowed, ifAllowed, elseAllowed, elseIfAllowed, returnAllowed, assignmentAllowed, lastProblemLoadedTxtBox, lastProblemLoadedDownloadTxtBox;
+		commentsTxtBox, bottomLabelTxtBox, bottomRealCodeTxtBox, forAllowed, whileAllowed, ifAllowed, 
+		elseAllowed, elseIfAllowed, returnAllowed, assignmentAllowed, lastProblemLoadedTxtBox, 
+		lastProblemLoadedDownloadTxtBox, prologLabelTxtBox, prologRealTxtBox;
 	@UiField TextArea finalTitleTxtBox, descriptionTxtArea, finalDescriptionTxtArea, finalTypeTxtArea,
 		classDeclarationTxtArea, innerFunctionsTxtArea, statementsTxtArea, commentsStagingArea,
-		hiddenFunctionsArea, forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, whilesTextArea, ifsTextArea, returnsTextArea, assignmentsVarTextArea, assignmentsValTextArea;
-	@UiField VerticalPanel magnetMakerOptions, magnetReviewPanel, numberAllowedReviewPanel;
+		hiddenFunctionsArea, forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, whilesTextArea, ifsTextArea,
+		returnsTextArea, assignmentsVarTextArea, assignmentsValTextArea;
+	@UiField VerticalPanel magnetMakerOptions, magnetReviewPanel, numberAllowedReviewPanel, javaMagnetMaker, 
+	prologMagnetMaker;
 	@UiField SubmitButton createProblemSubmitButton, fileParseSbt, downloadMagnetFilesButton;
 	@UiField Button createCommentsButton, classDeclarationButton, innerFunctionsButton,
 		statementsButton, clearDataButton, createHidFunctionButton, btnLoadExercise,
-		btnDeleteExercise, btnMoreHelpers, testProblemButton;
-	@UiField RadioButton btnBasicProblem, btnAdvancedProblem;
+		btnDeleteExercise, btnMoreHelpers, testProblemButton, prologFactBtn, prologRuleBtn, prologTermBtn,
+		prologProcedureBtn;
+	@UiField RadioButton btnBasicProblem, btnAdvancedProblem, btnPrologBasicProblem;
 	@UiField FileUpload solutionUpload, helperUpload;
 	@UiField Label uploadStamp, helperStamp;
 	@UiField ListBox lstGroup, lstLoadGroup, lstLoadExercise;
-	@UiField Label lblGroup, forLoop1Label, forLoop2Label, forLoop3Label, whileLabel, ifLabel, returnLabel, assignmentVarLabel, assignmentValLabel;
+	@UiField Label lblGroup, forLoop1Label, forLoop2Label, forLoop3Label, whileLabel, ifLabel, returnLabel, 
+	assignmentVarLabel, assignmentValLabel, testClassLabel, helperClassLabel, classDeclarationTxtAreaLabel,
+	innerFunctionsTxtAreaLabel, statementsTxtAreaLabel, hiddenFunctionsLabel;
 	@UiField VerticalPanel vtPanelHelper;
 	@UiField CheckBox overwrite;
 	
@@ -191,7 +200,7 @@ public class ProblemCreationPanel extends Composite{
 						innerFunctionsTxtArea, statementsTxtArea, lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()),
 						finalTypeTxtArea,forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, ifsTextArea, whilesTextArea, returnsTextArea,
 						assignmentsVarTextArea, assignmentsValTextArea, ifAllowed, elseAllowed, elseIfAllowed, forAllowed, whileAllowed, 
-						returnAllowed, assignmentAllowed, btnBasicProblem, btnAdvancedProblem);
+						returnAllowed, assignmentAllowed, btnBasicProblem, btnAdvancedProblem, btnPrologBasicProblem);
 			    Proxy.getFileTime(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()), uploadStamp, helperStamp);
 				// dear god help me please
 				Timer t = new Timer() {
@@ -200,16 +209,23 @@ public class ProblemCreationPanel extends Composite{
 						if (btnBasicProblem.getValue() == true) {
 							btnBasicProblem.setValue(true);
 							clearMagnetMakerOptions();
+							setupJavaOptions();
 							finalTypeTxtArea.setText( BASIC_PROBLEM );
 						} else if (btnAdvancedProblem.getValue() == true) {
 							btnAdvancedProblem.setValue(true);
 							setupMagnetMakerOptions();
+							setupJavaOptions();
 							finalTypeTxtArea.setText( ADVANCED_PROBLEM );
+						}else if (btnPrologBasicProblem.getValue() == true){
+							btnPrologBasicProblem.setValue(true);
+							clearMagnetMakerOptions();
+							setupPrologOptions();
+							finalTypeTxtArea.setText( PROLOG_BASIC_PROBLEM );
 						}
 						Proxy.getFileTime(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()), uploadStamp, helperStamp);
 			      }
 			    };
-			    t.schedule(100);
+			    t.schedule(160);
 			}
 		});
 		
@@ -452,6 +468,9 @@ public class ProblemCreationPanel extends Composite{
 		forLoop3TextArea.setVisible(false);
 		whilesTextArea.setVisible(false);
 		ifsTextArea.setVisible(false);
+		returnsTextArea.setVisible(false);
+		assignmentsValTextArea.setVisible(false);
+		assignmentsVarTextArea.setVisible(false);
 		forLoop1Label.setVisible(false);
 		forLoop2Label.setVisible(false);
 		forLoop3Label.setVisible(false);
@@ -523,6 +542,34 @@ public class ProblemCreationPanel extends Composite{
 		assignmentValLabel.setVisible(true);
 		assignmentsVarTextArea.setVisible(true);
 		assignmentsValTextArea.setVisible(true);
+	}
+	
+	private void setupPrologOptions(){
+		helperClassLabel.setText("Prolog Solution File: ");
+		testClassLabel.setText("Java Test File: ");
+		prologMagnetMaker.setVisible(true);
+		javaMagnetMaker.setVisible(false);
+		fileParseFormPanel.setVisible(false);
+		statementsTxtAreaLabel.setText("Facts/Rules/Terms:");
+		innerFunctionsTxtAreaLabel.setText("Starting Comment and Testing Code:");
+		hiddenFunctionsLabel.setText("Testing Code (must include a main\\0 procedure):");	
+		classDeclarationTxtArea.setVisible(false);
+		classDeclarationTxtAreaLabel.setVisible(false);
+		createHidFunctionButton.setText("Add Testing Code");
+	}
+	
+	private void setupJavaOptions(){
+		javaMagnetMaker.setVisible(true);
+		prologMagnetMaker.setVisible(false);
+		classDeclarationTxtArea.setVisible(true);
+		classDeclarationTxtAreaLabel.setVisible(true);
+		helperClassLabel.setText("Helper Class: ");
+		testClassLabel.setText("Testing Class: ");
+		fileParseFormPanel.setVisible(true);
+		statementsTxtAreaLabel.setText("Statements:");
+		innerFunctionsTxtAreaLabel.setText("Functions: ");
+		hiddenFunctionsLabel.setText("Hidden Code:");
+		createHidFunctionButton.setText("Add Hidden Code");
 	}
 	
 	/** 
@@ -643,6 +690,7 @@ public class ProblemCreationPanel extends Composite{
 	void onBasicProblemClick(ValueChangeEvent<Boolean> event)
 	{
 		clearMagnetMakerOptions();
+		setupJavaOptions();
 		finalTypeTxtArea.setText(BASIC_PROBLEM);
 	}
 	
@@ -656,8 +704,17 @@ public class ProblemCreationPanel extends Composite{
 	void onAdvancedProblemClick(ValueChangeEvent<Boolean> event)
 	{
 		setupMagnetMakerOptions();
+		setupJavaOptions();
 		finalTypeTxtArea.setText(ADVANCED_PROBLEM);
 		
+	}
+	
+	@UiHandler("btnPrologBasicProblem")
+	void onPrologBasicProblemClick(ValueChangeEvent<Boolean> event)
+	{
+		clearMagnetMakerOptions();
+		setupPrologOptions();
+		finalTypeTxtArea.setText(PROLOG_BASIC_PROBLEM);
 	}
 	
 	/**
@@ -676,15 +733,21 @@ public class ProblemCreationPanel extends Composite{
 	void onCreateHidFunctionClick(ClickEvent event)
 	{
 		if(innerFunctionsTxtArea.getText() == ""){
-			Notification.notify(WEStatus.STATUS_WARNING, "Hidden Functions must come after a visible function");
+			String warning;
+			if(btnPrologBasicProblem.getValue()){
+				warning = "Test Code can only be added after a starting comment has been added";
+			}else{
+				warning = "Hidden Functions must come after a visible function";
+			}
+			Notification.notify(WEStatus.STATUS_WARNING, warning);
 			return;
 		}
 		
 		// Convert hidden code to a better format for magnet problems
 		String hiddenCode = hiddenFunctionsArea.getText();
-		hiddenCode = hiddenCode.replaceAll("(\r\n|\n)", "<br>");
+		//hiddenCode = hiddenCode.replaceAll("(\r\n|\n)", "<br/>");
 		hiddenCode = encodeString(hiddenCode);
-		hiddenCode = Consts.HIDE_START+"<br>"+hiddenCode+Consts.HIDE_END;
+		hiddenCode = Consts.HIDE_START+"<br/>"+hiddenCode+Consts.HIDE_END;
 		
 		// Remove the previous magnet delimiter
 		String currentCode = innerFunctionsTxtArea.getText();
@@ -707,34 +770,62 @@ public class ProblemCreationPanel extends Composite{
 	@UiHandler("classDeclarationButton")
 	void onClassDeclClick(ClickEvent event)
 	{
-		String newText = buildString();
+		String newText = buildJavaString();
 		// The main class should only have one magnet, and no delimiter
 		String realText = newText.substring(0, newText.length()-Consts.MAGNET_DELIMITER.length());
 		classDeclarationTxtArea.setText(realText);
-		clearLabels();
+		clearJavaLabels();
     }
 	
 	@UiHandler("innerFunctionsButton")
 	void onInnerFunctionslClick(ClickEvent event)
 	{
-		String newMagnetString = buildString();
+		String newMagnetString = buildJavaString();
 		innerFunctionsTxtArea.setText(innerFunctionsTxtArea.getText()+newMagnetString);
-		clearLabels();
+		clearJavaLabels();
 	}
 	
 	@UiHandler("statementsButton")
 	void onStatementsClick(ClickEvent event)
 	{
-		String newMagnetString = buildString();
+		String newMagnetString = buildJavaString();
 		statementsTxtArea.setText(statementsTxtArea.getText()+newMagnetString);
-		clearLabels();
+		clearJavaLabels();
 	}	
 	
 	@UiHandler("clearDataButton")
 	void onClearDataClick(ClickEvent event)
 	{
-		clearLabels();
-    }
+		clearJavaLabels();
+	}
+	
+	@UiHandler("prologProcedureBtn")
+	void onProcedureClick(ClickEvent event){
+		String newMagnetString = buildPrologString(MagnetType.MAIN);
+		innerFunctionsTxtArea.setText(innerFunctionsTxtArea.getText()+newMagnetString);
+		clearPrologLabels();
+	}
+
+	@UiHandler("prologFactBtn")
+	void onFactClick(ClickEvent event){
+		String newMagnetString = buildPrologString(MagnetType.FACT);
+		statementsTxtArea.setText(statementsTxtArea.getText()+newMagnetString);
+		clearPrologLabels();
+	}
+
+	@UiHandler("prologRuleBtn")
+	void onRuleClick(ClickEvent event){
+		String newMagnetString = buildPrologString(MagnetType.RULE);
+		statementsTxtArea.setText(statementsTxtArea.getText()+newMagnetString);
+		clearPrologLabels();
+	}
+	
+	@UiHandler("prologTermBtn")
+	void onTermClick(ClickEvent event){
+		String newMagnetString = buildPrologString(MagnetType.TERM);
+		statementsTxtArea.setText(statementsTxtArea.getText()+newMagnetString);
+		clearPrologLabels();
+	}
 	
 	/**
 	 * Builds a string from the user entered code and psuedocode from the automatic statement/function/class
@@ -742,7 +833,7 @@ public class ProblemCreationPanel extends Composite{
 	 * 
 	 * @return a String built from the user entered label and real code text.
 	 */
-	private String buildString(){
+	private String buildJavaString(){
 		boolean withPanel = false;
 		
 		String topLabel = "";
@@ -792,6 +883,31 @@ public class ProblemCreationPanel extends Composite{
 		}
 	
 	}
+	
+	private String buildPrologString(MagnetType type) {
+		String label = "";
+		if(prologLabelTxtBox.getText()!=""){
+			label = prologLabelTxtBox.getText();
+			label = encodeString(label);
+		}
+		
+		String realCode = "";
+		if(prologRealTxtBox.getText()!=""){
+			realCode = prologRealTxtBox.getText();	
+			realCode = encodeString(realCode);
+			realCode = Consts.CODE_START + realCode + Consts.CODE_END;
+		}	
+		
+		switch(type){
+			case FACT: return label+"."+realCode+Consts.MAGNET_DELIMITER;
+			case RULE: return label+realCode+" :- <br/><!-- panel --><br/>."+Consts.MAGNET_DELIMITER;
+			case TERM: return label+realCode+Consts.MAGNET_DELIMITER;
+			case MAIN: return "% "+label+realCode+"<br/><!-- panel --><br/>"+Consts.MAGNET_DELIMITER;
+			default: return label+realCode+Consts.MAGNET_DELIMITER;
+		}
+		
+	}
+
 	
 	@UiHandler("testProblemButton")
 	void onTestProblemClick(ClickEvent event){
@@ -854,13 +970,18 @@ public class ProblemCreationPanel extends Composite{
 	/**
 	 * Clears the contents of all of the label boxes
 	 */
-	public void clearLabels(){
+	public void clearJavaLabels(){
 		topLabelTxtBox.setText("");
 		topRealCodeTxtBox.setText("");
 		bottomLabelTxtBox.setText("");
 		bottomRealCodeTxtBox.setText("");
 		commentsStagingArea.setText("");
 		commentsTxtBox.setText("");
+	}
+	
+	public void clearPrologLabels(){
+		prologRealTxtBox.setText("");
+		prologLabelTxtBox.setText("");
 	}
 	
 	public void update(){

@@ -7,7 +7,10 @@ public enum MagnetType {
 	DECLARATION ("declaration"),
 	ASSORTED ("assorted"),
 	FUNCTION ("function"),
-	MAIN ("main");
+	MAIN ("main"),
+	FACT ("fact"),
+	RULE ("rule"),
+	TERM ("term");
 	
 	private String key;
 
