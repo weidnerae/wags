@@ -10,6 +10,15 @@ class MagnetReview extends Command
         $magnetProblem = MagnetProblem::getMagnetProblemByTitle($title);
         $user = Auth::getCurrentUser();
 
+        $type = $magnetProblem->getProblemType();
+
+        if(strpos($type, "prolog") !== FALSE){
+            $lang = "pl";
+        }else {
+            $lang = "java";
+        }
+
+
         // Grab the necessary simple files
         $simpleFiles = SimpleFile::getFilesForMP($magnetProblem->getId());
   
@@ -27,8 +36,11 @@ class MagnetReview extends Command
         $givenFiles = "";
         foreach($simpleFiles as $simpleFile){
             $fileName = $simpleFile->getClassName();
-            $filePath = "$dir/$fileName.java";
-
+            if(strpos($fileName,".pl") === false){
+                $filePath = "$dir/$fileName.java";
+            } else {
+                $filePath = "$dir/$fileName";
+            }
             $file = fopen($filePath, "w+");
             $fileResult = fwrite($file, $simpleFile->getContents());
             fflush($file);
@@ -42,23 +54,52 @@ class MagnetReview extends Command
         }
 
         // Create the file with student code
-        $studentPath = "$dir/Student.java";
-        $file = fopen($studentPath, "w+"); // Will change to default
+        $studentPath = "$dir/Student.".$lang;
+       
+        $file = fopen($studentPath, "w+b"); // Will change to default
+        $code = str_replace('\r\n', PHP_EOL, $code);
         fwrite($file, $code);
         fflush($file);
         fclose($file);
-
-        // Compile the code
-        exec("/usr/bin/javac $givenFiles $studentPath 2>&1", $output, $result);
-
+        
         // Find the test class (the driver/main class)
         $driver = SimpleFile::getTestFileForMP($magnetProblem->getId());
         $driverName = $driver->getClassName();
 
+        // Compile the code
+        if($lang == "java"){
+            exec("/usr/bin/javac $givenFiles $studentPath 2>&1", $output, $result);
+        } else if($lang == "pl"){
+            // Assuming the only java file is the driver
+            exec("/usr/bin/javac $dir/$driverName.java 2>&1", $output, $result);
+        }
+
         // Check compilation -- Success 
         if($result == EXEC_SUCCESS){
             $nonce = $this->genRandomString();            
-            exec("/usr/bin/php class/command/RunCodeNew.php $dir $driverName blank blank Java $nonce 2>&1", $stdout); 
+            if($lang == "java"){
+                exec("/usr/bin/php class/command/RunCodeNew.php $dir $driverName blank blank Java $nonce 2>&1", $stdout); 
+            }else if($lang == "pl"){
+                $givenFilesArr = explode(" ",$givenFiles);
+                foreach($givenFilesArr as $filePath){
+                    if(strpos($filePath, ".pl") !== false){
+                        $solutionPath = $filePath;
+                    }
+                }
+                $file = '/tmp/check.txt';
+                $file = fopen($file, "w");
+                fputs($file, "RunCodeNew gets: $solutionPath $driverName $studentPath");
+                fclose($file);
+                
+                // RunCodeNew adds the directory and file extension for prolog
+                // so we have to pull out the filename
+                $studentPath = pathinfo($studentPath)['filename'];
+                $solutionPath = pathinfo($solutionPath)['filename'];
+
+                exec("/usr/bin/php class/command/RunCodeNew.php $dir $driverName $solutionPath $studentPath Prolog $nonce 2>&1",$stdout);
+            }else{
+                JSON::warn("Error determining Language");
+            }
 
             $stdout = str_replace("\t", "<tab/>", $stdout);
             $noncePos = strpos($stdout[0], $nonce."");
