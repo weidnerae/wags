@@ -69,8 +69,14 @@ class DownloadMagnetFiles extends Command{
             ob_start();
             $name = $file->getClassName();
             $contents = $file->getContents();
-
-            $name = $dir.'/'.$name.".java";
+            
+            // As of right now if it doesn't have an extension then it's Java
+            // if it does have an extension then it's Prolog.
+            if(pathinfo($name, PATHINFO_EXTENSION) === "pl"){
+                $name = $dir.'/'.$name;
+            }else{
+                $name = $dir.'/'.$name.".java";
+            }
             
             $file = fopen($name, "w");
             fwrite($file, $contents);
