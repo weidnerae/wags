@@ -72,7 +72,9 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 	public void setExercises(String[] exercises){
 		String exerciseList = "";
 		for(int i = 0; i < exercises.length; i++){
-			exerciseList += exercises[i] + ",";
+			if(exercises.length>1 && !exercises[i].equals("none")){
+				exerciseList += exercises[i] + ",";
+			}
 		}
 		
 		if(exerciseList.length() > 0)  // a comma was added
