@@ -124,6 +124,7 @@ public class Wags extends View
 		loadEditor();
 	}
 	
+	
 	@UiHandler("DST")
 	void onDSTClick(ClickEvent event) {
 		loadDST();
@@ -236,18 +237,17 @@ public class Wags extends View
 				dock.remove(i);
 			}
 		}
-		
 		dock.add(w);
 	}
 	
 	public void replaceCenterContent(Widget w){
 		for(int i=0;i<dock.getWidgetCount();i++){
 			if(dock.getWidgetDirection(dock.getWidget(i))==DockLayoutPanel.Direction.CENTER){
-					dock.remove(i);
+				dock.remove(i);
 			}
 		}
-		
 		dock.add(w);
+		
 	}
 	
 	@Override
