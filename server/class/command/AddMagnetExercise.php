@@ -100,15 +100,15 @@ class AddMagnetExercise extends Command
         if (!$overwrite) $newMP->setGroup(1); // A temporary value, replaced in AddMagnetLinkage.php
         $newMP->setAdded(time());
         $newMP->setUpdated(time());
-        /**
+        
         $file = '/tmp/check.txt';
         $file = fopen($file, "w");
 
         $objArray = $newMP->toArray();
         $thisLine = print_r($objArray, true);
-        fputs($file, $thisLine);
+        fputs($file, $thisLine." $mpGroup");
 
-        fclose($file);*/
+        fclose($file);
 
         // Attempt to save the new problem
         try {
@@ -181,13 +181,17 @@ class AddMagnetExercise extends Command
         $fileContents = file_get_contents($file['tmp_name']);
 
         $newSF = new SimpleFile();
-        $newSF->setClassName($fileName);
+        if($fileExtentsion === "pl"){
+            $newSF->setClassName("$fileName.$fileExtension");
+        }else{
+            $newSF->setClassName($fileName);
+        }
         $newSF->setPackage("");
         $newSF->setContents($fileContents);
         $newSF->setMagnetProblemId(0); // 'holding' for linkage
         $newSF->setTest($testValue);
-        $newSF->setAdded(time());
-        $newSF->setUpdated(time());
+        $newSF->setAdded();
+        $newSF->setUpdated();
 
         try {
             $newSF->save();
