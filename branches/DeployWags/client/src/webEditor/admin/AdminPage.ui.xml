@@ -37,6 +37,7 @@
 		
 		.layout {
 			margin: 10px auto 10px auto;
+			width:1280px;
 		}
 		
 		.content {
@@ -44,7 +45,7 @@
 		}
 	</ui:style>
 	<g:LayoutPanel width="1280px" ui:field="layout" 
-		addStyleNames="{style.layout}">
+		addStyleNames ="{style.layout}">
 		<g:layer left="0px" right="1130px" top="0px" bottom="0px">
 			<g:VerticalPanel height="100%" ui:field="menu">
 				<g:Button ui:field="logic_m_btn" styleName="{style.item}">Logical Problem Management</g:Button>
