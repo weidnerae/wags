@@ -531,6 +531,18 @@ textarea {
 .assorted_over{
 	background: #a6a6a6;
 }
+.rule{
+	background: #FFFF66;
+}
+.rule_over{
+	background: #a6a6a6;
+}
+.fact{
+	background: #66FF33;
+}
+.term{
+	background: #33CCCC;
+}
 .trash_label{
         margin: 5px;
 }

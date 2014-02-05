@@ -1,8 +1,10 @@
 package webEditor.magnet.view;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Widget;
 import com.allen_sauer.gwt.dnd.client.DragContext;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
 
@@ -23,9 +25,10 @@ public class StackableContainer extends FocusPanel {
 	private HTML topLabel;
 	private HTML bottomLabel;
 	private String hiddenCode;
-	private String topJavaCode;
-	private String bottomJavaCode;
+	private String topCode;
+	private String bottomCode;
 	private MagnetType magnetType;
+	private ProblemType problemType; // Java/Prolog etc.
 	
 	private DropController dropController = new PanelDropController(this);
 
@@ -33,6 +36,7 @@ public class StackableContainer extends FocusPanel {
 	private boolean isMain = false;
 	private boolean hasCode = false;
 	private boolean isCreated = false;
+	private boolean prependedComma = false;
 	private int containerID;
 	
 	String content = "";
@@ -47,25 +51,29 @@ public class StackableContainer extends FocusPanel {
 	 * @param specialCondition
 	 *            usually main
 	 */
-	public StackableContainer(String content, int specialCondition) { // For mains, non draggable
+	public StackableContainer(String content, int specialCondition, ProblemType problemType) { // For mains, non draggable
+		this.problemType = problemType;
+		if(problemType == ProblemType.PROLOG && specialCondition != Consts.MAIN){
+			insidePanel = new PrologMagnetInsidePanel();
+		}
 		this.content = " " + content;
 		
 		// pulling out the java code
 		if(this.content.contains(Consts.CODE_START)){
 			hasCode = true;
-			String javaCode = this.content.substring(this.content.indexOf(Consts.CODE_START)+Consts.CODE_START.length(),this.content.indexOf(Consts.CODE_END));
+			String code = this.content.substring(this.content.indexOf(Consts.CODE_START)+Consts.CODE_START.length(),this.content.indexOf(Consts.CODE_END));
 			
 			// If this magnet nests
 			if(this.content.indexOf(Consts.CODE_SPLIT) != -1){
-				topJavaCode = javaCode.substring(0,javaCode.indexOf(Consts.CODE_SPLIT));
-				bottomJavaCode = javaCode.substring(javaCode.indexOf(Consts.CODE_SPLIT)+Consts.CODE_SPLIT.length());
+				topCode = code.substring(0,code.indexOf(Consts.CODE_SPLIT));
+				bottomCode = code.substring(code.indexOf(Consts.CODE_SPLIT)+Consts.CODE_SPLIT.length());
 			
 				String contentBeforeCode = this.content.substring(0,this.content.indexOf(Consts.CODE_START));
 				String contentAfterCode = this.content.substring(this.content.indexOf(Consts.CODE_END)+Consts.CODE_END.length());
 				this.content = contentBeforeCode+contentAfterCode;
 			// If not
 			} else {
-				topJavaCode = javaCode;
+				topCode = code;
 				this.content = this.content.substring(0, this.content.indexOf(Consts.CODE_START));
 			}
 			
@@ -113,7 +121,11 @@ public class StackableContainer extends FocusPanel {
 				break;
 			case Consts.COMMENT:
 				stackable = false;
-				this.content = "//" + this.content;
+				if(problemType == ProblemType.JAVA){
+					this.content = "//" + this.content;
+				}else if(problemType == ProblemType.PROLOG){
+					this.content = "%" + this.content;
+				}
 				this.getStyleElement().getStyle().setProperty("border","none");
 				break;
 			default:
@@ -145,7 +157,7 @@ public class StackableContainer extends FocusPanel {
 		// NOTE:  Comments can only be added to stackable containers
 		if(containsComment){
 			for(int i=1; i<splitContent.length;i++){
-				addInsideContainer(new StackableContainer(splitContent[i], Consts.COMMENT));
+				addInsideContainer(new StackableContainer(splitContent[i], Consts.COMMENT, this.problemType));
 			}
 		}
 		
@@ -154,23 +166,37 @@ public class StackableContainer extends FocusPanel {
 
 		String[] dataTypes = {"int","double","String","boolean", "float", "ArrayList", "byte", "char"};
 		String[] accessModifiers = {"public","private","protected"};
-		String low = topJavaCode != null ? topJavaCode : topLabel.getText();
+		String low = topCode != null ? topCode : topLabel.getText();
 		low = low.toLowerCase();
 		
-		if(isMain){
-			magnetType = MagnetType.MAIN;
-		}else if(low.matches("[ ]??(for|while).*")){
-			magnetType = MagnetType.LOOP;
-		}else if(low.matches("[ ]??(if|else).*")){
-			magnetType = MagnetType.CONDITIONAL;
-		}else if(low.matches("[ ]??return.*")){
-			magnetType = MagnetType.RETURN;
-		}else if(low.matches("[ ]??("+implode("|",dataTypes)+").*")){
-			magnetType = MagnetType.DECLARATION;
-		}else if(low.matches("[ ]??("+implode("|",accessModifiers)+").*")){
-			magnetType = MagnetType.FUNCTION;
-		}else{
-			magnetType = MagnetType.ASSORTED;
+		switch(problemType){
+			case JAVA:
+				if(isMain){
+					magnetType = MagnetType.MAIN;
+				}else if(low.matches("[ ]??(for|while).*")){
+					magnetType = MagnetType.LOOP;
+				}else if(low.matches("[ ]??(if|else).*")){
+					magnetType = MagnetType.CONDITIONAL;
+				}else if(low.matches("[ ]??return.*")){
+					magnetType = MagnetType.RETURN;
+				}else if(low.matches("[ ]??("+implode("|",dataTypes)+").*")){
+					magnetType = MagnetType.DECLARATION;
+				}else if(low.matches("[ ]??("+implode("|",accessModifiers)+").*")){
+					magnetType = MagnetType.FUNCTION;
+				}else{
+					magnetType = MagnetType.ASSORTED;
+				}
+			break;
+			case PROLOG:
+				String bot = bottomCode != null ? bottomCode : bottomLabel != null ? bottomLabel.getText() : null;
+				if(low.contains(":-") && bot != null && bot.endsWith(".")){
+					magnetType = MagnetType.RULE;
+				}else if (low.endsWith(".")){
+					magnetType = MagnetType.FACT;
+				} else{
+					magnetType = MagnetType.TERM;
+				}
+				break;
 		}
 		addStyleName(magnetType.toString());
 		
@@ -264,9 +290,12 @@ public class StackableContainer extends FocusPanel {
 			if (!done) { // If panel is being added to bottom.
 				insidePanel.add(child);
 			}
-
+			if(problemType == ProblemType.PROLOG){
+				updateCommas();
+			}
 		} else {
 			insidePanel.add(child);
+			child.removeComma(); // May drag a magnet that has a comma into a magnet in ConstructUi
 		}
 	}
 
@@ -311,7 +340,7 @@ public class StackableContainer extends FocusPanel {
 
 	public HTML getTopLabel() {
 		if(hasCode){
-			return new HTML(topJavaCode);
+			return new HTML(topCode);
 		}
 		else if(topLabel.getHTML().contains(Consts.HIDDEN_CODE)){
 			return new HTML(topLabel.getHTML().replace(Consts.HIDDEN_CODE,hiddenCode));
@@ -321,7 +350,7 @@ public class StackableContainer extends FocusPanel {
 
 	public HTML getBottomLabel() {
 		if(hasCode){
-			return new HTML(bottomJavaCode); // Possibly not what we want. I think all the code should be contained within javaCode.
+			return new HTML(bottomCode); // Possibly not what we want. I think all the code should be contained within code.
 		}
 		else if(bottomLabel != null){
 			if(bottomLabel.getHTML().contains(Consts.HIDDEN_CODE)){
@@ -329,6 +358,26 @@ public class StackableContainer extends FocusPanel {
 			}
 		}
 		return bottomLabel;
+	}
+	
+	public void prependComma(){
+		if(problemType == ProblemType.PROLOG && magnetType == MagnetType.TERM && !prependedComma){
+			topLabel.setText(", "+topLabel.getText());
+			prependedComma = true;
+		}
+	}
+	
+	public void removeComma(){
+		if(problemType == ProblemType.PROLOG && prependedComma){
+			topLabel.setText(topLabel.getText().substring(2));
+			prependedComma = false;
+		}
+	}
+	
+	public void updateCommas(){
+		for(int i = 1; i < insidePanel.getWidgetCount(); i++){
+			((StackableContainer)insidePanel.getWidget(i)).prependComma();
+		}
 	}
 	
 	public AbsolutePanel getInsidePanel() { return insidePanel; }
@@ -369,5 +418,4 @@ public class StackableContainer extends FocusPanel {
 	    }
 	    return ret;
 	}
-
 }

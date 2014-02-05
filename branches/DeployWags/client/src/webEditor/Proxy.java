@@ -746,7 +746,7 @@ public class Proxy
 				@Override
 				public void onResponseReceived(Request request, Response response) {
 					WEStatus stat = new WEStatus(response);
-					Notification.notify(stat.getStat(), stat.getMessage());
+					//Notification.notify(stat.getStat(), stat.getMessage());
 					
 					String[] msgArray = stat.getMessageArray();
 					String fileTime = msgArray[0];
@@ -1343,7 +1343,7 @@ public class Proxy
 			final TextArea functions, final TextArea statements, String title, final TextArea finalTypeTxtArea, final TextArea forLoop1TextArea, final TextArea forLoop2TextArea, 
 			final TextArea forLoop3TextArea, final TextArea ifsTextArea, final TextArea whilesTextArea, final TextArea returnsTextArea, final TextArea assignmentsVarTextArea,
 			final TextArea assignmentValTextArea, final TextBox ifAllowed, final TextBox elseAllowed, final TextBox elseIfAllowed, final TextBox forAllowed, final TextBox whileAllowed,
-			final TextBox returnAllowed, final TextBox assignmentAllowed, final RadioButton btnBasicProblem, final RadioButton btnAdvancedProblem) {
+			final TextBox returnAllowed, final TextBox assignmentAllowed, final RadioButton btnBasicProblem, final RadioButton btnAdvancedProblem, final RadioButton btnPrologBasicProblem) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetMagnetProblem&title=" + title);
 		try{
 			builder.sendRequest("", new RequestCallback() {
@@ -1443,9 +1443,12 @@ public class Proxy
 							returnAllowed.setText("0");
 							assignmentAllowed.setText("0");
 						}
-					} else {
-						//if its basic problem
-						btnBasicProblem.setValue( true );
+					} else if(magProblem.type.equals(webEditor.magnet.view.Consts.PROLOG_BASIC_PROBLEM)) {
+						btnPrologBasicProblem.setValue(true);
+					} else{
+						// This is basic Java problem, it's in the else because some things in the
+						// DB have -1 as type or nothing. We should probably go in and fix that.
+						btnBasicProblem.setValue( true );	
 					}
 					
 					String innerFunctions = "";

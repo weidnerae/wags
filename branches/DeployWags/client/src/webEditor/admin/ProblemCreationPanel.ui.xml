@@ -50,7 +50,7 @@
 			padding: 5px;
 		}	
 		.halfCell {
-			width: 50%;
+			width: 30%;
 			padding-right: 5px;
 			padding-left: 5px;
 		}
@@ -85,6 +85,12 @@
 			visibility: hidden;
 			position: absolute;
 		}
+		.prologMagnetMakerText{
+			padding: 2px 0px;
+		}
+		.prologInformationText{
+			padding-left:10px;
+		}
 	</ui:style>
 	<g:LayoutPanel height="100%" width="100%">
 	<g:layer left="0" right="45%">
@@ -94,10 +100,13 @@
 					<g:Grid width="100%" styleName='{style.problemTypePanel}'>
 			    	    <g:row>
 							<g:customCell styleName='{style.halfCell}'>
-				            	<g:RadioButton ui:field="btnBasicProblem" name="problemTypes" text="BASIC"></g:RadioButton>
+				            	<g:RadioButton ui:field="btnBasicProblem" name="problemTypes" text="JAVA"></g:RadioButton>
 							</g:customCell>
 							<g:customCell styleName='{style.halfCell}'>
-				            	<g:RadioButton ui:field="btnAdvancedProblem" name="problemTypes" text="ADVANCED (MAGNET MAKER)"></g:RadioButton>
+				            	<g:RadioButton ui:field="btnAdvancedProblem" name="problemTypes" text="JAVA (ADVANCED)"></g:RadioButton>
+							</g:customCell>
+							<g:customCell styleName='{style.halfCell}'>
+				            	<g:RadioButton ui:field="btnPrologBasicProblem" name="problemTypes" text="PROLOG"></g:RadioButton>
 							</g:customCell>
 						</g:row>
 					</g:Grid>
@@ -140,7 +149,7 @@
 				        <!-- This is intentionally left blank because choosing advanced problem type will 
 				        	 populate this with the proper widgets -->
 				    </g:VerticalPanel>
-					<g:VerticalPanel styleName="{style.magnetCreationPanel}" width ="100%">
+					<g:VerticalPanel ui:field="javaMagnetMaker" styleName="{style.magnetCreationPanel}" width ="100%">
 					    	<g:Grid width="100%">
 					    	    <g:row>
 									<g:customCell styleName='{style.halfCell}'>
@@ -196,16 +205,39 @@
 						</g:VerticalPanel>
 						<g:Label text="Current Comments:"/>
 						<g:TextArea width="98%" enabled="false" ui:field="commentsStagingArea"/>
+						<g:HorizontalPanel width="100%">
+							<g:Button styleName='{style.roundedButton}' ui:field="classDeclarationButton">Class</g:Button>
+							<g:Button styleName='{style.roundedButton}' ui:field="innerFunctionsButton">Function</g:Button>
+							<g:Button styleName='{style.roundedButton}' ui:field="statementsButton">Statement</g:Button>
+							<g:Button styleName='{style.roundedButton}' ui:field="clearDataButton">Clear</g:Button>
+						</g:HorizontalPanel>
 					</g:VerticalPanel>
-					<g:HorizontalPanel width="100%">
-						<g:Button styleName='{style.roundedButton}' ui:field="classDeclarationButton">Class</g:Button>
-						<g:Button styleName='{style.roundedButton}' ui:field="innerFunctionsButton">Function</g:Button>
-						<g:Button styleName='{style.roundedButton}' ui:field="statementsButton">Statement</g:Button>
-						<g:Button styleName='{style.roundedButton}' ui:field="clearDataButton">Clear</g:Button>
-					</g:HorizontalPanel>
+					<g:VerticalPanel ui:field="prologMagnetMaker" styleName="{style.magnetCreationPanel}" width ="100%" visible="false">
+					    <g:HorizontalPanel>
+					        <g:VerticalPanel>
+					    		<g:HorizontalPanel styleName='{style.prologMagnetMakerText}'>
+					        		<g:Label text="Label:" width="80px"/>
+					        		<g:TextBox width="1500px" ui:field="prologLabelTxtBox"/>
+					    		</g:HorizontalPanel>
+					   			<g:HorizontalPanel styleName='{style.prologMagnetMakerText}'>
+					       	    	<g:Label text="Real:" width="80px"/>
+					        		<g:TextBox width="150px" ui:field="prologRealTxtBox"/>
+					    		</g:HorizontalPanel>
+					    	</g:VerticalPanel>
+					    	<g:HTML styleName="{style.prologInformationText}">
+					    	    <p>Syntax such as &quot;.&quot;, &quot;:-&quot; and &quot;%&quot; will automatically be added according to which button(Comment/Fact/Rule/Term) you choose.</p>
+					    	</g:HTML>
+					    </g:HorizontalPanel>
+					    <g:HorizontalPanel width="100%">
+							<g:Button styleName='{style.roundedButton}' ui:field="prologProcedureBtn">Starting Comment</g:Button>
+							<g:Button styleName='{style.roundedButton}' ui:field="prologFactBtn">Fact</g:Button>
+							<g:Button styleName='{style.roundedButton}' ui:field="prologRuleBtn">Rule</g:Button>
+							<g:Button styleName='{style.roundedButton}' ui:field="prologTermBtn">Term</g:Button>
+						</g:HorizontalPanel>
+					</g:VerticalPanel>
 				</g:VerticalPanel>
 				<g:VerticalPanel width="100%">
-					<g:Label text="Hidden Code:"/>
+					<g:Label ui:field="hiddenFunctionsLabel" text="Hidden Code:"/>
 					<g:TextArea width="98%" ui:field="hiddenFunctionsArea" visibleLines="5"/>
 					<g:Button styleName="{style.floatRight}" ui:field="createHidFunctionButton">Add Hidden Code</g:Button>
 				</g:VerticalPanel>
@@ -223,11 +255,11 @@
 						<g:TextArea name="desc" ui:field="finalDescriptionTxtArea" width="100%" visibleLines="5" />
 						<g:Label text="Problem Type: "/>
 						<g:TextArea name="type" ui:field="finalTypeTxtArea" width="100%" visibleLines="1" />
-						<g:Label text="Class:"/>
+						<g:Label ui:field="classDeclarationTxtAreaLabel" text="Class:"/>
 						<g:TextArea name="class" ui:field="classDeclarationTxtArea" width="100%" visibleLines="5" />
-						<g:Label text="Functions:"/>
+						<g:Label ui:field="innerFunctionsTxtAreaLabel" text="Functions:"/>
 						<g:TextArea name="functions" ui:field="innerFunctionsTxtArea" width="100%" visibleLines="5" />
-						<g:Label text="Statements:"/>
+						<g:Label ui:field="statementsTxtAreaLabel" text="Statements:"/>
 						<g:TextArea name="statements" ui:field="statementsTxtArea" width="100%" visibleLines="5" />
 						<!-- All magnet maker options default to hidden -->
 						<g:Label text="for Loop Initializers" ui:field="forLoop1Label" visible="false"/>
@@ -307,7 +339,7 @@
 								<g:Label text="No test class received" width="300px" ui:field="uploadStamp"/>
 							</g:HorizontalPanel>
 							<g:HorizontalPanel>
-								<g:Label text="Testing Class:" width="150px"/>
+								<g:Label ui:field="testClassLabel" text="Testing Class:" width="150px"/>
 								<g:FileUpload name="testClass" ui:field="solutionUpload"/>
 							</g:HorizontalPanel>
 						</g:VerticalPanel>
@@ -317,7 +349,7 @@
 								<g:Label text="No helper class received" width="300px" ui:field="helperStamp"/>
 							</g:HorizontalPanel>
 							<g:HorizontalPanel>
-								<g:Label text="Helper Class:" width="150px"/>
+								<g:Label ui:field="helperClassLabel" text="Helper Class:" width="150px"/>
 								<g:FileUpload name="helperClass1" ui:field="helperUpload"/>
 							</g:HorizontalPanel>
 						</g:VerticalPanel>

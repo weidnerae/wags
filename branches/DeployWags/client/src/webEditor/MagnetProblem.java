@@ -1,5 +1,7 @@
 package webEditor;
 
+import webEditor.magnet.view.ProblemType;
+
 /**
  * The MagnetProblem class is in essence a wrapper for all of the fields which make up
  * a magnet problem. Each MagnetProblem object holds the information for an entire problem, 
@@ -13,6 +15,7 @@ public class MagnetProblem {
 	public boolean creationStation;
 	public String[] innerFunctions, forLeft, forMid, forRight, ifOptions, whileOptions, returnOptions, assignmentVars,
 					assignmentVals, statements, createdIDs;
+	public ProblemType problemType;
 	
 	public MagnetProblem(int id, String title, String directions, String type, String mainFunction,
 			String[] innerFunctions, String[] forLeft, String[] forMid, String[] forRight, String[] ifOptions, String[] whileOptions, String[] returnOptions,
@@ -41,6 +44,11 @@ public class MagnetProblem {
 		this.state = state;
 		this.numStatements = numStatements;
 		this.createdIDs = createdIDs;
+		if(type.indexOf("prolog") >=0){
+			problemType = ProblemType.PROLOG;
+		}else{
+			problemType = ProblemType.JAVA;
+		}
 	}
 }
 
