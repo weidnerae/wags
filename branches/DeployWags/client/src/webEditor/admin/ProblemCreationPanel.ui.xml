@@ -217,7 +217,7 @@
 					        <g:VerticalPanel>
 					    		<g:HorizontalPanel styleName='{style.prologMagnetMakerText}'>
 					        		<g:Label text="Label:" width="80px"/>
-					        		<g:TextBox width="1500px" ui:field="prologLabelTxtBox"/>
+					        		<g:TextBox width="150px" ui:field="prologLabelTxtBox"/>
 					    		</g:HorizontalPanel>
 					   			<g:HorizontalPanel styleName='{style.prologMagnetMakerText}'>
 					       	    	<g:Label text="Real:" width="80px"/>
