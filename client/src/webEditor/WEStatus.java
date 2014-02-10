@@ -214,6 +214,7 @@ public class WEStatus {
 			returnOptions = parseArray(messageMap.get("returnOptions"));
 			assignmentVars = parseArray(messageMap.get("assignmentVars"));
 			assignmentVals = parseArray(messageMap.get("assignmentVals"));
+			// The split on the .:3:. will split apart any created magnets leaving allStatements[0] to be the original statements:w
 			allStatements = messageMap.get("statements").replaceAll("\\\\\\\\", "\\\\").replaceAll("\\\\r\\\\n", "<br/>").split(".:3:.");
 			oldStatements = parseArray(allStatements[0]);
 			numStatements = oldStatements.length+(innerFunctions.length);
@@ -221,6 +222,9 @@ public class WEStatus {
 			if (allStatements.length > 1) {
 				String[][] createdStatementsAndIDs = parseCreated(allStatements);
 				newStatements = createdStatementsAndIDs[1];
+				// We need the ID's of the created magnets to be able to properly reassign them
+				// otherwise if any created magnets were saved in the state we may put in the
+				// wrong magnet when parsing the state
 				createdIDs = createdStatementsAndIDs[0];
 				statements = concatenateArrays(oldStatements,newStatements);
 			} else {
@@ -309,6 +313,11 @@ public class WEStatus {
 	
 	}
 	
+	// Remember in the CreatedMagnet class on the server where we put
+	// together to string of created magnets to add to the end of the statements
+	// well this is where we parse that added part into two arrays
+	// result[0] = magnet ID's
+	// result[1] = magnet content
 	private String[][] parseCreated(String[] allStatements){
 		String[][] result = new String[2][allStatements.length-1];
 		for(int i=1;i<allStatements.length;i++){

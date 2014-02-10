@@ -254,7 +254,7 @@
 						<g:Label text="Description:"/>
 						<g:TextArea name="desc" ui:field="finalDescriptionTxtArea" width="100%" visibleLines="5" />
 						<g:Label text="Problem Type: "/>
-						<g:TextArea name="type" ui:field="finalTypeTxtArea" width="100%" visibleLines="1" />
+						<g:TextArea name="type" ui:field="finalTypeTxtArea" width="100%" visibleLines="1" text="basic_problem"/>
 						<g:Label ui:field="classDeclarationTxtAreaLabel" text="Class:"/>
 						<g:TextArea name="class" ui:field="classDeclarationTxtArea" width="100%" visibleLines="5" />
 						<g:Label ui:field="innerFunctionsTxtAreaLabel" text="Functions:"/>
