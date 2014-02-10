@@ -90,6 +90,8 @@
         }
 
         foreach($results as $value){
+            // The ".:3:." delimiter will be used by the client to pull out
+            // created magnets.
             $values[] = ".:3:.".$value[3].".:|:.".$value[4];  // .:3:.ID.:|:.Content
         }
         if(empty($values)){
