@@ -80,22 +80,27 @@ class MagnetReview extends Command
             if($lang == "java"){
                 exec("/usr/bin/php class/command/RunCodeNew.php $dir $driverName blank blank Java $nonce 2>&1", $stdout); 
             }else if($lang == "pl"){
+                // We have to do more if it's prolog because not all the
+                // Test/Helper classes are Java, we have a Prolog Solution in 
+                // there as well. We check for the ".pl" extension on the ClassName
+                // that we left in there in AddMagnetExercise.
                 $givenFilesArr = explode(" ",$givenFiles);
                 foreach($givenFilesArr as $filePath){
                     if(strpos($filePath, ".pl") !== false){
                         $solutionPath = $filePath;
                     }
                 }
-                $file = '/tmp/check.txt';
-                $file = fopen($file, "w");
-                fputs($file, "RunCodeNew gets: $solutionPath $driverName $studentPath");
-                fclose($file);
                 
                 // RunCodeNew adds the directory and file extension for prolog
                 // so we have to pull out the filename
                 $studentPath = pathinfo($studentPath)['filename'];
                 $solutionPath = pathinfo($solutionPath)['filename'];
 
+                // driverName is the uploaded Java Test file that will run
+                //     and compare the student and solution prolog files.
+                // solutionPath is the path of the uploaded Prolog solution.
+                // studentPath is the path of the file generated from the
+                //     student's magnets.
                 exec("/usr/bin/php class/command/RunCodeNew.php $dir $driverName $solutionPath $studentPath Prolog $nonce 2>&1",$stdout);
             }else{
                 JSON::warn("Error determining Language");
