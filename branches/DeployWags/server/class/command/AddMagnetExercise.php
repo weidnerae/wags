@@ -46,6 +46,15 @@ class AddMagnetExercise extends Command
             to ids... */
         $checkEx = MagnetProblem::getMagnetProblemByTitle($title);
 
+        // Making sure the user has permissions to edit the problem
+        // | If this is a new problem then we're good
+        // | If this is a problem within the admin's MagnetProblemGroup
+        //   and they've decide to overwrite then we're good
+        // | If this is a problem within the admin's MagnetProblemGroup
+        //   and they haven't selected to overwrite then we return a warning
+        //   that will cause the overwrite popup to show up
+        // | If this is not a problem within the admin's MagnetProblemGroup
+        //   then we do not let them edit it and return an error.
         if (!empty($checkEx)) {
             // If they already decided to overwrite
             if (!empty($_POST['overwrite'])) {
@@ -101,14 +110,6 @@ class AddMagnetExercise extends Command
         $newMP->setAdded(time());
         $newMP->setUpdated(time());
         
-        $file = '/tmp/check.txt';
-        $file = fopen($file, "w");
-
-        $objArray = $newMP->toArray();
-        $thisLine = print_r($objArray, true);
-        fputs($file, $thisLine." $mpGroup");
-
-        fclose($file);
 
         // Attempt to save the new problem
         try {
@@ -129,7 +130,7 @@ class AddMagnetExercise extends Command
                 $files = SimpleFile::deleteFilesForMP($newMP->getId());
             }
 
-            $result = $this->addSimpleFile($_FILES['testClass'], 1);
+            $result = $this->addSimpleFile($_FILES['testClass'], 1);        
             if ($result != 1) {
                 return JSON::error("TC: ".$result);
             }
@@ -137,6 +138,9 @@ class AddMagnetExercise extends Command
             $hasFiles = true;
         }
 
+        // Since they can add more then one helper class we have to
+        // loop through fileuploads as long they keep having files
+        // $_FILES['helperClass1']...$_FILES['helperClassN']
         $helperId = 1;
         $helperName = 'helperClass1';
         while ($helperId < count($_FILES) && $_FILES[$helperName]['size'] != 0) {
@@ -181,7 +185,10 @@ class AddMagnetExercise extends Command
         $fileContents = file_get_contents($file['tmp_name']);
 
         $newSF = new SimpleFile();
-        if($fileExtentsion === "pl"){
+        // If it's Prolog we leave the file extension as part of the ClassName
+        // This is so that later we can recognize it as a Prolog file when it's
+        // being tested.
+        if($fileExtension === "pl"){
             $newSF->setClassName("$fileName.$fileExtension");
         }else{
             $newSF->setClassName($fileName);
@@ -190,8 +197,8 @@ class AddMagnetExercise extends Command
         $newSF->setContents($fileContents);
         $newSF->setMagnetProblemId(0); // 'holding' for linkage
         $newSF->setTest($testValue);
-        $newSF->setAdded();
-        $newSF->setUpdated();
+        $newSF->setAdded(time());
+        $newSF->setUpdated(time());
 
         try {
             $newSF->save();
