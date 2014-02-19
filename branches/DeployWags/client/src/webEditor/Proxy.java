@@ -995,7 +995,7 @@ public class Proxy
 					
 					LogicalMicrolab logMicro = (LogicalMicrolab) status.getObject();
 					DST.initialize(logMicro.getProblem());
-					Notification.notify(status.getStat(), "Loaded from server");
+					/*Notification.notify(status.getStat(), "Loaded from server");*/
 
 
 				}
