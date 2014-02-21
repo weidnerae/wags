@@ -28,8 +28,10 @@ public class DefaultPage extends Composite {
 	@UiField Button logicalButton;
 	@UiField Button magnetButton;
 	@UiField Button adminButton;
+	@UiField Button databaseButton;
 	@UiField Button magnetPCButton;
 	@UiField Button logicalPCButton;
+	@UiField Button databasePCButton;
 	@UiField Button logoutButton;
 	
 	/** Basic constructor. creates the splash page and will load the admin, magnet
@@ -38,7 +40,7 @@ public class DefaultPage extends Composite {
 	 */
 	public DefaultPage() {
 		initWidget(uiBinder.createAndBindUi(this));
-		Proxy.isAdmin(adminButton, magnetPCButton, logicalPCButton);
+		Proxy.isAdmin(adminButton, magnetPCButton, logicalPCButton,databasePCButton);
 	}
 	
 	/** Takes the user to the editor tab */
@@ -62,6 +64,14 @@ public class DefaultPage extends Composite {
 	void onMagnetClick(ClickEvent event)
 	{
 		Wags e = new Wags("magnets");
+		e.go();
+	}
+	
+	/** Takes the user to the database problems page */
+	@UiHandler("databaseButton")
+	void onDatabaseClick(ClickEvent event)
+	{
+		Wags e = new Wags("database");
 		e.go();
 	}
 	

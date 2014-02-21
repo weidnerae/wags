@@ -55,7 +55,8 @@
 				<g:Label styleName="{style.hello-logout}" ui:field="hello"></g:Label>
 				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="Editor">Editor</g:Anchor> 
 				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="Magnets">Magnets</g:Anchor> 
-				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="DST">Logical</g:Anchor> 
+				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="DST">Logical</g:Anchor>
+				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="Database">Database</g:Anchor> 
 				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="AdminPage">Admin</g:Anchor>
 				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="logout">Logout</g:Anchor>
 			</g:HTMLPanel>

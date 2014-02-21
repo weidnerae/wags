@@ -18,6 +18,7 @@
 
   <!-- Specify the paths for translatable code                    -->
   <source path='programming'/>
+  <source path='database'/>
   <source path=''/>
   <source path='logical'/>
   <source path='magnet'/>
