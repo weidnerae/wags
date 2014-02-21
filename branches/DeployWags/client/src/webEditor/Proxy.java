@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-
+import webEditor.database.DatabasePanel;
+import webEditor.database.DatabaseProblem;
 import webEditor.logical.DataStructureTool;
 import webEditor.magnet.view.Magnets;
 import webEditor.magnet.view.ResultsPanelUi;
@@ -143,31 +144,6 @@ public class Proxy
 		}
 	}
 
-	public static void assignPartner(String exercise, String partner){
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=SetPartner" +
-				"&ex=" + exercise + "&partner=" + partner);
-		try{
-			builder.sendRequest(null, new RequestCallback(){
-	
-				@Override
-				public void onError(Request request, Throwable exception) {
-					Window.alert("Error in assignPartner request");
-				}
-	
-				@Override
-				public void onResponseReceived(Request request,
-						Response response) {
-					WEStatus status = new WEStatus(response);  
-					
-					//SetPartner will handle the correct messages
-					Notification.notify(status.getStat(), status.getMessage());
-				}
-				
-			});
-		} catch (RequestException e) {
-			Window.alert("Failed to send the request: " + e.getMessage());
-		}
-	}
 
 	public static void assignPassword(String password){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, Proxy.getBaseURL()+"?cmd=AssignPassword");
@@ -280,6 +256,75 @@ public class Proxy
 		}
 	}
 	
+	public static void buildDatabase(final Wags wags) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetDatabaseExercises");
+		try{
+			builder.sendRequest(null, new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus stat = new WEStatus(response);
+					
+					String[] problems = stat.getMessageArray();
+					int[] idList = new int[problems.length / 3];
+					String[] problemsList = new String[problems.length / 3];
+					int[] statusList = new int[problems.length / 3];
+					
+					// To understand this, you must understand that problems is an array
+					// following a sequence of id, name, success.  Thus, we iterate over it
+					// in steps of three, to "group" the entries corresponding to the same exercise
+					for(int i = 0; i < problems.length - 2; i += 3){
+						final int id = Integer.parseInt(problems[i]);
+						
+						if (id != 0) {
+							int idx = i / 3;
+							
+							idList[idx] = id;
+							problemsList[idx] = problems[i + 1];
+							statusList[idx] = Integer.parseInt(problems[i + 2]);
+						}
+					}
+					
+					DatabasePanel dbPanel = new DatabasePanel(idList, problemsList, statusList);
+					dbPanel.getElement().getStyle().setOverflowY(Overflow.AUTO);
+					wags.replaceCenterContent(dbPanel);
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Magnet Exercises error");
+				}
+			});
+		} catch (RequestException e){
+			Window.alert("error: " + e.getMessage());
+		}
+	}
+	/** 
+	 *  Grabs a database problem
+	 * @return 
+	 */
+	public static void getDatabaseProblem(int id, final DatabasePanel dbPanel) {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetDatabaseProblem&id=" + id);
+		try{
+			builder.sendRequest("", new RequestCallback() {
+				
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					WEStatus status = new WEStatus(response);
+					DatabaseProblem dbProblem = (DatabaseProblem) status.getObject();
+					dbPanel.initialize(dbProblem);
+				}
+				
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert("Error getting magnet problem");					
+				}
+			});
+		} catch(Exception e){
+			Window.alert(e.getMessage());
+		}
+	}
+	
 	public static void call(String command, HashMap<String, String> request, WagsCallback callback){
 		Proxy.call(command, request, callback, RequestBuilder.GET);
 	}
@@ -339,25 +384,6 @@ public class Proxy
 			Window.alert("Failed to send the request: " + e.getMessage());
 		}
 	}
-
-	public static void checkTimedExercises(){
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=CheckOpenExercises");
-		
-		try{
-			builder.sendRequest(null, new RequestCallback() {
-				
-				@Override
-				public void onResponseReceived(Request request, Response response) {
-				}
-				
-				@Override
-				public void onError(Request request, Throwable exception) {
-				}
-			});
-		} catch (RequestException e){
-			Window.alert("Failed");
-		}
-	}
 	
 	public static void cleanOutOldCreatedMagnets(int magnetProblemID){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=CleanOutOldCreatedMagnets&magnetProblemID="+magnetProblemID);
@@ -403,34 +429,6 @@ public class Proxy
 		}
 	}
 	
-	/**
-	 * Called to permanently remove a user from the database 
-	 * 
-	 * @param username the username of the user to delete
-	 */
-	public static void deleteUser(final String username){
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, getBaseURL() + "?cmd=DeleteUser&name=" + username);
-		try {
-			@SuppressWarnings("unused")
-			Request r = builder.sendRequest(null, new RequestCallback() {
-				@Override
-				public void onResponseReceived(Request request, Response response)
-				{
-					WEStatus status = new WEStatus(response);
-					Notification.notify(status.getStat(), status.getMessage());
-					//Proxy.getVisibleExercises(exercises);
-				}
-				
-				@Override
-				public void onError(Request request, Throwable exception)
-				{
-					Window.alert("Error in delete Exercise Request");
-				}
-			});
-		} catch (RequestException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	/**
 	 * Called to set the section of a specific user to 0, thus removing that user from whatever
@@ -588,82 +586,9 @@ public class Proxy
 		}
 	}
 
-	public static void getDSTSubmissions(String title, final Grid grid, String type){
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=DSTReview&title="+title+"&type="+type);
-		
-		try{
-			builder.sendRequest(null, new RequestCallback(){
 	
-				@Override
-				public void onError(Request request, Throwable exception) {
-					Window.alert("error");					
-				}
-	
-				@Override
-				public void onResponseReceived(Request request,
-						Response response) {
-					
-					WEStatus status = new WEStatus(response);
-					
-			        String subInfo[] = new String[status.getMessageArray().length];
-			        subInfo = status.getMessageArray();
-			        
-			        for (int i = 1; i < subInfo.length; i+=3){
-			        	if(subInfo[i] == "1") subInfo[i] = "Yes";
-			        	else if (subInfo[i] == "0") subInfo[i] = "No";
-			        }
-			        
-			        grid.resize(subInfo.length/3+1, 3);
-			  		grid.setBorderWidth(1);
-			  		
-			  		//Sets the headers for the table
-			  		grid.setHTML(0, 0, "<b> Username </b>");
-			  		grid.setHTML(0, 1, "<b> Correct </b>");
-			  		grid.setHTML(0, 2, "<b> NumAttempts </b>");
-			  		
-			  		int k = 0, row = 1;
-			  		//Fills table with results - stops before last row (the summary)
-			  	    for (row = 1; row < subInfo.length/3; ++row) {
-			  	      for (int col = 0; col < 3; ++col)
-			  	        grid.setText(row, col, subInfo[k++]);
-			  	    }
-			  	    // Last row
-			  	    grid.setHTML(row, 0, "<b> " + subInfo[subInfo.length - 3] + " </b>");
-			  	    grid.setHTML(row, 1, "<b> " + subInfo[subInfo.length - 2] + " </b>");
-			  	    grid.setHTML(row, 2, "<b> " + subInfo[subInfo.length - 1] + " </b>");
-				}
-				
-			});
-		}catch (RequestException e){
-			Window.alert("Failed to send the request: " + e.getMessage());
-		}
-		
-	}
 
-	/**
-	 * Get a list of exercises from the server and put them
-	 * in the FlexTable.
-	 * 
-	 */
-	public static void getExercises(Exercises ex){
-		
-		WagsCallback c = new WagsCallback() {
-			@Override
-			void warning(WEStatus status) {}
-			
-			@Override
-			void success(WEStatus status) {
-				Window.alert(status.getMessageArray().toString());
-			}
-			
-			@Override
-			void error(WEStatus status) {
-				Window.alert(status.getMessage());
-			}
-		};
-		HashMap<String, String> vars = new HashMap<String, String>();
-		Proxy.call("GetExercises", vars, c);
-	}
+
 
 	/**
 	 * Get the contents of a file with the given name from server.
@@ -792,190 +717,6 @@ public class Proxy
 		} catch(Exception e){
 			Window.alert("Error Occurred.  Please e-mail the following to pmeznar@gmail.com:\n" +
 					e.getMessage());
-		}
-	}
-	
-	/**
-     * getLogicalForAssignment
-     * 
-     * Handles the initial loading of the Subject and Group listboxes on the admin page for logical exercises, as well as
-     * initially loading the checkboxes for the default selected group
-     * @param subjects      The listbox the subjects are loaded into
-     * @param groups        The listbox the groups are loaded into
-     * @param chkBoxArea    The vertical panel the checkboxes for exercises are loaded into
-     */
-    public static void getLogicalForAssignment(final ListBox subjects, final ListBox groups, final VerticalPanel chkBoxArea,
-                    final ArrayList<CheckBox> currentLogicals, final HashMap<String, CheckBox> allLogicals){
-            RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, Proxy.getBaseURL() + "?cmd=LogicalExercises&request=initial");
-            try {
-                    builder.sendRequest(null, new RequestCallback() {
-                            
-                            @Override
-                            public void onResponseReceived(Request request, Response response) {
-                                    WEStatus status = new WEStatus(response);
-                                    int level = 0; // 0 = subject, 1 = group, 2 = exercise
-                                    
-                                    // Empty to guarantee no duplicates
-                                    subjects.clear();
-                                    groups.clear();
-                                    chkBoxArea.clear();
-                                    for(CheckBox box: currentLogicals){
-                                            box.setVisible(false);
-                                    }
-                                    
-                                    String[] problemList = status.getMessageArray();
-                                    for(String entry: problemList){
-                                            // If we're transitioning into a new level, transition and grab next string
-                                            if(entry.equals("GROUPS")){
-                                                    level = 1;
-                                                    continue;
-                                            } else if(entry.equals("EXERCISES")){
-                                                    level = 2;
-                                                    continue;
-                                            } else {
-                                                    if(level == 0){
-                                                            subjects.addItem(entry, entry);
-                                                    } else if (level == 1){
-                                                            groups.addItem(entry, entry);
-                                                    } else {
-                                                            if (!allLogicals.containsKey(entry)){
-                                                            	// For exercises, if it hasn't been loaded, load it
-                                                                CheckBox ex = new CheckBox(entry);
-                                                                chkBoxArea.add(ex);
-                                                                currentLogicals.add(ex);
-                                                                allLogicals.put(entry, ex);
-                                                            
-                                                            } else {
-                                                            	// If it was loaded earlier, grab that one    
-                                                            	CheckBox ex = allLogicals.get(entry);
-                                                                currentLogicals.add(ex);
-                                                                ex.setVisible(true);
-                                                                chkBoxArea.add(ex);
-                                                            }
-                                                    }
-                                            }
-                                    }
-                                    
-                            }
-                            
-                            @Override
-                            public void onError(Request request, Throwable exception) {
-                                    Window.alert("Logical Exercise Error");
-                            }
-                    });
-            } catch (RequestException e){
-                    Window.alert("Failed to send the request: " + e.getMessage());
-            }
-    }
-    
-    /**
-     * getLogicalGroups
-     * 
-     * Called off of a changehandler attached to the subject listbox for logical microlabs in the admin tab
-     * Repopulates the groups listbox with the appropriate groups for each new subject
-     * @param subject       The subject that has just been chosen
-     * @param groups        The listbox to populate with the correct groups
-     */
-    public static void getLogicalGroups(String subject, final ListBox groups, 
-    			final VerticalPanel passPanel, final ArrayList<CheckBox> passArray, final HashMap<String, CheckBox> passMap){
-    	
-            RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=LogicalExercises&request=groups&subject=" + subject);
-            try {
-                    builder.sendRequest(null, new RequestCallback() {
-                            
-                            @Override
-                            public void onResponseReceived(Request request, Response response) {
-                                    WEStatus status = new WEStatus(response);
-                                    
-                                    String[] groupList = status.getMessageArray();
-                                    groups.clear();
-                                    for(String s: groupList){
-                                            groups.addItem(s,s);
-                                    }
-        
-                                    // So we don't have weird looking group/exercise combos
-                                    Proxy.getLogicalExercises(groupList[0], passPanel, passArray, passMap);
-                                    
-                            }
-                            
-                            @Override
-                            public void onError(Request request, Throwable exception) {
-                                    Window.alert("Error grabbing groups");
-                            }
-                    });
-            } catch (RequestException e){
-                    Window.alert("Failed to send the request: " + e.getMessage());
-            }
-    }
-    
-	public static void getLogicalExercises(String group, final VerticalPanel panel,final ArrayList<CheckBox> currentLogicals,
-			final HashMap<String, CheckBox> allLogicals) {
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=LogicalExercises&request=exercises&group=" + group);
-		try {
-			builder.sendRequest(null, new RequestCallback() {
-
-				@Override
-				public void onResponseReceived(Request request, Response response) {
-					WEStatus status = new WEStatus(response);
-
-					String[] exList = status.getMessageArray();
-					// Hide
-					for (CheckBox chk : currentLogicals) {
-						chk.setVisible(false);
-					}
-
-					CheckBox ex;
-					for (String entry : exList) {
-						if (allLogicals.containsKey(entry)) {
-							// If it was loaded earlier, grab that one
-							ex = allLogicals.get(entry);
-							ex.setVisible(true);
-						} else {
-							// Add it as a new exercise
-							ex = new CheckBox(entry);
-							allLogicals.put(entry, ex);
-						}
-						
-						panel.add(ex);
-						currentLogicals.add(ex);
-					}
-				}
-
-				@Override
-				public void onError(Request request, Throwable exception) {
-					Window.alert("Error grabbing groups");
-				}
-
-			});
-		} catch (RequestException e) {
-			Window.alert("Failed to send the request: " + e.getMessage());
-		}
-	}
-    
-	public static void getLogicalExercises(final ListBox logicalExercises){
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetLogicalExercises");
-		try {
-			builder.sendRequest(null, new RequestCallback() {
-				
-				@Override
-				public void onResponseReceived(Request request, Response response) {
-					WEStatus status = new WEStatus(response);
-					
-					String[] problemList = status.getMessageArray();
-					logicalExercises.clear(); //To avoid repeat listings
-					
-					for(int i = 0; i < problemList.length; i+=2){ 
-		        		  logicalExercises.addItem(problemList[i]); 
-		        	}
-				}
-				
-				@Override
-				public void onError(Request request, Throwable exception) {
-					Window.alert("Logical Exercise Error");
-				}
-			});
-		} catch (RequestException e){
-			Window.alert("Failed to send the request: " + e.getMessage());
 		}
 	}
 	
@@ -1338,6 +1079,8 @@ public class Proxy
 		}
 	}
 	
+
+	
 	/* Loads editor page */
 	public static void getMagnetProblemForEdit(final TextArea titleArea, final TextArea desc, final TextArea classArea,
 			final TextArea functions, final TextArea statements, String title, final TextArea finalTypeTxtArea, final TextArea forLoop1TextArea, final TextArea forLoop2TextArea, 
@@ -1477,6 +1220,7 @@ public class Proxy
 			Window.alert(e.getMessage());
 		}
 	}
+	
 	
 	
 	public static void getSections(final ListBox sections) {
@@ -1635,31 +1379,6 @@ public class Proxy
 		}
 	}
 	
-	public static void getUserIds(final Reviewer studentReviewer) {
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetAllUserIds");
-		try {
-			builder.sendRequest(null, new RequestCallback() {
-				
-				@Override
-				public void onResponseReceived(Request request, Response response) {
-					WEStatus status = new WEStatus(response);
-					String[] message = status.getMessageArray();
-					
-					for (int i = 0; i < message.length; i++) {
-						message[i] = message[i].substring(1, message[i].length()-1);
-					}
-					studentReviewer.getCallback(status.getMessageArray(), status, request.toString());
-				}
-				
-				@Override
-				public void onError(Request request, Throwable exception) {
-					Window.alert("Student Error");
-				}
-			});
-		} catch (RequestException e){
-			Window.alert("Failed to send the request: " + e.getMessage());
-		}
-	}
 
 	/**
 	 * Set the greeting label.
@@ -1764,7 +1483,7 @@ public class Proxy
 		    }
 	}
 	
-	public static void isAdmin(final Widget magnet, final Widget logical, final Widget admin){	
+	public static void isAdmin(final Widget magnet, final Widget logical, final Widget admin, final Widget database){	
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=IsAdmin");
 		try {
 		      @SuppressWarnings("unused")
@@ -1778,6 +1497,7 @@ public class Proxy
 		        	  admin.setVisible(true);
 		        	  magnet.setVisible(true);
 		        	  logical.setVisible(true);
+		        	  database.setVisible(true);
 		          }
 		        }
 		        
@@ -2018,75 +1738,7 @@ public class Proxy
 		
 	}
 
-	/**
-	 * Register a user.
-	 */
-	public static void register(String email, final String username, final String password, String firstName, String lastName, String section)
-	{
-		String completeURL = Proxy.registerURL+"&email="+email+
-		 "&username="+username+
-		 "&password="+password+
-		 "&firstName="+firstName+
-		 "&lastName="+lastName+
-		 "&section="+section;
-		
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, completeURL);
-		try{
-			@SuppressWarnings("unused")
-			Request req = builder.sendRequest(null, new RequestCallback() {
-				@Override
-				public void onResponseReceived(Request request, Response response) {
-					RootPanel root = RootPanel.get();
-					WEStatus status = new WEStatus(response);
-					if(status.getStat() == WEStatus.STATUS_SUCCESS){
-						// Log the user in automatically.
-						Proxy.login(username, password);
-						Notification.notify(status.getStat(), status.getMessage());
-					}else{
-						Notification.notify(status.getStat(), status.getMessage());
-					}
-				}
-				
-				@Override
-				public void onError(Request request, Throwable exception) {
-				}
-			});
-		} catch (RequestException e){
-			e.printStackTrace();
-		}
-	}
 
-	/**
-	 * Rename a file. Update TreeItem. 
-	 */
-	public static void renameFile(String oldName, final String newName, final FileBrowser browser)
-	{
-		String url = getBaseURL()+"?cmd=RenameFile&old="+oldName+"&new="+newName;
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
-		try{
-			@SuppressWarnings("unused")
-			Request r = builder.sendRequest(null, new RequestCallback() {
-				@Override
-				public void onResponseReceived(Request request, Response response)
-				{
-					// Quietly rebuild the file browser on success.
-					WEStatus stat = new WEStatus(response);
-					if(stat.getStat() == WEStatus.STATUS_SUCCESS){
-						// Rebuild browser
-						Proxy.loadFileListing(browser, newName);
-						
-					}else{
-						Notification.notify(stat.getStat(), stat.getMessage());
-					}
-				}
-				@Override
-				public void onError(Request request, Throwable exception)
-				{}
-			});
-		}catch(RequestException e){
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * This will be called when the user presses submit, and will send a request to the server to compile,
@@ -2282,53 +1934,6 @@ public class Proxy
 		}
 		
 	}
-	
-	public static void SetLogicalExercises(String assignedExercises, final ListBox logicalExercises) {
-		if(assignedExercises.equals("")) assignedExercises = "none";
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=SetLogicalExercises&list=" + assignedExercises);
-		try{
-			builder.sendRequest(null, new RequestCallback() {
-				
-				@Override
-				public void onResponseReceived(Request request, Response response) {
-					WEStatus stat = new WEStatus(response);
-					Notification.notify(stat.getStat(), stat.getMessage());
-					Proxy.getLogicalExercises(logicalExercises);
-				}
-				
-				@Override
-				public void onError(Request request, Throwable exception) {
-					Window.alert("Set magnet error");					
-				}
-			});
-		} catch (RequestException e) {
-			Window.alert("Failed to send the request: " + e.getMessage());
-		}
-		
-	}
-
-	public static void SetMagnetExercises(String assignedMagnets) {
-		if(assignedMagnets.equals("")) assignedMagnets = "none";
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=SetMagnetExercises&list=" + assignedMagnets);
-		try{
-			builder.sendRequest(null, new RequestCallback() {
-				
-				@Override
-				public void onResponseReceived(Request request, Response response) {
-					WEStatus stat = new WEStatus(response);
-					Notification.notify(stat.getStat(), stat.getMessage());
-				}
-				
-				@Override
-				public void onError(Request request, Throwable exception) {
-					Window.alert("Set magnet error");					
-				}
-			});
-		} catch (RequestException e) {
-			Window.alert("Failed to send the request: " + e.getMessage());
-		}
-		
-	}
 
 	public static void submitDST(String title, int success){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=SubmitDST&title="+title+"&success="+success);
@@ -2346,10 +1951,5 @@ public class Proxy
 		    } catch (RequestException e) {
 		      Window.alert("Failed to send the request: " + e.getMessage());	
 		    }
-	}
-
-
-	
-
-	
+	}	
 }

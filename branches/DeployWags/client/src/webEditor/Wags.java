@@ -37,6 +37,7 @@ public class Wags extends View
 	@UiField Anchor Editor;
 	@UiField Anchor DST;
 	@UiField Anchor Magnets;
+	@UiField Anchor Database;
 	@UiField Anchor AdminPage;
 	@UiField Anchor logout;
 	@UiField Label hello;
@@ -79,6 +80,8 @@ public class Wags extends View
 			loadEditor();
 		} else if (startingPlace.equals("admin")){
 			loadAdmin();
+		} else if (startingPlace.equals("database")){
+			loadDatabasePanel();
 		} else if (startingPlace.equals("magnetpc")) {
 			loadMagnetProblemCreation();
 		} else if (startingPlace.equals("logicalpc")) {
@@ -124,6 +127,11 @@ public class Wags extends View
 		loadEditor();
 	}
 	
+	@UiHandler("Database")
+	void onDatabaseClick(ClickEvent event) {
+		loadDatabasePanel();
+	}
+	
 	
 	@UiHandler("DST")
 	void onDSTClick(ClickEvent event) {
@@ -163,6 +171,11 @@ public class Wags extends View
 	public void loadMagnets() {
 		Proxy.buildMagnets(this);
 		History.newItem("?loc=magnets");
+	}
+	
+	public void loadDatabasePanel() {
+		Proxy.buildDatabase(this);
+		History.newItem("?loc=database");
 	}
 	
 	private void loadLogicalProblemCreation()
