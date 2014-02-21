@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
+import webEditor.database.DatabaseProblem;
+
 import com.google.gwt.http.client.Response;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONBoolean;
@@ -270,6 +272,12 @@ public class WEStatus {
 					messageMap.get("nodeType"), 
 					Integer.parseInt(messageMap.get("group")), 
 					messageMap.get("genre"));
+		} else if (objType == "DatabaseProblem") {
+			
+			
+			myObject = new DatabaseProblem(messageMap.get("title"), 
+					messageMap.get("description"),
+					messageMap.get("correct_query"));
 		}
 	}
 	

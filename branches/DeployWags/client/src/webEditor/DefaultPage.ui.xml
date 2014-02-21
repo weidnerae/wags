@@ -92,11 +92,13 @@
 							<g:Button styleName="{style.button}" ui:field='editorButton'>Web Editor</g:Button>
 							<g:Button styleName="{style.button}" ui:field='logicalButton'>Logical Microlabs</g:Button>
 							<g:Button styleName="{style.button}" ui:field='magnetButton'>Magnet Microlabs</g:Button>
+							<g:Button styleName="{style.button}" ui:field='databaseButton'>Database Microlabs</g:Button>
 						</g:VerticalPanel>
 						<g:VerticalPanel>
 							<g:Button styleName="{style.button}" ui:field='adminButton' visible='false'>Admin Panel</g:Button>
 							<g:Button styleName="{style.button}" ui:field='magnetPCButton' visible='false'>Magnet Problem Creation</g:Button>
 							<g:Button styleName="{style.button}" ui:field='logicalPCButton' visible='false'>Logical Problem Creation</g:Button>
+							<g:Button styleName="{style.button}" ui:field='databasePCButton' visible='false'>Database Problem Creation</g:Button>
 						</g:VerticalPanel>
 					</g:HorizontalPanel>
 					<g:Button styleName="{style.logout_button}" ui:field='logoutButton'>Log out</g:Button>
