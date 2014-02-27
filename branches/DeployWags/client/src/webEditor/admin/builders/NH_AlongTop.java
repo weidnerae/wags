@@ -1,13 +1,17 @@
 package webEditor.admin.builders;
 
+import java.util.ArrayList;
+
 import com.google.gwt.user.client.Window;
 
 public class NH_AlongTop extends NodeHandler {
 	int nodeX = 10, nodeY = 10;
 	final int NODE_WIDTH = 40;
+	private ArrayList<Node_Basic> listNodes;
 	
 	public NH_AlongTop(BasicCanvas canvas) {
 		this.parent = canvas;
+		listNodes = new ArrayList<Node_Basic>();
 	}
 
 	@Override
@@ -41,11 +45,16 @@ public class NH_AlongTop extends NodeHandler {
 		Node_Basic node = new Node_Basic(value, parent);
 		parent.dragger.makeDraggable(node);
 		parent.nodes.add(node);
-		
+		listNodes.add(node);
 		positionNode(node);
 		update();
 	}
 
+	public void addNode(Node_Basic node) {
+		parent.nodes.add(node);
+		positionNode(node);
+		update();
+	}
 	/**
 	 * positionNode
 	 * @param node - Node to be added
@@ -72,14 +81,21 @@ public class NH_AlongTop extends NodeHandler {
 	 * of change.
 	 */
 	public void deleteNode(String value){
-		for(Node_Basic node: parent.nodes){
-			if(node.value.equals(value)){
-				node.deleteEdges();
-				node.setVisible(false);
-				parent.nodes.remove(node);
-			}
-		}
-		update();
+		// remove tree
+				parent.clear();  
+				// remove list
+				for(int i = 0; i < listNodes.size(); i++){
+					Node_Basic node = listNodes.get(i);
+					node.delete();
+					if(value.equals(node.value)) {
+						listNodes.remove(i);
+					}	
+				}
+				for(int i = 0; i < listNodes.size(); i++){
+					addNode(listNodes.get(i));
+				}
+				
+				update();
 	}
 
 	@Override

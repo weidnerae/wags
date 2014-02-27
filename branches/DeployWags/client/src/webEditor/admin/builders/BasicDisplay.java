@@ -1,5 +1,7 @@
 package webEditor.admin.builders;
 
+import org.vaadin.gwtgraphics.client.VectorObject;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -58,11 +60,14 @@ public abstract class BasicDisplay extends Composite {
 	
 	@UiField VerticalPanel basePanel;
 	@UiField BasicCanvas canvas;
-	@UiField Button btnAddNode, btnDeleteNode, btnCalculate;
+	@UiField Button btnAddNode, btnDeleteNode, btnCalculate, btnReset;
 	@UiField TextBox txtAddNode, txtTitle;
 	@UiField TextArea txtDesc, txtInstructions;
 	private boolean built = false;
 	LMBuilder builder;
+	
+	protected int maxNodes = 10;
+	protected int currentNodes = 0;
 	
 	public BasicDisplay() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -85,26 +90,31 @@ public abstract class BasicDisplay extends Composite {
 		// Add nodes
 		btnAddNode.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				String val = txtAddNode.getText();
-				//check if there is a negative sign in the input
-				//make sure that the only negative sign is at the beginning
-				boolean hasNeg = false;
-				boolean inputCorrect = true;
-				if (val.contains("-")) {
-					hasNeg = true;
-				}
-				if (hasNeg == true) {
-					char[] arr = val.toCharArray();
-					if (arr[0] != '-') {
-						inputCorrect = false;
-						Window.alert( "The '-' can only come at the start of your node label" );
-						txtAddNode.setText("");
+				if( currentNodes < maxNodes) {
+					String val = txtAddNode.getText();
+					//check if there is a negative sign in the input
+					//make sure that the only negative sign is at the beginning
+					boolean hasNeg = false;
+					boolean inputCorrect = true;
+					if (val.contains("-")) {
+						hasNeg = true;
 					}
-				}
-				//only add a node if the input is correct ('-' only comes at start)
-				if(val.length() > 0 && inputCorrect){
-					canvas.addNode(txtAddNode.getText());
-					txtAddNode.setText("");
+					if (hasNeg == true) {
+						char[] arr = val.toCharArray();
+						if (arr[0] != '-') {
+							inputCorrect = false;
+							Window.alert( "The '-' can only come at the start of your node label" );
+							txtAddNode.setText("");
+						}
+					}
+					//only add a node if the input is correct ('-' only comes at start)
+					if(val.length() > 0 && inputCorrect){
+						canvas.addNode(txtAddNode.getText());
+						txtAddNode.setText("");
+						currentNodes++;
+					}
+				} else {
+					Window.alert("Reached maximum number of Nodes for this problem type");
 				}
 			}
 		});		
@@ -113,8 +123,11 @@ public abstract class BasicDisplay extends Composite {
 	private void deleteNodeHandling(){
 		btnDeleteNode.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				canvas.deleteNode(txtAddNode.getText());
-				txtAddNode.setText( "" );
+				if (currentNodes > 0) {
+					canvas.deleteNode(txtAddNode.getText());
+					txtAddNode.setText( "" );
+					currentNodes--;
+				}
 			}
 		});
 	}
@@ -151,6 +164,13 @@ public abstract class BasicDisplay extends Composite {
 		this.calculate();
 	}
 	
+	void addToCanvas(VectorObject obj) {
+		canvas.addToCanvas(obj);
+	}
+	
+	void removeFromCanvas(VectorObject obj) {
+		canvas.removeFromCanvas(obj);
+	}
 	@UiHandler("txtAddNode")
 	void onKeyPress(KeyUpEvent event) {
 		char[] arr = txtAddNode.getText().toCharArray();
@@ -159,6 +179,12 @@ public abstract class BasicDisplay extends Composite {
 				Window.alert("Sorry, you can only input numeric values (including a '-' to indicate negative values) for Node labels.");
 				txtAddNode.setText( "" );
 			}
+		}
+	}
+	
+	protected void setMaxNodes(int n) {
+		if(n >= 0) {
+			maxNodes = n;
 		}
 	}
 	
