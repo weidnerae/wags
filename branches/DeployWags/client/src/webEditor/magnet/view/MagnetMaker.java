@@ -3,6 +3,7 @@ package webEditor.magnet.view;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
@@ -202,8 +203,18 @@ public class MagnetMaker extends VerticalPanel {
 	// takes the string array and turns it into a usable listbox for the
 	// arguments used in decision structures
 	private ListBox setupListBox(String[] listOptions) {
+		
 		if (listOptions == null) {
 			return null;
+		}
+		
+		//Hopefully randomize dropdown.
+		for (int i = 0; i < listOptions.length; i++)
+		{
+			int r = Random.nextInt(listOptions.length);
+			String temp = listOptions[i];
+			listOptions[i] = listOptions[r];
+			listOptions[r] = temp;
 		}
 
 		ListBox listBox = new ListBox();
