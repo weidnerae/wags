@@ -1,5 +1,7 @@
 package webEditor.admin;
 
+import java.util.ArrayList;
+
 import webEditor.ProxyFacilitator;
 
 import com.google.gwt.core.client.GWT;
@@ -26,10 +28,10 @@ public class AssignedPanel extends Composite {
 	@UiField Button	btnClearSel;	//simply clear the problems selected, empty the text area
 	@UiField Button	btnClearAssign;	//clear the text area and unassigns all the problems that are assigned
 	@UiField Label title;
-	AssignedPanel partner;		//the partner, selected to assigned and assigned to selected
-	CheckBoxPanel exercises;
-	ProxyFacilitator parent;
-
+	private AssignedPanel partner;		//the partner, selected to assigned and assigned to selected
+	private CheckBoxPanel exercises;
+	private ProxyFacilitator parent;
+	
 	public AssignedPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
@@ -73,6 +75,12 @@ public class AssignedPanel extends Composite {
 		txtAreaAssigned.setText(tmpText);
 	}
 	
+	public void addAll(String[] text) {
+		for(int i = 0; i < text.length; i++) {
+				add(text[i]);
+		}
+	}
+	
 	public void remove(String text){
 		String tmpText = txtAreaAssigned.getText();
 		tmpText = tmpText.replace(text + "\n", "");
@@ -95,32 +103,53 @@ public class AssignedPanel extends Composite {
 		clearExercises();
 	}
 	
+	/**
+	 * @author Dakota Murray
+	 * @version 16 March 2014
+	 * 
+	 * Description: Handles behavior of the "add to assigned" button in logical
+	 * 				problem creation. Does not allow suplicate exercises to be assigned.
+	 * 
+	 * Note: 		This is kind of messy complexity wise but I feel that all the operations are 
+	 * 				necessary in order to ensure that there are no duplicates and that the 
+	 * 				button displays the proper behavior. 
+	 * 
+	 * @param event an event triggered by clicking the "btnAssign" button
+	 */
 	@UiHandler("btnAssign")
 	public void assignHandler(ClickEvent event) {
 		//get the ones currently selected
-		String exSel = txtAreaAssigned.getText();
-		exSel = exSel.substring( 0, exSel.length() - 1 );
-		String[] exSelArray = txtAreaAssigned.getText().split("\n");
+		String[] toAssign = this.toStringArray();
 		//get the ones already assigned from the partner panel
-		String exAssigned = partner.txtAreaAssigned.getText();
-		exAssigned = exAssigned.substring( 0, exSel.length() - 1 );
-		String[] exAssignedArray = partner.txtAreaAssigned.getText().split("\n");
-		
+		String[] alreadyAssigned = partner.toStringArray();
 		//concatenate the string arrays
-      String[] both = new String[exAssignedArray.length + exSelArray.length];
-      int i;
-      for (i = 0; i < exAssignedArray.length; i++) {
-      	both[i] = exAssignedArray[i];
-      }
-      for (i = 0; i < exSelArray.length; i++) {
-              both[exAssignedArray.length + i] = exSelArray[i];
-      }
-      //assign both
-      parent.setExercises(both);
-      
-      //add the exercises from selected (this panel)
-      //to the end of the contents of assigned (the partner panel)
-		partner.txtAreaAssigned.setText( partner.txtAreaAssigned.getText() + txtAreaAssigned.getText() );
+		ArrayList<String> finalAssigned = new ArrayList<String>();
+		for (int i = 0; i < alreadyAssigned.length; i++) {
+      	    if(alreadyAssigned[i] != "") {
+      	    	finalAssigned.add(alreadyAssigned[i]);
+      	    }
+        }
+        boolean isDupe = false;
+        for (int i = 0; i < toAssign.length; i++) {
+        	for(int j = 0; j < alreadyAssigned.length; j++) {
+        	    //if not a duplicate, add to assigned
+            	if(toAssign[i].equals(alreadyAssigned[j])) {
+            		isDupe = true;
+        	    }
+            }
+        	if( !isDupe ){
+        		finalAssigned.add(toAssign[i]);	
+        	}
+        	isDupe = false;
+        }
+        String[] finalArray = new String[finalAssigned.size()];
+        finalArray = finalAssigned.toArray(finalArray);
+        //assign both
+        parent.setExercises(finalArray);
+        //add the exercises from selected (this panel)
+        //to the end of the contents of assigned (the partner panel)
+        partner.clear();
+		partner.addAll(finalArray);
 	}
 	
 	@UiHandler("btnClearAssign")
