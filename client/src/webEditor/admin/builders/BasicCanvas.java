@@ -3,6 +3,7 @@ package webEditor.admin.builders;
 import java.util.ArrayList;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
+import org.vaadin.gwtgraphics.client.VectorObject;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -210,5 +211,13 @@ public class BasicCanvas extends Composite {
 			return ((n1 == node1 && n2 == node2) || (n1 == node2 && n2 == node1));
 		}
 	}
+
+
+	public void addToCanvas(VectorObject obj) {
+		canvas.add(obj);
+	}
 	
+	public void removeFromCanvas(VectorObject obj) {
+		canvas.remove(obj);
+	}
 }
