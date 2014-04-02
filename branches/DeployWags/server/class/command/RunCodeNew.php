@@ -70,13 +70,17 @@ switch($lang)
 		# 	-This just calls the prolog executable 'swipl', suppresses all extra info with '-q', causes the 'main' rule to 
 		#	 be run within the prolog file with '-g main', allows the program to die correctly by halting when 'main' finishes
 		#    or fails with '-t halt', and runs the given file as a script with '-f fileName.pl'
-		$solutionExecString = "\"/usr/local/bin/swipl -q -g main -t halt -f $dir/$solutionFileName.pl\"";
-		$studentExecString = "\"/usr/local/bin/swipl -q -g main -t halt -f $dir/$studentFileName.pl\"";
+
+        //SoutionFilename is going to hold the counter for how many pairs there are to execute
+        //StudentFilename is going to hold the test queries deliminated by 'L#L'
+        // Java test file will append the ending of the file.
+		$solutionExecString = "\"/usr/local/bin/swipl -q -g main -t halt -f $dir/solutionProlog\"";
+		$studentExecString = "\"/usr/local/bin/swipl -q -g main -t halt -f $dir/studentProlog\"";
 		
 		# Open the process
 		#	-A Java test class will be used to run the Prolog scripts
 		#	-The process will stay open in the background and the php script will continue running.
-		$process = proc_open("exec /usr/bin/java -cp $dir $testFileName $nonce $solutionExecString $studentExecString 2>&1", $descriptorspec, $pipes);
+		$process = proc_open("exec /usr/bin/java -cp $dir $testFileName $nonce $solutionExecString $studentExecString $solutionFileName \"$studentFileName\" 2>&1", $descriptorspec, $pipes);
 		
 		break;
 		
