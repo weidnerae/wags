@@ -35,7 +35,7 @@ public class Evaluation_Preorder extends Evaluation  implements IsSerializable
 		
 		EvaluationNode rootEvalNode = buildEvaluationTree(nodes, edges);
 
-		if(testInorderTraversal(arguments[0], arguments[1], rootEvalNode, nodes, edges) == false)
+		if(testInorderTraversal(arguments[1], rootEvalNode, nodes, edges) == false)
 		{
 			Proxy.submitDST(problemName, 0);
 			return errorMessage;
@@ -82,24 +82,21 @@ public class Evaluation_Preorder extends Evaluation  implements IsSerializable
 		return true;
 	}
 
-	private Boolean testInorderTraversal(String postTrav, String correctTrav, EvaluationNode rootEvalNode, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
+	private Boolean testInorderTraversal(String correctTrav, EvaluationNode rootEvalNode, ArrayList<Node> nodes, ArrayList<EdgeParent> edges)
 	{
 		EvaluationNode current = rootEvalNode;
-
+				
 		String inorderTrav = "";
 
 		while(!(current == null))
-		{
+		{			
 			Stack<EvaluationNode> travNodes = new Stack<EvaluationNode>();
 			while((travNodes.size() > 0) || (!(current == null)))
-			{
-				if(!(current == null))
-				{
+			{		
+				if(!(current == null)){
 					travNodes.push(current);
 					current = current.left == null ? null : convertNodeToEvalNode(treeNodes, current.left);
-				}
-				else
-				{
+				}else{
 					current = travNodes.pop();
 					inorderTrav += current.node.getValue()+" ";
 					current = current.right == null ? null : convertNodeToEvalNode(treeNodes, current.right);
@@ -187,7 +184,7 @@ public class Evaluation_Preorder extends Evaluation  implements IsSerializable
 			for(int i = 0; i < edges.size(); i++)
 			{
 				EdgeParent edge = edges.get(i);
-				if(currNode.getValue() == edge.getN1().getValue())
+				if(currNode == edge.getN1())
 				{
 					if(currNode.getLeft() > edge.getN2().getLeft())
 					{
@@ -198,12 +195,11 @@ public class Evaluation_Preorder extends Evaluation  implements IsSerializable
 						rightNode = edge.getN2();
 					}
 				}
-				else if(currNode.getValue() == edge.getN2().getValue())
+				else if(currNode == edge.getN2())
 				{
 					parentNode = edge.getN1();
 				}
 			}
-
 			EvaluationNode evalNode = new EvaluationNode(currNode, parentNode, leftNode, rightNode);
 			treeNodes.add(evalNode);
 			parentNode = null;
@@ -236,7 +232,7 @@ public class Evaluation_Preorder extends Evaluation  implements IsSerializable
 		for(int i = 0; i < evalNodes.size(); i++)
 		{
 			EvaluationNode theNode = evalNodes.get(i);
-			if(theNode.node.getValue() == node.getValue())
+			if(theNode.node == node)
 			{
 				return theNode;
 			}
@@ -259,6 +255,14 @@ public class Evaluation_Preorder extends Evaluation  implements IsSerializable
 			this.left = left;
 			this.right = right;
 			this.visited = false;
+		}
+		
+		public String toString(){
+			String left = this.left == null ? "" : this.left.toString();
+			String right = this.right == null ? "" : this.right.toString();
+			String par = this.parent == null ? "" : this.parent.toString();
+			
+			return "Val: "+this.node.getValue()+" Parent: "+par+" Left: "+left+" Right: "+right;
 		}
 	}
 

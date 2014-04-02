@@ -545,17 +545,18 @@ public class ProblemCreationPanel extends Composite{
 	}
 	
 	private void setupPrologOptions(){
-		helperClassLabel.setText("Prolog Solution File: ");
-		testClassLabel.setText("Java Test File: ");
+		helperClassLabel.setText("Prolog Query File: ");
+		testClassLabel.setText("Prolog Solution File: ");
 		prologMagnetMaker.setVisible(true);
 		javaMagnetMaker.setVisible(false);
 		fileParseFormPanel.setVisible(false);
 		statementsTxtAreaLabel.setText("Facts/Rules/Terms:");
-		innerFunctionsTxtAreaLabel.setText("Starting Comment and Testing Code:");
-		hiddenFunctionsLabel.setText("Testing Code (must include a main\\0 procedure):");	
+		innerFunctionsTxtAreaLabel.setText("Starting Comment:");
+		hiddenFunctionsArea.setVisible(false);
+		hiddenFunctionsLabel.setVisible(false);
 		classDeclarationTxtArea.setVisible(false);
 		classDeclarationTxtAreaLabel.setVisible(false);
-		createHidFunctionButton.setText("Add Testing Code");
+		createHidFunctionButton.setVisible(false);
 	}
 	
 	private void setupJavaOptions(){
@@ -568,8 +569,9 @@ public class ProblemCreationPanel extends Composite{
 		fileParseFormPanel.setVisible(true);
 		statementsTxtAreaLabel.setText("Statements:");
 		innerFunctionsTxtAreaLabel.setText("Functions: ");
-		hiddenFunctionsLabel.setText("Hidden Code:");
-		createHidFunctionButton.setText("Add Hidden Code");
+		hiddenFunctionsArea.setVisible(true);
+		hiddenFunctionsLabel.setVisible(true);
+		createHidFunctionButton.setVisible(true);
 	}
 	
 	/** 
