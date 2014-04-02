@@ -38,5 +38,8 @@ public class Node {
 	public boolean getVisited() {
 		return visited;
 	}
+	public String toString(){
+		return this.getValue();
+	}
 }	
 
