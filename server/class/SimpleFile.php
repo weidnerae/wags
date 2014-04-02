@@ -68,8 +68,8 @@ class SimpleFile extends Model
         $sth->execute(array(':id' => $id));
 
         return $sth->fetchAll();
-    } 
-
+    }
+    
     public static function deleteFilesForMP($id){
         require_once('Database.php');
         $db = Database::getDb();
