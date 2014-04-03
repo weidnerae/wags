@@ -11,7 +11,6 @@ import webEditor.logical.Node;
 import webEditor.logical.NodeCollection;
 import webEditor.logical.TraversalContainer;
 
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -24,19 +23,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class RedBlackDisplayManager extends TreeTypeDisplayManager implements
 		IsSerializable {
-	protected EdgeCollection edgeCollection;
-	protected ArrayList<Widget> weightsInPanel;
-	protected RedBlackProblem problem;
-	protected boolean addingEdge;
-	protected boolean removingEdge;
-	protected boolean coloring;
 
-	// permanent widgets
-	protected Button addEdgeButton;
-	protected Button removeEdgeButton;
-	protected Button colorButton;
-	protected Label edgeAdditionIns;
-	protected AbsolutePanel edgeAdditionInsPanel;
+	protected RedBlackProblem problem;
 
 	public RedBlackDisplayManager(DrawingArea canvas, AbsolutePanel panel,
 			NodeCollection nc, EdgeCollection ec, RedBlackProblem problem) {
@@ -81,15 +69,10 @@ public class RedBlackDisplayManager extends TreeTypeDisplayManager implements
 	}
 
 	// Add Edge Buttons and Color Button
-	private HandlerRegistration edgeEventHandler;
 	private HandlerRegistration colorButtonEventHandler;
 	private HandlerRegistration colorButtonCancelEventHandler;
-	private ClickHandler removeEdgeClickHandler;
-	private ClickHandler edgeClickHandler;
-	private ClickHandler edgeCancelClickHandler;
 	private ClickHandler colorButtonClickHandler;
 	private ClickHandler colorButtonCancelClickHandler;
-	private boolean showingSubMess;
 
 	private class ColorButtonClickHandler implements ClickHandler {
 		public void onClick(ClickEvent event) {
@@ -116,15 +99,6 @@ public class RedBlackDisplayManager extends TreeTypeDisplayManager implements
 			colorButtonEventHandler = colorButton.addClickHandler(colorButtonClickHandler);
 			coloring = false;
 		}
-	}
-	
-	public void addEdgeStart() {
-		addEdgeButton.setText("Cancel");
-		edgeEventHandler.removeHandler();
-		addEdgeButton.addClickHandler(edgeCancelClickHandler);
-		addingEdge = true;	
-		changeRBNodeEdgeStatus(true);
-		Proxy.getDST().add(edgeAdditionInsPanel, 346, 131);
 	}
 	
 	public void colorButtonStart(){		
@@ -167,7 +141,9 @@ public class RedBlackDisplayManager extends TreeTypeDisplayManager implements
 		removeEdgeButton.setWidth("130px");
 		removeEdgeButton.setStyleName("control_button");
 		removeEdgeClickHandler = new RemoveEdgeClickHandler();
-		removeEdgeButton.addClickHandler(removeEdgeClickHandler);
+		removeEdgeCancelClickHandler = new RemoveEdgeCancelClickHandler();
+		removeEdgeEventHandler = removeEdgeButton
+				.addClickHandler(removeEdgeClickHandler);
 		rightButtonPanel.add(removeEdgeButton, 204, 2);
 	}
 	
@@ -264,5 +240,5 @@ public class RedBlackDisplayManager extends TreeTypeDisplayManager implements
 				rbNode.setAddingEdgesFalse();
 		}
 	}
-
+	
 }

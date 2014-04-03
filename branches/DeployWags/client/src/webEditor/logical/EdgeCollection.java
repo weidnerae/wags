@@ -127,7 +127,7 @@ public class EdgeCollection implements IsSerializable {
 												// or string node
 				node.setStyleName("selected_string_node");
 			} else {
-				node.setStyleName("selected_node");
+				node.addStyleName("selected_node");
 			}
 		} else {
 			showEdgeAdditionError(check);
