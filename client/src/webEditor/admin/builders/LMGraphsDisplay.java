@@ -8,12 +8,31 @@ import com.google.gwt.user.client.ui.Button;
 public class LMGraphsDisplay extends BasicDisplay {
 	Button btnAssign;
 	ArgPanel pnlSolution;
-	boolean kruskal = true;
+	ArgPanel pickSide;
+	boolean kruskal;
+	boolean prims;
 	
+	public LMGraphsDisplay(boolean x)
+	{
+		if (x)
+		{
+			kruskal = false;
+			prims = true;
+			construct();
+		}
+		else 
+		{
+		    prims = false;
+		    kruskal = true;
+			construct();
+		}
+	}
+
 	@Override
 	public void construct() {
 		canvas.setEdgeHandler(new EH_Graphs(this.canvas));
-		
+		if (kruskal)
+		{
 		txtInstructions.setText("Use this canvas to create a Graph problem.  Add nodes by filling in the appropriate text box " +
 				"with the number you'd like on the node and either press 'Enter' or press 'Add'.  You can delete nodes in a similar manner " +
 				"by holding 'Shift' and pressing 'Enter' or by pressing the 'Delete' button.  Create edges between nodes by " +
@@ -27,6 +46,21 @@ public class LMGraphsDisplay extends BasicDisplay {
 		pnlSolution.setup("Order: ", "Assign");
 		pnlSolution.btnArg.addClickHandler(new AssignClickHandler(this, pnlSolution));
 		basePanel.add(pnlSolution);
+		}
+		else
+		{
+			txtInstructions.setText("Test text for prims");
+			
+			pickSide = new ArgPanel();
+			pickSide.setup("Starting node: ", "Select");
+			pickSide.btnArg.addClickHandler(new AssignClickHandler(this, pickSide));
+			basePanel.add(pickSide);
+			
+			pnlSolution = new ArgPanel();
+			pnlSolution.setup("Order: ", "Assign");
+			pnlSolution.btnArg.addClickHandler(new AssignClickHandler(this, pnlSolution));
+			basePanel.add(pnlSolution);
+		}
 	}
 
 	@Override
