@@ -104,15 +104,15 @@ public class TreeTypeDisplayManager extends DisplayManager implements
 
 
 	// Add Edge Buttons and Color Button
-	private HandlerRegistration edgeEventHandler;
-	private HandlerRegistration edgeCancelEventHandler;
-	private HandlerRegistration removeEdgeEventHandler;
-	private HandlerRegistration removeEdgeCancelEventHandler;
-	private ClickHandler removeEdgeClickHandler;
-	private ClickHandler removeEdgeCancelClickHandler;
-	private ClickHandler edgeClickHandler;
-	private ClickHandler edgeCancelClickHandler;
-	private boolean showingSubMess;
+	protected HandlerRegistration edgeEventHandler;
+	protected HandlerRegistration edgeCancelEventHandler;
+	protected HandlerRegistration removeEdgeEventHandler;
+	protected HandlerRegistration removeEdgeCancelEventHandler;
+	protected ClickHandler removeEdgeClickHandler;
+	protected ClickHandler removeEdgeCancelClickHandler;
+	protected ClickHandler edgeClickHandler;
+	protected ClickHandler edgeCancelClickHandler;
+	protected boolean showingSubMess;
 
 	private class AddEdgeNodeClickHandler implements DoubleClickHandler {
 		@Override
@@ -120,8 +120,9 @@ public class TreeTypeDisplayManager extends DisplayManager implements
 			if (edgeCollection.getNumNodesSelected() == 0) {
 				removeWidgetsFromPanel();
 				resetRemoveEdgeButton();
-				if (!problem.getNodeType().equals(DSTConstants.NODE_RED_BLACK))
+				if (!problem.getNodeType().equals(DSTConstants.NODE_RED_BLACK)){
 					resetNodeStyles();
+				}
 				resetEdgeStyles();
 				makeNodesNotDraggable();
 				addEdgeStart();
@@ -136,8 +137,9 @@ public class TreeTypeDisplayManager extends DisplayManager implements
 		public void onClick(ClickEvent event) {
 			removeWidgetsFromPanel();
 			resetRemoveEdgeButton();
-			if (!problem.getNodeType().equals(DSTConstants.NODE_RED_BLACK))
+			if (!problem.getNodeType().equals(DSTConstants.NODE_RED_BLACK)){
 				resetNodeStyles();
+			}
 			resetEdgeStyles();
 			makeNodesNotDraggable();
 			addEdgeStart();
@@ -183,7 +185,11 @@ public class TreeTypeDisplayManager extends DisplayManager implements
 
 	private void resetEdgeButton() {
 		addEdgeButton.setText("Add Edge");
-		resetNodeStyles();
+		if (!problem.getNodeType().equals(DSTConstants.NODE_RED_BLACK)){
+			resetNodeStyles();
+		}else{
+			removeSelectedState();
+		}
 		edgeCancelEventHandler.removeHandler();
 		edgeEventHandler = addEdgeButton.addClickHandler(edgeClickHandler);
 	}
@@ -499,7 +505,13 @@ public class TreeTypeDisplayManager extends DisplayManager implements
 	}
 
 	public void resetNodeStyles() {
-		nodeCollection.resetNodeStyles(problem.getNodeType());
+		if (!problem.getNodeType().equals(DSTConstants.NODE_RED_BLACK)){
+			nodeCollection.resetNodeStyles(problem.getNodeType());
+		}
+	}
+	
+	private void removeSelectedState() {
+		nodeCollection.removeSelectedState();
 	}
 
 	// stays

@@ -61,6 +61,13 @@ public class NodeCollection implements IsSerializable
 			}
 		}
 	}
+	
+	public void removeSelectedState() {
+		for(int i = 0; i < nodes.size(); i++){
+			nodes.get(i).getLabel().removeStyleName("selected_node");
+		}
+		
+	}
 			
 	public void makeNodesDraggable(DragController dc)
 	{
@@ -89,4 +96,5 @@ public class NodeCollection implements IsSerializable
 	{
 		nodes.clear();
 	}
+
 }
