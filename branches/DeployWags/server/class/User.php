@@ -140,6 +140,20 @@ class User extends Model
          
          return $sth->fetchAll();
      }
+	 
+	public function getDatabaseSubmissions($sectionId){
+         require_once('Database.php');
+         $db = Database::getDb();
+
+         $sth = $db->prepare('SELECT databaseProblemId, numAttempts, success
+                              FROM  DatabaseSubmission
+                              WHERE userId = :userId
+                              AND sectionId = :sectionId');
+         $sth->execute(array(':userId' => $this->getId(), ':sectionId' => $sectionId));
+         $sth->setFetchMode(PDO::FETCH_ASSOC);
+         
+         return $sth->fetchAll();
+     }
 
      //Returns all dst submissions by a stuent based on the Student's ID
      public function getDstSubmissions($sectionId) {
