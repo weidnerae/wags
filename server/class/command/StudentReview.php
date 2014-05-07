@@ -15,6 +15,7 @@ class StudentReview extends Command
             $pSubs = $user->getProgrammingSubmissions($section);
             $lSubs = $user->getDstSubmissions($section);
             $mSubs = $user->getMagnetSubmissions($section);
+			$dSubs = $user->getDatabaseSubmissions($section);
 
 
             $totalCorrect = 0; //used to calculate total completed
@@ -48,6 +49,17 @@ class StudentReview extends Command
                 
             foreach($mSubs as $sub) {
                 $problem = MagnetProblem::getMagnetProblemById($sub['magnetProblemId']);
+                $name = $problem->getTitle();
+
+                $row = array('exercise' => $name,
+                             'numAttempts' => $sub['numAttempts'],
+                             'success' => $sub['success']);
+                $this->addRow($row, $result, $totalCorrect);
+                $subCount++; //for each submission, increment subCount
+            }
+			
+			foreach($dSubs as $sub) {
+                $problem = DatabaseProblem::getDatabaseProblemById($sub['databaseProblemId']);
                 $name = $problem->getTitle();
 
                 $row = array('exercise' => $name,
