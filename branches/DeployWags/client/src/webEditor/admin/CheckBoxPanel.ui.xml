@@ -8,10 +8,11 @@
 			font-size: x-large;
 			font-family: helvetica;	
 			text-align: center;
+			
 		}
 	</ui:style>
 
-	<g:VerticalPanel horizontalAlignment="ALIGN_LEFT">
+	<g:VerticalPanel horizontalAlignment="ALIGN_CENTER">
 		<g:Label ui:field="title" styleName="{style.title}"/>
 		<g:VerticalPanel ui:field="chkBoxHolder"/>
 	</g:VerticalPanel>

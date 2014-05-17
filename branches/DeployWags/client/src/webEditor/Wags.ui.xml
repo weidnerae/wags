@@ -6,17 +6,37 @@
 	<ui:style>
 	
 		.applicationBar {
-			border-bottom: 5px solid rgb(50,92, 116); 
+			padding-bottom:10px;
 			width: 100%;
 			text-align: right; 
+			background-color: rgb(50,92,116);
+			border: 5px solid black;
+        }
+
+        .bottomBordered {
+			border: 5px solid black;	
+ 		}
 
 		.anchor { 
 			cursor: pointer; 
 			position: relative;
+    		font-weight: bolder;
+    		font-family: arial, verdana, san-serif;
+    		font-size: 18px;
+    		text-align: center;
+            color: white;
+            width: 100%;
+            height: 100%;
+            position:relative;
+            margin: 10, auto;
+            padding: 10px;
+            cursor: pointer;
+			top: 1em;
+			right:1em;
 		}
 		
 		.anchor:hover { 
-			text-decoration: underline; 
+			color: gold; 
 			z-index: 102;
 		}
 
@@ -34,25 +54,32 @@
 		}
 		
 		.title { 
-			font-size: 22px;
-			font-weight: light;
-			font-style: italic;
-			color: #325C74;
+            cursor: pointer;
+			font-size: 30px;
+			font-weight: heavy;
+			color: white;
 			z-index: 101;
 			position: relative;
-			vertical-align: top;
+			vertical-align: center;
 			display: inline;
             float:left;
-            top: -2px;
+			text-decoration:none;
+			left:0.7em;
+			top:0.5em;
 		}
+		.title:visited {
+			color:white;
+        }
+		.title:hover {
+			color:gold;
+        }
 			
 	</ui:style>
-	
+
 	<g:DockLayoutPanel unit="EM" ui:field="dock">
-		<g:north size="2">
+		<g:north size="6" styleName="{style.bottomBordered}">
 			<g:HTMLPanel styleName="{style.applicationBar}">
-				<g:Label styleName="{style.title} ">WAGS</g:Label>
-				<g:Label styleName="{style.hello-logout}" ui:field="hello"></g:Label>
+				<g:Anchor horizontalAlignment="ALIGN_CENTER" styleName="{style.title}" ui:field="Home">WAGS</g:Anchor>
 				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="Editor">Editor</g:Anchor> 
 				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="Magnets">Magnets</g:Anchor> 
 				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="DST">Logical</g:Anchor>
@@ -63,6 +90,8 @@
 		</g:north>
 		<g:center>
 		<g:AbsolutePanel></g:AbsolutePanel>
-     	</g:center>
-     </g:DockLayoutPanel>
+	  	</g:center>
+     
+		</g:DockLayoutPanel>
+
  </ui:UiBinder> 
