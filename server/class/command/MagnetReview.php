@@ -1,4 +1,5 @@
 <?php
+
 define("EXEC_SUCCESS", 0);
 
 class MagnetReview extends Command
@@ -13,7 +14,9 @@ class MagnetReview extends Command
 
         if(strpos($type, "prolog") !== FALSE){
             $lang = "pl";
-        }else {
+        } else if(strpos($type, "c") !== FALSE) {
+            $lang = "c";
+        } else {
             $lang = "java";
         }
 
@@ -32,102 +35,82 @@ class MagnetReview extends Command
         // givenFiles is constructed out of the SimpleFiles so that we can
         // compile the student code LAST, which gives more clear compile 
         // errors than when things are compiled in a random order
-        if($lang == "java"){
-            $givenFiles = "";
-            foreach($simpleFiles as $simpleFile){
-                $fileName = $simpleFile->getClassName();
+        $givenFiles = "";
+        foreach($simpleFiles as $simpleFile){
+            $fileName = $simpleFile->getClassName();
+            if(strpos($fileName,".java") === true){
                 $filePath = "$dir/$fileName.java";
-                $file = fopen($filePath, "w+");
-                $fileResult = fwrite($file, $simpleFile->getContents());
-                fflush($file);
-                fclose($file);
-                
-                if(!$fileResult){
-                    return JSON::error("Couldn't write $filePath");
-                }
-
-                $givenFiles = $givenFiles." $filePath"; // Keep track of files
+            } else if(strpos($fileName, ".c") === true) {
+                $filePath = "$dir/$fileName.c";
+            } else {
+                $filePath = "$dir/$fileName";
             }
-
-            // Create the file with student code
-            $studentPath = "$dir/Student.java";
-       
-            $file = fopen($studentPath, "w+b"); // Will change to default
-            $code = str_replace("\r\n", PHP_EOL, $code);
-            fwrite($file, $code);
+            $file = fopen($filePath, "w+");
+            $fileResult = fwrite($file, $simpleFile->getContents());
             fflush($file);
             fclose($file);
-        } else { // lang == pl for now
             
-            $genericJavaFilename = "PrologTestClass.class";
-            $genericPrologFilename = "PrologGenericTestCode.pl";
-            $testSrcDir = dirname(__FILE__);
-            copy("$testSrcDir/$genericJavaFilename", "$dir/$genericJavaFilename");
-
-            $genericPrologCode = file_get_contents("$testSrcDir/$genericPrologFilename", FILE_USE_INCLUDE_PATH);
-            
-            foreach($simpleFiles as $simpleFile){
-                if($simpleFile->isTest()){
-                  // This is the correct Prolog Procedure
-                  $prologSolution = $simpleFile->getContents();
-                }else{
-                  // This is the file ocntaining the list of the test queries
-                  $testQueries = explode("\n",str_replace("\r\n", "\n",$simpleFile->getContents()));
-                  $prologWithQueries = $this->populatePrologTestCode($genericPrologCode, $testQueries);
-                }
+            if(!$fileResult){
+                return JSON::error("Couldn't write $filePath");
             }
 
-            // we should now have everything we need to write out all
-            // of the Student/Solution pairs.
-            if(isset($prologWithQueries) && isset($prologSolution)){
-                $counter = 0;
-                foreach($prologWithQueries as $prologWithQuery){
-                    $file = fopen("$dir/studentProlog$counter.pl", "w+");
-                    $fileResult = fwrite($file, $code.PHP_EOL.$prologWithQuery);
-                    fflush($file);
-                    fclose($file);
-                    if(!$fileResult){
-                        return JSON::error("Couldn't write student Prolog file $counter");
-                    }
-                    
-                    $file = fopen("$dir/solutionProlog$counter.pl", "w+");
-                    $fileResult = fwrite($file, $prologSolution.PHP_EOL.$prologWithQuery);
-                    fflush($file);
-                    fclose($file);
-                    if(!$fileResult){
-                        return JSON::error("Couldn't write student Prolog file $counter");
-                    }
-
-                    $counter++;
-                }
-            } else {
-                return JSON::error(print_r($simpleFiles, true));
-            }
-
+            $givenFiles = $givenFiles." $filePath"; // Keep track of files
         }
 
+        // Create the file with student code
+        $studentPath = "$dir/Student.".$lang;
+       
+        $file = fopen($studentPath, "w+b"); // Will change to default
+        $code = str_replace('\r\n', PHP_EOL, $code);
+        fwrite($file, $code);
+        fflush($file);
+        fclose($file);
+        
+        // Find the test class (the driver/main class)
+        $driver = SimpleFile::getTestFileForMP($magnetProblem->getId());
+        $driverName = $driver->getClassName();
 
         // Compile the code
         if($lang == "java"){
-            // Find the test class (the driver/main class)
-            $driver = SimpleFile::getTestFileForMP($magnetProblem->getId());
-            $driverName = $driver->getClassName();
             exec("/usr/bin/javac $givenFiles $studentPath 2>&1", $output, $result);
-        } else{
-            // Prolog, no need to compile anything
-           $result = EXEC_SUCCESS;
+        } else if($lang == "pl"){
+            // Assuming the only java file is the driver
+            exec("/usr/bin/javac $dir/$driverName.java 2>&1", $output, $result);
+        } else if ($lang == "c") {
+            exec("/usr/bin/gcc $dir/$driverName -o $dir/$driverName.o 2>&1", $output, $result);
         }
-
         // Check compilation -- Success 
         if($result == EXEC_SUCCESS){
             $nonce = $this->genRandomString();            
             if($lang == "java"){
                 exec("/usr/bin/php class/command/RunCodeNew.php $dir $driverName blank blank Java $nonce 2>&1", $stdout); 
             }else if($lang == "pl"){
-                $testQueries = str_replace(' ', '',implode("L#L", $testQueries));
-                exec("/usr/bin/php class/command/RunCodeNew.php $dir PrologTestClass $counter \"$testQueries\" Prolog $nonce 2>&1",$stdout);
-            }else{
-                return JSON::warn("Error determining Language");
+                // We have to do more if it's prolog because not all the
+                // Test/Helper classes are Java, we have a Prolog Solution in 
+                // there as well. We check for the ".pl" extension on the ClassName
+                // that we left in there in AddMagnetExercise.
+                $givenFilesArr = explode(" ",$givenFiles);
+                foreach($givenFilesArr as $filePath){
+                    if(strpos($filePath, ".pl") !== false){
+                        $solutionPath = $filePath;
+                    }
+                }
+                
+                // RunCodeNew adds the directory and file extension for prolog
+                // so we have to pull out the filename
+                $studentPath = pathinfo($studentPath)['filename'];
+                $solutionPath = pathinfo($solutionPath)['filename'];
+
+                // driverName is the uploaded Java Test file that will run
+                //     and compare the student and solution prolog files.
+                // solutionPath is the path of the uploaded Prolog solution.
+                // studentPath is the path of the file generated from the
+                //     student's magnets.
+                exec("/usr/bin/php class/command/RunCodeNew.php $dir $driverName $solutionPath $studentPath Prolog $nonce 2>&1",$stdout);
+            } else if ($lang == "c") {
+                exec("/usr/bin/php class/command/RunCodeNew.php $dir $driverName.o blank blank C $nonce 2>&1", $stdout); 
+            } else{
+                JSON::warn("Error determining Language");
             }
 
             $stdout = str_replace("\t", "<tab/>", $stdout);
@@ -145,9 +128,8 @@ class MagnetReview extends Command
                 // Don't print nonce
                 $stdout[0] = substr($stdout[0], 0, $noncePos); 
                 return JSON::success($stdout);
-            }else {
+            }else
                 return JSON::warn($stdout);
-            }
         // Check compilation -- Failure 
         } else {
             // Generates a submission that was unsuccessful
@@ -160,24 +142,6 @@ class MagnetReview extends Command
             $error = str_replace("\t", "<tab/>", $error);
             return JSON::error($error);
         }
-    }
-
-    private function populatePrologTestCode($testCode, $queries){
-        $testFiles = array();
-
-        foreach($queries as $query){
-            $writeVars = array();
-            preg_match_all('/[\(, ]\s*([A-Z]+\w*)/',$query, $vars);
-            foreach($vars[1] as $var){
-                array_push($writeVars, 'write('.$var.')');
-            }
-            $writeVars2 = implode(', ', $writeVars);
-            $finalCode =  str_replace("<QUERYSTRING>", $query, $testCode);
-            $finalCode = str_replace("<WRITERESULTS>", $writeVars2, $finalCode);
-            array_push($testFiles, $finalCode);
-        }
-
-        return $testFiles;
     }
 
     private function genRandomString(){
@@ -237,3 +201,4 @@ class MagnetReview extends Command
         return;
     }
 }
+?>

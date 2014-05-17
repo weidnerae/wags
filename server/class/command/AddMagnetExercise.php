@@ -190,7 +190,11 @@ class AddMagnetExercise extends Command
         // being tested.
         if($fileExtension === "pl"){
             $newSF->setClassName("$fileName.$fileExtension");
-        }else{
+        }
+        else if($fileExtension === "c") {
+            $newSF->setClassName("$fileName.$fileExtension");
+        }
+        else{
             $newSF->setClassName($fileName);
         }
         $newSF->setPackage("");
