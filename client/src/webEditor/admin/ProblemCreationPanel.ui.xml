@@ -108,6 +108,9 @@
 							<g:customCell styleName='{style.halfCell}'>
 				            	<g:RadioButton ui:field="btnPrologBasicProblem" name="problemTypes" text="PROLOG"></g:RadioButton>
 							</g:customCell>
+							<g:customCell styleName='{style.halfCell}'>
+								<g:RadioButton ui:field="btnCBasicProblem" name="problemTypes" text="C"></g:RadioButton>
+							</g:customCell>
 						</g:row>
 					</g:Grid>
 					<g:HorizontalPanel styleName='{style.magnetCreationPanel}' width="100%">

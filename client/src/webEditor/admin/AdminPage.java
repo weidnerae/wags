@@ -75,6 +75,7 @@ public class AdminPage extends Composite {
 		magnet_c.setAdminPage(this);
 		sections = new SectionTab();
 		sections.setAdmin(this);
+		menu.setSpacing(0);
 		//check if admin is root to make section_btn visible
 		Proxy.isAdmin(section_btn);		
 	}

@@ -42,7 +42,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-
 public class Proxy
 {	
 
@@ -1086,7 +1085,7 @@ public class Proxy
 			final TextArea functions, final TextArea statements, String title, final TextArea finalTypeTxtArea, final TextArea forLoop1TextArea, final TextArea forLoop2TextArea, 
 			final TextArea forLoop3TextArea, final TextArea ifsTextArea, final TextArea whilesTextArea, final TextArea returnsTextArea, final TextArea assignmentsVarTextArea,
 			final TextArea assignmentValTextArea, final TextBox ifAllowed, final TextBox elseAllowed, final TextBox elseIfAllowed, final TextBox forAllowed, final TextBox whileAllowed,
-			final TextBox returnAllowed, final TextBox assignmentAllowed, final RadioButton btnBasicProblem, final RadioButton btnAdvancedProblem, final RadioButton btnPrologBasicProblem) {
+			final TextBox returnAllowed, final TextBox assignmentAllowed, final RadioButton btnBasicProblem, final RadioButton btnAdvancedProblem, final RadioButton btnPrologBasicProblem, final RadioButton btnCBasicProblem) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetMagnetProblem&title=" + title);
 		try{
 			builder.sendRequest("", new RequestCallback() {
@@ -1188,7 +1187,10 @@ public class Proxy
 						}
 					} else if(magProblem.type.equals(webEditor.magnet.view.Consts.PROLOG_BASIC_PROBLEM)) {
 						btnPrologBasicProblem.setValue(true);
-					} else{
+					} else if (magProblem.type.equals(webEditor.magnet.view.Consts.C_BASIC_PROBLEM)) {
+						btnCBasicProblem.setValue(true);
+					}
+					else{
 						// This is basic Java problem, it's in the else because some things in the
 						// DB have -1 as type or nothing. We should probably go in and fix that.
 						btnBasicProblem.setValue( true );	

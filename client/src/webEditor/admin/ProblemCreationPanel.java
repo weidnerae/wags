@@ -57,6 +57,7 @@ public class ProblemCreationPanel extends Composite{
 	final String ADVANCED_PROBLEM = "advanced_problem";
 	final String BASIC_PROBLEM = "basic_problem";
 	final String PROLOG_BASIC_PROBLEM = "prolog_basic_problem";
+	final String C_BASIC_PROBLEM = "c_basic_problem";
 	
 	@UiField FormPanel problemCreateFormPanel, fileParseFormPanel, downloadMagnetFilesForm;
 	@UiField TextBox titleTxtBox, topLabelTxtBox, topRealCodeTxtBox, 
@@ -74,7 +75,7 @@ public class ProblemCreationPanel extends Composite{
 		statementsButton, clearDataButton, createHidFunctionButton, btnLoadExercise,
 		btnDeleteExercise, btnMoreHelpers, testProblemButton, prologFactBtn, prologRuleBtn, prologTermBtn,
 		prologProcedureBtn;
-	@UiField RadioButton btnBasicProblem, btnAdvancedProblem, btnPrologBasicProblem;
+	@UiField RadioButton btnBasicProblem, btnAdvancedProblem, btnPrologBasicProblem, btnCBasicProblem;
 	@UiField FileUpload solutionUpload, helperUpload;
 	@UiField Label uploadStamp, helperStamp;
 	@UiField ListBox lstGroup, lstLoadGroup, lstLoadExercise;
@@ -200,7 +201,7 @@ public class ProblemCreationPanel extends Composite{
 						innerFunctionsTxtArea, statementsTxtArea, lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()),
 						finalTypeTxtArea,forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, ifsTextArea, whilesTextArea, returnsTextArea,
 						assignmentsVarTextArea, assignmentsValTextArea, ifAllowed, elseAllowed, elseIfAllowed, forAllowed, whileAllowed, 
-						returnAllowed, assignmentAllowed, btnBasicProblem, btnAdvancedProblem, btnPrologBasicProblem);
+						returnAllowed, assignmentAllowed, btnBasicProblem, btnAdvancedProblem, btnPrologBasicProblem, btnCBasicProblem);
 			    Proxy.getFileTime(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()), uploadStamp, helperStamp);
 				// dear god help me please
 				Timer t = new Timer() {
@@ -221,6 +222,11 @@ public class ProblemCreationPanel extends Composite{
 							clearMagnetMakerOptions();
 							setupPrologOptions();
 							finalTypeTxtArea.setText( PROLOG_BASIC_PROBLEM );
+						} else if (btnCBasicProblem.getValue() == true) {
+							btnCBasicProblem.setValue(true);
+							clearMagnetMakerOptions();
+							setupCOptions();
+							finalTypeTxtArea.setText( C_BASIC_PROBLEM );
 						}
 						Proxy.getFileTime(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()), uploadStamp, helperStamp);
 			      }
@@ -544,7 +550,8 @@ public class ProblemCreationPanel extends Composite{
 		assignmentsValTextArea.setVisible(true);
 	}
 	
-	private void setupPrologOptions(){
+	private void setupPrologOptions()
+	{
 		helperClassLabel.setText("Prolog Query File: ");
 		testClassLabel.setText("Prolog Solution File: ");
 		prologMagnetMaker.setVisible(true);
@@ -559,11 +566,28 @@ public class ProblemCreationPanel extends Composite{
 		createHidFunctionButton.setVisible(false);
 	}
 	
-	private void setupJavaOptions(){
+	private void setupJavaOptions()
+	{
 		javaMagnetMaker.setVisible(true);
 		prologMagnetMaker.setVisible(false);
 		classDeclarationTxtArea.setVisible(true);
 		classDeclarationTxtAreaLabel.setVisible(true);
+		helperClassLabel.setText("Helper Class: ");
+		testClassLabel.setText("Testing Class: ");
+		fileParseFormPanel.setVisible(true);
+		classDeclarationTxtArea.setVisible(false);
+		classDeclarationTxtAreaLabel.setVisible(false);
+		statementsTxtAreaLabel.setText("Statements:");
+		innerFunctionsTxtAreaLabel.setText("Functions: ");
+		hiddenFunctionsArea.setVisible(true);
+		hiddenFunctionsLabel.setVisible(true);
+		createHidFunctionButton.setVisible(true);
+	}
+	
+	private void setupCOptions()
+	{
+		javaMagnetMaker.setVisible(true);
+		prologMagnetMaker.setVisible(false);
 		helperClassLabel.setText("Helper Class: ");
 		testClassLabel.setText("Testing Class: ");
 		fileParseFormPanel.setVisible(true);
@@ -717,6 +741,14 @@ public class ProblemCreationPanel extends Composite{
 		clearMagnetMakerOptions();
 		setupPrologOptions();
 		finalTypeTxtArea.setText(PROLOG_BASIC_PROBLEM);
+	}
+	
+	@UiHandler("btnCBasicProblem")
+	void onCBasicProblemClick(ValueChangeEvent<Boolean> event)
+	{
+		clearMagnetMakerOptions();
+		setupCOptions();
+		finalTypeTxtArea.setText(C_BASIC_PROBLEM);
 	}
 	
 	/**
