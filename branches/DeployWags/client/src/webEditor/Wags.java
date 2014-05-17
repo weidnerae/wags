@@ -34,14 +34,15 @@ public class Wags extends View
 	interface EditorUiBinder extends UiBinder<Widget, Wags>{}
 	
 	@UiField DockLayoutPanel dock;
+	@UiField Anchor Home;
 	@UiField Anchor Editor;
 	@UiField Anchor DST;
 	@UiField Anchor Magnets;
 	@UiField Anchor Database;
 	@UiField Anchor AdminPage;
 	@UiField Anchor logout;
-	@UiField Label hello;
-
+	Label hello;
+	
 	public Magnets splashPage;
 	private Editor editor;
 	private AdminPage adminPage;
@@ -59,6 +60,7 @@ public class Wags extends View
 		Proxy.getUsersName(hello, Editor, DST, Magnets, AdminPage, startingPlace);
 		Proxy.checkPassword(this);
 		Proxy.setWags(this);
+		Home.setHref("");
 		
 		if (startingPlace.equals("")) {
 			startingPlace = "default";

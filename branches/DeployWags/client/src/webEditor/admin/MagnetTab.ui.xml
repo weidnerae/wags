@@ -15,25 +15,18 @@
 			width: 100%;
 		}
 	</ui:style>
-	
-	<g:LayoutPanel height="100%" width="100%">
-		<g:layer left='0px' right='890px'>
-			<g:ScrollPanel styleName='{style.section}'>
+	<g:HorizontalPanel>
+	    <g:ScrollPanel width="30em" styleName='{style.section}'>
 				<my:ButtonPanel styleName="{style.btns_panel}" ui:field="btnPanelGroups" />
-			</g:ScrollPanel>
-		</g:layer>
-		<g:layer left='240px' right='325px'>
-			<g:ScrollPanel styleName='{style.section}'>
+		</g:ScrollPanel>
+	    <g:ScrollPanel width="30em" styleName='{style.section}'>
 				<my:CheckBoxPanel ui:field="chkPanelExercises" />
-			</g:ScrollPanel>
-		</g:layer>
-		<g:layer left='805px' right='0px'>
-			<g:ScrollPanel styleName='{style.section}'>
+		</g:ScrollPanel>
+	    <g:ScrollPanel width="40em" styleName='{style.section}'>
 				<g:AbsolutePanel>
 					<my:AssignedPanel styleName="{style.assigned_panel}" ui:field="assigned"/>
 					<my:AssignedPanel styleName="{style.assigned_panel}" ui:field="selected"/>
 				</g:AbsolutePanel>
-			</g:ScrollPanel>
-		</g:layer>
-	</g:LayoutPanel>
+		</g:ScrollPanel>
+	</g:HorizontalPanel>
 </ui:UiBinder> 
