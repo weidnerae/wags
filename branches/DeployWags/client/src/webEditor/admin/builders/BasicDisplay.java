@@ -14,6 +14,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -61,7 +62,8 @@ public abstract class BasicDisplay extends Composite {
 	@UiField VerticalPanel basePanel;
 	@UiField BasicCanvas canvas;
 	@UiField Button btnAddNode, btnDeleteNode, btnCalculate, btnReset;
-	@UiField TextBox txtAddNode, txtTitle;
+	@UiField TextBox txtAddNode, txtTitle, txtStart;
+	@UiField Label lblStart;
 	@UiField TextArea txtDesc, txtInstructions;
 	private boolean built = false;
 	LMBuilder builder;
@@ -71,6 +73,8 @@ public abstract class BasicDisplay extends Composite {
 	
 	public BasicDisplay() {
 		initWidget(uiBinder.createAndBindUi(this));
+		lblStart.setVisible(false);
+		txtStart.setVisible(false);
 	}
 
 	public void load(VerticalPanel panel, LMBuilder builder){
@@ -83,6 +87,8 @@ public abstract class BasicDisplay extends Composite {
 			canvas.setParent(this);
 			built = true;
 		}
+		
+		
 		panel.add(this);
 	}
 	
@@ -149,11 +155,14 @@ public abstract class BasicDisplay extends Composite {
 		}
 	}
 	
+	
+	
 	@UiHandler("btnReset")
 	void onResetClick(ClickEvent event){
 		canvas.clear();
 		txtTitle.setText("");
 		txtDesc.setText("");
+		txtStart.setText("");
 		canvas.nodeHandler.clear();
 		canvas.edgeHandler.clear();
 		clear();
