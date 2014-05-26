@@ -8,7 +8,6 @@ import com.google.gwt.user.client.ui.Button;
 public class LMGraphsDisplay extends BasicDisplay {
 	Button btnAssign;
 	ArgPanel pnlSolution;
-	ArgPanel pickSide;
 	boolean kruskal;
 	boolean prims;
 	
@@ -49,12 +48,18 @@ public class LMGraphsDisplay extends BasicDisplay {
 		}
 		else
 		{
-			txtInstructions.setText("Test text for prims");
-			
-			pickSide = new ArgPanel();
-			pickSide.setup("Starting node: ", "Select");
-			pickSide.btnArg.addClickHandler(new AssignClickHandler(this, pickSide));
-			basePanel.add(pickSide);
+			txtInstructions.setText("Use this canvas to create a Graph problem.  Add nodes by filling in the appropriate text box " +
+					"with the number you'd like on the node and either press 'Enter' or press 'Add'.  You can delete nodes in a similar manner " +
+					"by holding 'Shift' and pressing 'Enter' or by pressing the 'Delete' button.  Create edges between nodes by " +
+					"double clicking on one node and double clicking on the node you'd like to be the child.  When edges are created " +
+					"you will be prompted to determine the weight to be added to the edge.  You can remove an edge by double clicking on it, " +
+					"and change the weight by single clicking on it. After entering your nodes and edges enter a starting node into the " +
+					"starting node text box, this is needed to calculate the results. " +
+					"Clicking on 'Calculate Results' will determine the answer for the problem you have created and if you are happy with the " +
+					"results you can assign the problem to students.  If at any time you'd like to start the process over, press the " +
+					"'reset' button in order to return the canvas to it's initial state.");
+			lblStart.setVisible(true);
+			txtStart.setVisible(true);
 			
 			pnlSolution = new ArgPanel();
 			pnlSolution.setup("Order: ", "Assign");
@@ -215,12 +220,148 @@ public class LMGraphsDisplay extends BasicDisplay {
 	}
 	
 	private void runPrims(){
+		ArrayList<String> usedNodes = new ArrayList<String>();
+		ArrayList<Edge_Graphs> usedEdges = new ArrayList<Edge_Graphs>();
+		ArrayList<Edge_Graphs> edges = Edge_Graphs.getEdges();
+		String solution = "";
+		String tempEdges = "";
+		String startNode = txtStart.getText();
+		int count = 0;
 		
+		//Does nothing if start text box is empty
+		if (startingNode(txtStart.getText(), edges))
+		{
+			//Puts the text in txtStart into usedNodes list
+			usedNodes.add(startNode);
+			while (edges.size() != 0)
+			{
+				//If the size of the edges list is 1 checks for cycle and adds it to the final
+				if (edges.size() == 1)
+				{
+					count = 0;
+					for (String s : usedNodes)
+					{
+						if (edges.get(0).n1.getText().equals(s) || edges.get(0).n2.getText().equals(s))
+						{
+							count++;
+						}
+					}
+					if (count < 2)
+					{
+						tempEdges += edges.get(0).weight;
+					}
+					break;
+				}
+				
+				//Gathers all edges that are equal to the nodes in usedNodes and puts them in usedEdges
+				for (Edge_Graphs e : edges)
+				{
+					for (String s : usedNodes)
+					{
+						if (e.n1.getText().equals(s) || e.n2.getText().equals(s))
+						{
+							usedEdges.add(e);
+						}
+					}
+				}
+				
+				//Deletes duplicates from usedEdges
+				Object[] ue = usedEdges.toArray();
+			      for (Object s : ue) 
+			      {
+				        if (usedEdges.indexOf(s) != usedEdges.lastIndexOf(s))
+				        {
+				        	usedEdges.remove(usedEdges.lastIndexOf(s));
+				        }
+			      }
+				
+				//Gets which edge in usedEdges is the lowest and sets the location to index
+				int x = Integer.MAX_VALUE;
+				count = 0;
+				int index = 0;
+				for (Edge_Graphs u : usedEdges)
+				{
+					if (x > u.weight)
+					{
+						index = count;
+						x = u.weight;
+					}
+					count++;
+				}
+				
+				//Finds which edge is equal to the one picked in usedEdges and sets its location to indexEdge
+				int indexEdge = 0;
+				int countTwo = 0;
+				for (Edge_Graphs e : edges)
+				{
+					if (e.weight == usedEdges.get(index).weight)
+					{
+						indexEdge = countTwo;
+					}
+					countTwo++;
+				}
+				
+				//Looks at the picked edge and sees if two nodes match any two nodes in usedNodes,
+				//to make sure it's not a cycle. If the count is two it has two matching nodes 
+				//and it deletes that edge. Otherwise adds the two new nodes.
+				count = 0;
+				for (String s : usedNodes)
+					{
+						if (usedEdges.get(index).n1.getText().equals(s) || usedEdges.get(index).n2.getText().equals(s))
+						{
+							count++;
+						}
+					}
+					if (count >= 2)
+					{
+						usedEdges.remove(index);
+					}
+					else
+					{
+						tempEdges += usedEdges.get(index).weight + " ";
+						usedNodes.add(usedEdges.get(index).n1.getText());
+						usedNodes.add(usedEdges.get(index).n2.getText());
+					}
+				
+					//Deletes duplicates in usedNodes
+					Object[] st = usedNodes.toArray();
+				      for (Object s : st) {
+				        if (usedNodes.indexOf(s) != usedNodes.lastIndexOf(s)) {
+				        	usedNodes.remove(usedNodes.lastIndexOf(s));
+				         }
+				      }
+				//Deletes the picked edge out of edges so it won't repeat
+				//and clears usedEdges
+				edges.remove(indexEdge);
+				usedEdges.clear();
+			}
+		}
+		else if(!startingNode(txtStart.getText(), edges))
+		{
+			Window.alert("Please enter a valid starting node.");
+		}
+		solution += tempEdges;
+		pnlSolution.fillText(solution);
+	}
+
+	private boolean startingNode(String start, ArrayList<Edge_Graphs> edges)
+	{
+		for (Edge_Graphs e : edges)
+		{
+			if (e.n1.getText().equals(start) || e.n2.getText().equals(start))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
 	public void fillBuilder(ArgHolder child) {
 		Edge_Graphs.reset();
+		// give the builder the information it needs
+		
+		// tell builder to upload problem builder.uploadLM() // uploadLM(True) for debugging
 	}
 
 	@Override
