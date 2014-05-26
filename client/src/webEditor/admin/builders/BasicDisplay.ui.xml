@@ -21,6 +21,9 @@
 			margin-top: 5px;
 			margin-left: 5px;
 		}
+		.leftPadding{
+			padding-left: 5px;
+		}
 		.topMargin{
 			margin-top: 5px;
 		}		
@@ -42,12 +45,21 @@
 				<g:TextBox ui:field="txtAddNode" width="30px" styleName="{style.rightMargin}" maxLength="1"/>
 				<g:Button ui:field="btnAddNode" width="50px" styleName="{style.rightMargin}">Add</g:Button>
 				<g:Button ui:field="btnDeleteNode" width="50px" styleName="{style.leftMargin}">Delete</g:Button>
+				
+			<g:HorizontalPanel styleName="{style.leftPadding}">
+			    <g:Label ui:field="lblStart" width="100px" styleName="{style.txtAlign}">Starting node: </g:Label>
+			    <g:TextBox ui:field="txtStart" width="30px" styleName="{style.rightMargin}" maxLength="1"/>
+			</g:HorizontalPanel>
+				
 			</g:HorizontalPanel>
 			<g:HorizontalPanel width="65%" styleName="{style.toRight}">
 				<g:Button styleName="{style.topMargin}" ui:field="btnCalculate">Solve</g:Button>
 				<g:Button styleName="{style.topMargin}" ui:field="btnReset">Reset</g:Button>
 			</g:HorizontalPanel>
 		</g:HorizontalPanel>
+		
+		
+		
 		<g:HorizontalPanel>
 			<g:Label styleName="{style.txtAlign}">Title: </g:Label>
 			<g:TextBox ui:field="txtTitle" styleName="{style.longBox}"/>
