@@ -16,16 +16,16 @@
 		}
 </ui:style>
     <g:HorizontalPanel>
-	    <g:ScrollPanel width="25em" styleName='{style.section}'>
+	    <g:ScrollPanel width="20em" styleName='{style.section}'>
 				<my:ButtonPanel styleName="{style.btns_panel}" ui:field="btnPanelSubjects" />
 		</g:ScrollPanel>
-        <g:ScrollPanel width="25em" styleName='{style.section}'>
+        <g:ScrollPanel width="20em" styleName='{style.section}'>
 			<my:ButtonPanel styleName="{style.btns_panel}" ui:field="btnPanelGroups" />
 		</g:ScrollPanel>
-	    <g:ScrollPanel width="25em" styleName='{style.section}'>
+	    <g:ScrollPanel width="20em" styleName='{style.section}'>
 			<my:CheckBoxPanel ui:field="chkPanelExercises" />
 		</g:ScrollPanel>
-	    <g:ScrollPanel width="40em" styleName='{style.section}'>
+	    <g:ScrollPanel width="20em" styleName='{style.section}'>
 			<g:AbsolutePanel>
 				<my:AssignedPanel styleName="{style.assigned_panel}" ui:field="assigned"/>
 				<my:AssignedPanel styleName="{style.assigned_panel}" ui:field="selected"/>
