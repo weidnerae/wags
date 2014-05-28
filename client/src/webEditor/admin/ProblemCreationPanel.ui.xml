@@ -92,8 +92,8 @@
 			padding-left:10px;
 		}
 	</ui:style>
-	<g:LayoutPanel height="100%" width="100%">
-	<g:layer left="0" right="45%">
+	<g:LayoutPanel height="100%" width="70%">
+	<g:layer left="0" right="50%">
 	    <g:ScrollPanel>
 		    <g:AbsolutePanel>
 				<g:VerticalPanel width="98%">
@@ -247,7 +247,7 @@
 			</g:AbsolutePanel>
 		</g:ScrollPanel>
 	</g:layer>
-	<g:layer left="55%" right="0">
+	<g:layer left="52%" right="10%">
 	    <g:ScrollPanel>
 			<g:VerticalPanel ui:field="magnetReviewPanel" width="98%">
 				<g:FormPanel ui:field="problemCreateFormPanel">
