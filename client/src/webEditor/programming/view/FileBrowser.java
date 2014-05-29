@@ -10,6 +10,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -123,12 +124,11 @@ public class FileBrowser extends View {
 	 * Parse the string array and add files to tree. The passed string is a
 	 * response from the server.
 	 */
-	@SuppressWarnings("deprecation")
 	public void loadTree(String[] response) {
 		// Remove any old items from tree.
 		browser.clear();
 		// Insert root
-		TreeItem root = new TreeItem("/");
+		TreeItem root = new TreeItem(SafeHtmlUtils.fromString("/"));
 		TreeItem rootRoot = root;
 		browser.addItem(root);
 
@@ -142,14 +142,14 @@ public class FileBrowser extends View {
 					// If t is null then we haven't see this directory before
 					// so we should add it to the tree.
 					if (t == null) {
-						t = new TreeItem(splitS[i]);
+						t = new TreeItem(SafeHtmlUtils.fromString(splitS[i]));
 						root.addItem(t);
 					}
 					root = t;
 				}
 			}
 			// Add file.
-			TreeItem ti = new TreeItem(splitS[splitS.length - 1]);
+			TreeItem ti = new TreeItem(SafeHtmlUtils.fromString(splitS[splitS.length - 1]));
 			root.addItem(ti);
 			root = rootRoot;
 		}
