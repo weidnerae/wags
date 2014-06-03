@@ -1,6 +1,9 @@
 package webEditor.programming.view;
 
 import webEditor.Proxy;
+import webEditor.ProxyFramework.AbstractCommand;
+import webEditor.ProxyFramework.GetDescriptionCommand;
+import webEditor.ProxyFramework.GetFileContentsCommand;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -101,7 +104,9 @@ public class Editor extends Composite implements IsWidget{
 				else
 				{
 					// If clicked item is a leaf TreeItem then open it in editor
-					Proxy.getFileContents(itemName, editor, thing);
+					AbstractCommand cmd = new GetFileContentsCommand(itemName, editor, thing);
+					cmd.sendRequest();
+					//proxy.getFileContents(itemName, editor, thing);
 					if(itemName.contains("_Versions")){
 						currentExercise = browser.getItemPath(i.getParentItem().getParentItem()).trim().substring(1); /* Grab the exercise */
 						checkVis = true;
@@ -112,7 +117,9 @@ public class Editor extends Composite implements IsWidget{
 					}
 					
 					/* Update description */
-					Proxy.getDescription(currentExercise, description);
+					AbstractCommand cmd2 = new GetDescriptionCommand(currentExercise, description);
+					cmd2.sendRequest();
+					//Proxy.getDescription(currentExercise, description);
 	
 					// Set filename, save, and delete stuff visible
 					commandBarVisible(true);

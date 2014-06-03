@@ -2,6 +2,9 @@ package webEditor.admin;
 
 import webEditor.Proxy;
 import webEditor.Reviewer;
+import webEditor.ProxyFramework.AbstractCommand;
+import webEditor.ProxyFramework.RemoveUserFromSectionCommand;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -287,8 +290,10 @@ public class ReviewPanel extends Composite {
 			
 			yes.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
-					Proxy.RemoveUserFromSection(selectedUser.getText());
-					selectedUser.removeFromParent();
+					AbstractCommand cmd = new RemoveUserFromSectionCommand(selectedUser.getText());
+					cmd.sendRequest();
+					//Proxy.RemoveUserFromSection(selectedUser.getText());
+					//selectedUser.removeFromParent();
 					selectedUser = null;
 					deleteBox.hide();
 				}	

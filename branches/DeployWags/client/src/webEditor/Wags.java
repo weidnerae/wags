@@ -1,6 +1,12 @@
 
 package webEditor;
 
+import webEditor.ProxyFramework.AbstractCommand;
+import webEditor.ProxyFramework.BuildDSTCommand;
+import webEditor.ProxyFramework.BuildDatabaseCommand;
+import webEditor.ProxyFramework.BuildMagnetsCommand;
+import webEditor.ProxyFramework.CheckPasswordCommand;
+import webEditor.ProxyFramework.LogoutCommand;
 import webEditor.admin.AdminPage;
 import webEditor.magnet.view.Magnets;
 import webEditor.magnet.view.RefrigeratorMagnet;
@@ -33,6 +39,15 @@ public class Wags extends View
 
 	interface EditorUiBinder extends UiBinder<Widget, Wags>{}
 	
+	public static final String EditorPageStr = "editor";
+	public static final String MagnetPageStr = "magnets";
+	public static final String DstPageStr = "dst";
+	public static final String AdminPageStr = "admin";
+	public static final String DatabasePageStr = "database";
+	public static final String MagnetProblemCreationPageStr = "magnetpc";
+	public static final String LogicalProblemCreationPageStr = "logicalpc";
+	public static final String LogoutStr = "logout";
+	
 	@UiField DockLayoutPanel dock;
 	@UiField Anchor Home;
 	@UiField Anchor Editor;
@@ -46,20 +61,41 @@ public class Wags extends View
 	public Magnets splashPage;
 	private Editor editor;
 	private AdminPage adminPage;
-	
 	private String startingPlace;
+	private static Wags wags;
 	
+	
+	public static Wags getWagsInstance()
+	{
+		if (wags == null) {
+			wags = new Wags("");
+		}
+		return wags;
+	}
+	
+	public static Wags getWagsInstance(String startingPlace)
+	{
+		if (wags == null) {
+			wags = new Wags(startingPlace);
+		} 
+		else {
+			wags.setPage(startingPlace);
+		}
+		return wags;
+	}
 	/**
 	 * Constructor
 	 * 
 	 * -Builds Wags interface once logged in
 	 */
-	public Wags(String startingPlace)
+	private Wags(String startingPlace)
 	{
 		initWidget(uiBinder.createAndBindUi(this));
 		Proxy.getUsersName(hello, Editor, DST, Magnets, AdminPage, startingPlace);
-		Proxy.checkPassword(this);
-		Proxy.setWags(this);
+		AbstractCommand cmd2 = new CheckPasswordCommand();
+		cmd2.sendRequest();
+		
+		//Proxy.checkPassword(this);
 		Home.setHref("");
 		
 		if (startingPlace.equals("")) {
@@ -74,25 +110,42 @@ public class Wags extends View
 		createHistoryHandler();
 		
 		// Load the correct initial page
-		if (startingPlace.equals("magnets")) {
-			loadMagnets();
-		} else if (startingPlace.equals("dst")) {
-			loadDST();
-		} else if (startingPlace.equals("editor")){
-			loadEditor();
-		} else if (startingPlace.equals("admin")){
-			loadAdmin();
-		} else if (startingPlace.equals("database")){
-			loadDatabasePanel();
-		} else if (startingPlace.equals("magnetpc")) {
-			loadMagnetProblemCreation();
-		} else if (startingPlace.equals("logicalpc")) {
-			loadLogicalProblemCreation();
-		} else {
-			Proxy.loadDefault();
-		}
+		setPage(startingPlace);
 	}
 	
+	public void setPage(String page)
+	{
+		switch (page)
+		{
+			case Wags.MagnetPageStr:
+				loadMagnets();
+				break;
+			case Wags.DstPageStr:
+				loadDST();
+				break;
+			case Wags.EditorPageStr:
+				loadEditor();
+				break;
+			case Wags.AdminPageStr:
+				loadAdmin();
+				break;
+			case Wags.DatabasePageStr:
+				loadDatabasePanel();
+				break;
+			case Wags.MagnetProblemCreationPageStr:
+				loadMagnetProblemCreation();
+				break;
+			case Wags.LogicalProblemCreationPageStr:
+				loadLogicalProblemCreation();
+				break;
+			case Wags.LogoutStr:
+				AbstractCommand cmd = new LogoutCommand();
+				cmd.sendRequest();
+				break;
+			default:
+				Proxy.loadDefault();
+		}
+	}
 
 	/**
 	 * This creates the ValueChangeHandler that makes clicking back/forward 
@@ -108,7 +161,7 @@ public class Wags extends View
 					loadEditor();
 				} else if (url.endsWith("dst")) {
 					loadDST();
-				} else if (url.endsWith("magnets")) {
+				} else if (url.endsWith(Wags.MagnetPageStr)) {
 					loadMagnets();
 				} else if (url.endsWith("login")) {
 					Proxy.logout();
@@ -166,17 +219,23 @@ public class Wags extends View
 	}
 	
 	public void loadDST() {
-		Proxy.buildDST(this);
+		AbstractCommand cmd = new BuildDSTCommand(this);
+		cmd.sendRequest();
+		//Proxy.buildDST(this);
 		History.newItem("?loc=dst");
 	}
 	
 	public void loadMagnets() {
-		Proxy.buildMagnets(this);
+		AbstractCommand cmd = new BuildMagnetsCommand(this);
+		cmd.sendRequest();
+		//Proxy.buildMagnets(this);
 		History.newItem("?loc=magnets");
 	}
 	
 	public void loadDatabasePanel() {
-		Proxy.buildDatabase(this);
+		AbstractCommand cmd = new BuildDatabaseCommand(this);
+		cmd.sendRequest();
+		//Proxy.buildDatabase(this);
 		History.newItem("?loc=database");
 	}
 	
@@ -192,53 +251,6 @@ public class Wags extends View
 		replaceCenterContent(adminPage);
 		adminPage.openMagnetPC();
 		History.newItem("?loc=magnetpc");
-	}
-
-	public void assignPassword(){
-		final DialogBox setPassword = new DialogBox(false);
-		final PasswordTextBox password = new PasswordTextBox();
-		final PasswordTextBox passwordCheck = new PasswordTextBox();
-		Label lbl1 = new Label("Enter password: ");
-		Label lbl2 = new Label("Re-enter password: ");
-		
-		Button close = new Button("Set Password");
-		
-		VerticalPanel base = new VerticalPanel();
-		HorizontalPanel line1 = new HorizontalPanel();
-		HorizontalPanel line2 = new HorizontalPanel();
-		
-		setPassword.setText("Please Enter a New Password");
-				
-		close.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				if(!password.getText().equals(passwordCheck.getText())){
-					Notification.notify(WEStatus.STATUS_ERROR, "Passwords don't match");
-					return;
-				}
-				
-				if(password.getText().length() < 8){
-					Notification.notify(WEStatus.STATUS_ERROR, "Password must be at least 8 characters");
-					return;
-				}
-				
-				setPassword.hide();
-				Proxy.assignPassword(password.getText());
-			}
-		});
-		
-		line1.add(lbl1);
-		line1.add(password);
-		line2.add(lbl2);
-		line2.add(passwordCheck);
-		base.add(line1);
-		base.add(line2);
-		base.add(close);
-		setPassword.add(base);
-		
-		setPassword.center();
-		password.setFocus(true);
 	}
 	
 	public void placeProblem(MagnetProblem magnet){

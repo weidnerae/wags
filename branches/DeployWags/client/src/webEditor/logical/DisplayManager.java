@@ -6,6 +6,7 @@ import org.vaadin.gwtgraphics.client.DrawingArea;
 import org.vaadin.gwtgraphics.client.Line;
 
 import webEditor.Proxy;
+import webEditor.Wags;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -111,7 +112,7 @@ public abstract class DisplayManager implements IsSerializable {
 		{
 			public void onClick(ClickEvent event)
 			{
-				Proxy.getWags().loadDST();
+				Wags.getWagsInstance().loadDST();
 			}
 		});
 		backButton.setStyleName("control_button");
