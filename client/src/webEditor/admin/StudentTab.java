@@ -4,6 +4,8 @@ import webEditor.Notification;
 import webEditor.Proxy;
 import webEditor.Reviewer;
 import webEditor.WEStatus;
+import webEditor.ProxyFramework.AbstractCommand;
+import webEditor.ProxyFramework.ReviewStudentCommand;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -98,7 +100,9 @@ public class StudentTab extends Composite {
 		@Override
 		public void review( String name )
 		{
-			Proxy.reviewStudent(name, this);
+			AbstractCommand cmd = new ReviewStudentCommand(name, this);
+			cmd.sendRequest();
+			//Proxy.reviewStudent(name, this);
 		}
 
 		@Override

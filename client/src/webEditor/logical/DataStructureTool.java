@@ -17,6 +17,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import webEditor.Proxy;
+import webEditor.ProxyFramework.AbstractCommand;
+import webEditor.ProxyFramework.GetLogicalMicrolabCommand;
 
 
 public class DataStructureTool  extends AbsolutePanel
@@ -215,7 +217,9 @@ public class DataStructureTool  extends AbsolutePanel
 		/* This is the 'switch' between DB LogicalMicrolabs and
 		 * ProblemServiceImpl
 		 */
-		Proxy.getLogicalMicrolab(problem, this);
+		AbstractCommand cmd = new GetLogicalMicrolabCommand(problem, this);
+		cmd.sendRequest();
+		//Proxy.getLogicalMicrolab(problem, this);
 		//Problem prob = ProblemServiceImpl.getProblem(problem);
 
 

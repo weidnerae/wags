@@ -3,6 +3,10 @@ package webEditor.admin;
 import webEditor.Proxy;
 import webEditor.Reviewer;
 import webEditor.WEStatus;
+import webEditor.ProxyFramework.AbstractCommand;
+import webEditor.ProxyFramework.GetLMAssigned;
+import webEditor.ProxyFramework.GetMMAssigned;
+import webEditor.ProxyFramework.ReviewExerciseCommand;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -34,10 +38,23 @@ public class ReviewTab extends Composite {
 		rvLogPanel.setTitle("Logical Review");
 		rvMagPanel.setParent(magHandler);
 		rvMagPanel.setTitle("Magnet Review");
-		Proxy.getLMAssigned(logHandler);
-		Proxy.getMMAssigned(magHandler);
-		Proxy.getLMAssigned(logHandler, Reviewer.GET_REVIEW);
-		Proxy.getMMAssigned(magHandler, Reviewer.GET_REVIEW);
+		
+		AbstractCommand cmd1 = new GetLMAssigned(logHandler, Reviewer.NONE);
+		cmd1.sendRequest();
+		//Proxy.getLMAssigned(logHandler);
+		
+		AbstractCommand cmd2 = new GetMMAssigned(magHandler, Reviewer.NONE);
+		cmd2.sendRequest();
+		
+		//Proxy.getMMAssigned(magHandler, Reviewer.NONE);
+		
+		AbstractCommand cmd3 = new GetLMAssigned(logHandler, Reviewer.GET_REVIEW);
+		cmd3.sendRequest();
+		//Proxy.getLMAssigned(logHandler, Reviewer.GET_REVIEW);
+		
+		AbstractCommand cmd4 = new GetMMAssigned(logHandler, Reviewer.GET_REVIEW);
+		cmd4.sendRequest();
+		//Proxy.getMMAssigned(magHandler, Reviewer.GET_REVIEW);
 		
 		btnCompReview.addStyleName("button");
 		
@@ -62,7 +79,9 @@ public class ReviewTab extends Composite {
 
 		@Override
 		public void review(String exercise) {
-			Proxy.reviewExercise(exercise, LOGICAL, this);
+			AbstractCommand cmd = new ReviewExerciseCommand(exercise, LOGICAL, this);
+			cmd.sendRequest();
+			//Proxy.reviewExercise(exercise, LOGICAL, this);
 		}
 
 		@Override
@@ -88,7 +107,9 @@ public class ReviewTab extends Composite {
 
 		@Override
 		public void review(String exercise) {
-			Proxy.reviewExercise(exercise, MAGNET, this);
+			AbstractCommand cmd = new ReviewExerciseCommand(exercise, MAGNET, this);
+			cmd.sendRequest();
+			//Proxy.reviewExercise(exercise, MAGNET, this);
 		}
 
 		@Override
@@ -97,11 +118,26 @@ public class ReviewTab extends Composite {
 		}
 	}
 	
-	public void update(){
-		Proxy.getLMAssigned(logHandler);
-		Proxy.getMMAssigned(magHandler);
-		Proxy.getLMAssigned(logHandler, Reviewer.GET_REVIEW);
-		Proxy.getMMAssigned(magHandler, Reviewer.GET_REVIEW);
+	public void update()
+	{
+		
+		AbstractCommand cmd1 = new GetLMAssigned(logHandler, Reviewer.NONE);
+		cmd1.sendRequest();
+	
+		AbstractCommand cmd2 = new GetMMAssigned(logHandler, Reviewer.NONE);
+		cmd2.sendRequest();
+		
+		AbstractCommand cmd3 = new GetLMAssigned(logHandler, Reviewer.GET_REVIEW);
+		cmd3.sendRequest();
+		
+		AbstractCommand cmd4 = new GetMMAssigned(logHandler, Reviewer.GET_REVIEW);
+		cmd4.sendRequest();
+		
+		//Proxy.getLMAssigned(logHandler, Reviewer.NONE);
+		//Proxy.getMMAssigned(magHandler, Reviewer.NONE);
+		
+		//Proxy.getLMAssigned(logHandler, Reviewer.GET_REVIEW);
+		//Proxy.getMMAssigned(magHandler, Reviewer.GET_REVIEW);
 	}
 
 }

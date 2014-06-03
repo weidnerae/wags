@@ -1,6 +1,9 @@
 package webEditor;
 
 
+import webEditor.ProxyFramework.AbstractCommand;
+import webEditor.ProxyFramework.LoginCommand;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -8,6 +11,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -68,8 +72,8 @@ public class Login extends View
 	{
 		if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER)
 		{
-			// when enter is pressed, sign into editor
-			Proxy.login(username.getText(), password.getText());
+			AbstractCommand cmd = new LoginCommand(username.getText(), password.getText());
+			cmd.sendRequest();
 		}
 	}
 
@@ -82,7 +86,8 @@ public class Login extends View
 	@UiHandler("loginButton")
 	void onClick(ClickEvent event)
 	{
-		Proxy.login(username.getText(), password.getText());
+		AbstractCommand cmd = new LoginCommand(username.getText(), password.getText());
+		cmd.sendRequest();
 	}
 	
 
