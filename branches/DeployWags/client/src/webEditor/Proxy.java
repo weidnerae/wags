@@ -73,7 +73,9 @@ public class Proxy
 		Notification.clear();
 	}
 	
-	public static void addMagnetLinkage(final String title){
+	//Implemented as Command
+	//ENCODE FALSE
+	public static void addMagnetLinkage2(final String title){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=AddMagnetLinkage&title="+title);
 		try{
 			builder.sendRequest(null, new RequestCallback() {
@@ -95,6 +97,8 @@ public class Proxy
 		}
 	}
 
+	//IMPLEMENTED AS A COMMAND OBJECT
+	//ENCODE FALSE
 	public static void addSkeletons(String exname){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=AddSkeletons&name=" + exname);
 		try{
@@ -118,7 +122,9 @@ public class Proxy
 		}
 	}
 	
-	public static void alterExercise(String exercise, final String attribute, final ListBox exercises){
+	//Implemented as a command
+	//ENCODE FALSE
+	public static void alterExercise2(String exercise, final String attribute, final ListBox exercises){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=EditExercises" +
 				"&title=" + exercise + "&attribute=" + attribute);
 		try{
@@ -144,6 +150,9 @@ public class Proxy
 	}
 
 
+	//Implemented as Command
+	//Encode == TRUE
+	//Method == POST
 	public static void assignPassword(String password){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, Proxy.getBaseURL()+"?cmd=AssignPassword");
 		
@@ -159,8 +168,7 @@ public class Proxy
 				@Override
 				public void onResponseReceived(Request request,
 						Response response) {
-					WEStatus status = new WEStatus(response);  
-					
+					WEStatus status = new WEStatus(response);  	
 					Notification.notify(status.getStat(), status.getMessage());
 					
 				}
@@ -171,6 +179,9 @@ public class Proxy
 		}
 	}
 
+	//Implemented as COmmand Object
+	//Encode == FALSE
+	//Method == GET
 	public static void buildDST(final Wags wags) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET,
 				Proxy.getBaseURL() + "?cmd=GetLogicalExercises");
@@ -210,6 +221,9 @@ public class Proxy
 		    }
 	}
 	
+	//Implemented as Command
+	//Encode == false
+	//Method == get
 	public static void buildMagnets(final Wags wags) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetExercises");
 		try{
@@ -255,6 +269,9 @@ public class Proxy
 		}
 	}
 	
+	//Implemented as Command Object
+	//Method: GET
+	//
 	public static void buildDatabase(final Wags wags) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetDatabaseExercises");
 		try{
@@ -302,6 +319,8 @@ public class Proxy
 	 *  Grabs a database problem
 	 * @return 
 	 */
+	//ENCODE FALSE
+	//
 	public static void getDatabaseProblem(int id, final DatabasePanel dbPanel) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetDatabaseProblem&id=" + id);
 		try{
@@ -358,6 +377,9 @@ public class Proxy
 		}
 	}
 
+	//Implemented as Command Object
+	//Encode == FALSE
+	//Method = GET
 	public static void checkPassword(final Wags wags){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=CheckPassword");
 		try{
@@ -374,7 +396,7 @@ public class Proxy
 					WEStatus status = new WEStatus(response);  
 					
 					if(status.getStat() == WEStatus.STATUS_ERROR){	
-						wags.assignPassword();
+						AssignNewPasswordHandler.handleAssignNewPassword();
 					}
 				}
 				
@@ -384,7 +406,8 @@ public class Proxy
 		}
 	}
 	
-	public static void cleanOutOldCreatedMagnets(int magnetProblemID){
+	//Already IMplemented
+	public static void cleanOutOldCreatedMagnets2(int magnetProblemID){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=CleanOutOldCreatedMagnets&magnetProblemID="+magnetProblemID);
 		
 		try{
@@ -403,7 +426,8 @@ public class Proxy
 		}
 	}
 
-	public static void deleteExercise(final String ex, final ListBox exercises){
+	//Implemented
+	public static void deleteExercise2(final String ex, final ListBox exercises){
 		String urlCompl = deleteExercise+"&title=" + ex;
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, urlCompl);
 		try {
@@ -435,6 +459,7 @@ public class Proxy
 	 * 
 	 * @param username the username of the user to modify
 	 */
+	//Implemented
 	public static void RemoveUserFromSection(final String username){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, getBaseURL() + "?cmd=RemoveUserFromSection&name=" + username);
 		try {
@@ -458,6 +483,7 @@ public class Proxy
 		}
 	}
 	
+	//implemented
 	public static void deleteMagnetExercise(String title){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, getBaseURL()+"?cmd=DeleteMagnetExercise&title=" + title);
 		try {
@@ -483,6 +509,7 @@ public class Proxy
 		return baseURL;
 	}
 
+	//Implemented
 	public static void getDescription(String exercise, final Image descImage){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, getBaseURL()+"?cmd=GetDesc&title=" + exercise);
 		try {
@@ -513,7 +540,8 @@ public class Proxy
 		return DST;
 	}
 	
-	public static void reviewExercise(String title, final String type, final Reviewer pf){
+	//Implemented
+	public static void reviewExercise2(String title, final String type, final Reviewer pf){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=DSTReview&title="+title+"&type="+type);
 		
 		try{
@@ -551,6 +579,7 @@ public class Proxy
 	 * @param student's name
 	 * @param Reviewer 
 	 */
+	//Implemented
 	public static void reviewStudent( String name, final Reviewer pf )
 	{
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=StudentReview&name="+name);
@@ -593,6 +622,7 @@ public class Proxy
 	 * Get the contents of a file with the given name from server.
 	 * Put those contents in the passed CodeEditor.
 	 */
+	//Implemented
 	public static void getFileContents(String fileName, final CodeEditor editor, final Editor codeArea){
 		String urlCompl = getFileContents+"&name="+fileName.trim().substring(1);
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, urlCompl);
@@ -661,6 +691,7 @@ public class Proxy
 	/**
 	 * Simple method to set the uploaded time from a simple file
 	 */
+	//Implemented
 	public static void getFileTime(String title, final Label uploadStamp, final Label helperStamp)
 	{
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetFileTime&title=" + title);
@@ -719,6 +750,7 @@ public class Proxy
 		}
 	}
 	
+	//implemented
 	public static void getLogicalMicrolab(String title, final DataStructureTool DST){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetLogicalMicrolab&title=" + title);
 		try{
@@ -750,10 +782,12 @@ public class Proxy
 		}
 	}
 	
-	public static void getLMAssigned(final Receiver pf){
+	//not needed anymore
+	public static void getLMAssigned2(final Receiver pf){
 		getLMAssigned(pf, "");
 	}
 	
+	//implemented
 	public static void getLMAssigned(final Receiver pf, final String args){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetLMAssigned&args=" + args);
 		try {
@@ -775,10 +809,12 @@ public class Proxy
 		}
 	}
 	
+	//implemented
 	public static void getMMAssigned(final Receiver pf){
 		getMMAssigned(pf, "");
 	}
 	
+	//implemented
 	public static void getMMAssigned(final Receiver pf, final String args){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMMAssigned&args=" + args);
 		try {

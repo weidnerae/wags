@@ -2,9 +2,10 @@ package webEditor.magnet.view;
 
 import webEditor.MagnetProblem;
 import webEditor.Proxy;
+import webEditor.ProxyFramework.AbstractCommand;
+import webEditor.ProxyFramework.CleanOutOldCreatedMagnetsCommand;
 
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -156,8 +157,10 @@ public class CodePanelUi extends Composite {
 
 	@UiHandler("stateButton")
 	void handleStateClick(ClickEvent e) {
-		Proxy.cleanOutOldCreatedMagnets(refrigeratorMagnet.getID());
-		Proxy.saveMagnetState(getSaveState(), refrigeratorMagnet.getID(), 0, false);
+		AbstractCommand cmd = new CleanOutOldCreatedMagnetsCommand(refrigeratorMagnet.getID());
+		cmd.sendRequest();
+		//Proxy.cleanOutOldCreatedMagnets(refrigeratorMagnet.getID());
+		//Proxy.saveMagnetState(getSaveState(), refrigeratorMagnet.getID(), 0, false);
 	}
 
 	private class yesResetHandler implements ClickHandler {

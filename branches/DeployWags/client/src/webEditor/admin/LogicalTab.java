@@ -34,7 +34,9 @@ public class LogicalTab extends Composite implements ProxyFacilitator {
 
 		// Proxy calls
 		Proxy.getLMSubjects(this);
-		Proxy.getLMAssigned(this);
+		
+		
+		//Proxy.getLMAssigned(this);
 		
 		// Initial set up
 		// set up button panels

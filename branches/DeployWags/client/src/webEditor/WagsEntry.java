@@ -51,7 +51,7 @@ public class WagsEntry implements EntryPoint
 						if (loc.equals("undefined")) {
 							root.add(new DefaultPage());
 						} else {
-							root.add(new Wags(loc));
+							root.add(Wags.getWagsInstance(loc));
 						}
 					} else if(status.getStat() == WEStatus.STATUS_WARNING){
 						String loc = getParam("loc");
@@ -59,7 +59,7 @@ public class WagsEntry implements EntryPoint
 							Proxy.logout();
 						} else {
 							RootLayoutPanel root = RootLayoutPanel.get();
-							root.add(new Wags(loc));
+							root.add(Wags.getWagsInstance(loc));
 						}
 					}
 				}
@@ -77,7 +77,7 @@ public class WagsEntry implements EntryPoint
 	@SuppressWarnings("unused")
 	private static void editor(String startingPoint){
 		RootLayoutPanel root = RootLayoutPanel.get();
-		root.add(new Wags(startingPoint));		
+		root.add(Wags.getWagsInstance(startingPoint));		
 	}
 	
 	private static void login(){

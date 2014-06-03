@@ -1,5 +1,8 @@
 package webEditor;
 
+import webEditor.ProxyFramework.AbstractCommand;
+import webEditor.ProxyFramework.LogoutCommand;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -47,15 +50,16 @@ public class DefaultPage extends Composite {
 	@UiHandler("editorButton")
 	void onEditorClick(ClickEvent event)
 	{
-		Wags e = new Wags("editor");
+		Wags e = Wags.getWagsInstance(Wags.EditorPageStr);
 		e.go();
+		
 	}
 	
 	/** Takes te user to the logical problems page */
 	@UiHandler("logicalButton")
 	void onLogicalClick(ClickEvent event)
 	{
-		Wags e = new Wags("dst");
+		Wags e = Wags.getWagsInstance(Wags.DstPageStr);
 		e.go();
 	}
 	
@@ -63,7 +67,7 @@ public class DefaultPage extends Composite {
 	@UiHandler("magnetButton")
 	void onMagnetClick(ClickEvent event)
 	{
-		Wags e = new Wags("magnets");
+		Wags e = Wags.getWagsInstance(Wags.MagnetPageStr);
 		e.go();
 	}
 	
@@ -71,7 +75,7 @@ public class DefaultPage extends Composite {
 	@UiHandler("databaseButton")
 	void onDatabaseClick(ClickEvent event)
 	{
-		Wags e = new Wags("database");
+		Wags e = Wags.getWagsInstance(Wags.DatabasePageStr);
 		e.go();
 	}
 	
@@ -79,7 +83,7 @@ public class DefaultPage extends Composite {
 	@UiHandler("adminButton")
 	void onAdminClick(ClickEvent event)
 	{
-		Wags e = new Wags("admin");
+		Wags e = Wags.getWagsInstance(Wags.AdminPageStr);
 		e.go();
 	}
 	
@@ -87,7 +91,7 @@ public class DefaultPage extends Composite {
 	@UiHandler("magnetPCButton")
 	void onMagnetPCClick(ClickEvent event)
 	{
-		Wags e = new Wags("magnetpc");
+		Wags e = Wags.getWagsInstance(Wags.MagnetProblemCreationPageStr);
 		e.go();
 		
 	}
@@ -96,7 +100,7 @@ public class DefaultPage extends Composite {
 	@UiHandler("logicalPCButton")
 	void onLogicalPCClick(ClickEvent event)
 	{
-		Wags e = new Wags("logicalpc");
+		Wags e = Wags.getWagsInstance(Wags.LogicalProblemCreationPageStr);
 		e.go();
 	}
 	
@@ -104,6 +108,7 @@ public class DefaultPage extends Composite {
 	@UiHandler("logoutButton")
 	void onLogoutClick(ClickEvent event)
 	{
-		Proxy.logout();
+		AbstractCommand cmd = new LogoutCommand();
+		cmd.sendRequest();
 	}
 }
