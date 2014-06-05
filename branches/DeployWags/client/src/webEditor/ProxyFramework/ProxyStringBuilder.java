@@ -26,7 +26,7 @@ public abstract class ProxyStringBuilder {
 	
 	public static String buildGetCommandString(String command, HashMap<String, String> arguments)
 	{
-		return URL.encode(baseURL + Prefix + command + Delimeter + buildArgumentString(arguments));
+		return URL.encode(baseURL + Prefix + command + buildArgumentString(arguments));
 	}
 	
 	public static String buildPostCommandString(String command)
@@ -42,7 +42,20 @@ public abstract class ProxyStringBuilder {
 		Set<String> Variables = arguments.keySet();
 		String toReturn = "";
 		for(String v : Variables) {
-		    toReturn += v + Assignment + arguments.get(v);
+		    toReturn += Delimeter + v + Assignment + arguments.get(v);
+		}
+		return toReturn;
+	}
+	
+	public static String buildPostArgumentString(HashMap<String, String> arguments)
+	{
+		if (arguments == null) {
+			return "";
+		}
+		Set<String> Variables = arguments.keySet();
+		String toReturn = "";
+		for(String v : Variables) {
+		    toReturn += v + Assignment + arguments.get(v) + Delimeter;
 		}
 		return toReturn;
 	}
@@ -50,8 +63,5 @@ public abstract class ProxyStringBuilder {
 	public static String encodeString(String str)
 	{
 		return URL.encode(str);
-	}
-	
+	}	
 }
-
-

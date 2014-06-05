@@ -24,7 +24,7 @@ public class ProxyCall
 			
 			if (command.method == RequestBuilder.POST) {
 				 builder.setHeader("Content-Type", "application/x-www-form-urlencoded");
-				 postArgs = ProxyStringBuilder.buildArgumentString(command.getArguments());
+				 postArgs = ProxyStringBuilder.buildPostArgumentString(command.getArguments());
 			}
 			
 			@SuppressWarnings("unused")
