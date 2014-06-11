@@ -3,33 +3,32 @@ package webEditor.admin.builders;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 
 public class LMGraphsDisplay extends BasicDisplay {
-	Button btnAssign;
-	ArgPanel pnlSolution;
-	boolean kruskal;
-	boolean prims;
+	ArgPanel orderPanel;
+	boolean kruskal = false;
+	boolean prims = false;
 	
+	//Gets a boolean to determine which algorithm to run
 	public LMGraphsDisplay(boolean x)
 	{
 		if (x)
 		{
-			kruskal = false;
 			prims = true;
-			construct();
 		}
 		else 
 		{
-		    prims = false;
 		    kruskal = true;
-			construct();
 		}
 	}
 
 	@Override
 	public void construct() {
 		canvas.setEdgeHandler(new EH_Graphs(this.canvas));
+		orderPanel = new ArgPanel();
+		orderPanel.setup("Order: ", "Assign");
+		orderPanel.btnArg.addClickHandler(new AssignClickHandler(this, orderPanel));
+		basePanel.add(orderPanel);
 		if (kruskal)
 		{
 		txtInstructions.setText("Use this canvas to create a Graph problem.  Add nodes by filling in the appropriate text box " +
@@ -41,12 +40,8 @@ public class LMGraphsDisplay extends BasicDisplay {
 				"Clicking on 'Calculate Results' will determine the answer for the problem you have created and if you are happy with the " +
 				"results you can assign the problem to students.  If at any time you'd like to start the process over, press the " +
 				"'reset' button in order to return the canvas to it's initial state.");
-		pnlSolution = new ArgPanel();
-		pnlSolution.setup("Order: ", "Assign");
-		pnlSolution.btnArg.addClickHandler(new AssignClickHandler(this, pnlSolution));
-		basePanel.add(pnlSolution);
 		}
-		else
+		else if (prims)
 		{
 			txtInstructions.setText("Use this canvas to create a Graph problem.  Add nodes by filling in the appropriate text box " +
 					"with the number you'd like on the node and either press 'Enter' or press 'Add'.  You can delete nodes in a similar manner " +
@@ -60,11 +55,6 @@ public class LMGraphsDisplay extends BasicDisplay {
 					"'reset' button in order to return the canvas to it's initial state.");
 			lblStart.setVisible(true);
 			txtStart.setVisible(true);
-			
-			pnlSolution = new ArgPanel();
-			pnlSolution.setup("Order: ", "Assign");
-			pnlSolution.btnArg.addClickHandler(new AssignClickHandler(this, pnlSolution));
-			basePanel.add(pnlSolution);
 		}
 	}
 
@@ -216,7 +206,7 @@ public class LMGraphsDisplay extends BasicDisplay {
 			solution += edge.weight + " ";
 		}
 		solution = solution.substring(0, solution.length() - 1);
-		pnlSolution.fillText(solution);
+		orderPanel.fillText(solution);
 	}
 	
 	private void runPrims(){
@@ -231,7 +221,7 @@ public class LMGraphsDisplay extends BasicDisplay {
 		//Does nothing if start text box is empty
 		if (startingNode(txtStart.getText(), edges))
 		{
-			//Puts the text in txtStart into usedNodes list
+			//Puts the node in txtStart into usedNodes list
 			usedNodes.add(startNode);
 			while (edges.size() != 0)
 			{
@@ -341,7 +331,7 @@ public class LMGraphsDisplay extends BasicDisplay {
 			Window.alert("Please enter a valid starting node.");
 		}
 		solution += tempEdges;
-		pnlSolution.fillText(solution);
+		orderPanel.fillText(solution);
 	}
 
 	private boolean startingNode(String start, ArrayList<Edge_Graphs> edges)
@@ -358,20 +348,30 @@ public class LMGraphsDisplay extends BasicDisplay {
 
 	@Override
 	public void fillBuilder(ArgHolder child) {
-		Edge_Graphs.reset();
+		//Edge_Graphs.reset();
 		// give the builder the information it needs
-		
 		// tell builder to upload problem builder.uploadLM() // uploadLM(True) for debugging
+		builder.setTitle(txtTitle.getText());
+		builder.setProblemText(txtDesc.getText());
+		ArrayList<Edge_Graphs> edges = Edge_Graphs.getEdges();
+		for(Node_Basic node: canvas.nodes){
+			builder.addNode(node.value);
+		}
+		for (Edge_Graphs e : edges)
+		{
+			builder.addEdge(e.weight +"");
+		}
+		builder.uploadLM();
 	}
 
 	@Override
 	public void onModify() {
-		pnlSolution.clear();
+		orderPanel.clear();
 	}
 
 	@Override
 	public void clear() {
-		
+		orderPanel.fillText("");
 	}
 
 }
