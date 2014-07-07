@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -56,6 +57,7 @@ public class Wags extends View
 	@UiField Anchor Database;
 	@UiField Anchor AdminPage;
 	@UiField Anchor logout;
+	@UiField ListBox Management;
 	Label hello;
 	
 	public Magnets splashPage;
@@ -90,6 +92,7 @@ public class Wags extends View
 	 */
 	private Wags(String startingPlace)
 	{
+
 		initWidget(uiBinder.createAndBindUi(this));
 		Proxy.getUsersName(hello, Editor, DST, Magnets, AdminPage, startingPlace);
 		AbstractCommand cmd2 = new CheckPasswordCommand();
@@ -108,11 +111,19 @@ public class Wags extends View
 		
 		//Make back/forward buttons work.
 		createHistoryHandler();
+				
+		//Add items to the management listbox
+		Management.addItem("Logical Problem Management");
+		Management.addItem("Logical Problem Creation");
+		Management.addItem("Magnet Problem Management");
+		Management.addItem("Magnet Problem Creation");
+		Management.addItem("Programming Problem Management");
+		Management.addItem("Student Management");
 		
 		// Load the correct initial page
 		setPage(startingPlace);
 	}
-	
+		
 	public void setPage(String page)
 	{
 		switch (page)
@@ -175,6 +186,13 @@ public class Wags extends View
 			}
 			
 		});
+	}
+	
+	@UiHandler("Management")
+	void onBrowserEvent(ClickEvent event) {
+		//History.newItem("?loc=admin");
+		loadAdmin();
+		adminPage.add(Management.getItemText(Management.getSelectedIndex()));
 	}
 
 	@UiHandler("Editor")
