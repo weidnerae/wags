@@ -4,12 +4,28 @@
 	xmlns:my="urn:import:webEditor.programming.view">
 	
 	<ui:style>
+        
+        body {
+            background:#F1DD9E;
+        }
+
+        .listBox {
+            background-color: #4a6713;
+            border-color: #4a6713;
+            cursor: pointer;
+            color: white;
+            font-size: 18px;
+            font-family: arial, verdana, san-serif;
+            font-weight: bolder;
+            top: 1em;
+            position: relative;
+        }
 	
 		.applicationBar {
 			padding-bottom:10px;
 			width: 100%;
 			text-align: right; 
-			background-color: rgb(50,92,116);
+			background-color: rgb(74,103,19);
 			border: 5px solid black;
         }
 
@@ -80,12 +96,13 @@
 		<g:north size="6" styleName="{style.bottomBordered}">
 			<g:HTMLPanel styleName="{style.applicationBar}">
 				<g:Anchor horizontalAlignment="ALIGN_CENTER" styleName="{style.title}" ui:field="Home">WAGS</g:Anchor>
-				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="Editor">Editor</g:Anchor> 
-				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="Magnets">Magnets</g:Anchor> 
-				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="DST">Logical</g:Anchor>
-				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="Database">Database</g:Anchor> 
-				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="AdminPage">Admin</g:Anchor>
-				<g:Anchor addStyleNames="{style.anchor} {style.hello-logout}" ui:field="logout">Logout</g:Anchor>
+                <g:ListBox ui:field="Management" name="magement" styleName="{style.listBox}"></g:ListBox>
+				<g:Anchor  addStyleNames="{style.anchor}  {style.hello-logout}" ui:field="Editor">Editor</g:Anchor> 
+				<g:Anchor  addStyleNames="{style.anchor}  {style.hello-logout}" ui:field="Magnets">Magnets</g:Anchor> 
+				<g:Anchor  addStyleNames="{style.anchor}  {style.hello-logout}" ui:field="DST">Logical</g:Anchor>
+				<g:Anchor  addStyleNames="{style.anchor}  {style.hello-logout}" ui:field="Database">Database</g:Anchor> 
+				<g:Anchor  addStyleNames="{style.anchor}  {style.hello-logout}" ui:field="AdminPage">Admin</g:Anchor>
+				<g:Anchor  addStyleNames="{style.anchor}  {style.hello-logout}" ui:field="logout">Logout</g:Anchor>
 			</g:HTMLPanel>
 		</g:north>
 		<g:center>
