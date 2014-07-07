@@ -1,6 +1,8 @@
 package webEditor.admin;
 
+import webEditor.Notification;
 import webEditor.Proxy;
+import webEditor.WEStatus;
 import webEditor.magnet.view.RefrigeratorMagnet;
 
 import com.google.gwt.core.client.GWT;
@@ -48,8 +50,10 @@ public class AdminPage extends Composite {
 	Button student_btn;	//student management
 	@UiField
 	Button review_btn;	//review
+	
 	@UiField
 	Button section_btn;	//section management
+
 	//content panels
 	@UiField
 	LayoutPanel layout;
@@ -69,21 +73,52 @@ public class AdminPage extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));	
 		
 		//initialize global variables
-		items = new Button[]{logic_m_btn, logic_c_btn, magnet_m_btn, magnet_c_btn, 
-		                     prog_btn, student_btn, review_btn, section_btn};
+		items = new Button[]{logic_m_btn, logic_c_btn, magnet_m_btn, magnet_c_btn, prog_btn, student_btn, review_btn, section_btn};
 		magnet_c = new ProblemCreationPanel();
 		magnet_c.setAdminPage(this);
 		sections = new SectionTab();
 		sections.setAdmin(this);
 		menu.setSpacing(0);
 		//check if admin is root to make section_btn visible
-		Proxy.isAdmin(section_btn);		
+		//Proxy.isAdmin(section_btn);		
+	}
+	
+	public void add(String selection) {
+		clearContent();
+		switch (selection) {
+		case "Logical Problem Management": {
+			content.add(new LogicalTab());
+			break;
+		}
+		case "Logical Problem Creation": {
+			content.add(new LMEditTab());
+			break;
+		}
+		case "Magnet Problem Management": {
+			content.add(new MagnetTab());
+			break;
+		}
+		case "Magnet Problem Creation": {
+			content.add(magnet_c);
+			break;
+		}
+		case "Programming Problem Management": {
+			content.add(new ProgrammingTab());
+			break;
+		}
+		case "Student Management": {
+			content.add(new StudentTab());
+			break;
+		}
+		default:
+			break;
+		}
 	}
 	
 	/**
 	 * MENU ITEM BUTTON HANDLERS
 	 */
-	
+	/*
 	@UiHandler("section_btn")
 	void handleSection(ClickEvent e) {
 			clearContent();
@@ -97,7 +132,7 @@ public class AdminPage extends Composite {
 			content.add(new LogicalTab());
 			logic_m_btn.setStyleName( "admin_menu_item_selected" );
 	}
-	
+	/*
 	@UiHandler("logic_c_btn")
 	void handleLogicC(ClickEvent e) {
 			clearContent();
@@ -139,6 +174,7 @@ public class AdminPage extends Composite {
 			content.add(new ReviewTab());
 			review_btn.setStyleName( "admin_menu_item_selected" );
 	}
+	*/
 	
 	public void clearContent() {
 			content.clear();
@@ -160,15 +196,16 @@ public class AdminPage extends Composite {
 	{
 		clearContent();
 		content.add(new LMEditTab());
-		logic_c_btn.setStyleName( "admin_menu_item_selected" );
+		//logic_c_btn.setStyleName( "admin_menu_item_selected" );
 	}
 
 	public void openMagnetPC()
 	{
 		clearContent();
 		content.add(magnet_c);
-		magnet_c_btn.setStyleName( "admin_menu_item_selected" );
+		//magnet_c_btn.setStyleName( "admin_menu_item_selected" );
 	}
+	
 
 	/**
 	 * Handling test problem stuff for Magnet Problem Creation
