@@ -13,8 +13,8 @@ import webEditor.magnet.view.RefrigeratorMagnet;
 import webEditor.programming.view.Editor;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -22,14 +22,9 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.PasswordTextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -50,6 +45,7 @@ public class Wags extends View
 	public static final String LogoutStr = "logout";
 	
 	@UiField DockLayoutPanel dock;
+	@UiField SimplePanel north;
 	@UiField Anchor Home;
 	@UiField Anchor Editor;
 	@UiField Anchor DST;
@@ -57,7 +53,14 @@ public class Wags extends View
 	@UiField Anchor Database;
 	@UiField Anchor AdminPage;
 	@UiField Anchor logout;
-	@UiField ListBox Management;
+	@UiField Anchor logManage;
+	@UiField Anchor logCreation;
+	@UiField Anchor magManage;
+	@UiField Anchor magCreation;
+	@UiField Anchor proManage;
+	@UiField Anchor stuManage;
+	@UiField Anchor review;
+	//@UiField ListBox Management;
 	Label hello;
 	
 	public Magnets splashPage;
@@ -94,6 +97,7 @@ public class Wags extends View
 	{
 
 		initWidget(uiBinder.createAndBindUi(this));
+		north.getElement().getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
 		Proxy.getUsersName(hello, Editor, DST, Magnets, AdminPage, startingPlace);
 		AbstractCommand cmd2 = new CheckPasswordCommand();
 		cmd2.sendRequest();
@@ -113,12 +117,12 @@ public class Wags extends View
 		createHistoryHandler();
 				
 		//Add items to the management listbox
-		Management.addItem("Logical Problem Management");
-		Management.addItem("Logical Problem Creation");
-		Management.addItem("Magnet Problem Management");
-		Management.addItem("Magnet Problem Creation");
-		Management.addItem("Programming Problem Management");
-		Management.addItem("Student Management");
+		//Management.addItem("Logical Problem Management");
+		//Management.addItem("Logical Problem Creation");
+		//Management.addItem("Magnet Problem Management");
+		//Management.addItem("Magnet Problem Creation");
+		//Management.addItem("Programming Problem Management");
+		//Management.addItem("Student Management");
 		
 		// Load the correct initial page
 		setPage(startingPlace);
@@ -188,11 +192,17 @@ public class Wags extends View
 		});
 	}
 	
-	@UiHandler("Management")
+	/**@UiHandler("Management")
 	void onBrowserEvent(ClickEvent event) {
 		//History.newItem("?loc=admin");
 		loadAdmin();
 		adminPage.add(Management.getItemText(Management.getSelectedIndex()));
+	}*/
+	
+	@UiHandler("magCreation")
+	void onBrowserEvent(ClickEvent event) {
+		loadAdmin();
+		adminPage.add("Magnet Problem Creation");
 	}
 
 	@UiHandler("Editor")
