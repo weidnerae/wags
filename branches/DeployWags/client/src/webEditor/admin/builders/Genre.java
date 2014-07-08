@@ -10,7 +10,8 @@ public enum Genre {
 	Q_SORT ("qsort"),
 	REDBLACK ("redblack"),
 	SELECTION_SORT ("selectionsort"),
-	SIMPLE_PARTITION ("simplepartition");
+	SIMPLE_PARTITION ("simplepartition"),
+	GRAPHS ("graphs");
 	
 	private String key;
 	

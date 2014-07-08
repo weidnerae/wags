@@ -6,6 +6,7 @@ import com.google.gwt.user.client.Window;
 
 public class LMGraphsDisplay extends BasicDisplay {
 	ArgPanel orderPanel;
+	public String solution = "";
 	boolean kruskal = false;
 	boolean prims = false;
 	
@@ -29,6 +30,7 @@ public class LMGraphsDisplay extends BasicDisplay {
 		orderPanel.setup("Order: ", "Assign");
 		orderPanel.btnArg.addClickHandler(new AssignClickHandler(this, orderPanel));
 		basePanel.add(orderPanel);
+		
 		if (kruskal)
 		{
 		txtInstructions.setText("Use this canvas to create a Graph problem.  Add nodes by filling in the appropriate text box " +
@@ -213,7 +215,7 @@ public class LMGraphsDisplay extends BasicDisplay {
 		ArrayList<String> usedNodes = new ArrayList<String>();
 		ArrayList<Edge_Graphs> usedEdges = new ArrayList<Edge_Graphs>();
 		ArrayList<Edge_Graphs> edges = Edge_Graphs.getEdges();
-		String solution = "";
+		solution = "";
 		String tempEdges = "";
 		String startNode = txtStart.getText();
 		int count = 0;
@@ -348,20 +350,31 @@ public class LMGraphsDisplay extends BasicDisplay {
 
 	@Override
 	public void fillBuilder(ArgHolder child) {
-		//Edge_Graphs.reset();
 		// give the builder the information it needs
 		// tell builder to upload problem builder.uploadLM() // uploadLM(True) for debugging
+		String[] args = new String[1];
+		int[] xPos = new int[10];
+		int[] yPos = new int[10];
+		args[0] = solution;
+		builder.setArgs(args);
 		builder.setTitle(txtTitle.getText());
 		builder.setProblemText(txtDesc.getText());
-		ArrayList<Edge_Graphs> edges = Edge_Graphs.getEdges();
+		builder.genre = Genre.MST;
+		int i = 0;
 		for(Node_Basic node: canvas.nodes){
 			builder.addNode(node.value);
+			xPos[i] = node.xPos;
+			yPos[i] = node.yPos;
+			i++;
 		}
-		for (Edge_Graphs e : edges)
+		builder.setPos(xPos, yPos);
+		ArrayList<Edge_Graphs> edges = Edge_Graphs.getEdges();
+		for(Edge_Graphs e : edges)
 		{
-			builder.addEdge(e.weight +"");
+			builder.addEdge(e.weight + "");
 		}
 		builder.uploadLM();
+		Window.alert("uploadLM was Called");
 	}
 
 	@Override
