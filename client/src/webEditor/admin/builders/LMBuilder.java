@@ -20,7 +20,7 @@ public class LMBuilder {
 	
 	private InsertMethod insertMethod;
 	private NodeType nodeType;
-	private Genre genre;
+	Genre genre;
 	
 	
 	public LMBuilder(Genre genre, InsertMethod insertMethod, NodeType nodeType,
@@ -120,24 +120,25 @@ public class LMBuilder {
 			Window.alert("No nodes!");
 			return false;
 		}
-		
-		if(this.positions[XPOS].length != this.nodes.size() && 
+		//THIS PROBABLY NEEDS TO BE MODIFIED FOR MST PROBLEMS
+		Window.alert("About to check pos");
+		if(!this.genre.equals(Genre.MST) && this.positions[XPOS].length != this.nodes.size() && 
 				this.insertMethod != InsertMethod.BY_VALUE){
-			Window.alert("Positioning bug discovered!");
+			Window.alert("Positioning bug discovered!" + this.insertMethod + InsertMethod.BY_VALUE);
 			return false;
 		}
-		
+		Window.alert("About to check edges");
 		// NO_EDGES_KEY actually means "no edge addition"
 		if(this.edges.size() == 0 && this.edgeRules == DSTConstants.NO_EDGES_KEY){
 			Window.alert("No edges!");
 			return false;
 		}
-		
+		Window.alert("About to check length");
 		if(this.arguments.length() == 0){
 			Window.alert("No arguments given to check solution!");
 			return false;
 		}
-		
+		Window.alert("About to check eval");
 		if(this.evaluation == -1){
 			Window.alert("No evaluation defined!");
 			return false;
@@ -153,34 +154,45 @@ public class LMBuilder {
 	}
 	
 	public void uploadLM(boolean debug){
+		Window.alert("Inside uploadLM in LMBuilder class");
 		if(!validateMe()){
 			reset();
+			Window.alert("We're in validate");
 			return;
 		}
 		// Get title, description, nodes
 		String str = "";
-		
+		Window.alert("We're in");
 		// Convert positions to strings
 		String nodes = listToString(this.nodes);
+		Window.alert("nodes: " + nodes);
 		nodes = nodes.replace(',', ' ');
-		String xPos = listToString(positions[XPOS]);
-		String yPos = listToString(positions[YPOS]);
-		String edgStr = listToString(edges);
-		String args = this.arguments;
-		int edgeRem = (this.edgesRemovable) ? 1 : 0;
-		int nodesDrag = (this.nodesDraggable) ? 1 : 0;
 		
-		str = "&title=" + this.title + "&problemText=" + this.problemText 
-				+ "&nodes=" + nodes + "&edges=" + edgStr 
-				+ "&xPositions=" + xPos + "&yPositions=" + yPos + "&insertMethod="  
-				+ this.insertMethod + "&evaluation=" + this.evaluation
-				+ "&edgeRules=" + this.edgeRules + "&arguments=" 
-				+ args + "&edgesRemovable=" + edgeRem
-				+ "&nodesDraggable=" + nodesDrag + "&nodeType=" + this.nodeType
-				+ "&genre=" + this.genre + "&group=" + this.groupId;
+			String xPos = listToString(positions[XPOS]);
+			String yPos = listToString(positions[YPOS]);
+			Window.alert("xPos/yPos = " + xPos + " " + yPos);
+			
+			String edgStr = listToString(edges);
+			Window.alert("edgStr " + edgStr);
+			String args = this.arguments;
+			Window.alert("args: " + args);
+			int edgeRem = (this.edgesRemovable) ? 1 : 0;
+			Window.alert("edgeRem " + edgeRem);
+			
+			int nodesDrag = (this.nodesDraggable) ? 1 : 0;
+			Window.alert("nodesDrag " + nodesDrag);
+			str = "&title=" + this.title + "&problemText=" + this.problemText 
+					+ "&nodes=" + nodes + "&edges=" + edgStr 
+					+ "&xPositions=" + xPos + "&yPositions=" + yPos + "&insertMethod="  
+					+ this.insertMethod + "&evaluation=" + this.evaluation
+					+ "&edgeRules=" + this.edgeRules + "&arguments=" 
+					+ args + "&edgesRemovable=" + edgeRem
+					+ "&nodesDraggable=" + nodesDrag + "&nodeType=" + this.nodeType
+					+ "&genre=" + this.genre + "&group=" + this.groupId;
 		
 		if(debug) Window.alert(str);
 		else {
+			Window.alert("Server being called");
 			reset();  // All info is stored in string, so can reset before Proxy call
 			Proxy.uploadLogicalMicrolab(str);
 		}
