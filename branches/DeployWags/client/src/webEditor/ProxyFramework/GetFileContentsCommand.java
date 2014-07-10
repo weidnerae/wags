@@ -5,7 +5,7 @@ import webEditor.programming.view.Editor;
 
 import com.google.gwt.http.client.Response;
 
-public class GetFileContentsCommand extends AbstractCommand {
+public class GetFileContentsCommand extends AbstractServerCall {
 
 	private CodeEditor editor;
 	private Editor codeArea;

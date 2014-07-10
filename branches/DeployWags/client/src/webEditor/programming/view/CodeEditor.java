@@ -1,8 +1,8 @@
 package webEditor.programming.view;
 
 
-import webEditor.View;
-import webEditor.WEAnchor;
+//import webEditor.View;
+//import webEditor.WEAnchor;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -10,11 +10,12 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
 
-public class CodeEditor extends View implements HasHandlers
+public class CodeEditor extends Composite implements HasHandlers
 {
 
 	private static CodeEditorUiBinder uiBinder = GWT
@@ -56,12 +57,6 @@ public class CodeEditor extends View implements HasHandlers
 	
 	public void setContents(String contents){
 		this.codeArea.setText(contents);
-	}
-	
-	@Override
-	public WEAnchor getLink()
-	{
-		return new WEAnchor("Editor", this, "codeEditor");
 	}
 	
 }

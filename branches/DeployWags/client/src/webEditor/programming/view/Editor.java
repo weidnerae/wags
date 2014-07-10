@@ -1,7 +1,7 @@
 package webEditor.programming.view;
 
 import webEditor.Proxy;
-import webEditor.ProxyFramework.AbstractCommand;
+import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.GetDescriptionCommand;
 import webEditor.ProxyFramework.GetFileContentsCommand;
 
@@ -104,7 +104,7 @@ public class Editor extends Composite implements IsWidget{
 				else
 				{
 					// If clicked item is a leaf TreeItem then open it in editor
-					AbstractCommand cmd = new GetFileContentsCommand(itemName, editor, thing);
+					AbstractServerCall cmd = new GetFileContentsCommand(itemName, editor, thing);
 					cmd.sendRequest();
 					//proxy.getFileContents(itemName, editor, thing);
 					if(itemName.contains("_Versions")){
@@ -117,7 +117,7 @@ public class Editor extends Composite implements IsWidget{
 					}
 					
 					/* Update description */
-					AbstractCommand cmd2 = new GetDescriptionCommand(currentExercise, description);
+					AbstractServerCall cmd2 = new GetDescriptionCommand(currentExercise, description);
 					cmd2.sendRequest();
 					//Proxy.getDescription(currentExercise, description);
 	

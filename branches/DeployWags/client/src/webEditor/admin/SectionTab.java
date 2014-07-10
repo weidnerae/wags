@@ -25,7 +25,6 @@ public class SectionTab extends Composite implements HasText {
 	@UiField PasswordTextBox checkPassword, check2Password;
 	@UiField ListBox lstCurSections;
 	@UiField Label lblCurrentSection;
-	AdminPage admin;
 	
 	private static SectionTabUiBinder uiBinder = GWT
 			.create(SectionTabUiBinder.class);
@@ -50,10 +49,6 @@ public class SectionTab extends Composite implements HasText {
 		formChangeSection.setEncoding(FormPanel.ENCODING_MULTIPART);
 		formChangeSection.setMethod(FormPanel.METHOD_POST);
 		formChangeSection.addSubmitCompleteHandler(new ChangeCompleteHandler());
-	}
-	
-	public void setAdmin(AdminPage admin){
-		this.admin = admin;
 	}
 	
 	// Handler for adding a new section
@@ -98,7 +93,9 @@ public class SectionTab extends Composite implements HasText {
 			if(stat.getStat() == WEStatus.STATUS_SUCCESS){
 				// Change current section label
 				lblCurrentSection.setText(lstCurSections.getItemText(lstCurSections.getSelectedIndex()));
-				admin.update();
+				
+				//TODO WHAT IS THIS AND FIX IT!
+				//admin.update();
 			}
 			
 		}

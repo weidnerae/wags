@@ -3,8 +3,8 @@ package webEditor.programming.view;
 import java.util.HashMap;
 
 import webEditor.Proxy;
-import webEditor.View;
-import webEditor.WEAnchor;
+//import webEditor.View;
+//import webEditor.WEAnchor;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -14,6 +14,7 @@ import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.TextBox;
@@ -21,7 +22,7 @@ import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
-public class FileBrowser extends View {
+public class FileBrowser extends Composite {
 	private static FileBrowserUiBinder uiBinder = GWT
 			.create(FileBrowserUiBinder.class);
 
@@ -165,10 +166,12 @@ public class FileBrowser extends View {
 		return null;
 	}
 
+	/**
 	@Override
 	public WEAnchor getLink() {
 		return new WEAnchor("File Browser", this, "fileBrowser");
 	}
+	*/
 
 	public Tree getTree() {
 		return this.browser;

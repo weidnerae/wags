@@ -5,7 +5,7 @@ import webEditor.WEStatus;
 
 import com.google.gwt.http.client.Response;
 
-public class GetLMAssigned extends AbstractCommand {
+public class GetLMAssigned extends AbstractServerCall {
 
 	private Receiver pf;
 	private String args;

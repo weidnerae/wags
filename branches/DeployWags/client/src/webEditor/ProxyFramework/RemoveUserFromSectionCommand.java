@@ -5,7 +5,7 @@ import webEditor.WEStatus;
 
 import com.google.gwt.http.client.Response;
 
-public class RemoveUserFromSectionCommand extends AbstractCommand {
+public class RemoveUserFromSectionCommand extends AbstractServerCall {
 
 	@Override
 	protected void handleResponse(Response response) 

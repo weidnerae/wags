@@ -1,8 +1,10 @@
 package webEditor.ProxyFramework;
 
-import webEditor.Login;
+import webEditor.Common.ClientFactory;
+import webEditor.Common.Tokens;
 
 import com.google.gwt.http.client.Response;
+import com.google.gwt.user.client.History;
 
 /**
  * @author Dakota Murray
@@ -11,24 +13,17 @@ import com.google.gwt.http.client.Response;
  * call. The logout command is very simple as it requires no input arguments
  *
  */
-public class LogoutCommand extends AbstractCommand {
-
-	@Override
-	public void sendRequest() {
-		command = ProxyCommands.Logout;
-		ProxyCall proxy = new ProxyCall();
-		proxy.call(this);
-	}
+public class LogoutCommand extends AbstractServerCall {
 
 	@Override
 	protected void handleResponse(Response response) {
-		Login loginPage = new Login();
-		loginPage.go();
+		ClientFactory.getAppModel().clear();
+		History.newItem(Tokens.LOGIN);
 	}
 	
 	public LogoutCommand()
 	{
-		
+		command = ProxyCommands.Logout;
 	}
 
 }

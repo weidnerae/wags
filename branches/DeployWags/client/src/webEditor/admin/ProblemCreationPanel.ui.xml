@@ -243,7 +243,7 @@
 						</g:HorizontalPanel>
 					</g:VerticalPanel>
 				</g:VerticalPanel>
-				<g:VerticalPanel width="50%">
+				<g:VerticalPanel width="100%">
 					<g:Label ui:field="hiddenFunctionsLabel" text="Hidden Code:"/>
 					<g:TextArea width="98%" ui:field="hiddenFunctionsArea" visibleLines="5"/>
 					<g:Button styleName="{style.floatRight}" ui:field="createHidFunctionButton">Add Hidden Code</g:Button>
@@ -253,7 +253,7 @@
 	</g:layer>
 	<g:layer left="52%" right="10%">
 	    <g:ScrollPanel>
-			<g:VerticalPanel ui:field="magnetReviewPanel" width="50%">
+			<g:VerticalPanel ui:field="magnetReviewPanel" width="98%">
 				<g:FormPanel ui:field="problemCreateFormPanel">
 					<g:VerticalPanel width="100%" height="100%">
 						<g:Label text="Title:"/>

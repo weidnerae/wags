@@ -50,6 +50,7 @@ public class WEStatus {
 				this.stat = Integer.parseInt(stat.toString());
 			// JSON String
 			if (string != null) {
+				
 				String msg = string.toString();
 				msg = msg.trim();
 				// Remove the quotations at beginning and end of string.
@@ -88,7 +89,7 @@ public class WEStatus {
 					}
 					messageMap.put(key, val);
 				}
-				
+
 				// Since we have a limited number of "objects" being passed from the
 				// server, we'll go ahead and construct similar objects on the client
 				if(messageMap.containsKey("Object")){

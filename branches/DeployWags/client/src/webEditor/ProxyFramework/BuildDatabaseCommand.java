@@ -1,11 +1,11 @@
 package webEditor.ProxyFramework;
 
 import webEditor.WEStatus;
-import webEditor.Wags;
 import webEditor.database.DatabasePanel;
 
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 /**
  * @author Dakota Murray
@@ -16,9 +16,9 @@ import com.google.gwt.http.client.Response;
  * Modifies: Main WAGS object, changes center content panel
  *
  */
-public class BuildDatabaseCommand extends AbstractCommand {
+public class BuildDatabaseCommand extends AbstractServerCall {
 
-	private Wags wags;
+	private AcceptsOneWidget wags;
 	
 	@Override
 	protected void handleResponse(Response response) {
@@ -46,12 +46,12 @@ public class BuildDatabaseCommand extends AbstractCommand {
 		
 		DatabasePanel dbPanel = new DatabasePanel(idList, problemsList, statusList);
 		dbPanel.getElement().getStyle().setOverflowY(Overflow.AUTO);
-		wags.replaceCenterContent(dbPanel);
+		wags.setWidget(dbPanel);
 	}
 	
-	public BuildDatabaseCommand(Wags wags)
+	public BuildDatabaseCommand(AcceptsOneWidget page)
 	{
-		this.wags = wags;
+		this.wags = page;
 		command = ProxyCommands.GetDatabaseExercises;
 	}
 

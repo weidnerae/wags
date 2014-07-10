@@ -46,7 +46,6 @@ public class LMBuildBSTDisplay extends BasicDisplay
 		String[] args = new String[2];
 		args[0] = Traversals.getPostorderTraversal(root);
 		args[1] = Traversals.getInorderTraversal(root);
-		
 		builder.setArgs(args);
 		builder.setTitle(txtTitle.getText());
 		String instructions = txtDesc.getText();

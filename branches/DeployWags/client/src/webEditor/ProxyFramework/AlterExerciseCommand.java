@@ -6,7 +6,7 @@ import webEditor.WEStatus;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.ui.ListBox;
 
-public class AlterExerciseCommand extends AbstractCommand {
+public class AlterExerciseCommand extends AbstractServerCall {
 
 	@Override
 	protected void handleResponse(Response response) {

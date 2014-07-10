@@ -1,6 +1,6 @@
 package webEditor;
 
-import webEditor.ProxyFramework.AbstractCommand;
+import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.LoginCommand;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -47,7 +47,7 @@ public class ReLoginPopupHandler {
 				}
 				
 				setPassword.hide();
-				AbstractCommand cmd = new LoginCommand(username.getText(), password.getText());
+				AbstractServerCall cmd = new LoginCommand(username.getText(), password.getText());
 				cmd.sendRequest();
 			}
 		});

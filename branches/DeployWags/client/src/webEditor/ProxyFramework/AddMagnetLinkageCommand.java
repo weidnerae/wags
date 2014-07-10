@@ -12,7 +12,7 @@ import webEditor.WEStatus;
  * 
  *
  */
-public class AddMagnetLinkageCommand extends AbstractCommand {
+public class AddMagnetLinkageCommand extends AbstractServerCall {
 
 	@Override
 	protected void handleResponse(Response response)

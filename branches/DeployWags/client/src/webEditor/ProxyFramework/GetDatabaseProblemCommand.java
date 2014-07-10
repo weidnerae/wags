@@ -17,7 +17,7 @@ import com.google.gwt.http.client.Response;
  * 
  *
  */
-public class GetDatabaseProblemCommand extends AbstractCommand {
+public class GetDatabaseProblemCommand extends AbstractServerCall {
 
 	private DatabasePanel dbPanel;
 	
