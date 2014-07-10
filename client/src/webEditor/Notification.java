@@ -10,6 +10,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ScrollEvent;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -17,7 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 
 
-public class Notification extends View {
+public class Notification extends Composite {
 
         private static NotificationUiBinder uiBinder = GWT.create(NotificationUiBinder.class);
         private static PopupPanel popup;
@@ -70,11 +71,6 @@ public class Notification extends View {
                 notificationArea.setText(msg);
         }
 
-        @Override
-        public WEAnchor getLink() {
-                return null;
-        }
-        
         public static void notify(int status, String msg)
         {
                 Notification.cancel();

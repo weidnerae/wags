@@ -7,7 +7,7 @@ import webEditor.logical.DataStructureTool;
 
 import com.google.gwt.http.client.Response;
 
-public class GetLogicalMicrolabCommand extends AbstractCommand {
+public class GetLogicalMicrolabCommand extends AbstractServerCall {
 
 	DataStructureTool DST;
 	@Override

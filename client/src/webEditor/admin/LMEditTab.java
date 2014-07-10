@@ -38,6 +38,7 @@ public class LMEditTab extends Composite implements ProxyFacilitator{
 
 	public LMEditTab() {
 		initWidget(uiBinder.createAndBindUi(this));
+		Window.alert("Creating the LMEdit class");
 		btnPanelSubjects.setTitle("SUBJECTS");
 		btnPanelGroups.setTitle("GROUPS");
 		Proxy.getLMSubjects(this);

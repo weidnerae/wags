@@ -11,11 +11,15 @@ import webEditor.logical.DataStructureTool;
 import webEditor.magnet.view.Magnets;
 import webEditor.magnet.view.ResultsPanelUi;
 import webEditor.magnet.view.StackableContainer;
+import webEditor.presenters.concrete.WagsPresenterImpl;
 import webEditor.programming.view.CodeEditor;
 import webEditor.programming.view.Editor;
 import webEditor.programming.view.Exercises;
 import webEditor.programming.view.FileBrowser;
 import webEditor.programming.view.OutputReview;
+import webEditor.views.concrete.DefaultPage;
+import webEditor.views.concrete.Login;
+import webEditor.views.concrete.Wags;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -124,6 +128,7 @@ public class Proxy
 	
 	//Implemented as a command
 	//ENCODE FALSE
+	/**
 	public static void alterExercise2(String exercise, final String attribute, final ListBox exercises){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=EditExercises" +
 				"&title=" + exercise + "&attribute=" + attribute);
@@ -148,7 +153,8 @@ public class Proxy
 			Window.alert("Failed to send the request: " + e.getMessage());
 		}
 	}
-
+*/
+	/**
 
 	//Implemented as Command
 	//Encode == TRUE
@@ -178,7 +184,7 @@ public class Proxy
 			Window.alert("Failed to send the request: " + e.getMessage());
 		}
 	}
-
+*/
 	//Implemented as COmmand Object
 	//Encode == FALSE
 	//Method == GET
@@ -209,7 +215,7 @@ public class Proxy
 					DataStructureTool DST = new DataStructureTool(problemsList,
 							statusList);
 					DST.getElement().getStyle().setOverflowY(Overflow.AUTO);
-					wags.replaceCenterContent(DST);
+					//wags.replaceCenterContent(DST);
 				}
 		        
 		        public void onError(Request request, Throwable exception) {
@@ -224,7 +230,7 @@ public class Proxy
 	//Implemented as Command
 	//Encode == false
 	//Method == get
-	public static void buildMagnets(final Wags wags) {
+	public static void buildMagnets(final WagsPresenterImpl wags) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetExercises");
 		try{
 			builder.sendRequest(null, new RequestCallback() {
@@ -256,7 +262,7 @@ public class Proxy
 					Magnets Magnets = new Magnets(idList, problemsList, statusList, wags);
 					wags.splashPage = Magnets;
 					Magnets.getElement().getStyle().setOverflowY(Overflow.AUTO);
-					wags.replaceCenterContent(Magnets);
+					wags.setWidget(Magnets);
 				}
 				
 				@Override
@@ -303,7 +309,7 @@ public class Proxy
 					
 					DatabasePanel dbPanel = new DatabasePanel(idList, problemsList, statusList);
 					dbPanel.getElement().getStyle().setOverflowY(Overflow.AUTO);
-					wags.replaceCenterContent(dbPanel);
+					//wags.replaceCenterContent(dbPanel);
 				}
 				
 				@Override
@@ -1092,7 +1098,7 @@ public class Proxy
 	 *  Grabs a magnet problem
 	 * @return 
 	 */
-	public static void getMagnetProblem(final int id, final Wags wags){
+	public static void getMagnetProblem(final int id, final WagsPresenterImpl wags2){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetMagnetProblem&id=" + id);
 		try{
 			builder.sendRequest("", new RequestCallback() {
@@ -1101,7 +1107,7 @@ public class Proxy
 				public void onResponseReceived(Request request, Response response) {
 					WEStatus status = new WEStatus(response);
 					MagnetProblem magProblem = (MagnetProblem) status.getObject();
-					wags.placeProblem(magProblem);
+					wags2.placeProblem(magProblem);
 				}
 				
 				@Override
@@ -1681,7 +1687,7 @@ public class Proxy
 	/**
 	 * Tell server we want to logout of WE.
 	 */
-	public static void logout()
+	public static void logout3()
 	{
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(logout));
 		try{
@@ -1691,7 +1697,7 @@ public class Proxy
 				public void onResponseReceived(Request request, Response response)
 				{
 					Login l = new Login();
-					l.go();
+					//l.go();
 				}
 				
 				@Override

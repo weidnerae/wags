@@ -5,7 +5,7 @@ import webEditor.WEStatus;
 
 import com.google.gwt.http.client.Response;
 
-public class GetLMSubjectsCommand extends AbstractCommand {
+public class GetLMSubjectsCommand extends AbstractServerCall {
 
 	private ProxyFacilitator pf;
 	

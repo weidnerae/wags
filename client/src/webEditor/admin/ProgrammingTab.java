@@ -3,7 +3,7 @@ package webEditor.admin;
 import webEditor.Notification;
 import webEditor.Proxy;
 import webEditor.WEStatus;
-import webEditor.ProxyFramework.AbstractCommand;
+import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.AddSkelatonsCommand;
 import webEditor.ProxyFramework.AlterExerciseCommand;
 import webEditor.ProxyFramework.DeleteExerciseCommand;
@@ -68,7 +68,7 @@ public class ProgrammingTab extends Composite {
 					// Message is of the form: 'Uploaded Exercise [exercise title]'
 					// So, exercise, exercise title begins at index 18
 					String exName = stat.getMessage().substring(18);
-					AbstractCommand cmd = new AddSkelatonsCommand(exName);
+					AbstractServerCall cmd = new AddSkelatonsCommand(exName);
 					cmd.sendRequest();
 					//Proxy.addSkeletons(exName);
 				}
@@ -105,14 +105,14 @@ public class ProgrammingTab extends Composite {
 	
 	@UiHandler("btnAddSkeletons")
 	void onSkelClick(ClickEvent event){
-		AbstractCommand cmd = new AlterExerciseCommand(exercises.getValue(exercises.getSelectedIndex()), "skel", exercises);
+		AbstractServerCall cmd = new AlterExerciseCommand(exercises.getValue(exercises.getSelectedIndex()), "skel", exercises);
 		cmd.sendRequest();
 		//Proxy.alterExercise(exercises.getValue(exercises.getSelectedIndex()), "skel", exercises);
 	}
 	
 	@UiHandler("btnMakeVisible")
 	void onVisClick(ClickEvent event){
-		AbstractCommand cmd = new AlterExerciseCommand(exercises.getValue(exercises.getSelectedIndex()), "skel", exercises);
+		AbstractServerCall cmd = new AlterExerciseCommand(exercises.getValue(exercises.getSelectedIndex()), "skel", exercises);
 		cmd.sendRequest();
 		//Proxy.alterExercise(exercises.getValue(exercises.getSelectedIndex()), "vis", exercises);
 	}
@@ -137,7 +137,7 @@ public class ProgrammingTab extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				deleteExercise.hide();
-				AbstractCommand cmd = new DeleteExerciseCommand(exercises.getValue(exercises.getSelectedIndex()), exercises);
+				AbstractServerCall cmd = new DeleteExerciseCommand(exercises.getValue(exercises.getSelectedIndex()), exercises);
 				cmd.sendRequest();
 				//Proxy.deleteExercise(exercises.getValue(exercises.getSelectedIndex()), exercises);
 			}

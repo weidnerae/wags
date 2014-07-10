@@ -1,11 +1,11 @@
 package webEditor.ProxyFramework;
 
 import webEditor.WEStatus;
-import webEditor.Wags;
 import webEditor.logical.DataStructureTool;
 
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 /**
  * 
@@ -17,9 +17,9 @@ import com.google.gwt.http.client.Response;
  * Modifies: Main WAGS object, changes center content panel
  *
  */
-public class BuildDSTCommand extends AbstractCommand {
+public class BuildDSTCommand extends AbstractServerCall {
 
-	private Wags wags;
+	private AcceptsOneWidget presenter;
 	
 	@Override
 	protected void handleResponse(Response response) {
@@ -43,13 +43,13 @@ public class BuildDSTCommand extends AbstractCommand {
 		DataStructureTool DST = new DataStructureTool(problemsList,
 				statusList);
 		DST.getElement().getStyle().setOverflowY(Overflow.AUTO);
-		wags.replaceCenterContent(DST);
+		presenter.setWidget(DST);
 
 	}
 	
-	public BuildDSTCommand(Wags wags)
+	public BuildDSTCommand(AcceptsOneWidget presenter)
 	{
-		this.wags = wags;
+		this.presenter= presenter;
 		command = ProxyCommands.GetLogicalExercises;
 		
 	}

@@ -14,12 +14,12 @@ public class ProxyCall
 	private Response response;
 	private String postArgs = null;
 	
-	public void call(AbstractCommand command)
+	public void call(AbstractServerCall command)
 	{
 		String commandURL = ProxyStringBuilder.buildServerString(command.getCommand(), command.getArguments(), command.getMethod());
 		
 		RequestBuilder builder = new RequestBuilder(command.getMethod(), commandURL);
-		final AbstractCommand cmd = command;
+		final AbstractServerCall cmd = command;
 		try {
 			
 			if (command.method == RequestBuilder.POST) {

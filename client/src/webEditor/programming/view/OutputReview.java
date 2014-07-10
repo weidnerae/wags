@@ -1,15 +1,16 @@
 package webEditor.programming.view;
 
-import webEditor.View;
-import webEditor.WEAnchor;
+//import webEditor.View;
+//import webEditor.WEAnchor;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
-public class OutputReview extends View{
+public class OutputReview extends Composite {
 
 	private static OutputReviewUiBinder uiBinder = GWT
 			.create(OutputReviewUiBinder.class);
@@ -36,8 +37,10 @@ public class OutputReview extends View{
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
+	/**
 	@Override
 	public WEAnchor getLink() {
 		return null;
 	}
+	*/
 }

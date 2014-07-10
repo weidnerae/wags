@@ -13,7 +13,7 @@ import com.google.gwt.http.client.Response;
  * 
  *
  */
-public class CheckPasswordCommand extends AbstractCommand {
+public class CheckPasswordCommand extends AbstractServerCall {
 
 	
 	@Override

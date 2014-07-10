@@ -7,7 +7,7 @@ import webEditor.WEStatus;
 import webEditor.magnet.view.Consts;
 import webEditor.magnet.view.MagnetProblemCreator;
 import webEditor.magnet.view.MagnetType;
-import webEditor.ProxyFramework.AbstractCommand;
+import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.AddMagnetLinkageCommand;
 
 
@@ -109,7 +109,6 @@ public class ProblemCreationPanel extends Composite{
 	
 	int numHelpers = 1;
 	private MagnetProblemCreator magnetProblemCreator;
-	private AdminPage adminPage;
 
 		
 	public ProblemCreationPanel(){
@@ -140,7 +139,7 @@ public class ProblemCreationPanel extends Composite{
 				
 				if(stat.getStat() == WEStatus.STATUS_SUCCESS){
 					
-					AbstractCommand cmd = new AddMagnetLinkageCommand(stat.getMessage());
+					AbstractServerCall cmd = new AddMagnetLinkageCommand(stat.getMessage());
 					cmd.sendRequest();
 					
 					//Proxy.addMagnetLinkage(stat.getMessage()); // The title of the problem
@@ -212,7 +211,7 @@ public class ProblemCreationPanel extends Composite{
 						finalTypeTxtArea,forLoop1TextArea, forLoop2TextArea, forLoop3TextArea, ifsTextArea, whilesTextArea, returnsTextArea,
 						assignmentsVarTextArea, assignmentsValTextArea, ifAllowed, elseAllowed, elseIfAllowed, forAllowed, whileAllowed, 
 						returnAllowed, assignmentAllowed, btnBasicProblem, btnAdvancedProblem, btnPrologBasicProblem, btnCBasicProblem);
-				AbstractCommand timeCmd = new GetFileTimeCommand(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()), uploadStamp, helperStamp);
+				AbstractServerCall timeCmd = new GetFileTimeCommand(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()), uploadStamp, helperStamp);
 			    timeCmd.sendRequest();
 				//Proxy.getFileTime(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()), uploadStamp, helperStamp);
 				// dear god help me please
@@ -240,7 +239,7 @@ public class ProblemCreationPanel extends Composite{
 							setupCOptions();
 							finalTypeTxtArea.setText( C_BASIC_PROBLEM );
 						}
-						AbstractCommand timeCmd = new GetFileTimeCommand(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()), uploadStamp, helperStamp);
+						AbstractServerCall timeCmd = new GetFileTimeCommand(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()), uploadStamp, helperStamp);
 					    timeCmd.sendRequest();
 						//Proxy.getFileTime(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()), uploadStamp, helperStamp);
 			      }
@@ -374,7 +373,7 @@ public class ProblemCreationPanel extends Composite{
 		
 		vtPanelHelper.add(newPanel);
 		
-		AbstractCommand timeCmd = new GetFileTimeCommand(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()), uploadStamp, helperStamp);
+		AbstractServerCall timeCmd = new GetFileTimeCommand(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()), uploadStamp, helperStamp);
 	    timeCmd.sendRequest();
 		//Proxy.getFileTime(lstLoadExercise.getItemText(lstLoadExercise.getSelectedIndex()), uploadStamp, helperStamp);
 	}
@@ -410,7 +409,7 @@ public class ProblemCreationPanel extends Composite{
 		
 		yes.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				AbstractCommand cmd = new DeleteMagnetExerciseCommand(title);
+				AbstractServerCall cmd = new DeleteMagnetExerciseCommand(title);
 				cmd.sendRequest();
 				//Proxy.deleteMagnetExercise(title);
 				deleteBox.hide();
@@ -1003,8 +1002,9 @@ public class ProblemCreationPanel extends Composite{
 					finalTypeTxtArea.getText(), classDeclarationTxtArea.getText(), innerFunctionsTxtArea.getText().split(".:\\|:."), emptyArr,emptyArr, emptyArr, emptyArr, emptyArr, emptyArr, emptyArr, emptyArr,
 					statementsTxtArea.getText().split(".:\\|:."), emptyString, emptyArr, statementsTxtArea.getText().split(".:\\|:.").length+innerFunctionsTxtArea.getText().split(".:\\|:.").length, "", "");
 		}
-
-		adminPage.setUpTestProblem( this.magnetProblemCreator.makeProblem( problem ));
+		
+		//TODO FIX SETTING UP TEST PROBLEMS
+		//adminPage.setUpTestProblem( this.magnetProblemCreator.makeProblem( problem ));
 	}
 		
 	/**
@@ -1039,11 +1039,6 @@ public class ProblemCreationPanel extends Composite{
 	public void update(){
 		Proxy.getMagnetGroups(lstLoadGroup);
 		Proxy.getMagnetsByGroup("Arrays/ArrayLists", lstLoadExercise);
-	}
-
-	
-	public void setAdminPage(AdminPage adminPage) {
-		this.adminPage = adminPage;
 	}
 }
 

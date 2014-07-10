@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.Anchor;
 public class WEAnchor extends Anchor 
 {
 	private String url;
+	/**
 	public WEAnchor(String text, final View view, final String locationName)
 	{
 		// Set text of link.
@@ -57,6 +58,7 @@ public class WEAnchor extends Anchor
 			}
 		});
 	}
+	*/
 	/**
 	 * Go to this URL.
 	 */

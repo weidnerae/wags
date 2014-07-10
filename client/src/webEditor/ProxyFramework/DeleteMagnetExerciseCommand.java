@@ -5,7 +5,7 @@ import webEditor.WEStatus;
 
 import com.google.gwt.http.client.Response;
 
-public class DeleteMagnetExerciseCommand extends AbstractCommand {
+public class DeleteMagnetExerciseCommand extends AbstractServerCall {
 
 	@Override
 	protected void handleResponse(Response response)

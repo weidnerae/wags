@@ -75,9 +75,9 @@ public class AdminPage extends Composite {
 		//initialize global variables
 		items = new Button[]{logic_m_btn, logic_c_btn, magnet_m_btn, magnet_c_btn, prog_btn, student_btn, review_btn, section_btn};
 		magnet_c = new ProblemCreationPanel();
-		magnet_c.setAdminPage(this);
-		sections = new SectionTab();
-		sections.setAdmin(this);
+		//magnet_c.setAdminPage(this);
+		//sections = new SectionTab();
+		//sections.setAdmin(this);
 		menu.setSpacing(0);
 		//check if admin is root to make section_btn visible
 		//Proxy.isAdmin(section_btn);		
