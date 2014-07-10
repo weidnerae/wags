@@ -7,7 +7,7 @@ import webEditor.WEStatus;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.ui.ListBox;
 
-public class DeleteExerciseCommand extends AbstractCommand {
+public class DeleteExerciseCommand extends AbstractServerCall {
 
 	private ListBox exercises;
 	@Override

@@ -12,7 +12,7 @@ import com.google.gwt.http.client.Response;
  * Server File Called: 
  *
  */
-public class AssignPasswordCommand extends AbstractCommand {
+public class AssignPasswordCommand extends AbstractServerCall {
 
 	@Override
 	protected void handleResponse(Response response) 

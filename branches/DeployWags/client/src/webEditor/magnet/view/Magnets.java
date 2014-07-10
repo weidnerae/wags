@@ -2,7 +2,8 @@ package webEditor.magnet.view;
 
 import webEditor.MagnetProblem;
 import webEditor.Proxy;
-import webEditor.Wags;
+import webEditor.presenters.concrete.WagsPresenterImpl;
+import webEditor.views.concrete.Wags;
 
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ public class Magnets extends AbsolutePanel {
 	private int[] statuses;			//array of success values
 	//***private int idAssignor = 0;
 	private boolean initialLoad = true;
-	private Wags wags;
+	private WagsPresenterImpl wags;
 	private MagnetProblemCreator magnetProblemCreator;
 
 	final VerticalPanel problemPane = new VerticalPanel();
@@ -57,14 +58,14 @@ public class Magnets extends AbsolutePanel {
 	 * @param ids		id numbers for magnet problems
 	 * @param titles	title text of magnet problems
 	 * @param success	boolean for if magnet problem was completed successfully by the user
-	 * @param wags		reference to Wags so that Wags can switch between different pages
+	 * @param wags2		reference to Wags so that Wags can switch between different pages
 	 * 					while retaining the top bar
 	 */
-	public Magnets(int[] ids, String[] titles, int[] statuses, Wags wags) {
+	public Magnets(int[] ids, String[] titles, int[] statuses, WagsPresenterImpl wags2) {
 		this.ids = ids;
 		this.titles = titles;
 		this.statuses = statuses;
-		this.wags = wags;
+		this.wags = wags2;
 		this.magnetProblemCreator = new MagnetProblemCreator();
 
 		banner = new Label("Code Magnet Microlabs");

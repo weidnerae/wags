@@ -1,6 +1,6 @@
 package webEditor;
 
-import webEditor.ProxyFramework.AbstractCommand;
+import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.AssignPasswordCommand;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -45,7 +45,7 @@ public abstract class AssignNewPasswordHandler {
 				}
 				
 				setPassword.hide();
-				AbstractCommand cmd = new AssignPasswordCommand(password.getText());
+				AbstractServerCall cmd = new AssignPasswordCommand(password.getText());
 				cmd.sendRequest();
 				//Proxy.assignPassword(password.getText());
 			}

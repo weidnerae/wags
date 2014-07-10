@@ -2,7 +2,7 @@ package webEditor.magnet.view;
 
 import webEditor.MagnetProblem;
 import webEditor.Proxy;
-import webEditor.ProxyFramework.AbstractCommand;
+import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.CleanOutOldCreatedMagnetsCommand;
 
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
@@ -157,7 +157,7 @@ public class CodePanelUi extends Composite {
 
 	@UiHandler("stateButton")
 	void handleStateClick(ClickEvent e) {
-		AbstractCommand cmd = new CleanOutOldCreatedMagnetsCommand(refrigeratorMagnet.getID());
+		AbstractServerCall cmd = new CleanOutOldCreatedMagnetsCommand(refrigeratorMagnet.getID());
 		cmd.sendRequest();
 		//Proxy.cleanOutOldCreatedMagnets(refrigeratorMagnet.getID());
 		//Proxy.saveMagnetState(getSaveState(), refrigeratorMagnet.getID(), 0, false);

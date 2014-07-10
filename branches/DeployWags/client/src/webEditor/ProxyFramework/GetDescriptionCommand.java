@@ -6,7 +6,7 @@ import webEditor.WEStatus;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.ui.Image;
 
-public class GetDescriptionCommand extends AbstractCommand {
+public class GetDescriptionCommand extends AbstractServerCall {
 
 	private Image descImage;
 	

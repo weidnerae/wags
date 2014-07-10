@@ -5,7 +5,7 @@ import webEditor.WEStatus;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.ui.Label;
 
-public class GetFileTimeCommand extends AbstractCommand {
+public class GetFileTimeCommand extends AbstractServerCall {
 
 	private Label uploadStamp;
 	private Label helperStamp;

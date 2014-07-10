@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import webEditor.Proxy;
-import webEditor.ProxyFramework.AbstractCommand;
+import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.GetDatabaseProblemCommand;
 
 
@@ -217,7 +217,7 @@ public class DatabasePanel  extends AbsolutePanel
 		/* This is the 'switch' between DB LogicalMicrolabs and
 		 * ProblemServiceImpl
 		 */
-		AbstractCommand cmd = new GetDatabaseProblemCommand(id, this);
+		AbstractServerCall cmd = new GetDatabaseProblemCommand(id, this);
 		cmd.sendRequest();
 		//Proxy.getDatabaseProblem(id, this);
 		//DatabasePanel.initialize will be called after the problem is retrieved

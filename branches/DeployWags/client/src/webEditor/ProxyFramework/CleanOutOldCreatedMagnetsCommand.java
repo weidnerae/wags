@@ -2,7 +2,7 @@ package webEditor.ProxyFramework;
 
 import com.google.gwt.http.client.Response;
 
-public class CleanOutOldCreatedMagnetsCommand extends AbstractCommand {
+public class CleanOutOldCreatedMagnetsCommand extends AbstractServerCall {
 
 	@Override
 	protected void handleResponse(Response response) {

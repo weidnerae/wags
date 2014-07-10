@@ -5,7 +5,7 @@ import webEditor.WEStatus;
 
 import com.google.gwt.http.client.Response;
 
-public class ReviewStudentCommand extends AbstractCommand {
+public class ReviewStudentCommand extends AbstractServerCall {
 
 	private Reviewer pf;
 	

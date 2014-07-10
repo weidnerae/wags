@@ -1,11 +1,12 @@
 package webEditor.ProxyFramework;
 
 import webEditor.WEStatus;
-import webEditor.Wags;
 import webEditor.magnet.view.Magnets;
+import webEditor.presenters.concrete.WagsPresenterImpl;
 
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 /**
  * @author Dakota Murray
@@ -15,9 +16,9 @@ import com.google.gwt.http.client.Response;
  * Method: GET
  * Modifies: Main WAGS object, changes the center content panel
  */
-public class BuildMagnetsCommand extends AbstractCommand {
+public class BuildMagnetsCommand extends AbstractServerCall {
 
-	private Wags wags;
+	private AcceptsOneWidget page;
 	
 	@Override
 	protected void handleResponse(Response response) {
@@ -43,16 +44,16 @@ public class BuildMagnetsCommand extends AbstractCommand {
 			}
 		}
 		
-		Magnets Magnets = new Magnets(idList, problemsList, statusList, wags);
-		wags.splashPage = Magnets;
+		Magnets Magnets = new Magnets(idList, problemsList, statusList, (WagsPresenterImpl) page);
+		((WagsPresenterImpl) page).splashPage = Magnets;
 		Magnets.getElement().getStyle().setOverflowY(Overflow.AUTO);
-		wags.replaceCenterContent(Magnets);
+		page.setWidget(Magnets);
 
 	}
 	
-	public BuildMagnetsCommand(Wags wags)
+	public BuildMagnetsCommand(AcceptsOneWidget page)
 	{
-		this.wags = wags;
+		this.page = page;
 		command = ProxyCommands.GetMagnetExercises;
 	}
 

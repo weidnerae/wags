@@ -5,7 +5,7 @@ import webEditor.WEStatus;
 
 import com.google.gwt.http.client.Response;
 
-public class AddSkelatonsCommand extends AbstractCommand {
+public class AddSkelatonsCommand extends AbstractServerCall {
 
 	@Override
 	protected void handleResponse(Response response) {

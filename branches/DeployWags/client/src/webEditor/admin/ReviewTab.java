@@ -3,7 +3,7 @@ package webEditor.admin;
 import webEditor.Proxy;
 import webEditor.Reviewer;
 import webEditor.WEStatus;
-import webEditor.ProxyFramework.AbstractCommand;
+import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.GetLMAssigned;
 import webEditor.ProxyFramework.GetMMAssigned;
 import webEditor.ProxyFramework.ReviewExerciseCommand;
@@ -39,20 +39,20 @@ public class ReviewTab extends Composite {
 		rvMagPanel.setParent(magHandler);
 		rvMagPanel.setTitle("Magnet Review");
 		
-		AbstractCommand cmd1 = new GetLMAssigned(logHandler, Reviewer.NONE);
+		AbstractServerCall cmd1 = new GetLMAssigned(logHandler, Reviewer.NONE);
 		cmd1.sendRequest();
 		//Proxy.getLMAssigned(logHandler);
 		
-		AbstractCommand cmd2 = new GetMMAssigned(magHandler, Reviewer.NONE);
+		AbstractServerCall cmd2 = new GetMMAssigned(magHandler, Reviewer.NONE);
 		cmd2.sendRequest();
 		
 		//Proxy.getMMAssigned(magHandler, Reviewer.NONE);
 		
-		AbstractCommand cmd3 = new GetLMAssigned(logHandler, Reviewer.GET_REVIEW);
+		AbstractServerCall cmd3 = new GetLMAssigned(logHandler, Reviewer.GET_REVIEW);
 		cmd3.sendRequest();
 		//Proxy.getLMAssigned(logHandler, Reviewer.GET_REVIEW);
 		
-		AbstractCommand cmd4 = new GetMMAssigned(logHandler, Reviewer.GET_REVIEW);
+		AbstractServerCall cmd4 = new GetMMAssigned(logHandler, Reviewer.GET_REVIEW);
 		cmd4.sendRequest();
 		//Proxy.getMMAssigned(magHandler, Reviewer.GET_REVIEW);
 		
@@ -79,7 +79,7 @@ public class ReviewTab extends Composite {
 
 		@Override
 		public void review(String exercise) {
-			AbstractCommand cmd = new ReviewExerciseCommand(exercise, LOGICAL, this);
+			AbstractServerCall cmd = new ReviewExerciseCommand(exercise, LOGICAL, this);
 			cmd.sendRequest();
 			//Proxy.reviewExercise(exercise, LOGICAL, this);
 		}
@@ -107,7 +107,7 @@ public class ReviewTab extends Composite {
 
 		@Override
 		public void review(String exercise) {
-			AbstractCommand cmd = new ReviewExerciseCommand(exercise, MAGNET, this);
+			AbstractServerCall cmd = new ReviewExerciseCommand(exercise, MAGNET, this);
 			cmd.sendRequest();
 			//Proxy.reviewExercise(exercise, MAGNET, this);
 		}
@@ -121,16 +121,16 @@ public class ReviewTab extends Composite {
 	public void update()
 	{
 		
-		AbstractCommand cmd1 = new GetLMAssigned(logHandler, Reviewer.NONE);
+		AbstractServerCall cmd1 = new GetLMAssigned(logHandler, Reviewer.NONE);
 		cmd1.sendRequest();
 	
-		AbstractCommand cmd2 = new GetMMAssigned(logHandler, Reviewer.NONE);
+		AbstractServerCall cmd2 = new GetMMAssigned(logHandler, Reviewer.NONE);
 		cmd2.sendRequest();
 		
-		AbstractCommand cmd3 = new GetLMAssigned(logHandler, Reviewer.GET_REVIEW);
+		AbstractServerCall cmd3 = new GetLMAssigned(logHandler, Reviewer.GET_REVIEW);
 		cmd3.sendRequest();
 		
-		AbstractCommand cmd4 = new GetMMAssigned(logHandler, Reviewer.GET_REVIEW);
+		AbstractServerCall cmd4 = new GetMMAssigned(logHandler, Reviewer.GET_REVIEW);
 		cmd4.sendRequest();
 		
 		//Proxy.getLMAssigned(logHandler, Reviewer.NONE);

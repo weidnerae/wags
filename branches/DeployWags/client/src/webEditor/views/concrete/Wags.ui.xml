@@ -1,0 +1,233 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:my="urn:import:webEditor.programming.view"
+	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui">
+	<ui:style>
+        .applicationBar {
+            padding-bottom:0px;
+            width: 100%;
+			min-height:3.55em;
+			border-bottom: 1px solid black;
+        }
+        .anchor { 
+            font-family: Consolas, arial, verdana, san-serif;
+            font-size: 15px;
+			color: black;
+			position: relative;
+            padding: 15px 15px;
+            overflow: visible;
+			display: block;
+			cursor:pointer;
+        }
+		.navigationAnchor {
+			min-width: 5em;
+			text-align:center;
+		}
+		.dropdownItem {
+			border-top: 1px solid black;
+			text-align: left;
+		}
+        .anchor:hover { 
+            color: #D35400;
+			text-decoration: none;
+        }       
+        .std-txt { 
+            padding-top: 6px;
+        }
+        .title { 
+			font-family: Consolas, arial, verdana, san-serif;
+            cursor: pointer;
+            font-size: 30px;
+            font-weight: heavy;
+            color: black;
+			padding: 6px 15px;
+            z-index: 101;
+            position: relative;
+            vertical-align: center;
+            display: inline;
+            text-decoration:none;
+            top:0.2em;
+			min-width: 5em;
+			left:20%;
+			text-align:center;
+        }
+        .title:visited {
+            color:white;
+        }
+        .title:hover {
+            color:#D35400;
+            height: 57%;
+        }
+        ul {
+            display: inline;
+            margin: 0;
+            list-style: none;
+            z-index: 1;
+        }
+        ul li {
+            display: inline-block;
+            position: relative;
+            background: transparent;
+            cursor: pointer;
+			left:50%;
+        }
+        ul li:hover {
+            color: #D35400;
+            height: 57%;
+        }
+        ul li ul {
+			padding: 0;
+            position: absolute;
+            left: 0;
+            width: 150px;
+            opacity: 0;
+            visibility: hidden;
+        }
+        ul li ul li { 
+            display: block; 
+            color: black;
+			text-align:left;
+			background-color:white;
+			border: 1px solid black;
+			right: 0;
+			left: 0;
+        }
+        ul li ul li:hover { 
+            color: #D35400; 
+        }
+		
+        ul li:hover ul {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+        }
+		.image {
+		 	width:6%;
+		}
+		.content {
+			text-align:center !important;
+			width:80%;
+		}
+		.footer {
+			text-align:center;
+			margin-top:1em;
+		}
+	</ui:style>
+	
+	
+	<!-- 
+	<b:FluidContainer styleName="{style.bodyContainer}">
+	    <b:Navbar addStyleNames="{style.applicationBar}" position="TOP">
+	        <b:Nav>
+	            <g:HTMLPanel>
+				<g:Label addStyleNames="{style.title}" ui:field="Home">WAGS</g:Label>
+				<ul>
+                        <li><g:Anchor addStyleNames="{style.anchor} {style.navigationAnchor}" ui:field="Editor">Editor</g:Anchor></li>
+                        <li><g:Anchor addStyleNames="{style.anchor} {style.navigationAnchor}" ui:field="Magnets">Magnets</g:Anchor></li>
+                        <li><g:Anchor addStyleNames="{style.anchor} {style.navigationAnchor}" ui:field="DST">Logical</g:Anchor></li>
+                        <li><g:Anchor addStyleNames="{style.anchor} {style.navigationAnchor}" ui:field="Database">Database</g:Anchor></li>
+                        <li><g:Anchor addStyleNames="{style.anchor} {style.navigationAnchor}" ui:field="AdminPage">Admin</g:Anchor>
+		         	    <ul>
+                            <li><g:Anchor addStyleNames="{style.anchor} {style.dropdownItem}" ui:field="logicalProblemManagement">Logical Management</g:Anchor></li>
+                            <li><g:Anchor addStyleNames="{style.anchor} {style.dropdownItem}" ui:field="logicalProblemCreation">Logical Creation</g:Anchor></li>
+                            <li><g:Anchor addStyleNames="{style.anchor} {style.dropdownItem}" ui:field="magnetProblemManagement">Magnet Management</g:Anchor></li>
+                            <li><g:Anchor addStyleNames="{style.anchor} {style.dropdownItem}" ui:field="magnetProblemCreation">Magnet Creation</g:Anchor></li>
+                            <li><g:Anchor addStyleNames="{style.anchor} {style.dropdownItem}" ui:field="progProblemManagement">Programming Management</g:Anchor></li>
+                            <li><g:Anchor addStyleNames="{style.anchor} {style.dropdownItem}" ui:field="studentManagement">Student Management</g:Anchor></li>
+                            <li><g:Anchor addStyleNames="{style.anchor} {style.dropdownItem}" ui:field="review">Review Problems</g:Anchor></li>
+                        </ul></li>
+                        <li>
+                            <g:Anchor addStyleNames="{style.anchor} {style.navigationAnchor}" ui:field="user">User</g:Anchor>
+                            <ul>
+                                <li><g:Anchor addStyleNames="{style.anchor} {style.dropdownItem}" ui:field="logout">Logout</g:Anchor></li>
+                    		</ul>
+                    	</li>
+					</ul>
+			    </g:HTMLPanel>
+	            
+	        </b:Nav>
+	    </b:Navbar>
+	    -->
+	    
+	<g:DockLayoutPanel unit="EM" ui:field="dock">
+        <g:north size="4"> 
+            <g:SimplePanel ui:field="north">
+                <g:HTMLPanel styleName="{style.applicationBar}">
+                   <g:Label addStyleNames="{style.title}" ui:field="Home">WAGS</g:Label>
+                    <ul>
+                        <li><g:Anchor addStyleNames="{style.anchor}" ui:field="Editor">Editor</g:Anchor></li>
+                        <li><g:Anchor addStyleNames="{style.anchor}" ui:field="Magnets">Magnets</g:Anchor></li>
+                        <li><g:Anchor addStyleNames="{style.anchor}" ui:field="DST">Logical</g:Anchor></li>
+                        <li><g:Anchor addStyleNames="{style.anchor}" ui:field="Database">Database</g:Anchor></li>
+                        <li>  <g:Anchor addStyleNames="{style.anchor}" ui:field="AdminPage">Admin</g:Anchor>
+		         	    <ul>
+                            <li><g:Anchor addStyleNames="{style.anchor}" ui:field="logicalProblemManagement">Logical Management</g:Anchor></li>
+                            <li><g:Anchor addStyleNames="{style.anchor}" ui:field="logicalProblemCreation">Logical Creation</g:Anchor></li>
+                            <li><g:Anchor addStyleNames="{style.anchor}" ui:field="magnetProblemManagement">Magnet Management</g:Anchor></li>
+                            <li><g:Anchor addStyleNames="{style.anchor}" ui:field="magnetProblemCreation">Magnet Creation</g:Anchor></li>
+                            <li><g:Anchor addStyleNames="{style.anchor}" ui:field="progProblemManagement">Programming Management</g:Anchor></li>
+                            <li><g:Anchor addStyleNames="{style.anchor}" ui:field="studentManagement">Student Management</g:Anchor></li>
+                            <li><g:Anchor addStyleNames="{style.anchor}" ui:field="review">Review Problems</g:Anchor></li>
+                        </ul></li>
+                        <li>
+                            <g:Anchor addStyleNames="{style.anchor}" ui:field="user">User</g:Anchor>
+                            <ul>
+                                <li><g:Anchor addStyleNames="{style.anchor}" ui:field="logout">Logout</g:Anchor></li>
+                    		</ul>
+                    	</li>
+					</ul>
+			    </g:HTMLPanel>
+			</g:SimplePanel>        
+        </g:north>
+        
+        
+        <g:center>
+    		<g:AbsolutePanel></g:AbsolutePanel>
+        </g:center>    
+	    
+	    </g:DockLayoutPanel>
+	    
+	    
+	    
+	
+	<!-- 
+    <g:DockLayoutPanel unit="EM" ui:field="dock">
+        <g:north size="4"> 
+            <g:SimplePanel ui:field="north">
+                <g:HTMLPanel addStyleNames="{style.navbar} {style.applicationBar}">
+                   <g:Image url="../Logo.png" addStyleNames="{style.title} {style.image}" ui:field="Home"/>
+                    <ul>
+                        <li><g:Anchor addStyleNames="{style.anchor}" ui:field="Editor">Editor</g:Anchor></li>
+                        <li><g:Anchor addStyleNames="{style.anchor}" ui:field="Magnets">Magnets</g:Anchor></li>
+                        <li><g:Anchor addStyleNames="{style.anchor}" ui:field="DST">Logical</g:Anchor></li>
+                        <li><g:Anchor addStyleNames="{style.anchor}" ui:field="Database">Database</g:Anchor></li>
+                        <li><g:Anchor addStyleNames="{style.anchor}" ui:field="AdminPage">Admin</g:Anchor>
+		         	    <ul>
+                            <li><g:Anchor addStyleNames="{style.anchor}" ui:field="logicalProblemManagement">Logical Management</g:Anchor></li>
+                            <li><g:Anchor addStyleNames="{style.anchor}" ui:field="logicalProblemCreation">Logical Creation</g:Anchor></li>
+                            <li><g:Anchor addStyleNames="{style.anchor}" ui:field="magnetProblemManagement">Magnet Management</g:Anchor></li>
+                            <li><g:Anchor addStyleNames="{style.anchor}" ui:field="magnetProblemCreation">Magnet Creation</g:Anchor></li>
+                            <li><g:Anchor addStyleNames="{style.anchor}" ui:field="progProblemManagement">Programming Management</g:Anchor></li>
+                            <li><g:Anchor addStyleNames="{style.anchor}" ui:field="studentManagement">Student Management</g:Anchor></li>
+                            <li><g:Anchor addStyleNames="{style.anchor}" ui:field="review">Review Problems</g:Anchor></li>
+                        </ul></li>
+                        <li>
+                            <g:Anchor addStyleNames="{style.anchor}" ui:field="user">User</g:Anchor>
+                            <ul>
+                                <li><g:Anchor addStyleNames="{style.anchor}" ui:field="logout">Logout</g:Anchor></li>
+                    		</ul>
+                    	</li>
+					</ul>
+			    </g:HTMLPanel>
+			</g:SimplePanel>        
+        </g:north>
+        
+        
+        <g:center>
+            
+    		<g:AbsolutePanel></g:AbsolutePanel>
+        </g:center>
+    </g:DockLayoutPanel>
+	-->
+ </ui:UiBinder> 
