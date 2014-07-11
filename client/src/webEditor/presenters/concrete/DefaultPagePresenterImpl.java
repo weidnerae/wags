@@ -47,10 +47,6 @@ public class DefaultPagePresenterImpl implements DefaultPagePresenter, AcceptsOn
 	@Override
 	public void update(List<String> data) {
 		boolean isAdmin = data.get(1).equals(TRUE);
-		def.getLogicalPCButton().setVisible(isAdmin);
-		def.getMagnetPCButton().setVisible(isAdmin);
-		def.getAdminButton().setVisible(isAdmin);
-		def.getDatabasePCButton().setVisible(isAdmin);
 	}
 
 	@Override

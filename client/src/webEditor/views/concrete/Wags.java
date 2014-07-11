@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
@@ -31,7 +32,8 @@ public class Wags extends Composite implements WagsView
 	
 	@UiField DockLayoutPanel dock;
 	//@UiField Panel north;
-	@UiField SimplePanel north;
+	@UiField Panel north;
+	@UiField Panel center;
 	@UiField Label Home;
 	@UiField UIObject Editor;
 	@UiField UIObject DST;
@@ -195,5 +197,10 @@ public class Wags extends Composite implements WagsView
 	@Override
 	public FlowPanel getContentPanel() {
 		return null;
+	}
+
+	@Override
+	public Panel getCenterPanel() {
+		return center;
 	}
 }
