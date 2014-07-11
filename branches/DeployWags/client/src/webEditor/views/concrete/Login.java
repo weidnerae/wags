@@ -16,8 +16,10 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.ValueBoxBase;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -38,8 +40,8 @@ public class Login extends Composite implements LoginView
 
 	interface LoginUiBinder extends UiBinder<Widget, Login>{}
 
-	@UiField TextBox username;
-	@UiField PasswordTextBox password;
+	@UiField ValueBoxBase<String> username;
+	@UiField ValueBoxBase<String> password;
 	@UiField Button loginButton;
 	
 	private LoginPresenter presenter;
@@ -47,7 +49,6 @@ public class Login extends Composite implements LoginView
 	public Login()
 	{
 		initWidget(uiBinder.createAndBindUi(this));
-		loginButton.setText("Log in");
 	}
 	
 	/**
@@ -92,12 +93,12 @@ public class Login extends Composite implements LoginView
 	}
 
 	@Override
-	public HasClickHandlers getUsernameField() {
+	public ValueBoxBase<String> getUsernameField() {
 		return username;
 	}
 
 	@Override
-	public HasClickHandlers getPasswordField() {
+	public ValueBoxBase<String> getPasswordField() {
 		return password;
 	}
 

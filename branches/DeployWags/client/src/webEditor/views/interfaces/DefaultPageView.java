@@ -9,8 +9,4 @@ public interface DefaultPageView extends View{
 	public UIObject getLogicalProblemButton();
 	public UIObject getMagnetProblemButton();
 	public UIObject getDatabaseProblemButton();
-	public UIObject getLogicalPCButton();
-	public UIObject getMagnetPCButton();
-	public UIObject getAdminButton();
-	public UIObject getDatabasePCButton();
 }

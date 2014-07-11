@@ -7,22 +7,26 @@
 		.button {
 			background-image: none !important;
    		    background-repeat: no-repeat !important;
-			border-radius: 0 !important;
 			text-shadow: none !important;
 			font-size: 14px;
 			filter: none;
-			padding-top: 15%;
-			padding-bottom: 15%;
-			min-width: 15em;
+			padding-top: 35%;
+			padding-bottom: 35%;
+			min-width: 14.5em;
+			background-color:#34495e;
 			margin: .5em;
 			padding-left: 7%;
 			padding-right: 7%;
+			color:white;
 		}
-		
+
+		.button:hover {
+			background-color: #2c3e50;
+			color:white;
+		}
 		.columns {
 			padding:0.2em;
 		}
-		
 		.title {
 			font-family: Consolas, arial, verdana, san-serif;
 			font-size:50px;
@@ -33,41 +37,51 @@
 
 		.content {
 			text-align:center;
-			width: 70%;
 			margin-left: auto;
 			margin-right: auto;
 			top:20px !important;
 		}
 		
 		.text {
-			font-size: 15px;
+			font-size: 18px;
 			font-family: Consolas, arial, verdana, san-serif;
 			color:white;
-			background-color: #34495E;
+			background-color: #1abc9c;
+			margin-top:1.2em;
 		}
+
+		.icon {
+			font-size: 40px;
+			color: #c0392b;
+		}
+
 	</ui:style>
 
 	<b:FluidContainer addStyleNames="{style.content}">
 	    <b:Hero addStyleNames="{style.text}">
-	        <b:Heading size="4" addStyleNames="{style.title}">Wags</b:Heading>
-	        <b:Paragraph>Web Automated Grading System</b:Paragraph>
-	        <b:Paragraph>Developed by The Appalachain State University Computer Science Department</b:Paragraph>
-	    
+	        <b:Heading size="6" addStyleNames="{style.title}">Welcome</b:Heading>
+	        <b:Paragraph>This is WAGS, short for "Web Automated Grading System"</b:Paragraph>
+	        <b:Paragraph>Click the buttons below to go complete your assigned problems</b:Paragraph>
+	        <b:FluidRow>
+	            <b:Icon type="CHEVRON_DOWN" addStyleNames="{style.icon}"/>
+	        </b:FluidRow>
+		</b:Hero>
 	    <b:FluidRow>
-	        <b:Column size="3" offset="3"> 
-	            <b:Row><b:Button size="LARGE" addStyleNames="{style.button}" ui:field='editorButton'>Web Editor</b:Button></b:Row>
-				<b:Row><b:Button size="LARGE" addStyleNames="{style.button}" ui:field='logicalButton'>Logical Microlabs</b:Button></b:Row>
-				<b:Row><b:Button size="LARGE" addStyleNames="{style.button}" ui:field='magnetButton'>Magnet Microlabs</b:Button></b:Row>
-				<b:Row><b:Button size="LARGE" addStyleNames="{style.button}" ui:field='databaseButton'>Database Microlabs</b:Button></b:Row>
-	        </b:Column>
-	        <b:Column size="3">
-	            <b:Row><b:Button size="LARGE" addStyleNames="{style.button}" ui:field='adminButton' visible='false'>Admin Panel</b:Button></b:Row>
-				<b:Row><b:Button size="LARGE" addStyleNames="{style.button}" ui:field='magnetPCButton' visible='false'>Magnet Problem Creation</b:Button></b:Row>
-				<b:Row><b:Button size="LARGE" addStyleNames="{style.button}" ui:field='logicalPCButton' visible='false'>Logical Problem Creation</b:Button></b:Row>
-				<b:Row><b:Button size="LARGE" addStyleNames="{style.button}" ui:field='databasePCButton' visible='false'>Database Problem Creation</b:Button></b:Row>
-	        </b:Column>
-	    </b:FluidRow>
-	    </b:Hero>
+	        <b:Column size="2" offset="2"><b:Button size="LARGE" addStyleNames="{style.button}" ui:field='editorButton'>Web Editor</b:Button></b:Column>
+			<b:Column size="2"><b:Button size="LARGE" addStyleNames="{style.button}" ui:field='logicalButton'>Logical Microlabs</b:Button></b:Column>
+			<b:Column size="2"><b:Button size="LARGE" addStyleNames="{style.button}" ui:field='magnetButton'>Magnet Microlabs</b:Button></b:Column>
+			<b:Column size="2"><b:Button size="LARGE" addStyleNames="{style.button}" ui:field='databaseButton'>Database Microlabs</b:Button></b:Column>
+		</b:FluidRow>
+		<b:FluidRow>
+		<b:Hero addStyleNames="{style.text}">
+		    <b:Heading size="4">About Us</b:Heading>
+		    <b:Paragraph>Lorem Ipsum Dolor</b:Paragraph>
+		    <b:Paragraph>
+		        "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?"   
+			</b:Paragraph>
+		</b:Hero>
+		</b:FluidRow>
+	    
 	</b:FluidContainer>
 	
 	<!-- 

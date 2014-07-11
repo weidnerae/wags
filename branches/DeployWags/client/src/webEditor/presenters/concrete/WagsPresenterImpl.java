@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Panel;
 
 public class WagsPresenterImpl implements WagsPresenter, AcceptsOneWidget
 {
@@ -119,13 +120,17 @@ public class WagsPresenterImpl implements WagsPresenter, AcceptsOneWidget
 	
 	@Override
 	public void setWidget(IsWidget w) {
-		DockLayoutPanel dock = wags.getDock();
-		for(int i=0; i<dock.getWidgetCount(); i++){
-			if(dock.getWidgetDirection(dock.getWidget(i))==DockLayoutPanel.Direction.CENTER){
-				dock.remove(i);
-			}
-		}
-		dock.add(w);
+		//DockLayoutPanel dock = wags.getDock();
+		//for(int i=0; i<dock.getWidgetCount(); i++){
+		//	if(dock.getWidgetDirection(dock.getWidget(i))==DockLayoutPanel.Direction.CENTER){
+		//		dock.remove(i);
+		//	}
+		//}
+		
+		Panel center = wags.getCenterPanel();
+		center.clear();
+		center.add(w);
+		//dock.add(w);
 		//FlowPanel panel = wags.getContentPanel();
 		//panel.clear();
 		//panel.add(w);
