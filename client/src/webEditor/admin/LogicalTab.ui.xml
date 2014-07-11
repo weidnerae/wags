@@ -15,7 +15,7 @@
 			width: 100%;
 		}
 </ui:style>
-    <g:HorizontalPanel>
+    <g:HorizontalPanel width= "100%">
 	    <g:ScrollPanel width="20em" styleName='{style.section}'>
 				<my:ButtonPanel styleName="{style.btns_panel}" ui:field="btnPanelSubjects" />
 		</g:ScrollPanel>
