@@ -3,7 +3,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Owner/Documents/Work/gwt-dnd-3.1.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Owner/Documents/Work/gwt-graphics-1.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/gwt-graphics-1.0.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/murrayds/Desktop/gwt-dnd-3.3.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/murrayds/Desktop/workspace/Wags_Client/lib/gwt-bootstrap-2.3.2.0.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

@@ -32,11 +32,7 @@ public class DefaultPage extends Composite implements DefaultPageView {
 	@UiField Button editorButton;
 	@UiField Button logicalButton;
 	@UiField Button magnetButton;
-	@UiField Button adminButton;
 	@UiField Button databaseButton;
-	@UiField Button magnetPCButton;
-	@UiField Button logicalPCButton;
-	@UiField Button databasePCButton;
 	
 	private DefaultPagePresenter presenter;
 	
@@ -77,33 +73,6 @@ public class DefaultPage extends Composite implements DefaultPageView {
 		presenter.onDatabaseClick();
 	}
 	
-	/** Takes the user to the admin panel */
-	@UiHandler("adminButton")
-	void onAdminClick(ClickEvent event)
-	{
-		presenter.onAdminClick();
-	}
-	
-	/** Takes to user to the magnet problem creation */
-	@UiHandler("magnetPCButton")
-	void onMagnetPCClick(ClickEvent event)
-	{
-		presenter.onMagnetPCClick();
-	}
-	
-	/** Takes the user to the logical problem creation */
-	@UiHandler("logicalPCButton")
-	void onLogicalPCClick(ClickEvent event)
-	{
-		presenter.onLogicalPCClick();
-	}
-	
-	@UiHandler("databasePCButton")
-	void onDatabasePCClick(ClickEvent event)
-	{
-		presenter.onDatabasePCClick();
-	}
-
 	@Override
 	public void setPresenter(Presenter presenter) {
 		this.presenter = (DefaultPagePresenter) presenter;
@@ -139,23 +108,4 @@ public class DefaultPage extends Composite implements DefaultPageView {
 		return databaseButton;
 	}
 
-	@Override
-	public UIObject getLogicalPCButton() {
-		return logicalPCButton;
-	}
-
-	@Override
-	public UIObject getMagnetPCButton() {
-		return magnetPCButton;
-	}
-
-	@Override
-	public UIObject getAdminButton() {
-		return adminButton;
-	}
-
-	@Override
-	public UIObject getDatabasePCButton() {
-		return databasePCButton;
-	}
 }

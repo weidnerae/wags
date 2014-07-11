@@ -12,7 +12,6 @@ import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.TextBox;
 
 public class LoginPresenterImpl implements LoginPresenter
 {
@@ -42,8 +41,8 @@ public class LoginPresenterImpl implements LoginPresenter
 
 	@Override
 	public void onLoginClick() {
-		String username = ((TextBox) loginPage.getUsernameField()).getText();
-		String password = ((TextBox) loginPage.getPasswordField()).getText();
+		String username = loginPage.getUsernameField().getText();
+		String password = loginPage.getPasswordField().getText();
 		Window.alert("attempting login");
 		AbstractServerCall cmd = new LoginCommand(username, password);
 		cmd.sendRequest();
