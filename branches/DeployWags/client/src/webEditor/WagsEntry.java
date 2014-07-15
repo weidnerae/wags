@@ -35,7 +35,6 @@ public class WagsEntry implements EntryPoint
 	
 	public void onModuleLoad() 
 	{
-		Window.alert("Inside the WagsEntry");
 		// Check if the user is logged in already.
 		String isLoggedInURL = Proxy.getBaseURL()+"?cmd=GetUserDetails";
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(isLoggedInURL));
@@ -51,11 +50,9 @@ public class WagsEntry implements EntryPoint
 				{
 					WEStatus status = new WEStatus(response);
 					if(status.getStat() == WEStatus.STATUS_ERROR) {
-						Window.alert("WagsEntry WEStatus = Error, Logging In: " + History.getToken());
 						History.newItem(Tokens.LOGIN, false);
 					}
 					else if(status.getStat() == WEStatus.STATUS_SUCCESS){
-						Window.alert("WagsEntry, WEStatus = Success");
 						String loc = getParam("loc");
 						
 						HashMap<String, String> message = status.getMessageMap();
