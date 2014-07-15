@@ -15,6 +15,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -77,7 +78,7 @@ public abstract class BasicDisplay extends Composite {
 		txtStart.setVisible(false);
 	}
 
-	public void load(VerticalPanel panel, LMBuilder builder){
+	public void load(Panel panel, LMBuilder builder){
 		this.builder = builder;
 		panel.clear();
 		if(!built){
