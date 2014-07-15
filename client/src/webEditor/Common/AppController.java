@@ -43,7 +43,6 @@ public class AppController implements ValueChangeHandler<String> {
 	
 	@Override
 	public void onValueChange(ValueChangeEvent<String> event) {
-		Window.alert("History value changed");
 		String token = event.getValue();
 		boolean isLoggedIn = ClientFactory.getAppModel().isLoggedIn();
 		boolean isAdmin = ClientFactory.getAppModel().isAdmin();
@@ -67,7 +66,6 @@ public class AppController implements ValueChangeHandler<String> {
 			token = Tokens.DEFAULT;
 		}
 		
-		Window.alert("Token = " + token);
 		Wags main = ClientFactory.getWagsView();
 		AcceptsOneWidget pres = new WagsPresenterImpl(main);
 		loadPage(token, pres);
