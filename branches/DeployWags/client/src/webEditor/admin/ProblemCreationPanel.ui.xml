@@ -1,6 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">   
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui">  
 	<ui:style>
 		.roundedButton{
 			width: 98%;
@@ -96,11 +97,19 @@
 		max-width: 70%;
 		}
 	</ui:style>
-	<g:LayoutPanel styleName='{style.container}'>
-	<g:layer left="0" right="50%">
+	
+	<b:FluidRow>
+	    
+	    
+	    
+	    
+	    
+	    
+	
+	<b:Column size="6">
 	    <g:ScrollPanel>
 		    <g:AbsolutePanel>
-				<g:VerticalPanel width="50%">
+				<g:VerticalPanel width="100%">
 					<g:Grid width="100%" styleName='{style.problemTypePanel}'>
 			    	    <g:row>
 							<g:customCell styleName='{style.halfCell}'>
@@ -250,8 +259,9 @@
 				</g:VerticalPanel>
 			</g:AbsolutePanel>
 		</g:ScrollPanel>
-	</g:layer>
-	<g:layer left="52%" right="10%">
+	</b:Column>
+	
+	<b:Column size="6">
 	    <g:ScrollPanel>
 			<g:VerticalPanel ui:field="magnetReviewPanel" width="98%">
 				<g:FormPanel ui:field="problemCreateFormPanel">
@@ -384,6 +394,7 @@
 				</g:FormPanel>
 			</g:VerticalPanel>
 		</g:ScrollPanel>
-	</g:layer>
-	</g:LayoutPanel>
+	</b:Column>
+	
+	</b:FluidRow>
 </ui:UiBinder> 
