@@ -10,7 +10,6 @@ import webEditor.admin.builders.LMBuilder;
 import webEditor.admin.builders.LMBuilderFactory;
 import webEditor.admin.builders.LMGraphsDisplay;
 import webEditor.admin.builders.LMInsertNodeDisplay;
-import webEditor.admin.builders.LMQuickSortDisplay;
 import webEditor.admin.builders.LMSimplePartitionDisplay;
 import webEditor.admin.builders.LMTraversalDisplay;
 
@@ -23,7 +22,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class LMEditTab extends Composite implements ProxyFacilitator{
@@ -39,7 +37,6 @@ public class LMEditTab extends Composite implements ProxyFacilitator{
 
 	public LMEditTab() {
 		initWidget(uiBinder.createAndBindUi(this));
-		Window.alert("Creating the LMEdit class");
 		btnPanelSubjects.setTitle("SUBJECTS");
 		btnPanelGroups.setTitle("GROUPS");
 		Proxy.getLMSubjects(this);
