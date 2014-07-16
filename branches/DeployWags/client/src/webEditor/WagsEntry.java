@@ -53,15 +53,13 @@ public class WagsEntry implements EntryPoint
 						History.newItem(Tokens.LOGIN, false);
 					}
 					else if(status.getStat() == WEStatus.STATUS_SUCCESS){
-						String loc = getParam("loc");
-						
+						String loc = getParam();
 						HashMap<String, String> message = status.getMessageMap();
 						History.newItem(loc, false);
 						AppController.setUserDetails(message);
-						
 					} else if(status.getStat() == WEStatus.STATUS_WARNING){
 						Window.alert("WagsEntry: WEStatus = Warning");
-						String loc = getParam("loc");
+						String loc = getParam();
 						History.newItem(loc, false);
 					}
 					History.fireCurrentHistoryState(); 
@@ -75,7 +73,6 @@ public class WagsEntry implements EntryPoint
 			Window.alert(e.getMessage());
 			e.printStackTrace();
 		}
-		//History.newItem(getParam("loc"));
 	}
 
 	/**
@@ -93,23 +90,18 @@ public class WagsEntry implements EntryPoint
 	 * 
 	 * @return the value associated with it
 	 */
-	private String getParam(String param) {
+	private String getParam() {
 		StringBuilder sb = new StringBuilder();
 		String url = Window.Location.getHref();
 		char[] urlArr = url.toCharArray();
 		
-		int start = url.indexOf('?');
-		start = url.indexOf(param + '=', start);
+		int start = url.indexOf('#');
 		
 		if (start == -1) {
 			return Tokens.DEFAULT; //param did not exist
 		}
 		
-		for (int i = start + param.length() + 1; i < urlArr.length; i++) {
-			if (!Character.isLetter(urlArr[i])) {
-				break;
-			}
-			
+		for (int i = start + 1; i < urlArr.length; i++) {
 			sb.append(urlArr[i]);
  		}
 		

@@ -5,6 +5,7 @@ import webEditor.admin.LogicalTab;
 import webEditor.admin.MagnetTab;
 import webEditor.admin.ProblemCreationPanel;
 import webEditor.admin.ProgrammingTab;
+import webEditor.admin.ReviewTab;
 import webEditor.admin.SectionTab;
 import webEditor.admin.StudentTab;
 import webEditor.programming.view.Editor;
@@ -32,6 +33,7 @@ public class ClientFactory {
 	private static MagnetTab magnetManagement;
 	private static StudentTab studentTab;
 	private static ProgrammingTab progTab;
+	private static ReviewTab reviewTab;
 	
 	public static EventBus getEventBus()
 	{
@@ -144,6 +146,14 @@ public class ClientFactory {
 			progTab = new ProgrammingTab();
 		}
 		return progTab;
+	}
+	
+	public static ReviewTab getReviewTab()
+	{
+		if (reviewTab == null) {
+			reviewTab = new ReviewTab();
+		}
+		return reviewTab;
 	}
 	
 	

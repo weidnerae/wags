@@ -11,6 +11,7 @@ import webEditor.admin.LogicalTab;
 import webEditor.admin.MagnetTab;
 import webEditor.admin.ProblemCreationPanel;
 import webEditor.admin.ProgrammingTab;
+import webEditor.admin.ReviewTab;
 import webEditor.admin.SectionTab;
 import webEditor.admin.StudentTab;
 import webEditor.presenters.concrete.DefaultPagePresenterImpl;
@@ -114,11 +115,20 @@ public class AppController implements ValueChangeHandler<String> {
 		case Tokens.PROGRAMMINGMANAGEMENT:
 			loadProgrammingManagement(page);
 			break;
+		case Tokens.REVIEW:
+			loadReviewTab(page);
+			break;
 		default:
 			loadDefaultPage(page);
 		}	
 	}
 	
+	public void loadReviewTab(AcceptsOneWidget page) 
+	{
+		ReviewTab tab = ClientFactory.getReviewTab();
+		page.setWidget(tab);
+		
+	}
 	public void loadLogicalProblemManagement(AcceptsOneWidget page)
 	{
 		LogicalTab view = ClientFactory.getLogicalManagementTab();
