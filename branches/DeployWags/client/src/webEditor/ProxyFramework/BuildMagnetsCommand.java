@@ -1,12 +1,9 @@
 package webEditor.ProxyFramework;
 
 import webEditor.WEStatus;
-import webEditor.magnet.view.Magnets;
-import webEditor.presenters.concrete.WagsPresenterImpl;
+import webEditor.magnet.view.MagnetPageModel;
 
-import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.http.client.Response;
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 /**
  * @author Dakota Murray
@@ -18,7 +15,7 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
  */
 public class BuildMagnetsCommand extends AbstractServerCall {
 
-	private AcceptsOneWidget page;
+	private MagnetPageModel model;
 	
 	@Override
 	protected void handleResponse(Response response) {
@@ -44,16 +41,21 @@ public class BuildMagnetsCommand extends AbstractServerCall {
 			}
 		}
 		
+		model.setIds(idList, false);
+		model.setTitles(problemsList, false);
+		model.setStatus(statusList, false);
+		model.notifyObservers();
+		/**
 		Magnets Magnets = new Magnets(idList, problemsList, statusList, (WagsPresenterImpl) page);
 		((WagsPresenterImpl) page).splashPage = Magnets;
 		Magnets.getElement().getStyle().setOverflowY(Overflow.AUTO);
 		page.setWidget(Magnets);
-
+		*/
 	}
 	
-	public BuildMagnetsCommand(AcceptsOneWidget page)
+	public BuildMagnetsCommand(MagnetPageModel model)
 	{
-		this.page = page;
+		this.model = model;
 		command = ProxyCommands.GetMagnetExercises;
 	}
 

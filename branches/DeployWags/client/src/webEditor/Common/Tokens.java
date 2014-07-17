@@ -12,6 +12,7 @@ public abstract class Tokens
 	public static final String MAGNETCREATION = "magnetpc";
 	public static final String LOGICALCREATION = "logicalpc";
 	public static final String LOGOUT = "logout";
+	public static final String MAGNETPROBLEM = "magnetproblem";
 	
 	public static final String LOGICALMANAGEMENT = "manage_logical";
 	public static final String MAGNETMANAGEMENT = "manage_magnets";
