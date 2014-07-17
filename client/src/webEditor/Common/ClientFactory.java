@@ -11,6 +11,7 @@ import webEditor.admin.StudentTab;
 import webEditor.programming.view.Editor;
 import webEditor.views.concrete.DefaultPage;
 import webEditor.views.concrete.Login;
+import webEditor.views.concrete.MagnetPage;
 import webEditor.views.concrete.Wags;
 
 import com.google.gwt.core.shared.GWT;
@@ -34,6 +35,7 @@ public class ClientFactory {
 	private static StudentTab studentTab;
 	private static ProgrammingTab progTab;
 	private static ReviewTab reviewTab;
+	private static MagnetPage magnetPage;
 	
 	public static EventBus getEventBus()
 	{
@@ -156,6 +158,13 @@ public class ClientFactory {
 		return reviewTab;
 	}
 	
+	public static MagnetPage getMagnetPageView()
+	{
+		if (magnetPage == null) {
+			magnetPage = new MagnetPage();
+		}
+		return magnetPage;
+	}
 	
 	
 }

@@ -1,22 +1,16 @@
 package webEditor.presenters.concrete;
 import java.util.List;
 
-import webEditor.MagnetProblem;
 import webEditor.Common.ClientFactory;
 import webEditor.Common.Tokens;
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.LogoutCommand;
-import webEditor.magnet.view.Magnets;
-import webEditor.magnet.view.RefrigeratorMagnet;
 import webEditor.presenters.interfaces.WagsPresenter;
+import webEditor.views.concrete.MagnetPage;
 import webEditor.views.interfaces.WagsView;
 
-import com.github.gwtbootstrap.client.ui.Container;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
@@ -25,7 +19,7 @@ public class WagsPresenterImpl implements WagsPresenter, AcceptsOneWidget
 {
 	private static final String TRUE = "TRUE";
 	
-	public Magnets splashPage;
+	public MagnetPage splashPage;
 	
 	private WagsView wags;
 	private boolean bound = false;
@@ -113,27 +107,11 @@ public class WagsPresenterImpl implements WagsPresenter, AcceptsOneWidget
 		cmd.sendRequest();
 	}
 	
-	public void placeProblem(MagnetProblem magnet){
-		RefrigeratorMagnet problem = splashPage.makeProblem(magnet);
-    	setWidget(problem);
-	}
-	
 	@Override
 	public void setWidget(IsWidget w) {
-		//DockLayoutPanel dock = wags.getDock();
-		//for(int i=0; i<dock.getWidgetCount(); i++){
-		//	if(dock.getWidgetDirection(dock.getWidget(i))==DockLayoutPanel.Direction.CENTER){
-		//		dock.remove(i);
-		//	}
-		//}
-		
 		Panel center = wags.getCenterPanel();
 		center.clear();
 		center.add(w);
-		//dock.add(w);
-		//FlowPanel panel = wags.getContentPanel();
-		//panel.clear();
-		//panel.add(w);
 	}
 
 	@Override

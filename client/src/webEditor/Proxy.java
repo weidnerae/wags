@@ -8,7 +8,8 @@ import java.util.Set;
 import webEditor.database.DatabasePanel;
 import webEditor.database.DatabaseProblem;
 import webEditor.logical.DataStructureTool;
-import webEditor.magnet.view.Magnets;
+import webEditor.magnet.view.MagnetProblemCreator;
+import webEditor.magnet.view.RefrigeratorMagnet;
 import webEditor.magnet.view.ResultsPanelUi;
 import webEditor.magnet.view.StackableContainer;
 import webEditor.presenters.concrete.WagsPresenterImpl;
@@ -19,6 +20,7 @@ import webEditor.programming.view.FileBrowser;
 import webEditor.programming.view.OutputReview;
 import webEditor.views.concrete.DefaultPage;
 import webEditor.views.concrete.Login;
+import webEditor.views.concrete.MagnetPage;
 import webEditor.views.concrete.Wags;
 
 import com.google.gwt.core.client.GWT;
@@ -32,6 +34,7 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -230,6 +233,7 @@ public class Proxy
 	//Implemented as Command
 	//Encode == false
 	//Method == get
+	/**
 	public static void buildMagnets(final WagsPresenterImpl wags) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL() + "?cmd=GetMagnetExercises");
 		try{
@@ -259,7 +263,7 @@ public class Proxy
 						}
 					}
 					
-					Magnets Magnets = new Magnets(idList, problemsList, statusList, wags);
+					MagnetPage Magnets = new MagnetPage(idList, problemsList, statusList, wags);
 					wags.splashPage = Magnets;
 					Magnets.getElement().getStyle().setOverflowY(Overflow.AUTO);
 					wags.setWidget(Magnets);
@@ -274,7 +278,7 @@ public class Proxy
 			Window.alert("error: " + e.getMessage());
 		}
 	}
-	
+	*/
 	//Implemented as Command Object
 	//Method: GET
 	//
@@ -1098,7 +1102,7 @@ public class Proxy
 	 *  Grabs a magnet problem
 	 * @return 
 	 */
-	public static void getMagnetProblem(final int id, final WagsPresenterImpl wags2){
+	public static void getMagnetProblem(final int id, final AcceptsOneWidget page){
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, Proxy.getBaseURL()+"?cmd=GetMagnetProblem&id=" + id);
 		try{
 			builder.sendRequest("", new RequestCallback() {
@@ -1107,7 +1111,9 @@ public class Proxy
 				public void onResponseReceived(Request request, Response response) {
 					WEStatus status = new WEStatus(response);
 					MagnetProblem magProblem = (MagnetProblem) status.getObject();
-					wags2.placeProblem(magProblem);
+					MagnetProblemCreator creator = new MagnetProblemCreator();
+					RefrigeratorMagnet problem = creator.makeProblem(magProblem);
+					page.setWidget(problem);
 				}
 				
 				@Override
