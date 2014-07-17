@@ -2,10 +2,10 @@ package webEditor.Common;
 
 import java.util.HashMap;
 
+import webEditor.Proxy;
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.BuildDSTCommand;
 import webEditor.ProxyFramework.BuildDatabaseCommand;
-import webEditor.ProxyFramework.BuildMagnetsCommand;
 import webEditor.admin.LMEditTab;
 import webEditor.admin.LogicalTab;
 import webEditor.admin.MagnetTab;
@@ -16,12 +16,15 @@ import webEditor.admin.SectionTab;
 import webEditor.admin.StudentTab;
 import webEditor.presenters.concrete.DefaultPagePresenterImpl;
 import webEditor.presenters.concrete.LoginPresenterImpl;
+import webEditor.presenters.concrete.MagnetPagePresenterImpl;
 import webEditor.presenters.concrete.WagsPresenterImpl;
 import webEditor.presenters.interfaces.DefaultPagePresenter;
 import webEditor.presenters.interfaces.LoginPresenter;
+import webEditor.presenters.interfaces.MagnetPagePresenter;
 import webEditor.views.concrete.DefaultPage;
 import webEditor.views.concrete.Login;
 import webEditor.views.concrete.Wags;
+import webEditor.views.interfaces.MagnetPageView;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -44,10 +47,13 @@ public class AppController implements ValueChangeHandler<String> {
 	
 	@Override
 	public void onValueChange(ValueChangeEvent<String> event) {
-		String token = event.getValue();
+		String url = event.getValue();
 		boolean isLoggedIn = ClientFactory.getAppModel().isLoggedIn();
 		boolean isAdmin = ClientFactory.getAppModel().isAdmin();
 		
+		String[] args = url.split("&");
+		String token = args[0];
+		String arg = args[1];
 		if (token == null) {
 			token = Tokens.DEFAULT;
 		}
@@ -69,13 +75,13 @@ public class AppController implements ValueChangeHandler<String> {
 		
 		Wags main = ClientFactory.getWagsView();
 		AcceptsOneWidget pres = new WagsPresenterImpl(main);
-		loadPage(token, pres);
+		loadPage(token, pres, arg);
 		RootLayoutPanel root = RootLayoutPanel.get();
 		root.clear();
 		root.add(main);
 	}
 	
-	public void loadPage(String token, AcceptsOneWidget page) 
+	public void loadPage(String token, AcceptsOneWidget page, String arg) 
 	{
 		switch(token)
 		{
@@ -118,11 +124,18 @@ public class AppController implements ValueChangeHandler<String> {
 		case Tokens.REVIEW:
 			loadReviewTab(page);
 			break;
+		case Tokens.MAGNETPROBLEM:
+			loadMagnetProblem(page, arg);
 		default:
 			loadDefaultPage(page);
 		}	
 	}
 	
+	private void loadMagnetProblem(AcceptsOneWidget page, String arg) {
+		int problemId = new Integer(arg.split("=")[1]);
+		Proxy.getMagnetProblem(problemId, page);
+	}
+
 	public void loadReviewTab(AcceptsOneWidget page) 
 	{
 		ReviewTab tab = ClientFactory.getReviewTab();
@@ -200,8 +213,12 @@ public class AppController implements ValueChangeHandler<String> {
 	}
 	
 	public void loadMagnets(AcceptsOneWidget page) {
-		AbstractServerCall cmd = new BuildMagnetsCommand(page);
-		cmd.sendRequest();
+		MagnetPageView view = ClientFactory.getMagnetPageView();
+		if (!view.hasPresenter()) {
+			MagnetPagePresenter pres = new MagnetPagePresenterImpl(view);
+			pres.bind();
+		}
+		page.setWidget(view);
 	}
 	
 	public void loadDatabasePage(AcceptsOneWidget page) {

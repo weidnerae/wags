@@ -1,0 +1,42 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui">
+	<ui:style>
+
+	.table {
+		text-align:center;
+	}
+	    
+	.title {
+		font-size:24px;
+		font-family:Consolas;
+	}
+		
+	span {
+		background-color: inherit !important;
+		color: black !important;
+		font-size: 16px !important;
+		font-family: Consolas;
+		min-width:40em;
+	}
+
+	
+	</ui:style>
+	
+	<b:FluidRow>
+	    <b:FluidRow>
+	        <b:Label addStyleNames="{style.title}">Code Magnet Microlabs</b:Label>
+	    </b:FluidRow>
+	    <b:FluidRow>
+	    	<b:incubator.Table ui:field="problemPanel">
+		    </b:incubator.Table>
+	    </b:FluidRow>
+	    
+	    
+	    
+	</b:FluidRow>
+	
+	
+	
+</ui:UiBinder>

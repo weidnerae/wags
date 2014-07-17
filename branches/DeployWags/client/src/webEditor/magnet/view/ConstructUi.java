@@ -246,7 +246,6 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
             	panel.add(segment);
             }  
         };
-
         if(this.getOffsetWidth() != lastOffsetWidth){
         	onResize();
         	this.lastOffsetWidth = this.getOffsetWidth();
