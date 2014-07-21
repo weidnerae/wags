@@ -3,6 +3,7 @@ package webEditor.admin.builders;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.Window;
+import com.sun.java.swing.plaf.windows.resources.windows;
 
 public class LMGraphsDisplay extends BasicDisplay {
 	ArgPanel orderPanel;
@@ -10,7 +11,8 @@ public class LMGraphsDisplay extends BasicDisplay {
 	boolean kruskal = false;
 	boolean prims = false;
 	
-	//Gets a boolean to determine which algorithm to run
+	
+	//Gets a boolean from LMEditTap.java to determine which algorithm to run
 	public LMGraphsDisplay(boolean x)
 	{
 		if (x)
@@ -280,13 +282,15 @@ public class LMGraphsDisplay extends BasicDisplay {
 					}
 					count++;
 				}
-				
+						
 				//Finds which edge is equal to the one picked in usedEdges and sets its location to indexEdge
 				int indexEdge = 0;
 				int countTwo = 0;
+				String n1 = usedEdges.get(index).n1.getText();
+				String n2 = usedEdges.get(index).n2.getText();
 				for (Edge_Graphs e : edges)
 				{
-					if (e.weight == usedEdges.get(index).weight)
+					if (e.weight == usedEdges.get(index).weight && e.n1.equals(n1) && e.n2.equals(n2))
 					{
 						indexEdge = countTwo;
 					}
@@ -374,7 +378,6 @@ public class LMGraphsDisplay extends BasicDisplay {
 			builder.addEdge(e.weight + "");
 		}
 		builder.uploadLM();
-		Window.alert("uploadLM was Called");
 	}
 
 	@Override
