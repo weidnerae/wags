@@ -8,8 +8,8 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.BuildMagnetsCommand;
 import webEditor.magnet.view.MagnetPageModel;
-import webEditor.magnet.view.ProblemButton;
 import webEditor.presenters.interfaces.MagnetPagePresenter;
+import webEditor.views.elements.ProblemButton;
 import webEditor.views.interfaces.MagnetPageView;
 
 
