@@ -1,5 +1,11 @@
 package webEditor.Common;
 
+/**
+ * @author  Dakota Murray
+ * @version July 21 2014
+ * 
+ * Simple a location to store all String tokens for the application
+ */
 public abstract class Tokens
 {
 	public static final String DEFAULT = "default";
