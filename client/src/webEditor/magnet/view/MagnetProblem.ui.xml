@@ -1,0 +1,120 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui">
+	<ui:style>
+
+	.results {
+	    backgorund-color:red;
+	}
+	    
+	.leftSide {
+		background-color:blue;
+	}
+
+	.rightSide {
+		background-color: green;
+	}
+	
+	.finalize_button{
+		margin-right: 1%;
+		margin-left: 1%;
+		padding-top: 2px;
+		width: 36%;
+	}
+	.reset_button{
+		margin-right: 1%;
+		margin-left: 1%;
+		padding-top: 2px;
+		width: 22%;
+	}
+	.base{
+		margin-right: .5%;
+		margin-left: 1%;
+		overflow: auto;
+		height: 100%;
+		width: 100%;
+	}
+	.scroll{
+		width: 99%;
+	}
+	.main{
+		height:100%;
+	}
+	.directions_panel{
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		font-family: "arial";
+		background: #E6E6E6;
+		padding-right: 1%;
+		padding-left: 1%;
+		margin-bottom: 10px;
+		border: 1px solid AliceBlue;
+		height:110px;
+	}
+	.directions_content{
+		margin-bottom: 1%;
+	}
+	.segment_panel{
+		overflow: auto;
+	}
+	.base{
+		margin-right: 20px;
+		margin-left: 10px;
+	}
+	.margin-right{
+		margin-right: 5px;
+	}
+	    
+	.putAtBottom {
+		bottom:30px;
+	}
+	
+	.trashbin {
+		background-color:black;
+		height:4em;
+	}
+	</ui:style>
+		
+	<b:TabPanel tabPosition="above" ui:field="tabPanel">
+	    <b:Tab heading="Editing Mode" active="true">
+	        <b:FluidRow>
+	            <b:Column size = "6" ui:field="leftSide">
+	                <b:FluidRow>
+	             	<g:ScrollPanel styleName='{style.directions_panel}'>
+        				<g:AbsolutePanel ui:field="instructions" styleName='{style.directions_content}'></g:AbsolutePanel>
+        			</g:ScrollPanel>
+        			</b:FluidRow>
+        			<b:FluidRow>
+	                 <g:AbsolutePanel ui:field='trashbin' addStyleNames="{style.trashbin}"></g:AbsolutePanel>
+	                 </b:FluidRow>
+        		</b:Column>
+	            
+	            <b:Column size="6">
+	                <g:ScrollPanel ui:field="rightSide" addStyleNames="{style.rightSide}">
+	                    <b:FluidRow>
+	                        
+	                    </b:FluidRow>
+	                </g:ScrollPanel>
+	            </b:Column>
+	        </b:FluidRow>
+	    </b:Tab>
+	    
+	    <b:Tab heading="Results" active="false">
+	    	<b:FluidRow>
+	    	    <g:ScrollPanel ui:field="resultsPanel" addStyleNames="{style.results}">
+	    	        
+	    	    </g:ScrollPanel>
+	    	    <b:FluidRow>
+        			<g:Button ui:field="finalizeButton" styleName='{style.finalize_button}' height="28px">Finalize</g:Button>
+        			<g:Button ui:field = "stateButton" styleName='{style.finalize_button}' height="28px">Save State</g:Button>
+        			<g:Button ui:field="resetButton" styleName='{style.reset_button}' height="28px">Reset</g:Button>
+        		</b:FluidRow>
+	    	</b:FluidRow>
+	    </b:Tab>
+	    
+	    
+	</b:TabPanel>
+	
+	
+</ui:UiBinder>

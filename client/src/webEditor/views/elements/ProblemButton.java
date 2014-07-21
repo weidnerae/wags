@@ -1,4 +1,4 @@
-package webEditor.magnet.view;
+package webEditor.views.elements;
 
 import webEditor.Common.Tokens;
 
