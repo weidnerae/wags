@@ -5,6 +5,13 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * @author  : Dakota Murray
+ * @version : 21 July 2014
+ *
+ * Contains all application wide data and information (username, admin status, etc). Look to the Mode.java
+ * interface for more info.
+ */
 public class AppModel implements Model
 {
 	private boolean isLoggedIn;
