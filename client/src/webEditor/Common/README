@@ -1,0 +1,38 @@
+Wags is going to implement what is called the MVP design pattern. The MVP pattern is not really a 
+pattern in of itself but rather a collection of other design patterns. The idea is that after proper 
+implementation the UI, application logic, and application data are all decoupled from one another
+and thus adding features, fixing bugs, and making updates are far simpler. 
+
+The MVP has 4 main components:
+	The Model: Contains all application data for each view/presenter. Contains no application
+	       	   logic or UI elements. Implements the observer pattern which allows presenters to
+	       	   register as "observers". The Model then acts as a "subject" and whenever it is modified
+	       	   then it will update all observers of the changes.
+    
+    The View:  The View contains all UI elements for each page. The VIEW is what the user sees, is instantiates
+    		   all necessary UI elements and provides general layout information. the View contains no application
+    		   data or application logic. THe view is said to implement the Composite pattern but that is mostly 
+    		   irrelevant for the purpose of explanation.
+    		   
+    Presenter: Contains all of the application logic. Basically anything that "happens" happens inside the presenter.
+    		   The Presenter contains no application data or UI elements. Instead it uses the view and the model to 
+    		   retrieve and update the values it requires. The presenter is almost identical to the Controller in the
+    		   MVC pattern except for the fact that the Controller handles view transitions while the Presenter delegates
+    		   view transitions to another component.
+    
+    Application Controller:
+    		   The Application Controller handles all view transitions. It does so by leveraging GWT's History class. 
+    		   Basically whenever a page transition occurs, the presenter adds a new token to the URL. The new token 
+    		   represents a new part of the application. The History class notices the change and informs the 
+    		   Application Controller of the change. The Application Controller then carries out all necessary actions
+    		   for the page transition. 
+    		   
+That is the MVP pattern in a nutshell. The Directory structure is set up as I thought made sense. There are folders 
+for concrete presenter, presenter interfaces, concrete views, view interfaces, etc. Interfaces are used alot so that
+it is easy to switch around presenters/views etc when we need them. For example, the Default page view can use any
+presenter so long as that presenter implements the DefaultPagePresenter interface. This way different sets of application
+logic can be used for different occasions. 
+
+If you have any questions, comments, or concerns simply send them to murrayds@email.appstate.edu and I would gladly assist you
+    		   
+    

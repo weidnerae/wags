@@ -8,16 +8,26 @@ import webEditor.admin.ProgrammingTab;
 import webEditor.admin.ReviewTab;
 import webEditor.admin.SectionTab;
 import webEditor.admin.StudentTab;
+import webEditor.magnet.view.MagnetProblem;
 import webEditor.programming.view.Editor;
 import webEditor.views.concrete.DefaultPage;
 import webEditor.views.concrete.Login;
 import webEditor.views.concrete.MagnetPage;
 import webEditor.views.concrete.Wags;
 
-import com.google.gwt.core.shared.GWT;
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.event.shared.SimpleEventBus;
-
+/**
+ * @author   Dakota Murray
+ * @version  21 July 2014
+ * 
+ * A class which provides singleton access to all views and application wide objects. Views and UI 
+ * elements are expensive to instantiate. The ClientFactory ensures that only one instance of a view 
+ * can ever be instantiated. 
+ *
+ * It is pointless to document each individual method in this class as they all follow an identical format. 
+ * A static null instance of the object is created as a field. Whenever a class requests access to a 
+ * ClientFactory object for the first time then that object is instantiated. If the object being requested has
+ * already been instantiated then the existing instance is returned. 
+ */
 public class ClientFactory {
 	
 	private static AppController app;
@@ -26,7 +36,6 @@ public class ClientFactory {
 	private static AppModel model;
 	private static Editor editor;
 	private static DefaultPage defaultPage;
-	private static EventBus eventBus;
 	private static ProblemCreationPanel mpcPanel;
 	private static SectionTab sectionTab;
 	private static LogicalTab logicalTab;
@@ -36,14 +45,7 @@ public class ClientFactory {
 	private static ProgrammingTab progTab;
 	private static ReviewTab reviewTab;
 	private static MagnetPage magnetPage;
-	
-	public static EventBus getEventBus()
-	{
-		if (eventBus == null) {
-			eventBus = GWT.create(SimpleEventBus.class);
-		}
-		return eventBus;
-	}
+	private static MagnetProblem magnetProblem;
 	
 	public static AppController getAppController()
 	{
@@ -164,6 +166,14 @@ public class ClientFactory {
 			magnetPage = new MagnetPage();
 		}
 		return magnetPage;
+	}
+	
+	public static MagnetProblem getMagnetProblemView()
+	{
+		if (magnetProblem == null) {
+			magnetProblem = new MagnetProblem();
+		}
+		return magnetProblem;
 	}
 	
 	
