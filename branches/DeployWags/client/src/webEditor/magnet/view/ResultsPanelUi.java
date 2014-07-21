@@ -6,6 +6,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -24,7 +25,7 @@ public class ResultsPanelUi extends Composite {
 	interface ResultsPanelUiUiBinder extends UiBinder<Widget, ResultsPanelUi> {
 	}
 
-	@UiField LayoutPanel layout;
+	@UiField Panel layout;
 	@UiField AbsolutePanel testResults;
 	static String code = "";
 	static String results = "";
