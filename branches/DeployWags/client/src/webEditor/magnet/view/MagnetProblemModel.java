@@ -3,14 +3,10 @@ package webEditor.magnet.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.Widget;
-
 import webEditor.Common.Model;
-import webEditor.Common.Presenter;
 
-public class MagnetProblemModel implements Model {
+public class MagnetProblemModel extends Model {
 	
-	private ArrayList<Presenter> observers;
 	
 	public String problemType;
 	public String solution;
@@ -23,13 +19,7 @@ public class MagnetProblemModel implements Model {
 	
 	public MagnetProblemModel()
 	{
-		observers = new ArrayList<Presenter>();
-	}
-	
-	@Override
-	public Widget asWidget() {
-		// TODO Auto-generated method stub
-		return null;
+		super();
 	}
 
 	@Override
@@ -118,23 +108,4 @@ public class MagnetProblemModel implements Model {
 	public int[] getLimits() {
 		return limits;
 	}
-	
-	@Override
-	public void registerObserver(Presenter presenter) {
-		observers.add(presenter);
-	}
-
-	@Override
-	public void removeObserver(Presenter presenter) {
-		observers.remove(presenter);
-	}
-
-	@Override
-	public void notifyObservers() {
-		List<String> data = getData();
-		for (Presenter pres: observers) {
-			pres.update(data);
-		}
-	}
-
 }
