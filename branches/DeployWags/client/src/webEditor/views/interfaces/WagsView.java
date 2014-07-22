@@ -18,6 +18,6 @@ public interface WagsView extends View {
 	UIObject getLogoutAnchor();
 	UIObject getUserAnchor();
 	Panel getCenterPanel();
-	DockLayoutPanel  getDock();
+	DockLayoutPanel getDock();
 	FlowPanel getContentPanel();
 }
