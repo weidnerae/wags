@@ -1,8 +1,8 @@
 package webEditor.Common;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.IsWidget;
 /**
  * @author : Dakota Murray
  * @version:  21 July 2014
@@ -12,14 +12,43 @@ import com.google.gwt.user.client.ui.IsWidget;
  * Observer pattern. When the model is changed all observing presenters will be updated and sent 
  * data to make the appropriate changes to the view.
  * 
- * All Models must have a common interface for accessing data as well as methods used to register and 
- * notify observers. 
+ * Steps for Creating a New Model:
+ * 		- The model is the easiest thing to create. First create a class that extends webEditor.Common.Model
+ * 		- Put all the fields that you need for the particular model. Add getters and setters to each method,
+ * 		  and make sure there is a boolean argument passed to the setter methods to control whether or not 
+ * 		  the observers are updated
+ * 		- And that is pretty much it, you now have a Model. 
  */
 
-public interface Model extends IsWidget
+public abstract class Model
 {	
-	public List<String> getData();
-	public void registerObserver(Presenter presenter);
-	public void removeObserver(Presenter presenter);
-	public void notifyObservers();
+	protected ArrayList<Presenter> observers;
+	
+	public abstract List<String> getData();
+
+	public Model()
+	{
+		observers = new ArrayList<Presenter>();
+	}
+	
+	public void registerObserver(Presenter presenter) {
+		if (presenter != null) {
+			observers.add(presenter);
+			presenter.update(getData());
+		}
+		
+	}
+
+	public void removeObserver(Presenter presenter) {
+		if (presenter != null) {
+			observers.remove(presenter);
+		}
+	}
+
+	public void notifyObservers() {
+		List<String> data = getData();
+		for (Presenter presenter : observers) {
+			presenter.update(data);
+		}
+	}
 }

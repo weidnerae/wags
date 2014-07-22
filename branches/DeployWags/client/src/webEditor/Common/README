@@ -33,6 +33,13 @@ it is easy to switch around presenters/views etc when we need them. For example,
 presenter so long as that presenter implements the DefaultPagePresenter interface. This way different sets of application
 logic can be used for different occasions. 
 
+The standard workflow for implementing a page is nested inside each of the application wide interfaces inside the 
+webEditor.Common class. 
+	-First look into creating the Model
+	-Then look into creating the view'
+	-Now create the presenter to tie the three together
+	-Finally modify the AppController to get everything working correctly.
+	
 If you have any questions, comments, or concerns simply send them to murrayds@email.appstate.edu and I would gladly assist you
     		   
     
