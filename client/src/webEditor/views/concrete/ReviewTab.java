@@ -1,12 +1,16 @@
-package webEditor.admin;
+package webEditor.views.concrete;
 
 import webEditor.Proxy;
 import webEditor.Reviewer;
 import webEditor.WEStatus;
+import webEditor.Common.Presenter;
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.GetLMAssigned;
 import webEditor.ProxyFramework.GetMMAssigned;
 import webEditor.ProxyFramework.ReviewExerciseCommand;
+import webEditor.admin.ReviewPanel;
+import webEditor.presenters.interfaces.ReviewTabPresenter;
+import webEditor.views.interfaces.ReviewTabView;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -16,7 +20,7 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ReviewTab extends Composite {
+public class ReviewTab extends Composite implements ReviewTabView{
 
 	private static ReviewTabUiBinder uiBinder = GWT
 			.create(ReviewTabUiBinder.class);
@@ -28,6 +32,8 @@ public class ReviewTab extends Composite {
 	@UiField SubmitButton btnCompReview;
 	@UiField FormPanel formCompReview;
 	Reviewer logHandler, magHandler;
+	
+	private ReviewTabPresenter presenter;
 
 	public ReviewTab() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -62,13 +68,14 @@ public class ReviewTab extends Composite {
 		formCompReview.setEncoding(FormPanel.ENCODING_MULTIPART);
 		formCompReview.setMethod(FormPanel.METHOD_POST);
 	}
-	
-	private class LogicalReviewHandler implements Reviewer{
+
+	public class LogicalReviewHandler implements Reviewer{
 		public void getCallback(String[] exercises, WEStatus status,
 				String request) { 
 			// Currently assigned
 			if(request.equals("")){
 				rvLogPanel.setCurrent(exercises);
+				
 			}
 			
 			// Review
@@ -91,7 +98,7 @@ public class ReviewTab extends Composite {
 		
 	}
 	
-	private class MagnetReviewHandler implements Reviewer{
+	public class MagnetReviewHandler implements Reviewer{
 		public void getCallback(String[] exercises, WEStatus status,
 				String request) { 
 			// Currently assigned
@@ -120,24 +127,53 @@ public class ReviewTab extends Composite {
 	
 	public void update()
 	{
-		
-		AbstractServerCall cmd1 = new GetLMAssigned(logHandler, Reviewer.NONE);
-		cmd1.sendRequest();
-	
-		AbstractServerCall cmd2 = new GetMMAssigned(logHandler, Reviewer.NONE);
-		cmd2.sendRequest();
-		
-		AbstractServerCall cmd3 = new GetLMAssigned(logHandler, Reviewer.GET_REVIEW);
-		cmd3.sendRequest();
-		
-		AbstractServerCall cmd4 = new GetMMAssigned(logHandler, Reviewer.GET_REVIEW);
-		cmd4.sendRequest();
-		
-		//Proxy.getLMAssigned(logHandler, Reviewer.NONE);
-		//Proxy.getMMAssigned(magHandler, Reviewer.NONE);
-		
-		//Proxy.getLMAssigned(logHandler, Reviewer.GET_REVIEW);
-		//Proxy.getMMAssigned(magHandler, Reviewer.GET_REVIEW);
+		presenter.update();
 	}
+
+	public boolean hasPresenter(){
+		return presenter != null;
+	}
+
+
+	@Override
+	public Presenter getPresenter() {
+		return presenter;
+	}
+
+	@Override
+	public ReviewPanel getRVLogPanel() {
+		return rvLogPanel;
+	}
+
+	@Override
+	public ReviewPanel getRVMagPanel() {
+		return rvMagPanel;
+	}
+
+	@Override
+	public SubmitButton getBtnCompReview() {
+		return btnCompReview;
+	}
+
+	@Override
+	public FormPanel getFormCompReview() {
+		return formCompReview;
+	}
+
+	@Override
+	public Reviewer getLogHandler() {
+		return logHandler;
+	}
+
+	@Override
+	public Reviewer getMagHandler() {
+		return magHandler;
+	}
+
+	@Override
+	public void setPresenter(Presenter presenter) {
+		this.presenter = (ReviewTabPresenter) presenter;
+	}
+
 
 }

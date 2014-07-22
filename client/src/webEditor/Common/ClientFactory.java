@@ -5,7 +5,6 @@ import webEditor.admin.LogicalTab;
 import webEditor.admin.MagnetTab;
 import webEditor.admin.ProblemCreationPanel;
 import webEditor.admin.ProgrammingTab;
-import webEditor.admin.ReviewTab;
 import webEditor.admin.SectionTab;
 import webEditor.admin.StudentTab;
 import webEditor.magnet.view.MagnetProblem;
@@ -13,6 +12,7 @@ import webEditor.programming.view.Editor;
 import webEditor.views.concrete.DefaultPage;
 import webEditor.views.concrete.Login;
 import webEditor.views.concrete.MagnetPage;
+import webEditor.views.concrete.ReviewTab;
 import webEditor.views.concrete.Wags;
 
 /**
