@@ -33,7 +33,6 @@ import webEditor.admin.LogicalTab;
 import webEditor.admin.MagnetTab;
 import webEditor.admin.ProblemCreationPanel;
 import webEditor.admin.ProgrammingTab;
-import webEditor.admin.ReviewTab;
 import webEditor.admin.SectionTab;
 import webEditor.admin.StudentTab;
 import webEditor.magnet.view.MagnetProblem;
@@ -42,12 +41,15 @@ import webEditor.magnet.view.MagnetProblemPresenterImpl;
 import webEditor.presenters.concrete.DefaultPagePresenterImpl;
 import webEditor.presenters.concrete.LoginPresenterImpl;
 import webEditor.presenters.concrete.MagnetPagePresenterImpl;
+import webEditor.presenters.concrete.ReviewTabPresenterImpl;
 import webEditor.presenters.concrete.WagsPresenterImpl;
 import webEditor.presenters.interfaces.DefaultPagePresenter;
 import webEditor.presenters.interfaces.LoginPresenter;
 import webEditor.presenters.interfaces.MagnetPagePresenter;
+import webEditor.presenters.interfaces.ReviewTabPresenter;
 import webEditor.views.concrete.DefaultPage;
 import webEditor.views.concrete.Login;
+import webEditor.views.concrete.ReviewTab;
 import webEditor.views.concrete.Wags;
 import webEditor.views.interfaces.MagnetPageView;
 
@@ -211,12 +213,15 @@ public class AppController implements ValueChangeHandler<String> {
 		page.setWidget(view);
 	}
 
-	//TODO Implement in MVP
 	public void loadReviewTab(AcceptsOneWidget page) 
 	{
-		ReviewTab tab = ClientFactory.getReviewTab();
-		page.setWidget(tab);
-		
+		Window.alert("Loading Review");
+		ReviewTab view = ClientFactory.getReviewTab();
+		if (!view.hasPresenter()) {
+			ReviewTabPresenter pres = new ReviewTabPresenterImpl(view);
+			pres.bind();
+		}
+		page.setWidget(view);
 	}
 	
 	//TODO implement in MVP
