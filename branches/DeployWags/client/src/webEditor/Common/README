@@ -28,7 +28,7 @@ The MVP has 4 main components:
     		   for the page transition. 
     		   
 That is the MVP pattern in a nutshell. The Directory structure is set up as I thought made sense. There are folders 
-for concrete presenter, presenter interfaces, concrete views, view interfaces, etc. Interfaces are used alot so that
+for concrete presenter, presenter interfaces, concrete views, view interfaces, etc. Interfaces are used a lot so that
 it is easy to switch around presenters/views etc when we need them. For example, the Default page view can use any
 presenter so long as that presenter implements the DefaultPagePresenter interface. This way different sets of application
 logic can be used for different occasions. 
