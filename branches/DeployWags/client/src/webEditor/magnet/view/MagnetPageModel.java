@@ -3,28 +3,18 @@ package webEditor.magnet.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.Widget;
-
 import webEditor.Common.Model;
-import webEditor.Common.Presenter;
 
-public class MagnetPageModel implements Model {
+public class MagnetPageModel extends Model {
 
 	private int[] ids;				//array of problem id numbers
 	private String[] titles;		//array of problem names
 	private int[] statuses;			//array of success values
 	
-	private ArrayList<Presenter> observers;
 	
 	public MagnetPageModel()
 	{
-		observers = new ArrayList<Presenter>();
-	}
-	
-	@Override
-	public Widget asWidget() {
-		// TODO Auto-generated method stub
-		return null;
+		super();
 	}
 
 	public void setIds(int[] ids, boolean toUpdate) {
@@ -64,23 +54,4 @@ public class MagnetPageModel implements Model {
 		list.add(statusData);
 		return list;
 	}
-
-	@Override
-	public void registerObserver(Presenter presenter) {
-		observers.add(presenter);
-	}
-
-	@Override
-	public void removeObserver(Presenter presenter) {
-		observers.remove(presenter);
-	}
-
-	@Override
-	public void notifyObservers() {
-		List<String> data = getData();
-		for(Presenter pres : observers) {
-			pres.update(data);
-		}
-	}
-
 }
