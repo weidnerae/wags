@@ -3,7 +3,6 @@ package webEditor.Common;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author  : Dakota Murray
@@ -12,22 +11,20 @@ import com.google.gwt.user.client.ui.Widget;
  * Contains all application wide data and information (username, admin status, etc). Look to the Mode.java
  * interface for more info.
  */
-public class AppModel implements Model
+public class AppModel extends Model
 {
 	private boolean isLoggedIn;
 	private boolean isAdmin;
 	private int id;
 	private String username;
 	
-	private ArrayList<Presenter> observers;
-	
 	public AppModel()
 	{
+		super();
 		isLoggedIn = false;
 		isAdmin = false;
 		id = 0;
 		username = "";
-		observers = new ArrayList<Presenter>();
 	}
 	
 	public void setId(int id)
@@ -109,12 +106,6 @@ public class AppModel implements Model
 		username = "";
 		notifyObservers();
 	}
-	
-	@Override
-	public Widget asWidget() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public List<String> getData() {
@@ -135,27 +126,5 @@ public class AppModel implements Model
 		return data;
 	}
 
-	@Override
-	public void registerObserver(Presenter presenter) {
-		if (presenter != null) {
-			observers.add(presenter);
-			presenter.update(getData());
-		}
-		
-	}
-
-	@Override
-	public void removeObserver(Presenter presenter) {
-		if (presenter != null) {
-			observers.remove(presenter);
-		}
-	}
-
-	@Override
-	public void notifyObservers() {
-		List<String> data = getData();
-		for (Presenter presenter : observers) {
-			presenter.update(data);
-		}
-	}
+	
 }
