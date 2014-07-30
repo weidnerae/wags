@@ -9,6 +9,7 @@
             width: 100%;
 			border-bottom: 1px solid black;
 			background-color:#eee;
+			min-width: 800px;
         }
         .anchor { 
             font-family: Consolas, arial, verdana, san-serif;
