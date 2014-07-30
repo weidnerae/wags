@@ -60,7 +60,8 @@ public abstract class BasicDisplay extends Composite {
 	interface BasicDisplayUiBinder extends UiBinder<Widget, BasicDisplay> {
 	}
 	
-	@UiField VerticalPanel basePanel;
+	@UiField Panel basePanel;
+	@UiField Panel baseCol;
 	@UiField BasicCanvas canvas;
 	@UiField Button btnAddNode, btnDeleteNode, btnCalculate, btnReset;
 	@UiField TextBox txtAddNode, txtTitle, txtStart;

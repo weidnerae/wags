@@ -79,9 +79,9 @@ public class LMTraversalDisplay extends BasicDisplay {
 		postorderPanel.btnArg.addClickHandler(new AssignClickHandler(this, postorderPanel));
 		
 		// Add them
-		basePanel.add(inorderPanel);
-		basePanel.add(preorderPanel);
-		basePanel.add(postorderPanel);
+		baseCol.add(inorderPanel);
+		baseCol.add(preorderPanel);
+		baseCol.add(postorderPanel);
 	}
 	
 
