@@ -32,12 +32,12 @@ public class LMSimplePartitionDisplay extends BasicDisplay {
 		 ******************/
 		HorizontalPanel hpnl = new HorizontalPanel();
 		// Override argHolder defaults, as it is being used a different way
-		basePanel.add(hpnl);
+		baseCol.add(hpnl);
 		
 		argSolution = new ArgPanel();
 		argSolution.setup("Solution", "Submit");
 		
-		basePanel.add(argSolution);
+		baseCol.add(argSolution);
 		
 		argSolution.btnArg.addClickHandler(new ClickHandler() {
 			@Override

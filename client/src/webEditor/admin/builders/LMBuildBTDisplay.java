@@ -35,8 +35,8 @@ public class LMBuildBTDisplay extends BasicDisplay
 		inorderPanel.setButtonVisible(false);
 		
 		// Add them to the interface
-		basePanel.add(preorderPanel);
-		basePanel.add(inorderPanel);
+		baseCol.add(preorderPanel);
+		baseCol.add(inorderPanel);
 	}
 
 	@Override

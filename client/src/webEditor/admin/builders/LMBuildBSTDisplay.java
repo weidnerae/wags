@@ -29,7 +29,7 @@ public class LMBuildBSTDisplay extends BasicDisplay
 		postorderPanel.btnArg.addClickHandler(new AssignClickHandler(this, postorderPanel));
 		
 		// Add them to the screen
-		basePanel.add(postorderPanel);
+		baseCol.add(postorderPanel);
 	}
 
 	@Override

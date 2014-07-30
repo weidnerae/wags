@@ -17,7 +17,7 @@ public class LMInsertNodeDisplay extends BasicDisplay {
 				" click 'Assign' to assign the problem");
 
 		this.canvas.setNodeHandler(new NH_InsertNode(canvas));
-		this.basePanel.add(btnAssign);
+		this.baseCol.add(btnAssign);
 	}
 	
 
