@@ -31,7 +31,7 @@ public class LMGraphsDisplay extends BasicDisplay {
 		orderPanel = new ArgPanel();
 		orderPanel.setup("Order: ", "Assign");
 		orderPanel.btnArg.addClickHandler(new AssignClickHandler(this, orderPanel));
-		basePanel.add(orderPanel);
+		baseCol.add(orderPanel);
 		
 		if (kruskal)
 		{

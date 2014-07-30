@@ -1,21 +1,21 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
-	xmlns:my="urn:import:webEditor.admin.builders">
+	xmlns:my="urn:import:webEditor.admin.builders"
+	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui">
 	<ui:style>
 		.txtAlign{
 			padding-top: 5px;
 			width: 80px;
 		}
 		.longBox{
-			width:200px;
+			width:320px;
 		}
 		.toRight{
 			float: right;
 		}
 		.rightMargin{
-			margin-top: 5px;
-			margin-right: 5px;
+			margin: 5px 5px 9px 5px;
 		}
 		.leftMargin{
 			margin-top: 5px;
@@ -28,45 +28,78 @@
 			margin-top: 5px;
 		}		
 		.border {
-			border: 2px solid #abadb3;
+			border: 2px solid #999;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
 		}
 		.instructions {
-			border-radius: 10px;
+			border: 2px solid #999;
 			padding: 6px;
-			margin: 10px 0px 10px 0px;
+			margin: 14px 0px 10px 0px;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+		.baseCol{
+			min-width: 450px;
+			border: 2px solid #999;
+			padding: 10px;
+			height: 580px;
+			float: right;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+		.columnStyle{
+			margin-left: 9%;
 		}
 	</ui:style>
-	<g:VerticalPanel ui:field="basePanel">
-		<my:BasicCanvas styleName="{style.border}" ui:field="canvas"/>
-		<g:TextArea styleName="{style.instructions}" ui:field="txtInstructions" visibleLines="6" width="590px" readOnly="true"></g:TextArea>
-		<g:HorizontalPanel width="100%">
-			<g:HorizontalPanel width="35%">
-				<g:Label styleName="{style.txtAlign}">Add Node: </g:Label>
-				<g:TextBox ui:field="txtAddNode" width="30px" styleName="{style.rightMargin}" maxLength="1"/>
-				<g:Button ui:field="btnAddNode" width="50px" styleName="{style.rightMargin}">Add</g:Button>
-				<g:Button ui:field="btnDeleteNode" width="50px" styleName="{style.leftMargin}">Delete</g:Button>
-				
-			<g:HorizontalPanel styleName="{style.leftPadding}">
-			    <g:Label ui:field="lblStart" width="100px" styleName="{style.txtAlign}">Starting node: </g:Label>
-			    <g:TextBox ui:field="txtStart" width="30px" styleName="{style.rightMargin}" maxLength="1"/>
-			</g:HorizontalPanel>
-				
-			</g:HorizontalPanel>
-			<g:HorizontalPanel width="65%" styleName="{style.toRight}">
-				<g:Button styleName="{style.topMargin}" ui:field="btnCalculate">Solve</g:Button>
-				<g:Button styleName="{style.topMargin}" ui:field="btnReset">Reset</g:Button>
-			</g:HorizontalPanel>
-		</g:HorizontalPanel>
-		
-		
-		
-		<g:HorizontalPanel>
-			<g:Label styleName="{style.txtAlign}">Title: </g:Label>
-			<g:TextBox ui:field="txtTitle" styleName="{style.longBox}"/>
-		</g:HorizontalPanel>
-		<g:HorizontalPanel>
-			<g:Label styleName="{style.txtAlign}">Instructions: </g:Label>
-			<g:TextArea visibleLines="5" width="515px" ui:field="txtDesc"/>
-		</g:HorizontalPanel>
-	</g:VerticalPanel>
+	
+	<b:FluidRow ui:field="basePanel">
+	    
+		<b:Column size="5">
+		    <b:FluidRow>
+				<b:Column size="6" ui:field="baseCol" styleName="{style.baseCol}">
+					<g:HorizontalPanel>
+					    <g:Label width="75px" styleName="{style.txtAlign}">Add Node: </g:Label>
+						<g:TextBox ui:field="txtAddNode" width="30px" styleName="{style.rightMargin}" maxLength="1"/>
+						<g:Label ui:field="lblStart" width="90px" styleName="{style.txtAlign}">Starting node: </g:Label>
+				    	<g:TextBox ui:field="txtStart" width="30px" styleName="{style.rightMargin}" maxLength="1"/>
+					</g:HorizontalPanel>
+					<g:HorizontalPanel>
+					    <g:Label styleName="{style.txtAlign}">Add/Delete: </g:Label>
+						<g:Button ui:field="btnAddNode" width="50px" styleName="{style.rightMargin}">Add</g:Button>
+						<g:Button ui:field="btnDeleteNode" width="60px" styleName="{style.rightMargin}">Delete</g:Button>
+				    </g:HorizontalPanel>
+				    <g:HorizontalPanel>
+						<g:Label styleName="{style.txtAlign}">Title: </g:Label>
+						<g:TextBox ui:field="txtTitle" styleName="{style.longBox}"/>
+					</g:HorizontalPanel>
+					<g:HorizontalPanel>
+						<g:Label styleName="{style.txtAlign}">Instructions: </g:Label>
+						<g:TextArea visibleLines="5" width="328px" height="175px" ui:field="txtDesc"/>
+					</g:HorizontalPanel>
+					<g:HorizontalPanel>
+			    		<g:Label styleName="{style.txtAlign}">Solve/Reset: </g:Label>
+			    		<g:Button styleName="{style.rightMargin}" ui:field="btnCalculate">Solve</g:Button>
+						<g:Button styleName="{style.rightMargin}" ui:field="btnReset">Reset</g:Button>
+					</g:HorizontalPanel>
+				</b:Column>
+			</b:FluidRow>
+		</b:Column>
+	    <b:Column size="6">
+			<my:BasicCanvas styleName="{style.border}" ui:field="canvas"/>
+			<g:TextArea styleName="{style.instructions}" ui:field="txtInstructions" visibleLines="6" width="590px" readOnly="true"></g:TextArea>
+		</b:Column>
+	</b:FluidRow>
 </ui:UiBinder> 

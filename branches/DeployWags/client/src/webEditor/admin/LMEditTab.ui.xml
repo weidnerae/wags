@@ -9,15 +9,35 @@
 			float: left;
 		}
 		.display {
-			margin: 0 auto 0 auto;
+			margin-left: 9%;
+		}
+		.listBox{
+			position: relative;
+			margin-top: 2%;
+		}
+		.columnStyle{
+			margin: 0%;
+		}
+		.listContainer{
+			margin-left: 35.2%;
+		}
+		.labelText{
+			width: 105px;
+			padding-top: 10px;
+			font-size: 20px;
+		}
+		.rowStyle{
+			text-align: center;
 		}
 	</ui:style>
-	
 	<b:Row>
-	    <my:ButtonPanel styleName="{style.button_panel}" ui:field="btnPanelSubjects"/>
-		<my:ButtonPanel styleName="{style.button_panel}" ui:field="btnPanelGroups"/>
-	    
-		<b:Column size="8">
+	    <b:Column size="4" styleName="{style.listContainer}">
+	        <b:Row>
+	    		<b:Column size="2"><g:Label styleName="{style.labelText}">Graph type: </g:Label></b:Column>
+				<b:Column size="3"><g:ListBox ui:field="listBox" styleName="{style.listBox}"></g:ListBox></b:Column>
+			</b:Row>
+		</b:Column>
+		<b:Column size="8" styleName="{style.columnStyle}">
 		    <g:ScrollPanel>
 		        <g:FlowPanel styleName="{style.display}" ui:field="vtDisplayHolder"/>
 		    </g:ScrollPanel>
