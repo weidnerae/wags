@@ -19,7 +19,7 @@ class Login extends Command
             if($result){
                 # logUse is a research utility only, doesn't affect users
 #               $this->logUse();
-                return JSON::success('Successfully logged in.');
+                return JSON::success(Auth::getCurrentUser()->toArray());
             }
         }
 
