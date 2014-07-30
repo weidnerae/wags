@@ -20,6 +20,7 @@
 		}
 		.listContainer{
 			margin-left: 35.2%;
+			min-width: 500px;
 		}
 		.labelText{
 			width: 105px;
