@@ -1,7 +1,6 @@
 package webEditor.presenters.concrete;
 import java.util.List;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 
@@ -27,7 +26,6 @@ public class MagnetPagePresenterImpl implements MagnetPagePresenter {
 		this.view = view;
 		MagnetPageModel model = new MagnetPageModel();
 		model.registerObserver(this);
-		
 		AbstractServerCall cmd = new BuildMagnetsCommand(model);
 		cmd.sendRequest();
 	}
@@ -51,7 +49,9 @@ public class MagnetPagePresenterImpl implements MagnetPagePresenter {
 
 	@Override
 	public void update(List<String> data) {
-		Window.alert(data.get(0));
+		if (data == null) {
+			return;
+		}
 		String[] ids = data.get(0).split("&");
 		String[] titles = data.get(1).split("&");
 		String[] statuses = data.get(2).split("&");
@@ -65,7 +65,6 @@ public class MagnetPagePresenterImpl implements MagnetPagePresenter {
 			String title = titles[i];
 			int status = new Integer(statuses[i]);
 			panel.add(new ProblemButton(id, title, status));
-			
 		}
 		panel.setVisible(true);
 	}
