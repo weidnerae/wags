@@ -40,6 +40,9 @@ public class MagnetPageModel extends Model {
 	
 	@Override
 	public List<String> getData() {
+		if (ids == null && titles == null && statuses == null) {
+			return null;
+		}
 		String idData = "";
 		String titleData = "";
 		String statusData = "";
