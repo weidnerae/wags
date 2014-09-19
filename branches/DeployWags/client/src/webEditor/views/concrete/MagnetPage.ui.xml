@@ -13,10 +13,10 @@
 		font-family:Consolas;
 	}
 		
-	span {
-		background-color: inherit !important;
-		color: black !important;
-		font-size: 16px !important;
+	magSpan {
+		background-color: inherit;   
+		color: black;                
+		font-size: 16px; 
 		font-family: Consolas;
 		min-width:40em;
 	}
