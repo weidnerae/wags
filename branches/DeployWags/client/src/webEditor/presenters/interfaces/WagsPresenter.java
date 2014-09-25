@@ -4,6 +4,7 @@ import webEditor.Common.Presenter;
 
 public interface WagsPresenter extends Presenter
 {
+	void onHomeOutClick();
 	void onHomeClick();
 	void onEditorClick();
 	void onDatabaseClick();

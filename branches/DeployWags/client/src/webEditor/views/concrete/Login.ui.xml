@@ -4,7 +4,7 @@
 	xmlns:my="urn:import:webEditor.programming.view"
 	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui">
 	<ui:style>
-		
+	
 		.columns {
 			padding:0.2em;
 		}
@@ -111,8 +111,7 @@
 			margin-left: auto;
 			margin-right: auto;
 			top:20px !important;
-		}
-		
+		}		
 
 	</ui:style>
 	

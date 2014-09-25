@@ -44,7 +44,9 @@ public class WagsPresenterImpl implements WagsPresenter, AcceptsOneWidget
 		boolean isLoggedIn = data.get(0).equals(TRUE);
 		boolean isAdmin = data.get(1).equals(TRUE);
 		
-		wags.getEditorAnchor().setVisible(isLoggedIn);
+		wags.getHomeOutAnchor().setVisible(!isLoggedIn);
+		wags.getHomeAnchor().setVisible(isLoggedIn);
+		wags.getEditorAnchor().setVisible(false);
 		wags.getMagnetsAnchor().setVisible(isLoggedIn);
 		wags.getLogicalAnchor().setVisible(isLoggedIn);
 		wags.getDatabaseAnchor().setVisible(isLoggedIn);
@@ -69,6 +71,11 @@ public class WagsPresenterImpl implements WagsPresenter, AcceptsOneWidget
 	public boolean bound()
 	{
 		return bound;
+	}
+	
+	@Override
+	public void onHomeOutClick() {
+		History.newItem(Tokens.DEFAULT);
 	}
 
 	@Override

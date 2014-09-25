@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.UIObject;
 
 public interface WagsView extends View {
+	UIObject getHomeOutAnchor();   //Test 9-22-14
 	UIObject getHomeAnchor();
 	UIObject getEditorAnchor();
 	UIObject getMagnetsAnchor();

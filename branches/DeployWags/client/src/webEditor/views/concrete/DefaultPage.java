@@ -1,17 +1,24 @@
 package webEditor.views.concrete;
 
+import java.util.List;
+
 import webEditor.Common.Presenter;
 import webEditor.presenters.interfaces.DefaultPagePresenter;
 import webEditor.views.interfaces.DefaultPageView;
 
 import com.github.gwtbootstrap.client.ui.Button;
+import com.github.gwtbootstrap.client.ui.Label;
+import com.github.gwtbootstrap.client.ui.Row;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwt.user.client.ui.ValueBoxBase;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -27,12 +34,17 @@ public class DefaultPage extends Composite implements DefaultPageView {
 
 	interface DefaultPageUiBinder extends UiBinder<Widget, DefaultPage> {
 	}
-
 	
+	@UiField ValueBoxBase<String> username;
+	@UiField ValueBoxBase<String> password;
+	@UiField Button loginButton;
 	@UiField Button editorButton;
 	@UiField Button logicalButton;
 	@UiField Button magnetButton;
 	@UiField Button databaseButton;
+	@UiField Label welcomeText; 
+	@UiField Label loginText;
+	@UiField Row loginScreen;
 	
 	private DefaultPagePresenter presenter;
 	
@@ -73,6 +85,42 @@ public class DefaultPage extends Composite implements DefaultPageView {
 		presenter.onDatabaseClick();
 	}
 	
+	/**
+	 * Changes the focus to the password field the the user currently
+	 * has the username field selected and presses enter. 
+	 * 
+	 * @param event an event caused when the user presses enter
+	 */
+	@UiHandler("username")
+	void onKeyPressForUsername(KeyPressEvent event)
+	{
+		presenter.onKeyPressForUsername(event);
+	}
+	
+	/**
+	 * Attempts to log the user in with provided username and password. This method
+	 * is called when the user has the password field selected and then presses enter
+	 * 
+	 * @param event the event caused by the user pressing enter
+	 */
+	@UiHandler("password")
+	void onKeyPressForPassword(KeyPressEvent event)
+	{
+		presenter.onKeyPressForPassword(event);
+	}
+
+	/** 
+	 * Attempts to log the user in with provided username and password. THis method
+	 * is called whenever the user clicks on the login button
+	 * 
+	 * @param event an event caused by the user clicking the login button
+	 */
+	@UiHandler("loginButton")
+	void onClick(ClickEvent event)
+	{
+		presenter.onLoginClick();
+	}
+	
 	@Override
 	public void setPresenter(Presenter presenter) {
 		this.presenter = (DefaultPagePresenter) presenter;
@@ -87,7 +135,42 @@ public class DefaultPage extends Composite implements DefaultPageView {
 	public Presenter getPresenter() {
 		return this.presenter;
 	}
+	
+	@Override
+	public ValueBoxBase<String> getUsernameField() {
+		return username;
+	}
+	
+	@Override
+	public ValueBoxBase<String> getPasswordField() {
+		return password;
+	}
 
+	@Override
+	public UIObject getLoginButton() {
+		return loginButton;
+	}
+	
+	@Override
+	public UIObject getWelcomeText() {
+		return welcomeText;
+	}
+	@Override
+	public UIObject getLoginText() {
+		return loginText;
+	}
+	
+	@Override
+	public UIObject getLoginScreen() {
+		return loginScreen;
+	}
+	
+	@Override
+	public void setData(List<String> data) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	@Override
 	public UIObject getEditorButton() {
 		return editorButton;
