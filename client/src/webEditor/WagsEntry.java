@@ -50,7 +50,7 @@ public class WagsEntry implements EntryPoint
 				{
 					WEStatus status = new WEStatus(response);
 					if(status.getStat() == WEStatus.STATUS_ERROR) {
-						History.newItem(Tokens.LOGIN, false);
+						History.newItem(Tokens.DEFAULT, false);
 					}
 					else if(status.getStat() == WEStatus.STATUS_SUCCESS){
 						String loc = getParam();

@@ -36,16 +36,41 @@
         .std-txt { 
             padding-top: 6px;
         }
+
+		.outTitle {
+			font-family: Consolas, arial, verdana, san-serif;
+            cursor: pointer;
+            font-size: 30px;
+            font-weight: heavy;
+            color: black;
+			padding: 8px 15px;
+            z-index: 101;
+            position: absolute;
+            display: inline;
+            text-decoration:none;
+            top:0.15em;
+			min-width: 5em;
+			text-align: center;
+			margin-left: 80px;
+			margin-right: auto;
+			margin-top: -12px;
+		}
+		.outTitle:visited {
+			color:white;
+		}
+		.outTitle:hover {
+			color:#D35400;
+		}
+
         .title { 
 			font-family: Consolas, arial, verdana, san-serif;
             cursor: pointer;
             font-size: 30px;
             font-weight: heavy;
             color: black;
-			padding: 6px 15px;
+			padding: 6.25% 15px;
             z-index: 101;
             position: relative;
-            vertical-align: center;
             display: inline;
             text-decoration:none;
             top:0.15em;
@@ -121,7 +146,8 @@
             <b:FluidRow styleName="{style.applicationBar}" ui:field="north">
                    <g:HTMLPanel>
                     <ul>
-                        <li><g:Label addStyleNames="{style.title}" ui:field="Home">WAGS</g:Label></li>
+                        <li><g:Label addStyleNames="{style.outTitle}" ui:field="HomeOut">WAGS</g:Label></li>
+                       	<li><g:Label addStyleNames="{style.title}" ui:field="Home">WAGS</g:Label></li>
                         <li><g:Anchor addStyleNames="{style.anchor}" ui:field="Editor">Editor</g:Anchor></li>
                         <li><g:Anchor addStyleNames="{style.anchor}" ui:field="Magnets">Magnets</g:Anchor></li>
                         <li><g:Anchor addStyleNames="{style.anchor}" ui:field="DST">Logical</g:Anchor></li>

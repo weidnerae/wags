@@ -18,7 +18,7 @@ public class LogoutCommand extends AbstractServerCall {
 	@Override
 	protected void handleResponse(Response response) {
 		ClientFactory.getAppModel().clear();
-		History.newItem(Tokens.LOGIN);
+		History.newItem(Tokens.DEFAULT);
 	}
 	
 	public LogoutCommand()
