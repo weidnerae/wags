@@ -32,6 +32,7 @@ public class Wags extends Composite implements WagsView
 	@UiField Panel north;
 	@UiField Panel center;
 	@UiField Label Home;
+	@UiField Label HomeOut;  //Test 9-22-14
 	@UiField UIObject Editor;
 	@UiField UIObject DST;
 	@UiField UIObject Magnets;
@@ -60,6 +61,10 @@ public class Wags extends Composite implements WagsView
 		north.getElement().getParentElement().getStyle().setOverflow(Overflow.VISIBLE);
 	}
 
+	@UiHandler("Home")
+	void onHomeOutClick(ClickEvent event){
+		presenter.onHomeOutClick();
+	}
 	@UiHandler("Home")
 	void onHomeClick(ClickEvent event) {
 		presenter.onHomeClick();
@@ -129,6 +134,11 @@ public class Wags extends Composite implements WagsView
 	@UiHandler("review")
 	void onReviewClick(ClickEvent event) {
 		presenter.onReviewClick();
+	}
+	
+	@Override
+	public UIObject getHomeOutAnchor() {
+		return HomeOut;
 	}
 	
 	@Override

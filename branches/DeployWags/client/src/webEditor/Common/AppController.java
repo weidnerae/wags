@@ -78,7 +78,7 @@ public class AppController implements ValueChangeHandler<String> {
 	
 	/**
 	 * Called whenever GWT's History class notices a change (ie: the url is changed). Is the entry point
-	 * for all page transitions. Special page transition rules (privilage checks, redirectgs, etc) go in here.
+	 * for all page transitions. Special page transition rules (privilege checks, redirectgs, etc) go in here.
 	 * 
 	 * @param event An event which is triggered when the History value changes. The event object contains the 
 	 * 				updated url (the new token) which is used to carry out page transitions. 
@@ -96,14 +96,14 @@ public class AppController implements ValueChangeHandler<String> {
 			token = Tokens.DEFAULT;
 		}
 		if (! isLoggedIn ) {
-			token = Tokens.LOGIN;
+			token = Tokens.DEFAULT;
 		}
-		if ( token.startsWith(Tokens.LOGIN)) {
+		if ( token.startsWith(Tokens.DEFAULT)) {
 			if ( isLoggedIn ) {
 				token = Tokens.DEFAULT;
 			}
 			else {
-				token = Tokens.LOGIN;
+				token = Tokens.DEFAULT;
 			}
 		}
 		else if(token.startsWith(Tokens.ADMIN) && !isAdmin) {
@@ -138,9 +138,6 @@ public class AppController implements ValueChangeHandler<String> {
 			break;
 		case Tokens.DATABASE:
 			loadDatabasePage(page);
-			break;
-		case Tokens.LOGIN:
-			loadLoginPage(page);
 			break;
 		case Tokens.EDITOR:
 			loadEditor(page);
@@ -271,16 +268,6 @@ public class AppController implements ValueChangeHandler<String> {
 	public void loadStudentManagement(AcceptsOneWidget page)
 	{
 		StudentTab view = ClientFactory.getStudentManagementTab();
-		page.setWidget(view);
-	}
-	
-	public void loadLoginPage(AcceptsOneWidget page)
-	{
-		Login view = ClientFactory.getLoginView();
-		if ( !view.hasPresenter()) {
-			LoginPresenter pres = new LoginPresenterImpl(view);
-			pres.bind();
-		}
 		page.setWidget(view);
 	}
 	
