@@ -54,11 +54,11 @@ public class MagnetMaker extends VerticalPanel {
 	private int[] limits;
 	private int[] initialLimits;
 	private int selectedStructureIndex = 0;
-	private ProblemType problemType;
+	private Language problemType;
 	
 
 	public MagnetMaker(String[][] forLists, String[] ifList, String[] whileList, String[] returnList, String[] assignmentVarList,
-			String[] assignmentValList, int[] limits, ConstructUi constructPanel, int nextID, ProblemType problemType) {
+			String[] assignmentValList, int[] limits, ConstructUi constructPanel, int nextID, Language problemType) {
 		this.setStyleName("dropdown_panel");
 		this.problemType = problemType;
 		this.limits = limits;

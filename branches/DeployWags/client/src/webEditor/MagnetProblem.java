@@ -1,6 +1,6 @@
 package webEditor;
 
-import webEditor.magnet.view.ProblemType;
+import webEditor.magnet.view.Language;
 
 /**
  * The MagnetProblem class is in essence a wrapper for all of the fields which make up
@@ -15,7 +15,7 @@ public class MagnetProblem {
 	public boolean creationStation;
 	public String[] innerFunctions, forLeft, forMid, forRight, ifOptions, whileOptions, returnOptions, assignmentVars,
 					assignmentVals, statements, createdIDs;
-	public ProblemType problemType;
+	public Language problemType;
 	
 	public MagnetProblem(int id, String title, String directions, String type, String mainFunction,
 			String[] innerFunctions, String[] forLeft, String[] forMid, String[] forRight, String[] ifOptions, String[] whileOptions, String[] returnOptions,
@@ -45,9 +45,9 @@ public class MagnetProblem {
 		this.numStatements = numStatements;
 		this.createdIDs = createdIDs;
 		if(type.indexOf("prolog") >=0){
-			problemType = ProblemType.PROLOG;
+			problemType = Language.PROLOG;
 		}else{
-			problemType = ProblemType.JAVA;
+			problemType = Language.JAVA;
 		}
 	}
 }

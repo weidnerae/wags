@@ -11,7 +11,7 @@ import webEditor.magnet.view.MagnetProblem;
 import webEditor.programming.view.Editor;
 import webEditor.views.concrete.DefaultPage;
 import webEditor.views.concrete.Login;
-import webEditor.views.concrete.MagnetPage;
+import webEditor.views.concrete.ProblemPage;
 import webEditor.views.concrete.ReviewTab;
 import webEditor.views.concrete.Wags;
 
@@ -44,7 +44,7 @@ public class ClientFactory {
 	private static StudentTab studentTab;
 	private static ProgrammingTab progTab;
 	private static ReviewTab reviewTab;
-	private static MagnetPage magnetPage;
+	private static ProblemPage problemPage;
 	private static MagnetProblem magnetProblem;
 	
 	public static AppController getAppController()
@@ -160,12 +160,12 @@ public class ClientFactory {
 		return reviewTab;
 	}
 	
-	public static MagnetPage getMagnetPageView()
+	public static ProblemPage getMagnetPageView()
 	{
-		if (magnetPage == null) {
-			magnetPage = new MagnetPage();
+		if (problemPage == null) {
+			problemPage = new ProblemPage();
 		}
-		return magnetPage;
+		return problemPage;
 	}
 	
 	public static MagnetProblem getMagnetProblemView()

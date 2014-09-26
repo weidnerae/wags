@@ -6,7 +6,7 @@ import webEditor.Common.Tokens;
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.LogoutCommand;
 import webEditor.presenters.interfaces.WagsPresenter;
-import webEditor.views.concrete.MagnetPage;
+import webEditor.views.concrete.ProblemPage;
 import webEditor.views.interfaces.WagsView;
 
 import com.google.gwt.user.client.History;
@@ -19,7 +19,7 @@ public class WagsPresenterImpl implements WagsPresenter, AcceptsOneWidget
 {
 	private static final String TRUE = "TRUE";
 	
-	public MagnetPage splashPage;
+	public ProblemPage splashPage;
 	
 	private WagsView wags;
 	private boolean bound = false;
@@ -46,10 +46,7 @@ public class WagsPresenterImpl implements WagsPresenter, AcceptsOneWidget
 		
 		wags.getHomeOutAnchor().setVisible(!isLoggedIn);
 		wags.getHomeAnchor().setVisible(isLoggedIn);
-		wags.getEditorAnchor().setVisible(false);
-		wags.getMagnetsAnchor().setVisible(isLoggedIn);
-		wags.getLogicalAnchor().setVisible(isLoggedIn);
-		wags.getDatabaseAnchor().setVisible(isLoggedIn);
+		wags.getProblemsAnchor().setVisible(isLoggedIn);
 		wags.getLogoutAnchor().setVisible(isLoggedIn);
 		wags.getUserAnchor().setVisible(isLoggedIn);
 		wags.getAdminAnchor().setVisible(isAdmin);
@@ -81,26 +78,6 @@ public class WagsPresenterImpl implements WagsPresenter, AcceptsOneWidget
 	@Override
 	public void onHomeClick() {
 		History.newItem(Tokens.DEFAULT);
-	}
-
-	@Override
-	public void onEditorClick() {
-		History.newItem(Tokens.EDITOR);
-	}
-
-	@Override
-	public void onDatabaseClick() {
-		History.newItem(Tokens.DATABASE);
-	}
-
-	@Override
-	public void onDSTClick() {
-		History.newItem(Tokens.DST);
-	}
-
-	@Override
-	public void onMagnetsClick() {
-		History.newItem(Tokens.MAGNET);
 	}
 
 	@Override
@@ -155,4 +132,11 @@ public class WagsPresenterImpl implements WagsPresenter, AcceptsOneWidget
 	public void onStudentManagementClick() {
 		History.newItem(Tokens.MANAGESTUDENT);
 	}
+
+	@Override
+	public void onProblemsClick() {
+		History.newItem(Tokens.PROBLEMS);
+	}
+	
+	
 }

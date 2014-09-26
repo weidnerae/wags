@@ -12,15 +12,12 @@ import webEditor.magnet.view.MagnetProblemCreator;
 import webEditor.magnet.view.RefrigeratorMagnet;
 import webEditor.magnet.view.ResultsPanelUi;
 import webEditor.magnet.view.StackableContainer;
-import webEditor.presenters.concrete.WagsPresenterImpl;
 import webEditor.programming.view.CodeEditor;
 import webEditor.programming.view.Editor;
-import webEditor.programming.view.Exercises;
 import webEditor.programming.view.FileBrowser;
 import webEditor.programming.view.OutputReview;
 import webEditor.views.concrete.DefaultPage;
 import webEditor.views.concrete.Login;
-import webEditor.views.concrete.MagnetPage;
 import webEditor.views.concrete.Wags;
 
 import com.google.gwt.core.client.GWT;
@@ -778,7 +775,6 @@ public class Proxy
 					LogicalMicrolab logMicro = (LogicalMicrolab) status.getObject();
 					DST.initialize(logMicro.getProblem());
 					/*Notification.notify(status.getStat(), "Loaded from server");*/
-
 
 				}
 				

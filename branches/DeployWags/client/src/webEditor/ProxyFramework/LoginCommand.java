@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Window;
 
 import webEditor.Notification;
 import webEditor.WEStatus;
@@ -17,9 +16,7 @@ public class LoginCommand extends AbstractServerCall {
 	{	
 		WEStatus status = new WEStatus(response);
 		if(status.getStat() == WEStatus.STATUS_SUCCESS){
-			Window.alert("Login Command, WEStatus = Success");			
 			HashMap<String, String> message = status.getMessageMap();
-			Window.alert(message.toString());
 			History.newItem("default", false);
 			
 			AppController.setUserDetails(message);

@@ -8,10 +8,7 @@ import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.ValueBoxBase;
 
 public interface DefaultPageView extends View{
-	public UIObject getEditorButton();
-	public UIObject getLogicalProblemButton();
-	public UIObject getMagnetProblemButton();
-	public UIObject getDatabaseProblemButton();
+	public UIObject getProblemsButton();
 	ValueBoxBase<String> getUsernameField();
 	ValueBoxBase<String> getPasswordField();
 	public UIObject getLoginButton();

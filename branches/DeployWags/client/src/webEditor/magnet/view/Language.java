@@ -1,6 +1,6 @@
 package webEditor.magnet.view;
 
-public enum ProblemType {
+public enum Language {
 	JAVA,
 	PROLOG;
 }
