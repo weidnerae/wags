@@ -86,7 +86,7 @@ public class DataStructureTool  extends AbsolutePanel
 	 * Method used to build the user interface.
 	 */
 	private void buildUI(final ArrayList<Button> buttons)
-	{	
+	{
 		this.removeAllWidgets();
 		add(problemPane);
 		problemPane.clear();

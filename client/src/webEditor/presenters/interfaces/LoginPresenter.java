@@ -9,5 +9,4 @@ public interface LoginPresenter extends Presenter
 	void onLoginClick();
 	void onKeyPressForUsername(KeyPressEvent event);
 	void onKeyPressForPassword(KeyPressEvent event);
-
 }

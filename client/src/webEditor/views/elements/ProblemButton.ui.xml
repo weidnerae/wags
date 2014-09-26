@@ -1,0 +1,39 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:my="urn:import:webEditor.programming.view"
+	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui">
+	<ui:style>
+	    
+	.buttonContainer {
+        width:60%;
+		margin-left:auto;
+		margin-right:auto;
+		margin-top:1em;
+	}
+
+	.button {
+		padding-top:4%;
+		padding-bottom:4%
+	}
+
+	.icon {
+		position:relative;
+		top:2em;
+	}
+	    
+	</ui:style>
+	
+	
+	<b:FluidRow addStyleNames="{style.buttonContainer}">
+	    <b:Column size="1">
+	       <b:Icon type="OK" size="LARGE" alignment="RIGHT" ui:field="statusIcon" addStyleNames="{style.icon}"/> 
+	    </b:Column>
+	    <b:Column size="10">
+	        <b:Button ui:field="button" block="true" addStyleNames="{style.button}"></b:Button>
+	    </b:Column>
+	    <b:Column size="1">
+	        <b:Icon type="CHEVRON_RIGHT" size="LARGE" alignment="LEFT" addStyleNames="{style.icon}"/>
+	    </b:Column>
+	</b:FluidRow>
+</ui:UiBinder>

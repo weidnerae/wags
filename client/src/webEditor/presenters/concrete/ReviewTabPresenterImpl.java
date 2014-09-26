@@ -2,16 +2,12 @@ package webEditor.presenters.concrete;
 
 import java.util.List;
 
-import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 
-import webEditor.Proxy;
 import webEditor.Reviewer;
-import webEditor.WEStatus;
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.GetLMAssigned;
 import webEditor.ProxyFramework.GetMMAssigned;
-import webEditor.ProxyFramework.ReviewExerciseCommand;
 import webEditor.presenters.interfaces.ReviewTabPresenter;
 import webEditor.views.concrete.ReviewTab;
 import webEditor.views.interfaces.ReviewTabView;
@@ -55,13 +51,6 @@ public class ReviewTabPresenterImpl implements ReviewTabPresenter {
 
 		AbstractServerCall cmd4 = new GetMMAssigned(reviewTab.getLogHandler(),	Reviewer.GET_REVIEW);
 		cmd4.sendRequest();
-
-		// Leftover from the old code
-		// Proxy.getLMAssigned(logHandler, Reviewer.NONE);
-		// Proxy.getMMAssigned(magHandler, Reviewer.NONE);
-
-		// Proxy.getLMAssigned(logHandler, Reviewer.GET_REVIEW);
-		// Proxy.getMMAssigned(magHandler, Reviewer.GET_REVIEW);
 	}
 
 	@Override

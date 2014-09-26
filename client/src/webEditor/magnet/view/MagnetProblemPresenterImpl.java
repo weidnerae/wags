@@ -3,7 +3,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 
-import webEditor.presenters.interfaces.MagnetPagePresenter;
+import webEditor.presenters.interfaces.ProblemPagePresenter;
 
 
 public class MagnetProblemPresenterImpl implements MagnetProblemPresenter {

@@ -11,7 +11,6 @@ import com.github.gwtbootstrap.client.ui.Label;
 import com.github.gwtbootstrap.client.ui.Row;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -38,10 +37,7 @@ public class DefaultPage extends Composite implements DefaultPageView {
 	@UiField ValueBoxBase<String> username;
 	@UiField ValueBoxBase<String> password;
 	@UiField Button loginButton;
-	@UiField Button editorButton;
-	@UiField Button logicalButton;
-	@UiField Button magnetButton;
-	@UiField Button databaseButton;
+	@UiField Button problemsButton;
 	@UiField Label welcomeText; 
 	@UiField Label loginText;
 	@UiField Row loginScreen;
@@ -57,32 +53,11 @@ public class DefaultPage extends Composite implements DefaultPageView {
 		//Proxy.isAdmin(adminButton, magnetPCButton, logicalPCButton,databasePCButton);
 	}
 	
-	/** Takes the user to the editor tab */
-	@UiHandler("editorButton")
+	/** Takes the user to the problems page */
+	@UiHandler("problemsButton")
 	void onEditorClick(ClickEvent event)
 	{
-		presenter.onEditorClick();
-	}
-	
-	/** Takes the user to the logical problems page */
-	@UiHandler("logicalButton")
-	void onLogicalClick(ClickEvent event)
-	{
-		presenter.onLogicalClick();
-	}
-	
-	/** Takes the user to the magnet problems page */
-	@UiHandler("magnetButton")
-	void onMagnetClick(ClickEvent event)
-	{
-		presenter.onMagnetClick();
-	}
-	
-	/** Takes the user to the database problems page */
-	@UiHandler("databaseButton")
-	void onDatabaseClick(ClickEvent event)
-	{
-		presenter.onDatabaseClick();
+		presenter.onProblemsClick();
 	}
 	
 	/**
@@ -170,25 +145,10 @@ public class DefaultPage extends Composite implements DefaultPageView {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	@Override
-	public UIObject getEditorButton() {
-		return editorButton;
-	}
 
 	@Override
-	public UIObject getLogicalProblemButton() {
-		return logicalButton;
-	}
-
-	@Override
-	public UIObject getMagnetProblemButton() {
-		return magnetButton;
-	}
-
-	@Override
-	public UIObject getDatabaseProblemButton() {
-		return databaseButton;
+	public UIObject getProblemsButton() {
+		return problemsButton;
 	}
 
 }

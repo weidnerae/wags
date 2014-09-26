@@ -1,4 +1,4 @@
-package webEditor;
+	package webEditor;
 
 
 import java.util.HashMap;
@@ -42,7 +42,7 @@ public class WagsEntry implements EntryPoint
 		@SuppressWarnings("unused")
 		final AppController app = ClientFactory.getAppController();
 		
-		try{
+		try {
 			@SuppressWarnings("unused")
 			Request req = builder.sendRequest(null, new RequestCallback(){
 				@Override
