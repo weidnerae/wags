@@ -166,8 +166,8 @@ public class ProblemCreationPanel extends Composite{
 			public void onSubmitComplete(SubmitCompleteEvent event) {
 				String[] magnets = event.getResults().split("\n");
 				classDeclarationTxtArea.setText(magnets[0]);
-				innerFunctionsTxtArea.setText(magnets[1]);
-				statementsTxtArea.setText(magnets[2]);
+				innerFunctionsTxtArea.setText(magnets[2]);
+				statementsTxtArea.setText(magnets[4]);
 			}
 		});
 		

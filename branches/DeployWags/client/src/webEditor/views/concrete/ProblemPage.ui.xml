@@ -1,0 +1,65 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui">
+	<ui:style>
+
+	.table {
+		text-align:center;
+	}
+	    
+	.title {
+		font-size:24px;
+		font-family:Consolas;
+	}
+		
+	magSpan {
+		background-color: inherit;   
+		color: black;                
+		font-size: 16px; 
+		font-family: Consolas;
+		min-width:40em;
+	}
+
+	.problemCategory {
+		min-width:6em;
+		max-width:6em;
+		padding-top:1%;
+		padding-bottom:1%;
+		margin-rght:0.5em;
+		margin-left:0.5em;
+		display:inline-block;
+		margin-top:1em;
+		float:none;
+		border: 2px solid black;
+	}
+	.problemCategoryContainer {
+		text-align:center;
+		width:80%;
+		margin-left:auto;
+		margin-right:auto;
+	}
+		 
+	</ui:style>
+	
+	<b:FluidRow>
+	    <b:FluidRow addStyleNames="{style.problemCategoryContainer}">
+	        	<b:Button ui:field="magnetCategory" size="LARGE" icon="OK" addStyleNames="{style.problemCategory}">Code</b:Button>
+	        	<b:Button ui:field="logicalCategory" size="LARGE" icon="OK" addStyleNames="{style.problemCategory}">Logical</b:Button>
+				<b:Button ui:field="databaseCategory" size="LARGE" icon="OK" addStyleNames="{style.problemCategory}">Database</b:Button>
+	    </b:FluidRow>
+	    <b:FluidRow>
+	    	<b:incubator.Table visible="false" ui:field="magnetPanel">
+		    </b:incubator.Table>
+		    
+	    	<b:incubator.Table visible="false" ui:field="logicalPanel">
+		    </b:incubator.Table>
+		    
+	    	<b:incubator.Table visible="false" ui:field="databasePanel">
+		    </b:incubator.Table>
+	    </b:FluidRow>
+	</b:FluidRow>
+	
+	
+	
+</ui:UiBinder>

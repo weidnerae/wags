@@ -13,7 +13,7 @@
 			border: 1px solid grey;
 			padding-top: 3.5%;
 			padding-bottom: 3.5%;
-			min-width: 15%;
+			min-width: 30%;
 			background-color:#1abc9c;
 			margin: .5em;
 			margin-top:3em;
@@ -108,21 +108,8 @@
 	        <b:Row><b:Label addStyleNames="{style.welcomeText}" ui:field='loginText'>Please enter your credentials below to log in.</b:Label></b:Row>
 	        <b:Row><b:Icon type="CHEVRON_DOWN" addStyleNames="{style.icon}"/></b:Row>
 	    </b:Row>
-	    <!-- 
-	    <b:Hero addStyleNames="{style.text}">
-	        <b:Heading size="6" addStyleNames="{style.title}">Welcome</b:Heading>
-	        <b:Paragraph>This is WAGS, short for "Web Automated Grading System"</b:Paragraph>
-	        <b:Paragraph>Click the buttons below to go complete your assigned problems</b:Paragraph>
-	        <b:FluidRow>
-	            <b:Icon type="CHEVRON_DOWN" addStyleNames="{style.icon}"/>
-	        </b:FluidRow>
-		</b:Hero>
-		-->
 	    <b:Row>
-	        <b:Button size="LARGE" addStyleNames="{style.button}" ui:field='editorButton'>Web Editor</b:Button>
-			<b:Button size="LARGE" addStyleNames="{style.button}" ui:field='logicalButton'>Logical Microlabs</b:Button>
-			<b:Button size="LARGE" addStyleNames="{style.button}" ui:field='magnetButton'>Magnet Microlabs</b:Button>
-			<b:Button size="LARGE" addStyleNames="{style.button}" ui:field='databaseButton'>Database Microlabs</b:Button>
+			<b:Button size="LARGE" addStyleNames="{style.button}" ui:field='problemsButton'>Assigned Problems</b:Button>
 		</b:Row>
 		<b:Row ui:field="loginScreen" addStyleNames="{style.login}">
 			<b:Row>

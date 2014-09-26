@@ -50,25 +50,4 @@
 			</g:FormPanel>
 	    </b:FluidRow>
 	</b:FluidRow>
-	
-	
-	
-	<!-- 
-	<g:DockLayoutPanel unit="PX" styleName='{style.content}'>
-	    <g:east size="560">
-				<my:ReviewPanel styleName="{style.padding}" ui:field="rvLogPanel"/>
-		</g:east>
-		<g:center>
-				<my:ReviewPanel styleName="{style.padding}" ui:field="rvMagPanel"/>
-		</g:center>
-		<g:south size="200">
-				<g:FormPanel styleName="{style.padding}" ui:field="formCompReview">
-					<g:VerticalPanel>
-						<g:Label styleName="{style.title}"> Review All </g:Label>
-						<g:SubmitButton ui:field="btnCompReview">Download CSV</g:SubmitButton>
-					</g:VerticalPanel>
-				</g:FormPanel>
-		</g:south>
-	</g:DockLayoutPanel>
-	-->
 </ui:UiBinder> 

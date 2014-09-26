@@ -208,7 +208,7 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 			magnetMaker.resetLimits();
 		}
 		
-		if(magnet.problemType == ProblemType.PROLOG){
+		if(magnet.problemType == Language.PROLOG){
 			for(StackableContainer segment: segments){
 				segment.removeComma();
 			}

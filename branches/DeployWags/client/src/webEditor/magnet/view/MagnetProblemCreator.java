@@ -34,7 +34,7 @@ public class MagnetProblemCreator {
 	 * @return An array of StackableContainers. Will return null 
 	 * if segments is null.
 	 */
-	private StackableContainer[] decodePremade(String[] segments, String[] createdIDs, int numStatements, ProblemType problemType) {
+	private StackableContainer[] decodePremade(String[] segments, String[] createdIDs, int numStatements, Language problemType) {
 		if (segments == null) {
 			return null;
 		}
@@ -64,7 +64,7 @@ public class MagnetProblemCreator {
 	 * 
 	 * @return The main StackableContainer
 	 */
-	private StackableContainer getMainContainer(String str, ProblemType problemType) {
+	private StackableContainer getMainContainer(String str, Language problemType) {
 		StackableContainer sc = new StackableContainer(str, Consts.MAIN, problemType);
 		sc.setID(getID());
 		return sc;
@@ -78,7 +78,7 @@ public class MagnetProblemCreator {
 	 * @return An array of StackableContainers. Will return null if 
 	 * insideFunctions is null.
 	 */
-	private StackableContainer[] buildFunctions(String[] insideFunctions, ProblemType problemType) {
+	private StackableContainer[] buildFunctions(String[] insideFunctions, Language problemType) {
 		if (insideFunctions == null) {
 			return null;
 		}

@@ -26,7 +26,7 @@ public class StackableContainer extends FocusPanel {
 	private String topCode;
 	private String bottomCode;
 	private MagnetType magnetType;
-	private ProblemType problemType; // Java/Prolog etc.
+	private Language problemType; // Java/Prolog etc.
 	
 	private DropController dropController = new PanelDropController(this);
 
@@ -49,9 +49,9 @@ public class StackableContainer extends FocusPanel {
 	 * @param specialCondition
 	 *            usually main
 	 */
-	public StackableContainer(String content, int specialCondition, ProblemType problemType) { // For mains, non draggable
+	public StackableContainer(String content, int specialCondition, Language problemType) { // For mains, non draggable
 		this.problemType = problemType;
-		if(problemType == ProblemType.PROLOG && specialCondition != Consts.MAIN){
+		if(problemType == Language.PROLOG && specialCondition != Consts.MAIN){
 			insidePanel = new PrologMagnetInsidePanel();
 		}
 		this.content = " " + content;
@@ -119,9 +119,9 @@ public class StackableContainer extends FocusPanel {
 				break;
 			case Consts.COMMENT:
 				stackable = false;
-				if(problemType == ProblemType.JAVA){
+				if(problemType == Language.JAVA){
 					this.content = "//" + this.content;
-				}else if(problemType == ProblemType.PROLOG){
+				}else if(problemType == Language.PROLOG){
 					this.content = "%" + this.content;
 				}
 				this.getStyleElement().getStyle().setProperty("border","none");
@@ -288,7 +288,7 @@ public class StackableContainer extends FocusPanel {
 			if (!done) { // If panel is being added to bottom.
 				insidePanel.add(child);
 			}
-			if(problemType == ProblemType.PROLOG){
+			if(problemType == Language.PROLOG){
 				updateCommas();
 			}
 		} else {
@@ -359,14 +359,14 @@ public class StackableContainer extends FocusPanel {
 	}
 	
 	public void prependComma(){
-		if(problemType == ProblemType.PROLOG && magnetType == MagnetType.TERM && !prependedComma){
+		if(problemType == Language.PROLOG && magnetType == MagnetType.TERM && !prependedComma){
 			topLabel.setText(", "+topLabel.getText());
 			prependedComma = true;
 		}
 	}
 	
 	public void removeComma(){
-		if(problemType == ProblemType.PROLOG && prependedComma){
+		if(problemType == Language.PROLOG && prependedComma){
 			topLabel.setText(topLabel.getText().substring(2));
 			prependedComma = false;
 		}

@@ -133,28 +133,5 @@
 	    </b:Hero>
 	</b:FluidContainer>
 	
-	<!-- 
- 	<g:VerticalPanel horizontalAlignment='ALIGN_CENTER' styleName="{style.positioning}" width="100%">
- 		
- 		<g:VerticalPanel styleName="{style.header}" horizontalAlignment='ALIGN_CENTER'> 
- 		    
- 		    
-			<g:Label styleName="{style.title1}">Wags</g:Label>
-			<g:Label styleName="{style.title2}">Web Automated Grading System</g:Label>
-
-			<g:VerticalPanel styleName="{style.columns}" horizontalAlignment='ALIGN_CENTER'>
-				<g:HorizontalPanel styleName="{style.sub_columns}">
-					<g:Label styleName="{style.label}">Account: </g:Label>
-					<g:TextBox ui:field="username" />
-				</g:HorizontalPanel>
-				
-				<g:HorizontalPanel styleName="{style.sub_columns}">
-					<g:Label styleName="{style.label}">Password: </g:Label>
-					<g:PasswordTextBox ui:field="password" />
-				</g:HorizontalPanel>
-				<g:Button styleName="{style.button}" ui:field="loginButton" />
-			</g:VerticalPanel>
-		</g:VerticalPanel>
-	</g:VerticalPanel>
-	-->
+	
 </ui:UiBinder> 

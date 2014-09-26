@@ -6,10 +6,7 @@ public interface WagsPresenter extends Presenter
 {
 	void onHomeOutClick();
 	void onHomeClick();
-	void onEditorClick();
-	void onDatabaseClick();
-	void onDSTClick();
-	void onMagnetsClick();
+	void onProblemsClick();
 	void onAdminClick();
 	void onLogoutClick();
 	void onLogicalManagementClick();

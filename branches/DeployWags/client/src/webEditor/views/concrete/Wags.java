@@ -33,10 +33,7 @@ public class Wags extends Composite implements WagsView
 	@UiField Panel center;
 	@UiField Label Home;
 	@UiField Label HomeOut;  //Test 9-22-14
-	@UiField UIObject Editor;
-	@UiField UIObject DST;
-	@UiField UIObject Magnets;
-	@UiField UIObject Database;
+	@UiField UIObject problems;
 	@UiField UIObject AdminPage;
 	@UiField UIObject logout;
 	@UiField UIObject logicalProblemManagement;
@@ -65,30 +62,14 @@ public class Wags extends Composite implements WagsView
 	void onHomeOutClick(ClickEvent event){
 		presenter.onHomeOutClick();
 	}
-	@UiHandler("Home")
+	@UiHandler("HomeOut")
 	void onHomeClick(ClickEvent event) {
 		presenter.onHomeClick();
 	}
 	
-	@UiHandler("Editor")
-	void onEditorClick(ClickEvent event) {
-		presenter.onEditorClick();
-	}
-	
-	@UiHandler("Database")
-	void onDatabaseClick(ClickEvent event) {
-		presenter.onDatabaseClick();
-	}
-	
-	
-	@UiHandler("DST")
-	void onDSTClick(ClickEvent event) {
-		presenter.onDSTClick();
-	}
-	
-	@UiHandler("Magnets")
+	@UiHandler("problems")
 	void onMagnetsClick(ClickEvent event) {
-		presenter.onMagnetsClick();
+		presenter.onProblemsClick();
 	}
 	
 	@UiHandler("AdminPage")
@@ -147,26 +128,6 @@ public class Wags extends Composite implements WagsView
 	}
 
 	@Override
-	public UIObject getEditorAnchor() {
-		return Editor;
-	}
-
-	@Override
-	public UIObject getMagnetsAnchor() {
-		return Magnets;
-	}
-
-	@Override
-	public UIObject getLogicalAnchor() {
-		return DST;
-	}
-
-	@Override
-	public UIObject getDatabaseAnchor() {
-		return Database;
-	}
-
-	@Override
 	public UIObject getAdminAnchor() {
 		return AdminPage;
 	}
@@ -209,5 +170,10 @@ public class Wags extends Composite implements WagsView
 	@Override
 	public Panel getCenterPanel() {
 		return center;
+	}
+
+	@Override
+	public UIObject getProblemsAnchor() {
+		return problems;
 	}
 }

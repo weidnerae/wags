@@ -6,14 +6,12 @@ import webEditor.Common.ClientFactory;
 import webEditor.Common.Tokens;
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.LoginCommand;
-import webEditor.ProxyFramework.LogoutCommand;
 import webEditor.presenters.interfaces.DefaultPagePresenter;
 import webEditor.views.interfaces.DefaultPageView;
 
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -51,12 +49,8 @@ public class DefaultPagePresenterImpl implements DefaultPagePresenter, AcceptsOn
 
 	@Override
 	public void update(List<String> data) {
-		boolean isAdmin = data.get(1).equals(TRUE);
 		boolean isLoggedIn = data.get(0).equals(TRUE);
-		def.getEditorButton().setVisible(false);
-		def.getDatabaseProblemButton().setVisible(isLoggedIn);
-		def.getLogicalProblemButton().setVisible(isLoggedIn);
-		def.getMagnetProblemButton().setVisible(isLoggedIn);
+		def.getProblemsButton().setVisible(isLoggedIn);
 		def.getUsernameField().setVisible(!isLoggedIn);
 		def.getPasswordField().setVisible(!isLoggedIn);
 		def.getLoginButton().setVisible(!isLoggedIn);
@@ -69,7 +63,6 @@ public class DefaultPagePresenterImpl implements DefaultPagePresenter, AcceptsOn
 	public void onLoginClick() {
 		String username = def.getUsernameField().getText();
 		String password = def.getPasswordField().getText();
-		Window.alert("attempting login");
 		AbstractServerCall cmd = new LoginCommand(username, password);
 		cmd.sendRequest();
 	}
@@ -93,54 +86,14 @@ public class DefaultPagePresenterImpl implements DefaultPagePresenter, AcceptsOn
 	}
 
 	@Override
-	public void onEditorClick() {
-		History.newItem(Tokens.EDITOR);
-	}
-
-	@Override
-	public void onLogicalClick() {
-		History.newItem(Tokens.DST);
-	}
-
-	@Override
-	public void onMagnetClick() {
-		History.newItem(Tokens.MAGNET);
-	}
-
-	@Override
-	public void onDatabaseClick() {
-		History.newItem(Tokens.DATABASE);
-	}
-
-	@Override
-	public void onLogicalPCClick() {
-		History.newItem(Tokens.ADMIN + Tokens.DELIM + Tokens.LOGICALCREATION);
-	}
-
-	@Override
-	public void onMagnetPCClick() {
-		History.newItem(Tokens.ADMIN + Tokens.DELIM + Tokens.MAGNETCREATION);	
-	}
-
-	@Override
-	public void onAdminClick() {
-		History.newItem(Tokens.ADMIN);
-	}
-
-	@Override
-	public void onDatabasePCClick() {
-		History.newItem(Tokens.DATABASE);
-	}
-
-	@Override
-	public void onLogoutClick() {
-		AbstractServerCall cmd = new LogoutCommand();
-		cmd.sendRequest();
-	}
-
-	@Override
 	public void setWidget(IsWidget w) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onProblemsClick() {
+		History.newItem(Tokens.PROBLEMS);
 		
 	}
 

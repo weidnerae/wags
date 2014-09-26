@@ -12,6 +12,7 @@ public abstract class Tokens
 	public static final String LOGIN = "login";
 	public static final String EDITOR = "editor";
 	public static final String MAGNET = "magnets";
+	public static final String PROBLEMS = "problems";
 	public static final String DST = "dst";
 	public static final String ADMIN = "admin";
 	public static final String DATABASE = "database";

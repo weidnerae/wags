@@ -1,3 +1,20 @@
+.problem_due {
+	border: 2px solid orange;
+}
+
+.problem_complete {
+	border: 2px solid green;
+}
+
+.problem_due {
+	border: 1px solid grey;
+	color:grey;
+}
+
+.category_selected {
+	border-width: 3px;
+}
+
 /** GENERAL APP CSS **/
 .banner {
 	font-size: 16pt;

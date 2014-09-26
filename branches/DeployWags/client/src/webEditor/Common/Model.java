@@ -39,6 +39,14 @@ public abstract class Model
 		
 	}
 
+	public void registerObserver(Presenter presenter, boolean toUpdate) {
+		if(presenter != null) {
+			observers.add(presenter);
+			if (toUpdate) {
+				presenter.update(getData());
+			}
+		}
+	}
 	public void removeObserver(Presenter presenter) {
 		if (presenter != null) {
 			observers.remove(presenter);

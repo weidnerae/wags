@@ -26,7 +26,6 @@ package webEditor.Common;
 import java.util.HashMap;
 
 import webEditor.ProxyFramework.AbstractServerCall;
-import webEditor.ProxyFramework.BuildDSTCommand;
 import webEditor.ProxyFramework.BuildDatabaseCommand;
 import webEditor.admin.LMEditTab;
 import webEditor.admin.LogicalTab;
@@ -39,19 +38,16 @@ import webEditor.magnet.view.MagnetProblem;
 import webEditor.magnet.view.MagnetProblemPresenter;
 import webEditor.magnet.view.MagnetProblemPresenterImpl;
 import webEditor.presenters.concrete.DefaultPagePresenterImpl;
-import webEditor.presenters.concrete.LoginPresenterImpl;
-import webEditor.presenters.concrete.MagnetPagePresenterImpl;
+import webEditor.presenters.concrete.ProblemPagePresenterImpl;
 import webEditor.presenters.concrete.ReviewTabPresenterImpl;
 import webEditor.presenters.concrete.WagsPresenterImpl;
 import webEditor.presenters.interfaces.DefaultPagePresenter;
-import webEditor.presenters.interfaces.LoginPresenter;
-import webEditor.presenters.interfaces.MagnetPagePresenter;
+import webEditor.presenters.interfaces.ProblemPagePresenter;
 import webEditor.presenters.interfaces.ReviewTabPresenter;
 import webEditor.views.concrete.DefaultPage;
-import webEditor.views.concrete.Login;
 import webEditor.views.concrete.ReviewTab;
 import webEditor.views.concrete.Wags;
-import webEditor.views.interfaces.MagnetPageView;
+import webEditor.views.interfaces.ProblemPageView;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -130,17 +126,8 @@ public class AppController implements ValueChangeHandler<String> {
 	{
 		switch(token)
 		{
-		case Tokens.DST:
-			loadDST(page);
-			break;
-		case Tokens.MAGNET:
-			loadMagnets(page);
-			break;
-		case Tokens.DATABASE:
-			loadDatabasePage(page);
-			break;
-		case Tokens.EDITOR:
-			loadEditor(page);
+		case Tokens.PROBLEMS:
+			loadProblems(page);
 			break;
 		case Tokens.LOGICALCREATION:
 			loadLogicalProblemCreation(page);
@@ -201,7 +188,6 @@ public class AppController implements ValueChangeHandler<String> {
 	//As of right now not all of these transitions have been implemented using the new MVP pattern
 	
 	private void loadMagnetProblem(AcceptsOneWidget page, String arg) {
-		Window.alert("Loading Magnet Problem");
 		MagnetProblem view = ClientFactory.getMagnetProblemView();
 		if (!view.hasPresenter()) {
 			MagnetProblemPresenter pres = new MagnetProblemPresenterImpl(view);
@@ -212,7 +198,6 @@ public class AppController implements ValueChangeHandler<String> {
 
 	public void loadReviewTab(AcceptsOneWidget page) 
 	{
-		Window.alert("Loading Review");
 		ReviewTab view = ClientFactory.getReviewTab();
 		if (!view.hasPresenter()) {
 			ReviewTabPresenter pres = new ReviewTabPresenterImpl(view);
@@ -287,14 +272,14 @@ public class AppController implements ValueChangeHandler<String> {
 	
 	//TODO implement in MVP (look at the magnet page as a guide)
 	public void loadDST(AcceptsOneWidget page) {
-		AbstractServerCall cmd = new BuildDSTCommand(page);
-		cmd.sendRequest();
+		//AbstractServerCall cmd = new BuildDSTCommand(page);
+		//cmd.sendRequest();
 	}
 	
-	public void loadMagnets(AcceptsOneWidget page) {
-		MagnetPageView view = ClientFactory.getMagnetPageView();
+	public void loadProblems(AcceptsOneWidget page) {
+		ProblemPageView view = ClientFactory.getMagnetPageView();
 		if (!view.hasPresenter()) {
-			MagnetPagePresenter pres = new MagnetPagePresenterImpl(view);
+			ProblemPagePresenter pres = new ProblemPagePresenterImpl(view);
 			pres.bind();
 		}
 		page.setWidget(view);
