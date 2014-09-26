@@ -116,6 +116,25 @@ class LogicalMicrolab extends Model
         return $objArray;
     }
 
+    public static function getLogicalIdsFromTitles($exercises) {
+        require_once('Database.php');
+        $db = Database::getDb();
+
+        for($i = 0; $i < count($exercises); $i++){
+            $tmp = $exercises[$i];
+            $exercises[$i] = "\"$tmp\"";
+        }
+
+        $exercises = implode(",", $exercises);
+        $sth = $db->query('SELECT id FROM LogicalMicrolabs
+                           WHERE title IN ('.$exercises.')' );
+
+        $result = $sth->fetchAll(PDO::FETCH_COLUMN, 0);
+
+        return $result;
+    }
+
+        
     public static function getLogicalMicrolabByTitle($title){
         require_once('Database.php');
         $db = Database::getDb();
