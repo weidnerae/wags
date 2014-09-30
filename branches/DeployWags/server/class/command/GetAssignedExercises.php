@@ -17,12 +17,13 @@ class GetAssignedExercises extends Command
         $review = MagnetProblem::getAttempted();
         $returnArray = array();
 
-        $returnArray[] = count($names) . "";
+        $returnArray[] = "0";
         // Only occurs when no problems are available to the student
-        if($names[0] == "0"){
+        if($names[0] == "0") {
            return JSON::success(array());
         }
 
+        $counter = 0;
         // $names alternates id, name - starting with id
         for ($i = 0; $i < count($names) - 1; $i += 2) {
            // Creating new array with success values
@@ -34,22 +35,27 @@ class GetAssignedExercises extends Command
            if($sub){
                $returnArray[] = $sub->getSuccess(); 
            } else {
-                // Have to pass back success as String, not int, due
-                // to passing as an array
-                $returnArray[] = "0";
+               // Have to pass back success as String, not int, due
+               // to passing as an array
+               $returnArray[] = "0";
            }
+           $counter++;
         }
 
         for ($i = 0; $i < count($review) - 1; $i += 2) {
         	$returnArray[] = $review[$i];	// The id
         	$returnArray[] = $review[$i + 1]; // The title
         	$returnArray[] = "2"; // This will denote that it is a review problem
+            $counter++;
         }
+
+        //Set the count
+        $returnArray[0] = $counter . "";
+
         $section = Section::getSectionById($user->getSection());
         $exercises = $section->getLogicalExercises();
         $exercises = str_replace("\n", "", $exercises);
         $exerciseArray = explode("|", $exercises);
-
 
         //Get the ids for the logical microlabs problems using the titles. This is hacky
         //but short of redefining the database tables this is the best way to do it.
@@ -86,7 +92,7 @@ class GetAssignedExercises extends Command
         //put it back in original order
         $originalOrder = explode("|", $exercises);
 
-      //Sometimes (or everytime, not making assumptions), there is an empty string
+        //Sometimes (or everytime, not making assumptions), there is an empty string
         //at the end of the array, get rid of it.
         if (count($originalOrder) > count($ids)) {
             array_pop($originalOrder);
