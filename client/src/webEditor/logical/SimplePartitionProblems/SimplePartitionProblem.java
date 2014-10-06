@@ -2,7 +2,8 @@ package webEditor.logical.SimplePartitionProblems;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
 
-import webEditor.Proxy;
+import webEditor.ProxyFramework.UploadLogicalMicrolabCommand;
+import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.logical.AddEdgeRules;
 import webEditor.logical.DisplayManager;
 import webEditor.logical.EdgeCollection;
@@ -150,7 +151,8 @@ public class SimplePartitionProblem extends Problem implements IsSerializable {
 				"&nodesDraggable=" + nodesDraggable + "&nodeType=" +
 				nodeType + "&group=14" + "&genre=simplepartition";
 		
-		Proxy.uploadLogicalMicrolab(details);
+		AbstractServerCall cmd = new UploadLogicalMicrolabCommand(details);
+		cmd.sendRequest();
 		return details;
 	}
 }

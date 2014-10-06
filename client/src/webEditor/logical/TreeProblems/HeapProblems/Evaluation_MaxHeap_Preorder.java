@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 import webEditor.Proxy;
+import webEditor.ProxyFramework.AbstractServerCall;
+import webEditor.ProxyFramework.SubmitDSTCommand;
 import webEditor.logical.DSTConstants;
 import webEditor.logical.EdgeParent;
 import webEditor.logical.EdgeUndirected;
@@ -33,7 +35,8 @@ public class Evaluation_MaxHeap_Preorder extends Evaluation  implements IsSerial
 		}		
 		EvaluationNode rootEvalNode = buildEvaluationTree(nodes, edges);
 		if(rootEvalNode == null){
-			Proxy.submitDST(problemName, 0);
+			AbstractServerCall DSTCmd = new SubmitDSTCommand(problemName, 0);
+			DSTCmd.sendRequest();
 			return "You have removed too many nodes from the heap, make sure " +
 					"you have gone back and added the necessary edges " +
 					"to complete the new heap.";
@@ -41,11 +44,13 @@ public class Evaluation_MaxHeap_Preorder extends Evaluation  implements IsSerial
 
 		if(testInorderTraversal(arguments[0], rootEvalNode, nodes, edges) == false)
 		{
-			Proxy.submitDST(problemName, 0);
+			AbstractServerCall DSTCmd = new SubmitDSTCommand(problemName, 0);
+			DSTCmd.sendRequest();
 			return errorMessage;
 		}
 				
-		Proxy.submitDST(problemName, 1);
+		AbstractServerCall DSTCmd = new SubmitDSTCommand(problemName, 1);
+		DSTCmd.sendRequest();
 		return "Feedback: Congratulations! Your heap is correct.";
 	}
 

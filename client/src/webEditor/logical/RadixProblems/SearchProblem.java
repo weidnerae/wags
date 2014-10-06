@@ -2,7 +2,8 @@ package webEditor.logical.RadixProblems;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
 
-import webEditor.Proxy;
+import webEditor.ProxyFramework.UploadLogicalMicrolabCommand;
+import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.logical.AddEdgeRules;
 import webEditor.logical.DisplayManager;
 import webEditor.logical.Evaluation;
@@ -251,7 +252,8 @@ public class SearchProblem extends Problem implements IsSerializable {
 				"&nodesDraggable=" + nodesDraggable + "&nodeType=" +
 				nodeType + "&group=9" + "&genre=radix";
 		
-		Proxy.uploadLogicalMicrolab(details);
+		AbstractServerCall cmd = new UploadLogicalMicrolabCommand(details);
+		cmd.sendRequest();
 		return details;
 	}
 }

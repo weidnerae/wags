@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 import webEditor.Proxy;
+import webEditor.ProxyFramework.AbstractServerCall;
+import webEditor.ProxyFramework.SubmitDSTCommand;
 import webEditor.logical.DSTConstants;
 import webEditor.logical.EdgeParent;
 import webEditor.logical.EdgeUndirected;
@@ -29,7 +31,8 @@ public class Evaluation_RedBlackTree extends Evaluation  implements IsSerializab
 		
 		if(testRootNodeForPostOrderTraversal(arguments[0], nodes, edges) == false)
 		{
-			Proxy.submitDST(problemName, 0);
+			AbstractServerCall DSTCmd = new SubmitDSTCommand(problemName, 0);
+			DSTCmd.sendRequest();
 			return errorMessage;
 		}
 		
@@ -37,22 +40,26 @@ public class Evaluation_RedBlackTree extends Evaluation  implements IsSerializab
 
 		if(testInorderTraversal(arguments[0], arguments[1], rootEvalNode, nodes, edges) == false)
 		{
-			Proxy.submitDST(problemName, 0);
+			AbstractServerCall DSTCmd = new SubmitDSTCommand(problemName, 0);
+			DSTCmd.sendRequest();
 			return errorMessage;
 		}
 		
 		if(testPostOrderTraversal(arguments[0], rootEvalNode, nodes, edges) == false)
 		{
-			Proxy.submitDST(problemName, 0);
+			AbstractServerCall DSTCmd = new SubmitDSTCommand(problemName, 0);
+			DSTCmd.sendRequest();
 			return errorMessage;
 		}
 		if(testCorrectColorNodes(arguments[2], nodes) == false){
-			Proxy.submitDST(problemName, 0);
+			AbstractServerCall DSTCmd = new SubmitDSTCommand(problemName, 0);
+			DSTCmd.sendRequest();
 			return errorMessage;
 		}
 		
 		
-		Proxy.submitDST(problemName, 1);
+		AbstractServerCall DSTCmd = new SubmitDSTCommand(problemName, 1);
+		DSTCmd.sendRequest();
 		return "Feedback: Congratulations! Your tree is correct.";
 	}
 

@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import webEditor.Proxy;
+import webEditor.ProxyFramework.AbstractServerCall;
+import webEditor.ProxyFramework.SubmitDSTCommand;
 import webEditor.logical.DSTConstants;
 import webEditor.logical.EdgeParent;
 import webEditor.logical.EdgeUndirected;
@@ -35,16 +37,19 @@ public class Evaluation_Level extends Evaluation  implements IsSerializable
 		String levelTraversalPossibly = "*|*";
 		levelTraversalPossibly = getLevelTraversal(rootEvalNode, arguments[0]);
 		if(rootEvalNode == null){
-			Proxy.submitDST(problemName, 0);
+			AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 0);
+			dstCmd.sendRequest();
 			return "Your tree is incomplete go back and add " +
 				   " the necessary edges to complete the tree.";
 		}
 		if(levelTraversalPossibly.equals(arguments[0])){
-			Proxy.submitDST(problemName,1);
+			AbstractServerCall DSTCmd = new SubmitDSTCommand(problemName, 1);
+			DSTCmd.sendRequest();
 			return "Feedback: Congratulations! Your tree is correct.";
 		}
 		else{
-			Proxy.submitDST(problemName,0);
+			AbstractServerCall DSTCmd = new SubmitDSTCommand(problemName, 0);
+			DSTCmd.sendRequest();
 			return errorMessage;
 		}
 	}

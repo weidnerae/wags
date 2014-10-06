@@ -4,6 +4,11 @@ import java.util.HashMap;
 
 import webEditor.Proxy;
 import webEditor.ProxyFacilitator;
+import webEditor.ProxyFramework.AbstractServerCall;
+import webEditor.ProxyFramework.GetMMAssigned;
+import webEditor.ProxyFramework.GetMMExercisesCommand;
+import webEditor.ProxyFramework.GetMMGroupsCommand;
+import webEditor.ProxyFramework.SetMMExercisesCommand;
 import webEditor.WEStatus;
 
 import com.google.gwt.core.client.GWT;
@@ -33,8 +38,10 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 	public MagnetTab() {
 		initWidget(uiBinder.createAndBindUi(this));
 		
-		Proxy.getMMGroups(this);
-		Proxy.getMMAssigned(this);
+		AbstractServerCall groupsCmd = new GetMMGroupsCommand(this);
+		groupsCmd.sendRequest();
+		AbstractServerCall assignedCmd = new GetMMAssigned(this, "");
+		assignedCmd.sendRequest();
 		
 		//set up button panel
 		btnPanelGroups.setTitle("GROUPS"); //groups
@@ -81,7 +88,8 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 		if(exerciseList.length() > 0)  // a comma was added
 			exerciseList = exerciseList.substring(0, exerciseList.length()-1);
 		
-		Proxy.SetMMExercises(exerciseList, this);
+		AbstractServerCall cmd = new SetMMExercisesCommand(exerciseList, this);
+		cmd.sendRequest();
 	}
 
 	//-------------------------------
@@ -105,7 +113,8 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 		}
 		@Override
 		public void onClick(ClickEvent event) {
-			Proxy.getMMExercises(title, pf);
+			AbstractServerCall exerciseCmd = new GetMMExercisesCommand(title, pf);
+			exerciseCmd.sendRequest();
 		}
 		
 	}
@@ -137,9 +146,10 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 	}
 
 	public void update(){
-		Proxy.getMMGroups(this);
-		Proxy.getMMAssigned(this);
-		
+		AbstractServerCall groupsCmd = new GetMMGroupsCommand(this);
+		groupsCmd.sendRequest();
+		AbstractServerCall assignedCmd = new GetMMAssigned(this, "");
+		assignedCmd.sendRequest();
 		addGroupClickHandlers();
 	}
 

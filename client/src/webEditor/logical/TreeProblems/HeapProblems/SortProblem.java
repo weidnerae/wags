@@ -12,6 +12,8 @@ import webEditor.logical.NodeCollection;
 import webEditor.logical.NodeDragController;
 import webEditor.logical.NodeDropController;
 import webEditor.logical.Problem;
+import webEditor.ProxyFramework.UploadLogicalMicrolabCommand;
+import webEditor.ProxyFramework.AbstractServerCall;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -180,7 +182,8 @@ public class SortProblem extends Problem implements IsSerializable {
 				+ "&nodesDraggable=" + nodesDrag + "&nodeType=" + this.nodeType + "&genre=heapsort" + 
 				"&group=8";
 		
-		Proxy.uploadLogicalMicrolab(str);
+		AbstractServerCall cmd = new UploadLogicalMicrolabCommand(str);
+		cmd.sendRequest();
 		return str;
 		
 	}

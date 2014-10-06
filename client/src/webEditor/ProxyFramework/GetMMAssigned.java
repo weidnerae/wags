@@ -19,10 +19,10 @@ public class GetMMAssigned extends AbstractServerCall {
 	
 	public GetMMAssigned(Receiver pf, String args)
 	{
+		command = ProxyCommands.GetMMAssigned;
 		addArgument("args", args);
 		this.pf = pf;
 		this.args = args;
-		command = ProxyCommands.GetMMAssigned;
 	}
 
 }

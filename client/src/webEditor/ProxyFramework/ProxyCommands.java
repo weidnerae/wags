@@ -16,7 +16,7 @@ public abstract class ProxyCommands
 	public static final String RegisterURL = "RegisterUser";
 	public static final String IsLoggedIn = "IsLoggedIn";
 	public static final String AddMagnetLinkage = "AddMagnetLinkage";
-	public static final String AddSkelaton = "AddSkelaton";
+	public static final String AddSkeleton = "AddSkeleton";
 	public static final String EditExercises = "EditExercises";
 	public static final String AssignPassword = "AssignPassword";
 	public static final String GetLogicalExercises = "GetLogicalExercises";

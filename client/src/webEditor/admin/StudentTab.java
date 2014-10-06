@@ -5,6 +5,8 @@ import webEditor.Proxy;
 import webEditor.Reviewer;
 import webEditor.WEStatus;
 import webEditor.ProxyFramework.AbstractServerCall;
+import webEditor.ProxyFramework.GetUsernamesCommand;
+import webEditor.ProxyFramework.GetUsernamesReviewerCommand;
 import webEditor.ProxyFramework.ReviewStudentCommand;
 
 import com.google.gwt.core.client.GWT;
@@ -40,7 +42,8 @@ public class StudentTab extends Composite {
 	public StudentTab() {
 		initWidget(uiBinder.createAndBindUi(this));
 		
-		Proxy.getUsernames(users);
+		AbstractServerCall usernamesCmd = new GetUsernamesCommand(users);
+		usernamesCmd.sendRequest();
 		
 		// Set up password form
 		passwordForm.setAction(Proxy.getBaseURL()+"?cmd=ChangePassword");
@@ -51,7 +54,8 @@ public class StudentTab extends Composite {
 				WEStatus status = new WEStatus(event.getResults());
 				
 				Notification.notify(status.getStat(), status.getMessage());
-				Proxy.getUsernames(users);
+				AbstractServerCall usernamesCmd = new GetUsernamesCommand(users);
+				usernamesCmd.sendRequest();
 			}
 		});
 		
@@ -68,7 +72,8 @@ public class StudentTab extends Composite {
 				Notification.notify(status.getStat(), status.getMessage());
 				
 				users.clear();
-				Proxy.getUsernames(users);
+				AbstractServerCall usernamesCmd = new GetUsernamesCommand(users);
+				usernamesCmd.sendRequest();
 			}
 		});
 		
@@ -76,12 +81,14 @@ public class StudentTab extends Composite {
 		studentReviewer = new StudentReviewHandler();
 		studentReviewPnl.setParent(studentReviewer);
 		studentReviewPnl.setTitle( "Student Review" );
-		Proxy.getUsernames(studentReviewer);
+		AbstractServerCall usernamesCmd1 = new GetUsernamesReviewerCommand(studentReviewer);
+		usernamesCmd1.sendRequest();
 		
 	}
 	
 	public void update(){
-		Proxy.getUsernames(users);
+		AbstractServerCall usernamesCmd = new GetUsernamesCommand(users);
+		usernamesCmd.sendRequest();
 	}
 
 

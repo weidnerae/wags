@@ -4,6 +4,8 @@ import webEditor.MagnetProblem;
 import webEditor.Proxy;
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.CleanOutOldCreatedMagnetsCommand;
+import webEditor.ProxyFramework.MagnetReviewCommand;
+import webEditor.ProxyFramework.SaveCreatedMagnetCommand;
 
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
 import com.google.gwt.core.client.GWT;
@@ -138,7 +140,9 @@ public class CodePanelUi extends Composite {
 			ResultsPanelUi.clearCodeArea();
 			ResultsPanelUi.setCodeText(code);
 			code = code.replaceAll(Consts.HC_DELIMITER, "");
-			Proxy.magnetReview(getSaveState(), refrigeratorMagnet.getID(), code, title);
+			AbstractServerCall magnetReviewCmd = new MagnetReviewCommand(getSaveState(), 
+					refrigeratorMagnet.getID(), code, title);
+			magnetReviewCmd.sendRequest();
 			refrigeratorMagnet.tabPanel.selectTab(1);
 			tabNumber = -1;
 		}
@@ -273,7 +277,8 @@ public class CodePanelUi extends Composite {
 		idChain += sc.getID();
 		if (sc.isCreated()) { 
 			/* If this is a created magnet, save it in the database */
-			Proxy.saveCreatedMagnet(sc, refrigeratorMagnet.getID());
+			AbstractServerCall saveMagnetCmd = new SaveCreatedMagnetCommand(sc, refrigeratorMagnet.getID());
+			saveMagnetCmd.sendRequest();
 		}
 		
 		for (int i = 0; i < sc.getInsidePanel().getWidgetCount(); i++) {
