@@ -3,6 +3,8 @@ package webEditor.logical.HashingProblems;
 import java.util.ArrayList;
 
 import webEditor.Proxy;
+import webEditor.ProxyFramework.AbstractServerCall;
+import webEditor.ProxyFramework.SubmitDSTCommand;
 import webEditor.logical.DSTConstants;
 import webEditor.logical.EdgeParent;
 import webEditor.logical.Evaluation;
@@ -19,13 +21,15 @@ public class Evaluation_Hashing extends Evaluation implements IsSerializable {
 		
 		// Check to make sure they moved all given values down from the starting locations.
 		if(!allMovedDown(nodes)){
-			Proxy.submitDST(problemName, 0);
+			AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 0);
+			dstCmd.sendRequest();
 			return("Feedback: Please make sure that you have placed all of your items, at least one is still above the line.");
 		}
 		
 		// Check to see if they tried to put more than one item in a location.
 		if(anyDoubledUp(userLocations)){
-			Proxy.submitDST(problemName, 0);
+			AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 0);
+			dstCmd.sendRequest();
 			return("Feedback: You have two items on top of each other. You can only have one item per location.");
 		}
 		
@@ -59,10 +63,12 @@ public class Evaluation_Hashing extends Evaluation implements IsSerializable {
 			}
 		}
         if(correct){
-        	Proxy.submitDST(problemName, 1);
+        	AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 1);
+			dstCmd.sendRequest();
 			return "Correct!";
         }else{
-        	Proxy.submitDST(problemName,0);
+        	AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 0);
+			dstCmd.sendRequest();
         	return "Feedback: Incorrect. The following data items were not in their correct locations: "+incorrectNodes.trim()+".";
         }
 		

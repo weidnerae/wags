@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import webEditor.Proxy;
+import webEditor.ProxyFramework.AbstractServerCall;
+import webEditor.ProxyFramework.SubmitDSTCommand;
 import webEditor.logical.DSTConstants;
 import webEditor.logical.EdgeParent;
 import webEditor.logical.EdgeUndirected;
@@ -28,17 +30,20 @@ public class Evaluation_MaxHeap_Level extends Evaluation  implements IsSerializa
 		}		
 		EvaluationNode rootEvalNode = buildEvaluationTree(nodes, edges);
 		if(rootEvalNode == null){
-			Proxy.submitDST(problemName, 0);
+			AbstractServerCall DSTCmd = new SubmitDSTCommand(problemName, 0);
+			DSTCmd.sendRequest();
 			return "Your tree is incomplete.  Go back and add " +
 				   " the necessary edges to complete the tree.";
 		}
 		String levelTraversal = getLevelTraversal(rootEvalNode, arguments[0]);
 		if(levelTraversal.equals(arguments[0])){
-			Proxy.submitDST(problemName,1);
+			AbstractServerCall DSTCmd = new SubmitDSTCommand(problemName, 1);
+			DSTCmd.sendRequest();
 			return "Feedback: Congratulations! Your tree is correct.";
 		}
 		else{
-			Proxy.submitDST(problemName,0);
+			AbstractServerCall DSTCmd = new SubmitDSTCommand(problemName, 0);
+			DSTCmd.sendRequest();
 			return errorMessage;
 		}
 	}

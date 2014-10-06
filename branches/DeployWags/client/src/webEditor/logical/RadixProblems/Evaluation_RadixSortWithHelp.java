@@ -3,6 +3,8 @@ package webEditor.logical.RadixProblems;
 import java.util.ArrayList;
 
 import webEditor.Proxy;
+import webEditor.ProxyFramework.AbstractServerCall;
+import webEditor.ProxyFramework.SubmitDSTCommand;
 import webEditor.logical.DSTConstants;
 import webEditor.logical.EdgeParent;
 import webEditor.logical.Evaluation;
@@ -44,7 +46,8 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
         	 */
         	for (int i = 0; i < sortedOrderOfNodes.length; i++) {
 				if (sortedOrderOfNodes[i].getTop() < TOP_BORDER) {
-					Proxy.submitDST(problemName, 0);
+					AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 0);
+					dstCmd.sendRequest();
 					return "Feedback: You must put all the numbers in a column";
 				} else {
 					Node n = sortedOrderOfNodes[i];
@@ -60,7 +63,8 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 				String counts = arguments[CURRENT_COUNT]; //String representing correct number of nodes in each column
 				
 				if (counters[i] != Character.digit(counts.charAt(i), 10)) {
-					Proxy.submitDST(problemName, 0);
+					AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 0);
+					dstCmd.sendRequest();
 					return "Feedback: You have "+counters[i]+" items in column "+i+" when you should have "+Character.digit(counts.charAt(i), 10);
 				} else {
 					/* Iterate through the nodes in the bucket, appending them to solution */
@@ -79,26 +83,30 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 				updateCounterPanel();
 				return "Feedback: Your buckets are Correct!";
 			} else {
-				Proxy.submitDST(problemName, 0);
+				AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 0);
+				dstCmd.sendRequest();
 				return "Feedback: Check the order of your buckets. You may have switched the ordering of some of the items. ";
 			}
         } else if (CURRENT_STEP % 2 == 1) {      // Beginning of Dequeuing evaluation (odd steps are dequeuing)
         	solution = "";
         	for (int i = 0; i < nodes.size(); i++) {
 				if (nodes.get(i).getTop() > TOP_BORDER) {
-        			Proxy.submitDST(problemName, 0);
+					AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 0);
+					dstCmd.sendRequest();
 					return "Feedback: Make sure you have dequeued all the buckets completely.";
         		}
         	}
         	solution = getNodeOrder(nodes);
 	        if (solution.equals(arguments[CURRENT_SOLUTION])) { //They dequeued correctly. Go on to next step.
-	        	Proxy.submitDST(problemName, 0);
+	        	AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 0);
+				dstCmd.sendRequest();
 	        	CURRENT_STEP++;
 	        	CURRENT_COUNT++;
 	        	CURRENT_SOLUTION++;
 	        	
 	        	if (CURRENT_STEP == 6) { //we are done here
-	        		Proxy.submitDST(problemName, 1);
+	        		AbstractServerCall dstCmd1 = new SubmitDSTCommand(problemName, 0);
+	    			dstCmd1.sendRequest();
 	        		return "Feedback: Congratulations! You have finished!";
 	        	}
 	        	
@@ -107,7 +115,8 @@ public class Evaluation_RadixSortWithHelp extends Evaluation implements IsSerial
 	        	
 	        	return "Feedback: You dequeued correctly!";
 	        } else {											//They did not dequeue in the right order
-	        	Proxy.submitDST(problemName, 0);
+	        	AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 0);
+				dstCmd.sendRequest();
 	        	return "Feedback: You have dequeued in the wrong order. Remember to dequeue the buckets from lowest " +
 	        			"number to highest number, top to bottom.";
 	        }

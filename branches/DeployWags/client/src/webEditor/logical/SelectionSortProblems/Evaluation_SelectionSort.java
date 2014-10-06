@@ -3,6 +3,8 @@ package webEditor.logical.SelectionSortProblems;
 import java.util.ArrayList;
 
 import webEditor.Proxy;
+import webEditor.ProxyFramework.AbstractServerCall;
+import webEditor.ProxyFramework.SubmitDSTCommand;
 import webEditor.logical.DSTConstants;
 import webEditor.logical.EdgeParent;
 import webEditor.logical.Evaluation;
@@ -27,14 +29,16 @@ public class Evaluation_SelectionSort extends Evaluation implements IsSerializab
 			step++;
 			
 			if (step == nodes.size() - 1) {
-				Proxy.submitDST(problemName, 1);
+				AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 1);
+				dstCmd.sendRequest();
 				return "Congratulations! You have completed this exercise.";
 			} else {
 				return "";
 			}
 		} else {
 			// They were wrong
-			Proxy.submitDST(problemName, 0);
+			AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 0);
+			dstCmd.sendRequest();
 			return "Sorry, try again.";
 		}
 	}

@@ -2,9 +2,9 @@ package webEditor.admin.builders;
 
 import java.util.ArrayList;
 
-import webEditor.Proxy;
+import webEditor.ProxyFramework.UploadLogicalMicrolabCommand;
+import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.logical.DSTConstants;
-
 import com.google.gwt.user.client.Window;
 
 
@@ -194,7 +194,8 @@ public class LMBuilder {
 		else {
 			Window.alert("Server being called");
 			reset();  // All info is stored in string, so can reset before Proxy call
-			Proxy.uploadLogicalMicrolab(str);
+			AbstractServerCall cmd = new UploadLogicalMicrolabCommand(str);
+			cmd.sendRequest();
 		}
 	}
 	

@@ -4,9 +4,11 @@ import webEditor.Notification;
 import webEditor.Proxy;
 import webEditor.WEStatus;
 import webEditor.ProxyFramework.AbstractServerCall;
-import webEditor.ProxyFramework.AddSkelatonsCommand;
+import webEditor.ProxyFramework.AddSkeletonsCommand;
 import webEditor.ProxyFramework.AlterExerciseCommand;
 import webEditor.ProxyFramework.DeleteExerciseCommand;
+import webEditor.ProxyFramework.GetSubmissionInfoCommand;
+import webEditor.ProxyFramework.GetVisibleExercisesCommand;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -48,7 +50,8 @@ public class ProgrammingTab extends Composite {
 
 	public ProgrammingTab() {
 		initWidget(uiBinder.createAndBindUi(this));
-		Proxy.getVisibleExercises(exercises); 
+		AbstractServerCall visibleCmd = new GetVisibleExercisesCommand(exercises);
+		visibleCmd.sendRequest();
 		
 		//Handle the Add Exercise Form
 		adminForm.setAction(Proxy.getBaseURL() + "?cmd=AddExercise");
@@ -62,14 +65,15 @@ public class ProgrammingTab extends Composite {
 				WEStatus stat = new WEStatus(event.getResults());
 				
 				Notification.notify(stat.getStat(), stat.getMessage());
-				Proxy.getVisibleExercises(exercises); 
+				AbstractServerCall visibleCmd1 = new GetVisibleExercisesCommand(exercises);
+				visibleCmd1.sendRequest();
 				
 				if(stat.getStat() == WEStatus.STATUS_SUCCESS){
 					// Message is of the form: 'Uploaded Exercise [exercise title]'
 					// So, exercise, exercise title begins at index 18
 					String exName = stat.getMessage().substring(18);
-					AbstractServerCall cmd = new AddSkelatonsCommand(exName);
-					cmd.sendRequest();
+					AbstractServerCall abstractCmd = new AddSkeletonsCommand(exName);
+					abstractCmd.sendRequest();
 					//Proxy.addSkeletons(exName);
 				}
 				
@@ -93,14 +97,17 @@ public class ProgrammingTab extends Composite {
 	}
 	
 	public void update(){
-		Proxy.getVisibleExercises(exercises); 
+		AbstractServerCall visibleCmd = new GetVisibleExercisesCommand(exercises);
+		visibleCmd.sendRequest();
 	}
 	
 	@UiHandler("btnAdminReview")
 	void onReviewClick(ClickEvent event)
 	{
 		grdAdminReview.clear(true);
-		Proxy.getSubmissionInfo(exercises.getValue(exercises.getSelectedIndex()), grdAdminReview);		
+		AbstractServerCall subCmd = new GetSubmissionInfoCommand(exercises.getValue(exercises.getSelectedIndex()), 
+				grdAdminReview);
+		subCmd.sendRequest();
 	}
 	
 	@UiHandler("btnAddSkeletons")

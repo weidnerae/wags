@@ -3,6 +3,8 @@ package webEditor.logical.TreeProblems.HeapProblems;
 import java.util.ArrayList;
 
 import webEditor.Proxy;
+import webEditor.ProxyFramework.AbstractServerCall;
+import webEditor.ProxyFramework.SubmitDSTCommand;
 import webEditor.logical.DSTConstants;
 import webEditor.logical.EdgeParent;
 import webEditor.logical.Evaluation;
@@ -36,7 +38,8 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 				String correctSection = getCorrectSection(solution, cSolution);
 				if (correctSection.equals("")) {
 
-					Proxy.submitDST(problemName, 0);
+					AbstractServerCall DSTCmd = new SubmitDSTCommand(problemName, 0);
+					DSTCmd.sendRequest();
 					return "Feedback: Incorrect. Hint: This array is not a MaxHeap, "+
 					"you have to heapify it first.";
 				}
@@ -51,7 +54,8 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 			if (solution.equals(cSolution)) {
 				if (solutionInOrder(getIntArrayFromString(solution))) {
 					immobilizeNode(nodes, solution);
-					Proxy.submitDST(problemName, 1);
+					AbstractServerCall DSTCmd = new SubmitDSTCommand(problemName, 1);
+					DSTCmd.sendRequest();
 					return "Congratulations! You have completed this exercise.";
 				}
 				immobilizeNode(nodes, solution);
@@ -63,7 +67,8 @@ public class Evaluation_HeapSort extends Evaluation implements IsSerializable {
 				String correctSection = getCorrectSection(solution, cSolution);
 				if (correctSection.equals("")) {
 					String[] splitCSolution = cSolution.split(" ");
-					Proxy.submitDST(problemName, 0);
+					AbstractServerCall DSTCmd = new SubmitDSTCommand(problemName, 0);
+					DSTCmd.sendRequest();
 					return "Feedback: Incorrect. Hint, the first item is "
 							+ splitCSolution[0];
 				}

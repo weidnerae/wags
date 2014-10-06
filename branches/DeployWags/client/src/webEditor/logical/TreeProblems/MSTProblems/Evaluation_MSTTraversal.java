@@ -3,6 +3,8 @@ package webEditor.logical.TreeProblems.MSTProblems;
 import java.util.ArrayList;
 
 import webEditor.Proxy;
+import webEditor.ProxyFramework.AbstractServerCall;
+import webEditor.ProxyFramework.SubmitDSTCommand;
 import webEditor.logical.DSTConstants;
 import webEditor.logical.EdgeParent;
 import webEditor.logical.Evaluation;
@@ -22,17 +24,20 @@ public class Evaluation_MSTTraversal extends Evaluation implements IsSerializabl
 		
 		if(theTrav.trim().length() < arguments[0].trim().length())
 		{
-			Proxy.submitDST(problemName, 0);
+			AbstractServerCall DSTCmd = new SubmitDSTCommand(problemName, 0);
+			DSTCmd.sendRequest();
 			return "Feedback: Your MST is incomplete.  Make sure that you're reaching every node.";
 		}
 		else if(theTrav.trim().equals(arguments[0]))
 		{
-			Proxy.submitDST(problemName, 1);
+			AbstractServerCall DSTCmd = new SubmitDSTCommand(problemName, 1);
+			DSTCmd.sendRequest();
 			return "Feedback: Congratulatons, your MST is correct.";
 		}
 		else{
 			
-			Proxy.submitDST(problemName, 0);
+			AbstractServerCall DSTCmd = new SubmitDSTCommand(problemName, 0);
+			DSTCmd.sendRequest();
 			int i = 0;
 			while(theTrav.charAt(i) == arguments[0].charAt(i)){
 				i++;

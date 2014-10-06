@@ -20,6 +20,7 @@ public class GetLMSubjectsCommand extends AbstractServerCall {
 	
 	public GetLMSubjectsCommand(ProxyFacilitator pf)
 	{
+		command = ProxyCommands.LogicalExercises;
 		addArgument("request", "subjects");
 		this.pf = pf;
 		

@@ -4,6 +4,11 @@ import java.util.HashMap;
 
 import webEditor.Proxy;
 import webEditor.ProxyFacilitator;
+import webEditor.ProxyFramework.AbstractServerCall;
+import webEditor.ProxyFramework.GetLMExercisesCommand;
+import webEditor.ProxyFramework.GetLMGroupsCommand;
+import webEditor.ProxyFramework.GetLMSubjectsCommand;
+import webEditor.ProxyFramework.SetLMExercisesCommand;
 import webEditor.WEStatus;
 
 import com.google.gwt.core.client.GWT;
@@ -33,7 +38,8 @@ public class LogicalTab extends Composite implements ProxyFacilitator {
 		initWidget(uiBinder.createAndBindUi(this));
 
 		// Proxy calls
-		Proxy.getLMSubjects(this);
+		AbstractServerCall cmd = new GetLMSubjectsCommand(this);
+		cmd.sendRequest();
 		
 		
 		//Proxy.getLMAssigned(this);
@@ -85,7 +91,8 @@ public class LogicalTab extends Composite implements ProxyFacilitator {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			Proxy.getLMGroups(title, pf);
+			AbstractServerCall cmd = new GetLMGroupsCommand(title, pf);
+			cmd.sendRequest();
 		}
 	}
 	
@@ -111,7 +118,8 @@ public class LogicalTab extends Composite implements ProxyFacilitator {
 		}
 		@Override
 		public void onClick(ClickEvent event) {
-			Proxy.getLMExercises(title, pf);
+			AbstractServerCall cmd = new GetLMExercisesCommand(title, pf);
+			cmd.sendRequest();
 		}
 		
 	}
@@ -144,7 +152,8 @@ public class LogicalTab extends Composite implements ProxyFacilitator {
 		for(int i = 0; i < exercises.length; i++){
 			toAssign += exercises[i] + "|";
 		}
-		Proxy.SetLMExercises(toAssign, this);
+		AbstractServerCall LMCmd = new SetLMExercisesCommand(toAssign, this);
+		LMCmd.sendRequest();
 	}
 
 	/**
