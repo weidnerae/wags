@@ -9,6 +9,8 @@ import webEditor.magnet.view.MagnetProblemCreator;
 import webEditor.magnet.view.MagnetType;
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.AddMagnetLinkageCommand;
+import webEditor.ProxyFramework.GetMagnetGroupsCommand;
+import webEditor.ProxyFramework.GetMagnetsByGroupCommand;
 
 
 import webEditor.ProxyFramework.DeleteMagnetExerciseCommand;
@@ -115,8 +117,11 @@ public class ProblemCreationPanel extends Composite{
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		this.magnetProblemCreator = new MagnetProblemCreator();
-		Proxy.getMagnetGroups(lstLoadGroup);
-		Proxy.getMagnetsByGroup("Arrays/ArrayLists", lstLoadExercise);
+		AbstractServerCall magnetCmd = new GetMagnetGroupsCommand(lstLoadGroup, null, null, null, null);
+		magnetCmd.sendRequest();
+		AbstractServerCall cmd = new GetMagnetsByGroupCommand("Arrays/ArrayLists", null, 
+				null, null, lstLoadExercise);
+		cmd.sendRequest();
 		
 		btnBasicProblem.setValue( true );
 		//do a proxy call when loading problem to set a bar with times
@@ -193,7 +198,9 @@ public class ProblemCreationPanel extends Composite{
 		
 		lstLoadGroup.addChangeHandler(new ChangeHandler() {
 			public void onChange(ChangeEvent event) {
-				Proxy.getMagnetsByGroup(lstLoadGroup.getItemText(lstLoadGroup.getSelectedIndex()), lstLoadExercise);
+				AbstractServerCall cmd = new GetMagnetsByGroupCommand(lstLoadGroup.getItemText(lstLoadGroup.getSelectedIndex()),
+						null, null, null, lstLoadExercise);
+				cmd.sendRequest();
 			}
 		});
 		
@@ -1037,8 +1044,10 @@ public class ProblemCreationPanel extends Composite{
 	}
 	
 	public void update(){
-		Proxy.getMagnetGroups(lstLoadGroup);
-		Proxy.getMagnetsByGroup("Arrays/ArrayLists", lstLoadExercise);
+		AbstractServerCall magnetCmd = new GetMagnetGroupsCommand(lstLoadGroup, null, null, null, null);
+		magnetCmd.sendRequest();
+		AbstractServerCall cmd = new GetMagnetsByGroupCommand("Arrays/ArrayLists", null, null, null, lstLoadExercise);
+		cmd.sendRequest();
 	}
 }
 

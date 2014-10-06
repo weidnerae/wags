@@ -2,7 +2,8 @@ package webEditor.logical.HashingProblems;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
 
-import webEditor.Proxy;
+import webEditor.ProxyFramework.UploadLogicalMicrolabCommand;
+import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.logical.AddEdgeRules;
 import webEditor.logical.DisplayManager;
 import webEditor.logical.Evaluation;
@@ -197,7 +198,8 @@ public class HashingProblem extends Problem implements IsSerializable {
 				+ "&nodesDraggable=" + nodesDrag + "&nodeType=" + this.nodeType + "&genre=mst" + 
 				"&group=11";
 		
-		Proxy.uploadLogicalMicrolab(str);
+		AbstractServerCall cmd = new UploadLogicalMicrolabCommand(str);
+		cmd.sendRequest();
 		return str;
 	}
 }

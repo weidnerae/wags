@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 import webEditor.Proxy;
+import webEditor.ProxyFramework.AbstractServerCall;
+import webEditor.ProxyFramework.SubmitDSTCommand;
 import webEditor.logical.DSTConstants;
 import webEditor.logical.EdgeParent;
 import webEditor.logical.Evaluation;
@@ -31,7 +33,8 @@ public class Evaluation_Quicksort extends Evaluation implements IsSerializable {
 		if (solution.equals(cSolution)) {
 			
 			if (PASS == partitionSteps.size()-1 && solutionInOrder(getIntArrayFromString(solution))) {
-				Proxy.submitDST(problemName, 1);
+				AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 1);
+				dstCmd.sendRequest();
 				return "Congratulations! Exercise completed.";
 			}
 			PASS++;
@@ -40,7 +43,8 @@ public class Evaluation_Quicksort extends Evaluation implements IsSerializable {
 			return "Congratulations! Pass " + (PASS-1) + " successful!";
 		} else {
 			String correctSection = getCorrectSection(solution, cSolution);
-			Proxy.submitDST(problemName, 0);
+			AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 0);
+			dstCmd.sendRequest();
 			return "Feedback: Incorrect. You were correct for the section: "
 					+ correctSection;
 			

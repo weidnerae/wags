@@ -4,6 +4,7 @@ import webEditor.Proxy;
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.GetDescriptionCommand;
 import webEditor.ProxyFramework.GetFileContentsCommand;
+import webEditor.ProxyFramework.LoadFileListingCommand;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -149,7 +150,8 @@ public class Editor extends Composite implements IsWidget{
 		tabPanel.addBeforeSelectionHandler(new BeforeSelectionHandler<Integer>() {
 			@Override
 			public void onBeforeSelection(BeforeSelectionEvent<Integer> event) {
-				Proxy.loadFileListing(browser, getPath(selectedItem));
+				AbstractServerCall loadListCmd = new LoadFileListingCommand(browser, getPath(selectedItem));
+				loadListCmd.sendRequest();
 			}
 		});
 	}

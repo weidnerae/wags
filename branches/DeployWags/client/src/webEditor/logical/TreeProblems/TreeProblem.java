@@ -2,7 +2,8 @@ package webEditor.logical.TreeProblems;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
 
-import webEditor.Proxy;
+import webEditor.ProxyFramework.UploadLogicalMicrolabCommand;
+import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.logical.AddEdgeRules;
 import webEditor.logical.DisplayManager;
 import webEditor.logical.EdgeCollection;
@@ -192,7 +193,8 @@ public class TreeProblem extends TreeTypeProblem implements IsSerializable {
 				+ "&nodesDraggable=" + nodesDrag + "&nodeType=" + this.nodeType + "&genre=traversal" + 
 				"&group=15";
 		
-		Proxy.uploadLogicalMicrolab(str);
+		AbstractServerCall cmd = new UploadLogicalMicrolabCommand(str);
+		cmd.sendRequest();
 		return str;
 		
 	}

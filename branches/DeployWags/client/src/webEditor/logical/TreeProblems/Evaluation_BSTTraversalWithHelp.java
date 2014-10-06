@@ -3,6 +3,8 @@ package webEditor.logical.TreeProblems;
 import java.util.ArrayList;
 
 import webEditor.Proxy;
+import webEditor.ProxyFramework.AbstractServerCall;
+import webEditor.ProxyFramework.SubmitDSTCommand;
 import webEditor.logical.DSTConstants;
 import webEditor.logical.EdgeParent;
 import webEditor.logical.Evaluation;
@@ -35,7 +37,8 @@ public class Evaluation_BSTTraversalWithHelp extends Evaluation implements IsSer
 			}
 			
 			if(incorrectNodes.length() > 0){
-				Proxy.submitDST(problemName, 0);
+				AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 0);
+				dstCmd.sendRequest();
 				return "Feedback: Your traversal: " + theTrav + "\nNode(s): " + incorrectNodes + " have been clicked out of order in relation to the " +
 						"correct traversal.  Deselect the node(s) and try another ordering.";
 			}
@@ -44,13 +47,18 @@ public class Evaluation_BSTTraversalWithHelp extends Evaluation implements IsSer
 		}
 		else if(theTrav.trim().equals(arguments[0]))
 		{
-			Proxy.submitDST(problemName, 1);
+			AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 1);
+			dstCmd.sendRequest();
 			return "Feedback: Your traversal: " + theTrav + "\nCongratulatons, your traversal is correct.";
 		}
 		else
-			Proxy.submitDST(problemName, 0);
+		{
+			AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 0);
+			dstCmd.sendRequest();
 			return "Feedback: Your traversal: " + theTrav + "\nThe nodes in your traversal are out of order.  Click highlighted" +
 					" nodes to remove them from the traversal and try a different ordering.";
+		}
+			
 	}
 
 	@Override

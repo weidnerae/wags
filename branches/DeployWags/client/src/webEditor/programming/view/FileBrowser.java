@@ -3,6 +3,8 @@ package webEditor.programming.view;
 import java.util.HashMap;
 
 import webEditor.Proxy;
+import webEditor.ProxyFramework.AbstractServerCall;
+import webEditor.ProxyFramework.LoadFileListingCommand;
 //import webEditor.View;
 //import webEditor.WEAnchor;
 
@@ -44,7 +46,8 @@ public class FileBrowser extends Composite {
 	 */
 	public FileBrowser() {
 		initWidget(uiBinder.createAndBindUi(this));
-		Proxy.loadFileListing(this, "/");
+		AbstractServerCall loadListingCmd = new LoadFileListingCommand(this, "/");
+		loadListingCmd.sendRequest();
 		form.setVisible(false);
 		browser.addSelectionHandler(new SelectionHandler<TreeItem>() {
 			@Override

@@ -3,6 +3,8 @@ package webEditor.logical.TreeProblems;
 import java.util.ArrayList;
 
 import webEditor.Proxy;
+import webEditor.ProxyFramework.AbstractServerCall;
+import webEditor.ProxyFramework.SubmitDSTCommand;
 import webEditor.logical.DSTConstants;
 import webEditor.logical.EdgeParent;
 import webEditor.logical.Evaluation;
@@ -22,17 +24,20 @@ public class Evaluation_BSTTraversal extends Evaluation implements IsSerializabl
 		
 		if(theTrav.trim().length() < arguments[0].trim().length())
 		{
-			Proxy.submitDST(problemName, 0);
+			AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 0);
+			dstCmd.sendRequest();
 			return "Feedback: Your traversal is incomplete.  Every node must be clicked once to complete a traversal";
 		}
 		else if(theTrav.trim().equals(arguments[0]))
 		{
-			Proxy.submitDST(problemName, 1);
+			AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 1);
+			dstCmd.sendRequest();
 			return "Feedback: Your traversal: " + theTrav + "\nCongratulatons, your traversal is correct.";
 		}
 		else{
 			
-			Proxy.submitDST(problemName, 0);
+			AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 0);
+			dstCmd.sendRequest();
 			int i = 0;
 			while(theTrav.charAt(i) == arguments[0].charAt(i)){
 				i++;

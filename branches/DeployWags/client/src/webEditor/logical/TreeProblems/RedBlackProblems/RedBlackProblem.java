@@ -2,7 +2,6 @@ package webEditor.logical.TreeProblems.RedBlackProblems;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
 
-import webEditor.Proxy;
 import webEditor.logical.AddEdgeRules;
 import webEditor.logical.DisplayManager;
 import webEditor.logical.EdgeCollection;
@@ -10,6 +9,8 @@ import webEditor.logical.Evaluation;
 import webEditor.logical.NodeCollection;
 import webEditor.logical.NodeDragController;
 import webEditor.logical.NodeDropController;
+import webEditor.ProxyFramework.UploadLogicalMicrolabCommand;
+import webEditor.ProxyFramework.AbstractServerCall;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -102,7 +103,8 @@ public class RedBlackProblem extends TreeTypeProblem implements IsSerializable {
 				+ "&nodesDraggable=" + nodesDrag + "&nodeType=" + this.nodeType + "&genre=redblack" + 
 				"&group=15";
 		
-		Proxy.uploadLogicalMicrolab(str);
+		AbstractServerCall cmd = new UploadLogicalMicrolabCommand(str);
+		cmd.sendRequest();
 		return str;
 		
 	}

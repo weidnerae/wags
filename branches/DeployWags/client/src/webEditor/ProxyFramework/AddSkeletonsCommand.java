@@ -5,7 +5,7 @@ import webEditor.WEStatus;
 
 import com.google.gwt.http.client.Response;
 
-public class AddSkelatonsCommand extends AbstractServerCall {
+public class AddSkeletonsCommand extends AbstractServerCall {
 
 	@Override
 	protected void handleResponse(Response response) {
@@ -15,11 +15,11 @@ public class AddSkelatonsCommand extends AbstractServerCall {
 		}
 	}
 	
-	public AddSkelatonsCommand(String exname)
+	public AddSkeletonsCommand(String exname)
 	{
 		addArgument("name", exname);
-		command = ProxyCommands.AddSkelaton;
-		error = "addSkealtons failed!";
+		command = ProxyCommands.AddSkeleton;
+		error = "addSkeletons failed!";
 	}
 
 }

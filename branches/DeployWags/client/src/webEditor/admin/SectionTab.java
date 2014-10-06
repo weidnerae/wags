@@ -2,6 +2,9 @@ package webEditor.admin;
 
 import webEditor.Notification;
 import webEditor.Proxy;
+import webEditor.ProxyFramework.AbstractServerCall;
+import webEditor.ProxyFramework.GetSectionsCommand;
+import webEditor.ProxyFramework.LinkNewSectionCommand;
 import webEditor.WEStatus;
 
 import com.google.gwt.core.client.GWT;
@@ -36,7 +39,8 @@ public class SectionTab extends Composite implements HasText {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		// Fill listbox with sections that currently exist
-		Proxy.getSections(lstCurSections);
+		AbstractServerCall sectionCmd = new GetSectionsCommand(lstCurSections);
+		sectionCmd.sendRequest();
 		
 		// Bind "addSection" form to AddSection.php
 		formAddSection.setAction(Proxy.getBaseURL() + "?cmd=AddSection");
@@ -65,9 +69,11 @@ public class SectionTab extends Composite implements HasText {
 				String[] data = stat.getMessage().split(" ");
 				// This call links the section and accounts together
 				// linkNewSections provides its own notification of success/failure
-				Proxy.linkNewSection(data[0], data[1], data[2]);
+				AbstractServerCall cmd = new LinkNewSectionCommand(data[0], data[1], data[2]);
+				cmd.sendRequest();
 				
-				Proxy.getSections(lstCurSections);
+				AbstractServerCall sectionsCmd = new GetSectionsCommand(lstCurSections);
+				sectionsCmd.sendRequest();
 				
 				// Clear field after successful submission
 				txtAdminName.setText("");

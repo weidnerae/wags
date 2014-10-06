@@ -16,7 +16,7 @@ public class DeleteExerciseCommand extends AbstractServerCall {
 	{
 		WEStatus status = new WEStatus(response);
 		Notification.notify(status.getStat(), status.getMessage());
-		Proxy.getVisibleExercises(exercises);
+		AbstractServerCall cmd = new GetVisibleExercisesCommand(exercises);
 	}
 	
 	public DeleteExerciseCommand(String ex, ListBox exercises)

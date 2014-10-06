@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 import webEditor.Proxy;
+import webEditor.ProxyFramework.AbstractServerCall;
+import webEditor.ProxyFramework.SubmitDSTCommand;
 import webEditor.logical.EdgeParent;
 import webEditor.logical.Evaluation;
 import webEditor.logical.Node;
@@ -33,11 +35,13 @@ public class Evaluation_SimplePartition extends Evaluation implements IsSerializ
 
 		if (equalArrays(student, solution)) {
 			// They were right
-			Proxy.submitDST(problemName, 1);
+			AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 1);
+			dstCmd.sendRequest();
 			return "Congratulations! You have completed this exercise.";
 		} else {
 			// They were wrong
-			Proxy.submitDST(problemName, 0);
+			AbstractServerCall dstCmd = new SubmitDSTCommand(problemName, 0);
+			dstCmd.sendRequest();
 			return "Incorrect. Remember that all negatives should be to the left of all positives";
 		}
 	}
