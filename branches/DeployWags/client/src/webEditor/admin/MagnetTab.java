@@ -10,15 +10,28 @@ import webEditor.ProxyFramework.GetMMExercisesCommand;
 import webEditor.ProxyFramework.GetMMGroupsCommand;
 import webEditor.ProxyFramework.SetMMExercisesCommand;
 import webEditor.WEStatus;
+import webEditor.admin.builders.BasicDisplay;
+import webEditor.admin.builders.LMBuildBSTDisplay;
+import webEditor.admin.builders.LMBuildBTDisplay;
+import webEditor.admin.builders.LMBuilder;
+import webEditor.admin.builders.LMBuilderFactory;
+import webEditor.admin.builders.LMGraphsDisplay;
+import webEditor.admin.builders.LMInsertNodeDisplay;
+import webEditor.admin.builders.LMSimplePartitionDisplay;
+import webEditor.admin.builders.LMTraversalDisplay;
 
+import com.github.gwtbootstrap.client.ui.CheckBox;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -34,6 +47,7 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 	@UiField CheckBoxPanel chkPanelExercises;
 	@UiField AssignedPanel selected;
 	@UiField AssignedPanel assigned;
+	@UiField ListBox listBox;
 
 	public MagnetTab() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -42,24 +56,34 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 		groupsCmd.sendRequest();
 		AbstractServerCall assignedCmd = new GetMMAssigned(this, "");
 		assignedCmd.sendRequest();
-		
 		//set up button panel
-		btnPanelGroups.setTitle("GROUPS"); //groups
+		 //groups
 		//set up checkbox panel
-		chkPanelExercises.setTitle("EXERCISES"); //exercises in each group
+		 //exercises in each group
 		chkPanelExercises.setAssignedPanel(selected);
 		//set up assigned panels
-		selected.setTitle("SELECTED"); //ones youre picking
+		 //ones youre picking
 		selected.setAssigned(false);
 		selected.setPartner(assigned);
 		selected.setExercises( chkPanelExercises );
 		selected.setParent(this);
-		assigned.setTitle("ASSIGNED"); //ones already selected
+		 //ones already selected
 		assigned.setAssigned(true);
 		assigned.setPartner(selected);
 		assigned.setParent(this);
-		
 		addGroupClickHandlers();
+		
+		 listBox.addChangeHandler(new ChangeHandler()
+		 {
+		  public void onChange(ChangeEvent event)
+		  {
+			  int selectedIndex = listBox.getSelectedIndex();
+			  if (selectedIndex > -1) 
+			  {
+				  btnPanelGroups.myButtons.get(selectedIndex).click();
+		      }
+		  }
+		 });
 	}
 	
 	@Override
@@ -68,6 +92,11 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 	@Override
 	public void handleGroups(String[] groups) {
 		btnPanelGroups.addButtons(groups);
+		
+			for (int i = 0; i < groups.length; i++)
+			{
+				listBox.addItem("" + groups[i]);
+			}
 		addGroupClickHandlers();
 		btnPanelGroups.myButtons.get(0).click();
 	}

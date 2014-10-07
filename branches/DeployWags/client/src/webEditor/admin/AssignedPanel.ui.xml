@@ -1,6 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui">
 	<ui:style>
 		.title {
 			padding-bottom: 8px;
@@ -10,7 +11,7 @@
 			text-align: center;
 		}
 		.assignedTxt{
-			height: 250px;
+			height: 170px;
 			width: 100%;
 			white-space: nowrap;
 		}
@@ -18,12 +19,25 @@
 			width: 100%;
 			margin: 3px 0px 3px 0px;
 		}
+		.left{
+			float:left;
+		}
+		.right{
+			float:right;
+		}
 	</ui:style>
 	<g:VerticalPanel width="100%">
-		<g:Label styleName="{style.title}" ui:field="title"/>
-		<g:TextArea styleName="{style.assignedTxt}" ui:field="txtAreaAssigned" readOnly="true"/>
-		<g:Button ui:field="btnAssign" styleName="{style.button}" visible="false">Add to Assigned</g:Button>
-		<g:Button ui:field="btnClearAssign" styleName="{style.button}" visible="false">Clear Assigned</g:Button>
-		<g:Button ui:field="btnClearSel" styleName="{style.button}" visible="false">Clear Selected</g:Button>
+	    <b:Row>
+	        <b:Column size="4">
+				<b:Label styleName="{style.title}" ui:field="title"/>
+				<b:TextArea styleName="{style.assignedTxt}" ui:field="txtAreaAssigned" readOnly="true"/>
+				<b:Row>
+					<b:Column size="2"><b:Button ui:field="btnAssign" visible="false">Add to Assigned</b:Button></b:Column>
+					<b:Column size="2"><b:Button ui:field="btnClearSel" visible="false">Clear Selected</b:Button></b:Column>
+				</b:Row>
+					<b:Button ui:field="btnClearAssign" visible="false">Clear Assigned</b:Button>
+				
+			</b:Column>
+		</b:Row>
 	</g:VerticalPanel>
 </ui:UiBinder> 
