@@ -12,7 +12,7 @@ import webEditor.presenters.concrete.ProblemType;
  * Implementation of the model for use on the problem page
  *
  */
-public class MagnetPageModel extends Model {
+public class ProblemPageModel extends Model {
 
 	public static final int MAGNET_STATE = 0;
 	public static final int LOGICAL_STATE = 1;
@@ -28,7 +28,7 @@ public class MagnetPageModel extends Model {
 	private int pageState;
 	private boolean isLoaded;
 	
-	public MagnetPageModel()
+	public ProblemPageModel()
 	{
 		super();
 		pageState = MAGNET_STATE;
