@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.UIObject;
 
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.LoadAssignedProblemsCommand;
-import webEditor.magnet.view.MagnetPageModel;
+import webEditor.magnet.view.ProblemPageModel;
 import webEditor.presenters.interfaces.ProblemPagePresenter;
 import webEditor.views.elements.ProblemButton;
 import webEditor.views.interfaces.ProblemPageView;
@@ -26,7 +26,7 @@ public class ProblemPagePresenterImpl implements ProblemPagePresenter {
 	public static final String EMPTY_LABEL = "No Magnet Exercises Assigned!";
 
 	private ProblemPageView view;
-	private MagnetPageModel model;
+	private ProblemPageModel model;
 
 	/**
 	 * Basic constructor for the presenter. The presenter initializes a new model, 
@@ -38,7 +38,7 @@ public class ProblemPagePresenterImpl implements ProblemPagePresenter {
 	public ProblemPagePresenterImpl(ProblemPageView view)
 	{
 		this.view = view;
-		model = new MagnetPageModel();
+		model = new ProblemPageModel();
 		model.registerObserver(this, false);
 		AbstractServerCall cmd = new LoadAssignedProblemsCommand(model);
 		cmd.sendRequest();
@@ -103,13 +103,13 @@ public class ProblemPagePresenterImpl implements ProblemPagePresenter {
 					if ( status == 0) {
 						magnetDue = true;
 					}
-					magnets.add(new ProblemButton(id, title, status));
+					magnets.add(new ProblemButton(id, title, status, ProblemType.MAGNET_PROBLEM));
 				} else { 	
 					//Is a logical problem
 					if (status == 0)  {
 						logicalDue = true;
 					}
-					logical.add(new ProblemButton(id, title, status));
+					logical.add(new ProblemButton(id, title, status, ProblemType.LOGICAL_PROBLEM));
 				}
 				// Expand these statements for database problems at a later date
 			}

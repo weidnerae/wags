@@ -1,6 +1,7 @@
 package webEditor.views.elements;
 
 import webEditor.Common.Tokens;
+import webEditor.presenters.concrete.ProblemType;
 
 import com.github.gwtbootstrap.client.ui.Button;
 import com.github.gwtbootstrap.client.ui.Icon;
@@ -35,7 +36,7 @@ public class ProblemButton extends Composite {
 	@UiField Icon statusIcon;
 	@UiField Button button;
 
-	public ProblemButton(final int id, String title,  int status) {
+	public ProblemButton(final int id, String title,  int status, final ProblemType type) {
 		initWidget(uiBinder.createAndBindUi(this));
 		if (title.length() > MAX_STRING_SIZE) {
 			title = title.substring(0, MAX_STRING_SIZE) + "...";
@@ -56,7 +57,11 @@ public class ProblemButton extends Composite {
 			public void onClick(ClickEvent event) {
 				Timer timer = new Timer() {
             		public void run() {
-            			History.newItem(Tokens.MAGNETPROBLEM + Tokens.DELIM + "id=" + id);
+            			if( type == ProblemType.MAGNET_PROBLEM) {
+            				History.newItem(Tokens.MAGNETPROBLEM + Tokens.DELIM + "id=" + id);
+            			} else {
+            				History.newItem(Tokens.DST + Tokens.DELIM + "id=" + id);
+            			}
             		}
             	};
             	timer.schedule(1);
