@@ -1,32 +1,50 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
-	xmlns:my="urn:import:webEditor.admin">
+	xmlns:my="urn:import:webEditor.admin"
+	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui">
 	<ui:style>
 		.btns_panel {
-			width: 100%;
+			visibility: hidden;
 		}
 		
 		.assigned_panel {
 			padding-right: 5px;
+			width:20%;
+		}
+		.leftSection{
+			float: left;
 		}
 		
-		.section {
-			width: 100%;
+		.rightSection {
+			float: right;
+			margin-right: 60px;
 		}
+		.listBox{
+			width:100%;
+		}
+		.inline{
+			display:inline;
+		}
+		.container{
+			margin: 0 auto;
+			width: 1024px;
+		}
+		
 	</ui:style>
-	<g:HorizontalPanel width= "100%">
-	    <g:ScrollPanel width="20em" styleName='{style.section}'>
-				<my:ButtonPanel styleName="{style.btns_panel}" ui:field="btnPanelGroups" />
-		</g:ScrollPanel>
-	    <g:ScrollPanel width="20em" styleName='{style.section}'>
-				<my:CheckBoxPanel ui:field="chkPanelExercises" />
-		</g:ScrollPanel>
-	    <g:ScrollPanel width="20em" styleName='{style.section}'>
-				<g:AbsolutePanel>
-					<my:AssignedPanel styleName="{style.assigned_panel}" ui:field="assigned"/>
-					<my:AssignedPanel styleName="{style.assigned_panel}" ui:field="selected"/>
-				</g:AbsolutePanel>
-		</g:ScrollPanel>
-	</g:HorizontalPanel>
+	<b:Row styleName='{style.container}'>
+		<b:Column size="1">
+			<my:ButtonPanel ui:field="btnPanelGroups" styleName='{style.btns_panel}'/>
+		</b:Column>
+		<b:Column size="4" styleName='{style.leftSection}'>
+			<b:Legend>Select your example and exercise</b:Legend>
+			<b:ListBox ui:field="listBox" styleName='{style.listBox}'></b:ListBox>
+			<my:CheckBoxPanel ui:field="chkPanelExercises" />
+		</b:Column>
+		<b:Column size="4" styleName='{style.rightSection}'>
+		    <b:Legend>Assigned and selected problems</b:Legend>
+		    <my:AssignedPanel styleName="{style.assigned_panel}" ui:field="selected"/>
+			<my:AssignedPanel styleName="{style.assigned_panel}" ui:field="assigned"/>	
+		</b:Column>
+	</b:Row>
 </ui:UiBinder> 

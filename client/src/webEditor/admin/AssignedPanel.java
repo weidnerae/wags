@@ -4,15 +4,15 @@ import java.util.ArrayList;
 
 import webEditor.ProxyFacilitator;
 
+import com.github.gwtbootstrap.client.ui.Button;
+import com.github.gwtbootstrap.client.ui.Label;
+import com.github.gwtbootstrap.client.ui.TextArea;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AssignedPanel extends Composite {
@@ -28,6 +28,7 @@ public class AssignedPanel extends Composite {
 	@UiField Button	btnClearSel;	//simply clear the problems selected, empty the text area
 	@UiField Button	btnClearAssign;	//clear the text area and unassigns all the problems that are assigned
 	@UiField Label title;
+	
 	private AssignedPanel partner;		//the partner, selected to assigned and assigned to selected
 	private CheckBoxPanel exercises;
 	private ProxyFacilitator parent;

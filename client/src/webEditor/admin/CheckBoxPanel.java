@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.github.gwtbootstrap.client.ui.CheckBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -25,10 +25,8 @@ public class CheckBoxPanel extends Composite {
 	interface CheckBoxPanelUiBinder extends UiBinder<Widget, CheckBoxPanel> {
 	}
 	
-	@UiField 
-	Label title;
-	@UiField 
-	VerticalPanel chkBoxHolder;
+	@UiField Label title;
+	@UiField VerticalPanel chkBoxHolder;
 	
 	private HashMap<String, CheckBox> allExercises = new HashMap<String, CheckBox>();
 	private ArrayList<CheckBox> currentExercises = new ArrayList<CheckBox>();
@@ -36,7 +34,7 @@ public class CheckBoxPanel extends Composite {
 
 	public CheckBoxPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
-		this.getElement().getStyle().setWidth(95, Unit.PCT); // needs to go away via CSS
+		//this.getElement().getStyle().setWidth(95, Unit.PCT); // needs to go away via CSS
 	}
 	
 	public void setTitle(String title){

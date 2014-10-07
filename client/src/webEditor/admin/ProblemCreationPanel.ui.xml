@@ -45,9 +45,9 @@
 			border-radius: 5px;
 		}
 		.problemTypePanel {
-			width: 100%;
-			border: 1px solid;
-			margin: 5px 0px 10px 0px;
+			width: 90%;
+			margin: 0 auto;
+
 			padding: 5px;
 		}	
 		.halfCell {
@@ -96,36 +96,43 @@
 		height: 100%;
 		max-width: 70%;
 		}
+
+		.leftColumnContainer{
+		width: 48.1%;
+		border: 2px solid #999;
+		padding: 10px;
+		float: left;
+		}
+		.columnContainer{
+		width: 48.1%;
+		border: 2px solid #999;
+		padding: 10px;
+		float: right;
+		}
 	</ui:style>
 	
 	<b:FluidRow>
-	    
-	    
-	    
-	    
-	    
-	    
-	
-	<b:Column size="6">
+		<g:Grid width="90%" styleName='{style.problemTypePanel}'>
+			<g:row>
+				<g:customCell styleName='{style.halfCell}'>
+					<g:RadioButton ui:field="btnBasicProblem" name="problemTypes" text="JAVA"></g:RadioButton>
+				</g:customCell>
+				<g:customCell styleName='{style.halfCell}'>
+				    <g:RadioButton ui:field="btnAdvancedProblem" name="problemTypes" text="JAVA (ADVANCED)"></g:RadioButton>
+				</g:customCell>
+				<g:customCell styleName='{style.halfCell}'>
+				    <g:RadioButton ui:field="btnPrologBasicProblem" name="problemTypes" text="PROLOG"></g:RadioButton>
+				</g:customCell>
+				<g:customCell styleName='{style.halfCell}'>
+					<g:RadioButton ui:field="btnCBasicProblem" name="problemTypes" text="C"></g:RadioButton>
+				</g:customCell>
+			</g:row>
+		</g:Grid>
+	<b:Column size="6" styleName='{style.leftColumnContainer}'>
 	    <g:ScrollPanel>
 		    <g:AbsolutePanel>
 				<g:VerticalPanel width="100%">
-					<g:Grid width="100%" styleName='{style.problemTypePanel}'>
-			    	    <g:row>
-							<g:customCell styleName='{style.halfCell}'>
-				            	<g:RadioButton ui:field="btnBasicProblem" name="problemTypes" text="JAVA"></g:RadioButton>
-							</g:customCell>
-							<g:customCell styleName='{style.halfCell}'>
-				            	<g:RadioButton ui:field="btnAdvancedProblem" name="problemTypes" text="JAVA (ADVANCED)"></g:RadioButton>
-							</g:customCell>
-							<g:customCell styleName='{style.halfCell}'>
-				            	<g:RadioButton ui:field="btnPrologBasicProblem" name="problemTypes" text="PROLOG"></g:RadioButton>
-							</g:customCell>
-							<g:customCell styleName='{style.halfCell}'>
-								<g:RadioButton ui:field="btnCBasicProblem" name="problemTypes" text="C"></g:RadioButton>
-							</g:customCell>
-						</g:row>
-					</g:Grid>
+
 					<g:HorizontalPanel styleName='{style.magnetCreationPanel}' width="100%">
 						<g:Label text="Load Exercise:" width="100px"/>
 						<g:VerticalPanel>
@@ -142,7 +149,7 @@
 						</g:VerticalPanel>
 					</g:HorizontalPanel>
 				    <g:VerticalPanel styleName="{style.titleDescPanel}">
-						<g:Grid width="100%">
+						<g:Grid width="80%">
 							<g:row>
 								<g:customCell styleName="{style.quarterCell}">
 									<g:Label styleName="{style.centeredLabel}" text="Title:" width="50px"/>
@@ -166,7 +173,7 @@
 				        	 populate this with the proper widgets -->
 				    </g:VerticalPanel>
 					<g:VerticalPanel ui:field="javaMagnetMaker" styleName="{style.magnetCreationPanel}" width ="100%">
-					    	<g:Grid width="100%">
+					    	<g:Grid width="80%">
 					    	    <g:row>
 									<g:customCell styleName='{style.halfCell}'>
 										<g:Label text="TOP" styleName='{style.centeredLabel}'/>
@@ -205,7 +212,7 @@
 								</g:row>
 							</g:Grid>
 						<g:VerticalPanel width="100%">
-						    <g:Grid width="100%">
+						    <g:Grid width="80%">
 						    	<g:row>
 						    		<g:customCell styleName="{style.quarterCell}">
 						    			<g:Label text="Comment:" width="50px"/>
@@ -261,7 +268,7 @@
 		</g:ScrollPanel>
 	</b:Column>
 	
-	<b:Column size="6">
+	<b:Column size="5" styleName='{style.columnContainer}'>
 	    <g:ScrollPanel>
 			<g:VerticalPanel ui:field="magnetReviewPanel" width="98%">
 				<g:FormPanel ui:field="problemCreateFormPanel">

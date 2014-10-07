@@ -1,6 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui">
 	<ui:style>
 		.title {
 			padding-bottom: 8px;
@@ -10,11 +11,17 @@
 			text-align: center;
 			
 		}
+		.inline {
+			display: inline !important;
+		}
 	</ui:style>
 
-	<g:VerticalPanel horizontalAlignment="ALIGN_CENTER">
-		<g:Label ui:field="title" styleName="{style.title}"/>
-		<g:VerticalPanel ui:field="chkBoxHolder"/>
-	</g:VerticalPanel>
+	<b:Row>
+		<b:Column size="4">
+		    
+		    <g:VerticalPanel ui:field="chkBoxHolder"/>
+		    <b:Label ui:field="title" styleName="{style.inline}"/>
+		</b:Column>
+	</b:Row>
 
 </ui:UiBinder> 
