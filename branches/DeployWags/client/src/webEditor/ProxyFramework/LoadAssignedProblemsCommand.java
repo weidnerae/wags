@@ -1,7 +1,7 @@
 package webEditor.ProxyFramework;
 
 import webEditor.WEStatus;
-import webEditor.magnet.view.MagnetPageModel;
+import webEditor.magnet.view.ProblemPageModel;
 import webEditor.presenters.concrete.ProblemType;
 
 import com.google.gwt.http.client.Response;
@@ -18,7 +18,7 @@ import com.google.gwt.http.client.Response;
  */
 public class LoadAssignedProblemsCommand extends AbstractServerCall {
 
-	private MagnetPageModel model;
+	private ProblemPageModel model;
 	
 	@Override
 	protected void handleResponse(Response response) {
@@ -45,7 +45,7 @@ public class LoadAssignedProblemsCommand extends AbstractServerCall {
 		model.notifyObservers();
 	}
 	
-	public LoadAssignedProblemsCommand(MagnetPageModel model)
+	public LoadAssignedProblemsCommand(ProblemPageModel model)
 	{
 		this.model = model;
 		command = "GetAssignedExercises";

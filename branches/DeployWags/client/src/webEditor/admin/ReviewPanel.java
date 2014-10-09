@@ -1,6 +1,5 @@
 package webEditor.admin;
 
-import webEditor.Proxy;
 import webEditor.Reviewer;
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.RemoveUserFromSectionCommand;

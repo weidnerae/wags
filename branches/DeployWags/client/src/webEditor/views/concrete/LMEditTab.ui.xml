@@ -4,6 +4,10 @@
 	xmlns:my="urn:import:webEditor.admin"
 	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui">
 	<ui:style>
+		.button_panel {
+			width: 240px;
+			float: left;
+		}
 		.display {
 			margin-left: 9%;
 		}
@@ -16,12 +20,14 @@
 		}
 		.listContainer{
 			margin-left: 35.2%;
-			min-width: 500px;
 		}
 		.labelText{
 			width: 105px;
 			padding-top: 10px;
 			font-size: 20px;
+		}
+		.rowStyle{
+			text-align: center;
 		}
 	</ui:style>
 	<b:Row>

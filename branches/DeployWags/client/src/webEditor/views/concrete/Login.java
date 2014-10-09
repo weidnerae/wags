@@ -4,6 +4,7 @@ package webEditor.views.concrete;
 import java.util.List;
 
 import webEditor.Common.Presenter;
+import webEditor.presenters.concrete.LoginPresenterImpl;
 import webEditor.presenters.interfaces.LoginPresenter;
 import webEditor.views.interfaces.LoginView;
 
@@ -57,7 +58,7 @@ public class Login extends Composite implements LoginView
 	@UiHandler("username")
 	void onKeyPressForUsername(KeyPressEvent event)
 	{
-		presenter.onKeyPressForUsername(event);
+		this.presenter.onKeyPressForUsername(event);
 	}
 	
 	/**
@@ -69,7 +70,7 @@ public class Login extends Composite implements LoginView
 	@UiHandler("password")
 	void onKeyPressForPassword(KeyPressEvent event)
 	{
-		presenter.onKeyPressForPassword(event);
+		this.presenter.onKeyPressForPassword(event);
 	}
 
 	/** 
@@ -81,12 +82,12 @@ public class Login extends Composite implements LoginView
 	@UiHandler("loginButton")
 	void onClick(ClickEvent event)
 	{
-		presenter.onLoginClick();
+		this.presenter.onLoginClick();
 	}
 
 	@Override
 	public void setPresenter(Presenter presenter) {
-		this.presenter = (LoginPresenter) presenter;
+		this.presenter = (LoginPresenterImpl) presenter;
 	}
 
 	@Override

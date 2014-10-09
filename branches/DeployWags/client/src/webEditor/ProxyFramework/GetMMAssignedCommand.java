@@ -5,7 +5,7 @@ import webEditor.WEStatus;
 
 import com.google.gwt.http.client.Response;
 
-public class GetMMAssigned extends AbstractServerCall {
+public class GetMMAssignedCommand extends AbstractServerCall {
 
 	private Receiver pf;
 	private String args;
@@ -17,7 +17,7 @@ public class GetMMAssigned extends AbstractServerCall {
 		pf.getCallback(status.getMessageArray(), status, args);
 	}
 	
-	public GetMMAssigned(Receiver pf, String args)
+	public GetMMAssignedCommand(Receiver pf, String args)
 	{
 		command = ProxyCommands.GetMMAssigned;
 		addArgument("args", args);

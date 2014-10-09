@@ -27,25 +27,42 @@ import java.util.HashMap;
 
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.BuildDatabaseCommand;
-import webEditor.admin.LMEditTab;
-import webEditor.admin.LogicalTab;
-import webEditor.admin.MagnetTab;
 import webEditor.admin.ProblemCreationPanel;
-import webEditor.admin.ProgrammingTab;
-import webEditor.admin.SectionTab;
-import webEditor.admin.StudentTab;
 import webEditor.magnet.view.MagnetProblem;
 import webEditor.magnet.view.MagnetProblemPresenter;
 import webEditor.magnet.view.MagnetProblemPresenterImpl;
 import webEditor.presenters.concrete.DefaultPagePresenterImpl;
+import webEditor.presenters.concrete.EditorPresenterImpl;
+import webEditor.presenters.concrete.LMEditTabPresenterImpl;
+import webEditor.presenters.concrete.LogicalTabPresenterImpl;
+import webEditor.presenters.concrete.LoginPresenterImpl;
+import webEditor.presenters.concrete.MagnetTabPresenterImpl;
+import webEditor.presenters.concrete.ProblemCreationPanelPresenterImpl;
 import webEditor.presenters.concrete.ProblemPagePresenterImpl;
+import webEditor.presenters.concrete.ProgrammingTabPresenterImpl;
 import webEditor.presenters.concrete.ReviewTabPresenterImpl;
+import webEditor.presenters.concrete.StudentTabPresenterImpl;
 import webEditor.presenters.concrete.WagsPresenterImpl;
 import webEditor.presenters.interfaces.DefaultPagePresenter;
+import webEditor.presenters.interfaces.EditorPresenter;
+import webEditor.presenters.interfaces.LMEditTabPresenter;
+import webEditor.presenters.interfaces.LogicalTabPresenter;
+import webEditor.presenters.interfaces.LoginPresenter;
+import webEditor.presenters.interfaces.MagnetTabPresenter;
+import webEditor.presenters.interfaces.ProblemCreationPanelPresenter;
 import webEditor.presenters.interfaces.ProblemPagePresenter;
+import webEditor.presenters.interfaces.ProgrammingTabPresenter;
 import webEditor.presenters.interfaces.ReviewTabPresenter;
+import webEditor.presenters.interfaces.StudentTabPresenter;
 import webEditor.views.concrete.DefaultPage;
+import webEditor.views.concrete.Editor;
+import webEditor.views.concrete.LMEditTab;
+import webEditor.views.concrete.LogicalTab;
+import webEditor.views.concrete.Login;
+import webEditor.views.concrete.MagnetTab;
+import webEditor.views.concrete.ProgrammingTab;
 import webEditor.views.concrete.ReviewTab;
+import webEditor.views.concrete.StudentTab;
 import webEditor.views.concrete.Wags;
 import webEditor.views.interfaces.ProblemPageView;
 
@@ -74,7 +91,7 @@ public class AppController implements ValueChangeHandler<String> {
 	
 	/**
 	 * Called whenever GWT's History class notices a change (ie: the url is changed). Is the entry point
-	 * for all page transitions. Special page transition rules (privilege checks, redirectgs, etc) go in here.
+	 * for all page transitions. Special page transition rules (privilage checks, redirectgs, etc) go in here.
 	 * 
 	 * @param event An event which is triggered when the History value changes. The event object contains the 
 	 * 				updated url (the new token) which is used to carry out page transitions. 
@@ -128,6 +145,15 @@ public class AppController implements ValueChangeHandler<String> {
 		{
 		case Tokens.PROBLEMS:
 			loadProblems(page);
+			break;
+		case Tokens.MAGNET:
+			//loadMagnets(page);
+			break;
+		case Tokens.DATABASE:
+			loadDatabasePage(page);
+			break;
+		case Tokens.LOGIN:
+			loadLoginPage(page);
 			break;
 		case Tokens.LOGICALCREATION:
 			loadLogicalProblemCreation(page);
@@ -206,74 +232,14 @@ public class AppController implements ValueChangeHandler<String> {
 		page.setWidget(view);
 	}
 	
-	//TODO implement in MVP
 	public void loadLogicalProblemManagement(AcceptsOneWidget page)
 	{
 		LogicalTab view = ClientFactory.getLogicalManagementTab();
-		page.setWidget(view);
-	}
-	
-	//TODO implement in MVP
-	public void loadLogicalProblemCreation(AcceptsOneWidget page)
-	{
-		LMEditTab view = ClientFactory.getLogicalCreationTab();
-		page.setWidget(view);
-	}
-	
-	
-	//TODO Implement in MVP
-	public void loadMagnetProblemManagement(AcceptsOneWidget page)
-	{
-		MagnetTab view = ClientFactory.getMagnetManagementTab();
-		page.setWidget(view);
-	}
-	
-	//TODO implement in MVP (save this one, we are make a new design after all)
-	public void loadMagnetProblemCreation(AcceptsOneWidget page)
-	{
-		ProblemCreationPanel view = ClientFactory.getMagnetProblemCreationTab();
-		page.setWidget(view);
-	}
-	
-	//TODO implement in MVP
-	public void loadSectionManagement(AcceptsOneWidget page)
-	{
-		SectionTab view = ClientFactory.getSectionTab();
-		page.setWidget(view);
-	}
-	
-	//TODO implement in MVP
-	public void loadProgrammingManagement(AcceptsOneWidget page)
-	{
-		ProgrammingTab view = ClientFactory.getProgrammingTab();
-		page.setWidget(view);
-	}
-	
-	//TODO implement in MVP
-	public void loadStudentManagement(AcceptsOneWidget page)
-	{
-		StudentTab view = ClientFactory.getStudentManagementTab();
-		page.setWidget(view);
-	}
-	
-	public void loadDefaultPage(AcceptsOneWidget page) {
-		DefaultPage view = ClientFactory.getDefaultView();
-		if ( !view.hasPresenter()) {
-			DefaultPagePresenter pres = new DefaultPagePresenterImpl(view);
+		if (!view.hasPresenter()) {
+			LogicalTabPresenter pres = new LogicalTabPresenterImpl(view);
 			pres.bind();
 		}
 		page.setWidget(view);
-	}
-	
-	//TODO implement in MVP (do we really need this?)
-	public void loadEditor(AcceptsOneWidget page) {
-		page.setWidget(ClientFactory.getEditorView());
-	}
-	
-	//TODO implement in MVP (look at the magnet page as a guide)
-	public void loadDST(AcceptsOneWidget page) {
-		//AbstractServerCall cmd = new BuildDSTCommand(page);
-		//cmd.sendRequest();
 	}
 	
 	public void loadProblems(AcceptsOneWidget page) {
@@ -285,8 +251,108 @@ public class AppController implements ValueChangeHandler<String> {
 		page.setWidget(view);
 	}
 	
+	public void loadLogicalProblemCreation(AcceptsOneWidget page)
+	{
+		LMEditTab view = ClientFactory.getLogicalCreationTab();
+		if (!view.hasPresenter()) {
+			LMEditTabPresenter pres = new LMEditTabPresenterImpl(view);
+			pres.bind();
+		}
+		page.setWidget(view);
+	}
+	
+	
+	public void loadMagnetProblemManagement(AcceptsOneWidget page)
+	{		
+		MagnetTab view = ClientFactory.getMagnetManagementTab();
+		if (!view.hasPresenter()) {
+			MagnetTabPresenter pres = new MagnetTabPresenterImpl(view);
+			pres.bind();
+		}
+		page.setWidget(view);
+
+	}
+	
+	// TODO implement in MVP (save this one, we are make a new design after all)
+	public void loadMagnetProblemCreation(AcceptsOneWidget page)
+	{
+		ProblemCreationPanel view = ClientFactory.getMagnetProblemCreationTab();
+		if (!view.hasPresenter()) {
+			ProblemCreationPanelPresenter pres = new ProblemCreationPanelPresenterImpl(view);
+			pres.bind();
+
+		}
+		page.setWidget(view);
+	}
+	
+	public void loadSectionManagement(AcceptsOneWidget page)
+	{
+		ProblemCreationPanel view = ClientFactory.getMagnetProblemCreationTab();
+		if (!view.hasPresenter()) {
+			ProblemCreationPanelPresenter pres = new ProblemCreationPanelPresenterImpl(view);
+			pres.bind();
+		}
+		page.setWidget(view);
+	}
+	
+	public void loadProgrammingManagement(AcceptsOneWidget page)
+	{
+		ProgrammingTab view = ClientFactory.getProgrammingTab();
+		if (!view.hasPresenter()) {
+			ProgrammingTabPresenter pres = new ProgrammingTabPresenterImpl(view);
+			pres.bind();
+		}
+		page.setWidget(view);
+	}
+	
+	public void loadStudentManagement(AcceptsOneWidget page)
+	{
+		StudentTab view = ClientFactory.getStudentManagementTab();
+		if (!view.hasPresenter()) {
+			StudentTabPresenter pres = new StudentTabPresenterImpl(view);
+			pres.bind();
+		}
+		page.setWidget(view);
+
+	}
+	
+	public void loadLoginPage(AcceptsOneWidget page)
+	{
+		Login view = ClientFactory.getLoginView();
+		if ( !view.hasPresenter()) {
+			LoginPresenter pres = new LoginPresenterImpl(view);
+			pres.bind();
+		}
+		page.setWidget(view);
+	}
+	
+	public void loadDefaultPage(AcceptsOneWidget page) {
+		DefaultPage view = ClientFactory.getDefaultView();
+		if ( !view.hasPresenter()) {
+			DefaultPagePresenter pres = new DefaultPagePresenterImpl(view);
+			pres.bind();
+		}
+		page.setWidget(view);
+	}
+
+	public void loadDST(AcceptsOneWidget page) {
+		Editor view = ClientFactory.getEditorView();
+		if ( !view.hasPresenter()) {
+			EditorPresenter pres = new EditorPresenterImpl(view);
+			pres.bind();
+		}
+		page.setWidget(view);
+		
+		//AbstractServerCall cmd = new BuildDSTCommand(page);
+		//cmd.sendRequest();
+	}
+	
+
+	
 	//TODO implement MVP (look at the magnet page as a guide)
 	public void loadDatabasePage(AcceptsOneWidget page) {
+				
+		
 		AbstractServerCall cmd = new BuildDatabaseCommand(page);
 		cmd.sendRequest();
 	}
