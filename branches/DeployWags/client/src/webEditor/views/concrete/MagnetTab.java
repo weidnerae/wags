@@ -1,24 +1,20 @@
-package webEditor.admin;
+package webEditor.views.concrete;
 
 import java.util.HashMap;
 
-import webEditor.Proxy;
 import webEditor.ProxyFacilitator;
+import webEditor.WEStatus;
+import webEditor.Common.Presenter;
 import webEditor.ProxyFramework.AbstractServerCall;
-import webEditor.ProxyFramework.GetMMAssigned;
+import webEditor.ProxyFramework.GetMMAssignedCommand;
 import webEditor.ProxyFramework.GetMMExercisesCommand;
 import webEditor.ProxyFramework.GetMMGroupsCommand;
 import webEditor.ProxyFramework.SetMMExercisesCommand;
-import webEditor.WEStatus;
-import webEditor.admin.builders.BasicDisplay;
-import webEditor.admin.builders.LMBuildBSTDisplay;
-import webEditor.admin.builders.LMBuildBTDisplay;
-import webEditor.admin.builders.LMBuilder;
-import webEditor.admin.builders.LMBuilderFactory;
-import webEditor.admin.builders.LMGraphsDisplay;
-import webEditor.admin.builders.LMInsertNodeDisplay;
-import webEditor.admin.builders.LMSimplePartitionDisplay;
-import webEditor.admin.builders.LMTraversalDisplay;
+import webEditor.admin.AssignedPanel;
+import webEditor.admin.ButtonPanel;
+import webEditor.admin.CheckBoxPanel;
+import webEditor.presenters.interfaces.MagnetTabPresenter;
+import webEditor.views.interfaces.MagnetTabView;
 
 import com.github.gwtbootstrap.client.ui.CheckBox;
 import com.google.gwt.core.client.GWT;
@@ -28,14 +24,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MagnetTab extends Composite implements ProxyFacilitator {
+public class MagnetTab extends Composite implements ProxyFacilitator, MagnetTabView {
 
 	private static MagnetTabUiBinder uiBinder = GWT
 			.create(MagnetTabUiBinder.class);
@@ -48,13 +42,15 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 	@UiField AssignedPanel selected;
 	@UiField AssignedPanel assigned;
 	@UiField ListBox listBox;
+	
+	private MagnetTabPresenter presenter;
 
 	public MagnetTab() {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		AbstractServerCall groupsCmd = new GetMMGroupsCommand(this);
 		groupsCmd.sendRequest();
-		AbstractServerCall assignedCmd = new GetMMAssigned(this, "");
+		AbstractServerCall assignedCmd = new GetMMAssignedCommand(this, "");
 		assignedCmd.sendRequest();
 		//set up button panel
 		 //groups
@@ -177,9 +173,45 @@ public class MagnetTab extends Composite implements ProxyFacilitator {
 	public void update(){
 		AbstractServerCall groupsCmd = new GetMMGroupsCommand(this);
 		groupsCmd.sendRequest();
-		AbstractServerCall assignedCmd = new GetMMAssigned(this, "");
+		AbstractServerCall assignedCmd = new GetMMAssignedCommand(this, "");
 		assignedCmd.sendRequest();
 		addGroupClickHandlers();
+	}
+
+
+	@Override
+	public void setPresenter(Presenter presenter) {
+		this.presenter = (MagnetTabPresenter) presenter;
+	}
+
+	@Override
+	public boolean hasPresenter() {
+		return presenter != null;
+	}
+
+	@Override
+	public Presenter getPresenter() {
+		return presenter;
+	}
+
+	@Override
+	public ButtonPanel getBtnPanelGroups() {
+		return btnPanelGroups;
+	}
+
+	@Override
+	public CheckBoxPanel getChkPanelExercises() {
+		return chkPanelExercises;
+	}
+
+	@Override
+	public AssignedPanel getSelected() {
+		return selected;
+	}
+
+	@Override
+	public AssignedPanel getAssigned() {
+		return assigned;
 	}
 
 	

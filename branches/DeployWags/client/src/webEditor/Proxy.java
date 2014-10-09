@@ -13,7 +13,6 @@ import webEditor.magnet.view.RefrigeratorMagnet;
 import webEditor.magnet.view.ResultsPanelUi;
 import webEditor.magnet.view.StackableContainer;
 import webEditor.programming.view.CodeEditor;
-import webEditor.programming.view.Editor;
 import webEditor.programming.view.FileBrowser;
 import webEditor.programming.view.OutputReview;
 import webEditor.ProxyFramework.AbstractServerCall;

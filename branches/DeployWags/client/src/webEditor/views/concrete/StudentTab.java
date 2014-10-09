@@ -1,13 +1,18 @@
-package webEditor.admin;
+package webEditor.views.concrete;
+
 
 import webEditor.Notification;
 import webEditor.Proxy;
 import webEditor.Reviewer;
 import webEditor.WEStatus;
+import webEditor.Common.Presenter;
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.GetUsernamesCommand;
 import webEditor.ProxyFramework.GetUsernamesReviewerCommand;
 import webEditor.ProxyFramework.ReviewStudentCommand;
+import webEditor.admin.ReviewPanel;
+import webEditor.presenters.interfaces.StudentTabPresenter;
+import webEditor.views.interfaces.StudentTabView;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -23,7 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 
-public class StudentTab extends Composite {
+public class StudentTab extends Composite implements StudentTabView {
 
 	private static StudentTabUiBinder uiBinder = GWT
 			.create(StudentTabUiBinder.class);
@@ -38,6 +43,7 @@ public class StudentTab extends Composite {
 	@UiField ReviewPanel studentReviewPnl;
 	
 	Reviewer studentReviewer;
+	private StudentTabPresenter presenter;
 	
 	public StudentTab() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -123,4 +129,50 @@ public class StudentTab extends Composite {
 	  @UiFactory ReviewPanel makeCricketStores() { // method name is insignificant
 	    return new ReviewPanel(true);
 	  }
+
+	@Override
+	public void setPresenter(Presenter presenter) {
+		this.presenter = (StudentTabPresenter) presenter;
+		
+	}
+
+	@Override
+	public boolean hasPresenter() {
+		return presenter != null;
+	}
+
+	@Override
+	public Presenter getPresenter() {
+		return presenter;
+	}
+
+	@Override
+	public SubmitButton getSbtRegister() {
+		return sbtRegister;
+	}
+
+	@Override
+	public Button getBtnChgPassword() {
+		return btnChgPassword;
+	}
+
+	@Override
+	public FormPanel getRegisterForm() {
+		return registerForm;
+	}
+
+	@Override
+	public FormPanel getPasswordForm() {
+		return passwordForm;
+	}
+
+	@Override
+	public ListBox getUsers() {
+		return users;
+	}
+
+	@Override
+	public ReviewPanel getStudentReviewPnl() {
+		return studentReviewPnl;
+	}
 }

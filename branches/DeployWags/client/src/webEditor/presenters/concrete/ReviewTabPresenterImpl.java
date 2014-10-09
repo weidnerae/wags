@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import webEditor.Reviewer;
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.GetLMAssigned;
-import webEditor.ProxyFramework.GetMMAssigned;
+import webEditor.ProxyFramework.GetMMAssignedCommand;
 import webEditor.presenters.interfaces.ReviewTabPresenter;
 import webEditor.views.concrete.ReviewTab;
 import webEditor.views.interfaces.ReviewTabView;
@@ -43,13 +43,13 @@ public class ReviewTabPresenterImpl implements ReviewTabPresenter {
 		AbstractServerCall cmd1 = new GetLMAssigned(reviewTab.getLogHandler(), Reviewer.NONE);
 		cmd1.sendRequest();
 
-		AbstractServerCall cmd2 = new GetMMAssigned(reviewTab.getLogHandler(), Reviewer.NONE);
+		AbstractServerCall cmd2 = new GetMMAssignedCommand(reviewTab.getLogHandler(), Reviewer.NONE);
 		cmd2.sendRequest();
 
 		AbstractServerCall cmd3 = new GetLMAssigned(reviewTab.getLogHandler(),	Reviewer.GET_REVIEW);
 		cmd3.sendRequest();
 
-		AbstractServerCall cmd4 = new GetMMAssigned(reviewTab.getLogHandler(),	Reviewer.GET_REVIEW);
+		AbstractServerCall cmd4 = new GetMMAssignedCommand(reviewTab.getLogHandler(),	Reviewer.GET_REVIEW);
 		cmd4.sendRequest();
 	}
 

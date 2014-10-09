@@ -1,10 +1,16 @@
-package webEditor.programming.view;
+package webEditor.views.concrete;
 
 import webEditor.Proxy;
+import webEditor.Common.Presenter;
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.GetDescriptionCommand;
 import webEditor.ProxyFramework.GetFileContentsCommand;
 import webEditor.ProxyFramework.LoadFileListingCommand;
+import webEditor.presenters.interfaces.EditorPresenter;
+import webEditor.programming.view.CodeEditor;
+import webEditor.programming.view.FileBrowser;
+import webEditor.programming.view.OutputReview;
+import webEditor.views.interfaces.EditorView;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -27,6 +33,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextArea;
@@ -34,7 +41,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
-public class Editor extends Composite implements IsWidget{
+public class Editor extends Composite implements IsWidget, EditorView{
 	private static EditorPanelUiBinder uiBinder = GWT.create(EditorPanelUiBinder.class);
 	interface EditorPanelUiBinder extends UiBinder<Widget, Editor>{}
 
@@ -68,6 +75,7 @@ public class Editor extends Composite implements IsWidget{
 	
 	// Keep track of the currently selected item
 	private TreeItem selectedItem = null;
+	private EditorPresenter presenter;
 	public Editor(){
 		initWidget(uiBinder.createAndBindUi(this));
 				
@@ -363,5 +371,62 @@ public class Editor extends Composite implements IsWidget{
 		}
 		
 		lines.setText(sb.toString());
+	}
+	@Override
+	public void setPresenter(Presenter presenter) {
+		this.presenter = (EditorPresenter) presenter;
+		
+	}
+	@Override
+	public boolean hasPresenter() {
+		return presenter != null;
+	}
+	@Override
+	public Presenter getPresenter() {
+		return presenter;
+	}
+	@Override
+	public TextBox fileName() {
+		return fileName;
+	}
+	@Override
+	public Anchor getCode() {
+		return getCode;
+	}
+	@Override
+	public FileBrowser browser() {
+		return browser;
+	}
+	@Override
+	public CodeEditor editor() {
+		return editor;
+	}
+	@Override
+	public Image description() {
+		return description;
+	}
+	@Override
+	public OutputReview review() {
+		return review;
+	}
+	@Override
+	public Anchor save() {
+		return save;
+	}
+	@Override
+	public Button submit() {
+		return submit;
+	}
+	@Override
+	public TabLayoutPanel tabPanel() {
+		return tabPanel;
+	}
+	@Override
+	public FormPanel wrapperForm() {
+		return wrapperForm;
+	}
+	@Override
+	public TextArea lines() {
+		return lines;
 	}
 }

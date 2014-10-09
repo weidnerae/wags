@@ -1,7 +1,7 @@
 package webEditor.ProxyFramework;
 
 import webEditor.WEStatus;
-import webEditor.magnet.view.MagnetPageModel;
+import webEditor.magnet.view.ProblemPageModel;
 import webEditor.presenters.concrete.ProblemType;
 
 import com.google.gwt.http.client.Response;
@@ -18,7 +18,7 @@ import com.google.gwt.http.client.Response;
  */
 public class LoadLogicalCommand extends AbstractServerCall {
 
-	private MagnetPageModel model;
+	private ProblemPageModel model;
 	
 	@Override
 	protected void handleResponse(Response response) {
@@ -42,7 +42,7 @@ public class LoadLogicalCommand extends AbstractServerCall {
 		model.notifyObservers();
 	}
 	
-	public LoadLogicalCommand(MagnetPageModel model)
+	public LoadLogicalCommand(ProblemPageModel model)
 	{
 		this.model = model;
 		command = ProxyCommands.GetLogicalExercises;

@@ -1,10 +1,14 @@
-package webEditor.admin;
+package webEditor.views.concrete;
+
 
 import webEditor.Notification;
 import webEditor.Proxy;
+import webEditor.Common.Presenter;
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.GetSectionsCommand;
 import webEditor.ProxyFramework.LinkNewSectionCommand;
+import webEditor.presenters.interfaces.SectionTabPresenter;
+import webEditor.views.interfaces.SectionTabView;
 import webEditor.WEStatus;
 
 import com.google.gwt.core.client.GWT;
@@ -21,13 +25,15 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 
-public class SectionTab extends Composite implements HasText {
+public class SectionTab extends Composite implements HasText, SectionTabView {
 	
 	@UiField FormPanel formAddSection, formChangeSection;
 	@UiField TextBox txtAdminName, txtGuestName, txtSectName;
 	@UiField PasswordTextBox checkPassword, check2Password;
 	@UiField ListBox lstCurSections;
 	@UiField Label lblCurrentSection;
+	
+	private SectionTabPresenter presenter;
 	
 	private static SectionTabUiBinder uiBinder = GWT
 			.create(SectionTabUiBinder.class);
@@ -115,6 +121,66 @@ public class SectionTab extends Composite implements HasText {
 
 	@Override
 	public void setText(String text) {	
+	}
+
+	@Override
+	public void setPresenter(Presenter presenter) {
+		this.presenter = (SectionTabPresenter) presenter;
+	}
+
+	@Override
+	public boolean hasPresenter() {
+		return presenter != null;
+	}
+
+	@Override
+	public Presenter getPresenter() {
+		return presenter;
+	}
+
+	@Override
+	public FormPanel formAddSection() {
+		return formAddSection;
+	}
+
+	@Override
+	public FormPanel formChangeSection() {
+		return formChangeSection;
+	}
+
+	@Override
+	public TextBox txtAdminName() {
+		return txtAdminName;
+	}
+
+	@Override
+	public TextBox txtGuestName() {
+		return txtGuestName;
+	}
+
+	@Override
+	public TextBox txtSectName() {
+		return txtSectName;
+	}
+
+	@Override
+	public PasswordTextBox checkPassword() {
+		return checkPassword;
+	}
+
+	@Override
+	public PasswordTextBox check2Password() {
+		return check2Password;
+	}
+
+	@Override
+	public ListBox lstCurSections() {
+		return lstCurSections;
+	}
+
+	@Override
+	public Label lblCurrentSection() {
+		return lblCurrentSection;
 	}
 
 }

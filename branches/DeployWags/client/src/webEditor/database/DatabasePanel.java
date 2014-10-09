@@ -16,7 +16,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import webEditor.Proxy;
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.GetDatabaseProblemCommand;
 

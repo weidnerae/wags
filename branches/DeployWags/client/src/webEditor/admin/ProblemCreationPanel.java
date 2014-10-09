@@ -7,6 +7,9 @@ import webEditor.WEStatus;
 import webEditor.magnet.view.Consts;
 import webEditor.magnet.view.MagnetProblemCreator;
 import webEditor.magnet.view.MagnetType;
+import webEditor.presenters.interfaces.ProblemCreationPanelPresenter;
+import webEditor.views.interfaces.ProblemCreationPanelView;
+import webEditor.Common.Presenter;
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.AddMagnetLinkageCommand;
 import webEditor.ProxyFramework.GetMagnetGroupsCommand;
@@ -54,11 +57,13 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
  * exercises using a variety of tools. 
  */
 
-public class ProblemCreationPanel extends Composite{
+public class ProblemCreationPanel extends Composite implements ProblemCreationPanelView{
 
 	private static ProblemCreationPanelUiBinder uiBinder = GWT
 			.create(ProblemCreationPanelUiBinder.class);
 
+	private ProblemCreationPanelPresenter presenter;
+	
 	interface ProblemCreationPanelUiBinder extends UiBinder<Widget, ProblemCreationPanel> {
 	}
 	
@@ -1048,6 +1053,633 @@ public class ProblemCreationPanel extends Composite{
 		magnetCmd.sendRequest();
 		AbstractServerCall cmd = new GetMagnetsByGroupCommand("Arrays/ArrayLists", null, null, null, lstLoadExercise);
 		cmd.sendRequest();
+	}
+
+
+	@Override
+	public void setPresenter(Presenter presenter) {
+		this.presenter = (ProblemCreationPanelPresenter) presenter;
+	}
+
+
+	@Override
+	public boolean hasPresenter() {
+		return presenter != null;
+	}
+
+
+	@Override
+	public Presenter getPresenter() {
+		return presenter;
+	}
+
+
+	@Override
+	public FormPanel problemCreateFormPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public FormPanel fileParseFormPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public FormPanel downloadMagnetFilesForm() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextBox titleTxtBox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextBox topLabelTxtBox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextBox topRealCodeTxtBox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextBox commentsTxtBox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextBox bottomLabelTxtBox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextBox bottomRealCodeTxtBox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextBox forAllowed() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextBox whileAllowed() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextBox ifAllowed() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextBox elseAllowed() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextBox elseIfAllowed() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextBox returnAllowed() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextBox assignmentAllowed() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextBox lastProblemLoadedTxtBox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextBox lastProblemLoadedDownloadTxtBox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextBox prologLabelTxtBox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextBox prologRealTxtBox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextArea finalTitleTxtBox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextArea descriptionTxtArea() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextArea finalDescriptionTxtArea() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextArea finalTypeTxtArea() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextArea classDeclarationTxtArea() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextArea innerFunctionsTxtArea() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextArea statementsTxtArea() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextArea commentsStagingArea() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextArea hiddenFunctionsArea() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextArea forLoop1TextArea() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextArea forLoop2TextArea() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextArea forLoop3TextArea() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextArea whilesTextArea() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextArea ifsTextArea() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextArea returnsTextArea() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextArea assignmentsVarTextArea() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public TextArea assignmentsValTextArea() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public VerticalPanel magnetMakerOptions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public VerticalPanel magnetReviewPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public VerticalPanel numberAllowedReviewPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public VerticalPanel javaMagnetMaker() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public VerticalPanel prologMagnetMaker() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public SubmitButton createProblemSubmitButton() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public SubmitButton fileParseSbt() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public SubmitButton downloadMagnetFilesButton() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Button createCommentsButton() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Button classDeclarationButton() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Button innerFunctionsButton() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Button statementsButton() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Button clearDataButton() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Button createHidFunctionButton() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Button btnLoadExercise() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Button btnDeleteExercise() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Button btnMoreHelpers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Button testProblemButton() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Button prologFactBtn() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Button prologRuleBtn() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Button prologTermBtn() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Button prologProcedureBtn() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public RadioButton btnBasicProblem() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public RadioButton btnAdvancedProblem() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public RadioButton btnPrologBasicProblem() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public RadioButton btnCBasicProblem() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public FileUpload solutionUpload() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public FileUpload helperUpload() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Label uploadStamp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Label helperStamp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ListBox lstGroup() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ListBox lstLoadGroup() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ListBox lstLoadExercise() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Label lblGroup() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Label forLoop1Label() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Label forLoop2Label() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Label forLoop3Label() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Label whileLabel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Label ifLabel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Label returnLabel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Label assignmentVarLabel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Label assignmentValLabel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Label testClassLabel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Label helperClassLabel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Label classDeclarationTxtAreaLabel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Label innerFunctionsTxtAreaLabel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Label statementsTxtAreaLabel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Label hiddenFunctionsLabel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public VerticalPanel vtPanelHelper() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public CheckBox overwrite() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 
