@@ -1,6 +1,5 @@
 package webEditor.views.interfaces;
 
-import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.SubmitButton;
 

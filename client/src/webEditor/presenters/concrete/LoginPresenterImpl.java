@@ -7,6 +7,7 @@ import webEditor.ProxyFramework.LoginCommand;
 import webEditor.presenters.interfaces.LoginPresenter;
 import webEditor.views.interfaces.LoginView;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -44,6 +45,7 @@ public class LoginPresenterImpl implements LoginPresenter
 		String password = loginPage.getPasswordField().getText();
 		AbstractServerCall cmd = new LoginCommand(username, password);
 		cmd.sendRequest();
+		
 	}
 
 	@Override

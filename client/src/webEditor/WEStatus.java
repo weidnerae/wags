@@ -14,7 +14,6 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
-import com.google.gwt.user.client.Window;
 
 
 public class WEStatus {
@@ -207,7 +206,6 @@ public class WEStatus {
 			// Get arrays
 			String[] innerFunctions, forLeft, forMid, forRight, ifOptions, whileOptions, returnOptions, assignmentVars, assignmentVals, statements, allStatements, oldStatements, newStatements, createdIDs;
 			int numStatements;
-			String InFun = messageMap.get("innerFunctions");
 			innerFunctions = parseArray(messageMap.get("innerFunctions").replaceAll("\\\\r\\\\n", "<br/>"));
 			forLeft = parseArray(messageMap.get("forLeft"));
 			forMid = parseArray(messageMap.get("forMid"));

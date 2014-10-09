@@ -1,5 +1,10 @@
-package webEditor.admin;
+package webEditor.views.concrete;
 
+import webEditor.ProxyFacilitator;
+import webEditor.WEStatus;
+import webEditor.Common.Presenter;
+import webEditor.ProxyFramework.AbstractServerCall;
+import webEditor.ProxyFramework.GetLMSubjectsCommand;
 import webEditor.admin.builders.BasicDisplay;
 import webEditor.admin.builders.LMBuildBSTDisplay;
 import webEditor.admin.builders.LMBuildBTDisplay;
@@ -9,6 +14,8 @@ import webEditor.admin.builders.LMGraphsDisplay;
 import webEditor.admin.builders.LMInsertNodeDisplay;
 import webEditor.admin.builders.LMSimplePartitionDisplay;
 import webEditor.admin.builders.LMTraversalDisplay;
+import webEditor.presenters.interfaces.LMEditTabPresenter;
+import webEditor.views.interfaces.LMEditTabView;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -21,7 +28,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class LMEditTab extends Composite{
+public class LMEditTab extends Composite implements ProxyFacilitator, LMEditTabView{
 
 	private static LMEditTabUiBinder uiBinder = GWT
 			.create(LMEditTabUiBinder.class);
@@ -31,6 +38,9 @@ public class LMEditTab extends Composite{
 
 	@UiField Panel vtDisplayHolder;
 	@UiField ListBox listBox;
+	
+	private LMEditTabPresenter presenter;
+
 
 	public LMEditTab() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -39,6 +49,10 @@ public class LMEditTab extends Composite{
 		LMBuilder builder = LMBuilderFactory.getTraversalBuilder();
 		vtDisplayHolder.addStyleName("center");
 		display.load(vtDisplayHolder, builder);
+		
+		AbstractServerCall getLMSubjects = new GetLMSubjectsCommand(this);
+		getLMSubjects.sendRequest();
+
 		//Add all items to the list box
 		listBox.addItem("Traversals");
 		listBox.addItem("Insert Node");
@@ -105,6 +119,40 @@ public class LMEditTab extends Composite{
 		  }
 		 });
 		 
+	}
+
+	public void handleExercises(String[] exercises) {}
+	public void setExercises(String[] exercises) {}
+	public void setCallback(String[] exercises, WEStatus status) {}
+	public void getCallback(String[] exercises, WEStatus status, String request) {}
+	public void reviewExercise(String exercise) {}
+	public void reviewCallback(String[] data) {}
+	public void handleSubjects(String[] subjects) {}
+	public void handleGroups(String[] groups) {}
+
+	@Override
+	public void setPresenter(Presenter presenter) {
+		this.presenter = (LMEditTabPresenter) presenter;
+	}
+
+	@Override
+	public boolean hasPresenter() {
+		return presenter != null;
+	}
+
+	@Override
+	public Presenter getPresenter() {
+		return presenter;
+	}
+
+	@Override
+	public Panel getvtDisplayHolder() {
+		return vtDisplayHolder;
+	}
+
+	@Override
+	public ListBox getlistBox() {
+		return listBox;
 	}
 
 }

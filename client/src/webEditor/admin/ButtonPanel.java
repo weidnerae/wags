@@ -31,7 +31,7 @@ public class ButtonPanel extends Composite {
 	
 	@UiField Label title;
 	@UiField VerticalPanel btnHolder;
-	ArrayList<Button> myButtons = new ArrayList<Button>();
+	public ArrayList<Button> myButtons = new ArrayList<Button>();
 	private int btnWidth = 200;
 	private int btnHeight = 50;
 	private int CELL_SPACING = 3;

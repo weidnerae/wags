@@ -6,7 +6,7 @@ import webEditor.WEStatus;
 import webEditor.Common.Presenter;
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.GetLMAssigned;
-import webEditor.ProxyFramework.GetMMAssigned;
+import webEditor.ProxyFramework.GetMMAssignedCommand;
 import webEditor.ProxyFramework.ReviewExerciseCommand;
 import webEditor.admin.ReviewPanel;
 import webEditor.presenters.interfaces.ReviewTabPresenter;
@@ -49,7 +49,7 @@ public class ReviewTab extends Composite implements ReviewTabView{
 		cmd1.sendRequest();
 		//Proxy.getLMAssigned(logHandler);
 		
-		AbstractServerCall cmd2 = new GetMMAssigned(magHandler, Reviewer.NONE);
+		AbstractServerCall cmd2 = new GetMMAssignedCommand(magHandler, Reviewer.NONE);
 		cmd2.sendRequest();
 		
 		//Proxy.getMMAssigned(magHandler, Reviewer.NONE);
@@ -58,7 +58,7 @@ public class ReviewTab extends Composite implements ReviewTabView{
 		cmd3.sendRequest();
 		//Proxy.getLMAssigned(logHandler, Reviewer.GET_REVIEW);
 		
-		AbstractServerCall cmd4 = new GetMMAssigned(logHandler, Reviewer.GET_REVIEW);
+		AbstractServerCall cmd4 = new GetMMAssignedCommand(logHandler, Reviewer.GET_REVIEW);
 		cmd4.sendRequest();
 		//Proxy.getMMAssigned(magHandler, Reviewer.GET_REVIEW);
 		

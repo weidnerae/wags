@@ -1,7 +1,7 @@
 package webEditor.ProxyFramework;
 
 import webEditor.programming.view.CodeEditor;
-import webEditor.programming.view.Editor;
+import webEditor.views.concrete.Editor;
 
 import com.google.gwt.http.client.Response;
 
