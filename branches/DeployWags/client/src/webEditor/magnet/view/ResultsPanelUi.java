@@ -3,7 +3,6 @@ package webEditor.magnet.view;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextArea;
@@ -25,7 +24,7 @@ public class ResultsPanelUi extends Composite {
 	}
 
 	@UiField Panel layout;
-	@UiField AbsolutePanel testResults;
+	@UiField Panel testResults;
 	static String code = "";
 	static String results = "";
 	static TextArea resultsTextArea;

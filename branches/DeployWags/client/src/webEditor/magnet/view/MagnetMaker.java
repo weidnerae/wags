@@ -1,7 +1,5 @@
 package webEditor.magnet.view;
 
-import webEditor.presenters.concrete.ProblemType;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
@@ -13,6 +11,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItemSeparator;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -122,6 +121,7 @@ public class MagnetMaker extends VerticalPanel {
 	private void updateStructureOptions() {
 		String menuItemHTML;
 		structureOptions.clearItems();
+		MenuItemSeparator line;
 		
 		for (int i = 1; i < structuresList.length; i++) {
 			String css = null;

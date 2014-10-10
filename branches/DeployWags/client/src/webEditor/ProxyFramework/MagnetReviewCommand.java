@@ -1,6 +1,8 @@
 package webEditor.ProxyFramework;
 
+import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.http.client.URL;
 
 import webEditor.magnet.view.ResultsPanelUi;
 import webEditor.Notification;
@@ -40,12 +42,13 @@ public class MagnetReviewCommand extends AbstractServerCall {
 		ResultsPanelUi.setResultsText(results);
 	}
 	
-	public MagnetReviewCommand(final String saveState, final int id, String code, String title)
+	public MagnetReviewCommand(String saveState, int id, String code, String title)
 	{
 		command = ProxyCommands.MagnetReview;
 		this.saveState = saveState;
 		this.id = id;
-		addArgument("code", code);
+		this.method = RequestBuilder.POST;
+		addArgument("code", URL.encodePathSegment(code));
 		addArgument("title", title);
 	}
 	

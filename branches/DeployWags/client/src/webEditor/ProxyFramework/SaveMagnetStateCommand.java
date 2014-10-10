@@ -14,7 +14,7 @@ public class SaveMagnetStateCommand extends AbstractServerCall {
 		WEStatus status = new WEStatus(response);
 		if (status.getStat() == WEStatus.STATUS_SUCCESS)
 		{
-			if (!fromSuccess)
+			if (fromSuccess)
 			{
 				Notification.notify(WEStatus.STATUS_SUCCESS, status.getMessage());
 			}
@@ -25,7 +25,7 @@ public class SaveMagnetStateCommand extends AbstractServerCall {
 		}
 	}
 	
-	public SaveMagnetStateCommand(String state, int magnetID, int success, final boolean fromSuccess)
+	public SaveMagnetStateCommand(String state, int magnetID, int success, boolean fromSuccess)
 	{
 		command = ProxyCommands.SaveMagnetState;
 		this.fromSuccess = fromSuccess;

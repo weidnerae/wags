@@ -14,7 +14,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -39,9 +39,9 @@ public class ConstructUi extends Composite implements ProvidesResize, RequiresRe
 	private String problemType;
 	private Random random = new Random();
 	
-	@UiField AbsolutePanel directionsContent;  //place for directions
-	@UiField AbsolutePanel trashbin;  
-	@UiField DockLayoutPanel layout;  //panel that holds entire left hand side of UI
+	@UiField FlowPanel directionsContent;  //place for directions
+	@UiField FlowPanel trashbin;  
+	@UiField FlowPanel layout;  //panel that holds entire left hand side of UI
 	private int lastOffsetWidth;
 	private MagnetProblem magnet;
 
