@@ -35,7 +35,7 @@ public class LoadAssignedProblemsCommand extends AbstractServerCall {
 			int id = Integer.parseInt(problems[i]);
 			String title = problems[i+1];
 			int status = Integer.parseInt(problems[i+2]);
-			if ( count <= magnetCount) {
+			if ( count < magnetCount) {
 				model.addProblem(id, title, status, ProblemType.MAGNET_PROBLEM);
 			} else {
 				model.addProblem(id, title, status, ProblemType.LOGICAL_PROBLEM);
@@ -50,5 +50,4 @@ public class LoadAssignedProblemsCommand extends AbstractServerCall {
 		this.model = model;
 		command = "GetAssignedExercises";
 	}
-
 }

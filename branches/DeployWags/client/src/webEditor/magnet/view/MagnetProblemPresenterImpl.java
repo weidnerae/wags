@@ -3,9 +3,6 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 
-import webEditor.presenters.interfaces.ProblemPagePresenter;
-
-
 public class MagnetProblemPresenterImpl implements MagnetProblemPresenter {
 
 	private MagnetProblemModel model;

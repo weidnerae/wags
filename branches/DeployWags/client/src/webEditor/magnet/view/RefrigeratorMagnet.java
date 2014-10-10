@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import webEditor.MagnetProblem;
 
-import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -14,7 +14,7 @@ import com.google.gwt.user.client.Window;
  * Magnet Problem page. We should rename this.
  * 
  */
-public class RefrigeratorMagnet extends AbsolutePanel {
+public class RefrigeratorMagnet extends FlowPanel {
 	// screen variables
 	static int SCREEN_WIDTH = Window.getClientWidth();
 	static int SCREEN_HEIGHT = Window.getClientHeight();

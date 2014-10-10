@@ -27,10 +27,8 @@ import java.util.HashMap;
 
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.BuildDatabaseCommand;
+import webEditor.ProxyFramework.GetMagnetProblemCommand;
 import webEditor.admin.ProblemCreationPanel;
-import webEditor.magnet.view.MagnetProblem;
-import webEditor.magnet.view.MagnetProblemPresenter;
-import webEditor.magnet.view.MagnetProblemPresenterImpl;
 import webEditor.presenters.concrete.DefaultPagePresenterImpl;
 import webEditor.presenters.concrete.EditorPresenterImpl;
 import webEditor.presenters.concrete.LMEditTabPresenterImpl;
@@ -146,15 +144,6 @@ public class AppController implements ValueChangeHandler<String> {
 		case Tokens.PROBLEMS:
 			loadProblems(page);
 			break;
-		case Tokens.MAGNET:
-			//loadMagnets(page);
-			break;
-		case Tokens.DATABASE:
-			loadDatabasePage(page);
-			break;
-		case Tokens.LOGIN:
-			loadLoginPage(page);
-			break;
 		case Tokens.LOGICALCREATION:
 			loadLogicalProblemCreation(page);
 			break;
@@ -207,19 +196,18 @@ public class AppController implements ValueChangeHandler<String> {
 	
 	/**
 	 * Below are all method which handle specific page transition logic. There is no point in commenting each one as 
-	 * most follow similar logic. THe basic idea is to either instantiate or retrieve an existing view, give it a presenter
+	 * most follow similar logic. The basic idea is to either instantiate or retrieve an existing view, give it a presenter
 	 * if it does not already have one, and make it the current page. 
 	 */
 	
 	//As of right now not all of these transitions have been implemented using the new MVP pattern
 	
+	
 	private void loadMagnetProblem(AcceptsOneWidget page, String arg) {
-		MagnetProblem view = ClientFactory.getMagnetProblemView();
-		if (!view.hasPresenter()) {
-			MagnetProblemPresenter pres = new MagnetProblemPresenterImpl(view);
-			pres.bind();
-		}
-		page.setWidget(view);
+		String[] arg_array = arg.split("=");
+		int id = Integer.parseInt(arg_array[1]);
+		AbstractServerCall cmd = new GetMagnetProblemCommand(id, page);
+		cmd.sendRequest();
 	}
 
 	public void loadReviewTab(AcceptsOneWidget page) 
@@ -351,8 +339,6 @@ public class AppController implements ValueChangeHandler<String> {
 	
 	//TODO implement MVP (look at the magnet page as a guide)
 	public void loadDatabasePage(AcceptsOneWidget page) {
-				
-		
 		AbstractServerCall cmd = new BuildDatabaseCommand(page);
 		cmd.sendRequest();
 	}

@@ -1,29 +1,29 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"> 
+	
 	<ui:style>
 	.base_panel{
 	min-height:100%;
 	min-width:100%;
 	}
 	
-	@external .gwt-SplitLayoutPanel-HDragger;
+	.pageSize {
+		height:76em;
+	}
 
-	.gwt-SplitLayoutPanel-HDragger { 
-	width: 10px !important;
-	background: grey;
-	}
-		
-	@external .gwt-SplitLayoutPanel-VDragger;
-	
-	.gwt-SplitLayoutPanel-VDragger {
-    width: 10px !important;
-	background: grey;
+	.border {
+		border: 2px solid grey;
 	}
 	
-		
 	</ui:style>
 
+	<b:FluidRow ui:field="layout" addStyleNames="{style.base_panel}">
+	    <b:Column size="8" ui:field ="constructPanel" addStyleNames=" {style.pageSize} {style.border}"></b:Column>
+	    <b:Column size="4" ui:field="codePanel" addStyleNames=" {style.pageSize} {style.border}"></b:Column>
+	</b:FluidRow>
+	<!-- 
 	<g:SplitLayoutPanel ui:field="layout" styleName='{style.base_panel}'>
 		<g:east size="550">
 			<g:LayoutPanel ui:field="codePanel"></g:LayoutPanel>
@@ -32,4 +32,5 @@
 			<g:LayoutPanel ui:field="constructPanel"></g:LayoutPanel>
 		</g:center>
 	</g:SplitLayoutPanel>
+	-->
 </ui:UiBinder> 
