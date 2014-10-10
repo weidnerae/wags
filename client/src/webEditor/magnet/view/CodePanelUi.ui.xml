@@ -1,48 +1,50 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'
-	xmlns:us='urn:import:webEditor.magnet.view'>
+	xmlns:us='urn:import:webEditor.magnet.view'
+	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui">
 	<ui:style>
-	.finalize_button{
-	margin-right: 1%;
-	margin-left: 1%;
-	padding-top: 2px;
-	width: 36%;
-	}
-	.reset_button{
-	margin-right: 1%;
-	margin-left: 1%;
-	padding-top: 2px;
-	width: 22%;
+	
+	.button {
+		margin-right: 1%;
+		padding-top: 2px;
+		min-width:22.5%
 	}
 	.base{
-	margin-right: .5%;
-	margin-left: 1%;
-	overflow: auto;
-	height: 100%;
-	width: 100%;
+		margin-right: .5%;
+		margin-left: 1%;
+		overflow: auto;
+		height: 100%;
+		width: 100%;
 	}
 	.scroll{
-	width: 99%;
+		width: 99%;
+		height:100%;
 	}
 	.main{
-	height:100%;
+		height:100%;
+	}
+	.buttonArea {
+		height:5%;
+	}
+	.codeArea {
+		height:95%;
 	}
 	</ui:style>
 	
-    <g:LayoutPanel ui:field='layoutPanel' styleName='{style.base}'>
-        <g:layer bottom='35px' top='0px'>
+    <b:FluidRow ui:field='layoutPanel' styleName='{style.base}'>
+        <b:FluidRow addStyleNames="{style.codeArea}">
         		<g:ScrollPanel ui:field='nestPanel' styleName='{style.scroll}'>
-        			<g:AbsolutePanel ui:field='mainPanel' styleName='{style.main}'></g:AbsolutePanel>
+        			<b:FluidRow ui:field='mainPanel' styleName='{style.main}'></b:FluidRow>
         		</g:ScrollPanel>
-        </g:layer>
-        <g:layer bottom='0%' height='30px'>
-            <g:AbsolutePanel>
-        		<g:Button ui:field="button" styleName='{style.finalize_button}' height="28px">Finalize</g:Button>
-        		<g:Button ui:field = "stateButton" styleName='{style.finalize_button}' height="28px">Save State</g:Button>
-        		<g:Button ui:field="resetButton" styleName='{style.reset_button}' height="28px">Reset</g:Button>
-        	</g:AbsolutePanel>
-        </g:layer>
-    </g:LayoutPanel>
+        </b:FluidRow>
+        <b:FluidRow addStyleNames="{style.buttonArea}">
+            <b:FluidRow>
+        		<b:Button type="DEFAULT" size="LARGE" icon="CHECK" ui:field="button" addStyleNames='{style.button}'>Finalize</b:Button>
+        		<b:Button type="DEFAULT" size="LARGE" icon="SAVE" ui:field = "stateButton" addStyleNames='{style.button}'>Save State</b:Button>
+        		<b:Button type="DEFAULT" size="LARGE" icon="TRASH" ui:field="resetButton" addStyleNames='{style.button}'>Reset</b:Button>
+        	</b:FluidRow>
+        </b:FluidRow>
+    </b:FluidRow>
 </ui:UiBinder> 
 

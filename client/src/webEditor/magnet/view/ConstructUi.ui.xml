@@ -1,7 +1,8 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'
-	xmlns:us='urn:import:webEditor.magnet.view'>
+	xmlns:us='urn:import:webEditor.magnet.view'
+	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui">
 	<ui:style>
 	.directions_panel{
 		-moz-border-radius: 5px;
@@ -27,9 +28,27 @@
 	.margin-right{
 	margin-right: 5px;
 	}
+
+	.percentage {
+		height:100%;
+	}
 	
 	</ui:style>
 	
+	<b:FluidRow ui:field="layout" addStyleNames="{style.percentage}">
+	    <b:FluidRow>
+	        <g:ScrollPanel styleName='{style.directions_panel}'>
+	            <b:FluidRow ui:field="directionsContent" styleName='{style.directions_content}'>
+	                
+	            </b:FluidRow>
+	        </g:ScrollPanel>
+	    </b:FluidRow>
+	    <b:FluidRow>
+	        <b:FluidRow ui:field="trashbin"></b:FluidRow>
+	    </b:FluidRow>
+	    
+	</b:FluidRow>
+	<!-- 
 	<g:DockLayoutPanel unit='PX' styleName='{style.margin-right}' ui:field='layout'>
 		<g:north size='110'>
 			<g:ScrollPanel styleName='{style.directions_panel}'>
@@ -42,6 +61,6 @@
 			</g:AbsolutePanel>
 		</g:south>
 	</g:DockLayoutPanel>
-	
+	-->
 </ui:UiBinder> 
 

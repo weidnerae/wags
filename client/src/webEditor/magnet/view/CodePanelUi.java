@@ -1,29 +1,26 @@
 package webEditor.magnet.view;
 
 import webEditor.MagnetProblem;
-import webEditor.Proxy;
 import webEditor.ProxyFramework.AbstractServerCall;
 import webEditor.ProxyFramework.CleanOutOldCreatedMagnetsCommand;
 import webEditor.ProxyFramework.MagnetReviewCommand;
 import webEditor.ProxyFramework.SaveCreatedMagnetCommand;
 
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
+import com.github.gwtbootstrap.client.ui.Button;
+import com.github.gwtbootstrap.client.ui.FluidRow;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -42,10 +39,10 @@ public class CodePanelUi extends Composite {
 	private String title;
 
 	@UiField ScrollPanel nestPanel;   //takes up the entirety of the CodePanel, used to let mainPanel scroll
-	@UiField AbsolutePanel mainPanel;  //nested inside nestPanel, this is where mainFunction lives
+	@UiField FlowPanel mainPanel;  //nested inside nestPanel, this is where mainFunction lives
 	@UiField Button button; //finalize button 
 	@UiField Button stateButton; // button to save state;
-	@UiField LayoutPanel layoutPanel; //the panel that all of these pieces are sitting in
+	@UiField FlowPanel layoutPanel; //the panel that all of these pieces are sitting in
 	@UiField Button resetButton;
 
 	private static CodePanelUiUiBinder uiBinder = GWT
@@ -76,42 +73,39 @@ public class CodePanelUi extends Composite {
 
 	public void setupPopupPanel() {
 		popupPanel = new PopupPanel(true);
-		VerticalPanel vPanel = new VerticalPanel();
-		HorizontalPanel hPanel = new HorizontalPanel();
+		FluidRow outer = new FluidRow();
+		FluidRow bottom  = new FluidRow();
+		bottom.setPullRight(true);
+		
 		Label pLabel = new Label("Are you sure you wish to finalize?");
-		Button yesButton = new Button("Yes", new yesHandler());
-		yesButton.addStyleName("big_popup_button");
-		Button noButton = new Button("No", new noHandler());
-		noButton.addStyleName("big_popup_button");
-		hPanel.add(yesButton);
-		hPanel.add(noButton);
-		hPanel.setCellWidth(yesButton, "100px");
-		hPanel.setCellHeight(yesButton, "50px");
-		hPanel.setCellWidth(noButton, "100px");
-		hPanel.setCellHeight(noButton, "50px");
-		vPanel.add(pLabel);
-		vPanel.add(hPanel);
-		popupPanel.add(vPanel);
+		Button yesButton = new Button("Yes", new yesFinalizeHandler());
+		yesButton.setWidth("36%");
+		Button noButton = new Button("No", new noFinalizeHandler());
+		noButton.setWidth("36%");
+		bottom.add(yesButton);
+		bottom.add(noButton);
+		outer.add(pLabel);
+		outer.add(bottom);
+		popupPanel.add(outer);
 	}
 
 	public void setupResetPopupPanel() {
 		resetPopupPanel = new PopupPanel(true);
-		VerticalPanel vPanel = new VerticalPanel();
-		HorizontalPanel hPanel = new HorizontalPanel();
+		
+		FluidRow outer = new FluidRow();
+		FluidRow bottom  = new FluidRow();
+		bottom.setPullRight(true);
+		
 		Label pLabel = new Label("Are you sure you wish to reset the problem?");
 		Button yesButton = new Button("Yes", new yesResetHandler());
-		yesButton.addStyleName("big_popup_button");
+		yesButton.setWidth("36%");
 		Button noButton = new Button("No", new noResetHandler());
-		noButton.addStyleName("big_popup_button");
-		hPanel.add(yesButton);
-		hPanel.add(noButton);
-		hPanel.setCellWidth(yesButton, "128px");
-		hPanel.setCellHeight(yesButton, "50px");
-		hPanel.setCellWidth(noButton, "128px");
-		hPanel.setCellHeight(noButton, "50px");
-		vPanel.add(pLabel);
-		vPanel.add(hPanel);
-		resetPopupPanel.add(vPanel);
+		noButton.setWidth("36%");
+		bottom.add(yesButton);
+		bottom.add(noButton);
+		outer.add(pLabel);
+		outer.add(bottom);
+		resetPopupPanel.add(outer);
 	}
 
 	// finalize button handler, calls methods that generate the content and evaluate it
@@ -131,7 +125,7 @@ public class CodePanelUi extends Composite {
 		resetPopupPanel.show();
 	}
 
-	private class yesHandler implements ClickHandler {
+	private class yesFinalizeHandler implements ClickHandler {
 		public void finalize() {
 			plainText = new StringBuilder();
 
@@ -140,9 +134,8 @@ public class CodePanelUi extends Composite {
 			ResultsPanelUi.clearCodeArea();
 			ResultsPanelUi.setCodeText(code);
 			code = code.replaceAll(Consts.HC_DELIMITER, "");
-			AbstractServerCall magnetReviewCmd = new MagnetReviewCommand(getSaveState(), 
-					refrigeratorMagnet.getID(), code, title);
-			magnetReviewCmd.sendRequest();
+			AbstractServerCall cmd = new MagnetReviewCommand(getSaveState(), refrigeratorMagnet.getID(), code, title);
+			cmd.sendRequest();
 			refrigeratorMagnet.tabPanel.selectTab(1);
 			tabNumber = -1;
 		}
@@ -153,7 +146,7 @@ public class CodePanelUi extends Composite {
 		}
 	}
 
-	private class noHandler implements ClickHandler {
+	private class noFinalizeHandler implements ClickHandler {
 		public void onClick(ClickEvent event) {
 			popupPanel.setVisible(false);
 		}
@@ -277,8 +270,8 @@ public class CodePanelUi extends Composite {
 		idChain += sc.getID();
 		if (sc.isCreated()) { 
 			/* If this is a created magnet, save it in the database */
-			AbstractServerCall saveMagnetCmd = new SaveCreatedMagnetCommand(sc, refrigeratorMagnet.getID());
-			saveMagnetCmd.sendRequest();
+			AbstractServerCall cmd = new SaveCreatedMagnetCommand(sc, refrigeratorMagnet.getID());
+			cmd.sendRequest();
 		}
 		
 		for (int i = 0; i < sc.getInsidePanel().getWidgetCount(); i++) {
