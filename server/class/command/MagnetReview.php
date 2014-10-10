@@ -38,12 +38,12 @@ class MagnetReview extends Command
         $givenFiles = "";
         foreach($simpleFiles as $simpleFile){
             $fileName = $simpleFile->getClassName();
-            if(strpos($fileName,".java") === true){
-                $filePath = "$dir/$fileName.java";
-            } else if(strpos($fileName, ".c") === true) {
+            if(strpos($fileName, ".pl") !== FALSE ){
+                $filePath = "$dir/$fileName.pl";
+            } else if(strpos($fileName, ".c") !== FALSE) {
                 $filePath = "$dir/$fileName.c";
             } else {
-                $filePath = "$dir/$fileName";
+                $filePath = "$dir/$fileName.java";
             }
             $file = fopen($filePath, "w+");
             $fileResult = fwrite($file, $simpleFile->getContents());
